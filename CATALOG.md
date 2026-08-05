@@ -54,7 +54,7 @@
 ### Agents métier (invoqués par les étapes 8/10)
 | Agent | Rôle | Maturité |
 |---|---|---|
-| aragorn / gimli / legolas | review MR voix Xefi (Nuxt/Vue · React) | ✅ |
+| aragorn / gimli / legolas | review MR, style Xefi (Nuxt/Vue · React) | ✅ |
 | valerianus | tri/reformulation des reviews (anti-débat) | ✅ |
 | gandalf | gate final MR (`/code-review` + `/security-review`) | ✅ |
 | tuteur-laravel | pédagogie (hors pipeline) | ✅ |
