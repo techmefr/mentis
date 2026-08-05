@@ -207,7 +207,7 @@ arrêts humains volontaires, non négociables :
 - **Le merge lui-même** : 2 approbations humaines avant merge, toujours.
 
 Ce n'est pas une limitation technique — l'autonomie bout-en-bout façon
-`LobeHub`/`OpenHands` a été explicitement écartée comme repoussoir dans le
+des frameworks d'autonomie agentique totale du marché a été explicitement écartée comme repoussoir dans le
 sourcing (`CATALOG.md`) : un agent qui fusionne du code tout seul sans
 validation est le contre-exemple qu'on ne veut pas devenir. La boucle
 accélère la production, jamais la décision de merger.

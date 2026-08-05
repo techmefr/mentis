@@ -23,4 +23,4 @@ Pas d'exécution automatique de tout le plan (**pas de `/build auto`** — cf. `
 l'auto-mode a été retiré volontairement). Le dev valide et avance étape par étape.
 
 ## Origine
-Natif / `addyosmani` (planning-and-task-breakdown), réécrit à notre sauce.
+Natif / un catalogue de skills dev généralistes du marché (planning-and-task-breakdown), réécrit à notre sauce.

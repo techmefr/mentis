@@ -57,8 +57,7 @@ l'avance, contrairement à `plan`/`breakdown`. Ne pas laisser le ticket parent
 devenir un fourre-tout non maintenu : chaque session le met à jour.
 
 ## Origine
-Réécriture du skill `wayfinder` de
-[mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering) —
+Réécriture du skill `wayfinder` d'un auteur de skills reconnu du marché —
 la structure du ticket parent (5 sections) et les 4 types de ticket enfant
 sont repris tels quels, adaptés à un usage Jira (au lieu du tracker
 générique d'origine) et distingués explicitement de `breakdown` déjà existant.

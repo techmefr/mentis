@@ -26,4 +26,4 @@ Aucun test contourné, masqué ou désactivé. Le contrat par défaut est **éch
 « passant » tant que le GATE ne l'a pas prouvé.
 
 ## Origine
-Xefi `test-casebook` + `cwc-long-running-agents` (default-FAIL contract), réécrit.
+Xefi `test-casebook` + des patterns d'agents long-running du marché (default-FAIL contract), réécrits.

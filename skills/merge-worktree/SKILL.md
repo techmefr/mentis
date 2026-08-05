@@ -65,6 +65,6 @@ principale de la tâche et met à jour la base d'intégration.
 
 ## Origine
 
-Idée reprise de : neolabhq/context-engineering-kit — plugins/git/skills/git-worktrees/SKILL.md,
+Idée reprise de : un kit d'ingénierie de contexte du marché — plugins/git/skills/git-worktrees/SKILL.md,
 section « How to Merge Worktree ». Mécanisme réécrit à notre sauce (gabarit construct,
 articulation avec `finish`/`finish_task`).

@@ -1,12 +1,12 @@
 ---
 name: portless-ready
-description: Use quand une stack doit passer en portless — rend un projet compatible vercel-labs/portless (route HTTPS nommée, arrêt des ports backing publiés, URLs front↔back alignées).
+description: Use quand une stack doit passer en portless — rend un projet compatible avec l'outil portless du marché (route HTTPS nommée, arrêt des ports backing publiés, URLs front↔back alignées).
 ---
 
 # portless-ready
 
 Brique de **setup / infra** (pas une étape du pipeline). Rend une stack Docker exploitable via
-**vercel-labs/portless** : une URL HTTPS stable par service, zéro collision de port, navigateur
+**l'outil portless du marché** : une URL HTTPS stable par service, zéro collision de port, navigateur
 Windows → conteneur WSL. C'est « l'agent qui corrige pour utiliser portless à chaque fois ».
 
 ## Quand
@@ -41,6 +41,6 @@ Pas de checkpoint pipeline.
   vérifier** côté Azure — ne pas présumer que ça passe.
 
 ## Origine
-Outil `vercel-labs/portless` (la plomberie : proxy 443 + `*.localhost` + CA WSL/Windows +
+Un outil portless du marché (la plomberie : proxy 443 + `*.localhost` + CA WSL/Windows +
 noms de worktree). Le câblage/la correction par projet = à nous. Réalise l'idée « agent
 portless » du plan (cf. mémoire, `CHALLENGE.md`).

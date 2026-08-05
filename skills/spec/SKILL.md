@@ -25,4 +25,4 @@ Après `brainstorm`, avant `/PLAN`. Ou dès que le périmètre / les critères d
 Aucun code. Si le périmètre reste flou après l'interview, `escalate` plutôt que deviner.
 
 ## Origine
-`mattpocock/skills` (grill-with-docs → CONTEXT.md + ADR) + interne `spec-clarification`, réécrit.
+Un auteur de skills reconnu du marché (grill-with-docs → CONTEXT.md + ADR) + interne `spec-clarification`, réécrit.

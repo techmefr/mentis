@@ -85,8 +85,8 @@ choisit un composant Vuetify pour un besoin d'UI, pendant `code` (6) ou `tdd` (5
      inline sous le champ concerné (pas de `VSnackbar` pour une erreur de champ).
 
 ### 4. Correctness réactivité/hydratation et sécurité (vue-doctor/nuxt-doctor)
-Règles déterministes reprises du scanner `geoql/doctor` (packages `oxlint-plugin-vue-doctor` /
-`oxlint-plugin-nuxt-doctor`, lui-même explicitement inspiré de `react-doctor` mais verrouillé
+Règles déterministes reprises d'un scanner du marché (packages `oxlint-plugin-vue-doctor` /
+`oxlint-plugin-nuxt-doctor`, lui-même explicitement inspiré de son équivalent React mais verrouillé
 sur Vue 3 + Nuxt 4 — donc directement applicable à cette stack, sans filtrage de framework
 niche à faire comme côté React).
 
@@ -172,15 +172,15 @@ si une valeur manque, elle passe en paramètre depuis l'appelant. En cas de dout
 règle Nuxt/Vuetify non couverte ici, escalader plutôt que deviner.
 
 ## Origine
-Idées reprises de : antfu/skills (skills/vue/ — SKILL.md, script-setup-macros.md,
-core-new-apis.md, advanced-patterns.md) pour la section Vue ; affaan-m/everything-claude-code
-(skills/nuxt4-patterns/SKILL.md) et onmax/nuxt-skills (skills/nuxt/references/nuxt-composables.md,
+Idées reprises de : un catalogue de skills Vue du marché (skills/vue/ — SKILL.md, script-setup-macros.md,
+core-new-apis.md, advanced-patterns.md) pour la section Vue ; un catalogue de skills Nuxt du marché
+(skills/nuxt4-patterns/SKILL.md) et un autre catalogue de skills Nuxt du marché (skills/nuxt/references/nuxt-composables.md,
 extrait limité à la discipline useState/useCookie/useRequestFetch) pour la section Nuxt ;
-cylixlee/skills (.deprecated/vuetify-4/SKILL.md + references/patterns/) pour la section
-Vuetify ; geoql/doctor (packages `oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor`,
-lui-même inspiré de millionco/react-doctor, verrouillé Vue 3 + Nuxt 4) pour la section
+un catalogue de skills Vuetify du marché (.deprecated/vuetify-4/SKILL.md + references/patterns/) pour la section
+Vuetify ; un linter du marché (packages `oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor`,
+lui-même inspiré de son équivalent React, verrouillé Vue 3 + Nuxt 4) pour la section
 correctness/sécurité ; retours de review internes Xefi (dette qualité récurrente observée sur
 plusieurs projets front de la même stack, généralisée et dénominalisée) pour la section
-patterns de review ; metabase/metabase (skill `typescript-review` — blind-spots
+patterns de review ; un projet open source TypeScript du marché (skill `typescript-review` — blind-spots
 accessibilité/poids bundle) pour les items 15-16 de cette même section. Mécanismes réécrits,
 pas de texte copié.

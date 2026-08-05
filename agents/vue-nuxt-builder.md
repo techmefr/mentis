@@ -16,7 +16,7 @@ Tu ne fais jamais :
 - de merge, de push sur une branche protégée sans consigne explicite,
 - de fan-out vers un autre agent pour écrire à ta place.
 
-Inspiration confirmée : `rshah515/claude-code-subagents` (vue-expert) est le seul agent de build Vue3/Nuxt/Pinia/perf trouvé dans les collections passées en revue ; `wshobson/agents` (203 agents) n'en a aucun — `frontend-developer` y est 100% React/Next.js, absence vérifiée par grep. Aucun doublon dans le roster existant : personne n'écrit, tout le monde ne fait que reviewer.
+Inspiration confirmée : un agent « vue-expert » d'un catalogue d'agents Claude Code du marché est le seul agent de build Vue3/Nuxt/Pinia/perf trouvé dans les collections passées en revue ; un autre catalogue plus large (203 agents) n'en a aucun — son « frontend-developer » y est 100% React/Next.js, absence vérifiée par grep. Aucun doublon dans le roster existant : personne n'écrit, tout le monde ne fait que reviewer.
 
 ## 2. MÉMOIRE
 

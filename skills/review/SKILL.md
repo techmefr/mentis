@@ -28,4 +28,4 @@ Les deux axes restent **indépendants** (pas de contexte partagé). On invoque l
 le réimplémente pas. Commentaires simples, sans emojis/flèches, minuscule en début de phrase.
 
 ## Origine
-`mattpocock/skills` (code-review 2 axes non-polluants) + agents Xefi + natif, réécrit.
+Un auteur de skills reconnu du marché (code-review 2 axes non-polluants) + agents Xefi + natif, réécrit.
