@@ -25,6 +25,8 @@
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
 | choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
+| dispatch-parallel | transverse | obra `dispatching-parallel-agents` + `subagent-driven-development` (fusionnées) | 🟡 (écrit, vécu partiel via elrond→aragorn/gimli/legolas) |
+| writing-skills | transverse (méta) | obra `writing-skills` | 🟡 (écrit, applique le gabarit unique + checklist Règle B) |
 | portless-ready | setup/infra | outil `vercel-labs/portless` (câblage à nous) | 🟡 (rend une stack portless : alias HTTPS + hygiène ports) |
 | **gate** | 7 | **cwc** `default-FAIL hook` + `fresh-context evaluator` | 🟡 (agent `arbitre` écrit ; hook default-FAIL par repo reste à poser) |
 | review | 8 | mattpocock `code-review 2 axes` + agents Xefi + natif | 🟡 |
