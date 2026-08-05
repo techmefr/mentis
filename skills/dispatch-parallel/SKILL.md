@@ -1,6 +1,6 @@
 ---
 name: dispatch-parallel
-description: Use quand une tâche se découpe en sous-parties indépendantes (plusieurs stacks à reviewer, plusieurs fichiers à migrer, plusieurs pistes à explorer) — lance des sous-agents en parallèle sur des périmètres disjoints plutôt qu'un seul agent séquentiel.
+description: Use quand une tâche se découpe en sous-parties indépendantes (plusieurs stacks à reviewer, plusieurs fichiers à migrer, plusieurs pistes à explorer), lance des sous-agents en parallèle sur des périmètres disjoints plutôt qu'un seul agent séquentiel.
 ---
 
 # dispatch-parallel
@@ -15,17 +15,17 @@ travail se décompose naturellement en sous-tâches qui ne se marchent pas dessu
 - Plusieurs pistes de recherche à explorer avant de trancher (panel de juges,
   plusieurs implémentations candidates).
 - Ne s'applique **pas** si les sous-tâches partagent un état mutable commun
-  (même fichier édité par deux agents à la fois) — dans ce cas, séquentiel.
+  (même fichier édité par deux agents à la fois) : dans ce cas, séquentiel.
 
 ## Étapes
 1. **Découper en périmètres disjoints** : chaque sous-agent reçoit un scope
    clair qui ne recouvre aucun autre (fichiers différents, ou même fichier en
    lecture seule pour tous sauf un).
 2. **Isoler par worktree** si les sous-agents écrivent du code (voir
-   `merge-worktree`) — jamais deux agents qui écrivent dans le même
+   `merge-worktree`) : jamais deux agents qui écrivent dans le même
    répertoire de travail en même temps.
 3. **Lancer en un seul message** tous les agents indépendants (plusieurs
-   appels d'outil dans le même tour) plutôt qu'en série — le gain n'existe
+   appels d'outil dans le même tour) plutôt qu'en série : le gain n'existe
    que si l'attente est réellement concurrente.
 4. **Agréger** les résultats une fois tous revenus : ne pas commencer à
    synthétiser avant d'avoir tout, sauf si le pipeline est construit en
@@ -37,7 +37,7 @@ travail se décompose naturellement en sous-tâches qui ne se marchent pas dessu
 ## Sortie / checkpoint
 Tous les sous-agents dispatchés sont revenus (ou explicitement abandonnés
 avec la raison notée), et l'agrégation cite quel résultat vient de quel
-agent — jamais une synthèse anonyme.
+agent : jamais une synthèse anonyme.
 
 ## Garde-fous
 - Jamais deux agents avec Write/Edit sur le même fichier en simultané.

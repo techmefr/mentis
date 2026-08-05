@@ -1,6 +1,6 @@
 ---
 name: gate
-description: Use quand le code est écrit, avant la review — verrou mécanique : interdit de déclarer un critère « passant » sans preuve, et un évaluateur à contexte propre tranche.
+description: Use quand le code est écrit, avant la review, verrou mécanique : interdit de déclarer un critère « passant » sans preuve, et un évaluateur à contexte propre tranche.
 ---
 
 # gate
@@ -13,7 +13,7 @@ Après `code` (implémentation faite), avant `review`.
 
 ## Étapes
 1. Pour chaque ligne `{ passes: false }` de `test-results.json`, **produire une preuve** :
-   sortie de test, screenshot `verify-flow`, ou log — puis la **lire** (`Read`).
+   sortie de test, screenshot `verify-flow`, ou log : puis la **lire** (`Read`).
 2. Le hook natif `PreToolUse` **refuse** d'écrire `passes: true` tant que la preuve
    correspondante n'a pas été lue. On ne peut pas se déclarer passant sans observer.
 3. Lancer l'**évaluateur à contexte propre** : un sous-agent **sans Write/Edit**, qui n'a pas
@@ -21,7 +21,7 @@ Après `code` (implémentation faite), avant `review`.
 4. `NEEDS_WORK` → les findings deviennent le prompt du prochain passage `code`. Reboucler.
 
 ## Sortie / checkpoint
-`verified` — toutes les lignes `passes: true`, chacune adossée à une preuve lue, évaluateur `PASS`.
+`verified` : toutes les lignes `passes: true`, chacune adossée à une preuve lue, évaluateur `PASS`.
 
 ## Garde-fous
 L'agent ne peut **pas s'auto-valider** : la validation vient du hook (preuve) + de l'évaluateur

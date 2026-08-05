@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Use dès qu'un bug, un échec de test inattendu ou une erreur répétée survient pendant le code — comprendre la cause avant de proposer un fix.
+description: Use dès qu'un bug, un échec de test inattendu ou une erreur répétée survient pendant le code, comprendre la cause avant de proposer un fix.
 ---
 
 # debug
@@ -17,7 +17,7 @@ Pendant `code` / `/BUILD`, à la première erreur inattendue ou au deuxième éc
 4. Toujours en boucle > 2 tentatives sans progrès → `escalate`.
 
 ## Sortie / checkpoint
-Pas de checkpoint propre — reprend `code`.
+Pas de checkpoint propre : reprend `code`.
 
 ## Garde-fous
 Pas de fix « au hasard » ni de retry en boucle. Une hypothèse à la fois.

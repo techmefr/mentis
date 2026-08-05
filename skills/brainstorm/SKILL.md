@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: Use quand une feature démarre, avant toute spec ou code — explore l'intention réelle et les options avant de verrouiller quoi que ce soit.
+description: Use quand une feature démarre, avant toute spec ou code, explore l'intention réelle et les options avant de verrouiller quoi que ce soit.
 ---
 
 # brainstorm
@@ -18,7 +18,7 @@ Juste après `start-feature`, avant `/SPEC`. Dès qu'on n'est pas certain à 100
 4. Noter un hors-scope pressenti et les questions ouvertes pour le dev/humain.
 
 ## Sortie / checkpoint
-Pas de checkpoint formel — un résumé écrit dans `context_summary` (starfleet). Prépare `/SPEC`.
+Pas de checkpoint formel : un résumé écrit dans `context_summary` (starfleet). Prépare `/SPEC`.
 
 ## Garde-fous
 Aucun code. Les choix produit se remontent au dev/humain, on ne tranche pas seul.

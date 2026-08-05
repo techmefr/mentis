@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Use quand l'archi est posée, avant d'écrire des tests ou du code — découper la feature en tâches atomiques testables.
+description: Use quand l'archi est posée, avant d'écrire des tests ou du code, découper la feature en tâches atomiques testables.
 ---
 
 # plan
@@ -19,7 +19,7 @@ Après `archi`, avant `tdd`.
 `plan_done` + `task_items` renseignés.
 
 ## Garde-fous
-Pas d'exécution automatique de tout le plan (**pas de `/build auto`** — cf. `WORKFLOW.md`,
+Pas d'exécution automatique de tout le plan (**pas de `/build auto`** : cf. `WORKFLOW.md`,
 l'auto-mode a été retiré volontairement). Le dev valide et avance étape par étape.
 
 ## Origine

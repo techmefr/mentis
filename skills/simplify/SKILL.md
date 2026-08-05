@@ -1,6 +1,6 @@
 ---
 name: simplify
-description: Use après la review, avant le SHIP — passe qualité sur le code changé (réutilisation, simplification, efficacité), sans chasse aux bugs.
+description: Use après la review, avant le SHIP, passe qualité sur le code changé (réutilisation, simplification, efficacité), sans chasse aux bugs.
 ---
 
 # simplify
@@ -19,7 +19,7 @@ Après `review` (`reviewed`), avant `ship`.
 `simplified`.
 
 ## Garde-fous
-Qualité uniquement — **pas** de chasse aux bugs ici (c'était `review`/`gate`). Ne pas changer
+Qualité uniquement : **pas** de chasse aux bugs ici (c'était `review`/`gate`). Ne pas changer
 le comportement ; si une simplification casse un test, c'est un vrai changement → retour `code`.
 
 ## Origine
