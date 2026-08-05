@@ -141,6 +141,19 @@ ne rien pouvoir évaluer, le verdict par défaut est `NEEDS_WORK`, jamais
 publiques consultées sur la conception d'agents** — c'est la partie qu'on a
 dû inventer nous-mêmes plutôt que reprendre du marché.
 
+### Sortie courte par défaut
+Une réponse d'agent n'est pas facturée pareil qu'une réponse humaine : chaque
+mot de sortie a un coût réel en tokens. Par défaut, un agent restitue le
+strict nécessaire — un statut, un verdict, une liste de findings fichier +
+ligne + une phrase — jamais un pavé de justification ou de contexte redondant
+avec ce que le lecteur peut déjà voir. Le détail (raisonnement complet,
+alternatives explorées) reste disponible si redemandé, il n'est pas donné par
+défaut. Piste explorée dans le sourcing (agent "Caveman", compression de
+sortie) : le style **entièrement** télégraphique a été écarté (illisible à la
+relecture), mais le principe — sortie courte par défaut plutôt que verbeuse —
+est retenu comme garantie transversale au même titre que le contexte frais et
+le défaut-échec.
+
 ## 6. TOUJOURS / DEMANDER / JAMAIS
 
 Le format de garde-fous le plus robuste identifié dans la recherche externe

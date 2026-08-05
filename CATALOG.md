@@ -24,6 +24,7 @@
 | nestjs-node-conventions | 6 | Jeffallan/claude-skills `nestjs-expert` + SpillwaveSolutions/mastering-typescript-skill + Mindrally/skills `prisma-development`/`trpc`/`zod-schema-validation` | 🟡 (écrit, pas encore dogfoodé ; première brique construct back Node) |
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
+| choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
 | portless-ready | setup/infra | outil `vercel-labs/portless` (câblage à nous) | 🟡 (rend une stack portless : alias HTTPS + hygiène ports) |
 | **gate** | 7 | **cwc** `default-FAIL hook` + `fresh-context evaluator` | 🟡 (agent `arbitre` écrit ; hook default-FAIL par repo reste à poser) |
 | review | 8 | mattpocock `code-review 2 axes` + agents Xefi + natif | 🟡 |
@@ -78,7 +79,7 @@ nous**, pas à installer.
 | VoltAgent/awesome-claude-code-subagents | `laravel-specialist` (02-language-specialists) → agent `laravel-builder` | agents métier (build back) | ✅ |
 | wshobson/agents | `php-pro` (web-scripting), pas de spécialisation Laravel → confirme le manque comblé par `laravel-builder` | agents métier (build back) | ✅ (référence croisée) |
 | cwc | kill-switch / steer (hooks opérateur) | — | ✕ (humain présent) |
-| Caveman | compression de sortie | Taskling | ✕ (gain net faible + style télégraphique) |
+| Caveman | compression de sortie | — | 🟡 réévalué : le style télégraphique intégral reste écarté (illisible), mais le principe "sortie courte par défaut, pour limiter la dépense en tokens de sortie" est retenu comme garantie transversale (voir `doc/COMMENT-ON-ECRIT-NOS-AGENTS.md` §5) |
 | LobeHub / OpenHands | autonomie 24/7 / bout-en-bout | — | ✕ (repoussoir : no-auto-merge) |
 | vercel-labs/json-render | `skills/vue/` — usage lib tierce de rendu JSON→Vue | vue-nuxt-vuetify-conventions | ✕ (pas une convention Vue générique, hors besoin Xefi) |
 | onmax/nuxt-skills | `skills/nuxt-modules/` — auteuring de module Nuxt publié/npm | vue-nuxt-vuetify-conventions | ✕ (hors périmètre : g.compigni fait du code d'app, pas de module) |

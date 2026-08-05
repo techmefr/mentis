@@ -95,6 +95,7 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `finish` | 11 | Nettoie la worktree, met à jour la branche de base |
 | `merge-worktree` | 11 | Mécanique de merge multi-worktree |
 | `extract-conventions` | maintenance | Génère des conventions depuis le code réel existant |
+| `choose-model` | transverse | Décide Haiku/Sonnet/Opus pour un nouvel agent ou une tâche ponctuelle |
 | `portless-ready` | infra | Rend une stack portless (alias HTTPS, hygiène des ports) |
 
 ### Agents
