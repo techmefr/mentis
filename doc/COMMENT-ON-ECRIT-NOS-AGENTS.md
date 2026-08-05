@@ -196,7 +196,23 @@ sont écrits mais pas encore confrontés à un vrai projet. Ce tableau est
 tenu à jour dans `CATALOG.md` — la colonne maturité (✅ / 🟡 / 🔜) est la
 source de vérité, pas ce document.
 
-## 9. Pourquoi ça compte
+## 9. Loop possible, mais pas sur tout
+
+Le pipeline peut tourner en boucle sans supervision **jusqu'au gate** :
+brainstorm → spec → archi → plan → code → debug peuvent s'enchaîner sans
+qu'un humain valide chaque étape. En revanche, deux points restent des
+arrêts humains volontaires, non négociables :
+
+- **Le gate** (`arbitre`) rend un verdict, mais ne merge rien.
+- **Le merge lui-même** : 2 approbations humaines avant merge, toujours.
+
+Ce n'est pas une limitation technique — l'autonomie bout-en-bout façon
+`LobeHub`/`OpenHands` a été explicitement écartée comme repoussoir dans le
+sourcing (`CATALOG.md`) : un agent qui fusionne du code tout seul sans
+validation est le contre-exemple qu'on ne veut pas devenir. La boucle
+accélère la production, jamais la décision de merger.
+
+## 10. Pourquoi ça compte
 
 - **La review ne complaît pas** : parce que le reviewer n'est jamais celui
   qui a écrit le code, dans une session séparée à froid.
