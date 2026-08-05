@@ -70,7 +70,7 @@
 
 ## 2. Backlog de sourcing — idées/agents à réécrire pour compléter/améliorer
 
-Veille de marché menée en continu (cf. `VEILLE.md`, dernière passe 2026-07). Chaque ligne = une
+Veille de marché menée en continu (dernière passe 2026-08). Chaque ligne = une
 idée à **réécrire chez nous**, pas à installer — sources anonymisées par catégorie (catalogues
 d'agents/skills Claude Code, linters de stack, frameworks d'orchestration, etc. du marché).
 
