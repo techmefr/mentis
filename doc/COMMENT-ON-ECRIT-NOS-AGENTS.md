@@ -212,7 +212,30 @@ sourcing (`CATALOG.md`) : un agent qui fusionne du code tout seul sans
 validation est le contre-exemple qu'on ne veut pas devenir. La boucle
 accélère la production, jamais la décision de merger.
 
-## 10. Pourquoi ça compte
+## 10. La vision — que le système apprenne, pas juste qu'il tourne
+
+L'objectif n'est pas un set d'agents figé : c'est un système qui devient
+**plus intelligent avec l'usage**, sans jamais changer les règles fixes
+(contexte frais, défaut=échec). Ce qui s'améliore, c'est la connaissance
+métier accumulée — pas la doctrine. Trois boucles de retour existent déjà,
+partiellement :
+
+- **Calibration** : chaque review réelle (findings retenus, faux positifs
+  infirmés) est journalisée, pour que le tri futur reconnaisse plus vite ce
+  qui vaut la peine d'être remonté.
+- **Mémoire persistante** : les corrections et confirmations de l'utilisateur
+  sur une approche deviennent des règles durables, relues avant d'agir à
+  nouveau — pas ré-expliquées à chaque fois.
+- **`extract-conventions`** : génère des conventions depuis le code réel
+  existant plutôt que depuis une doctrine abstraite, donc se met à jour avec
+  le code lui-même.
+
+Ce qui manque encore pour que ce soit systématique plutôt qu'au fil de
+l'eau : une revue périodique qui relit ces trois sources et met à jour
+`CATALOG.md` (maturité, garde-fous affinés) — pas encore automatisée, à
+poser comme prochaine étape.
+
+## 11. Pourquoi ça compte
 
 - **La review ne complaît pas** : parce que le reviewer n'est jamais celui
   qui a écrit le code, dans une session séparée à froid.
