@@ -1,13 +1,13 @@
 # xefi-superpowers
 
-**Ma version d'un framework équivalent vu sur le marché open source, en gardant la main.**
-Mon framework d'agents et de skills Claude Code pour tout le cycle de dev —
-pas seulement la review — construit en réécrivant les meilleures idées du
-marché à ma voix, jamais en dépendant d'un repo tiers.
+Ma version d'un framework équivalent vu sur le marché open source, en
+gardant la main dessus. Un framework d'agents et de skills Claude Code pour
+tout le cycle de dev, pas seulement la review, construit en réécrivant les
+meilleures idées du marché à ma voix, sans jamais dépendre d'un repo tiers.
 
 > Repo de test de ma méthode de travail avec Claude Code (g.compigni).
 > `xefi-mr-review` (repo séparé) est l'implémentation spécialisée de la seule
-> étape review/gate de ce framework, câblée en CI GitLab — ce repo-ci couvre
+> étape review/gate de ce framework, câblée en CI GitLab. Ce repo-ci couvre
 > tout le reste : brainstorm, spec, plan, TDD, code, debug, gate, ship.
 
 ## Sommaire
@@ -24,17 +24,17 @@ marché à ma voix, jamais en dépendant d'un repo tiers.
 
 ## Pourquoi ma propre version
 
-Un framework équivalent du marché open source encode une bonne discipline
-générique (brainstorming, TDD, debugging systématique, review à contexte
-frais). Mais une méthode générique ne porte pas mes conventions Xefi, mes
-stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence propre :
-**défaut = échec** — un travail déclaré "fini" n'est jamais cru sur parole,
-il doit être prouvé (voir `arbitre`, l'agent qui incarne cette règle et
-qu'aucune des sources marché consultées ne couvre).
+Un framework équivalent du marché open source encode déjà une bonne
+discipline générique : brainstorming, TDD, debugging systématique, review à
+contexte frais. Mais une méthode générique ne porte pas mes conventions
+Xefi, mes stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence
+propre, le défaut = échec : un travail déclaré "fini" n'est jamais cru sur
+parole, il doit être prouvé. C'est le rôle de `arbitre`, l'agent qui
+incarne cette règle et qu'aucune des sources marché consultées ne couvre.
 
 Plutôt que d'installer un tel framework tel quel, j'ai réécrit chaque idée
-utile dans mon gabarit, avec ma voix, mes exemples, ma stack — et je ne
-dépends jamais d'un repo externe pour que mon pipeline continue de tourner.
+utile dans mon gabarit, avec ma voix, mes exemples, ma stack. Je ne dépends
+jamais d'un repo externe pour que mon pipeline continue de tourner.
 
 ## Positionnement
 
@@ -63,9 +63,9 @@ flowchart LR
     J --> K[finish]
 ```
 
-Deux garanties tiennent tout le pipeline : **contexte frais** (celui qui
-juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
-`gandalf`) et **défaut = échec** (je ne crois rien sans preuve citée).
+Deux garanties tiennent tout le pipeline. Le contexte frais : celui qui
+juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
+`gandalf`). Le défaut = échec : je ne crois rien sans preuve citée.
 
 ## Ce qu'il y a dedans
 
