@@ -43,13 +43,13 @@ Trois règles répondent à ces trois problèmes.
 
 ## 3. Les trois règles fondatrices
 
-### Règle A — je teste l'approche complète d'abord
+### Règle A : je teste l'approche complète d'abord
 J'assemble le pipeline entier (brainstorm → ... → finish) et je le fais
 tourner sur une vraie tâche avant de découper en projets séparés. Le
 découpage vient après, une fois que l'approche a fait ses preuves sur le
 terrain.
 
-### Règle B — je réécris à ma sauce, jamais je ne dépends
+### Règle B : je réécris à ma sauce, jamais je ne dépends
 Toute idée venue de l'extérieur (skill, agent, technique), je la réécris en
 interne. Jamais branchée en dépendance runtime. Je lis la source, j'extrais
 le mécanisme (pas la prose), je le réécris dans mon gabarit, et je crédite
@@ -61,14 +61,14 @@ workflow. Je sais exactement ce que fait chaque brique, c'est mon code, mes
 mots. Et tout est écrit de la même façon, donc n'importe qui connaît le
 gabarit peut s'y retrouver.
 
-### Règle C — le framework reste publiable
+### Règle C : le framework reste publiable
 Je l'écris dès le départ pour pouvoir l'extraire un jour dans un repo
 public : aucun secret, aucun nom de projet réel, aucune réalité d'infra
 dans ce dossier. Une brique nomme un rôle ("le back Laravel"), jamais un
 projet précis. Ma règle simple : si une phrase ne pourrait pas être lue par
 quelqu'un d'extérieur, elle ne va pas ici.
 
-## 4. Le gabarit unique — comment j'écris un agent
+## 4. Le gabarit unique : comment j'écris un agent
 
 Tous mes agents suivent la même structure en 7 sections, jamais improvisée
 au cas par cas.
@@ -170,13 +170,13 @@ diff et route vers le bon reviewer. En cas d'ambiguïté de stack (monorepo,
 signatures contradictoires), la règle n'est pas "fais de ton mieux" mais
 explicitement DEMANDER. Jamais deviner, quitte à interrompre le flux.
 
-## 7. Comment un agent naît chez moi — le cycle de sourcing
+## 7. Comment un agent naît chez moi : le cycle de sourcing
 
 ```mermaid
 flowchart LR
-    V[Veille — un repo/idée<br/>repéré au fil de l'eau] --> T[Tri dans CATALOG.md<br/>statut 🔎 à miner]
+    V[Veille : un repo/idée<br/>repéré au fil de l'eau] --> T[Tri dans CATALOG.md<br/>statut 🔎 à miner]
     T --> D{Une brique interne<br/>couvre déjà l'idée ?}
-    D -->|oui| X[Écarté — statut ✕<br/>raison notée honnêtement]
+    D -->|oui| X[Écarté : statut ✕<br/>raison notée honnêtement]
     D -->|non| E[Extraction du mécanisme<br/>jamais de la prose copiée]
     E --> W[Réécriture dans<br/>le gabarit unique, en français]
     W --> O[Origine créditée<br/>dans CATALOG.md]
@@ -213,7 +213,7 @@ agent qui merge du code tout seul sans validation, c'est exactement le
 contre-exemple que je ne veux pas devenir. La boucle accélère la
 production, jamais la décision de merger.
 
-## 10. La vision — que le système apprenne, pas juste qu'il tourne
+## 10. La vision : que le système apprenne, pas juste qu'il tourne
 
 Mon objectif, ce n'est pas d'avoir un set d'agents figé. C'est un système
 qui devient plus intelligent avec l'usage, sans jamais toucher aux règles
