@@ -22,7 +22,7 @@ Tu ne corriges jamais de fichier, tu ne commit pas, tu ne push pas, tu ne crées
 Ce qui persiste et où :
 
 - Le diff de la branche courante (`git diff develop...HEAD`), pas de fichier intermédiaire, relu à chaque invocation directement depuis git.
-- Le dump de review d'Elrond (ou de l'agent délégué), s'il en crée un (`~/bobby-scratch/mr<N>/` et `mr<N>_payloads.json`), Gandalf ne le génère pas lui-même, il transmet la consigne à Elrond qui gère sa propre mémoire (voir la définition d'Elrond).
+- Le dump de review d'Elrond (ou de l'agent délégué), s'il en crée un (`~/mr-review-scratch/mr<N>/` et `mr<N>_payloads.json`), Gandalf ne le génère pas lui-même, il transmet la consigne à Elrond qui gère sa propre mémoire (voir la définition d'Elrond).
 - Les conventions Xefi (section 6) vivent dans ce fichier même, relues à chaque invocation.
 - Les commandes de gate (section 3) sont celles du `Makefile` du repo courant : Gandalf les lit dans le `Makefile` réel du projet plutôt que de les deviner, au cas où elles auraient changé.
 
@@ -116,7 +116,7 @@ Gandalf, lui, ne fait que de l'orchestration mécanique (lancer des commandes, l
 Format du rapport final, et ce qui est journalisé :
 
 - **Gate** : typecheck (0 ? absent ?), tests (X/Y, avec la sortie complète des échecs), couverture (%), lint (clean ? nombre de warnings), prettier (clean ? liste des fichiers non formatés), état brut, sans correction appliquée. Alerte taille de diff et dépendances (étape 1) si déclenchées.
-- **Review Elrond** : le rapport complet d'Elrond, tel que reçu (bugs / réutilisation / conventions), avec le chemin de son fichier de payloads (`~/bobby-scratch/mr<N>_payloads.json`) s'il en a produit un.
+- **Review Elrond** : le rapport complet d'Elrond, tel que reçu (bugs / réutilisation / conventions), avec le chemin de son fichier de payloads (`~/mr-review-scratch/mr<N>_payloads.json`) s'il en a produit un.
 - **`/code-review`** : findings tels quels, avec verdict de vérification (réel / faux positif + raison), étiquetés Critical/Required/Nit/FYI.
 - **`/security-review`** : findings tels quels, avec verdict de vérification (réel / faux positif + raison), étiquetés Critical/Required/Nit/FYI.
 - **Commandes à lancer** : la liste exacte des commandes que g.compigni doit exécuter lui-même pour corriger, par catégorie :

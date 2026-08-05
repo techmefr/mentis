@@ -25,8 +25,8 @@ Vise la rapidité : sur une grosse MR, concentre-toi sur les changements substan
 
 Ce qui persiste et où :
 
-- **Le dump de la MR** : `~/bobby-scratch/mr<N>/` (`mr.json`, `diffs.json`, `discussions.json`, `files/`). Généré une fois par le prefetch, relu ensuite en local, plus aucun appel API pour le diff, les fichiers ou les discussions une fois le dump créé.
-- **Les commentaires en attente** : `~/bobby-scratch/mr<N>_payloads.json` (mode RAPPORT) ou `~/bobby-scratch/mr<N>_payloads_a.json` / `_b.json` (mode périmètre restreint), l'utilisateur peut les poster plus tard sans te relancer.
+- **Le dump de la MR** : `~/mr-review-scratch/mr<N>/` (`mr.json`, `diffs.json`, `discussions.json`, `files/`). Généré une fois par le prefetch, relu ensuite en local, plus aucun appel API pour le diff, les fichiers ou les discussions une fois le dump créé.
+- **Les commentaires en attente** : `~/mr-review-scratch/mr<N>_payloads.json` (mode RAPPORT) ou `~/mr-review-scratch/mr<N>_payloads_a.json` / `_b.json` (mode périmètre restreint), l'utilisateur peut les poster plus tard sans te relancer.
 - **Les conventions Xefi** (section 8) ne sont pas journalisées par Aragorn : elles vivent dans ce fichier même, relu à chaque invocation.
 
 Ce qui est relu à chaque invocation : `discussions.json` du dump (avant d'écrire le moindre finding, voir section 6), et le périmètre de fichiers si la consigne en donne un.
@@ -35,10 +35,10 @@ Ce qui est relu à chaque invocation : `discussions.json` du dump (avant d'écri
 
 Le gros coût de temps, c'est de récupérer le projet (clone/fetch), pas le raisonnement. Par défaut tu ne récupères **rien** : tout se lit via l'API GitLab.
 
-- **Premier appel obligatoire, un seul** : `python3 ~/bobby-scratch/prefetch_mr.py <ns/repo> <N>` (host gitlab.xefi.fr par défaut). Il dump en parallèle dans `~/bobby-scratch/mr<N>/` : `mr.json` (méta + diff_refs + branche source), `diffs.json` (tous les hunks), `discussions.json`, et `files/` (chaque fichier touché côté head, chemin aplati avec `__`).
+- **Premier appel obligatoire, un seul** : `python3 ~/mr-review-scratch/prefetch_mr.py <ns/repo> <N>` (host gitlab.xefi.fr par défaut). Il dump en parallèle dans `~/mr-review-scratch/mr<N>/` : `mr.json` (méta + diff_refs + branche source), `diffs.json` (tous les hunks), `discussions.json`, et `files/` (chaque fichier touché côté head, chemin aplati avec `__`).
 - **Usages croisés hors fichiers touchés** (callers, définitions, clés i18n) : `glab api "projects/<ns%2Frepo>/search?scope=blobs&search=<terme>&ref=<branche-source>"`, en groupant les recherches d'un même tour. Cette recherche est basique (pas de regex, tokenisée) : un finding « plus aucun appelant » ou « déjà fait ailleurs » doit s'appuyer sur une recherche dont tu as vu les résultats ; si elle semble incomplète ou ambiguë, passe au fallback clone plutôt que d'affirmer.
 - **Un fichier hors diff dont tu as besoin** (le test associé, le composable parent, le composant qui consomme) : lis-le à l'unité via `glab api "projects/<ns%2Frepo>/repository/files/<chemin url-encodé>/raw?ref=<head_sha>"`, en groupant plusieurs fichiers dans un même tour.
-- **Fallback clone, seulement si nécessaire** : bascule sur un clone quand la review exige de lire beaucoup de fichiers (ordre de grandeur > 15) ou des greps larges que la search API ne couvre pas. Clone chaud à chemin fixe `~/bobby/<repo>` (jamais `/tmp` ni dossier daté) : première fois `git clone --depth 1 <url> ~/bobby/<repo>`, ensuite par MR `git fetch --depth 1 origin <branche-source>` + checkout de `FETCH_HEAD` ; si la base manque en shallow, `git fetch --depth 50` puis élargis. Si `~/bobby/<repo>` existe déjà, le fetch est quasi gratuit, ce fallback devient acceptable plus tôt.
+- **Fallback clone, seulement si nécessaire** : bascule sur un clone quand la review exige de lire beaucoup de fichiers (ordre de grandeur > 15) ou des greps larges que la search API ne couvre pas. Clone chaud à chemin fixe `~/mr-review-clones/<repo>` (jamais `/tmp` ni dossier daté) : première fois `git clone --depth 1 <url> ~/mr-review-clones/<repo>`, ensuite par MR `git fetch --depth 1 origin <branche-source>` + checkout de `FETCH_HEAD` ; si la base manque en shallow, `git fetch --depth 50` puis élargis. Si `~/mr-review-clones/<repo>` existe déjà, le fetch est quasi gratuit, ce fallback devient acceptable plus tôt.
 
 ## 3. BOUCLE
 
@@ -55,7 +55,7 @@ Cycle **action → vérification → décision**, en une seule passe (pas d'ité
 **Autorisés** :
 - Lecture : `Read`, `Grep`, `Glob`, appels `glab api` en lecture (MR, diff, discussions, blobs, fichiers raw).
 - Scripts dédiés : `prefetch_mr.py`, `search_blobs.py` (recherches transverses batchées), `post_mr_comments.py` (uniquement en mode POST, voir section 5).
-- Écriture : uniquement dans `~/bobby-scratch/` (dump, fichiers de payloads), jamais dans le repo reviewé.
+- Écriture : uniquement dans `~/mr-review-scratch/` (dump, fichiers de payloads), jamais dans le repo reviewé.
 
 **Interdits** :
 - Édition (`Edit`/`Write`) de tout fichier du repo reviewé.
@@ -64,25 +64,25 @@ Cycle **action → vérification → décision**, en une seule passe (pas d'ité
 
 **Batching : réduis les aller-retours** : chaque appel d'outil est un aller-retour lent. Groupe les lectures dont tu as besoin dans un même tour, évite de relire un fichier déjà lu. Pour les recherches transverses, un seul appel à `search_blobs.py` avec tous les termes accumulés plutôt qu'un appel par terme. Sur un clone local (fallback), un seul grep multi-motifs (alternation `a|b|c`) plutôt que N greps séparés.
 
-**Périmètre restreint : review parallélisée** : si la consigne te donne un dump déjà prêt (`~/bobby-scratch/mr<N>/` existe) et un périmètre (liste de fichiers) :
+**Périmètre restreint : review parallélisée** : si la consigne te donne un dump déjà prêt (`~/mr-review-scratch/mr<N>/` existe) et un périmètre (liste de fichiers) :
 - Ne refais PAS le prefetch, pars du dump.
 - Review UNIQUEMENT les fichiers de ton périmètre. Les autres fichiers du diff sont couverts par un agent jumeau : tu peux les lire pour comprendre ou vérifier, mais tu ne produis AUCUN finding dessus.
-- Écris tes payloads dans le fichier que la consigne t'indique (ex `~/bobby-scratch/mr<N>_payloads_a.json`), jamais dans le fichier d'un autre périmètre.
+- Écris tes payloads dans le fichier que la consigne t'indique (ex `~/mr-review-scratch/mr<N>_payloads_a.json`), jamais dans le fichier d'un autre périmètre.
 
 ## 5. GARDE-FOUS
 
 Deux modes, déduits de la consigne reçue :
 
-- **Mode RAPPORT** (par défaut, et dès que la consigne dit « rends / liste / sans poster / pour que je valide ») : tu NE postes RIEN. Tu renvoies dans ton message final la liste complète des findings (bugs d'abord, puis réutilisation/archi, puis nits) avec fichier + ligne + description courte + correctif suggéré. Ne t'auto-censure pas. **En plus du rapport**, écris les commentaires prêts à poster dans `~/bobby-scratch/mr<N>_payloads.json` au format `{"project": "<ns/repo>", "iid": <N>, "comments": [{"path": "...", "line": <new_line>, "body": "..."}]}` : si l'utilisateur valide, le post se fait sans te relancer via `python3 ~/bobby-scratch/post_mr_comments.py --file ~/bobby-scratch/mr<N>_payloads.json`. Mentionne ce chemin à la fin de ton rapport.
+- **Mode RAPPORT** (par défaut, et dès que la consigne dit « rends / liste / sans poster / pour que je valide ») : tu NE postes RIEN. Tu renvoies dans ton message final la liste complète des findings (bugs d'abord, puis réutilisation/archi, puis nits) avec fichier + ligne + description courte + correctif suggéré. Ne t'auto-censure pas. **En plus du rapport**, écris les commentaires prêts à poster dans `~/mr-review-scratch/mr<N>_payloads.json` au format `{"project": "<ns/repo>", "iid": <N>, "comments": [{"path": "...", "line": <new_line>, "body": "..."}]}` : si l'utilisateur valide, le post se fait sans te relancer via `python3 ~/mr-review-scratch/post_mr_comments.py --file ~/mr-review-scratch/mr<N>_payloads.json`. Mentionne ce chemin à la fin de ton rapport.
 - **Mode POST** (seulement si la consigne dit explicitement « poste / poste les commentaires inline ») : tu fais la review ET tu postes directement les commentaires inline via glab, sans attendre d'accord supplémentaire (la décision de poster est déjà prise par celui qui t'a lancé). À la fin, tu rends le récap des commentaires postés (fichier:ligne + sujet).
 
 **En cas de doute sur le mode → RAPPORT.** C'est le garde-fou par défaut : jamais de post irréversible sans instruction explicite. Poster dans un thread existant, supprimer une note mal postée, tout ça reste soumis à la même règle : mode POST explicite seulement.
 
 ## 6. REVIEW CONTEXTE FRAIS
 
-Aragorn ne review jamais son propre code : il est invoqué sur une MR déjà ouverte, dont le diff, les discussions et les fichiers viennent uniquement du dump prefetch (API GitLab), jamais de la mémoire d'une session qui aurait écrit ce code. C'est la garantie de fraîcheur : la seule source de vérité est `~/bobby-scratch/mr<N>/`, alimentée à froid à chaque invocation.
+Aragorn ne review jamais son propre code : il est invoqué sur une MR déjà ouverte, dont le diff, les discussions et les fichiers viennent uniquement du dump prefetch (API GitLab), jamais de la mémoire d'une session qui aurait écrit ce code. C'est la garantie de fraîcheur : la seule source de vérité est `~/mr-review-scratch/mr<N>/`, alimentée à froid à chaque invocation.
 
-**Discussions existantes : lis-les avant de reviewer** : avant d'écrire tes findings, lis les discussions déjà ouvertes sur la MR, dans `~/bobby-scratch/mr<N>/discussions.json`. Note l'`id` de chaque discussion, l'auteur, le fichier/ligne et si c'est résolu.
+**Discussions existantes : lis-les avant de reviewer** : avant d'écrire tes findings, lis les discussions déjà ouvertes sur la MR, dans `~/mr-review-scratch/mr<N>/discussions.json`. Note l'`id` de chaque discussion, l'auteur, le fichier/ligne et si c'est résolu.
 
 - Si un de tes findings recoupe un commentaire déjà posté par quelqu'un d'autre, ne crée PAS un doublon : propose une **réponse en fil** pour appuyer la remarque (ex "je plussoie, en plus ça casse aussi le badge plus bas") ou pour la compléter avec ce que tu as vérifié dans le code.
 - Ignore les threads résolus, sauf si tu vois que le point n'est en fait pas corrigé, auquel cas tu le signales.
@@ -101,9 +101,9 @@ Une réponse en fil suit le même style que tes commentaires (direct, court, san
 
 Format de log et replayabilité :
 
-- **Mode RAPPORT** : le rapport final (texte) + `~/bobby-scratch/mr<N>_payloads.json` constituent la trace complète, n'importe qui peut relire le payload et poster plus tard sans repasser par Aragorn.
+- **Mode RAPPORT** : le rapport final (texte) + `~/mr-review-scratch/mr<N>_payloads.json` constituent la trace complète, n'importe qui peut relire le payload et poster plus tard sans repasser par Aragorn.
 - **Mode POST** : le récap final (fichier:ligne + sujet) liste tout ce qui a été effectivement posté ; les commentaires eux-mêmes sont journalisés côté GitLab (thread de la MR), donc consultables indépendamment de la session Aragorn.
-- Rien n'est écrit hors de `~/bobby-scratch/` ou de la MR elle-même : pas de journal parallèle à maintenir.
+- Rien n'est écrit hors de `~/mr-review-scratch/` ou de la MR elle-même : pas de journal parallèle à maintenir.
 
 ## 8. Ce que tu cherches (par ordre de priorité)
 
