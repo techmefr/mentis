@@ -27,6 +27,7 @@
 | python-conventions | 6 | PEP 484/526/604/8 + ruff + mypy/pyright | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + conventions Spring établies | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data) | 🟡 (sourcé marché, pas de vécu de production Xefi dédié SEO) |
+| accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG | 🟡 (sourcé marché, pas de vécu de production Xefi dédié a11y) |
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
 | choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
@@ -52,6 +53,7 @@
 | sql-es-tuner | tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | ✅ (pas encore dogfoodé) |
 | laravel-builder | implémentation Laravel/Eloquent (API, queues, perf), distinct de tuteur-laravel | ✅ (pas encore dogfoodé) |
 | seo-auditor | audit SEO technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
+| accessibility-auditor | audit a11y technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
 
 ## 2. Backlog de sourcing — idées/agents à réécrire pour compléter/améliorer
 
