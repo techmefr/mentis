@@ -24,17 +24,17 @@ marché à ma voix, jamais en dépendant d'un repo tiers.
 
 ## Pourquoi ma propre version
 
-Un framework équivalent du marché open source, ça encode une bonne
-discipline générique (brainstorming, TDD, debugging systématique, review à
-contexte frais). Mais une méthode générique porte pas mes conventions Xefi,
-mes stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence perso :
-**défaut = échec** — un travail déclaré "fini", je le crois jamais sur
-parole, faut le prouver (voir `arbitre`, l'agent qui incarne cette règle,
-qu'aucune des sources marché que j'ai regardées ne couvre).
+Un framework équivalent du marché open source encode une bonne discipline
+générique (brainstorming, TDD, debugging systématique, review à contexte
+frais). Mais une méthode générique ne porte pas mes conventions Xefi, mes
+stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence propre :
+**défaut = échec** — un travail déclaré "fini" n'est jamais cru sur parole,
+il doit être prouvé (voir `arbitre`, l'agent qui incarne cette règle et
+qu'aucune des sources marché consultées ne couvre).
 
 Plutôt que d'installer un tel framework tel quel, j'ai réécrit chaque idée
-utile dans mon gabarit, avec ma voix, mes exemples, ma stack — et je dépends
-jamais d'un repo externe pour que mon pipeline continue de tourner.
+utile dans mon gabarit, avec ma voix, mes exemples, ma stack — et je ne
+dépends jamais d'un repo externe pour que mon pipeline continue de tourner.
 
 ## Positionnement
 
@@ -64,8 +64,8 @@ flowchart LR
 ```
 
 Deux garanties tiennent tout le pipeline : **contexte frais** (celui qui
-juge/review a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
-`gandalf`) et **défaut = échec** (je crois rien sans preuve citée).
+juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
+`gandalf`) et **défaut = échec** (je ne crois rien sans preuve citée).
 
 ## Ce qu'il y a dedans
 
@@ -144,11 +144,11 @@ avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVE
 
 ## La règle qui garantit que je maîtrise
 
-Je branche jamais un repo externe en dépendance. Je lis → j'extrais le
+Je ne branche jamais un repo externe en dépendance. Je lis → j'extrais le
 mécanisme → je réécris dans mon gabarit unique → je crédite la source dans
-`CATALOG.md`. Ça garantit deux trucs : personne en amont peut me casser mon
-pipeline en changeant son repo, et tout est écrit pareil (donc
-maintenable). Détail dans [`CONVENTIONS.md`](./CONVENTIONS.md).
+`CATALOG.md`. Ça garantit deux choses : personne en amont ne peut casser
+mon pipeline en changeant son repo, et tout est écrit de la même façon
+(donc maintenable). Détail dans [`CONVENTIONS.md`](./CONVENTIONS.md).
 
 ## Quickstart
 
@@ -166,9 +166,9 @@ au format natif Claude Code :
 ## Statut
 
 Démonstrateur actif : ma doctrine (gabarit, règles A/B/C, défaut=échec,
-contexte frais) est stable et appliquée, y'a des agents avec un vécu de
+contexte frais) est stable et appliquée, certains agents ont un vécu de
 production réel (`aragorn`, `gimli`, `gandalf`, `arbitre`, `elrond`),
-d'autres écrits mais pas encore dogfoodés (`vue-nuxt-builder`,
+d'autres sont écrits mais pas encore dogfoodés (`vue-nuxt-builder`,
 `laravel-builder`, `sql-es-tuner`) ou sourcés marché sans vécu interne
 encore (`boromir`, `theoden`, `go-conventions`, `dotnet-conventions`). Le
 détail exact ligne par ligne est dans `CATALOG.md`.
