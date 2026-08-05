@@ -78,6 +78,10 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `brainstorm` | 1 | Explore intention/besoin avant tout code |
 | `spec` | 2 | Cadre le besoin en critères vérifiables |
 | `archi` | 3 | Décisions d'architecture, avant le plan |
+| `api-design` | 3 | Design d'API contract-first (loi de Hyrum, extension vs rupture) |
+| `documentation-adr` | 3 | Documente une décision significative (template ADR, jamais supprimé) |
+| `deprecation-migration` | transverse | Cadre une dépréciation/migration (Strangler, Adapter, Feature Flag, Expand/Contract) |
+| `wayfinder` | transverse | Découpe un chantier incertain en carte de tickets Jira (parent + enfants typés) |
 | `plan` | 4 | Découpe le travail en étapes vérifiables |
 | `tdd` | 5 | Test-driven development, doctrine test-casebook |
 | `code` | 6 | Implémentation |
@@ -95,6 +99,8 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `qa-exploratory-testing` | 8 (complément) | Test manuel/exploratoire d'un parcours, distinct de tdd — sourcé ISTQB/session-based testing |
 | `devops-conventions` | 6 (infra/CI) | Conventions CI/CD, IaC, monitoring/alerting, incident response — sourcé 12-factor/DORA |
 | `data-pipeline-conventions` | 6 (data) | Conventions ETL/ELT, qualité de données, modélisation analytique — sourcé dbt/DAMA-DMBOK |
+| `observability-instrumentation` | 6 | Où logger/quelle métrique/quel label — complète devops-conventions au niveau code |
+| `handoff` | transverse | Document de passation entre deux sessions sur la même tâche, sans dupliquer |
 | `debug` | support | Debugging systématique |
 | `gate` | 7 | Vérification à froid avant merge — voir agent `arbitre` |
 | `review` | 8 | Review de diff — voir agents reviewers par stack |
@@ -129,6 +135,7 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `accessibility-auditor` | Audit a11y technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
 | `qa-tester` | Test manuel/exploratoire d'un parcours sur une app qui tourne, jamais d'édition | Écrit, pas encore dogfoodé |
 | `security-auditor` | Audit sécurité statique dédié (code/config/dépendances), lecture seule, complète `/security-review` natif | Écrit, pas encore dogfoodé |
+| `architecture-debt-auditor` | Audit périodique de dette d'architecture (hot-spots git, test de suppression), jamais d'édition | Écrit, pas encore dogfoodé |
 
 Détail complet : [`CATALOG.md`](./CATALOG.md) (registre + backlog de sourcing,
 avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVENTIONS.md)
