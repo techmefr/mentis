@@ -35,7 +35,7 @@
 ### Agents métier (invoqués par les étapes 8/10)
 | Agent | Rôle | Maturité |
 |---|---|---|
-| bobby / bobby-react | review MR voix Xefi (Nuxt/Vue · React) | ✅ |
+| aragorn / gimli / legolas | review MR voix Xefi (Nuxt/Vue · React) | ✅ |
 | valerianus | tri/reformulation des reviews (anti-débat) | ✅ |
 | gandalf | gate final MR (`/code-review` + `/security-review`) | ✅ |
 | tuteur-laravel | pédagogie (hors pipeline) | ✅ |
@@ -87,7 +87,7 @@ nous**, pas à installer.
 | vuetifyjs/0 | lib headless (`@vuetify/v0`) | vue-nuxt-vuetify-conventions | ✕ (différente du Vuetify stylé Material utilisé sur skera-front-web) |
 | harlan-zw/vue-ecosystem-skills | `vuetify-skilld` | vue-nuxt-vuetify-conventions | ✕ (dossier absent de l'arbre git actuel, contenu introuvable) |
 | skilld-dev/vue-ecosystem-skills | `vuetify-skilld` | vue-nuxt-vuetify-conventions | ✕ (même repo/fork que harlan-zw, même dossier absent) |
-| agents-inc/skills | `web-ui-vuetify` | vue-nuxt-vuetify-conventions | ✕ (fichier introuvable dans l'arbre actuel ; déjà couvert par bobby en review) |
+| agents-inc/skills | `web-ui-vuetify` | vue-nuxt-vuetify-conventions | ✕ (fichier introuvable dans l'arbre actuel ; déjà couvert par les reviewers par stack en review) |
 | dmitrypost/vuetifyskills | corpus de référence exhaustif (450 fichiers) | vue-nuxt-vuetify-conventions | ✕ (trop volumineux pour une brique condensée) |
 | shelbeely/shelbeely-agent-skills | `material-design-3-guide` | vue-nuxt-vuetify-conventions | ✕ (guide MD3 générique multi-framework, hors sujet) |
 | handbook.adra.dev | `frontend-best-practices` | vue-nuxt-vuetify-conventions | ✕ (contenu générique déjà connu, mieux couvert par design:*, inaccessible en réalité 403) |
@@ -102,14 +102,14 @@ nous**, pas à installer.
 | VoltAgent — dependency-manager | — | — | ✕ (aucun signal CVE/conflit de versions) |
 | VoltAgent / wshobson — error-detective | — | — | ✕ (aucun incident concret au-delà des ports Docker, déjà traité) |
 | VoltAgent — git-workflow-manager | — | — | ✕ (conventions déjà actées et stables : squash+delete, MR Draft, GCI naming) |
-| VoltAgent — code-reviewer/security-auditor/penetration-tester/debugger/test-automator/qa-expert/accessibility-tester/refactoring-specialist | — | — | ✕ (déjà couverts par bobby*/gandalf/kobold + skills systematic-debugging/testing-doctrine-casebook/design:accessibility//simplify) |
+| VoltAgent — code-reviewer/security-auditor/penetration-tester/debugger/test-automator/qa-expert/accessibility-tester/refactoring-specialist | — | — | ✕ (déjà couverts par les reviewers par stack/gandalf/kobold + skills systematic-debugging/testing-doctrine-casebook/design:accessibility//simplify) |
 | wshobson — legacy-modernizer | — | — | ✕ (aucune migration de framework en cours) |
 | wshobson — typescript-pro | — | — | ✕ (signal générique et faible, aucune douleur TS documentée) |
 | wshobson — database-architect | — | — | ✕ (pas de conception schéma from scratch ; couvert par `sql-es-tuner`) |
-| wshobson — frontend-security-coder / backend-security-coder | — | — | ✕ (gandalf fait déjà tourner /security-review + délègue à bobby) |
+| wshobson — frontend-security-coder / backend-security-coder | — | — | ✕ (gandalf fait déjà tourner /security-review + délègue au reviewer de stack) |
 | wshobson — devops-troubleshooter | — | — | ✕ (docker-proxy zombies déjà traité par fix documenté, pas un besoin d'agent) |
 | wshobson — context-manager/team-lead/team-reviewer/team-implementer/team-debugger | — | dispatch multi-agents | ✕ (implémentation agency-swarm, archi à évaluer, pas un agent à écrire maintenant) |
-| wshobson — plugin git-pr-workflows (code-reviewer) | — | — | ✕ (recoupe bobby/gandalf) |
+| wshobson — plugin git-pr-workflows (code-reviewer) | — | — | ✕ (recoupe les reviewers par stack/gandalf) |
 | wshobson — skill git-advanced-workflows | — | start-feature/finish | ✕ (cours de référence, pas un agent orchestré) |
 | rshah515 — nestjs-expert / typescript-expert | — | HeryJs | ✕ (prématuré, à ressortir en phase active NestJS+TS) |
 | rshah515 — react-expert | — | — | ✕ (utile pour lire le code des collègues React seulement, pas un besoin de prod g.compigni) |
@@ -130,7 +130,7 @@ nous**, pas à installer.
 | github/awesome-copilot | `review-and-refactor` — lit `.github/instructions/*.md`, refactore aux conventions du projet | — | ✕ (déjà couvert par les briques `*-conventions` + gandalf, rien de distinct) |
 | metabase/metabase | `clojure-review` | — | ✕ (langage hors périmètre Xefi) |
 | Cursor (cursor/plugins) | `thermo-nuclear-code-quality-review` | — | ✕ (même angle qu'over-engineering-review, moins actionnable — pas de tags/score) |
-| cognitedata/builder-skills | `code-quality` | — | ✕ (spécifique à leur stack CDF/DI par contexte, reste déjà couvert par bobby+conventions) |
+| cognitedata/builder-skills | `code-quality` | — | ✕ (spécifique à leur stack CDF/DI par contexte, reste déjà couvert par les reviewers par stack+conventions) |
 | getsentry/warden | `architecture-review` | — | ✕ (chemin SKILL.md exact non confirmé ; contenu recoupe déjà gandalf/arbitre/over-engineering-review, pas assez différenciant) |
 | Jeffallan/claude-skills | `skills/nestjs-expert/SKILL.md` — module/controller/service, DI constructeur, DTO+class-validator, exceptions HTTP, tests | nestjs-node-conventions | ✅ |
 | SpillwaveSolutions/mastering-typescript-skill | contrats Zod+z.infer, unions discriminées, mapped types/type guards sur modèles Prisma | nestjs-node-conventions | ✅ |
@@ -143,7 +143,7 @@ nous**, pas à installer.
 | Mindrally/skills | `nodejs-development` | nestjs-node-conventions | ✕ (fourre-tout incohérent — Payload CMS, Vue.js, générique) |
 | Mindrally/skills | `typescript` (générique) | nestjs-node-conventions | ✕ (trop générique, déjà répété par nestjs-expert/trpc/zod) |
 | josechifflet/shadcn-ui | shadcn-ui | react-nextjs-conventions | ✕ (repo introuvable/mort, seul un résumé tiers récupéré, pas la source elle-même) |
-| mattbx/shadcn-skills | audit/discovery de composants shadcn existants | react-nextjs-conventions | ✕ (mécanisme différent, rôle bobby plutôt que conventions de code ; piste séparée à garder) |
+| mattbx/shadcn-skills | audit/discovery de composants shadcn existants | react-nextjs-conventions | ✕ (mécanisme différent, rôle reviewer plutôt que conventions de code ; piste séparée à garder) |
 
 ## 3. La règle qui fait qu'on « maîtrise » (rappel)
 
