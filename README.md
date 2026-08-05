@@ -92,6 +92,9 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `java-conventions` | 6 | Conventions Java — immutabilité, erreurs, concurrence, Spring (sourcé marché) |
 | `seo` | 6 | Checklist SEO technique pour pages publiques (sourcé Google/web.dev) |
 | `accessibility` | 6 | Checklist a11y technique (sémantique, clavier, contraste, ARIA) — sourcé WCAG 2.2 |
+| `qa-exploratory-testing` | 8 (complément) | Test manuel/exploratoire d'un parcours, distinct de tdd — sourcé ISTQB/session-based testing |
+| `devops-conventions` | 6 (infra/CI) | Conventions CI/CD, IaC, monitoring/alerting, incident response — sourcé 12-factor/DORA |
+| `data-pipeline-conventions` | 6 (data) | Conventions ETL/ELT, qualité de données, modélisation analytique — sourcé dbt/DAMA-DMBOK |
 | `debug` | support | Debugging systématique |
 | `gate` | 7 | Vérification à froid avant merge — voir agent `arbitre` |
 | `review` | 8 | Review de diff — voir agents reviewers par stack |
@@ -124,6 +127,8 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `sql-es-tuner` | Tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | Écrit, pas encore dogfoodé |
 | `seo-auditor` | Audit SEO technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
 | `accessibility-auditor` | Audit a11y technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
+| `qa-tester` | Test manuel/exploratoire d'un parcours sur une app qui tourne, jamais d'édition | Écrit, pas encore dogfoodé |
+| `security-auditor` | Audit sécurité statique dédié (code/config/dépendances), lecture seule, complète `/security-review` natif | Écrit, pas encore dogfoodé |
 
 Détail complet : [`CATALOG.md`](./CATALOG.md) (registre + backlog de sourcing,
 avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVENTIONS.md)
