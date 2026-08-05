@@ -81,11 +81,16 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `plan` | 4 | Découpe le travail en étapes vérifiables |
 | `tdd` | 5 | Test-driven development, doctrine test-casebook |
 | `code` | 6 | Implémentation |
+| `typescript-patterns` | 6 | Patterns TS/JS purs (typage, async, closures) — vécu de production réel |
+| `php-patterns` | 6 | Patterns PHP purs (typage, OOP, erreurs) — sourcé PSR/marché |
 | `vue-nuxt-vuetify-conventions` | 6 | Conventions Nuxt/Vue/Vuetify — vécu de production réel |
 | `react-nextjs-conventions` | 6 | Conventions React/Next.js — sourcé marché |
 | `nestjs-node-conventions` | 6 | Conventions NestJS/Node — DI, DTO, Zod, Prisma |
 | `go-conventions` | 6 | Conventions Go — concurrence, erreurs, contexte (sourcé marché) |
 | `dotnet-conventions` | 6 | Conventions C#/.NET — async, IDisposable, DI, EF Core (sourcé marché) |
+| `python-conventions` | 6 | Conventions Python — typage, erreurs, async (sourcé marché) |
+| `java-conventions` | 6 | Conventions Java — immutabilité, erreurs, concurrence, Spring (sourcé marché) |
+| `seo` | 6 | Checklist SEO technique pour pages publiques (sourcé Google/web.dev) |
 | `debug` | support | Debugging systématique |
 | `gate` | 7 | Vérification à froid avant merge — voir agent `arbitre` |
 | `review` | 8 | Review de diff — voir agents reviewers par stack |
@@ -116,6 +121,7 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `vue-nuxt-builder` | Implémente du code Vue3/Nuxt3 (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
 | `laravel-builder` | Implémente du code Laravel/Eloquent (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
 | `sql-es-tuner` | Tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | Écrit, pas encore dogfoodé |
+| `seo-auditor` | Audit SEO technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
 
 Détail complet : [`CATALOG.md`](./CATALOG.md) (registre + backlog de sourcing,
 avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVENTIONS.md)

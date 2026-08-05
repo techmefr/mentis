@@ -22,6 +22,11 @@
 | react-nextjs-conventions | 6 | vercel-labs/agent-skills `react-best-practices` + Mindrally/skills `redux-toolkit` + velcrafting/codex-skills `shadcn` + millionco/react-doctor (section correctness/sécurité) + metabase/metabase `typescript-review` (a11y/bundle) | 🟡 (écrit, pas encore dogfoodé) |
 | over-engineering-review | 9 | DietrichGebert/ponytail `ponytail-review`/`ponytail-audit` (angle suppression, tags, score net de lignes) | 🟡 |
 | nestjs-node-conventions | 6 | Jeffallan/claude-skills `nestjs-expert` + SpillwaveSolutions/mastering-typescript-skill + Mindrally/skills `prisma-development`/`trpc`/`zod-schema-validation` | 🟡 (écrit, pas encore dogfoodé ; première brique construct back Node) |
+| typescript-patterns | 6 | synthèse interne (vécu de production réel g.compigni sur TS/JS pur) | 🟢 |
+| php-patterns | 6 | PHP-FIG (PSR-12) + doc officielle PHP | 🟡 (sourcé marché, même statut d'incertitude que gimli — g.compigni débute en PHP) |
+| python-conventions | 6 | PEP 484/526/604/8 + ruff + mypy/pyright | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
+| java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + conventions Spring établies | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
+| seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data) | 🟡 (sourcé marché, pas de vécu de production Xefi dédié SEO) |
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
 | choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
@@ -46,6 +51,7 @@
 | vue-nuxt-builder | implémentation Vue3/Nuxt3 (Composition API, réactivité, perf) sur functional/ | ✅ (pas encore dogfoodé) |
 | sql-es-tuner | tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | ✅ (pas encore dogfoodé) |
 | laravel-builder | implémentation Laravel/Eloquent (API, queues, perf), distinct de tuteur-laravel | ✅ (pas encore dogfoodé) |
+| seo-auditor | audit SEO technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
 
 ## 2. Backlog de sourcing — idées/agents à réécrire pour compléter/améliorer
 
