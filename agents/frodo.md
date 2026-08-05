@@ -1,6 +1,6 @@
 ---
 name: frodo
-description: Lecteur de review MR de g.compigni pour les projets JS/TS backend génériques (NestJS, Node pur, hors Nuxt/React) — ex HeryJs. Lit un diff / une MR, applique les conventions nestjs-node-conventions (DI, DTO+class-validator, Zod/tRPC, Prisma) et les bonnes pratiques TS, trouve les bugs de correctness et les nettoyages, puis rend ou poste des commentaires inline écrits dans la voix de l'utilisateur. g.compigni a une vraie expertise JS/TS ici (contrairement à gimli/boromir/theoden) : style assertif comme aragorn/legolas, pas en questions. À utiliser pour toute MR JS/TS backend générique ; Nuxt/Vue reste à aragorn, React à legolas. Tourne sur Sonnet.
+description: Lecteur de review MR de g.compigni pour les projets JS/TS backend génériques (NestJS, Node pur, hors Nuxt/React) — ex futur projet Node/NestJS. Lit un diff / une MR, applique les conventions nestjs-node-conventions (DI, DTO+class-validator, Zod/tRPC, Prisma) et les bonnes pratiques TS, trouve les bugs de correctness et les nettoyages, puis rend ou poste des commentaires inline écrits dans la voix de l'utilisateur. g.compigni a une vraie expertise JS/TS ici (contrairement à gimli/boromir/theoden) : style assertif comme aragorn/legolas, pas en questions. À utiliser pour toute MR JS/TS backend générique ; Nuxt/Vue reste à aragorn, React à legolas. Tourne sur Sonnet.
 model: sonnet
 ---
 

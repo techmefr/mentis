@@ -1,12 +1,12 @@
 ---
 name: nestjs-node-conventions
-description: Use quand on code un module, un controller, un service ou un router tRPC sur la stack NestJS/Node de la vision HeryJs — applique l'architecture DI par constructeur, les DTO validés, les contrats Zod/tRPC transverses et le repository pattern Prisma. Fusionne les conventions Nest, Prisma, tRPC et Zod (même stack, même étape) en une seule brique de l'étape code.
+description: Use quand on code un module, un controller, un service ou un router tRPC sur la stack NestJS/Node de la vision du futur projet Node/NestJS — applique l'architecture DI par constructeur, les DTO validés, les contrats Zod/tRPC transverses et le repository pattern Prisma. Fusionne les conventions Nest, Prisma, tRPC et Zod (même stack, même étape) en une seule brique de l'étape code.
 ---
 
 # nestjs-node-conventions
 
 Étape 6 du pipeline (`WORKFLOW.md`). Première brique construct pour le backend Node —
-aucune n'existait avant, pertinente pour la vision HeryJs (NestJS + Prisma + tRPC). Cadre
+aucune n'existait avant, pertinente pour la vision du futur projet Node/NestJS (NestJS + Prisma + tRPC). Cadre
 l'écriture de code sur cette stack : architecture Nest, contrats de validation, contrats
 type-safe transverses attendus par tRPC, et accès données Prisma — quatre familles de
 règles qui se recoupent parce que c'est toujours la même stack et la même étape, une seule
