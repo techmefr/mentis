@@ -1,40 +1,40 @@
 # xefi-superpowers
 
-**Notre version d'un framework équivalent vu sur le marché open source, en gardant la main.**
-Un framework d'agents et de skills Claude Code pour tout le cycle de dev — pas
-seulement la review — construit en réécrivant les meilleures idées du marché
-à notre voix, jamais en dépendant d'un repo tiers.
+**Ma version d'un framework équivalent vu sur le marché open source, en gardant la main.**
+Mon framework d'agents et de skills Claude Code pour tout le cycle de dev —
+pas seulement la review — construit en réécrivant les meilleures idées du
+marché à ma voix, jamais en dépendant d'un repo tiers.
 
-> Repo de test de la méthode de travail de g.compigni avec Claude Code.
+> Repo de test de ma méthode de travail avec Claude Code (g.compigni).
 > `xefi-mr-review` (repo séparé) est l'implémentation spécialisée de la seule
 > étape review/gate de ce framework, câblée en CI GitLab — ce repo-ci couvre
 > tout le reste : brainstorm, spec, plan, TDD, code, debug, gate, ship.
 
 ## Sommaire
 
-- [Comment on écrit et on gouverne nos agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md) — le document à lire pour tout comprendre, avec schémas
-- [Pourquoi une version à nous](#pourquoi-une-version-à-nous)
+- [Comment j'écris et je gouverne mes agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md) — le doc à lire pour tout comprendre, avec schémas
+- [Pourquoi ma propre version](#pourquoi-ma-propre-version)
 - [Positionnement](#positionnement)
 - [Le pipeline](#le-pipeline)
 - [Ce qu'il y a dedans](#ce-quil-y-a-dedans)
-- [La règle qui garantit qu'on maîtrise](#la-règle-qui-garantit-quon-maîtrise)
+- [La règle qui garantit que je maîtrise](#la-règle-qui-garantit-que-je-maîtrise)
 - [Quickstart](#quickstart)
 - [Statut](#statut)
 - [Licence](#licence)
 
-## Pourquoi une version à nous
+## Pourquoi ma propre version
 
-Un framework équivalent du marché open source encode une bonne
-discipline générique (brainstorming, TDD, debugging systématique, review à
-contexte frais). Mais une méthode générique ne porte pas nos conventions
-Xefi, nos stacks réelles (Nuxt/Vuetify, Laravel, React), ni notre exigence
-propre : **défaut = échec** — un travail déclaré "fini" n'est jamais cru sur
+Un framework équivalent du marché open source encode une bonne discipline
+générique (brainstorming, TDD, debugging systématique, review à contexte
+frais). Mais une méthode générique ne porte pas mes conventions Xefi, mes
+stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence propre :
+**défaut = échec** — un travail déclaré "fini" je ne le crois jamais sur
 parole, il doit être prouvé (voir `arbitre`, l'agent qui incarne cette règle
-et qui n'est couvert par aucune des sources marché consultées).
+et qu'aucune des sources marché que j'ai consultées ne couvre).
 
-Plutôt que d'installer un tel framework tel quel, on a réécrit chaque idée utile
-dans notre gabarit, avec notre voix, nos exemples, notre stack — et on ne
-dépend jamais d'un repo externe pour que notre pipeline continue de tourner.
+Plutôt que d'installer un tel framework tel quel, j'ai réécrit chaque idée
+utile dans mon gabarit, avec ma voix, mes exemples, ma stack — et je ne
+dépends jamais d'un repo externe pour que mon pipeline continue de tourner.
 
 ## Positionnement
 
@@ -65,7 +65,7 @@ flowchart LR
 
 Deux garanties tiennent tout le pipeline : **contexte frais** (celui qui
 juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
-`gandalf`) et **défaut = échec** (rien n'est cru sans preuve citée).
+`gandalf`) et **défaut = échec** (je ne crois rien sans preuve citée).
 
 ## Ce qu'il y a dedans
 
@@ -142,12 +142,12 @@ Détail complet : [`CATALOG.md`](./CATALOG.md) (registre + backlog de sourcing,
 avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVENTIONS.md)
 (le gabarit unique et les règles A/B/C).
 
-## La règle qui garantit qu'on maîtrise
+## La règle qui garantit que je maîtrise
 
-On ne branche jamais un repo externe en dépendance. On lit → on extrait le
-mécanisme → on **réécrit** dans notre gabarit unique → on crédite la source
+Je ne branche jamais un repo externe en dépendance. Je lis → j'extrais le
+mécanisme → je **réécris** dans mon gabarit unique → je crédite la source
 dans `CATALOG.md`. Ça garantit deux choses : personne en amont ne peut casser
-notre pipeline en changeant son repo, et tout est écrit pareil (donc
+mon pipeline en changeant son repo, et tout est écrit pareil (donc
 maintenable). Détail dans [`CONVENTIONS.md`](./CONVENTIONS.md).
 
 ## Quickstart
@@ -165,7 +165,7 @@ au format natif Claude Code :
 
 ## Statut
 
-Démonstrateur actif : la doctrine (gabarit, règles A/B/C, défaut=échec,
+Démonstrateur actif : ma doctrine (gabarit, règles A/B/C, défaut=échec,
 contexte frais) est stable et appliquée, certains agents ont un vécu de
 production réel (`aragorn`, `gimli`, `gandalf`, `arbitre`, `elrond`), d'autres
 sont écrits mais pas encore dogfoodés (`vue-nuxt-builder`, `laravel-builder`,
@@ -175,5 +175,5 @@ est dans `CATALOG.md`.
 
 ## Licence
 
-Pas encore de licence choisie — repo interne Xefi à ce stade (références à
-des repos/outils internes), pas destiné à être public tel quel.
+Pas encore de licence choisie — repo interne à ce stade, pas destiné à être
+public tel quel pour l'instant.
