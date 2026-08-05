@@ -31,6 +31,12 @@
 | qa-exploratory-testing | 8 (complément) | James Bach/Michael Bolton (session-based testing) + ISTQB (boundary testing) | 🟡 (sourcé marché, pas de vécu de production Xefi dédié QA) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + pratiques GitOps/IaC établies | 🟡 (sourcé marché, pas de vécu de production Xefi dédié) |
 | data-pipeline-conventions | 6 (data) | conventions dbt + DAMA-DMBOK (dimensions qualité) + modélisation dimensionnelle Kimball | 🟡 (sourcé marché, pas de vécu de production Xefi dédié) |
+| deprecation-migration | transverse | addyosmani/agent-skills `deprecation-and-migration` (5 questions + 4 patterns) | 🟢 (réécriture directe, mécanisme repris tel quel) |
+| api-design | 3 | addyosmani/agent-skills `api-and-interface-design` (loi de Hyrum, One-Version Rule) | 🟢 (réécriture directe) |
+| observability-instrumentation | 6 | addyosmani/agent-skills `observability-and-instrumentation` (questions on-call, RED/USE, anti-cardinalité) | 🟢 (réécriture directe) |
+| documentation-adr | 3 | addyosmani/agent-skills `documentation-and-adrs` (template ADR 5-6 champs) | 🟢 (réécriture directe) |
+| wayfinder | transverse | mattpocock/skills `wayfinder` (ticket parent 5 sections + enfants typés) | 🟢 (réécriture directe, adapté Jira) |
+| handoff | transverse | mattpocock/skills `handoff` (référencer par chemin, jamais dupliquer) | 🟢 (réécriture directe) |
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
 | choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
@@ -59,6 +65,7 @@
 | accessibility-auditor | audit a11y technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
 | qa-tester | test manuel/exploratoire d'un parcours sur une app qui tourne, jamais d'édition | ✅ (pas encore dogfoodé) |
 | security-auditor | audit sécurité statique dédié (OWASP, secrets, dépendances), lecture seule, jamais d'exploitation active | ✅ (pas encore dogfoodé) |
+| architecture-debt-auditor | audit périodique de dette d'architecture (hot-spots git, test de suppression, rapport priorisé) | ✅ (pas encore dogfoodé) |
 
 ## 2. Backlog de sourcing — idées/agents à réécrire pour compléter/améliorer
 
@@ -71,9 +78,11 @@ nous**, pas à installer.
 | cwc-long-running-agents | `verify-gate.sh` (hook PreToolUse default-FAIL sur preuve lue) | gate | 🟡 (mécanisme identifié, câblage par repo restant) |
 | mattpocock/skills | grill-with-docs → CONTEXT.md+ADR | spec | ✅ |
 | mattpocock/skills | code-review 2 axes non-polluants | review | ✅ |
-| mattpocock/skills | `wayfinder`, `handoff`, `improve-codebase-architecture`, `domain-modeling` | archi / reprise de session | 🔎 |
-| addyosmani/agent-skills | `security-and-hardening`, `observability`, `api-and-interface-design`, `webperf`, `context-engineering` | nouvelles briques | 🔎 |
-| addyosmani/agent-skills | `browser-testing-with-devtools` | gate (recoupe `verify-flow`) | 🔎 |
+| mattpocock/skills | `wayfinder` → skill `wayfinder`, `handoff` → skill `handoff`, `improve-codebase-architecture` → agent `architecture-debt-auditor` | plan / reprise de session / audit archi | ✅ |
+| mattpocock/skills | `domain-modeling` | archi | 🔎 (recoupe partiellement documentation-adr, pas encore isolé en brique dédiée) |
+| addyosmani/agent-skills | `observability-and-instrumentation` → skill `observability-instrumentation`, `api-and-interface-design` → skill `api-design`, `documentation-and-adrs` → skill `documentation-adr`, `deprecation-and-migration` → skill `deprecation-migration` | code/api/doc/migration | ✅ |
+| addyosmani/agent-skills | `security-and-hardening`, `webperf`, `context-engineering` | nouvelles briques | 🔎 (context-engineering = méta sur l'écriture de prompts/CLAUDE.md, pas un skill dev — pertinent pour améliorer ce repo lui-même, pas un usage quotidien) |
+| addyosmani/agent-skills | `browser-testing-with-devtools` | gate (recoupe déjà `qa-tester`/`verify-flow`) | ✕ (redondant) |
 | superpowers (obra) | `dispatching-parallel-agents`, `subagent-driven-development`, `writing-plans` | plan / orchestration | 🔎 (déjà en skills natifs → à *posséder*) |
 | wshobson/agents | `git-advanced-workflows` (worktrees avancés) | start-feature / finish | 🔎 (réf citée, à vérifier) |
 | herdr | état live depuis le réel + socket-API | FLEET | 🔎 (après dogfood) |
