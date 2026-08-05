@@ -12,7 +12,7 @@ meilleures idées du marché à ma voix, sans jamais dépendre d'un repo tiers.
 
 ## Sommaire
 
-- [Comment j'écris et je gouverne mes agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md) — le doc à lire pour tout comprendre, avec schémas
+- [Comment j'écris et je gouverne mes agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md), le doc à lire pour tout comprendre, avec schémas
 - [Pourquoi ma propre version](#pourquoi-ma-propre-version)
 - [Positionnement](#positionnement)
 - [Le pipeline](#le-pipeline)
@@ -57,9 +57,9 @@ flowchart LR
     D --> E[tdd]
     E --> F[code]
     F --> G[debug]
-    G --> H[gate — arbitre]
-    H --> I[review — reviewers par stack]
-    I --> J[ship — gandalf]
+    G --> H[gate : arbitre]
+    H --> I[review : reviewers par stack]
+    I --> J[ship : gandalf]
     J --> K[finish]
 ```
 
@@ -69,7 +69,7 @@ juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
 
 ## Ce qu'il y a dedans
 
-### Skills — le pipeline
+### Skills : le pipeline
 
 | Skill | Étape | Ce qu'il fait |
 |---|---|---|
@@ -85,25 +85,25 @@ juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
 | `plan` | 4 | Découpe le travail en étapes vérifiables |
 | `tdd` | 5 | Test-driven development, doctrine test-casebook |
 | `code` | 6 | Implémentation |
-| `typescript-patterns` | 6 | Patterns TS/JS purs (typage, async, closures) — vécu de production réel |
-| `php-patterns` | 6 | Patterns PHP purs (typage, OOP, erreurs) — sourcé PSR/marché |
-| `vue-nuxt-vuetify-conventions` | 6 | Conventions Nuxt/Vue/Vuetify — vécu de production réel |
-| `react-nextjs-conventions` | 6 | Conventions React/Next.js — sourcé marché |
-| `nestjs-node-conventions` | 6 | Conventions NestJS/Node — DI, DTO, Zod, Prisma |
-| `go-conventions` | 6 | Conventions Go — concurrence, erreurs, contexte (sourcé marché) |
-| `dotnet-conventions` | 6 | Conventions C#/.NET — async, IDisposable, DI, EF Core (sourcé marché) |
-| `python-conventions` | 6 | Conventions Python — typage, erreurs, async (sourcé marché) |
-| `java-conventions` | 6 | Conventions Java — immutabilité, erreurs, concurrence, Spring (sourcé marché) |
+| `typescript-patterns` | 6 | Patterns TS/JS purs (typage, async, closures), vécu de production réel |
+| `php-patterns` | 6 | Patterns PHP purs (typage, OOP, erreurs), sourcé PSR/marché |
+| `vue-nuxt-vuetify-conventions` | 6 | Conventions Nuxt/Vue/Vuetify, vécu de production réel |
+| `react-nextjs-conventions` | 6 | Conventions React/Next.js, sourcé marché |
+| `nestjs-node-conventions` | 6 | Conventions NestJS/Node (DI, DTO, Zod, Prisma) |
+| `go-conventions` | 6 | Conventions Go : concurrence, erreurs, contexte (sourcé marché) |
+| `dotnet-conventions` | 6 | Conventions C#/.NET : async, IDisposable, DI, EF Core (sourcé marché) |
+| `python-conventions` | 6 | Conventions Python : typage, erreurs, async (sourcé marché) |
+| `java-conventions` | 6 | Conventions Java : immutabilité, erreurs, concurrence, Spring (sourcé marché) |
 | `seo` | 6 | Checklist SEO technique pour pages publiques (sourcé Google/web.dev) |
-| `accessibility` | 6 | Checklist a11y technique (sémantique, clavier, contraste, ARIA) — sourcé WCAG 2.2 |
-| `qa-exploratory-testing` | 8 (complément) | Test manuel/exploratoire d'un parcours, distinct de tdd — sourcé ISTQB/session-based testing |
-| `devops-conventions` | 6 (infra/CI) | Conventions CI/CD, IaC, monitoring/alerting, incident response — sourcé 12-factor/DORA |
-| `data-pipeline-conventions` | 6 (data) | Conventions ETL/ELT, qualité de données, modélisation analytique — sourcé dbt/DAMA-DMBOK |
-| `observability-instrumentation` | 6 | Où logger/quelle métrique/quel label — complète devops-conventions au niveau code |
+| `accessibility` | 6 | Checklist a11y technique (sémantique, clavier, contraste, ARIA), sourcé WCAG 2.2 |
+| `qa-exploratory-testing` | 8 (complément) | Test manuel/exploratoire d'un parcours, distinct de tdd, sourcé ISTQB/session-based testing |
+| `devops-conventions` | 6 (infra/CI) | Conventions CI/CD, IaC, monitoring/alerting, incident response, sourcé 12-factor/DORA |
+| `data-pipeline-conventions` | 6 (data) | Conventions ETL/ELT, qualité de données, modélisation analytique, sourcé dbt/DAMA-DMBOK |
+| `observability-instrumentation` | 6 | Où logger/quelle métrique/quel label, complète devops-conventions au niveau code |
 | `handoff` | transverse | Document de passation entre deux sessions sur la même tâche, sans dupliquer |
 | `debug` | support | Debugging systématique |
-| `gate` | 7 | Vérification à froid avant merge — voir agent `arbitre` |
-| `review` | 8 | Review de diff — voir agents reviewers par stack |
+| `gate` | 7 | Vérification à froid avant merge, voir agent `arbitre` |
+| `review` | 8 | Review de diff, voir agents reviewers par stack |
 | `over-engineering-review` | 9 | Angle suppression exclusif : code mort, sur-abstraction, yagni |
 | `simplify` | 9 | Applique les simplifications identifiées |
 | `ship` | 10 | Merge + notification, voir agent `gandalf` |
@@ -120,15 +120,15 @@ juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
 
 | Agent | Rôle | Statut |
 |---|---|---|
-| `arbitre` | GATE à contexte frais — verdict PASS/NEEDS_WORK, jamais d'édition, jamais de bénéfice du doute | Vécu de production réel |
-| `gandalf` | Gate final de MR — gate de tests + délègue la review + `/code-review` + `/security-review` | Vécu de production réel |
-| `elrond` | Orchestrateur — détecte le stack et délègue au bon reviewer, ne review jamais lui-même | Vécu de production réel |
+| `arbitre` | GATE à contexte frais : verdict PASS/NEEDS_WORK, jamais d'édition, jamais de bénéfice du doute | Vécu de production réel |
+| `gandalf` | Gate final de MR : gate de tests + délègue la review + `/code-review` + `/security-review` | Vécu de production réel |
+| `elrond` | Orchestrateur : détecte le stack et délègue au bon reviewer, ne review jamais lui-même | Vécu de production réel |
 | `aragorn` | Reviewer Nuxt/Vue/Vuetify | Vécu de production réel |
-| `gimli` | Reviewer PHP/Laravel — incertitude en questions (g.compigni débute sur ce stack) | Vécu de production réel |
+| `gimli` | Reviewer PHP/Laravel, incertitude en questions (g.compigni débute sur ce stack) | Vécu de production réel |
 | `legolas` | Reviewer React | Sourcé via test-casebook |
-| `boromir` | Reviewer Go — incertitude en questions | Sourcé marché |
-| `theoden` | Reviewer C#/.NET — incertitude en questions | Sourcé marché |
-| `frodo` | Reviewer JS/TS backend générique (NestJS/Node) — vraie expertise, style assertif | Vraie expertise |
+| `boromir` | Reviewer Go, incertitude en questions | Sourcé marché |
+| `theoden` | Reviewer C#/.NET, incertitude en questions | Sourcé marché |
+| `frodo` | Reviewer JS/TS backend générique (NestJS/Node), vraie expertise, style assertif | Vraie expertise |
 | `vue-nuxt-builder` | Implémente du code Vue3/Nuxt3 (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
 | `laravel-builder` | Implémente du code Laravel/Eloquent (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
 | `sql-es-tuner` | Tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | Écrit, pas encore dogfoodé |
@@ -175,5 +175,5 @@ détail exact ligne par ligne est dans `CATALOG.md`.
 
 ## Licence
 
-Pas encore de licence choisie — repo interne pour l'instant, pas destiné à
+Pas encore de licence choisie, repo interne pour l'instant, pas destiné à
 être public tel quel.

@@ -1,16 +1,16 @@
-# construct — conventions d'écriture des briques
+# construct : conventions d'écriture des briques
 
 > Gouvernance de toutes les briques du workflow (skills, commands, agents, tools).
 > Deux règles fondatrices, puis le **gabarit unique** d'écriture.
 
-## Règle A — tester l'approche complète d'abord
+## Règle A : tester l'approche complète d'abord
 
 On assemble le **pipeline entier** (étapes 1→11 de `WORKFLOW.md`) et on fait passer **une vraie
 feature de bout en bout** avant de découper en projets (construct / starfleet / FLEET / …). Le
 découpage vient *après*, une fois que l'approche complète est validée sur le terrain. Tant que
 le tour complet n'a pas tourné une fois, on ne fige aucune frontière de projet.
 
-## Règle B — réécrire « à notre sauce », jamais dépendre
+## Règle B : réécrire « à notre sauce », jamais dépendre
 
 Toute brique venue de l'extérieur (skill, agent, technique, outil) est **réécrite en interne**,
 jamais branchée en dépendance runtime sur un repo tiers.
@@ -33,7 +33,7 @@ texte ; on réimplémente le principe.
 4. Renseigner `Origine` (d'où vient l'idée, honnêtement).
 5. **Zéro install externe** : la brique vit dans notre repo. Aucune dépendance réseau.
 
-## Règle C — construct reste publiable
+## Règle C : construct reste publiable
 
 `construct/` est conçu pour être **extrait un jour dans un repo public** (« superpowers version
 Xefi », à l'image des frameworks équivalents ouverts par des devs indépendants du marché). Pour que ce soit un simple copier-coller le moment
@@ -43,7 +43,7 @@ venu, on tient la frontière **dès l'écriture** :
   génériques. Aucun secret, aucun nom de vrai projet, aucune réalité infra.
 - **Hors `construct/` (interne, privé)** : noms de projets réels, infra
   (ports, SSO, hosts, noms de serveurs DB), `CHALLENGE.md` / `FRICTIONS.md` / `VEILLE.md`,
-  la mémoire. Une brique **n'y fait jamais référence en dur** — elle nomme un rôle (« le back »),
+  la mémoire. Une brique **n'y fait jamais référence en dur**, elle nomme un rôle (« le back »),
   pas un projet (« le back Laravel »).
 
 Règle simple : si une phrase ne pourrait pas être lue par un dev extérieur à Xefi, elle ne va
@@ -54,12 +54,12 @@ pas dans `construct/`. La publication elle-même est **hors périmètre agent** 
 ## Le gabarit unique
 
 Toutes les briques suivent la **même forme**. Une brique = un dossier `skills/<nom>/SKILL.md`
-(ou `commands/<NOM>.md` pour un déclencheur de séquence — voir plus bas).
+(ou `commands/<NOM>.md` pour un déclencheur de séquence, voir plus bas).
 
 ```markdown
 ---
 name: <nom-kebab-case>
-description: Use quand <situation déclencheuse précise> — <ce que la brique fait>. <une phrase>.
+description: Use quand <situation déclencheuse précise>, <ce que la brique fait>. <une phrase>.
 ---
 
 # <nom>
@@ -87,7 +87,7 @@ description: Use quand <situation déclencheuse précise> — <ce que la brique 
 - **Pas de commentaires dans le code** produit ; les explications vont dans le chat/la doc.
 - Une brique = **une responsabilité** (cf. découpe de `WORKFLOW.md` §4).
 - Ne **jamais** réimplémenter le natif (`/model`, `/code-review`, `/security-review`, hooks,
-  mémoire) — on l'invoque, on ne le duplique pas.
+  mémoire), on l'invoque, on ne le duplique pas.
 - **commands vs skills** : un `command` (`/SPEC`…) est un *déclencheur d'étape* court qui
   invoque la/les `skill(s)` correspondante(s). La logique vit dans la skill, pas dans le
   command. Objectif : une seule source par mécanisme.
