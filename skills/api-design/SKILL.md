@@ -54,7 +54,6 @@ pré-généralisé. Un changement incompatible ne se glisse jamais discrètement
 dans une évolution "mineure" — passer explicitement par `deprecation-migration`.
 
 ## Origine
-Réécriture du skill `api-and-interface-design` de
-[addyosmani/agent-skills](https://github.com/addyosmani/agent-skills/blob/main/skills/api-and-interface-design/SKILL.md) —
+Réécriture du skill `api-and-interface-design` d'un catalogue de skills dev généralistes du marché —
 la loi de Hyrum, la "One-Version Rule" et la checklist de vérification finale
 sont reprises telles quelles, réécrites en français au gabarit Xefi.

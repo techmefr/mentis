@@ -28,4 +28,4 @@ L'agent ne peut **pas s'auto-valider** : la validation vient du hook (preuve) + 
 (contexte propre). Reste dans le natif Claude Code (hooks + sous-agent), aucune couche maison.
 
 ## Origine
-`cwc-long-running-agents` (default-FAIL hook + fresh-context evaluator), réécrit à notre sauce.
+Des patterns d'agents long-running du marché (default-FAIL hook + fresh-context evaluator), réécrits à notre sauce.

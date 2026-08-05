@@ -63,8 +63,7 @@ et le bruit noie le signal utile en incident réel. Jamais de PII en clair
 dans un log, même en environnement de test.
 
 ## Origine
-Réécriture du skill `observability-and-instrumentation` de
-[addyosmani/agent-skills](https://github.com/addyosmani/agent-skills/blob/main/skills/observability-and-instrumentation/SKILL.md) —
+Réécriture du skill `observability-and-instrumentation` d'un catalogue de skills dev généralistes du marché —
 la règle "définir les questions avant d'instrumenter", les métriques RED/USE,
 la règle anti-cardinalité et l'alerting symptom-based sont repris tels quels,
 réécrits en français au gabarit Xefi.

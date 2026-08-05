@@ -25,4 +25,4 @@ Extraire du commun = **refactor coordonné, décision humaine** — ne pas refac
 dans une worktree isolée. Si un doublon existe déjà, le signaler, pas le recréer.
 
 ## Origine
-Interne (graphify) + convergence `mattpocock`/`addyosmani` (archi avant build), réécrit.
+Interne (graphify) + convergence de plusieurs auteurs de skills du marché (archi avant build), réécrit.

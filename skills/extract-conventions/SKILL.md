@@ -37,5 +37,5 @@ après ratification. Pas de checkpoint pipeline.
 - **À la demande**, jamais un hook automatique (le « doc-freshness » auto a été retiré exprès).
 
 ## Origine
-Interne `graphify` + `mattpocock` (improve-codebase-architecture) + `addyosmani`
+Interne `graphify` + un auteur de skills reconnu du marché (improve-codebase-architecture) + un catalogue de skills dev généralistes du marché
 (source-driven-development / context-engineering), réécrit à notre sauce.

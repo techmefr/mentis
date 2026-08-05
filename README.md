@@ -1,6 +1,6 @@
 # xefi-superpowers
 
-**Notre version de [superpowers](https://github.com/obra/superpowers), en gardant la main.**
+**Notre version d'un framework équivalent vu sur le marché open source, en gardant la main.**
 Un framework d'agents et de skills Claude Code pour tout le cycle de dev — pas
 seulement la review — construit en réécrivant les meilleures idées du marché
 à notre voix, jamais en dépendant d'un repo tiers.
@@ -24,7 +24,7 @@ seulement la review — construit en réécrivant les meilleures idées du march
 
 ## Pourquoi une version à nous
 
-[obra/superpowers](https://github.com/obra/superpowers) encode une bonne
+Un framework équivalent du marché open source encode une bonne
 discipline générique (brainstorming, TDD, debugging systématique, review à
 contexte frais). Mais une méthode générique ne porte pas nos conventions
 Xefi, nos stacks réelles (Nuxt/Vuetify, Laravel, React), ni notre exigence
@@ -32,7 +32,7 @@ propre : **défaut = échec** — un travail déclaré "fini" n'est jamais cru s
 parole, il doit être prouvé (voir `arbitre`, l'agent qui incarne cette règle
 et qui n'est couvert par aucune des sources marché consultées).
 
-Plutôt que d'installer superpowers tel quel, on a réécrit chaque idée utile
+Plutôt que d'installer un tel framework tel quel, on a réécrit chaque idée utile
 dans notre gabarit, avec notre voix, nos exemples, notre stack — et on ne
 dépend jamais d'un repo externe pour que notre pipeline continue de tourner.
 
@@ -40,7 +40,7 @@ dépend jamais d'un repo externe pour que notre pipeline continue de tourner.
 
 - **Ce repo** = la **méthode** : *comment* le travail coule (skills) et *qui*
   l'exécute (agents).
-- **`xefi-mr-review`** ([repo séparé](https://github.com/techmefr/xefi-mr-review)) = une
+- **`xefi-mr-review`** (repo séparé) = une
   implémentation spécialisée : uniquement l'étape review/gate, câblée en CI
   GitLab, un dossier par stack.
 - **Agents métier** (`vue-nuxt-builder`, `laravel-builder`, `sql-es-tuner`,
@@ -113,6 +113,7 @@ juge/review n'a jamais "vu" le code s'écrire — `arbitre`, les reviewers,
 | `choose-model` | transverse | Décide Haiku/Sonnet/Opus pour un nouvel agent ou une tâche ponctuelle |
 | `dispatch-parallel` | transverse | Découpe une tâche en sous-agents parallèles sur des périmètres disjoints |
 | `writing-skills` | transverse (méta) | Comment écrire/réviser une skill de ce framework |
+| `writing-agents` | transverse (méta) | Comment écrire/réviser un agent de ce framework (gabarit 7 piliers) |
 | `portless-ready` | infra | Rend une stack portless (alias HTTPS, hygiène des ports) |
 
 ### Agents

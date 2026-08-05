@@ -96,11 +96,11 @@ réimplémenter un mécanisme que Nest, Prisma ou tRPC fournissent déjà. En ca
 l'intégration Prisma non couverte ici, consulter la doc officielle plutôt que deviner.
 
 ## Origine
-Idées reprises de : Jeffallan/claude-skills (skills/nestjs-expert/SKILL.md) pour
+Idées reprises de : un catalogue de skills NestJS du marché (skills/nestjs-expert/SKILL.md) pour
 l'architecture module/controller/service, la DI par constructeur, les DTO
 `class-validator`, les exceptions HTTP et les tests `Test.createTestingModule` ;
-SpillwaveSolutions/mastering-typescript-skill pour les contrats Zod/`z.infer`, les unions
-discriminées et les mapped types/type guards sur les modèles Prisma ; mindrally/skills
+une skill TypeScript avancée du marché pour les contrats Zod/`z.infer`, les unions
+discriminées et les mapped types/type guards sur les modèles Prisma ; un catalogue de skills React/Node du marché
 (prisma-development/SKILL.md pour le schema/migrations/opérations type-safe, trpc/SKILL.md
 pour l'arborescence routers/procedures, zod-schema-validation/SKILL.md pour la validation
 aux frontières). Mécanismes réécrits, pas de texte copié.

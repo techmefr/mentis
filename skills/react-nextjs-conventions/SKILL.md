@@ -115,13 +115,13 @@ c'est `legolas`. En cas de doute sur une règle Redux/shadcn non couverte ici, e
 plutôt que deviner.
 
 ## Origine
-Idées reprises de : vercel-labs/agent-skills (skill react-best-practices, AGENTS.md — patterns
+Idées reprises de : un catalogue de skills React du marché (skill react-best-practices, AGENTS.md — patterns
 perf/rendering/waterfalls avec exemples avant/après) pour la section rendering/perf ;
-Mindrally/skills (redux-toolkit/SKILL.md — createSlice typé, hooks typés, createAsyncThunk,
-sélecteurs mémoïsés) pour la section Redux Toolkit ; velcrafting/codex-skills
+un catalogue de skills React/Node du marché (redux-toolkit/SKILL.md — createSlice typé, hooks typés, createAsyncThunk,
+sélecteurs mémoïsés) pour la section Redux Toolkit ; un catalogue de skills shadcn du marché
 (skills/shadcn/SKILL.md — composition par wrapper, cn(), structure de dossiers, new-york/
-sonner/React 19) pour la section shadcn/ui ; millionco/react-doctor (package
+sonner/React 19) pour la section shadcn/ui ; un linter React du marché (package
 `oxlint-plugin-react-doctor`, registre de ~780 règles déterministes, sous-ensemble sévérité
 `error` filtré et pertinent hors frameworks niches) pour la section correctness/sécurité ;
-metabase/metabase (skill `typescript-review` — blind-spots accessibilité/poids bundle) pour
+un projet open source TypeScript du marché (skill `typescript-review` — blind-spots accessibilité/poids bundle) pour
 les items 21-22. Mécanismes réécrits, pas de texte copié.

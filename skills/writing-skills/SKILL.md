@@ -61,8 +61,7 @@ vide.
   ajout : vérifier l'étape 1 avant d'écrire, pas après.
 
 ## Origine
-Réécriture de la skill `writing-skills` de
-[obra/superpowers](https://github.com/obra/superpowers) — chez eux elle
+Réécriture de la skill `writing-skills` d'un framework de skills/agents du marché — chez eux elle
 documente leur propre gabarit ; ici elle documente le nôtre (le gabarit unique
 de `CONVENTIONS.md`), avec en plus la checklist d'adoption de la Règle B
 (vérifier les doublons, créditer la source) qui n'existe pas telle quelle côté

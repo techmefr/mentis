@@ -55,7 +55,6 @@ qui coûtent cher à défaire. Rester publiable (Règle C) : un ADR ne contient
 pas de secret ni de nom de client, seulement la décision technique.
 
 ## Origine
-Réécriture du skill `documentation-and-adrs` de
-[addyosmani/agent-skills](https://github.com/addyosmani/agent-skills/blob/main/skills/documentation-and-adrs/SKILL.md) —
+Réécriture du skill `documentation-and-adrs` d'un catalogue de skills dev généralistes du marché —
 le template ADR (5-6 champs) et la règle "jamais supprimer, toujours
 superseder" sont repris tels quels, réécrits en français au gabarit Xefi.

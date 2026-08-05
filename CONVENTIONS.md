@@ -36,7 +36,7 @@ texte ; on réimplémente le principe.
 ## Règle C — construct reste publiable
 
 `construct/` est conçu pour être **extrait un jour dans un repo public** (« superpowers version
-Xefi », comme obra/mattpocock/addyosmani). Pour que ce soit un simple copier-coller le moment
+Xefi », à l'image des frameworks équivalents ouverts par des devs indépendants du marché). Pour que ce soit un simple copier-coller le moment
 venu, on tient la frontière **dès l'écriture** :
 
 - **Dans `construct/` (générique, publiable)** : pipeline, skills, gabarit, conventions, agents
@@ -79,7 +79,7 @@ description: Use quand <situation déclencheuse précise> — <ce que la brique 
 <Ce qu'on ne fait pas. Frontière agent/humain si concernée. Escalade si bloqué.>
 
 ## Origine
-<Idée reprise de : natif Claude Code / cwc / mattpocock / addyosmani / interne. Honnête.>
+<Idée reprise de : natif Claude Code / outillage marché / interne. Honnête.>
 ```
 
 ### Règles de forme (non négociables)

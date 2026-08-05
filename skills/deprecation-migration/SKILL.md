@@ -65,8 +65,7 @@ déploiement pour un système avec des consommateurs réels identifiés.
   migrer) penche vers le statu quo.
 
 ## Origine
-Réécriture du skill `deprecation-and-migration` de
-[addyosmani/agent-skills](https://github.com/addyosmani/agent-skills/blob/main/skills/deprecation-and-migration/SKILL.md) —
+Réécriture du skill `deprecation-and-migration` d'un catalogue de skills dev généralistes du marché —
 la checklist des 5 questions et les 4 patterns (Strangler/Adapter/Feature
 Flag/Expand-Contract) sont repris tels quels, réécrits en français au gabarit
 Xefi.

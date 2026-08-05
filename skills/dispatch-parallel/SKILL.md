@@ -48,7 +48,7 @@ agent — jamais une synthèse anonyme.
 
 ## Origine
 Réécriture des deux idées `dispatching-parallel-agents` et
-`subagent-driven-development` de [obra/superpowers](https://github.com/obra/superpowers),
+`subagent-driven-development` d'un framework de skills/agents du marché,
 fusionnées ici parce que dans notre usage elles se recouvrent : dispatcher en
 parallèle et déléguer à des sous-agents spécialisés sont la même décision
 chez nous (`elrond` → `aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo`

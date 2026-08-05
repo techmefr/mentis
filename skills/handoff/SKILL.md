@@ -42,8 +42,7 @@ cette brique est la référence, pas la copie. Un handoff qui devient plus long
 que les artefacts qu'il référence a raté son objectif.
 
 ## Origine
-Réécriture du skill `handoff` de
-[mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff) —
+Réécriture du skill `handoff` d'un auteur de skills reconnu du marché —
 la règle "ne jamais dupliquer, référencer par chemin" est reprise telle
 quelle, réécrite en français au gabarit Xefi et reliée explicitement à
 `worktree-one-task-close-after-merge` déjà en place côté Xefi.

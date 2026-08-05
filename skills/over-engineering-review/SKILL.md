@@ -57,6 +57,6 @@ nécessite de vérifier qu'il n'y a vraiment qu'un seul appelant (grep avant de 
 de suppression sur une supposition.
 
 ## Origine
-Idée reprise de DietrichGebert/ponytail (skills `ponytail-review`/`ponytail-audit` — angle
+Idée reprise d'un outil de review orienté suppression du marché (skills `ponytail-review`/`ponytail-audit` — angle
 suppression exclusif, tags par catégorie, score net de lignes) — mécanisme et tags réécrits
 dans le vocabulaire des briques construct, pas de texte copié.
