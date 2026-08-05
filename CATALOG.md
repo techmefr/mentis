@@ -28,6 +28,9 @@
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + conventions Spring établies | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data) | 🟡 (sourcé marché, pas de vécu de production Xefi dédié SEO) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG | 🟡 (sourcé marché, pas de vécu de production Xefi dédié a11y) |
+| qa-exploratory-testing | 8 (complément) | James Bach/Michael Bolton (session-based testing) + ISTQB (boundary testing) | 🟡 (sourcé marché, pas de vécu de production Xefi dédié QA) |
+| devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + pratiques GitOps/IaC établies | 🟡 (sourcé marché, pas de vécu de production Xefi dédié) |
+| data-pipeline-conventions | 6 (data) | conventions dbt + DAMA-DMBOK (dimensions qualité) + modélisation dimensionnelle Kimball | 🟡 (sourcé marché, pas de vécu de production Xefi dédié) |
 | debug | support 6 | natif `systematic-debugging` | 🟡 |
 | extract-conventions | setup/maintenance | graphify + mattpocock/addyosmani | 🟡 (génère les références depuis le code réel) |
 | choose-model | transverse | synthèse interne (aucune source externe reprise telle quelle) | 🟡 (grille écrite, pas encore appliquée rétroactivement à tous les agents existants) |
@@ -54,6 +57,8 @@
 | laravel-builder | implémentation Laravel/Eloquent (API, queues, perf), distinct de tuteur-laravel | ✅ (pas encore dogfoodé) |
 | seo-auditor | audit SEO technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
 | accessibility-auditor | audit a11y technique d'une page/site déjà en ligne, jamais d'édition | ✅ (pas encore dogfoodé) |
+| qa-tester | test manuel/exploratoire d'un parcours sur une app qui tourne, jamais d'édition | ✅ (pas encore dogfoodé) |
+| security-auditor | audit sécurité statique dédié (OWASP, secrets, dépendances), lecture seule, jamais d'exploitation active | ✅ (pas encore dogfoodé) |
 
 ## 2. Backlog de sourcing — idées/agents à réécrire pour compléter/améliorer
 
