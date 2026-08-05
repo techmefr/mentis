@@ -32,7 +32,7 @@ Cycle **action → vérification → décision**, en un seul passage :
    - `composer.json` présent, sans dépendance `nuxt`/`vue` dans un éventuel `package.json` → **PHP/Laravel** → `gimli`.
    - `package.json` avec dépendance `nuxt` ou `vue` (ou présence de `nuxt.config.ts`) → **Nuxt/Vue** → `aragorn`.
    - `package.json` avec dépendance `react` (et absence de `nuxt`/`vue`) → **React** → `legolas`.
-   - Repos connus en raccourci (évite de re-détecter à chaque fois) : `skera-front-web`, `nexeren-front-web` → Nuxt ; `skera-api`, `nexeren-api`, `formation-laravel` → PHP/Laravel. Complète cette liste au fil des repos React rencontrés.
+   - Repos connus en raccourci (évite de re-détecter à chaque fois) : liste tenue à jour des repos Nuxt et des repos PHP/Laravel déjà rencontrés, pour ne pas re-détecter à chaque fois. Complète cette liste au fil des repos React rencontrés.
 2. **Vérification** : un seul stack ressort-il sans ambiguïté ? Un monorepo avec plusieurs stacks dans le même diff, ou une détection contradictoire (ex : `composer.json` ET dépendance `nuxt` présents tous les deux), n'est PAS tranché seul.
 3. **Décision** : si la détection est nette → invoque la variante correspondante (Agent tool, `subagent_type` = aragorn / gimli / legolas) avec la consigne transmise telle quelle (mode RAPPORT ou POST, périmètre). Si ambigu → demande à l'utilisateur quelle variante utiliser plutôt que de deviner.
 

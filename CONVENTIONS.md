@@ -41,10 +41,10 @@ venu, on tient la frontière **dès l'écriture** :
 
 - **Dans `construct/` (générique, publiable)** : pipeline, skills, gabarit, conventions, agents
   génériques. Aucun secret, aucun nom de vrai projet, aucune réalité infra.
-- **Hors `construct/` (interne, privé)** : noms de projets réels (skera, nexeren…), infra
+- **Hors `construct/` (interne, privé)** : noms de projets réels, infra
   (ports, SSO, hosts, noms de serveurs DB), `CHALLENGE.md` / `FRICTIONS.md` / `VEILLE.md`,
   la mémoire. Une brique **n'y fait jamais référence en dur** — elle nomme un rôle (« le back »),
-  pas un projet (« skera-api »).
+  pas un projet (« le back Laravel »).
 
 Règle simple : si une phrase ne pourrait pas être lue par un dev extérieur à Xefi, elle ne va
 pas dans `construct/`. La publication elle-même est **hors périmètre agent** (décision humaine).

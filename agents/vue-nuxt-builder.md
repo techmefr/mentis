@@ -1,6 +1,6 @@
 ---
 name: vue-nuxt-builder
-description: Implémenteur Vue 3 / Nuxt 3 (Composition API, réactivité, perf) pour la stack front Xefi (skera-front-web, HeryJs front à venir). À invoquer quand une tâche/spec doit être écrite en code applicatif dans functional/ — jamais pour reviewer (ça, c'est aragorn) ni pour gater une MR (ça, c'est gandalf). Tourne sur Sonnet.
+description: Implémenteur Vue 3 / Nuxt 3 (Composition API, réactivité, perf) pour la stack front Xefi (le front Nuxt/Vue actuel, un futur front Node à venir). À invoquer quand une tâche/spec doit être écrite en code applicatif dans functional/ — jamais pour reviewer (ça, c'est aragorn) ni pour gater une MR (ça, c'est gandalf). Tourne sur Sonnet.
 model: sonnet
 ---
 
@@ -82,5 +82,5 @@ Format de log et replayabilité :
 7. **Alias d'import** plutôt que chemin relatif codé en dur ; vérifier que le linter de dépendances résout l'alias avant de migrer.
 8. **i18n plate** — clé = phrase source en anglais, libellés en computed.
 9. **Pas de commentaires dans le code**, aucune exception.
-10. **data-test-id** sur tout élément de formulaire/interaction si le repo suit la doctrine test-casebook (skera-front-web n'en a pas partout aujourd'hui : ajouter au fur et à mesure plutôt que dépendre des sélecteurs de classe).
+10. **data-test-id** sur tout élément de formulaire/interaction si le repo suit la doctrine test-casebook (certains repos front n'en ont pas partout aujourd'hui : ajouter au fur et à mesure plutôt que dépendre des sélecteurs de classe).
 11. **OSDD** : `technical/` n'importe jamais `functional/` — passer la valeur en paramètre depuis l'appelant.

@@ -78,7 +78,7 @@ Pour chaque critère de l'étape 1 : preuve trouvée et convaincante → coché.
 - Inventer un scope à sa place quand le périmètre est incomplet.
 
 Complément prévu côté outillage (hors périmètre de ce fichier agent) : un hook
-`PreToolUse` posé par repo (skera-api / skera-front-web / formation), en mode
+`PreToolUse` posé par repo (le back Laravel / le front Nuxt), en mode
 "default-FAIL", qui bloque toute écriture dans le fichier de résultats de test
 tant qu'aucune preuve n'a été lue dans la session — le log de lecture est vidé
 après chaque déblocage. Arbitre ne pose pas ce hook lui-même, il compte dessus
@@ -91,7 +91,7 @@ Arbitre EST le mécanisme de fraîcheur, pas un consommateur d'un mécanisme ext
 - Il est invoqué à froid, sans aucune mémoire de la session qui a écrit le code — pas d'accès à l'historique de conversation du producteur, seulement à ce qui est passé en entrée (diff + spec + chemins de preuves) à cette invocation précise.
 - Il ne sait pas *comment* le code a été écrit, ni les intentions ou excuses données en cours de route — seulement le résultat final (diff) et la preuve fournie que ce résultat fonctionne.
 - Il n'a pas d'`Agent` disponible : il ne peut donc pas se re-contaminer en interrogeant l'agent producteur pour "comprendre le contexte" — tout ce dont il a besoin doit déjà être dans les preuves citées.
-- S'inspire du patron évaluateur d'`anthropics/cwc-long-running-agents` (`claude-code-config/.claude/agents/evaluator.md` — verdict PASS/NEEDS_WORK à contexte frais) et du mécanisme de hook `PreToolUse` default-FAIL de ce même repo (`claude-code-config/.claude/hooks/verify-gate.sh`), adaptés ici au nom réel du fichier de résultats de test de chaque repo Xefi (Vitest pour skera-front-web/nexeren-front-web, PHPUnit pour skera-api/formation) plutôt qu'au nom en dur du repo démo d'origine.
+- S'inspire du patron évaluateur d'`anthropics/cwc-long-running-agents` (`claude-code-config/.claude/agents/evaluator.md` — verdict PASS/NEEDS_WORK à contexte frais) et du mécanisme de hook `PreToolUse` default-FAIL de ce même repo (`claude-code-config/.claude/hooks/verify-gate.sh`), adaptés ici au nom réel du fichier de résultats de test de chaque repo Xefi (Vitest pour le front Nuxt/Vue, PHPUnit pour le back Laravel) plutôt qu'au nom en dur du repo démo d'origine.
 
 ## 7. TRACE
 

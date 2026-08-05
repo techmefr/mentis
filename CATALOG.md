@@ -84,7 +84,7 @@ nous**, pas à installer.
 | onmax/nuxt-skills | `skills/nuxt-modules/` — auteuring de module Nuxt publié/npm | vue-nuxt-vuetify-conventions | ✕ (hors périmètre : g.compigni fait du code d'app, pas de module) |
 | onmax/nuxt-skills | `skills/nuxt/SKILL.md` (dispatcher) | vue-nuxt-vuetify-conventions | ✕ (redondant avec le principe de progressive-disclosure déjà acquis dans using-construct) |
 | sickn33/antigravity-awesome-skills | `using-git-worktrees` | merge-worktree | ✕ (redistribution telle quelle du skill obra déjà repris nativement et dans start-feature) |
-| vuetifyjs/0 | lib headless (`@vuetify/v0`) | vue-nuxt-vuetify-conventions | ✕ (différente du Vuetify stylé Material utilisé sur skera-front-web) |
+| vuetifyjs/0 | lib headless (`@vuetify/v0`) | vue-nuxt-vuetify-conventions | ✕ (différente du Vuetify stylé Material utilisé sur le front Nuxt/Vue) |
 | harlan-zw/vue-ecosystem-skills | `vuetify-skilld` | vue-nuxt-vuetify-conventions | ✕ (dossier absent de l'arbre git actuel, contenu introuvable) |
 | skilld-dev/vue-ecosystem-skills | `vuetify-skilld` | vue-nuxt-vuetify-conventions | ✕ (même repo/fork que harlan-zw, même dossier absent) |
 | agents-inc/skills | `web-ui-vuetify` | vue-nuxt-vuetify-conventions | ✕ (fichier introuvable dans l'arbre actuel ; déjà couvert par les reviewers par stack en review) |
@@ -96,7 +96,7 @@ nous**, pas à installer.
 | thedotmack/claude-mem | `mem-search` | — | ✕ (sous-système complet, redondant avec le système de mémoire déjà en place) |
 | thedotmack/claude-mem | `version-bump` (ex claude-code-plugin-release) | — | ✕ (script d'exploitation spécifique à claude-mem, pas une méthode généralisable) |
 | safishamsi/graphify | `graphify` | — | ✕ (doublon confirmé du skill natif graphify déjà installé) |
-| VoltAgent — mcp-developer | — | HeryJs (MCP) | ✕ (prématuré, pas de chantier MCP actif ; à ressortir en phase concrète de portage) |
+| VoltAgent — mcp-developer | — | futur projet Node/NestJS (MCP) | ✕ (prématuré, pas de chantier MCP actif ; à ressortir en phase concrète de portage) |
 | VoltAgent / rshah515 — api-documenter | — | — | ✕ (aucun signal de douleur doc API dans la mémoire) |
 | VoltAgent — readme-generator | — | — | ✕ (recoupe déjà le changelog manuel test-casebook) |
 | VoltAgent — dependency-manager | — | — | ✕ (aucun signal CVE/conflit de versions) |
@@ -111,7 +111,7 @@ nous**, pas à installer.
 | wshobson — context-manager/team-lead/team-reviewer/team-implementer/team-debugger | — | dispatch multi-agents | ✕ (implémentation agency-swarm, archi à évaluer, pas un agent à écrire maintenant) |
 | wshobson — plugin git-pr-workflows (code-reviewer) | — | — | ✕ (recoupe les reviewers par stack/gandalf) |
 | wshobson — skill git-advanced-workflows | — | start-feature/finish | ✕ (cours de référence, pas un agent orchestré) |
-| rshah515 — nestjs-expert / typescript-expert | — | HeryJs | ✕ (prématuré, à ressortir en phase active NestJS+TS) |
+| rshah515 — nestjs-expert / typescript-expert | — | futur projet Node/NestJS | ✕ (prématuré, à ressortir en phase active NestJS+TS sur le futur projet Node) |
 | rshah515 — react-expert | — | — | ✕ (utile pour lire le code des collègues React seulement, pas un besoin de prod g.compigni) |
 | rshah515 — accessibility-expert / playwright-expert | — | — | ✕ (chevauchement design:accessibility + verify-flow) |
 | rshah515 — architecture-documenter / contract-testing-expert / runbook-generator | — | — | ✕ (confiance faible, usage ponctuel, aucun signal récurrent) |
@@ -121,7 +121,7 @@ nous**, pas à installer.
 | Mindrally/skills | `redux-toolkit/SKILL.md` — createSlice typé, hooks typés, createAsyncThunk, sélecteurs mémoïsés | react-nextjs-conventions | ✅ |
 | velcrafting/codex-skills | `skills/shadcn/SKILL.md` — composition par wrapper, cn(), structure de dossiers | react-nextjs-conventions | ✅ |
 | millionco/react-doctor | `oxlint-plugin-react-doctor` — ~780 règles déterministes (state/effects, perf, sécurité, a11y), sous-ensemble sévérité `error` hors frameworks niches repris en section 4 | react-nextjs-conventions | ✅ (contenu réécrit ; l'outil lui-même reste un candidat 🔎 séparé pour un futur gate CI React — pas installé, aucun repo React à g.compigni) |
-| geoql/doctor | `oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor` — verrouillé Vue 3 + Nuxt 4, explicitement inspiré de react-doctor ; règles réactivité/composition, hydratation SSR, sécurité, server routes h3 reprises en section 4 | vue-nuxt-vuetify-conventions | ✅ (contenu réécrit ; candidat 🔎 séparé pour un futur gate CI skera-front-web/nexeren-front-web, pas installé) |
+| geoql/doctor | `oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor` — verrouillé Vue 3 + Nuxt 4, explicitement inspiré de react-doctor ; règles réactivité/composition, hydratation SSR, sécurité, server routes h3 reprises en section 4 | vue-nuxt-vuetify-conventions | ✅ (contenu réécrit ; candidat 🔎 séparé pour un futur gate CI le front Nuxt/Vue, pas installé) |
 | @healerlab/vue-doctor | alternative Vue-only trouvée en sourcing | vue-nuxt-vuetify-conventions | ✕ (pas de couverture Nuxt, geoql/doctor plus complet et plus proche de la stack réelle) |
 | @framework-doctor/vue | alternative Vue trouvée en sourcing | vue-nuxt-vuetify-conventions | ✕ (moins mature/moins de règles que geoql/doctor à l'inspection) |
 | DietrichGebert/ponytail | `ponytail-review`/`ponytail-audit` — angle suppression exclusif (dead code, stdlib réinventée, sur-abstraction, yagni), tags par catégorie, score net de lignes | over-engineering-review | ✅ (mécanisme et tags réécrits, nouvelle brique dédiée) |
@@ -139,7 +139,7 @@ nous**, pas à installer.
 | Mindrally/skills | `nextjs-react-typescript` | react-nextjs-conventions | ✕ (converti de Cursor rules génériques, redondant et moins précis que vercel-labs/agent-skills) |
 | Mindrally/skills | `nextjs-react-redux-typescript-cursor-rules` | react-nextjs-conventions | ✕ (doublon quasi total de react + redux-toolkit réunis) |
 | Mindrally/skills | `react` (générique) | react-nextjs-conventions | ✕ (conseils génériques senior dev, recoupe vercel-labs/agent-skills en moins riche) |
-| Mindrally/skills | `express-typescript` | nestjs-node-conventions | ✕ (hors-cible : vision HeryJs est NestJS pas Express, recouvrement partiel sans plus-value) |
+| Mindrally/skills | `express-typescript` | nestjs-node-conventions | ✕ (hors-cible : vision du futur projet Node/NestJS est NestJS pas Express, recouvrement partiel sans plus-value) |
 | Mindrally/skills | `nodejs-development` | nestjs-node-conventions | ✕ (fourre-tout incohérent — Payload CMS, Vue.js, générique) |
 | Mindrally/skills | `typescript` (générique) | nestjs-node-conventions | ✕ (trop générique, déjà répété par nestjs-expert/trpc/zod) |
 | josechifflet/shadcn-ui | shadcn-ui | react-nextjs-conventions | ✕ (repo introuvable/mort, seul un résumé tiers récupéré, pas la source elle-même) |

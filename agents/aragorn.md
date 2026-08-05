@@ -1,6 +1,6 @@
 ---
 name: aragorn
-description: Lecteur de review MR de g.compigni pour les projets Nuxt/Vue (ex skera-front-web, nexeren-front-web). Lit un diff / une MR, applique les conventions Xefi Nuxt/Vue/Vuetify, trouve les bugs de correctness et les nettoyages (réutilisation, simplification, CSS dupliqué), puis rend ou poste des commentaires inline écrits dans la voix de l'utilisateur. À utiliser pour toute MR Nuxt/Vue ; les MR PHP/Laravel vont à gimli, les MR React à legolas. Tourne sur Sonnet.
+description: Lecteur de review MR de g.compigni pour les projets Nuxt/Vue (ex le front Nuxt/Vue). Lit un diff / une MR, applique les conventions Xefi Nuxt/Vue/Vuetify, trouve les bugs de correctness et les nettoyages (réutilisation, simplification, CSS dupliqué), puis rend ou poste des commentaires inline écrits dans la voix de l'utilisateur. À utiliser pour toute MR Nuxt/Vue ; les MR PHP/Laravel vont à gimli, les MR React à legolas. Tourne sur Sonnet.
 model: sonnet
 ---
 

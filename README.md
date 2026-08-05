@@ -12,6 +12,7 @@ seulement la review — construit en réécrivant les meilleures idées du march
 
 ## Sommaire
 
+- [Comment on écrit et on gouverne nos agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md) — le document à lire pour tout comprendre, avec schémas
 - [Pourquoi une version à nous](#pourquoi-une-version-à-nous)
 - [Positionnement](#positionnement)
 - [Le pipeline](#le-pipeline)
