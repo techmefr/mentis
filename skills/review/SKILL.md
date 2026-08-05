@@ -1,6 +1,6 @@
 ---
 name: review
-description: Use quand le GATE est vert, avant la simplification — revue sur deux axes parallèles (Standards + Spec) puis passe des agents Xefi.
+description: Use quand le GATE est vert, avant la simplification, revue sur deux axes parallèles (Standards + Spec) puis passe des agents Xefi.
 ---
 
 # review

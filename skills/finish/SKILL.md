@@ -1,6 +1,6 @@
 ---
 name: finish
-description: Use après le merge humain de la MR — nettoie la worktree et met à jour la branche d'intégration. Ferme la boucle du pipeline.
+description: Use après le merge humain de la MR, nettoie la worktree et met à jour la branche d'intégration. Ferme la boucle du pipeline.
 ---
 
 # finish
@@ -17,7 +17,7 @@ Une fois la MR **mergée par un humain** (jamais avant).
 2. Vérifier que le dashboard ne liste plus la worktree.
 
 ## Sortie / checkpoint
-Ligne supprimée — la tâche sort du suivi.
+Ligne supprimée : la tâche sort du suivi.
 
 ## Garde-fous
 Ne pas supprimer la worktree à la main : c'est `finish_task` qui le fait proprement. Ne rien

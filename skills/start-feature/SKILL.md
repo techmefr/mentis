@@ -1,6 +1,6 @@
 ---
 name: start-feature
-description: Use au tout début d'une feature, avant de coder — crée la worktree isolée via starfleet (create_task + launch_worktree) et amorce le pipeline. Réécriture Xefi de superpowers:using-git-worktrees, branchée sur starfleet.
+description: Use au tout début d'une feature, avant de coder, crée la worktree isolée via starfleet (create_task + launch_worktree) et amorce le pipeline. Réécriture Xefi de superpowers:using-git-worktrees, branchée sur starfleet.
 ---
 
 # start-feature
@@ -16,10 +16,10 @@ Démarre une feature dans un espace **isolé** (worktree dédiée), coordonné p
    `project`, `branch`, `repoPath`, `runCommand` (commande de dev), et `feature`/`role`
    (front/back) si pertinent. Tu récupères un **port unique** (aucune collision avec les
    autres projets/worktrees).
-3. **Créer la worktree** : appelle **`launch_worktree`** — starfleet fait le
+3. **Créer la worktree** : appelle **`launch_worktree`**, starfleet fait le
    `git worktree add` dans un dossier voisin, isolé de ton workspace courant.
    (Vérifie d'abord que le dossier des worktrees est bien gitignore.)
-4. **(option) Démarrer le serveur** : `start_server` — lance `runCommand` avec le port injecté ;
+4. **(option) Démarrer le serveur** : `start_server`, lance `runCommand` avec le port injecté ;
    le dashboard passe la worktree en « live » et donne le lien « Ouvrir ».
 5. **Enchaîner** : passe à `brainstorm` puis `spec`. À chaque étape franchie,
    `update_checkpoint`.

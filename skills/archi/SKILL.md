@@ -1,6 +1,6 @@
 ---
 name: archi
-description: Use quand la spec est verrouillée, avant le plan — cartographier ce qui existe déjà et où la feature se branche, pour éviter la duplication.
+description: Use quand la spec est verrouillée, avant le plan, cartographier ce qui existe déjà et où la feature se branche, pour éviter la duplication.
 ---
 
 # archi
@@ -21,7 +21,7 @@ Après `spec`, avant `/PLAN`. Systématique dès qu'on touche du code partagé o
 `arch_done` + nœuds d'archi renseignés (doc vivante).
 
 ## Garde-fous
-Extraire du commun = **refactor coordonné, décision humaine** — ne pas refactorer en douce
+Extraire du commun = **refactor coordonné, décision humaine** : ne pas refactorer en douce
 dans une worktree isolée. Si un doublon existe déjà, le signaler, pas le recréer.
 
 ## Origine

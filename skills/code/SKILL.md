@@ -1,6 +1,6 @@
 ---
 name: code
-description: Use lors de la construction — implémenter par incréments jusqu'à faire passer les tests, un task_item à la fois.
+description: Use lors de la construction, implémenter par incréments jusqu'à faire passer les tests, un task_item à la fois.
 ---
 
 # code
@@ -20,7 +20,7 @@ Après `tdd` (tests rouges écrits), pendant `/BUILD`.
 `build_done`.
 
 ## Garde-fous
-**Pas de commentaires dans le code.** Ne **jamais** marquer un test `passes: true` à la main —
+**Pas de commentaires dans le code.** Ne **jamais** marquer un test `passes: true` à la main, 
 c'est le **GATE** (étape 7) qui tranche, sur preuve. On ne s'auto-valide pas.
 
 ## Origine

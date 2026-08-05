@@ -1,6 +1,6 @@
 ---
 name: choose-model
-description: Use quand on écrit un nouvel agent, ou qu'on lance une tâche ponctuelle, et qu'il faut décider quel modèle Claude assigner — Haiku pour les tâches mécaniques/répétitives à faible enjeu, Sonnet par défaut pour le build et la review, Opus pour un gate ou un juge dont le verdict est difficile à revenir en arrière (bloque un merge, une décision).
+description: Use quand on écrit un nouvel agent, ou qu'on lance une tâche ponctuelle, et qu'il faut décider quel modèle Claude assigner, Haiku pour les tâches mécaniques/répétitives à faible enjeu, Sonnet par défaut pour le build et la review, Opus pour un gate ou un juge dont le verdict est difficile à revenir en arrière (bloque un merge, une décision).
 ---
 
 # choose-model
@@ -32,10 +32,10 @@ modèle déjà imposé.
    rattraper (ex. un gate qui laisse passer un bug en prod) monte d'un cran
    plutôt que de rester au niveau "complexité perçue".
 3. **Ne jamais sur-dimensionner par réflexe.** Opus partout coûte cher et
-   n'améliore rien sur une tâche mécanique — le sur-dimensionnement est aussi
+   n'améliore rien sur une tâche mécanique : le sur-dimensionnement est aussi
    une erreur de choix, pas seulement le sous-dimensionnement.
 4. **Documenter le choix** dans le frontmatter de l'agent (`model: sonnet`
-   par exemple) — jamais laissé implicite, pour qu'une relecture ultérieure
+   par exemple) : jamais laissé implicite, pour qu'une relecture ultérieure
    puisse contester le choix sur des critères explicites.
 
 ## Sortie / checkpoint
@@ -48,12 +48,12 @@ changé en cours de route sauf signal fort (timeout, échec répété).
 - Pas de règle rigide par nom d'agent : un agent déjà "connu" peut changer
   de palier si la nature réelle de son travail a changé.
 - En cas de doute entre deux paliers, prendre le palier du dessous et
-  remonter seulement si un échec concret le justifie — pas l'inverse.
+  remonter seulement si un échec concret le justifie : pas l'inverse.
 
 ## Origine
 Grille de décision interne : caractérisation par nature de tâche
 (mécanique/construction/verdict-difficile-à-défaire) et par coût de
 l'erreur, pas par complexité perçue. Pas de source externe spécifique
-retenue — plusieurs frameworks de routing de modèle du marché existent,
+retenue : plusieurs frameworks de routing de modèle du marché existent,
 mais aucun n'a été jugé assez proche de notre réalité de stack/agents pour
 être réécrit tel quel ; la grille ci-dessus est une synthèse propre.

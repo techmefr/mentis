@@ -1,6 +1,6 @@
 ---
 name: spec
-description: Use quand on verrouille le périmètre d'une feature avant le plan — interview de clarification, périmètre + hors-scope explicites, CONTEXT.md et ADR.
+description: Use quand on verrouille le périmètre d'une feature avant le plan, interview de clarification, périmètre + hors-scope explicites, CONTEXT.md et ADR.
 ---
 
 # spec

@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Use quand tout est vert et simplifié — push de la branche et ouverture de la MR en draft ; l'agent s'arrête ici.
+description: Use quand tout est vert et simplifié, push de la branche et ouverture de la MR en draft ; l'agent s'arrête ici.
 ---
 
 # ship

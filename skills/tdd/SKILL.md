@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use lors de l'étape tests, avant le code — écrire les tests d'abord (doctrine test-casebook) et transformer chaque critère d'acceptation en une ligne de contrat qui échoue par défaut.
+description: Use lors de l'étape tests, avant le code, écrire les tests d'abord (doctrine test-casebook) et transformer chaque critère d'acceptation en une ligne de contrat qui échoue par défaut.
 ---
 
 # tdd
@@ -16,7 +16,7 @@ Après `plan`, avant d'écrire l'implémentation.
    initialisée à `{ "passes": false }` (le contrat démarre à l'échec).
 2. Écrire le test correspondant selon **test-casebook** (sélecteurs `data-test-*`, exhaustif,
    persona matrix, couverture cible ≥ 90 %).
-3. Lancer la suite : **tout est rouge** — c'est le résultat attendu à cette étape.
+3. Lancer la suite : **tout est rouge**, c'est le résultat attendu à cette étape.
 
 ## Sortie / checkpoint
 `tests_written` + `test-results.json` (toutes lignes `{ passes: false }`).

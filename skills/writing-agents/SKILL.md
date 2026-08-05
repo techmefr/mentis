@@ -1,6 +1,6 @@
 ---
 name: writing-agents
-description: Use quand il faut créer un nouvel agent (ou réviser un agent existant) pour ce framework — applique le gabarit unique en 7 piliers (RÔLE, MÉMOIRE, BOUCLE, OUTILS & PÉRIMÈTRE, GARDE-FOUS, REVIEW CONTEXTE FRAIS, TRACE), vérifie qu'aucun agent existant ne couvre déjà le rôle, et choisit le bon modèle.
+description: Use quand il faut créer un nouvel agent (ou réviser un agent existant) pour ce framework, applique le gabarit unique en 7 piliers (RÔLE, MÉMOIRE, BOUCLE, OUTILS & PÉRIMÈTRE, GARDE-FOUS, REVIEW CONTEXTE FRAIS, TRACE), vérifie qu'aucun agent existant ne couvre déjà le rôle, et choisit le bon modèle.
 ---
 
 # writing-agents
@@ -18,7 +18,7 @@ tranche), une skill est une procédure appliquée à l'intérieur du pipeline.
   doit être clarifié ou scindé.
 
 ## Étapes
-1. **Vérifier qu'aucun agent existant ne couvre déjà le rôle** — lire
+1. **Vérifier qu'aucun agent existant ne couvre déjà le rôle** : lire
    `CATALOG.md` et le tableau agents de `README.md` avant d'écrire quoi que
    ce soit. Un agent qui fait presque la même chose qu'un autre finit par
    créer de la confusion sur lequel invoquer.
@@ -36,12 +36,12 @@ tranche), une skill est une procédure appliquée à l'intérieur du pipeline.
      session, chaque tâche relit le réel).
    - **3. BOUCLE** : les étapes concrètes, avec une **condition de sortie
      explicite et bornée** (jamais "je continue tant que ce n'est pas
-     parfait" — un nombre d'itérations maximum ou un critère binaire).
+     parfait" : un nombre d'itérations maximum ou un critère binaire).
    - **4. OUTILS & PÉRIMÈTRE** : ce qui est autorisé et interdit, en clair.
    - **5. GARDE-FOUS** : ce qui checkpoint un humain avant une action difficile
      à annuler (migration destructive, merge, push en Ready).
    - **6. REVIEW CONTEXTE FRAIS** : qui relit ce travail, avec un contexte
-     neuf — un agent ne se certifie jamais lui-même "prêt".
+     neuf : un agent ne se certifie jamais lui-même "prêt".
    - **7. TRACE** : ce que la sortie de fin de tâche contient toujours
      (fichiers touchés, preuve de test, statut).
 4. **Choisir le modèle** via `choose-model` (Haiku/Sonnet/Opus), documenté
@@ -54,11 +54,11 @@ Un fichier `agents/<nom>.md` complet avec les 7 piliers, référencé dans
 `CATALOG.md` et le tableau `README.md`, `model:` renseigné et justifié.
 
 ## Garde-fous
-- Jamais d'agent sans pilier 6 (REVIEW CONTEXTE FRAIS) explicite — même un
+- Jamais d'agent sans pilier 6 (REVIEW CONTEXTE FRAIS) explicite : même un
   agent d'audit en lecture seule doit dire clairement comment ses résultats
   repassent par le pipeline normal.
 - Jamais de Write/Edit accordé à un agent de review/audit (`aragorn`,
-  `gimli`, `seo-auditor`, `security-auditor`, etc.) — son scope est de
+  `gimli`, `seo-auditor`, `security-auditor`, etc.), son scope est de
   rapporter, jamais de corriger lui-même.
 - Un agent qui duplique un rôle existant est une régression, pas un ajout :
   vérifier l'étape 1 avant d'écrire.

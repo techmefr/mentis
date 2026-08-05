@@ -1,14 +1,14 @@
 ---
 name: nestjs-node-conventions
-description: Use quand on code un module, un controller, un service ou un router tRPC sur la stack NestJS/Node de la vision du futur projet Node/NestJS — applique l'architecture DI par constructeur, les DTO validés, les contrats Zod/tRPC transverses et le repository pattern Prisma. Fusionne les conventions Nest, Prisma, tRPC et Zod (même stack, même étape) en une seule brique de l'étape code.
+description: Use quand on code un module, un controller, un service ou un router tRPC sur la stack NestJS/Node de la vision du futur projet Node/NestJS, applique l'architecture DI par constructeur, les DTO validés, les contrats Zod/tRPC transverses et le repository pattern Prisma. Fusionne les conventions Nest, Prisma, tRPC et Zod (même stack, même étape) en une seule brique de l'étape code.
 ---
 
 # nestjs-node-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Première brique construct pour le backend Node —
+Étape 6 du pipeline (`WORKFLOW.md`). Première brique construct pour le backend Node, 
 aucune n'existait avant, pertinente pour la vision du futur projet Node/NestJS (NestJS + Prisma + tRPC). Cadre
 l'écriture de code sur cette stack : architecture Nest, contrats de validation, contrats
-type-safe transverses attendus par tRPC, et accès données Prisma — quatre familles de
+type-safe transverses attendus par tRPC, et accès données Prisma : quatre familles de
 règles qui se recoupent parce que c'est toujours la même stack et la même étape, une seule
 brique plutôt qu'une par librairie.
 
@@ -18,7 +18,7 @@ une procedure tRPC, ou un repository Prisma, pendant `code` (6) ou `tdd` (5).
 
 ## Étapes
 
-### 1. NestJS — architecture module/controller/service
+### 1. NestJS : architecture module/controller/service
 1. Un module par domaine métier (`UsersModule`, `OrdersModule`...), déclaré avec ses
    `providers`/`controllers`/`exports` explicites. Pas de logique métier dans le module
    lui-même.
@@ -31,24 +31,24 @@ une procedure tRPC, ou un repository Prisma, pendant `code` (6) ou `tdd` (5).
 4. `forwardRef()` en dernier recours seulement, quand une dépendance circulaire entre deux
    modules est réellement inévitable. Avant d'y recourir, vérifier qu'un découpage de
    module ne supprime pas le cycle.
-5. Tests via `Test.createTestingModule({...}).compile()` — jamais d'instanciation manuelle
+5. Tests via `Test.createTestingModule({...}).compile()`, jamais d'instanciation manuelle
    de service dans un test unitaire, pour garder le même graphe de DI qu'en prod (mocks des
    providers injectés, pas du service testé).
 
-### 2. DTO et validation — frontière HTTP
+### 2. DTO et validation : frontière HTTP
 1. Un DTO par forme d'entrée (`CreateUserDto`, `UpdateUserDto`), décoré `class-validator`
    (`@IsString()`, `@IsEmail()`, `@IsOptional()`...). Jamais de `any` ou d'objet non typé en
    paramètre de controller.
 2. `ValidationPipe` global (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
    forbidNonWhitelisted: true }))`) plutôt qu'un pipe posé route par route.
 3. Les exceptions HTTP typées (`NotFoundException`, `ConflictException`,
-   `BadRequestException`...) sont levées côté service, jamais côté controller — le service
+   `BadRequestException`...) sont levées côté service, jamais côté controller, le service
    connaît la règle métier qui justifie le statut, le controller non.
 
 ### 3. Contrats type-safe transverses (Zod + tRPC)
 1. Aux frontières où le contrat doit être partagé avec un client type-safe (tRPC), dériver
    le type depuis le schéma de validation avec `z.infer<typeof schema>` plutôt que
-   maintenir une interface TypeScript en parallèle du schéma Zod — une seule source de
+   maintenir une interface TypeScript en parallèle du schéma Zod : une seule source de
    vérité, jamais deux définitions qui peuvent diverger.
 2. Réponses d'API hétérogènes (succès/erreur, plusieurs variantes de résultat) modélisées
    en union discriminée (`{ status: 'ok', data } | { status: 'error', message }`) avec un
@@ -63,9 +63,9 @@ une procedure tRPC, ou un repository Prisma, pendant `code` (6) ou `tdd` (5).
    cas d'usage, vérifier qu'ils ne divergent pas silencieusement plutôt que les laisser
    évoluer indépendamment.
 
-### 4. Prisma — schema, migrations, accès données
+### 4. Prisma : schema, migrations, accès données
 1. Un repository par agrégat métier (`UsersRepository`), injecté dans le service comme
-   n'importe quel provider Nest — le service ne connaît jamais `PrismaClient` directement,
+   n'importe quel provider Nest : le service ne connaît jamais `PrismaClient` directement,
    seulement le repository.
 2. Toute évolution de `schema.prisma` passe par une migration (`prisma migrate dev`)
    commitée, jamais par une modification manuelle du schéma en base.
@@ -79,7 +79,7 @@ une procedure tRPC, ou un repository Prisma, pendant `code` (6) ou `tdd` (5).
    `undefined`.
 6. Pour tout point d'intégration Prisma non couvert ici (stratégies de transaction,
    middleware, seed, connexions multiples...), se référer à la documentation officielle
-   Prisma plutôt que deviner — les sources de cette brique ne détaillent l'ORM que côté
+   Prisma plutôt que deviner : les sources de cette brique ne détaillent l'ORM que côté
    TypeORM, pas Prisma.
 
 ## Sortie / checkpoint
