@@ -12,7 +12,7 @@ inside the pipeline.
 ## When
 - A gap is spotted in the agent roster (e.g. "we're missing a dedicated SEO audit" →
   `keymaker`).
-- A sourced idea (market repo, agent catalogue) deserves to be rewritten as a Xefi agent.
+- A sourced idea (market repo, agent catalogue) deserves to be rewritten as a house agent.
 - An existing agent has a role that drifted from its original description and needs clarifying or
   splitting.
 

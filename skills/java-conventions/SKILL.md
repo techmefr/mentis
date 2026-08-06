@@ -1,12 +1,12 @@
 ---
 name: java-conventions
-description: Use when writing or reviewing Java, typing/immutability (records, Optional), error handling (checked vs unchecked), concurrency, common Spring patterns. No internal Xefi production experience on this language, sourced from established market conventions (Effective Java, Spring) and tooling (SpotBugs/Error Prone).
+description: Use when writing or reviewing Java, typing/immutability (records, Optional), error handling (checked vs unchecked), concurrency, common Spring patterns. No in-house production experience on this language, sourced from established market conventions (Effective Java, Spring) and tooling (SpotBugs/Error Prone).
 ---
 
 # java-conventions
 
 Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing and review of Java code. **Special status**:
-like `go-conventions`/`python-conventions`, no Xefi production experience behind this block yet: content
+like `go-conventions`/`python-conventions`, no in-house production experience behind this block yet: content
 coming from established conventions (Effective Java) and deterministic tooling (SpotBugs, Error Prone),
 not from real review feedback.
 
@@ -54,7 +54,7 @@ new finding introduced by the diff. Checked by `gate` (7) and `review` (8).
 
 ## Guardrails
 No comments in the code produced. This block hasn't been confronted with a real production Java project
-at Xefi yet: if a rule here diverges from a real observed need, fix this block rather than treating it as
+in house yet: if a rule here diverges from a real observed need, fix this block rather than treating it as
 settled.
 
 ## Origin

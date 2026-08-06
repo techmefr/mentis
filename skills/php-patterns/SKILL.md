@@ -53,8 +53,8 @@ Code compliant with the three sections above, checked on top of the applicable L
 through `gate` (7) and `review` (8, `gimli`).
 
 ## Guardrails
-No comments in the code produced (Xefi team rule, all repos). This block has no deep internal
-production experience behind it (g.compigni is new to PHP, as noted on `gimli`): if a rule here
+No comments in the code produced (team rule, all repos). This block has no deep internal
+production experience behind it (the operator is new to PHP, as noted on `gimli`): if a rule here
 diverges from a real need observed in the field, fix this block rather than treating it as settled.
 
 ## Origin

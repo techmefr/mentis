@@ -5,10 +5,16 @@ kept under my control. An agent-and-skill framework for Claude Code covering
 the whole dev cycle, not just review, built by rewriting the best ideas on
 the market in my own voice, without ever depending on a third-party repo.
 
-> Test repo for my way of working with Claude Code (g.compigni).
-> `xefi-mr-review` (separate repo) is the specialised implementation of the
-> review/gate step alone, wired into GitLab CI. This repo covers everything
-> else: brainstorm, spec, plan, TDD, code, debug, gate, ship.
+> Test repo for my way of working with Claude Code. A separate, internal
+> MR-review implementation covers the review/gate step alone, wired into
+> GitLab CI; this repo covers everything else: brainstorm, spec, plan, TDD,
+> code, debug, gate, ship.
+>
+> **"The operator"**, throughout the blocks and agents, means whoever installs
+> mentis — you. Where an agent states a confidence level per stack (learner
+> mode on PHP, Go, .NET, Python, Flutter; assertive on Vue/Nuxt, React,
+> Node/TS), that is my own calibration and the one thing you should retune
+> before using those readers.
 
 ## Contents
 
@@ -30,7 +36,7 @@ Maturity is the honest part — see [Status](#status).
 
 An equivalent framework on the open source market already encodes solid
 generic discipline: brainstorming, TDD, systematic debugging, fresh-context
-review. But a generic method does not carry my Xefi conventions, my real
+review. But a generic method does not carry my house conventions, my real
 stacks (Nuxt/Vuetify, Laravel, React), nor my own core requirement,
 default = failure: work declared "done" is never taken on trust, it has to
 be proven. That is the role of `galadriel`, the agent that embodies this rule
@@ -44,8 +50,9 @@ an external repo to keep my pipeline running.
 
 - **This repo** = the **method**: *how* the work flows (skills) and *who*
   executes it (agents).
-- **`xefi-mr-review`** (separate repo) = a specialised implementation: the
-  review/gate step only, wired into GitLab CI, one folder per stack.
+- **A separate internal MR-review repo** = a specialised implementation: the
+  review/gate step only, wired into GitLab CI, one folder per stack. It is not
+  needed to use this one.
 - **Domain agents** (`neo`, `morpheus`, `trinity`, `tank`, `dozer`, the eight
   per-stack reviewers, `gandalf`, `galadriel`) = the layer that actually does
   the work, plugged into the pipeline slots below.
@@ -199,7 +206,7 @@ your code beyond a verdict, and it never touches it.
 | `gandalf` | Final MR gate: test gate + delegates the review + `/code-review` + `/security-review` | Real production experience |
 | `elrond` | Orchestrator: detects the stack and delegates to the right reviewer, never reviews itself | Real production experience |
 | `aragorn` | Nuxt/Vue/Vuetify reviewer | Real production experience |
-| `gimli` | PHP/Laravel reviewer, uncertainty phrased as questions (g.compigni is new to this stack) | Real production experience |
+| `gimli` | PHP/Laravel reviewer, uncertainty phrased as questions (the operator is new to this stack) | Real production experience |
 | `legolas` | React reviewer | Sourced via test-casebook |
 | `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
 | `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
@@ -246,6 +253,31 @@ Claude Code's native format:
 5. Business blocks live in [`business/`](./business/README.md) and install the
    same way — but read that folder's README first, they carry an explicitly
    weaker contract and never gate anything.
+
+**Nothing above needs anything installed.** Every block works on a plain repo
+with plain git, which is rule A. The one exception is the MR review readers,
+which drive a GitLab MR through its API and therefore need:
+
+- **`glab`**, authenticated, and **python3** — no third-party package;
+- **`GITLAB_HOST`**, e.g. `gitlab.example.com`. Unset, `glab` falls back to
+  `gitlab.com` even on a self-hosted project, and the 404 reads like a
+  permissions problem;
+- **`MR_SCRATCH`** (default `~/mr-review-scratch`), a working folder **outside
+  any reviewed repo**, where dumps and pending-comment payloads are written.
+
+The three scripts they use ship here in [`bin/`](./bin/) and hard-code nothing.
+The mechanism they implement — reading, batching, the two modes, existing
+discussions, inline posting and its four traps — is written once in
+[`references/mr-review-plumbing.md`](./references/mr-review-plumbing.md), and
+what a review looks at beyond correctness is in
+[`references/review-axes.md`](./references/review-axes.md).
+
+```bash
+export GITLAB_HOST=gitlab.example.com && python3 bin/prefetch_mr.py group/repo 42
+```
+
+Posting is the only outward-facing step: `post_mr_comments.py` takes
+`--dry-run`, and every reader defaults to REPORT, which posts nothing.
 
 ## Where this is going
 

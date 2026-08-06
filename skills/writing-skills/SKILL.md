@@ -37,7 +37,7 @@ rewritten our way (Rule B).
    in the same move; a skill not referenced in both becomes invisible and gets rewritten twice
    later.
 6. **Stay publishable** (Rule C): no real project name, no secret, a generic role ("the Laravel
-   backend") never an internal repo name: except in `xefi-mr-review`, which has a different
+   backend") never an internal repo name: except in an internal MR-review implementation, which has a different
    status (production evidence, real names owned).
 
 ## Output / checkpoint

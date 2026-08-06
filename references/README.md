@@ -34,6 +34,7 @@
 | Agents (aragorn/gimli/legolas/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
 | **Current library/framework docs** (upstream, beyond any training cutoff) | `context7` MCP server, on demand | tool | Pub | ✅ installed (see below) |
 | **MR review plumbing** (API-first dump, batching, restricted scope, REPORT/POST, discussions, inline posting and its four traps) | `references/mr-review-plumbing.md` | doc | Pub | ✅ (extracted 2026-08-06 from `boromir`; cited by all eight readers, which keep only their default mode and paths) |
+| **The review scripts themselves** (prefetch dump, batched blob search, inline posting with position resolution) | `bin/*.py`, documented in `references/mr-review-plumbing.md` | code | Pub | ✅ (shipped 2026-08-06; host from `GITLAB_HOST`, scratch from `MR_SCRATCH`, nothing hard-coded, `--dry-run` on the posting one) |
 | **Cross-cutting review axes** (accessibility, trust boundary, tests owed, hot-path cost, diagnosability, contract, deletion, user-visible words) | `references/review-axes.md` | doc | Pub | ✅ (written 2026-08-06 from real reviews that came back silent on all eight; cited by the eight readers and by `skills/review`) |
 | **Social platform publishing access** (who gates posting, what it costs, what's not worth it) | `references/social-platforms.md` | doc | Pub | ✅ (dated 2026-08-06, six-month window) |
 

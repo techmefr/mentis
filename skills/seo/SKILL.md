@@ -1,6 +1,6 @@
 ---
 name: seo
-description: Use when writing or reviewing a frontend page/app meant to be indexed (Nuxt/React SSR or static), technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals performance, sitemap/robots. No dedicated SEO production experience at Xefi at this stage, sourced from established market guidelines (Google Search Central, web.dev).
+description: Use when writing or reviewing a frontend page/app meant to be indexed (Nuxt/React SSR or static), technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals performance, sitemap/robots. No dedicated SEO production experience in house at this stage, sourced from established market guidelines (Google Search Central, web.dev).
 ---
 
 # seo
@@ -65,7 +65,7 @@ The four sections reviewed on the diff touched; for a broader audit of a site al
   checklist outside its scope.
 - No JSON-LD over-engineering: only the content types that get a real benefit from it (product page,
   article), not a systematic addition.
-- This block has no dedicated Xefi production experience yet: to be confronted with the first real SEO
+- This block has no dedicated in-house production experience yet: to be confronted with the first real SEO
   audit, not to be treated as proven doctrine.
 
 ## Origin

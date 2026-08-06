@@ -1,6 +1,6 @@
 ---
 name: accessibility
-description: Use when writing or reviewing a frontend page/app (Nuxt/React), technical accessibility checklist: HTML semantics, focus/keyboard, contrast, ARIA, forms. No dedicated a11y production experience at Xefi at this stage, sourced from WCAG 2.2 (level AA) and established guidelines (MDN, W3C).
+description: Use when writing or reviewing a frontend page/app (Nuxt/React), technical accessibility checklist: HTML semantics, focus/keyboard, contrast, ARIA, forms. No dedicated a11y production experience in house at this stage, sourced from WCAG 2.2 (level AA) and established guidelines (MDN, W3C).
 ---
 
 # accessibility
@@ -68,7 +68,7 @@ The four sections reviewed on the diff touched; for a broader audit of a page/si
   replace a manual keyboard/screen-reader test on the critical journeys.
 - No ARIA added out of reflex "to look tidy": only when native HTML isn't enough (see the golden rule in
   section 2).
-- This block has no dedicated Xefi production experience yet: to be confronted with the first real a11y
+- This block has no dedicated in-house production experience yet: to be confronted with the first real a11y
   audit, not to be treated as proven doctrine.
 
 ## Origin

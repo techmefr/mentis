@@ -1,6 +1,6 @@
 ---
 name: review
-description: Use when the GATE is green, before simplification, review along two parallel axes (Standards + Spec) then a pass by the Xefi agents.
+description: Use when the GATE is green, before simplification, review along two parallel axes (Standards + Spec) then a pass by the house agents.
 ---
 
 # review
@@ -37,7 +37,7 @@ The two axes stay **independent** (no shared context). We invoke the native tool
 reimplement it. Plain comments, no emojis/arrows, lowercase at the start of a sentence.
 
 ## Origin
-A recognised market skill author (non-polluting two-axis code review) + Xefi agents + native,
+A recognised market skill author (non-polluting two-axis code review) + the house agents + native,
 rewritten. Step 4 (triage before posting) is the generic form of a mechanism that proved itself on
 an agent kept private: the agent was calibrated on one named person's habits, which doesn't belong
 in a shared framework, but the discipline it encoded holds for any reviewer.
