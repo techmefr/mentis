@@ -33,7 +33,18 @@ is to cut those sections and keep only what the plugin has no equivalent for. Th
 live content, so it waits for an explicit go. `go-conventions` and `java-conventions` have **no** plugin
 counterpart and stay as they are.
 
-No duplicate found **inside** mentis: the pairs most at risk were checked — `bug-triage` vs
+**What the marketplace completed in mentis** (same pass): it revealed two stacks Xefi clearly works on that our
+roster ignored — Python (20 skills) and Flutter (37) — with `elrond` routing an MR on either of them **nowhere**.
+Fixed by adding `samwise` and `faramir`, both deferring to the plugin for the rules, plus updating `elrond`, which
+had also gone stale on `frodo`/`boromir`/`theoden` (it still routed only three stacks out of eight). No new
+conventions block was written for those stacks: the plugin already holds them, and we have no experience to add.
+
+**Known duplication left inside mentis, not fixed here:** the eight per-stack readers each carry ~150 lines of
+identical GitLab plumbing (prefetch, batching, inline-posting payload, the `-f position[...]` trap). `samwise` and
+`faramir` point at `boromir` for it rather than copying it again, which is a stopgap — an agent reading another
+agent's file is not a real shared mechanism. Factoring it out into one referenced doc is a separate pass.
+
+No duplicate found **inside** mentis otherwise: the pairs most at risk were checked — `bug-triage` vs
 `qa-exploratory-testing` (report handling vs pre-merge discovery), `security-hardening` vs `seraph`
 (writing-time vs audit-time), `debug` vs `when-stuck` (a bug with a cause vs the approach itself),
 `over-engineering-review` vs `simplify` (lists vs applies), `internal-communication` vs `handoff`
@@ -121,6 +132,7 @@ No duplicate found **inside** mentis: the pairs most at risk were checked — `b
 |---|---|---|
 | aragorn / gimli / legolas | MR review, Xefi style (Nuxt/Vue · React) | ✅ |
 | boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET) |
+| samwise / faramir | MR review (Python · Flutter/Dart) | 🟡 (added by the marketplace-completion pass: the plugin ships 20 Python and 37 Flutter skills, so those stacks are worked on at Xefi and `elrond` routed them nowhere; both defer to the plugin for the rules and carry no conventions block of their own — mentis writes **no** mobile block) |
 | elrond | review orchestrator: detects the stack, delegates, never reviews itself | ✅ |
 | gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
 | **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; the hook pair now exists in `hooks/`, per-repo wiring not done yet, not dogfooded yet) |
