@@ -32,6 +32,26 @@ own current documentation, which is exactly the thing that goes stale in a writt
 | **Pinterest, Reddit** | yes | Own app registration and content rules; Reddit's rules are subreddit-level and unforgiving of anything reading as promotion. |
 | **Viadeo** | **no realistic route** | ~4M French accounts, mostly inactive, down from a 2017 peak; acquired by the Le Figaro group and repositioned toward company reviews and employer brand, with company pages moved to the group's jobs brand and job posting removed. No evidence of a usable third-party publishing API. **Verdict: not a publishing channel.** If it matters at all it's an employer-brand surface, handled by hand by whoever owns recruitment. |
 
+## Format mechanics (for `business/content-creation`)
+
+**Read this section with more suspicion than the one above.** Platform access is documented by the
+platforms; format mechanics are *community-observed heuristics* — measured by people with different
+audiences, on algorithms that change without announcement, and repeated between blog posts until they
+sound like rules. Treat every line here as "reported", verify against a platform's own current guidance
+where one exists, and above all **check it against what has actually worked on our own accounts**, which
+is the only measurement that concerns us.
+
+| Platform | Reported mechanics |
+|---|---|
+| **LinkedIn** | the fold is short — the first line or two is the whole preview; medium-length posts (roughly 900–1300 characters) are commonly reported as the sweet spot; outbound links are widely believed to reduce reach, hence the convention of putting the link in the first comment; first-person writing outperforms company-voice |
+| **X** | 280 characters per post; threads of ~6–10 posts to carry one argument; the first post is the whole decision to read or not; links reduce reach, and now also cost more per post via the API |
+| **Instagram** | image and short video first, caption second; carousels for step-by-step; hashtags far less load-bearing than they were |
+| **TikTok / Shorts / Reels** | vertical 9:16, the first seconds decide everything, captions burned in because most viewing is silent |
+| **YouTube** | title and thumbnail are the click decision and are worth more effort than the edit; the first 30 seconds decide retention; chapters help long technical content |
+| **Threads / Bluesky / Mastodon** | conversational, short, links tolerated — the least penalised place to send someone elsewhere |
+| **Reddit** | subreddit rules override everything, and anything reading as promotion is removed; only useful with a real answer to a real question |
+| **Newsletter** | one idea per issue, and the subject line is the whole open decision |
+
 ## Aggregators
 
 Multi-platform MCP servers exist (a dedicated posting server, plus MCP connectors shipped by the
