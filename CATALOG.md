@@ -48,6 +48,8 @@
 | dispatch-parallel | cross-cutting | a market skill/agent framework (dispatching-parallel-agents + subagent-driven-development, merged) | 🟡 (written, partial experience via elrond→aragorn/gimli/legolas) |
 | writing-skills | cross-cutting (meta) | a market skill/agent framework | 🟡 (written, applies the single template + rule B checklist) |
 | writing-agents | cross-cutting (meta) | internal synthesis (formalises the 7-pillar template already in use) | 🟢 |
+| testing-blocks | cross-cutting (meta) | a market skills repository (`testing-skills-with-subagents`: RED/GREEN/REFACTOR on behaviour, pressure taxonomy, record the rationalisation verbatim) | 🟡 (written; the obvious next move is to run it on itself) |
+| distributing-blocks | cross-cutting | a market skills repository (`pulling-updates-from-skills-repository` + `sharing-skills`) | 🟡 (written; answers README stages 3-4, no consumer yet) |
 | portless-ready | setup/infra | a market portless tool (wiring is ours) | 🟡 (makes a stack portless: HTTPS alias + port hygiene) |
 | **gate** | 7 | market long-running agent patterns (`default-FAIL hook` + `fresh-context evaluator`) | 🟡 (agent `galadriel` + the `hooks/` pair written and unit-tested against 6 cases; per-repo wiring still to do) |
 | review | 8 | a recognised market skill author (two-axis code review) + Xefi agents + native | 🟡 |
@@ -94,6 +96,13 @@ linters, orchestration frameworks, etc. on the market).
 | market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
 | market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
+| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (47 skills / 19 agents), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
+| market skills repository (companion) | `meta/testing-skills-with-subagents` → `testing-blocks` | validating our own 🟡 blocks | ✅ |
+| market skills repository (companion) | `meta/pulling-updates-from-skills-repository` + `meta/sharing-skills` → `distributing-blocks` | README stages 3-4 | ✅ |
+| market skills repository (companion) | `debugging/root-cause-tracing`, `debugging/defense-in-depth`, `debugging/verification-before-completion` | debug (we have 1 skill where they have 4) | 🔎 (next) |
+| market skills repository (companion) | `testing/testing-anti-patterns`, `testing/condition-based-waiting` (the flaky-test remedy: wait on a condition, never on a duration) | tdd / testing doctrine | 🔎 (next, no equivalent here) |
+| market skills repository (companion) | `problem-solving/*` (when-stuck, inversion-exercise, simplification-cascades, scale-game, collision-zone-thinking, meta-pattern-recognition), `architecture/preserving-productive-tensions`, `research/tracing-knowledge-lineages`, `collaboration/remembering-conversations` | new category: thinking techniques | 🔎 (nothing here covers "how to get unstuck"; to be filtered against rule B rather than taken wholesale) |
+| market skills repository (companion) | `meta/gardening-skills-wiki` | / | 🔎 (maintenance of a skills corpus; relevant once there are consumers) |
 | market skill/agent framework | `dispatching-parallel-agents` + `subagent-driven-development` → merged into `dispatch-parallel` | orchestration | ✅ |
 | market skill/agent framework | `writing-plans` | plan | ✅ (owned by `plan`: atomic increments, dependency order, one task item each, and no auto-execution of the whole plan) |
 | market Claude Code agent catalogues (several) | `git-advanced-workflows` (advanced worktrees) | start-feature / finish | ✕ (duplicate lead, same source ruled out below: a reference course, not an orchestrated block; worktree mechanics already covered by `start-feature`/`merge-worktree`) |
