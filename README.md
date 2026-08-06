@@ -175,6 +175,44 @@ Claude Code's native format:
    by name (e.g. `elrond` for a multi-stack review, or `aragorn`/`gimli`/...
    directly if the stack is already known).
 
+## Where this is going
+
+Four stages, in this order, and the order is the point:
+
+1. **Build the blocks** (here, ongoing): the workflow, the agent roster, the
+   skills. Each one rewritten our way, credited, under the single template.
+2. **Dogfood them on real projects**: every block runs at least once on real
+   work before it counts. Today most of the roster is written but never run,
+   which `CATALOG.md` marks honestly as 🟡.
+3. **Share it across the company**: other teams install it and use it.
+4. **Keep it updated** for those users, without becoming the thing rule B
+   warns about.
+
+### Stage 3 and 4 are not designed yet, and there's a tension to settle first
+
+Rule B exists so that **nobody upstream can break my workflow**. The moment
+this gets distributed and updates itself, *I become that upstream* for every
+colleague who installs it. Applying my own rule to myself has consequences:
+
+- **An update that silently rewrites someone's agents is exactly what rule B
+  forbids others from doing to me.** So updates get pulled and read, not
+  pushed: versioned, with a changelog, and pinnable. "It auto-updates" is a
+  feature request that needs this answered first, not a goal in itself.
+- **Consumers will customise blocks** (their own stack, their own review
+  conventions). An update that overwrites local edits destroys their work. The
+  distribution needs a declared boundary between my blocks and their
+  overrides, decided before the first person installs it, because it's
+  unfixable afterwards without breaking them.
+- **Rule C is load-bearing for this, not just for a hypothetical public
+  release.** Sharing across the company means many teams: a block that
+  hard-codes one team's project name is useless to the others and leaks to
+  everyone. The discipline that keeps this publishable is the same discipline
+  that makes it shareable internally.
+- **Order matters against rule A.** Sharing before stage 2 would distribute
+  blocks that have never been run once. The first colleagues to try it are the
+  ones whose trust is hardest to win back, so dogfooding isn't a nice-to-have
+  ahead of distribution, it's the precondition.
+
 ## Status
 
 Active demonstrator: my doctrine (template, rules A/B/C, default = failure,
