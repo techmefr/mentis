@@ -1,85 +1,74 @@
 ---
 name: seo
-description: Use quand on code ou revoit une page/app front destinée à être indexée (Nuxt/React SSR ou statique), checklist SEO technique : meta tags, sémantique HTML, structured data, performance Core Web Vitals, sitemap/robots. Pas de vécu de production Xefi dédié SEO à ce stade, sourcé sur les guidelines établies du marché (Google Search Central, web.dev).
+description: Use when writing or reviewing a frontend page/app meant to be indexed (Nuxt/React SSR or static), technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals performance, sitemap/robots. No dedicated SEO production experience at Xefi at this stage, sourced from established market guidelines (Google Search Central, web.dev).
 ---
 
 # seo
 
-Étape 6 du pipeline (`WORKFLOW.md`), en complément de `vue-nuxt-vuetify-conventions`/
-`react-nextjs-conventions` : s'applique uniquement aux pages destinées à être
-indexées par un moteur de recherche (pas aux back-offices, aux apps internes
-authentifiées, ni aux dashboards).
+Step 6 of the pipeline (`WORKFLOW.md`), complementing
+`vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`: applies only to pages meant to be indexed
+by a search engine (not to back-offices, authenticated internal apps, or dashboards).
 
-## Quand
-Dès qu'une page front est publique et doit être trouvable via recherche : 
-pendant `code` (6) ou en review (`review`, 8) si le diff touche des pages
-publiques.
+## When
+As soon as a frontend page is public and has to be findable through search: during `code` (6) or at
+review time (`review`, 8) if the diff touches public pages.
 
-## Étapes
+## Steps
 
-### 1. Meta et indexation : la base non négociable
-1. Chaque page a un `<title>` unique et une `<meta name="description">`
-   propre (pas de doublon copié-collé entre pages, pas de valeur par défaut
-   générique laissée en prod).
-2. Balise `canonical` posée dès qu'une même page est accessible par plusieurs
-   URLs (paramètres de tri/filtre, trailing slash, http/https).
-3. `robots.txt` et balises `meta robots`/`noindex` cohérents avec l'intention
-   réelle : une page volontairement exclue de l'index le dit explicitement,
-   jamais par oubli d'un `noindex` qui traîne sur une page qu'on veut indexer.
-4. Open Graph / Twitter Card renseignés sur les pages partageables (titre,
-   description, image) : sinon le partage social affiche un aperçu vide ou
-   générique.
+### 1. Meta and indexing: the non-negotiable base
+1. Every page has a unique `<title>` and its own `<meta name="description">` (no copy-pasted duplicate
+   between pages, no generic default value left in production).
+2. A `canonical` tag as soon as the same page is reachable through several URLs (sort/filter
+   parameters, trailing slash, http/https).
+3. `robots.txt` and `meta robots`/`noindex` tags consistent with the real intent: a page deliberately
+   excluded from the index says so explicitly, never through a forgotten `noindex` lingering on a page
+   we want indexed.
+4. Open Graph / Twitter Card filled in on shareable pages (title, description, image): otherwise social
+   sharing shows an empty or generic preview.
 
-### 2. Sémantique HTML : ce qu'un crawler et un lecteur d'écran lisent pareil
-1. Une seule balise `<h1>` par page, hiérarchie `h1 > h2 > h3` sans saut de
-   niveau arbitraire pour un effet visuel (le visuel se gère en CSS, pas en
-   changeant la balise).
-2. Contenu textuel réel dans le HTML servi (SSR/SSG), jamais uniquement injecté
-   côté client après hydratation pour le contenu qui doit être indexé : un
-   crawler qui n'exécute pas le JS ne voit rien.
-3. Liens internes en vraies balises `<a href>` (navigables, crawlables),
-   jamais un `<div onClick>` qui simule un lien.
-4. Attribut `alt` descriptif sur les images porteuses de sens, vide (`alt=""`)
-   sur les images purement décoratives : jamais absent.
+### 2. HTML semantics: what a crawler and a screen reader read the same way
+1. A single `<h1>` per page, an `h1 > h2 > h3` hierarchy with no arbitrary level skipping for a visual
+   effect (the visual is handled in CSS, not by changing the tag).
+2. Real text content in the HTML served (SSR/SSG), never only injected client-side after hydration for
+   content that has to be indexed: a crawler that doesn't run JS sees nothing.
+3. Internal links as real `<a href>` tags (navigable, crawlable), never a `<div onClick>` simulating a
+   link.
+4. A descriptive `alt` attribute on meaningful images, empty (`alt=""`) on purely decorative ones: never
+   absent.
 
-### 3. Performance : Core Web Vitals
-1. LCP (Largest Contentful Paint) : l'image/le bloc principal above-the-fold
-   n'attend pas un chargement JS lourd ni un fetch client-side évitable ;
-   `loading="eager"`/`fetchpriority="high"` sur l'image LCP, `lazy` sur le
-   reste.
-2. CLS (Cumulative Layout Shift) : dimensions explicites (`width`/`height` ou
-   `aspect-ratio`) sur images/vidéos/embeds pour réserver l'espace avant
-   chargement : jamais de contenu qui pousse la mise en page après coup.
-3. INP (Interaction to Next Paint) : pas de tâche JS bloquante longue sur les
-   interactions principales (clic, saisie) : voir les conventions perf déjà
-   posées dans `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`.
+### 3. Performance: Core Web Vitals
+1. LCP (Largest Contentful Paint): the main above-the-fold image/block doesn't wait on a heavy JS load
+   or an avoidable client-side fetch; `loading="eager"`/`fetchpriority="high"` on the LCP image, `lazy`
+   on the rest.
+2. CLS (Cumulative Layout Shift): explicit dimensions (`width`/`height` or `aspect-ratio`) on
+   images/videos/embeds to reserve the space before loading: never content that pushes the layout
+   around afterwards.
+3. INP (Interaction to Next Paint): no long blocking JS task on the main interactions (click, typing):
+   see the perf conventions already set in
+   `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`.
 
-### 4. Structured data et découverte
-1. JSON-LD (`schema.org`) posé sur les types de contenu qui en bénéficient
-   (article, produit, FAQ, breadcrumb) quand le besoin métier le justifie : 
-   pas systématiquement par réflexe sur tout type de page.
-2. `sitemap.xml` généré (pas maintenu à la main) et référencé dans
-   `robots.txt`, mis à jour à chaque déploiement de contenu nouveau.
-3. URLs lisibles et stables (slugs, pas d'ID technique exposé sans raison) : 
-   un changement d'URL casse l'historique d'indexation, donc redirection 301
-   obligatoire si une URL publique change.
+### 4. Structured data and discovery
+1. JSON-LD (`schema.org`) placed on the content types that benefit from it (article, product, FAQ,
+   breadcrumb) when the business need justifies it: not systematically out of reflex on every page
+   type.
+2. `sitemap.xml` generated (not maintained by hand) and referenced in `robots.txt`, updated on every
+   deployment of new content.
+3. Readable and stable URLs (slugs, no technical ID exposed without reason): a URL change breaks the
+   indexing history, so a 301 redirect is mandatory if a public URL changes.
 
-## Sortie / checkpoint
-Les quatre sections passées en revue sur le diff touché ; pour un audit plus
-large d'un site déjà en prod (pas seulement le diff en cours), voir l'agent
-`seo-auditor`.
+## Output / checkpoint
+The four sections reviewed on the diff touched; for a broader audit of a site already in production
+(not just the diff in progress), see the `seo-auditor` agent.
 
-## Garde-fous
-- Ne s'applique jamais aux pages non publiques (auth, back-office, dashboard
-  interne) : ne pas imposer cette checklist hors de son périmètre.
-- Pas de sur-ingénierie JSON-LD : seulement les types de contenu qui en tirent
-  un bénéfice réel (page produit, article), pas un ajout systématique.
-- Cette brique n'a pas encore de vécu de production Xefi dédié : à confronter
-  au premier vrai audit SEO réel, pas à traiter comme doctrine éprouvée.
+## Guardrails
+- Never applies to non-public pages (auth, back-office, internal dashboard): don't impose this
+  checklist outside its scope.
+- No JSON-LD over-engineering: only the content types that get a real benefit from it (product page,
+  article), not a systematic addition.
+- This block has no dedicated Xefi production experience yet: to be confronted with the first real SEO
+  audit, not to be treated as proven doctrine.
 
-## Origine
-Sourcé sur les guidelines établies du marché : Google Search Central
-(indexation, structured data, Core Web Vitals), web.dev (LCP/CLS/INP,
-sémantique HTML, images). Mécanismes réécrits en checklist actionnable, pas de
-texte copié. Recherche de marché, pas de retour de production interne à ce
-stade.
+## Origin
+Sourced from established market guidelines: Google Search Central (indexing, structured data, Core Web
+Vitals), web.dev (LCP/CLS/INP, HTML semantics, images). Mechanisms rewritten as an actionable
+checklist, no copied text. Market research, no internal production feedback at this stage.

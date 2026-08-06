@@ -1,28 +1,28 @@
 ---
 name: finish
-description: Use après le merge humain de la MR, nettoie la worktree et met à jour la branche d'intégration. Ferme la boucle du pipeline.
+description: Use after the human merge of the MR, cleans up the worktree and updates the integration branch. Closes the pipeline loop.
 ---
 
 # finish
 
-Étape 11 du pipeline (`WORKFLOW.md`). Post-merge : ranger derrière soi.
+Step 11 of the pipeline (`WORKFLOW.md`). Post-merge: tidying up behind you.
 
-## Quand
-Une fois la MR **mergée par un humain** (jamais avant).
+## When
+Once the MR has been **merged by a human** (never before).
 
-## Étapes
-1. Appeler `finish_task(project, branch, base?)` : arrête le serveur, retire la worktree git
-   (`git worktree remove`), met à jour la branche d'intégration (`develop` par défaut, fast-forward),
-   supprime la ligne en base.
-2. Vérifier que le dashboard ne liste plus la worktree.
+## Steps
+1. Call `finish_task(project, branch, base?)`: stops the server, removes the git worktree
+   (`git worktree remove`), updates the integration branch (`develop` by default,
+   fast-forward), deletes the row from the database.
+2. Check that the dashboard no longer lists the worktree.
 
-## Sortie / checkpoint
-Ligne supprimée : la tâche sort du suivi.
+## Output / checkpoint
+Row deleted: the task leaves the tracking.
 
-## Garde-fous
-Ne pas supprimer la worktree à la main : c'est `finish_task` qui le fait proprement. Ne rien
-lancer avant le merge humain. La base d'intégration est **configurable** (`base`), pas `develop`
-en dur si le repo utilise `main`.
+## Guardrails
+Don't delete the worktree by hand: `finish_task` does it cleanly. Don't run anything before the
+human merge. The integration base is **configurable** (`base`), not hard-coded to `develop` if
+the repo uses `main`.
 
-## Origine
-Interne starfleet (`finish_task`), réécrit à notre sauce.
+## Origin
+Internal starfleet (`finish_task`), rewritten our way.

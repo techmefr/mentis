@@ -1,48 +1,43 @@
 ---
 name: handoff
-description: Use quand une tâche déborde d'une session et qu'il faut transmettre le contexte à une session/agent frais proprement, compacte l'état en un document de passation qui référence les artefacts déjà écrits (plan, ADR, ticket, commit, diff) par chemin/URL plutôt que de dupliquer leur contenu.
+description: Use when a task spills over a session and the context has to be passed cleanly to a fresh session/agent, compacts the state into a handover document that references the artefacts already written (plan, ADR, ticket, commit, diff) by path/URL rather than duplicating their content.
 ---
 
 # handoff
 
-Étape transverse, à la frontière entre deux sessions sur la même tâche : 
-complète `worktree-one-task-close-after-merge` : le worktree reste ouvert,
-mais le contexte de la session qui se termine doit survivre proprement à la
-suivante.
+Cross-cutting step, at the boundary between two sessions on the same task: complements
+`worktree-one-task-close-after-merge`: the worktree stays open, but the context of the session
+that's ending has to survive cleanly into the next one.
 
-## Quand
-Dès qu'une session touche à sa fin (limite de contexte, fin de journée,
-changement de qui reprend) sans que la tâche soit terminée : jamais en
-remplacement d'un simple résumé de fin de tâche complète.
+## When
+As soon as a session is coming to an end (context limit, end of day, change of who picks it up)
+without the task being finished: never as a replacement for a plain end-of-task summary on a
+completed task.
 
-## Étapes
+## Steps
 
-1. **Écrire un document de passation** (fichier temporaire dédié, pas mêlé au
-   code) qui contient : où on en est, ce qui reste à faire, ce qui a été
-   décidé et pourquoi, ce qui bloque s'il y a un blocage.
-2. **Référencer, ne jamais dupliquer** : renvoyer vers les artefacts déjà
-   écrits par leur chemin/URL exact (plan, ADR, ticket Jira, commit, diff en
-   cours) plutôt que de recopier leur contenu dans le document de passation : 
-   un handoff qui duplique gonfle le contexte de la session suivante pour
-   rien.
-3. **Suggérer les skills pertinentes** pour la suite (ex "reprendre à `tdd`,
-   le `plan` est déjà fait et référencé ici") : la session suivante sait par
-   où recommencer sans devoir redécouvrir l'état seule.
-4. La session suivante lit le document de passation en premier, avant tout
-   autre exploration : il fait gagner le temps de re-contextualisation.
+1. **Write a handover document** (a dedicated temporary file, not mixed into the code) containing:
+   where we are, what's left to do, what was decided and why, what's blocking if there is a
+   blocker.
+2. **Reference, never duplicate**: point at the artefacts already written by their exact path/URL
+   (plan, ADR, Jira ticket, commit, diff in progress) rather than copying their content into the
+   handover document: a handoff that duplicates inflates the next session's context for nothing.
+3. **Suggest the relevant skills** for what follows (e.g. "resume at `tdd`, the `plan` is already
+   done and referenced here"): the next session knows where to restart without having to
+   rediscover the state on its own.
+4. The next session reads the handover document first, before any other exploration: it saves the
+   re-contextualisation time.
 
-## Sortie / checkpoint
-Un document de passation existe, cite chaque artefact par chemin/URL exact
-(pas de contenu dupliqué), et nomme explicitement la prochaine étape/skill à
-reprendre.
+## Output / checkpoint
+A handover document exists, cites every artefact by its exact path/URL (no duplicated content),
+and explicitly names the next step/skill to resume at.
 
-## Garde-fous
-Jamais de duplication de contenu déjà écrit ailleurs : le principe entier de
-cette brique est la référence, pas la copie. Un handoff qui devient plus long
-que les artefacts qu'il référence a raté son objectif.
+## Guardrails
+Never duplicate content already written elsewhere: the whole principle of this block is
+referencing, not copying. A handoff that ends up longer than the artefacts it references has
+missed its goal.
 
-## Origine
-Réécriture du skill `handoff` d'un auteur de skills reconnu du marché : 
-la règle "ne jamais dupliquer, référencer par chemin" est reprise telle
-quelle, réécrite en français au gabarit Xefi et reliée explicitement à
-`worktree-one-task-close-after-merge` déjà en place côté Xefi.
+## Origin
+Rewrite of the `handoff` skill from a recognised market skill author: the rule "never duplicate,
+reference by path" is taken as-is, rewritten to the Xefi template and explicitly linked to
+`worktree-one-task-close-after-merge` already in place on the Xefi side.

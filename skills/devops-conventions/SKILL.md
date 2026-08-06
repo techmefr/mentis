@@ -1,71 +1,64 @@
 ---
 name: devops-conventions
-description: Use quand on écrit/revoit un pipeline CI/CD, de l'infra as code (Docker, Terraform, Ansible) ou du monitoring/alerting, conventions pour la fiabilité et la reproductibilité, pas pour le code applicatif. Pas de vécu de production Xefi dédié à ce stade, sourcé sur les pratiques établies (12-factor, DORA metrics).
+description: Use when writing/reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring/alerting, conventions for reliability and reproducibility, not for application code. No dedicated Xefi production experience at this stage, sourced from established practice (12-factor, DORA metrics).
 ---
 
 # devops-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`) côté infra/CI, en complément de
-`portless-ready` (qui rend une stack portless) : ici la fiabilité et la
-reproductibilité du pipeline de livraison lui-même.
+Step 6 of the pipeline (`WORKFLOW.md`) on the infra/CI side, complementing `portless-ready` (which
+makes a stack portless): here, the reliability and reproducibility of the delivery pipeline itself.
 
-## Quand
-Dès qu'on écrit ou modifie un fichier de CI/CD (`.gitlab-ci.yml`,
-`Dockerfile`, `docker-compose.yml`), de l'infra as code (Terraform, Ansible),
-ou une config de monitoring/alerting.
+## When
+As soon as a CI/CD file (`.gitlab-ci.yml`, `Dockerfile`, `docker-compose.yml`), infrastructure as
+code (Terraform, Ansible), or a monitoring/alerting config is written or modified.
 
-## Étapes
+## Steps
 
-### 1. CI/CD : reproductible et rapide à diagnostiquer
-1. Pipeline idempotent : rejouer le même job sur le même commit produit le
-   même résultat, jamais dépendant d'un état externe muable non versionné.
-2. Chaque étape échoue vite et clairement (fail-fast) : pas de step qui
-   continue silencieusement après une erreur (`continue-on-error` seulement
-   si explicitement voulu, jamais par défaut).
-3. Secrets jamais en dur dans le pipeline ni loggés en clair : variables
-   protégées/masquées côté CI, jamais un `echo $SECRET` de debug oublié.
-4. Cache de dépendances explicite et versionné (clé de cache liée au
-   lockfile), jamais un cache qui masque une dépendance cassée.
+### 1. CI/CD: reproducible and quick to diagnose
+1. Idempotent pipeline: replaying the same job on the same commit produces the same result, never
+   dependent on unversioned mutable external state.
+2. Every step fails fast and clearly (fail-fast): no step that continues silently after an error
+   (`continue-on-error` only if explicitly wanted, never by default).
+3. Secrets never hard-coded in the pipeline or logged in clear text: protected/masked variables on the
+   CI side, never a forgotten debug `echo $SECRET`.
+4. Explicit and versioned dependency cache (cache key tied to the lockfile), never a cache that hides
+   a broken dependency.
 
-### 2. Infra as code
-1. État versionné et déclaratif (Terraform state, Ansible inventory) : jamais
-   de modification manuelle d'une ressource gérée par l'IaC (drift silencieux
-   au prochain apply).
-2. `plan`/`dry-run` toujours lu avant un `apply`/exécution réelle sur un
-   environnement partagé : jamais d'apply direct sans revue du diff d'infra.
-3. Secrets d'infra (clés, tokens) dans un vault/secret manager, jamais commit
-   en clair même dans un repo privé.
+### 2. Infrastructure as code
+1. Versioned and declarative state (Terraform state, Ansible inventory): never a manual change to a
+   resource managed by the IaC (silent drift on the next apply).
+2. `plan`/`dry-run` always read before an `apply`/real execution on a shared environment: never a
+   direct apply without reviewing the infra diff.
+3. Infra secrets (keys, tokens) in a vault/secret manager, never committed in clear text even in a
+   private repo.
 
-### 3. Monitoring et alerting
-1. Une alerte qui se déclenche doit être actionnable : sinon c'est du bruit
-   qui désensibilise l'équipe (alert fatigue), à retirer ou reformuler.
-2. Logs structurés (JSON ou format parsable), jamais uniquement du texte libre
-   sur les événements qui doivent être requêtables en incident.
-3. Healthcheck distinct du monitoring métier : un service "up" (process
-   vivant) n'est pas la même chose qu'un service "sain" (répond correctement
-   aux requêtes réelles).
+### 3. Monitoring and alerting
+1. An alert that fires must be actionable: otherwise it's noise that desensitises the team (alert
+   fatigue), to be removed or reworded.
+2. Structured logs (JSON or a parsable format), never free text alone for events that have to be
+   queryable during an incident.
+3. Healthcheck distinct from business monitoring: a service that's "up" (process alive) isn't the same
+   as a service that's "healthy" (answers real requests correctly).
 
 ### 4. Incident response
-1. Rollback toujours possible et testé avant qu'il soit nécessaire en urgence
-, un rollback qu'on découvre cassé pendant l'incident aggrave la panne.
-2. Post-mortem sans blâme individuel, focalisé sur la cause systémique (ce
-   qui a permis l'incident), pas sur qui a appuyé sur quoi.
+1. Rollback always possible and tested before it's needed in an emergency; a rollback discovered
+   broken during the incident makes the outage worse.
+2. Post-mortem with no individual blame, focused on the systemic cause (what made the incident
+   possible), not on who pressed what.
 
-## Sortie / checkpoint
-Pipeline/infra conforme aux sections ci-dessus, `plan`/`dry-run` lu et cité
-avant tout `apply` réel sur un environnement partagé.
+## Output / checkpoint
+Pipeline/infra compliant with the sections above, `plan`/`dry-run` read and cited before any real
+`apply` on a shared environment.
 
-## Garde-fous
-- Jamais d'`apply`/déploiement automatique sur un environnement partagé sans
-  confirmation humaine explicite (cohérent avec la doctrine générale du
-  framework : les actions difficiles à annuler restent un point de passage
-  humain).
-- Cette brique n'a pas encore de vécu de production Xefi dédié : à confronter
-  au premier vrai audit infra/CI réel, pas à traiter comme doctrine éprouvée.
+## Guardrails
+- Never an automatic `apply`/deployment on a shared environment without explicit human confirmation
+  (consistent with the framework's general doctrine: actions that are hard to undo stay a human
+  checkpoint).
+- This block has no dedicated Xefi production experience yet: to be confronted with the first real
+  infra/CI audit, not to be treated as proven doctrine.
 
-## Origine
-Sourcé sur les 12-factor app (config par variables d'environnement, logs
-comme flux d'événements), DORA metrics (Accelerate : Forsgren/Humble/Kim :
-fréquence de déploiement, lead time, MTTR, taux d'échec des changements) et
-les pratiques établies GitOps/IaC. Mécanismes réécrits, pas de texte copié.
-Recherche de marché, pas de retour de production interne à ce stade.
+## Origin
+Sourced from the 12-factor app (config through environment variables, logs as event streams), DORA
+metrics (Accelerate: Forsgren/Humble/Kim: deployment frequency, lead time, MTTR, change failure rate)
+and established GitOps/IaC practice. Mechanisms rewritten, no copied text. Market research, no
+internal production feedback at this stage.

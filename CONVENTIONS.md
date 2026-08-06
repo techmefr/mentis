@@ -1,105 +1,106 @@
-# mentis : conventions d'écriture des briques
+# mentis: conventions for writing the building blocks
 
-> Gouvernance de toutes les briques du workflow (skills, commands, agents, tools).
-> Deux règles fondatrices, puis le **gabarit unique** d'écriture.
+> Governance for every block in the workflow (skills, commands, agents, tools).
+> Two founding rules, then the **single writing template**.
 
-## Règle A : tester l'approche complète d'abord
+## Rule A: test the complete approach first
 
-On assemble le **pipeline entier** (étapes 1→11 de `WORKFLOW.md`) et on fait passer **une vraie
-feature de bout en bout** avant de découper en projets (mentis / starfleet / FLEET / …). Le
-découpage vient *après*, une fois que l'approche complète est validée sur le terrain. Tant que
-le tour complet n'a pas tourné une fois, on ne fige aucune frontière de projet.
+We assemble the **whole pipeline** (steps 1→11 of `WORKFLOW.md`) and push **one real feature end
+to end** before splitting things into projects (mentis / starfleet / FLEET / …). The split comes
+*after*, once the complete approach has been validated in the field. Until the full loop has run
+once, no project boundary gets frozen.
 
-## Règle B : réécrire « à notre sauce », jamais dépendre
+## Rule B: rewrite it "our way", never depend on it
 
-Toute brique venue de l'extérieur (skill, agent, technique, outil) est **réécrite en interne**,
-jamais branchée en dépendance runtime sur un repo tiers.
+Any block coming from outside (skill, agent, technique, tool) is **rewritten internally**, never
+wired in as a runtime dependency on a third-party repo.
 
-**Pourquoi :**
-- **Personne en amont ne peut modifier ou casser notre workflow** (pas de drift, pas de
-  `npx skills add` qui change de comportement du jour au lendemain).
-- **Auditable** : on sait exactement ce que chaque brique fait, c'est notre code/nos mots.
-- **Maintenable** : *tout est écrit de la même façon* → un dev qui connaît une brique les
-  connaît toutes.
+**Why:**
+- **Nobody upstream can change or break our workflow** (no drift, no `npx skills add` that
+  behaves differently overnight).
+- **Auditable**: we know exactly what each block does, it's our code/our words.
+- **Maintainable**: *everything is written the same way* → a dev who knows one block knows them
+  all.
 
-**On garde l'idée, pas le paquet.** On lit la source, on extrait le mécanisme, on le réécrit
-dans le gabarit ci-dessous, et on **crédite l'origine** (section `Origine`). On ne copie pas le
-texte ; on réimplémente le principe.
+**We keep the idea, not the package.** We read the source, extract the mechanism, rewrite it in
+the template below, and **credit the origin** (`Origin` section). We don't copy the text; we
+reimplement the principle.
 
-### Checklist d'adoption d'une brique externe
-1. Lire la source, isoler **le mécanisme** (pas la prose).
-2. Vérifier qu'aucune brique interne ne le couvre déjà (sinon : étendre, pas dupliquer).
-3. Réécrire dans le **gabarit unique** (ci-dessous), voix Xefi, en français.
-4. Renseigner `Origine` (d'où vient l'idée, honnêtement).
-5. **Zéro install externe** : la brique vit dans notre repo. Aucune dépendance réseau.
+### Checklist for adopting an external block
+1. Read the source, isolate **the mechanism** (not the prose).
+2. Check that no internal block already covers it (otherwise: extend, don't duplicate).
+3. Rewrite it in the **single template** (below), Xefi voice, in English.
+4. Fill in `Origin` (where the idea comes from, honestly).
+5. **Zero external install**: the block lives in our repo. No network dependency.
 
-## Règle C : mentis reste publiable
+## Rule C: mentis stays publishable
 
-`mentis/` est conçu pour être **extrait un jour dans un repo public** (« superpowers version
-Xefi », à l'image des frameworks équivalents ouverts par des devs indépendants du marché). Pour que ce soit un simple copier-coller le moment
-venu, on tient la frontière **dès l'écriture** :
+`mentis/` is designed to be **extracted one day into a public repo** ("superpowers, the Xefi
+version", along the lines of the equivalent frameworks opened up by independent devs on the
+market). So that it's a plain copy-paste when the time comes, we hold the boundary **from the
+moment we write**:
 
-- **Dans `mentis/` (générique, publiable)** : pipeline, skills, gabarit, conventions, agents
-  génériques. Aucun secret, aucun nom de vrai projet, aucune réalité infra.
-- **Hors `mentis/` (interne, privé)** : noms de projets réels, infra
-  (ports, SSO, hosts, noms de serveurs DB), `CHALLENGE.md` / `FRICTIONS.md` / `VEILLE.md`,
-  la mémoire. Une brique **n'y fait jamais référence en dur**, elle nomme un rôle (« le back »),
-  pas un projet (« le back Laravel »).
+- **Inside `mentis/` (generic, publishable)**: pipeline, skills, template, conventions, generic
+  agents. No secrets, no real project names, no infra reality.
+- **Outside `mentis/` (internal, private)**: real project names, infra (ports, SSO, hosts, DB
+  server names), `CHALLENGE.md` / `FRICTIONS.md` / `VEILLE.md`, the memory. A block **never
+  references those hard-coded**, it names a role ("the backend"), not a project ("the Laravel
+  backend").
 
-Règle simple : si une phrase ne pourrait pas être lue par un dev extérieur à Xefi, elle ne va
-pas dans `mentis/`. La publication elle-même est **hors périmètre agent** (décision humaine).
+Simple rule: if a sentence couldn't be read by a dev outside Xefi, it doesn't go in `mentis/`.
+Publication itself is **out of agent scope** (a human decision).
 
 ---
 
-## Le gabarit unique
+## The single template
 
-Toutes les briques suivent la **même forme**. Une brique = un dossier `skills/<nom>/SKILL.md`
-(ou `commands/<NOM>.md` pour un déclencheur de séquence, voir plus bas).
+Every block follows the **same shape**. One block = one folder `skills/<name>/SKILL.md` (or
+`commands/<NAME>.md` for a sequence trigger, see below).
 
 ```markdown
 ---
-name: <nom-kebab-case>
-description: Use quand <situation déclencheuse précise>, <ce que la brique fait>. <une phrase>.
+name: <kebab-case-name>
+description: Use when <precise triggering situation>, <what the block does>. <one sentence>.
 ---
 
-# <nom>
+# <name>
 
-<Une phrase : le but, et à quelle étape de WORKFLOW.md ça correspond.>
+<One sentence: the purpose, and which step of WORKFLOW.md it maps to.>
 
-## Quand
-<Le déclencheur explicite. Si une checklist existe, une todo par item.>
+## When
+<The explicit trigger. If a checklist exists, one todo per item.>
 
-## Étapes
-<Numérotées, actionnables. Ce que le dev/agent fait, dans l'ordre.>
+## Steps
+<Numbered, actionable. What the dev/agent does, in order.>
 
-## Sortie / checkpoint
-<Ce qui est produit + le checkpoint starfleet écrit (`spec_done`, `verified`, …).>
+## Output / checkpoint
+<What gets produced + the starfleet checkpoint written (`spec_done`, `verified`, …).>
 
-## Garde-fous
-<Ce qu'on ne fait pas. Frontière agent/humain si concernée. Escalade si bloqué.>
+## Guardrails
+<What we don't do. Agent/human boundary if relevant. Escalation if blocked.>
 
-## Origine
-<Idée reprise de : natif Claude Code / outillage marché / interne. Honnête.>
+## Origin
+<Idea taken from: native Claude Code / market tooling / internal. Honest.>
 ```
 
-### Règles de forme (non négociables)
-- **Français**, voix Xefi. Description commence par `Use quand …` (déclenchement fiable).
-- **Pas de commentaires dans le code** produit ; les explications vont dans le chat/la doc.
-- Une brique = **une responsabilité** (cf. découpe de `WORKFLOW.md` §4).
-- Ne **jamais** réimplémenter le natif (`/model`, `/code-review`, `/security-review`, hooks,
-  mémoire), on l'invoque, on ne le duplique pas.
-- **commands vs skills** : un `command` (`/SPEC`…) est un *déclencheur d'étape* court qui
-  invoque la/les `skill(s)` correspondante(s). La logique vit dans la skill, pas dans le
-  command. Objectif : une seule source par mécanisme.
+### Form rules (non-negotiable)
+- **English**, Xefi voice. The description starts with `Use when …` (reliable triggering).
+- **No comments in the code** produced; explanations go in the chat/the docs.
+- One block = **one responsibility** (see the split in `WORKFLOW.md` §4).
+- **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, hooks,
+  memory), we invoke it, we don't duplicate it.
+- **commands vs skills**: a `command` (`/SPEC`…) is a short *step trigger* that invokes the
+  matching `skill(s)`. The logic lives in the skill, not in the command. Goal: a single source
+  per mechanism.
 
 ---
 
-## État des briques (à consolider sous ce gabarit)
+## State of the blocks (to be consolidated under this template)
 
-Aujourd'hui les briques sont éclatées (`starfleet/.claude/commands`, `starfleet/.claude/skills`,
-`mentis/skills`) et de formats différents. Cible : **tout sous `mentis/skills`**, un
-`command` mince par étape, gabarit unique. Correspondance étape → brique dans `WORKFLOW.md` §2.
+Today the blocks are scattered (`starfleet/.claude/commands`, `starfleet/.claude/skills`,
+`mentis/skills`) and use different formats. Target: **everything under `mentis/skills`**, one
+thin `command` per step, a single template. Step → block mapping in `WORKFLOW.md` §2.
 
-Manques à écrire (à notre sauce) : **brainstorm** (1), **archi/graphify** (3), **GATE
-default-FAIL + evaluator** (7), + renforts **grill→ADR** (2), **review 2 axes** (8), **contrat
-`{passes:false}`** (5), **finish** (11, wrapper de `finish_task`).
+Gaps still to write (our way): **brainstorm** (1), **archi/graphify** (3), **GATE default-FAIL +
+evaluator** (7), plus reinforcements **grill→ADR** (2), **two-axis review** (8), **`{passes:false}`
+contract** (5), **finish** (11, wrapper around `finish_task`).

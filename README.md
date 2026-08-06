@@ -1,53 +1,52 @@
 # mentis
 
-Ma version d'un framework équivalent vu sur le marché open source, en
-gardant la main dessus. Un framework d'agents et de skills Claude Code pour
-tout le cycle de dev, pas seulement la review, construit en réécrivant les
-meilleures idées du marché à ma voix, sans jamais dépendre d'un repo tiers.
+My own version of an equivalent framework seen on the open source market,
+kept under my control. An agent-and-skill framework for Claude Code covering
+the whole dev cycle, not just review, built by rewriting the best ideas on
+the market in my own voice, without ever depending on a third-party repo.
 
-> Repo de test de ma méthode de travail avec Claude Code (g.compigni).
-> `xefi-mr-review` (repo séparé) est l'implémentation spécialisée de la seule
-> étape review/gate de ce framework, câblée en CI GitLab. Ce repo-ci couvre
-> tout le reste : brainstorm, spec, plan, TDD, code, debug, gate, ship.
+> Test repo for my way of working with Claude Code (g.compigni).
+> `xefi-mr-review` (separate repo) is the specialised implementation of the
+> review/gate step alone, wired into GitLab CI. This repo covers everything
+> else: brainstorm, spec, plan, TDD, code, debug, gate, ship.
 
-## Sommaire
+## Contents
 
-- [Comment j'écris et je gouverne mes agents](./doc/COMMENT-ON-ECRIT-NOS-AGENTS.md), le doc à lire pour tout comprendre, avec schémas
-- [Pourquoi ma propre version](#pourquoi-ma-propre-version)
-- [Positionnement](#positionnement)
-- [Le pipeline](#le-pipeline)
-- [Ce qu'il y a dedans](#ce-quil-y-a-dedans)
-- [La règle qui garantit que je maîtrise](#la-règle-qui-garantit-que-je-maîtrise)
+- [How I write and govern my agents](./doc/HOW-WE-WRITE-OUR-AGENTS.md), the doc to read to understand everything, with diagrams
+- [Why my own version](#why-my-own-version)
+- [Positioning](#positioning)
+- [The pipeline](#the-pipeline)
+- [What's inside](#whats-inside)
+- [The rule that keeps me in control](#the-rule-that-keeps-me-in-control)
 - [Quickstart](#quickstart)
-- [Statut](#statut)
+- [Status](#status)
 - [Licence](#licence)
 
-## Pourquoi ma propre version
+## Why my own version
 
-Un framework équivalent du marché open source encode déjà une bonne
-discipline générique : brainstorming, TDD, debugging systématique, review à
-contexte frais. Mais une méthode générique ne porte pas mes conventions
-Xefi, mes stacks réelles (Nuxt/Vuetify, Laravel, React), ni mon exigence
-propre, le défaut = échec : un travail déclaré "fini" n'est jamais cru sur
-parole, il doit être prouvé. C'est le rôle de `arbitre`, l'agent qui
-incarne cette règle et qu'aucune des sources marché consultées ne couvre.
+An equivalent framework on the open source market already encodes solid
+generic discipline: brainstorming, TDD, systematic debugging, fresh-context
+review. But a generic method does not carry my Xefi conventions, my real
+stacks (Nuxt/Vuetify, Laravel, React), nor my own core requirement,
+default = failure: work declared "done" is never taken on trust, it has to
+be proven. That is the role of `arbitre`, the agent that embodies this rule
+and that none of the market sources I looked at covers.
 
-Plutôt que d'installer un tel framework tel quel, j'ai réécrit chaque idée
-utile dans mon gabarit, avec ma voix, mes exemples, ma stack. Je ne dépends
-jamais d'un repo externe pour que mon pipeline continue de tourner.
+Rather than installing such a framework as-is, I rewrote every useful idea
+in my own template, with my voice, my examples, my stack. I never depend on
+an external repo to keep my pipeline running.
 
-## Positionnement
+## Positioning
 
-- **Ce repo** = la **méthode** : *comment* le travail coule (skills) et *qui*
-  l'exécute (agents).
-- **`xefi-mr-review`** (repo séparé) = une
-  implémentation spécialisée : uniquement l'étape review/gate, câblée en CI
-  GitLab, un dossier par stack.
-- **Agents métier** (`vue-nuxt-builder`, `laravel-builder`, `sql-es-tuner`,
-  les reviewers par stack, `gandalf`, `arbitre`) = la couche qui exécute
-  réellement le travail, branchée dans les slots du pipeline ci-dessous.
+- **This repo** = the **method**: *how* the work flows (skills) and *who*
+  executes it (agents).
+- **`xefi-mr-review`** (separate repo) = a specialised implementation: the
+  review/gate step only, wired into GitLab CI, one folder per stack.
+- **Domain agents** (`vue-nuxt-builder`, `laravel-builder`, `sql-es-tuner`,
+  the per-stack reviewers, `gandalf`, `arbitre`) = the layer that actually
+  does the work, plugged into the pipeline slots below.
 
-## Le pipeline
+## The pipeline
 
 ```mermaid
 flowchart LR
@@ -57,123 +56,123 @@ flowchart LR
     D --> E[tdd]
     E --> F[code]
     F --> G[debug]
-    G --> H[gate : arbitre]
-    H --> I[review : reviewers par stack]
-    I --> J[ship : gandalf]
+    G --> H[gate: arbitre]
+    H --> I[review: per-stack reviewers]
+    I --> J[ship: gandalf]
     J --> K[finish]
 ```
 
-Deux garanties tiennent tout le pipeline. Le contexte frais : celui qui
-juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
-`gandalf`). Le défaut = échec : je ne crois rien sans preuve citée.
+Two guarantees hold the whole pipeline together. Fresh context: whoever
+judges or reviews never watched the code being written (`arbitre`, the
+reviewers, `gandalf`). Default = failure: I believe nothing without a cited
+piece of evidence.
 
-## Ce qu'il y a dedans
+## What's inside
 
-### Skills : le pipeline
+### Skills: the pipeline
 
-| Skill | Étape | Ce qu'il fait |
+| Skill | Step | What it does |
 |---|---|---|
-| `using-mentis` | 0 | Discipline d'utilisation du framework, point d'entrée |
-| `start-feature` | 0 | Démarre une feature (worktree) |
-| `brainstorm` | 1 | Explore intention/besoin avant tout code |
-| `spec` | 2 | Cadre le besoin en critères vérifiables |
-| `archi` | 3 | Décisions d'architecture, avant le plan |
-| `api-design` | 3 | Design d'API contract-first (loi de Hyrum, extension vs rupture) |
-| `documentation-adr` | 3 | Documente une décision significative (template ADR, jamais supprimé) |
-| `deprecation-migration` | transverse | Cadre une dépréciation/migration (Strangler, Adapter, Feature Flag, Expand/Contract) |
-| `wayfinder` | transverse | Découpe un chantier incertain en carte de tickets Jira (parent + enfants typés) |
-| `plan` | 4 | Découpe le travail en étapes vérifiables |
-| `tdd` | 5 | Test-driven development, doctrine test-casebook |
-| `code` | 6 | Implémentation |
-| `typescript-patterns` | 6 | Patterns TS/JS purs (typage, async, closures), vécu de production réel |
-| `php-patterns` | 6 | Patterns PHP purs (typage, OOP, erreurs), sourcé PSR/marché |
-| `vue-nuxt-vuetify-conventions` | 6 | Conventions Nuxt/Vue/Vuetify, vécu de production réel |
-| `react-nextjs-conventions` | 6 | Conventions React/Next.js, sourcé marché |
-| `nestjs-node-conventions` | 6 | Conventions NestJS/Node (DI, DTO, Zod, Prisma) |
-| `go-conventions` | 6 | Conventions Go : concurrence, erreurs, contexte (sourcé marché) |
-| `dotnet-conventions` | 6 | Conventions C#/.NET : async, IDisposable, DI, EF Core (sourcé marché) |
-| `python-conventions` | 6 | Conventions Python : typage, erreurs, async (sourcé marché) |
-| `java-conventions` | 6 | Conventions Java : immutabilité, erreurs, concurrence, Spring (sourcé marché) |
-| `seo` | 6 | Checklist SEO technique pour pages publiques (sourcé Google/web.dev) |
-| `accessibility` | 6 | Checklist a11y technique (sémantique, clavier, contraste, ARIA), sourcé WCAG 2.2 |
-| `qa-exploratory-testing` | 8 (complément) | Test manuel/exploratoire d'un parcours, distinct de tdd, sourcé ISTQB/session-based testing |
-| `devops-conventions` | 6 (infra/CI) | Conventions CI/CD, IaC, monitoring/alerting, incident response, sourcé 12-factor/DORA |
-| `data-pipeline-conventions` | 6 (data) | Conventions ETL/ELT, qualité de données, modélisation analytique, sourcé dbt/DAMA-DMBOK |
-| `observability-instrumentation` | 6 | Où logger/quelle métrique/quel label, complète devops-conventions au niveau code |
-| `handoff` | transverse | Document de passation entre deux sessions sur la même tâche, sans dupliquer |
-| `debug` | support | Debugging systématique |
-| `gate` | 7 | Vérification à froid avant merge, voir agent `arbitre` |
-| `review` | 8 | Review de diff, voir agents reviewers par stack |
-| `over-engineering-review` | 9 | Angle suppression exclusif : code mort, sur-abstraction, yagni |
-| `simplify` | 9 | Applique les simplifications identifiées |
-| `ship` | 10 | Merge + notification, voir agent `gandalf` |
-| `finish` | 11 | Nettoie la worktree, met à jour la branche de base |
-| `merge-worktree` | 11 | Mécanique de merge multi-worktree |
-| `extract-conventions` | maintenance | Génère des conventions depuis le code réel existant |
-| `choose-model` | transverse | Décide Haiku/Sonnet/Opus pour un nouvel agent ou une tâche ponctuelle |
-| `dispatch-parallel` | transverse | Découpe une tâche en sous-agents parallèles sur des périmètres disjoints |
-| `writing-skills` | transverse (méta) | Comment écrire/réviser une skill de ce framework |
-| `writing-agents` | transverse (méta) | Comment écrire/réviser un agent de ce framework (gabarit 7 piliers) |
-| `portless-ready` | infra | Rend une stack portless (alias HTTPS, hygiène des ports) |
+| `using-mentis` | 0 | Discipline for using the framework, entry point |
+| `start-feature` | 0 | Starts a feature (worktree) |
+| `brainstorm` | 1 | Explores intent/need before any code |
+| `spec` | 2 | Frames the need as verifiable criteria |
+| `archi` | 3 | Architecture decisions, before the plan |
+| `api-design` | 3 | Contract-first API design (Hyrum's law, extension vs breakage) |
+| `documentation-adr` | 3 | Documents a significant decision (ADR template, never deleted) |
+| `deprecation-migration` | cross-cutting | Frames a deprecation/migration (Strangler, Adapter, Feature Flag, Expand/Contract) |
+| `wayfinder` | cross-cutting | Breaks an uncertain piece of work into a map of Jira tickets (parent + typed children) |
+| `plan` | 4 | Breaks the work into verifiable steps |
+| `tdd` | 5 | Test-driven development, test-casebook doctrine |
+| `code` | 6 | Implementation |
+| `typescript-patterns` | 6 | Pure TS/JS patterns (typing, async, closures), real production experience |
+| `php-patterns` | 6 | Pure PHP patterns (typing, OOP, errors), sourced from PSR/the market |
+| `vue-nuxt-vuetify-conventions` | 6 | Nuxt/Vue/Vuetify conventions, real production experience |
+| `react-nextjs-conventions` | 6 | React/Next.js conventions, sourced from the market |
+| `nestjs-node-conventions` | 6 | NestJS/Node conventions (DI, DTO, Zod, Prisma) |
+| `go-conventions` | 6 | Go conventions: concurrency, errors, context (sourced from the market) |
+| `dotnet-conventions` | 6 | C#/.NET conventions: async, IDisposable, DI, EF Core (sourced from the market) |
+| `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
+| `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
+| `seo` | 6 | Technical SEO checklist for public pages (sourced from Google/web.dev) |
+| `accessibility` | 6 | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
+| `qa-exploratory-testing` | 8 (complement) | Manual/exploratory testing of a flow, distinct from tdd, sourced from ISTQB/session-based testing |
+| `devops-conventions` | 6 (infra/CI) | CI/CD, IaC, monitoring/alerting and incident response conventions, sourced from 12-factor/DORA |
+| `data-pipeline-conventions` | 6 (data) | ETL/ELT, data quality and analytical modelling conventions, sourced from dbt/DAMA-DMBOK |
+| `observability-instrumentation` | 6 | What to log, which metric, which label; complements devops-conventions at code level |
+| `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
+| `debug` | support | Systematic debugging |
+| `gate` | 7 | Cold verification before merge, see the `arbitre` agent |
+| `review` | 8 | Diff review, see the per-stack reviewer agents |
+| `over-engineering-review` | 9 | Deletion angle only: dead code, over-abstraction, yagni |
+| `simplify` | 9 | Applies the identified simplifications |
+| `ship` | 10 | Merge + notification, see the `gandalf` agent |
+| `finish` | 11 | Cleans up the worktree, updates the base branch |
+| `merge-worktree` | 11 | Multi-worktree merge mechanics |
+| `extract-conventions` | maintenance | Generates conventions from the real existing code |
+| `choose-model` | cross-cutting | Decides Haiku/Sonnet/Opus for a new agent or a one-off task |
+| `dispatch-parallel` | cross-cutting | Splits a task across parallel subagents on disjoint scopes |
+| `writing-skills` | cross-cutting (meta) | How to write/revise a skill in this framework |
+| `writing-agents` | cross-cutting (meta) | How to write/revise an agent in this framework (7-pillar template) |
+| `portless-ready` | infra | Makes a stack portless (HTTPS alias, port hygiene) |
 
 ### Agents
 
-| Agent | Rôle | Statut |
+| Agent | Role | Status |
 |---|---|---|
-| `arbitre` | GATE à contexte frais : verdict PASS/NEEDS_WORK, jamais d'édition, jamais de bénéfice du doute | Vécu de production réel |
-| `gandalf` | Gate final de MR : gate de tests + délègue la review + `/code-review` + `/security-review` | Vécu de production réel |
-| `elrond` | Orchestrateur : détecte le stack et délègue au bon reviewer, ne review jamais lui-même | Vécu de production réel |
-| `aragorn` | Reviewer Nuxt/Vue/Vuetify | Vécu de production réel |
-| `gimli` | Reviewer PHP/Laravel, incertitude en questions (g.compigni débute sur ce stack) | Vécu de production réel |
-| `legolas` | Reviewer React | Sourcé via test-casebook |
-| `boromir` | Reviewer Go, incertitude en questions | Sourcé marché |
-| `theoden` | Reviewer C#/.NET, incertitude en questions | Sourcé marché |
-| `frodo` | Reviewer JS/TS backend générique (NestJS/Node), vraie expertise, style assertif | Vraie expertise |
-| `vue-nuxt-builder` | Implémente du code Vue3/Nuxt3 (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
-| `laravel-builder` | Implémente du code Laravel/Eloquent (jamais reviewer de son propre code) | Écrit, pas encore dogfoodé |
-| `sql-es-tuner` | Tuning SQL (MySQL/SQL Server) et mapping/indexation Elasticsearch-Scout | Écrit, pas encore dogfoodé |
-| `seo-auditor` | Audit SEO technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
-| `accessibility-auditor` | Audit a11y technique d'une page/site déjà en ligne, jamais d'édition | Écrit, pas encore dogfoodé |
-| `qa-tester` | Test manuel/exploratoire d'un parcours sur une app qui tourne, jamais d'édition | Écrit, pas encore dogfoodé |
-| `security-auditor` | Audit sécurité statique dédié (code/config/dépendances), lecture seule, complète `/security-review` natif | Écrit, pas encore dogfoodé |
-| `architecture-debt-auditor` | Audit périodique de dette d'architecture (hot-spots git, test de suppression), jamais d'édition | Écrit, pas encore dogfoodé |
+| `arbitre` | Fresh-context GATE: PASS/NEEDS_WORK verdict, never edits, never gives the benefit of the doubt | Real production experience |
+| `gandalf` | Final MR gate: test gate + delegates the review + `/code-review` + `/security-review` | Real production experience |
+| `elrond` | Orchestrator: detects the stack and delegates to the right reviewer, never reviews itself | Real production experience |
+| `aragorn` | Nuxt/Vue/Vuetify reviewer | Real production experience |
+| `gimli` | PHP/Laravel reviewer, uncertainty phrased as questions (g.compigni is new to this stack) | Real production experience |
+| `legolas` | React reviewer | Sourced via test-casebook |
+| `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
+| `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
+| `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
+| `vue-nuxt-builder` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
+| `laravel-builder` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
+| `sql-es-tuner` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
+| `seo-auditor` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
+| `accessibility-auditor` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
+| `qa-tester` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
+| `security-auditor` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
+| `architecture-debt-auditor` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
 
-Détail complet : [`CATALOG.md`](./CATALOG.md) (registre + backlog de sourcing,
-avec chaque idée créditée à sa source réelle) et [`CONVENTIONS.md`](./CONVENTIONS.md)
-(le gabarit unique et les règles A/B/C).
+Full detail: [`CATALOG.md`](./CATALOG.md) (registry + sourcing backlog, with
+every idea credited to its real source) and
+[`CONVENTIONS.md`](./CONVENTIONS.md) (the single template and rules A/B/C).
 
-## La règle qui garantit que je maîtrise
+## The rule that keeps me in control
 
-Je ne branche jamais un repo externe en dépendance. Je lis → j'extrais le
-mécanisme → je réécris dans mon gabarit unique → je crédite la source dans
-`CATALOG.md`. Ça garantit deux choses : personne en amont ne peut casser
-mon pipeline en changeant son repo, et tout est écrit de la même façon
-(donc maintenable). Détail dans [`CONVENTIONS.md`](./CONVENTIONS.md).
+I never wire an external repo in as a dependency. I read → I extract the
+mechanism → I rewrite it in my single template → I credit the source in
+`CATALOG.md`. That guarantees two things: nobody upstream can break my
+pipeline by changing their repo, and everything is written the same way (so
+it stays maintainable). Detail in [`CONVENTIONS.md`](./CONVENTIONS.md).
 
 ## Quickstart
 
-Chaque skill/agent est un fichier markdown autonome (frontmatter + corps),
-au format natif Claude Code :
+Every skill/agent is a self-contained markdown file (frontmatter + body), in
+Claude Code's native format:
 
-1. Copier le(s) fichier(s) voulu(s) dans `.claude/agents/` ou `.claude/skills/`
-   du repo cible.
-2. Les skills du pipeline s'invoquent en séquence (`brainstorm` → `spec` →
-   ... → `finish`) ou à la carte selon le besoin.
-3. Les agents s'invoquent via l'outil `Agent` / `Task` de Claude Code,
-   directement par nom (ex `elrond` pour une review multi-stack, ou
-   directement `aragorn`/`gimli`/... si le stack est déjà connu).
+1. Copy the file(s) you want into `.claude/agents/` or `.claude/skills/` in
+   the target repo.
+2. Pipeline skills are invoked in sequence (`brainstorm` → `spec` → ... →
+   `finish`) or à la carte depending on the need.
+3. Agents are invoked through Claude Code's `Agent` / `Task` tool, directly
+   by name (e.g. `elrond` for a multi-stack review, or `aragorn`/`gimli`/...
+   directly if the stack is already known).
 
-## Statut
+## Status
 
-Démonstrateur actif : ma doctrine (gabarit, règles A/B/C, défaut=échec,
-contexte frais) est stable et appliquée, certains agents ont un vécu de
-production réel (`aragorn`, `gimli`, `gandalf`, `arbitre`, `elrond`),
-d'autres sont écrits mais pas encore dogfoodés (`vue-nuxt-builder`,
-`laravel-builder`, `sql-es-tuner`) ou sourcés marché sans vécu interne
-encore (`boromir`, `theoden`, `go-conventions`, `dotnet-conventions`). Le
-détail exact ligne par ligne est dans `CATALOG.md`.
+Active demonstrator: my doctrine (template, rules A/B/C, default = failure,
+fresh context) is stable and applied, some agents have real production
+experience (`aragorn`, `gimli`, `gandalf`, `arbitre`, `elrond`), others are
+written but not dogfooded yet (`vue-nuxt-builder`, `laravel-builder`,
+`sql-es-tuner`) or sourced from the market with no internal experience yet
+(`boromir`, `theoden`, `go-conventions`, `dotnet-conventions`). The exact
+line-by-line detail is in `CATALOG.md`.
 
 ## Licence
 
-Pas encore de licence choisie, repo interne pour l'instant, pas destiné à
-être public tel quel.
+No licence chosen yet, internal repo for now, not meant to be public as-is.

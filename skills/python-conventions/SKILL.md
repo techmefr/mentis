@@ -1,71 +1,61 @@
 ---
 name: python-conventions
-description: Use quand on code ou revoit du Python, typage (type hints, mypy/pyright), gestion d'erreurs, patterns async, structure de projet. Pas de vécu de production interne Xefi sur ce langage (contrairement à vue-nuxt-vuetify-conventions), sourcé sur PEP officiels et l'outillage établi (ruff, mypy).
+description: Use when writing or reviewing Python, typing (type hints, mypy/pyright), error handling, async patterns, project structure. No internal Xefi production experience on this language (unlike vue-nuxt-vuetify-conventions), sourced from the official PEPs and established tooling (ruff, mypy).
 ---
 
 # python-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Cadre l'écriture et la review de code
-Python. **Statut particulier** : comme `go-conventions`/`dotnet-conventions`,
-pas encore de vécu de production Xefi derrière cette brique : contenu venant
-des PEP officiels et de l'outillage déterministe (ruff, mypy), pas de retours
-de review réels.
+Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing and review of Python code. **Special
+status**: like `go-conventions`/`dotnet-conventions`, no Xefi production experience behind this block
+yet: content coming from the official PEPs and deterministic tooling (ruff, mypy), not from real review
+feedback.
 
-## Quand
-Dès qu'on écrit ou modifie du code Python, pendant `code` (6) ou `tdd` (5).
+## When
+As soon as Python code is written or modified, during `code` (6) or `tdd` (5).
 
-## Étapes
+## Steps
 
-### 1. Typage : PEP 484 et suivants
-1. Type hints sur toute signature de fonction publique (paramètres + retour)
-, `mypy`/`pyright` en mode strict tourné sur le diff, pas seulement à
-   l'installation initiale du projet.
-2. `Optional[T]`/`T | None` explicite plutôt qu'une valeur par défaut `None`
-   non typée qui laisse deviner le contrat réel.
-3. `dataclass`/`pydantic` pour une structure de données avec validation,
-   plutôt qu'un dict non typé passé de fonction en fonction.
-4. `TypedDict` pour typer un dict existant (API externe, JSON) sans le
-   convertir en classe : pas de `Dict[str, Any]` par réflexe.
+### 1. Typing: PEP 484 and beyond
+1. Type hints on every public function signature (parameters + return), `mypy`/`pyright` in strict mode
+   run on the diff, not only at the project's initial setup.
+2. An explicit `Optional[T]`/`T | None` rather than an untyped `None` default value that leaves the real
+   contract to guesswork.
+3. `dataclass`/`pydantic` for a data structure with validation, rather than an untyped dict passed from
+   function to function.
+4. `TypedDict` to type an existing dict (external API, JSON) without converting it into a class: no
+   `Dict[str, Any]` out of reflex.
 
 ### 2. Error handling
-1. Exception spécifique levée (classe dédiée héritant d'`Exception`), jamais
-   `except Exception:` nu qui avale tout sans distinction.
-2. Un `except` sans relance ni log masque un vrai bug : jamais silencieux,
-   même en dernier recours.
-3. Context manager (`with`) pour toute ressource qui doit être fermée
-   (fichier, connexion, lock) : jamais de fermeture manuelle qui peut être
-   sautée par une exception intermédiaire.
+1. A specific exception raised (a dedicated class inheriting from `Exception`), never a bare
+   `except Exception:` that swallows everything indiscriminately.
+2. An `except` with no rethrow or log hides a real bug: never silent, even as a last resort.
+3. A context manager (`with`) for every resource that has to be closed (file, connection, lock): never a
+   manual close that an intermediate exception can skip.
 
 ### 3. Async
-1. `asyncio.gather` pour des opérations indépendantes, jamais un `await` en
-   série dans une boucle par réflexe.
-2. Ne jamais mélanger code bloquant (I/O synchrone, calcul CPU lourd) dans une
-   fonction `async` sans l'isoler (`run_in_executor`) : bloque toute la boucle
-   d'événements, pas seulement l'appelant.
-3. Une coroutine créée mais jamais awaitée ni stockée est un bug silencieux
-   (`RuntimeWarning: coroutine was never awaited`), toujours vérifié.
+1. `asyncio.gather` for independent operations, never a serial `await` in a loop out of reflex.
+2. Never mix blocking code (synchronous I/O, heavy CPU work) into an `async` function without isolating
+   it (`run_in_executor`): it blocks the whole event loop, not just the caller.
+3. A coroutine created but never awaited or stored is a silent bug (`RuntimeWarning: coroutine was never
+   awaited`), always checked.
 
-### 4. Structure et style
-1. Immutabilité par défaut : argument par défaut mutable (`def f(x=[])`)
-   proscrit : partagé entre tous les appels, piège classique.
-2. `pathlib.Path` plutôt que manipulation de chaînes pour les chemins de
-   fichiers.
-3. Compréhensions (list/dict/set) plutôt que boucle + `append` quand la
-   lisibilité y gagne, jamais imbriquées au point de nuire à la lecture.
+### 4. Structure and style
+1. Immutability by default: a mutable default argument (`def f(x=[])`) is banned: it's shared across all
+   calls, a classic trap.
+2. `pathlib.Path` rather than string manipulation for file paths.
+3. Comprehensions (list/dict/set) rather than a loop + `append` when readability gains from it, never
+   nested to the point of hurting readability.
 
-## Sortie / checkpoint
-Code conforme aux quatre sections ci-dessus, et `ruff check`/`mypy` (ou
-`pyright`) sans nouveau finding introduit par le diff. Vérifié par `gate` (7)
-et `review` (8).
+## Output / checkpoint
+Code compliant with the four sections above, and `ruff check`/`mypy` (or `pyright`) with no new finding
+introduced by the diff. Checked by `gate` (7) and `review` (8).
 
-## Garde-fous
-Pas de commentaires dans le code produit. Cette brique n'a pas encore été
-confrontée à un vrai projet Python de production chez Xefi : en cas d'écart
-entre une règle ici et un besoin réel observé, corriger cette brique plutôt
-que de la traiter comme acquise.
+## Guardrails
+No comments in the code produced. This block hasn't been confronted with a real production Python project
+at Xefi yet: if a rule here diverges from a real observed need, fix this block rather than treating it as
+settled.
 
-## Origine
-Idées reprises de : PEP 484/526/604 (type hints), PEP 8 (style), ruff
-(règles par défaut, remplace flake8/isort/pyupgrade), mypy/pyright (typage
-strict). Mécanismes réécrits, pas de texte copié. Recherche de marché, pas de
-retour de production interne à ce stade : même statut que `go-conventions`.
+## Origin
+Ideas taken from: PEP 484/526/604 (type hints), PEP 8 (style), ruff (default rules, replaces
+flake8/isort/pyupgrade), mypy/pyright (strict typing). Mechanisms rewritten, no copied text. Market
+research, no internal production feedback at this stage: same status as `go-conventions`.

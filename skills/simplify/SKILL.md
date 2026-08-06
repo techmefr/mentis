@@ -1,26 +1,26 @@
 ---
 name: simplify
-description: Use après la review, avant le SHIP, passe qualité sur le code changé (réutilisation, simplification, efficacité), sans chasse aux bugs.
+description: Use after the review, before SHIP, quality pass on the changed code (reuse, simplification, efficiency), no bug hunting.
 ---
 
 # simplify
 
-Étape 9 du pipeline (`WORKFLOW.md`). Nettoyer ce qui a été construit, une fois qu'il est correct.
+Step 9 of the pipeline (`WORKFLOW.md`). Clean up what was built, once it's correct.
 
-## Quand
-Après `review` (`reviewed`), avant `ship`.
+## When
+After `review` (`reviewed`), before `ship`.
 
-## Étapes
-1. Relire le diff : réutilisation manquée, code dupliqué, indirection inutile, sur-abstraction.
-2. Simplifier à iso-comportement (les tests du GATE restent verts).
-3. Vérifier la cohérence avec l'archi (`set_arch_node` : marquer les nœuds `done`).
+## Steps
+1. Re-read the diff: missed reuse, duplicated code, pointless indirection, over-abstraction.
+2. Simplify at identical behaviour (the GATE tests stay green).
+3. Check consistency with the architecture (`set_arch_node`: mark the nodes `done`).
 
-## Sortie / checkpoint
+## Output / checkpoint
 `simplified`.
 
-## Garde-fous
-Qualité uniquement : **pas** de chasse aux bugs ici (c'était `review`/`gate`). Ne pas changer
-le comportement ; si une simplification casse un test, c'est un vrai changement → retour `code`.
+## Guardrails
+Quality only: **no** bug hunting here (that was `review`/`gate`). Don't change behaviour; if a
+simplification breaks a test, it's a real change → back to `code`.
 
-## Origine
-Natif Claude Code (skill `simplify`) + interne, réécrit.
+## Origin
+Native Claude Code (`simplify` skill) + internal, rewritten.

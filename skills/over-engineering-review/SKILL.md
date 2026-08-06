@@ -1,62 +1,61 @@
 ---
 name: over-engineering-review
-description: Use quand on relit un diff ou un repo entier pour ne chercher qu'une seule chose, ce qui peut être supprimé (code mort, réinvention de stdlib, sur-abstraction, anticipation non demandée). Complémentaire des reviewers de diff/gandalf (qui jugent correctness et conventions) et du skill natif simplify (qui applique les fixes) : ici on ne fait que scorer et lister, angle suppression pur.
+description: Use when re-reading a diff or a whole repo looking for one thing only, what can be deleted (dead code, reinvented stdlib, over-abstraction, unrequested anticipation). Complements the diff reviewers/gandalf (which judge correctness and conventions) and the native simplify skill (which applies the fixes): here we only score and list, pure deletion angle.
 ---
 
 # over-engineering-review
 
-Étape `simplify` (9) du pipeline (`WORKFLOW.md`), ou mode ponctuel sur un diff avant merge.
-Une seule question posée à chaque ligne du périmètre : **est-ce que ça peut disparaître sans
-rien casser ?** Pas de jugement de correctness (le reviewer de diff), pas de jugement de convention (les
-briques `*-conventions`) : uniquement la chasse à ce qui n'aurait jamais dû être écrit.
+Step `simplify` (9) of the pipeline (`WORKFLOW.md`), or a one-off mode on a diff before merge.
+A single question asked of every line in scope: **can this disappear without breaking
+anything?** No correctness judgement (that's the diff reviewer), no convention judgement (the
+`*-conventions` blocks): only the hunt for what should never have been written.
 
-## Quand
-- En complément du reviewer de diff/`gandalf` sur une MR, quand un diff semble plus gros que le besoin
-  ne le justifie.
-- En audit ponctuel d'un repo entier (pas seulement un diff) quand une dette de sur-ingénierie
-  est suspectée.
-- Comme matière première du skill natif `simplify`, qui applique ensuite les suppressions
-  retenues : cette brique ne corrige rien elle-même, elle liste et score.
+## When
+- Alongside the diff reviewer/`gandalf` on an MR, when a diff looks bigger than the need
+  justifies.
+- As a one-off audit of a whole repo (not just a diff) when over-engineering debt is suspected.
+- As raw material for the native `simplify` skill, which then applies the deletions retained:
+  this block fixes nothing itself, it lists and scores.
 
-## Étapes
+## Steps
 
-### Mode diff (un changement en cours)
-Parcourir uniquement les lignes ajoutées/modifiées du diff. Pour chaque candidat trouvé,
-une ligne de finding avec un tag :
+### Diff mode (a change in progress)
+Go through only the added/modified lines of the diff. For each candidate found, one finding line
+with a tag:
 
-- `à-supprimer:`, code mort, jamais appelé, ou dupliqué d'un helper existant déjà présent
-  dans le repo (voir aussi [[reuse-existing-components-before-creating]]).
-- `stdlib:`, fonction/utilitaire réinventé alors que le langage, le framework ou une lib déjà
-  installée le fait nativement.
-- `sur-abstraction:`, interface, wrapper ou couche de délégation qui n'a qu'un seul
-  appelant réel : l'abstraction ne sert à rien tant qu'un deuxième cas d'usage n'existe pas.
-- `yagni:`, fonctionnalité, option ou paramètre anticipé pour un besoin non demandé
-  aujourd'hui (flag, chunking préventif, cache, config non exploitée).
-- `à-réduire:`, même comportement atteignable avec sensiblement moins de code (branches
-  mortes, cas jamais atteints, indirection inutile).
+- `to-delete:`, dead code, never called, or duplicated from an existing helper already present
+  in the repo (see also [[reuse-existing-components-before-creating]]).
+- `stdlib:`, a function/utility reinvented when the language, the framework or an
+  already-installed lib does it natively.
+- `over-abstraction:`, an interface, wrapper or delegation layer with only one real caller: the
+  abstraction is useless until a second use case exists.
+- `yagni:`, a feature, option or parameter anticipated for a need nobody asked for today (flag,
+  pre-emptive chunking, cache, unused config).
+- `to-shrink:`, the same behaviour reachable with appreciably less code (dead branches, cases
+  never reached, pointless indirection).
 
-Format d'un finding : `<tag> fichier:ligne, quoi, en une phrase`. Pas de paragraphe, pas de
-justification développée (cf. [[short-review-checklist-items]]), le dev répare ou demande.
+Finding format: `<tag> file:line, what, in one sentence`. No paragraph, no expanded
+justification (see [[short-review-checklist-items]]), the dev fixes it or asks.
 
-### Mode audit (repo entier)
-Même grille de tags, balayage large plutôt que diff. Priorité aux modules les plus anciens ou
-les moins touchés récemment (git blame ancien = moins de chances d'avoir déjà été nettoyés).
+### Audit mode (whole repo)
+Same tag grid, a broad sweep rather than a diff. Priority to the oldest modules or the ones
+touched least recently (old git blame = less chance of having been cleaned up already).
 
-## Sortie / checkpoint
-Une liste de findings tagués, terminée par un score global :
-- `net: -N lignes possibles` si des suppressions concrètes sont trouvées, N = estimation basse
-  de lignes supprimables sans rien casser.
-- `déjà lean, rien à signaler` si le périmètre ne présente aucun candidat : un audit qui ne
-  trouve rien est un résultat valide, pas un échec de la review.
+## Output / checkpoint
+A list of tagged findings, ending with an overall score:
+- `net: -N lines possible` if concrete deletions are found, N = a low estimate of lines that can
+  be deleted without breaking anything.
+- `already lean, nothing to report` if the scope holds no candidate: an audit that finds nothing
+  is a valid result, not a failure of the review.
 
-## Garde-fous
-Ne corrige jamais soi-même : cette brique liste, `simplify` (skill natif) ou le dev appliquent.
-Ne pas confondre avec une review de correctness : un bug potentiel repéré en chemin se signale
-séparément (au reviewer de diff/gandalf), pas mélangé dans cette liste. Un candidat `sur-abstraction`
-nécessite de vérifier qu'il n'y a vraiment qu'un seul appelant (grep avant de trancher), pas
-de suppression sur une supposition.
+## Guardrails
+Never fix anything yourself: this block lists, `simplify` (native skill) or the dev applies.
+Don't confuse it with a correctness review: a potential bug spotted along the way is reported
+separately (to the diff reviewer/gandalf), not mixed into this list. An `over-abstraction`
+candidate requires checking that there really is only one caller (grep before deciding), no
+deletion on an assumption.
 
-## Origine
-Idée reprise d'un outil de review orienté suppression du marché (skills `ponytail-review`/`ponytail-audit`, angle
-suppression exclusif, tags par catégorie, score net de lignes) : mécanisme et tags réécrits
-dans le vocabulaire des briques mentis, pas de texte copié.
+## Origin
+Idea taken from a market deletion-oriented review tool (`ponytail-review`/`ponytail-audit`
+skills, deletion angle only, per-category tags, net line score): mechanism and tags rewritten in
+the vocabulary of the mentis blocks, no copied text.

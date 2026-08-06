@@ -1,55 +1,48 @@
 ---
 name: dispatch-parallel
-description: Use quand une tâche se découpe en sous-parties indépendantes (plusieurs stacks à reviewer, plusieurs fichiers à migrer, plusieurs pistes à explorer), lance des sous-agents en parallèle sur des périmètres disjoints plutôt qu'un seul agent séquentiel.
+description: Use when a task splits into independent sub-parts (several stacks to review, several files to migrate, several leads to explore), launch subagents in parallel on disjoint scopes rather than a single sequential agent.
 ---
 
 # dispatch-parallel
 
-Brique transverse (pas une étape numérotée du pipeline) : s'applique dès qu'un
-travail se décompose naturellement en sous-tâches qui ne se marchent pas dessus.
+Cross-cutting block (not a numbered pipeline step): applies as soon as a piece of work naturally
+decomposes into sub-tasks that don't step on each other.
 
-## Quand
-- Plusieurs stacks/repos à traiter dans la même passe (ex `elrond` qui délègue
-  à `aragorn`/`gimli`/`legolas` en parallèle sur des MR disjointes).
-- Plusieurs fichiers/modules indépendants à migrer, auditer ou documenter.
-- Plusieurs pistes de recherche à explorer avant de trancher (panel de juges,
-  plusieurs implémentations candidates).
-- Ne s'applique **pas** si les sous-tâches partagent un état mutable commun
-  (même fichier édité par deux agents à la fois) : dans ce cas, séquentiel.
+## When
+- Several stacks/repos to handle in the same pass (e.g. `elrond` delegating to
+  `aragorn`/`gimli`/`legolas` in parallel on disjoint MRs).
+- Several independent files/modules to migrate, audit or document.
+- Several research leads to explore before deciding (judge panel, several candidate
+  implementations).
+- Does **not** apply if the sub-tasks share common mutable state (the same file edited by two
+  agents at once): in that case, sequential.
 
-## Étapes
-1. **Découper en périmètres disjoints** : chaque sous-agent reçoit un scope
-   clair qui ne recouvre aucun autre (fichiers différents, ou même fichier en
-   lecture seule pour tous sauf un).
-2. **Isoler par worktree** si les sous-agents écrivent du code (voir
-   `merge-worktree`) : jamais deux agents qui écrivent dans le même
-   répertoire de travail en même temps.
-3. **Lancer en un seul message** tous les agents indépendants (plusieurs
-   appels d'outil dans le même tour) plutôt qu'en série : le gain n'existe
-   que si l'attente est réellement concurrente.
-4. **Agréger** les résultats une fois tous revenus : ne pas commencer à
-   synthétiser avant d'avoir tout, sauf si le pipeline est construit en
-   pipeline continu (un résultat avance à l'étape suivante dès qu'il est prêt,
-   sans attendre les autres).
-5. Chaque sous-agent produit sa propre trace (voir gabarit unique, pilier 7) :
-   pas de rapport fusionné qui masque quel agent a dit quoi.
+## Steps
+1. **Split into disjoint scopes**: each subagent gets a clear scope that overlaps no other
+   (different files, or the same file read-only for all but one).
+2. **Isolate by worktree** if the subagents write code (see `merge-worktree`): never two agents
+   writing in the same working directory at the same time.
+3. **Launch in a single message** all the independent agents (several tool calls in the same
+   turn) rather than in series: the gain only exists if the waiting is genuinely concurrent.
+4. **Aggregate** the results once they've all come back: don't start synthesising before you have
+   everything, unless the pipeline is built as a continuous pipeline (a result moves to the next
+   step as soon as it's ready, without waiting for the others).
+5. Every subagent produces its own trace (see the single template, pillar 7): no merged report
+   that hides which agent said what.
 
-## Sortie / checkpoint
-Tous les sous-agents dispatchés sont revenus (ou explicitement abandonnés
-avec la raison notée), et l'agrégation cite quel résultat vient de quel
-agent : jamais une synthèse anonyme.
+## Output / checkpoint
+Every dispatched subagent has come back (or been explicitly abandoned with the reason noted), and
+the aggregation cites which result comes from which agent: never an anonymous synthesis.
 
-## Garde-fous
-- Jamais deux agents avec Write/Edit sur le même fichier en simultané.
-- Un agent qui échoue n'annule pas les autres : on isole l'échec, on ne relance
-  pas tout le lot.
-- Ne pas dispatcher pour dispatcher : une seule sous-tâche ne justifie pas ce
-  mécanisme, il ne vaut que si le parallélisme fait gagner du temps réel.
+## Guardrails
+- Never two agents with Write/Edit on the same file simultaneously.
+- One agent failing doesn't cancel the others: isolate the failure, don't relaunch the whole
+  batch.
+- Don't dispatch for the sake of dispatching: a single sub-task doesn't justify this mechanism, it
+  only pays off if the parallelism saves real time.
 
-## Origine
-Réécriture des deux idées `dispatching-parallel-agents` et
-`subagent-driven-development` d'un framework de skills/agents du marché,
-fusionnées ici parce que dans notre usage elles se recouvrent : dispatcher en
-parallèle et déléguer à des sous-agents spécialisés sont la même décision
-chez nous (`elrond` → `aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo`
-en est l'exemple vécu de production).
+## Origin
+Rewrite of the two ideas `dispatching-parallel-agents` and `subagent-driven-development` from a
+market skill/agent framework, merged here because in our usage they overlap: dispatching in
+parallel and delegating to specialised subagents are the same decision here (`elrond` →
+`aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo` is the lived production example).

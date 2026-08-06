@@ -1,83 +1,73 @@
 ---
 name: accessibility
-description: Use quand on code ou revoit une page/app front (Nuxt/React), checklist accessibilité technique : sémantique HTML, focus/clavier, contraste, ARIA, formulaires. Pas de vécu de production Xefi dédié a11y à ce stade, sourcé sur les WCAG 2.2 (niveau AA) et les guidelines établies (MDN, W3C).
+description: Use when writing or reviewing a frontend page/app (Nuxt/React), technical accessibility checklist: HTML semantics, focus/keyboard, contrast, ARIA, forms. No dedicated a11y production experience at Xefi at this stage, sourced from WCAG 2.2 (level AA) and established guidelines (MDN, W3C).
 ---
 
 # accessibility
 
-Étape 6 du pipeline (`WORKFLOW.md`), en complément de `vue-nuxt-vuetify-conventions`/
-`react-nextjs-conventions` : s'applique à toute page/composant destiné à des
-utilisateurs réels (pas aux scripts internes, outillage dev-only).
+Step 6 of the pipeline (`WORKFLOW.md`), complementing
+`vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`: applies to every page/component meant for
+real users (not to internal scripts or dev-only tooling).
 
-## Quand
-Dès qu'on écrit ou modifie un composant/page front, pendant `code` (6) ou en
-review (`review`, 8) si le diff touche de l'UI.
+## When
+As soon as a frontend component/page is written or modified, during `code` (6) or at review time
+(`review`, 8) if the diff touches UI.
 
-## Étapes
+## Steps
 
-### 1. Sémantique et navigation clavier : la base non négociable
-1. Tout élément interactif (`button`, `a`, `input`) est une vraie balise
-   native, jamais un `div`/`span` avec `onClick` simulant un bouton : sinon
-   perdu au clavier et pour les lecteurs d'écran.
-2. Ordre de tabulation (`tab`) suit l'ordre visuel logique : jamais de
-   `tabindex` positif qui casse l'ordre naturel du DOM ; `tabindex="-1"`
-   seulement pour retirer un élément du flux volontairement.
-3. Focus visible (`:focus-visible`) jamais supprimé par un `outline: none`
-   sans remplacement : un utilisateur clavier doit toujours voir où il est.
-4. Piège à focus (modale, dropdown) : le focus reste dans le composant ouvert
-   tant qu'il est actif, et revient à l'élément déclencheur à la fermeture.
-5. Raccourcis clavier standards respectés : `Échap` ferme une modale/dropdown,
-   `Entrée`/`Espace` active un bouton focus.
+### 1. Semantics and keyboard navigation: the non-negotiable base
+1. Every interactive element (`button`, `a`, `input`) is a real native tag, never a `div`/`span` with an
+   `onClick` simulating a button: otherwise it's lost to the keyboard and to screen readers.
+2. Tab order follows the logical visual order: never a positive `tabindex` that breaks the DOM's natural
+   order; `tabindex="-1"` only to deliberately remove an element from the flow.
+3. Visible focus (`:focus-visible`) never removed by an `outline: none` with no replacement: a keyboard
+   user must always see where they are.
+4. Focus trap (modal, dropdown): focus stays inside the open component while it's active, and returns to
+   the triggering element on close.
+5. Standard keyboard shortcuts respected: `Escape` closes a modal/dropdown, `Enter`/`Space` activates a
+   focused button.
 
-### 2. ARIA : seulement quand le HTML natif ne suffit pas
-1. Règle d'or : pas d'ARIA plutôt qu'un ARIA faux, un `role` ou `aria-*`
-   incorrect est pire que son absence (contrat trahi pour les technologies
-   d'assistance).
-2. `aria-label`/`aria-labelledby` sur tout élément interactif sans texte
-   visible (icône seule, bouton fermer) : jamais un bouton muet pour un
-   lecteur d'écran.
-3. `aria-live` (`polite`/`assertive`) sur les zones de contenu dynamique qui
-   doivent être annoncées (notification, erreur de formulaire apparue après
-   soumission) : sinon changement invisible pour qui n'utilise pas les yeux.
-4. `aria-expanded`/`aria-selected`/`aria-current` posés sur les composants
-   qui en ont l'équivalent visuel (accordéon, onglet, item actif) : l'état
-   visuel doit avoir un équivalent exposé.
+### 2. ARIA: only when native HTML isn't enough
+1. Golden rule: no ARIA rather than wrong ARIA; an incorrect `role` or `aria-*` is worse than its
+   absence (a contract betrayed for assistive technologies).
+2. `aria-label`/`aria-labelledby` on every interactive element with no visible text (icon only, close
+   button): never a button that's mute to a screen reader.
+3. `aria-live` (`polite`/`assertive`) on dynamic content areas that have to be announced (notification,
+   a form error appearing after submission): otherwise the change is invisible to anyone not using their
+   eyes.
+4. `aria-expanded`/`aria-selected`/`aria-current` placed on the components that have the visual
+   equivalent (accordion, tab, active item): the visual state must have an exposed equivalent.
 
-### 3. Contraste et perception visuelle
-1. Contraste texte/fond ≥ 4.5:1 (texte normal) ou 3:1 (texte large ≥ 18px
-   gras/24px) : niveau WCAG AA, vérifié sur les couleurs réelles du design
-   system, pas approximé à l'œil.
-2. L'information n'est jamais portée uniquement par la couleur (ex. rouge =
-   erreur) : toujours doublée d'un texte, icône ou motif.
-3. Contenu redimensionnable jusqu'à 200% (zoom navigateur) sans perte de
-   contenu ni de fonctionnalité : pas de largeur figée en `px` qui casse au
-   zoom.
+### 3. Contrast and visual perception
+1. Text/background contrast ≥ 4.5:1 (normal text) or 3:1 (large text ≥ 18px bold/24px): WCAG AA level,
+   checked against the design system's real colours, not eyeballed.
+2. Information is never carried by colour alone (e.g. red = error): always doubled with text, an icon or
+   a pattern.
+3. Content resizable up to 200% (browser zoom) with no loss of content or functionality: no width frozen
+   in `px` that breaks under zoom.
 
-### 4. Formulaires : le point le plus souvent cassé
-1. Chaque champ a un `<label>` associé (`for`/`id` ou wrapping), jamais un
-   placeholder seul en guise de label : le placeholder disparaît à la saisie.
-2. Message d'erreur associé au champ via `aria-describedby`, annoncé au
-   moment où il apparaît (pas seulement affiché visuellement).
-3. Champs requis marqués via `required`/`aria-required`, pas seulement par un
-   astérisque visuel sans équivalent exposé.
+### 4. Forms: the most frequently broken point
+1. Every field has an associated `<label>` (`for`/`id` or wrapping), never a placeholder alone as a
+   label: the placeholder disappears as soon as you type.
+2. Error message associated with the field through `aria-describedby`, announced at the moment it
+   appears (not only displayed visually).
+3. Required fields marked with `required`/`aria-required`, not only by a visual asterisk with no exposed
+   equivalent.
 
-## Sortie / checkpoint
-Les quatre sections passées en revue sur le diff touché ; pour un audit plus
-large d'une page/site déjà en prod (pas seulement le diff en cours), voir
-l'agent `accessibility-auditor`.
+## Output / checkpoint
+The four sections reviewed on the diff touched; for a broader audit of a page/site already in production
+(not just the diff in progress), see the `accessibility-auditor` agent.
 
-## Garde-fous
-- Ne pas confondre conformité WCAG et expérience réelle : un audit outillé
-  (axe-core, Lighthouse) ne remplace pas un test clavier/lecteur d'écran
-  manuel sur les parcours critiques.
-- Pas d'ARIA ajouté par réflexe "pour faire propre" : seulement quand le HTML
-  natif ne suffit pas (voir règle d'or section 2).
-- Cette brique n'a pas encore de vécu de production Xefi dédié : à confronter
-  au premier vrai audit a11y réel, pas à traiter comme doctrine éprouvée.
+## Guardrails
+- Don't confuse WCAG compliance with the real experience: a tooled audit (axe-core, Lighthouse) doesn't
+  replace a manual keyboard/screen-reader test on the critical journeys.
+- No ARIA added out of reflex "to look tidy": only when native HTML isn't enough (see the golden rule in
+  section 2).
+- This block has no dedicated Xefi production experience yet: to be confronted with the first real a11y
+  audit, not to be treated as proven doctrine.
 
-## Origine
-Sourcé sur WCAG 2.2 (niveau AA, critères de succès repris), MDN
-(sémantique HTML, ARIA authoring practices), W3C ARIA APG (patterns
-modale/accordéon/onglet). Mécanismes réécrits en checklist actionnable, pas de
-texte copié. Recherche de marché, pas de retour de production interne à ce
-stade : même statut que `seo`.
+## Origin
+Sourced from WCAG 2.2 (level AA, success criteria taken over), MDN (HTML semantics, ARIA authoring
+practices), W3C ARIA APG (modal/accordion/tab patterns). Mechanisms rewritten as an actionable
+checklist, no copied text. Market research, no internal production feedback at this stage: same status
+as `seo`.

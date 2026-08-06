@@ -1,27 +1,27 @@
 ---
 name: code
-description: Use lors de la construction, implémenter par incréments jusqu'à faire passer les tests, un task_item à la fois.
+description: Use during the build, implement in increments until the tests pass, one task_item at a time.
 ---
 
 # code
 
-Étape 6 du pipeline (`WORKFLOW.md`). Construire le minimum qui fait passer chaque test.
+Step 6 of the pipeline (`WORKFLOW.md`). Build the minimum that makes each test pass.
 
-## Quand
-Après `tdd` (tests rouges écrits), pendant `/BUILD`.
+## When
+After `tdd` (red tests written), during `/BUILD`.
 
-## Étapes
-1. Prendre **un** `task_item`, écrire le minimum de code pour faire passer son test.
-2. `toggle_task_item` quand l'incrément est fait, commit.
-3. Bloqué / erreur inattendue → invoquer la brique **`debug`** avant de proposer un fix.
-4. Répéter jusqu'à épuisement des `task_items`.
+## Steps
+1. Take **one** `task_item`, write the minimum code that makes its test pass.
+2. `toggle_task_item` when the increment is done, commit.
+3. Blocked / unexpected error → invoke the **`debug`** block before proposing a fix.
+4. Repeat until the `task_items` are exhausted.
 
-## Sortie / checkpoint
+## Output / checkpoint
 `build_done`.
 
-## Garde-fous
-**Pas de commentaires dans le code.** Ne **jamais** marquer un test `passes: true` à la main, 
-c'est le **GATE** (étape 7) qui tranche, sur preuve. On ne s'auto-valide pas.
+## Guardrails
+**No comments in the code.** **Never** mark a test `passes: true` by hand, the **GATE**
+(step 7) decides, on evidence. We don't validate ourselves.
 
-## Origine
-Natif Claude Code + interne, réécrit.
+## Origin
+Native Claude Code + internal, rewritten.

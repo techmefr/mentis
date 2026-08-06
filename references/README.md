@@ -1,45 +1,45 @@
-# mentis : carte du savoir (références)
+# mentis: knowledge map (references)
 
-> « Voir tous les `.md` qu'il faut » pour extraire, améliorer, accélérer, maintenir.
-> **Discipline (règle B appliquée aux docs) : une seule source par sujet.** Un doc de référence
-> soit **tient** une connaissance qui n'a pas de home, soit **indexe** une source existante, 
-> **jamais une copie**. Les briques (`skills`) et agents *pointent* vers ces sources, ne les
-> réexpliquent pas. Publiable/Interne suit la règle C (`CONVENTIONS.md`).
+> "Seeing all the `.md` files you need" to extract, improve, speed up, maintain.
+> **Discipline (rule B applied to docs): a single source per subject.** A reference doc either
+> **holds** knowledge that has no home, or **indexes** an existing source, **never a copy**. The
+> blocks (`skills`) and agents *point* at those sources, they don't re-explain them.
+> Publishable/Internal follows rule C (`CONVENTIONS.md`).
 
-## La carte
+## The map
 
-| Sujet | Source unique de vérité | Type | Pub/Int | Statut |
+| Subject | Single source of truth | Type | Pub/Int | Status |
 |---|---|---|---|---|
-| Méthode / pipeline | `mentis/WORKFLOW.md` | doc | Pub | ✅ |
-| Gouvernance + gabarit | `mentis/CONVENTIONS.md` | doc | Pub | ✅ |
-| Registre briques + backlog | `mentis/CATALOG.md` | doc | Int* | ✅ |
-| Veille à trier | `mentis/SOURCING-INBOX.md` | doc | Int | ✅ |
-| Comparatif veille | `VEILLE.md` (racine) | doc | **Int** | ✅ |
-| Réalité infra / ports / SSO | `CHALLENGE.md`, `FRICTIONS.md` (racine) | doc | **Int** | ✅ |
-| **Design system** (grille 4px, spacing, chips, boutons, conteneurs, icônes, ux-writing) | plugin `xefi-claude-skills` → skills `design:*` | skills | Pub | ✅ (indexer) |
-| **Accessibilité RGAA** | skill `design:accessibility` | skill | Pub | ✅ (indexer) |
-| **Testing** (test-casebook : data-test-*, persona matrix, ≥90% ; env-attr-cleaner) | repo `test-casebook` + `doctrine-test-back-laravel-lomkit.md` | repo/doc | Pub | ✅ (indexer) |
-| **Conventions front** (Nuxt/Vue/Vuetify : shorthand props, booléens is/has, i18n en computed, pas de prop Vuetify inexistante) | *éparses en mémoire* | / | Pub (générique) | 🔜 **à écrire** `conventions-front.md` |
-| **Conventions back** (Laravel/lomkit : filters au max, réponses status+message, simplicité > nb d'appels) | `doctrine-test-back-laravel-lomkit.md` + mémoire | doc/ | Pub (générique) | 🔜 **à écrire** `conventions-back.md` (pointe doctrine) |
-| **Git / commits / MR** (conventional, minuscule ; commentaires MR sans emojis, courts) | *éparses en mémoire* | / | Pub | 🔜 **à écrire** `git-mr.md` |
-| **Code smells** (baseline citée par `review` axe Standards) | à formaliser | / | Pub | 🔜 **à écrire** `code-smells.md` |
-| Agents (aragorn/gimli/legolas/valerianus/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registre dans CATALOG) |
+| Method / pipeline | `mentis/WORKFLOW.md` | doc | Pub | ✅ |
+| Governance + template | `mentis/CONVENTIONS.md` | doc | Pub | ✅ |
+| Block registry + backlog | `mentis/CATALOG.md` | doc | Int* | ✅ |
+| Scouting still to triage | `mentis/SOURCING-INBOX.md` | doc | Int | ✅ |
+| Scouting comparison | `VEILLE.md` (root) | doc | **Int** | ✅ |
+| Infra / ports / SSO reality | `CHALLENGE.md`, `FRICTIONS.md` (root) | doc | **Int** | ✅ |
+| **Design system** (4px grid, spacing, chips, buttons, containers, icons, ux-writing) | `xefi-claude-skills` plugin → `design:*` skills | skills | Pub | ✅ (index) |
+| **RGAA accessibility** | `design:accessibility` skill | skill | Pub | ✅ (index) |
+| **Testing** (test-casebook: data-test-*, persona matrix, ≥90%; env-attr-cleaner) | `test-casebook` repo + `doctrine-test-back-laravel-lomkit.md` | repo/doc | Pub | ✅ (index) |
+| **Frontend conventions** (Nuxt/Vue/Vuetify: shorthand props, is/has booleans, i18n in a computed, no non-existent Vuetify prop) | *scattered in memory* | / | Pub (generic) | 🔜 **to write** `conventions-front.md` |
+| **Backend conventions** (Laravel/lomkit: filters to the max, status+message responses, simplicity > number of calls) | `doctrine-test-back-laravel-lomkit.md` + memory | doc/ | Pub (generic) | 🔜 **to write** `conventions-back.md` (points at the doctrine) |
+| **Git / commits / MR** (conventional, lowercase; MR comments short and emoji-free) | *scattered in memory* | / | Pub | 🔜 **to write** `git-mr.md` |
+| **Code smells** (baseline cited by the Standards axis of `review`) | to be formalised | / | Pub | 🔜 **to write** `code-smells.md` |
+| Agents (aragorn/gimli/legolas/valerianus/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
 
-\* `CATALOG.md` : la structure est publiable, mais son backlog nomme des repos/couches internes → garder interne tant qu'on n'a pas séparé.
+\* `CATALOG.md`: the structure is publishable, but its backlog names internal repos/layers → keep it internal until we've separated them.
 
-## Règles d'usage
-- **Ne pas dupliquer** : si un sujet a déjà une skill (design, testing), on **pointe**, on ne
-  recopie pas. Une skill qui aurait besoin d'un chiffre le lit dans la source, pas en dur.
-- **Combler un manque = un seul doc** ici, cité par toutes les briques concernées.
-- **Publiable** (Pub) → peut vivre dans un futur repo public ; **Interne** (Int) → jamais.
-  Un doc « Pub (générique) » ne cite **aucun** nom de projet/collègue réel (règle C).
+## Usage rules
+- **Don't duplicate**: if a subject already has a skill (design, testing), we **point** at it, we
+  don't copy it over. A skill that needs a number reads it from the source, not hard-coded.
+- **Filling a gap = a single doc** here, cited by every block concerned.
+- **Publishable** (Pub) → can live in a future public repo; **Internal** (Int) → never. A
+  "Pub (generic)" doc names **no** real project/colleague (rule C).
 
-## À écrire (manques réels, dans l'ordre d'utilité)
-1. `conventions-front.md`, cité par `review` et `code` (le plus sollicité).
-2. `git-mr.md`, cité par `ship` et `review`.
-3. `conventions-back.md`, pointe `doctrine-test-back-laravel-lomkit.md`, consolide le reste.
-4. `code-smells.md`, cité par `review` (axe Standards).
+## To write (real gaps, in order of usefulness)
+1. `conventions-front.md`, cited by `review` and `code` (the most used).
+2. `git-mr.md`, cited by `ship` and `review`.
+3. `conventions-back.md`, points at `doctrine-test-back-laravel-lomkit.md`, consolidates the rest.
+4. `code-smells.md`, cited by `review` (Standards axis).
 
-**Ces docs se sèment automatiquement** : la brique `extract-conventions` lit le code réel et
-produit un brouillon `references/observed/<projet>.md` (interne) ; la version publiable
-générique en est la distillation humaine. Écrire à la main = le fallback, pas le défaut.
+**These docs seed themselves automatically**: the `extract-conventions` block reads the real code
+and produces a `references/observed/<project>.md` draft (internal); the generic publishable
+version is the human distillation of it. Writing by hand is the fallback, not the default.

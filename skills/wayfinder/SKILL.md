@@ -1,63 +1,55 @@
 ---
 name: wayfinder
-description: Use quand un travail dépasse une session/plusieurs semaines et reste incertain (migration large, refonte progressive), découpe le travail en une carte de tickets Jira (un parent + des enfants typés Research/Prototype/Grilling/Task) liés par dépendances, plutôt qu'un seul gros ticket ou un plan figé d'avance. Distinct de breakdown (qui découpe une story déjà cadrée en 1pt=1h).
+description: Use when a piece of work spans more than a session/several weeks and stays uncertain (large migration, progressive rework), breaks the work into a map of Jira tickets (one parent + typed Research/Prototype/Grilling/Task children) linked by dependencies, rather than one big ticket or a plan frozen up front. Distinct from breakdown (which splits an already-framed story into 1pt=1h).
 ---
 
 # wayfinder
 
-Étape transverse, avant/à côté de `plan` (4) : pour l'incertitude qui dépasse
-le cadre d'une story déjà chiffrable. `breakdown` (skill existante) découpe
-une story cadrée en tâches d'1h ; `wayfinder` gère un chantier dont la forme
-finale n'est pas encore connue.
+Cross-cutting step, before/alongside `plan` (4): for uncertainty that goes beyond the scope of an
+already estimable story. `breakdown` (existing skill) splits a framed story into 1h tasks;
+`wayfinder` handles a piece of work whose final shape isn't known yet.
 
-## Quand
-Dès qu'un travail est trop gros/incertain pour une session, et que son
-découpage complet ne peut pas être connu à l'avance (migration progressive,
-refonte qui s'affine au fil de l'avancement) : jamais pour une story déjà
-cadrée (ça, c'est `breakdown`).
+## When
+As soon as a piece of work is too big/uncertain for one session, and its complete breakdown can't
+be known in advance (progressive migration, rework that sharpens as it goes): never for an
+already-framed story (that's `breakdown`).
 
-## Étapes
+## Steps
 
-### 1. Ticket parent : la destination, pas le chemin détaillé
-1. **Destination** : où on veut arriver, en une phrase, même si le chemin
-   exact n'est pas encore connu.
-2. **Notes** : contexte libre qui s'accumule au fil de l'avancement.
-3. **Décisions déjà prises** : ce qui est tranché et ne se rediscute plus.
-4. **Pas encore spécifié** : les zones grises identifiées mais non résolues, 
-   explicitement listées, jamais implicites.
-5. **Hors scope** : ce qu'on a choisi de ne pas faire, pour éviter qu'un
-   ticket enfant dérive dessus plus tard.
+### 1. Parent ticket: the destination, not the detailed path
+1. **Destination**: where we want to end up, in one sentence, even if the exact path isn't known
+   yet.
+2. **Notes**: free-form context that accumulates as things progress.
+3. **Decisions already taken**: what is settled and no longer up for discussion.
+4. **Not specified yet**: the grey areas identified but unresolved, explicitly listed, never
+   implicit.
+5. **Out of scope**: what we chose not to do, so a child ticket doesn't drift into it later.
 
-### 2. Tickets enfants typés
-1. **Research** : lever une inconnue avant de pouvoir avancer (pas de
-   livrable code).
-2. **Prototype** : vérifier qu'une approche fonctionne, jetable si besoin.
-3. **Grilling** : cadrer précisément une zone encore floue (proche de
-   `spec`).
-4. **Task** : travail concret, cadré, prêt à exécuter.
-5. Chaque enfant est lié au parent par une dépendance native du tracker (pas
-   un simple lien texte) pour que l'outil visualise ce qui est "frontière"
-   (débloqué, prenable maintenant) vs bloqué en attente d'un autre ticket.
+### 2. Typed child tickets
+1. **Research**: clear an unknown before being able to move forward (no code deliverable).
+2. **Prototype**: check that an approach works, throwaway if needed.
+3. **Grilling**: precisely frame an area that's still unclear (close to `spec`).
+4. **Task**: concrete, framed work, ready to execute.
+5. Every child is linked to the parent by a native tracker dependency (not a plain text link) so
+   the tool can visualise what is "frontier" (unblocked, takeable now) vs blocked waiting on
+   another ticket.
 
-### 3. Une session = un ticket résolu
-1. On ne travaille jamais sur plusieurs tickets enfants en même temps dans la
-   même session : cohérent avec `worktree-one-task-close-after-merge`.
-2. À la fin d'une session, le ticket parent est mis à jour (notes, décisions,
-   ce qui est passé de "pas encore spécifié" à "décidé").
+### 3. One session = one ticket resolved
+1. We never work on several child tickets at the same time in the same session: consistent with
+   `worktree-one-task-close-after-merge`.
+2. At the end of a session, the parent ticket is updated (notes, decisions, what moved from "not
+   specified yet" to "decided").
 
-## Sortie / checkpoint
-Un ticket parent Jira avec les cinq sections remplies, des tickets enfants
-typés créés au fur et à mesure (pas tous d'un coup au départ : seulement ce
-qui est identifié), liés par dépendances bloquantes natives.
+## Output / checkpoint
+A parent Jira ticket with the five sections filled in, typed child tickets created as we go (not
+all at once at the start: only what has been identified), linked by native blocking dependencies.
 
-## Garde-fous
-Ne pas essayer de découper tout le chantier d'un coup en début de projet : 
-`wayfinder` accepte explicitement que le découpage complet n'est pas connu à
-l'avance, contrairement à `plan`/`breakdown`. Ne pas laisser le ticket parent
-devenir un fourre-tout non maintenu : chaque session le met à jour.
+## Guardrails
+Don't try to break the whole piece of work down at the start of the project: `wayfinder`
+explicitly accepts that the complete breakdown isn't known in advance, unlike `plan`/`breakdown`.
+Don't let the parent ticket become an unmaintained catch-all: every session updates it.
 
-## Origine
-Réécriture du skill `wayfinder` d'un auteur de skills reconnu du marché : 
-la structure du ticket parent (5 sections) et les 4 types de ticket enfant
-sont repris tels quels, adaptés à un usage Jira (au lieu du tracker
-générique d'origine) et distingués explicitement de `breakdown` déjà existant.
+## Origin
+Rewrite of the `wayfinder` skill from a recognised market skill author: the parent ticket structure
+(5 sections) and the 4 child ticket types are taken as-is, adapted to Jira usage (instead of the
+original generic tracker) and explicitly distinguished from the already existing `breakdown`.

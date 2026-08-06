@@ -1,71 +1,59 @@
 ---
 name: deprecation-migration
-description: Use quand il faut retirer/remplacer un système, une API, une colonne DB ou une dépendance encore utilisée, cadre la décision (dépréciation avisée vs imposée) puis choisit le pattern de migration progressive (Strangler, Adapter, Feature Flag, Expand/Contract), plutôt qu'un remplacement brutal en un seul déploiement.
+description: Use when a system, an API, a DB column or a dependency still in use has to be removed/replaced, frames the decision (advisory vs compulsory deprecation) then picks the progressive migration pattern (Strangler, Adapter, Feature Flag, Expand/Contract), rather than a brutal replacement in a single deployment.
 ---
 
 # deprecation-migration
 
-Étape transverse, avant `plan` (4) sur une tâche de migration/dépréciation
-spécifiquement : distinct de `archi` (décisions d'architecture neuve) et de
-`plan` (découpage d'un travail déjà cadré).
+Cross-cutting step, before `plan` (4) on a migration/deprecation task specifically: distinct from
+`archi` (decisions about new architecture) and from `plan` (breaking down work already framed).
 
-## Quand
-Dès qu'une tâche consiste à retirer, remplacer ou faire évoluer de façon
-incompatible un système déjà utilisé (API, colonne DB, dépendance, module) : 
-jamais pour une feature neuve sans rien à déprécier.
+## When
+As soon as a task consists of removing, replacing or evolving in an incompatible way a system
+already in use (API, DB column, dependency, module): never for a brand-new feature with nothing to
+deprecate.
 
-## Étapes
+## Steps
 
-### 1. Cinq questions avant de décider
-1. Ce système a-t-il encore une **valeur unique** que rien d'autre ne couvre ?
-2. Combien de **consommateurs réels** en dépendent (grep effectif, pas
-   estimation) ?
-3. Un **remplaçant existe-t-il déjà** et est-il prêt (pas seulement prévu) ?
-4. Quel est le **coût de migration par consommateur** (un script mécanique
-   vs une réécriture manuelle) ?
-5. Quel est le **coût de maintenir** le système tel quel vs le coût de la
-   migration : si maintenir coûte moins cher que migrer, ne pas migrer par
-   principe.
+### 1. Five questions before deciding
+1. Does this system still have **unique value** that nothing else covers?
+2. How many **real consumers** depend on it (an actual grep, not an estimate)?
+3. Does a **replacement already exist** and is it ready (not merely planned)?
+4. What is the **migration cost per consumer** (a mechanical script vs a manual rewrite)?
+5. What is the **cost of keeping** the system as-is vs the cost of the migration: if keeping it
+   costs less than migrating, don't migrate on principle.
 
-### 2. Dépréciation avisée vs imposée
-1. **Avisée** (advisory) : le consommateur choisit son rythme, un avertissement
-   existe (log, doc, warning) mais rien ne casse tant qu'il n'a pas migré.
-2. **Imposée** (compulsory) : une date/version fixe où l'ancien cesse de
-   fonctionner : réservée aux cas où le maintien du legacy devient un risque
-   réel (sécurité, dette bloquante), jamais choisie par défaut.
+### 2. Advisory vs compulsory deprecation
+1. **Advisory**: the consumer chooses their own pace, a warning exists (log, docs, warning) but
+   nothing breaks until they've migrated.
+2. **Compulsory**: a fixed date/version where the old thing stops working: reserved for cases where
+   keeping the legacy becomes a real risk (security, blocking debt), never chosen by default.
 
-### 3. Choisir le pattern de migration
-1. **Strangler** : le nouveau système absorbe progressivement les
-   responsabilités de l'ancien, route par route/fonctionnalité par
-   fonctionnalité, les deux coexistent le temps de la bascule.
-2. **Adapter** : une couche de traduction fait parler l'ancien et le nouveau
-   sans toucher aux consommateurs : utile quand la migration interne doit
-   rester invisible du dehors.
-3. **Feature Flag** : bascule contrôlée, réversible instantanément si un
-   problème apparaît : préféré dès que la réversibilité immédiate compte plus
-   que la simplicité du code.
-4. **Expand/Contract** (schéma DB) : ajouter la nouvelle colonne/table →
-   double-écriture (ancien + nouveau) → backfill de l'historique → bascule
-   des lectures vers le nouveau → suppression de l'ancien, **en déploiements
-   séparés**, jamais en un seul déploiement qui fait tout d'un coup.
+### 3. Choose the migration pattern
+1. **Strangler**: the new system progressively absorbs the old one's responsibilities, route by
+   route/feature by feature, the two coexist for the duration of the switch.
+2. **Adapter**: a translation layer makes the old and the new speak to each other without touching
+   the consumers: useful when the internal migration has to stay invisible from outside.
+3. **Feature Flag**: a controlled switch, instantly reversible if a problem appears: preferred as
+   soon as immediate reversibility matters more than code simplicity.
+4. **Expand/Contract** (DB schema): add the new column/table → double-write (old + new) → backfill
+   the history → switch reads to the new one → delete the old one, **in separate deployments**,
+   never in a single deployment that does everything at once.
 
-## Sortie / checkpoint
-Décision documentée (avisée/imposée + pattern choisi) avant que `plan` (4)
-découpe le travail en étapes : jamais un remplacement en un seul commit/
-déploiement pour un système avec des consommateurs réels identifiés.
+## Output / checkpoint
+Decision documented (advisory/compulsory + pattern chosen) before `plan` (4) breaks the work into
+steps: never a replacement in a single commit/deployment for a system with identified real
+consumers.
 
-## Garde-fous
-- Jamais de suppression brutale d'un système ayant des consommateurs actifs
-  non migrés, même en dépréciation imposée (une fenêtre de transition existe
-  toujours).
-- Expand/Contract : chaque étape est un déploiement séparé et observable, pas
-  une transaction unique : sinon le rollback redevient aussi risqué que le
-  problème qu'on évitait.
-- Ne pas migrer par principe si l'étape 1.5 (coût de maintenir vs coût de
-  migrer) penche vers le statu quo.
+## Guardrails
+- Never a brutal removal of a system with active unmigrated consumers, even under a compulsory
+  deprecation (a transition window always exists).
+- Expand/Contract: every step is a separate, observable deployment, not one single transaction:
+  otherwise the rollback becomes as risky as the problem we were avoiding.
+- Don't migrate on principle if step 1.5 (cost of keeping vs cost of migrating) leans towards the
+  status quo.
 
-## Origine
-Réécriture du skill `deprecation-and-migration` d'un catalogue de skills dev généralistes du marché, 
-la checklist des 5 questions et les 4 patterns (Strangler/Adapter/Feature
-Flag/Expand-Contract) sont repris tels quels, réécrits en français au gabarit
-Xefi.
+## Origin
+Rewrite of the `deprecation-and-migration` skill from a market generalist dev skill catalogue; the
+5-question checklist and the 4 patterns (Strangler/Adapter/Feature Flag/Expand-Contract) are taken
+as-is, rewritten to the Xefi template.
