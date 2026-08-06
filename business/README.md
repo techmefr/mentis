@@ -63,6 +63,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `sales-support` | sales |
 | `release-communication` | communication |
 | `incident-communication` | communication |
+| `internal-communication` | communication |
 
 ## Installing
 

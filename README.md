@@ -98,6 +98,8 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `dotnet-conventions` | 6 | C#/.NET conventions: async, IDisposable, DI, EF Core (sourced from the market) |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
+| `shell-scripting-conventions` | 6 | Shell fails silently by default: fail closed, quote everything, test the failure cases |
+| `design-patterns` | 3 / 6 | Recognise a pattern the code already has; most of the catalogue is already in the framework |
 | `auth-session-conventions` | 6 | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
 | `security-hardening` | 6 | Trust boundaries while writing: validation, escaping per context, access control, uploads |
 | `background-jobs-conventions` | 6 | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
@@ -110,6 +112,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `observability-instrumentation` | 6 | What to log, which metric, which label; complements devops-conventions at code level |
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
 | `testing-anti-patterns` | 5 / review | Mock theatre, incomplete mocks, timing guesses: how a green suite lies |
+| `bug-triage` | 7 (entry) | Turn a report into a reproducible case with evidence, before any debugging |
 | `debug` | support | Trace the cause backwards to its origin, then make the class of bug impossible |
 | `when-stuck` | cross-cutting | The approach itself is the problem: unify, invert, push the scale, name the pattern |
 | `gate` | 7 | Cold verification before merge, see the `galadriel` agent |
@@ -150,6 +153,7 @@ without internal expertise in that function.
 | `sales-support` | sales | Estimate ≠ commitment, never a date in the room, demos show what exists |
 | `release-communication` | communication | Sort by what the reader must do; deprecations carry a path and a date |
 | `incident-communication` | communication | First message before the cause is known, announced cadence, no speculation, no blame |
+| `internal-communication` | communication | The ask in the first line; a decision that lives only in a call isn't announced |
 
 ### Agents
 
