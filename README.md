@@ -111,6 +111,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
 | `testing-anti-patterns` | 5 / review | Mock theatre, incomplete mocks, timing guesses: how a green suite lies |
 | `debug` | support | Trace the cause backwards to its origin, then make the class of bug impossible |
+| `when-stuck` | cross-cutting | The approach itself is the problem: unify, invert, push the scale, name the pattern |
 | `gate` | 7 | Cold verification before merge, see the `galadriel` agent |
 | `review` | 8 | Diff review, see the per-stack reviewer agents |
 | `over-engineering-review` | 9 | Deletion angle only: dead code, over-abstraction, yagni |
