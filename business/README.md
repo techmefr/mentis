@@ -50,6 +50,18 @@ checklist assembled from public sources, not professional advice, and each one s
 - **A block in this folder that starts to sound authoritative is a bug.** The failure mode here isn't
   being incomplete, it's being confidently wrong in a domain where nobody in the loop can catch it.
 
+## What's in here
+
+| Block | Function |
+|---|---|
+| `data-protection` | legal |
+| `licence-compliance` | legal |
+| `ux-writing` | UI/UX |
+| `product-marketing` | marketing |
+| `sales-support` | sales |
+| `release-communication` | communication |
+| `incident-communication` | communication |
+
 ## Installing
 
 Same as the dev blocks: copy the ones you want into the target repo's `.claude/skills/`. The folder

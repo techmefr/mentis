@@ -142,8 +142,10 @@ without internal expertise in that function.
 | `data-protection` | legal | Which GDPR questions must reach a lawyer/DPO before the code is written, and what the code then owes |
 | `licence-compliance` | legal | Recognise the licence category before installing, escalate copyleft, meet attribution mechanically |
 | `ux-writing` | UI/UX | Errors with a next action, buttons naming the outcome, empty states that aren't "No data" |
-
-Still to write: marketing, sales, internal/external communication.
+| `product-marketing` | marketing | Positioning in four sentences; every factual claim carries a source before it ships |
+| `sales-support` | sales | Estimate ≠ commitment, never a date in the room, demos show what exists |
+| `release-communication` | communication | Sort by what the reader must do; deprecations carry a path and a date |
+| `incident-communication` | communication | First message before the cause is known, announced cadence, no speculation, no blame |
 
 ### Agents
 
