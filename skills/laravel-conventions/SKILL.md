@@ -49,21 +49,50 @@ written or modified, during `code` (6) or `tdd` (5).
    assumed from the fact that the caller was already authenticated.
 
 ### 3. Data model and schema
-1. **No DB-level ENUM column.** Values become a schema migration to change, differ per engine, and can't
-   carry behaviour. Use a string/int column typed by a PHP enum on the model.
-2. **An enum with per-case data puts the value on the enum as a method**, not in a `match` scattered across
+1. **No DB-level ENUM column.** Use a string column, with a PHP enum as the single source of truth, cast on
+   the model, and validated through the framework's enum rule. Five reasons, and the first is the one that
+   bites: **every value change is an `ALTER TABLE`** — adding one status to a 50-million-row table is a long
+   migration that may lock it. Then: the type is inconsistent across engines (native enum here, a created type
+   with its own alter semantics there); the DB constraint and the PHP list are **two sources of truth that will
+   drift**; renaming a value becomes a multi-step data-plus-schema-plus-code migration; and a value set that
+   depends on the tenant or that an admin can extend is simply impossible.
+2. **Don't tune the column length to the longest value**, and **don't skip the cast** — without it the column
+   comes back as a raw string and the enum bought nothing. A `CHECK (status IN (...))` constraint is the same
+   mistake wearing a lighter costume: same migration friction, same duplication.
+3. **A set that changes at runtime isn't an enum at all.** An admin-configurable category, a per-plan status
+   list, a feature parameter — those belong in a table, not in code. The test is who changes it: a developer
+   with a deploy (enum) or a user at runtime (table). A boolean column beats a two-value enum outright.
+4. **An enum with per-case data puts the value on the enum as a method**, not in a `match` scattered across
    callers. A `match` on an enum case returning a rate, a label or a threshold is behaviour that belongs to
    the enum — otherwise the day a case is added, the compiler helps you in one file and not in the other six.
-3. **No cascade delete at the database level**: the DB bypasses the ORM, so lifecycle events and listeners
-   never fire on child rows. Decide the deletion policy in the application layer, where the hooks live — and
-   decide it at the schema/ERD stage, not when the first orphan appears.
-4. **Don't factorise two concepts into one table** just because they look alike or share columns today. The
+5. **No cascade delete at the database level.** The DB deletes rows behind the ORM's back, so nothing fires
+   on the children. What silently stops happening: no audit entry for the deleted child, the child stays in
+   the search index, its cache is never invalidated, it stays in the CRM/billing/ERP because no
+   `child.deleted` listener ran, the cancellation email is never sent, and denormalised counters on siblings
+   stay wrong. None of that fails loudly.
+6. **Keep the foreign key, drop only the cascade.** Removing the constraint to dodge the rule is worse — you
+   trade silent-wrong-behaviour for silent-orphan-rows.
+7. **Cascade through a listener class**, registered explicitly — not a closure in a model hook. A class is
+   testable on its own, keeps the model thin, and can be queued when the cascade is heavy. Inside it, stream
+   the children (a cursor, or chunk-by-id when you need to dispatch between chunks); reading the relation as a
+   property loads every child row into memory first, which is exactly the case you were worried about.
+8. **Never both.** A DB cascade *and* a listener means the listener deletes children the DB has already
+   removed, and the same domain must not mix the two strategies per parent/child pair.
+9. **Debugging tip worth its own line: when a lifecycle listener "isn't firing", check the parent's foreign
+   key for a cascade first.** That's the most common root cause, and it looks like a broken listener.
+10. **Where a DB cascade is genuinely fine**: a pure pivot table with no columns and no business meaning; a
+    deliberate data-destruction purge at scale, where firing per-row notifications is the thing you don't
+    want; and an append-only log table whose only consumer is its parent's lifecycle.
+11. **Decide all of this at the ERD/plan stage, not at code review.** A plan sentence like "delete the user
+    and cascade to orders and sessions" has already chosen the mechanism, and a verbal answer to "should
+    deleting a company remove its invoices?" is the same decision made without noticing.
+12. **Don't factorise two concepts into one table** just because they look alike or share columns today. The
    shared table is cheap now and is the thing you can't unpick later, when one side grows a rule the other
    can't have.
-5. Every model using soft deletes also carries a **pruning policy** with a retention window. Soft deletes
+13. Every model using soft deletes also carries a **pruning policy** with a retention window. Soft deletes
    without pruning is an unbounded table that silently becomes the biggest one in the database.
-6. Column defaults: prefer the application-side default, visible at the call site and testable without a
-   database.
+14. Column defaults: prefer the application-side default, visible at the call site and testable without a
+    database.
 
 ### 4. Queries
 1. **No query inside a loop.** A lazy-loaded relation accessed per iteration, an aggregate per row, a
@@ -139,21 +168,40 @@ written or modified, during `code` (6) or `tdd` (5).
    with its hidden attributes.
 
 ### 9. Tests and static analysis
-1. Two tiers, and no third: **feature tests** exercising the real HTTP/command/job entry point through the
-   framework, and **unit tests** for logic with no framework dependency. A test that boots the framework to
-   assert a pure function is a slow unit test; a "unit" test mocking the whole framework to check a route is
-   a feature test in disguise.
-2. One test style across the project (class-based with test attributes, or the project's chosen alternative),
-   applied uniformly.
-3. **Seeders and factories: no orphans.** Every foreign key resolved through a factory relationship or an
+1. **Two tiers, and no third.** A **feature test** boots the framework and asserts an observable outcome —
+   a row written, a job dispatched, a notification sent, a response returned. A **unit test** covers code you
+   wrote yourself with non-trivial logic and no framework coupling: a money converter, a period value object,
+   a working-hours calculator. There is no "integration", "controller" or "service" folder; if something
+   doesn't fit the two, the test is aimed at the wrong thing.
+2. **The default is the feature test**, and the reason is economic: one factory call plus one assertion on the
+   dispatched job covers the model hook, the listener registration and the payload at once — and it's written
+   against the contract, so it survives the refactor. The framework's own Eloquent, router and queue are
+   already tested; a test that mocks the database to prove a listener was wired proves only that you wrote a
+   mock.
+3. **The routing is mechanical**, which is the point — nobody should debate it: a model lifecycle side effect,
+   an HTTP endpoint, a console command, a listener or job `handle()`, a notification or mail, a policy, a
+   scope/accessor/mutator → **feature**. A pure custom domain piece → **unit**.
+4. **Arrange / Act / Assert, with exactly one Act.** One action means one reason to fail; two Act blocks are
+   two tests sharing a name. Name the method after the **behaviour**, not the method called —
+   `it_marks_invoice_paid_when_payment_succeeds`, never `it_marks_paid`.
+5. **Assert observable outcomes, never internal calls.** `shouldReceive('save')->once()` asserts your own
+   plumbing; the row, the response, the dispatched job and the sent mail are what the user experiences.
+6. **Four anti-patterns with the same root**: instantiating a controller and calling its action (it bypasses
+   middleware, the form request, route binding and the response contract); unit-testing a job or listener
+   against a mocked database; booting the framework to test a calculator; and reaching for a mocking library
+   in a unit test — if you need to mock a collaborator, the collaborator is framework-touching and the test
+   belongs one tier up.
+7. **One test style across the project**, applied uniformly — but **inside an existing file, match that
+   file's local style**. Half-migrating a file between styles is worse than either style.
+8. **Seeders and factories: no orphans.** Every foreign key resolved through a factory relationship or an
    explicit lookup, never a hardcoded id that happens to exist locally.
-4. A factory produces a valid minimal object; the test states what it needs on top. A factory that fabricates
+9. A factory produces a valid minimal object; the test states what it needs on top. A factory that fabricates
    a fully-populated aggregate makes every test depend on data it never asked for.
-5. Reference data inserted by a migration or a seeder is idempotent — it runs again on the next environment.
-6. Where a static analyser is installed, detect its configured level on the first edit and **write to that
+10. Reference data inserted by a migration or a seeder is idempotent — it runs again on the next environment.
+11. Where a static analyser is installed, detect its configured level on the first edit and **write to that
    level**, rather than introducing findings someone else has to clear. Its baseline is not a licence to add
    to the baseline.
-7. Beware a factory whose model has a lifecycle listener performing an outbound call: the test needs that
+12. Beware a factory whose model has a lifecycle listener performing an outbound call: the test needs that
    call faked, or the suite makes real network requests and fails for reasons that look like flakiness.
 
 ### 10. Architecture
@@ -188,7 +236,16 @@ commands, deterministic job ordering, broadcasting, two-tier testing, one test s
 rules, static-analysis awareness, layered scaffolding, preferred packages)** — rules extracted, de-identified
 and rewritten generically, with the internal package names, architecture scaffold, broadcaster and MCP
 tooling deliberately left out (rule C); the framework's own documentation for the mechanisms cited.
-Mechanisms rewritten, no copied text. Stamped 2026-08-06.
+Mechanisms rewritten, no copied text.
+**Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
+read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
+catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the full cost of a DB-level
+cascade (audit, search index, cache, external sync, notifications, denormalised counters — none of which fails
+loudly), the keep-the-FK-drop-the-cascade shape, cascade through a listener class streaming its children, the
+never-both rule, the three cases where a DB cascade is fine, the "a listener that isn't firing is usually a
+cascaded FK" diagnostic, the five reasons behind the no-DB-enum rule, the runtime-configurable-values carve-out
+(that's a table, not an enum), and the test tiers with their routing table, their one-Act shape and their four
+anti-patterns. Stamped 2026-08-06.
 
 **Fills a real gap**: `php-patterns` covers the language and explicitly stopped at the framework boundary,
 leaving Laravel — the stack with the largest catalogue of the set — with no block at all on the mentis side.

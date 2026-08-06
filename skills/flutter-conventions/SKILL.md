@@ -23,37 +23,81 @@ As soon as a widget, a screen, a state holder, a repository or a route is writte
 ## Steps
 
 ### 1. The two mistakes that crash in production
-1. **`BuildContext` after an `await` is not guaranteed valid.** Navigation, snack bars, dialogs, theme or
-   media-query reads, provider lookups — anything `context.` — after an asynchronous gap must be guarded by a
-   mounted check, or the context captured before the gap where that's sound. The widget may be gone by the
-   time the future resolves, and the crash lands in a completely unrelated place.
-2. **Every disposable resource held by a widget is disposed**: text/scroll/page/tab/animation controllers,
-   focus nodes, stream subscriptions, timers, platform listeners. Created in `initState`, released in
-   `dispose`, one for one. This is the single most common leak, and it doesn't show up in a test that never
-   unmounts the widget.
+**After any `await`, the `BuildContext` is suspect.** Navigation, snack bars, dialogs, theme or media-query
+reads, provider lookups — anything `context.` — needs a guard before it's touched again.
+1. It fails in two ways, and the second is worse: it **throws** ("this widget has been unmounted", "looking up
+   a deactivated widget"), or it **silently misfires** — the snack bar appears on a scaffold nobody can see,
+   the dialog opens on a dead navigator, the lookup resolves against a disposed scope. And it's **invisible in
+   review**, because the code reads as straight-line; the bug only appears when the user navigates away
+   mid-request.
+2. **Three correct shapes, by where you are.** In a stateful widget: check `mounted` **between the await and
+   the context use** — a check placed before the await is useless, since the widget unmounts *during* it, and
+   the plain `mounted` getter is the right one there. In a stateless widget: **capture what you need before
+   the await** — the navigator or messenger object, not the context. In a state holder (cubit/bloc): don't
+   touch context at all — emit, and let the widget listen.
+3. **Never store a `BuildContext` in a field** to use later: a stored context is stale by definition. Store
+   the derived object instead.
+4. **Never silence the analyzer's async-context lint with an ignore comment.** It's a latent crash, not a
+   style nit — satisfy the lint.
 
-### 2. Widgets
+**Every disposable resource a widget creates, that widget releases.** Text/scroll/page/tab/animation
+controllers, focus nodes, stream subscriptions, sinks, timers, tickers, and any state holder it created
+itself.
+5. Why it matters beyond tidiness: a controller registers listeners and an animation drives a ticker off the
+   scheduler, so neither is collected; an uncancelled subscription **keeps invoking its callback after the
+   widget is gone**, and that callback often calls `setState` on a dead widget; and several of these assert on
+   leak in debug builds, so the report arrives far from the cause.
+6. **Store the subscription handle.** Fire-and-forget `stream.listen(...)` cannot be cancelled, which is the
+   same bug as not cancelling it.
+7. **`super.dispose()` goes last** — release your own resources first.
+8. **Never dispose what you didn't create.** A controller passed in through the constructor belongs to the
+   caller, and a state holder owned by a provider is closed by that provider — disposing either is a
+   double-dispose crash in a different file.
+9. **Never create a controller, future or stream in `build`**: a fresh instance every rebuild, none of them
+   disposed. Hoist it to `initState` or a late final field.
+10. When you add a resource to an existing widget, **wire its teardown in the same edit** — never "for later".
+    And if you're already editing a `dispose()` and spot a created-but-unreleased resource, fix it there:
+    that's bundled cleanup, not a drive-by.
+
+### 2. Widgets and rebuilds
 1. **Split a long `build` into small widget classes**, each in its own well-named file under the feature's
-   widgets folder — not into private `_buildXxx()` methods. A method returning a widget rebuilds with its
-   parent and can't take a `const` constructor; a class can do both and can be tested.
-2. `const` constructors wherever the widget's inputs are compile-time constant: it lets the framework skip
-   rebuilding that subtree entirely.
-3. Keep the rebuild scope small: the state that changes lives as close as possible to the widgets that read
-   it, rather than at the top of the screen where every change repaints everything.
-4. A reusable presentation widget is **dumb**: it renders its parameters and calls its callbacks, with no
+   widgets folder — not into private `_buildXxx()` methods. The reason is mechanical, not stylistic: a helper
+   method's widgets belong to the **parent's** element, so they rebuild with it and can never be skipped; a
+   widget class is its own element and can be. A one-liner returning a single const child is fine.
+2. **`const` wherever the subtree is constant.** A const widget is canonicalised and reused, so the framework
+   recognises it as identical and skips it. A missing `const` the analyzer would have accepted is a free
+   rebuild every frame.
+3. **Put `const` on your own widget's constructor** when all its fields are final — omitting it blocks every
+   caller from going const, which is the invisible version of the same cost.
+4. **Keep `build` free of work.** Sorting, filtering, parsing or formatting inside `build` re-runs every
+   frame; move it to where the data changes.
+5. **Narrow the rebuild scope**: one builder wrapped around the whole screen rebuilds everything on any state
+   change. Split into targeted builders with a rebuild condition, and keep changing state close to the widgets
+   that read it.
+6. **Profile before claiming a performance win.** If jank is reported, confirm it with the performance overlay
+   or the devtools timeline rather than asserting that a const fixed it (`skills/webperf`: diagnose from a
+   measurement).
+7. A reusable presentation widget is **dumb**: it renders its parameters and calls its callbacks, with no
    business knowledge and no data fetching. Where a shared UI kit exists, check it first — a hand-built
    equivalent of a kit component is a visual divergence plus a maintenance cost.
 
 ### 3. Layout
-1. Unbounded-constraint errors (`RenderFlex overflowed`, a viewport given unbounded height, infinite width)
-   are **constraint** problems, not styling problems: read what the parent passes down before adding a fixed
-   size. A hardcoded height that makes the error go away is the bug moving to another device.
-2. `Expanded`/`Flexible` inside a flex, `ConstrainedBox` where a bound is genuinely needed.
-3. Adapt to the available window size (a layout builder, a size query, width breakpoints) rather than
+1. Unbounded-constraint errors are **constraint** problems, not styling problems: read what the parent passes
+   down before adding a fixed size. A hardcoded height that makes the error go away is the bug moving to
+   another device.
+2. **The messages map to specific causes**, which is what makes them fast to fix rather than mysterious: a
+   *scrollable given unbounded height* means it sits inside another unconstrained scrollable or an
+   unconstrained column — give it a bounded slot (`Expanded`) rather than a fixed height; an *input that
+   cannot have unbounded width* is the same shape horizontally; *flex overflowed* means a child asked for more
+   than the parent allotted — make the child flexible or let it wrap; *incorrect use of a parent-data widget*
+   means a positioning widget isn't a direct child of the ancestor that reads it; and **a "not laid out" error
+   is a cascade, so ignore it and look further up the stack for the real constraint failure**.
+3. `Expanded`/`Flexible` inside a flex, `ConstrainedBox` where a bound is genuinely needed.
+4. Adapt to the available window size (a layout builder, a size query, width breakpoints) rather than
    assuming a phone: tablets, desktop windows and foldables all arrive as "the same app".
-4. Lay out around system UI explicitly: safe areas for notches, status bar and home indicator, and know the
+5. Lay out around system UI explicitly: safe areas for notches, status bar and home indicator, and know the
    difference between the padding a system inset reserves and the inset the keyboard adds.
-5. Touch targets meet the platform's minimum size. An icon wrapped in a bare gesture detector is usually
+6. Touch targets meet the platform's minimum size. An icon wrapped in a bare gesture detector is usually
    too small and has no ripple feedback; prefer a real button widget (or the kit's).
 
 ### 4. Screen states
@@ -132,8 +176,11 @@ As soon as a widget, a screen, a state holder, a repository or a route is writte
    gateways, use cases, data sources, variables, constants, enums, tests), applied without exception.
 2. Separate **technical/shared** layers from **functional/business** ones, one folder per feature, and no
    technical layer importing a functional one.
-3. **Widget tests** for a component's behaviour: pump it, find by key or type rather than by rendered text
-   where the text is translated, drive the interaction, assert the four states of §4.
+3. **Widget tests** for a component's behaviour: pump it, locate by key or type rather than by rendered text
+   where the text is translated, drive the interaction, then assert. Match the pump to what you're testing —
+   pump once for static rendering; pump again after an interaction for a state change; advance time explicitly
+   for animations and async updates; and scroll an off-screen item into view before expecting to find it,
+   because a lazy list hasn't built it yet.
 4. **Integration tests** for the journeys that must not break, run on a real device or emulator.
 5. A test that awaits a frame settles deliberately: an unconditional settle on a screen with a repeating
    animation never returns.
@@ -161,7 +208,15 @@ permissions, cached network images, i18n, motion, crash reporting, code-generati
 structure, generic widgets, user feedback, widget tests, integration tests)** — rules extracted, de-identified
 and rewritten generically, with the internal UI kit, SDK and third-party product names deliberately left out
 (rule C); the framework's own documentation for the mechanisms cited. Mechanisms rewritten, no copied text.
-Stamped 2026-08-06.
+**Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
+read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
+catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the two failure modes of a stale
+`BuildContext` (throwing versus silently misfiring on an invisible scaffold), the three correct shapes by
+context, the check-between-not-before rule, never storing a context, why disposal matters mechanically
+(tickers, callbacks outliving the widget, debug leak assertions), never disposing what you didn't create, why
+a helper method can never be skipped while a widget class can, and the mapping from each constraint error
+message to its actual cause — including that a "not laid out" error is a cascade to be ignored in favour of
+the one above it. Stamped 2026-08-06.
 
 **Fills a real gap**: `faramir` was written deferring entirely to the plugin, on the explicit basis that
 mentis wrote no mobile block. That basis no longer holds — this block is the mentis-side default for a

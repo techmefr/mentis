@@ -22,6 +22,20 @@ and `business/product-ownership`.
 When a screen is being designed or audited before implementation; when a UI element's shape is being chosen;
 when a mockup arrives and has to be checked before someone builds it.
 
+## §0 Settle the mode first: producing, or auditing?
+The same rules read differently depending on which you're doing, and getting this wrong wastes the whole pass.
+**If it isn't explicit, ask, and don't start until it's settled.** Production is the usual need.
+
+- **Producing** — you apply each rule as you build: plan every mandatory state, take every value from the
+  scale, choose the container from the tree. The output is the mockup.
+- **Auditing** — you flag, you don't redesign. The output is a list: the screen or component concerned, the
+  rule broken, and what's missing. An audit that silently rewrites the designer's intent isn't an audit.
+
+**Numeric thresholds are the one thing never answered from memory.** A principle is stable and always
+applies; an exact number (a contrast ratio, a minimum target size) is defined by a standard and changes. Cite
+it from the standard or flag the point as to be verified — never state a figure you're recalling
+(`skills/source-freshness`, and `skills/accessibility` which cites its standard).
+
 ## Steps
 
 ### 1. Tokens, not values
@@ -49,41 +63,68 @@ A decision tree, because this is the choice most often made by habit:
    becomes a bottom sheet on a small screen.
 4. **A full task, or anything deep-linkable, shareable, or reloadable** → a page. If a user could plausibly
    want to bookmark it or press back, it's a page, and putting it in a modal removes both.
-5. A destructive confirmation is never a toast, and a long form is never a modal.
+5. **On a small screen, a modal and a bottom sheet look alike and are not interchangeable.** The modal
+   interrupts for a blocking action; the bottom sheet is the mobile form of the drawer and shows non-blocking
+   context. Choose by **role**, never by appearance — this is the most common wrong pick on mobile.
+6. A destructive confirmation is never a toast, and a long form is never a modal.
 
 ### 3. Every state, not the happy path
-1. **Loading and error are always required** as soon as the screen fetches data. No exceptions — the network
-   is not optional.
-2. **Empty is required** wherever the data can legitimately be empty (a list, a search, a filtered table),
-   and the empty state carries an explanation and the action that would fill it.
-3. **Success/feedback is required** wherever the user performs an action: silence after a click is
-   indistinguishable from a failure.
-4. A mockup that shows only the populated screen is an incomplete mockup, not a mockup plus details — those
-   three states are where the implementation questions come from, and answering them in code means answering
-   them by guesswork (`skills/accessibility` §forms, `flutter-conventions` §4,
-   `react-nextjs-conventions` §5.6 for the code-side form of the same rule).
+**Scope first**: this applies only to a screen or component that **loads or displays dynamic data** — a list,
+a table, a dashboard, search results, a detail fetched from a server. A purely static screen (an information
+page, an empty form with no loading) is out of scope, and demanding states on one is noise that gets the whole
+checklist ignored.
+
+Each state has its own **obligation condition** — they are not four boxes to tick:
+1. **Loading — mandatory as soon as data is fetched.** No exceptions; the network is not optional.
+2. **Error — mandatory as soon as data is fetched**, covering network, server and permission failures.
+3. **Empty — mandatory only where the data *can* be empty** (a list, a search, a filtered table). Not
+   required for data that is always present.
+4. **Success — mandatory only where there is a user action to confirm** (saving, sending). Not required on a
+   read-only screen: silence after a click is indistinguishable from a failure, but there was no click.
+
+Two quality rules on top, and they're where these states usually fail:
+5. **An empty state offers a way out.** Never stop at "no data": say why it's empty and offer the exit —
+   create the first item, clear the filters, change the search.
+6. **An error message says what to do.** Never stop at "an error occurred": point at an action — retry, go
+   back, contact support.
+
+**Deliberately not decided here**: the *visual* form of each state — skeleton versus spinner, the exact
+anatomy of an empty state, whether success is a toast, inline or a redirect. That's a level of specification
+below this one, and pinning it at mockup time over-constrains the implementation. The code-side blocks own
+the mechanics (`flutter-conventions` §4, `react-nextjs-conventions` §5.6, `skills/accessibility` for how the
+state is announced).
+
+A mockup showing only the populated screen is an incomplete mockup, not a mockup plus details: these states
+are where the implementation questions come from, and leaving them out means they get answered by guesswork at
+step 6.
 
 ### 4. Buttons and chips
 1. **One primary action per autonomous context** — per page, per modal, per panel. Two primaries means the
    hierarchy is undecided, and the user has to make that decision instead.
-2. Below it, a fixed ladder (secondary, outlined/inline, link with icon, link only) used for its meaning, not
+2. **A modal, a drawer or a bottom sheet is an autonomous context**: it carries its own primary button,
+   independently of the page underneath. That's what "per autonomous context" means, and it's the part people
+   get wrong when they count primaries per screen.
+3. Below it, a fixed ladder (secondary, outlined/inline, link with icon, link only) used for its meaning, not
    for variety.
-3. **Size is driven by the container, not by importance**: a button in a compact toolbar is small because the
+4. **Size is driven by the container, not by importance**: a button in a compact toolbar is small because the
    toolbar is compact, not because the action matters less.
-4. Full-width is for a constrained container (a drawer, a bottom sheet, a narrow form), not a way to add
+5. Full-width is for a constrained container (a drawer, a bottom sheet, a narrow form), not a way to add
    emphasis on a wide page.
-5. **A chip is not a button.** Chips come in distinct kinds — filter, selection/choice, input, and
+6. **A chip is not a button.** Chips come in distinct kinds — filter, selection/choice, input, and
    informational/status — and mixing them is what makes a filter bar unreadable. A status chip that looks
    clickable will be clicked.
-6. Each chip kind keeps its own fixed height, font size and padding; a chip resized by hand stops matching
+7. Each chip kind keeps its own fixed height, font size and padding; a chip resized by hand stops matching
    every other chip on the screen.
 
 ### 5. Icon and text together
 1. **The icon's size drives the text's**, not the reverse — text set to match a large icon reads as a heading
    it isn't.
 2. A **bare** icon and a **framed** icon (one in a padded container) are two different objects with two
-   different spacing rules; treating them the same is the recurring mistake.
-3. A fixed gap between an icon and its label, from the spacing scale.
+   different spacing rules; treating them the same is the recurring mistake. A framed icon's visual weight
+   comes from its container, so the pairing rule is not the bare one with padding added.
+3. A fixed gap between an icon and its label, from the spacing scale — **and the gap differs depending on
+   whether the icon sits before or after the text**, because the optical distance isn't symmetric. Two cases,
+   two values, both from the scale.
 4. An icon next to visible text is decorative: it is hidden from assistive technology rather than read twice
    (`skills/accessibility`).
 5. An icon-only control needs an accessible name, and it needs a tooltip for sighted users too — a glyph
@@ -125,5 +166,12 @@ house value deliberately left out** (grid step, pixel sizes, spacing steps, type
 because those are owned per design system and a copied number is a wrong number in the next project
 (rule C). The two overlapping subjects were **not** duplicated: mockup accessibility stays with
 `skills/accessibility` (which cites its standard) and mockup copy stays with `business/ux-writing`; this
-block cross-references both instead of restating them. Mechanisms rewritten, no copied text. Stamped
-2026-08-06.
+block cross-references both instead of restating them. Mechanisms rewritten, no copied text.
+**Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
+read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
+catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the **production-versus-audit
+mode** discipline (§0) that every one of those skills opens with and no description mentions, the caution
+principle on numeric thresholds, the scope limit on screen states (dynamic data only) with a per-state
+obligation condition rather than four boxes, the two quality rules on empty and error, the deliberate refusal
+to fix the visual form of a state at mockup time, "a modal is an autonomous context so it carries its own
+primary", and choosing modal versus bottom sheet by role rather than by appearance. Stamped 2026-08-06.

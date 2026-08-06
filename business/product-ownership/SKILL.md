@@ -11,7 +11,7 @@ Business layer (`business/README.md`), product.
 authority on **its** artefacts — its tracker fields, its info-panel presentation charter, its label
 taxonomy, its MCP tooling — and override this block on all of that. What's below is the generic form: the
 decisions, the story anatomy and the review axes, with no tracker or project named (rule C). The technical
-specification that follows a ready story is `skills/spec`; decomposition and estimation are §6 here.
+specification that follows a ready story is `skills/spec`; the story anatomy is §6, reviewing it §7, and decomposition plus estimation §8.
 
 This block owns: **whether the thing should exist, in what order, how it's written down, how it's reviewed,
 and how anyone will know it's finished.**
@@ -29,12 +29,11 @@ a story is about to be picked up and it isn't clear what "done" means.
 2. **Name who has the problem and how often.** "A customer asked" and "every customer hits this weekly"
    produce different decisions, and the difference is usually knowable.
 3. **What happens if we don't build it?** If the answer is "nothing much", that's the finding.
-4. **Only then does it become a story** — and it gets written with the plugin's `story-structure`, not
-   invented ad hoc.
+4. **Only then does it become a story** — written to the fixed section set of §6, not invented ad hoc.
 
 ### 2. Order by consequence, not by volume of asking
-1. **Rank on the pair (impact, cost)**, where cost comes from an estimate grounded in the code
-   (`breakdown`), not from a feeling.
+1. **Rank on the pair (impact, cost)**, where cost comes from an estimate grounded in the code (§8), not
+   from a feeling.
 2. **The loudest request is not the most valuable one.** Who asked is data about who asks, not about
    value.
 3. **Bugs that lose or corrupt data, and anything with a security or privacy consequence, outrank
@@ -76,34 +75,72 @@ a story is about to be picked up and it isn't clear what "done" means.
 
 ### 6. The story document
 1. **A complete story has a fixed set of sections**, the same in every project so a reader knows where to
-   look: a title that names the business objective with a verb; the context/problem; the user need stated
-   from the user's side; the functional rules; the acceptance criteria; what's explicitly out of scope; the
-   dependencies and open questions; and the technical or design references.
-2. **One presentation charter, applied uniformly.** Which mechanism renders it — panels, headings, a
+   look. Eight, and each answers a different question:
+   1. **Title** — a verb plus the business objective, not a feature noun.
+   2. **User story** — the need from the user's side, one sentence.
+   3. **Context** — why this exists now, what problem it closes.
+   4. **Functional scope** — split three ways: **included** (what this delivers), **excluded** (what it
+      explicitly does not, so "but I thought..." never happens at review), and **dependencies** (other
+      stories, services or data it needs).
+   5. **Business rules** — the rules themselves, testable.
+   6. **Acceptance criteria** — see section 4.
+   7. **Edge cases and errors** — the empty, the invalid, the deleted parent, the missing permission.
+   8. **Technical impacts to anticipate** — the functional and data consequences (what gets created,
+      modified, synchronised, impacted downstream), the risks and sensitive points (side effects, personal
+      data, performance), and the systems or modules touched, named plainly.
+2. **Each piece of information appears once, in the section that owns it.** Context restated in the rules and
+   again in the criteria means a developer reads the same thing three times and still cannot tell which copy
+   is authoritative.
+3. **Describe what the user must be able to do, never the interface.** "Be able to add a session", not where
+   the button sits, what the screen looks like, or the order of the blocks. A story that specifies layout takes
+   the design decision away from the people qualified to make it (`business/interface-design`), and it dates
+   the moment the mockup changes.
+4. **One presentation charter, applied uniformly.** Which mechanism renders it — panels, headings, a
    template — is the tracker's business, but every story looking the same is what makes a backlog scannable.
-3. **Labels are a taxonomy, not free text.** Never create a new label without explicit confirmation, and
+5. **Labels are a taxonomy, not free text.** Never create a new label without explicit confirmation, and
    check for an existing one with near-identical spelling first: two labels for one concept splits every
    filter built on it, silently.
-4. **Before modifying someone else's story, check the assignee.** If it isn't the person asking, confirm
+6. **Before modifying someone else's story, check the assignee.** If it isn't the person asking, confirm
    explicitly — a rewritten story is someone else's work overwritten.
-5. **Never rewrite a description wholesale to "improve" it**: embedded media (screenshots, recordings) is
+7. **Never rewrite a description wholesale to "improve" it**: embedded media (screenshots, recordings) is
    lost with the old body, and it's often the only reproduction evidence. Add a comment instead.
-6. **One ticket per problem.** Two bugs in one ticket means one of them gets closed without being fixed.
+8. **One ticket per problem.** Two bugs in one ticket means one of them gets closed without being fixed.
+9. **A small story is not a story with skipped sections.** A one-line bug fix does not need eight sections; a
+   feature touching billing needs all eight. Judge which sections are critical *for this story* rather than
+   applying the template as a checklist.
 
 ### 7. Reviewing a story
 1. **Set the criticality first**, because it decides how deep the review goes: low (UI comfort), medium
    (standard business workflow), high (security, permissions, synchronisation, billing, anything with a data
    or money consequence). Reviewing everything at maximum depth means nothing gets reviewed at all.
-2. **Read along fixed axes** rather than freehand, so two reviewers find the same gaps: the business
-   objective, the actors and their permissions, the functional rules and their edge cases, the calculation
-   rules, the data model impact, the states and transitions, the errors and refused cases, the empty states,
-   the volume and performance implications, the external dependencies, the security and personal-data
-   consequences, the migration or backfill of existing data, and the testability of each criterion.
-3. **The output is structured and the same every time**: what's missing, what's ambiguous, what's
+2. **Read along fixed axes** rather than freehand, so two reviewers find the same gaps: clarity of the
+   business intent; quality of the scope; the domain model; the calculation rules; the acceptance criteria;
+   whether a developer can act on it as written; testability and QA; delivery risk; consistency with the other
+   projects; the story's place in the backlog; functional-debt and maintainability risk; whether it is really
+   a foundation/system story; and the cost of framing it properly.
+3. **Read them in priority order, and stop escalating if the foundations are weak.** Structure first, then the
+   business need, then whether a developer can pick it up without three rounds of clarification, then the
+   implementation risks — and only then criteria and testability, splitting, debt, wording, backlog coherence.
+   **Analysing functional debt on a story whose business need is unclear is wasted effort**: fix the first
+   four, say out loud that the framing needs rework, and never bury a structural problem under prose about
+   acceptance criteria.
+4. **Never invent to fill a gap.** Not a business rule, not a dependency, not a status, not a role, not a data
+   source. If you need one for the story to make sense, that need **is** the finding. A plausible-sounding
+   guess in a story becomes a requirement nobody decided.
+5. **Ask, in conversation, one question at a time** — the exchange *is* the gap-resolution mechanism. Do not
+   dump a list of twenty questions for someone to take away: ask the blocking one, wait, then ask what depends
+   on the answer. Be specific — "the context says monthly, calendar month or rolling 30 days?" beats "clarify
+   the context". Only when the person asking genuinely does not know does it become a written question for the
+   business owner.
+6. **A hypothesis stays labelled as one**, never repackaged as fact in the next draft.
+7. **The output is structured and the same every time**: what's missing, what's ambiguous, what's
    contradictory, what's out of scope, the questions that block a start, and — where it helps — a rewritten
    version. A verdict with no rewrite forces the writer to guess what would satisfy it.
-4. Separate a **blocking** gap (can't start) from an **improvement** (can start). Not doing so makes every
-   review read as a refusal.
+8. Separate a **blocking** gap (can't start) from an **improvement** (can start). Not doing so makes every
+   review read as a refusal — and **do not balance artificially**: a weak story is weak, say so; a strong one
+   is strong, say that too. A forced "on the other hand" dilutes the only signal the reader needs.
+9. **Do not refuse a story outright.** Name which sections are missing and which of them actually matter
+   here.
 
 ### 8. Decomposition and estimation
 1. Decompose into tasks that each end in something verifiable, not into phases.
@@ -129,6 +166,8 @@ separated from improvements.
 - **Never leave a criterion nobody can verify** — it guarantees an argument at acceptance.
 - **Never create a label, rewrite a description, or transition someone else's story without confirmation.**
 - **Never produce an estimate without having read the code.**
+- **Never fill a gap in a story with an invented rule, and never specify the interface inside one.**
+- **Never present a hypothesis as a decision.**
 - Where an org catalogue defines the tracker fields, the presentation charter or the label taxonomy, **it
   wins** — this block's §6–§8 are the generic form, not a competing charter.
 - Where a company has a product owner or a project manager, they decide; this block structures the
@@ -141,6 +180,14 @@ modification, label discipline, criticality modes, analysis axes, review output 
 estimation)** — rules extracted, de-identified and rewritten generically, with the tracker, MCP tooling,
 project keys and info-panel mechanics deliberately left out (rule C). The rule that estimation requires
 repository access is theirs and worth keeping verbatim in substance.
+**Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
+read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
+catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the
+eight sections named individually, "each piece of information appears once", "describe what the user must be
+able to do, never the interface", the priority order that stops escalating when the foundations are weak, the
+refusal to invent a missing rule, the one-question-at-a-time conversational protocol (rather than handing over
+a list), keeping a hypothesis labelled, not balancing a verdict artificially, and small-story-is-not-skipped-
+sections. Stamped 2026-08-06.
 
 Public sources for what remained: standard discovery-before-solution practice, given/when/then acceptance
 criteria, and definition-of-ready/definition-of-done as commonly published. What's ours: the ordering rule
