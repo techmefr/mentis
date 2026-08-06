@@ -38,10 +38,16 @@ What persists, and where:
 3. **Check the secrets**: nothing in the clear in versioned code (API keys,
    tokens, credentials), sensitive config properly in environment
    variables/a vault, not committed.
-4. **Check the dependencies** through the lock files (`npm audit`,
+4. **Check what the app writes out, not only what it stores**: a credential kept
+   correctly in a vault still leaks if it reaches a log. Look for logging of whole
+   request/error objects (an HTTP client's error carries the request headers), for
+   exception-reporter/APM configuration that serialises headers and cookies by
+   default, and for redaction defined by call-site discipline rather than by field
+   name. See `auth-session-conventions` §2.4.
+5. **Check the dependencies** through the lock files (`npm audit`,
    `composer audit` or the equivalent if the tooling is available) for known
    CVEs.
-5. Exit decision: the report is returned with every finding classed
+6. Exit decision: the report is returned with every finding classed
    critical/major/minor, sourced (file + line), never an assertion that "it's
    vulnerable" without cited evidence.
 

@@ -28,6 +28,11 @@ by adding instrumentation "just in case" with no precise question behind it.
    impossible to tie together the logs of a single request.
 3. Redaction of personal/sensitive data (PII) before writing: never an email, a password or a
    client's data in clear text in a log.
+4. **Credentials are redacted by field name, not by call-site discipline**: `authorization`,
+   `cookie`, `set-cookie`, `access_token`, `refresh_token`, API keys. The leak is rarely a
+   deliberate log line, it's logging a whole object that carries them, an HTTP client's error
+   (which holds the request headers) being the classic one. See `auth-session-conventions` §2.4 for
+   the paths to watch.
 
 ### 3. Metrics: anti-cardinality
 1. RED metrics (Rate/Errors/Duration) for services, USE (Utilization/Saturation/Errors) for
