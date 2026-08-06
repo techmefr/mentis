@@ -60,6 +60,14 @@
 | finish | 11 | internal (`finish_task`) | 🟡 |
 | merge-worktree | 11 | a market context-engineering kit (`git-worktrees`) | 🟡 |
 
+### Business layer (`business/`, weaker contract: no gate, no evidence, 🟡 ceiling)
+| Block | Function | Origin (idea rewritten) | Maturity |
+|---|---|---|---|
+| data-protection | legal | GDPR text + published regulator guidance; the engineering consequences (logs/URLs, search indexes and backups surviving a deletion, exception reporters exporting data, non-prod copies) are ours | 🟡 (no internal legal expertise; shaped as "which questions reach a lawyer") |
+| licence-compliance | legal | licence texts + the published permissive/weak/strong-copyleft distinctions; lock file as the real inventory, generated notices and the rule-C symmetry are ours | 🟡 (no internal legal expertise) |
+| ux-writing | UI/UX | published content guidelines of the major design systems; the domain-modeling consistency link, the no-concatenation rule and the empty/no-match/failed-to-load split are ours | 🟡 (no internal UX-writing expertise, no tone-of-voice reference available) |
+| marketing, sales, communication | — | — | 🔜 to write |
+
 ### Domain agents (invoked by steps 8/10)
 | Agent | Role | Maturity |
 |---|---|---|

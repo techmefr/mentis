@@ -128,6 +128,23 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `distributing-blocks` | cross-cutting | Install/update for other teams: they pull and merge, we never push |
 | `portless-ready` | infra | Makes a stack portless (HTTPS alias, port hygiene) |
 
+### Business layer (second layer, weaker contract)
+
+[`business/`](./business/README.md) holds blocks for the company's other functions. Same
+template, but they **never gate anything** and they claim no evidence: the two
+guarantees above need citable artefacts, and a positioning statement has none.
+Keeping them in a separate folder is what stops the dev core's claims being
+diluted by association. Each one states in its `Origin` that it was written
+without internal expertise in that function.
+
+| Block | Function | What it does |
+|---|---|---|
+| `data-protection` | legal | Which GDPR questions must reach a lawyer/DPO before the code is written, and what the code then owes |
+| `licence-compliance` | legal | Recognise the licence category before installing, escalate copyleft, meet attribution mechanically |
+| `ux-writing` | UI/UX | Errors with a next action, buttons naming the outcome, empty states that aren't "No data" |
+
+Still to write: marketing, sales, internal/external communication.
+
 ### Agents
 
 Two name families, and the family tells you what the agent is allowed to do:
