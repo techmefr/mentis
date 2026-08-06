@@ -56,7 +56,7 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
 
 ## Output / checkpoint
 The four sections reviewed on the diff touched; for a broader audit of a page/site already in production
-(not just the diff in progress), see the `accessibility-auditor` agent.
+(not just the diff in progress), see the `link` agent.
 
 ## Guardrails
 - Don't confuse WCAG compliance with the real experience: a tooled audit (axe-core, Lighthouse) doesn't

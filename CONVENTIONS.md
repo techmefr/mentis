@@ -85,6 +85,13 @@ description: Use when <precise triggering situation>, <what the block does>. <on
 
 ### Form rules (non-negotiable)
 - **English**, Xefi voice. The description starts with `Use when …` (reliable triggering).
+- **Agent naming = two families, and the family carries meaning.** A Lord of the
+  Rings name means the agent only **watches**: review or gate, a verdict and a
+  report, never Write/Edit on the repo under review. A Matrix name means the
+  agent takes part in the **dev cycle**: implementers, and auditors that probe a
+  running app or a repo. Picking the family is therefore not decoration: it
+  commits the agent's `TOOLS & SCOPE` section. An agent that gains the right to
+  write changes family, or it doesn't gain the right.
 - **No comments in the code** produced; explanations go in the chat/the docs.
 - One block = **one responsibility** (see the split in `WORKFLOW.md` §4).
 - **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, hooks,

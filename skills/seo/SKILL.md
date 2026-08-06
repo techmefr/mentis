@@ -58,7 +58,7 @@ review time (`review`, 8) if the diff touches public pages.
 
 ## Output / checkpoint
 The four sections reviewed on the diff touched; for a broader audit of a site already in production
-(not just the diff in progress), see the `seo-auditor` agent.
+(not just the diff in progress), see the `keymaker` agent.
 
 ## Guardrails
 - Never applies to non-public pages (auth, back-office, internal dashboard): don't impose this

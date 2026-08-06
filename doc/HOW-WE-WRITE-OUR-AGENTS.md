@@ -103,7 +103,7 @@ guarantee that judgement isn't polluted by the session that produced the
 work. TRACE, finally, is what the agent returns at the end, so that someone
 else can verify it after the fact.
 
-A concrete example, my `arbitre` agent (the cold judge). Its role: return a
+A concrete example, my `galadriel` agent (the cold judge). Its role: return a
 binary PASS/NEEDS_WORK verdict, nothing else, no fixes, no code
 suggestions. Its memory: nothing persists between two invocations, the input
 must explicitly contain the diff, the acceptance criteria and the evidence.
@@ -193,7 +193,7 @@ source of truth, not this document.
 My pipeline can run in a loop without supervision up to the gate: brainstorm
 → spec → archi → plan → code → debug can chain together without a human
 validating each step. Two points nevertheless remain deliberate human stops,
-non-negotiable: the gate (`arbitre`) returns a verdict but merges nothing,
+non-negotiable: the gate (`galadriel`) returns a verdict but merges nothing,
 and the merge itself always requires 2 human approvals.
 
 This isn't a technical limitation on my side. End-to-end autonomy in the
