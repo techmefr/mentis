@@ -17,13 +17,20 @@ After `plan`, before writing the implementation.
 2. Write the matching test following **test-casebook** (`data-test-*` selectors, exhaustive,
    persona matrix, target coverage ≥ 90%).
 3. Run the suite: **everything is red**, that's the expected result at this step.
+4. **Read each failure**: red has to mean the assertion failed, not that the test file crashed on a
+   broken import or an incomplete mock. A setup error satisfies the contract while proving nothing,
+   and it turns green later for reasons unrelated to the behaviour.
+
+Delegate the writing to `dozer` (tests only, never implementation) when you want that separation
+enforced rather than relied on.
 
 ## Output / checkpoint
 `tests_written` + `test-results.json` (every line `{ passes: false }`).
 
 ## Guardrails
 No test bypassed, hidden or disabled. The default contract is **failure**: nothing is
-"passing" until the GATE has proven it.
+"passing" until the GATE has proven it. Never loosen an assertion or lower a coverage threshold to
+close a gap: a test that can't fail reports safety that isn't there.
 
 ## Origin
 Xefi `test-casebook` + market long-running agent patterns (default-FAIL contract), rewritten.

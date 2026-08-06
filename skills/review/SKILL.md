@@ -18,9 +18,13 @@ After `gate` (`verified`), before `simplify`.
    - **Spec axis**: is the diff **faithful to the ticket / the spec**? (which the native
      `/code-review` doesn't cover). Clean skip if there's no spec.
 2. Aggregate both side by side.
-3. A pass by the **Xefi agents** in the dev's usual style: `aragorn`/`gimli`/`legolas` then
-   `valerianus` (triage, rewording, no pointless arguments).
-4. For depth: native `/code-review` + `/security-review` (gandalf as the final gate).
+3. A pass by the **per-stack reviewer** in the dev's usual style: `elrond` to route, or
+   `aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo` directly if the stack is known.
+4. **Triage before posting anything.** The findings from steps 1-3 are raw coverage, not a review:
+   verify each one against the real code, drop what would only start a pointless argument, rank
+   bugs above nits, and reword each surviving point short and sourced. A wrong or unsourced
+   finding costs more credibility than the bug it claimed to catch.
+5. For depth: native `/code-review` + `/security-review` (gandalf as the final gate).
 
 ## Output / checkpoint
 `reviewed`.
@@ -31,4 +35,6 @@ reimplement it. Plain comments, no emojis/arrows, lowercase at the start of a se
 
 ## Origin
 A recognised market skill author (non-polluting two-axis code review) + Xefi agents + native,
-rewritten.
+rewritten. Step 4 (triage before posting) is the generic form of a mechanism that proved itself on
+an agent kept private: the agent was calibrated on one named person's habits, which doesn't belong
+in a shared framework, but the discipline it encoded holds for any reviewer.

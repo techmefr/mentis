@@ -56,13 +56,15 @@
 | Agent | Role | Maturity |
 |---|---|---|
 | aragorn / gimli / legolas | MR review, Xefi style (Nuxt/Vue · React) | ✅ |
-| valerianus | review triage/rewording (anti-argument) | ✅ |
+| boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET) |
+| elrond | review orchestrator: detects the stack, delegates, never reviews itself | ✅ |
 | gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
-| tuteur-laravel | teaching (outside the pipeline) | ✅ |
 | **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; per-repo default-FAIL hook not laid down yet, not dogfooded yet) |
 | neo | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
 | tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
-| morpheus | Laravel/Eloquent implementation (API, queues, perf), distinct from tuteur-laravel | ✅ (not dogfooded yet) |
+| morpheus | Laravel/Eloquent implementation (API, queues, perf) | ✅ (not dogfooded yet) |
+| trinity | NestJS/Node implementation (modules, DTOs, Zod/tRPC contracts, Prisma) | ✅ (not dogfooded yet; fills the builder gap opposite frodo) |
+| dozer | writes the test suite (test-casebook doctrine, default-FAIL contract), tests only, never implementation | ✅ (not dogfooded yet) |
 | keymaker | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | link | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | mouse | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
@@ -130,7 +132,7 @@ linters, orchestration frameworks, etc. on the market).
 | market Claude Code agent catalogue (large collection) | dependency-manager | / | ✕ (no CVE/version-conflict signal) |
 | market Claude Code agent catalogues (several) | error-detective | / | ✕ (no concrete incident beyond the Docker ports, already handled) |
 | market Claude Code agent catalogue (large collection) | git-workflow-manager | / | ✕ (conventions already settled and stable: squash+delete, Draft MR, GCI naming) |
-| market Claude Code agent catalogue (large collection) | code-reviewer/security-auditor/penetration-tester/debugger/test-automator/qa-expert/accessibility-tester/refactoring-specialist | / | ✕ (already covered by the per-stack reviewers/gandalf/kobold + the systematic-debugging/testing-doctrine-casebook/design:accessibility/simplify skills) |
+| market Claude Code agent catalogue (large collection) | code-reviewer/security-auditor/penetration-tester/debugger/test-automator/qa-expert/accessibility-tester/refactoring-specialist | / | ✕ (already covered by the per-stack reviewers/gandalf + the systematic-debugging/testing-doctrine-casebook/design:accessibility/simplify skills) |
 | market Claude Code agent catalogue (large collection) | legacy-modernizer | / | ✕ (no framework migration under way) |
 | market Claude Code agent catalogue (large collection) | typescript-pro | / | ✕ (generic and weak signal, no documented TS pain) |
 | market Claude Code agent catalogue (large collection) | database-architect | / | ✕ (no schema design from scratch; covered by `tank`) |
