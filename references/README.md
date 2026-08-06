@@ -26,7 +26,7 @@
 | **Flutter / mobile** (OSDD, Cubit-first, widgets, async UI states, lomkit SDK) | `xefi-claude-skills` → `flutter:*` (37) | skills | Pub | ✅ (index — **mentis writes no mobile block**, the agent `faramir` defers to these) |
 | **Stack-agnostic code shape** (file size, no god classes, no comments, OSDD, API via SDK) | `xefi-claude-skills` → `global:*` (14) | skills | Pub | ✅ (index — `over-engineering-review` scores deletions, it doesn't set the thresholds) |
 | **Story artefact & Jira mechanics** (structure, review axes, formatting, labels, breakdown + estimation) | `xefi-claude-skills` → `project-management:*` (9) | skills | Pub | ✅ (index — `business/product-ownership` owns only the decision around it) |
-| **Testing** (test-casebook: data-test-*, persona matrix, ≥90%; env-attr-cleaner) | `test-casebook` repo + `doctrine-test-back-laravel-lomkit.md` | repo/doc | Pub | ✅ (index) |
+| **Testing doctrine** (data-test-* selectors, `task-test.md` plan, persona/permission matrix, coverage floor, per-stack guides, `env-attr-cleaner`) | the `test-casebook` **npm package** (MIT, `techmefr/test-casebook`) — installed per project, ships its own `.claude/` skills, agents and plan-before-tests hook | package | Pub | ✅ (index — authority where installed; `tdd`/`dozer` defer to it, see below) |
 | **Frontend conventions** (Nuxt/Vue/Vuetify: shorthand props, is/has booleans, i18n in a computed, no non-existent Vuetify prop) | *scattered in memory* | / | Pub (generic) | 🔜 **to write** `conventions-front.md` |
 | **Backend conventions** (Laravel/lomkit: filters to the max, status+message responses, simplicity > number of calls) | `doctrine-test-back-laravel-lomkit.md` + memory | doc/ | Pub (generic) | 🔜 **to write** `conventions-back.md` (points at the doctrine) |
 | **Git / commits / MR** (conventional, lowercase; MR comments short and emoji-free) | *scattered in memory* | / | Pub | 🔜 **to write** `git-mr.md` |
@@ -47,6 +47,29 @@
 - **Filling a gap = a single doc** here, cited by every block concerned.
 - **Publishable** (Pub) → can live in a future public repo; **Internal** (Int) → never. A
   "Pub (generic)" doc names **no** real project/colleague (rule C).
+
+## Owning a source without depending on it: `test-casebook`
+
+`test-casebook` is ours (MIT, public, `techmefr/test-casebook`), which makes it tempting to wire in as a
+dependency of this repo. **Don't.** Ownership comes from the licence and the repo, not from the direction of
+the dependency; wiring it in only adds coupling, and the bill arrives at distribution — every team
+installing mentis would need that package too, or step 5 breaks for them.
+
+The split that gives the update propagation anyway:
+
+- **In a project** — `npm i -D test-casebook`, pinned (`^1`). Its `.claude/` skills, agents and hook arrive
+  with the package, so **publishing a new version is what propagates the doctrine**. That's where
+  auto-update belongs.
+- **In mentis** — no dependency. `tdd` and `dozer` point at it, defer to it where it's installed, and carry
+  a version stamp. Every block must still work with plain git and nothing installed.
+
+**Two gates, not a duplicate.** `test-casebook`'s `PreToolUse` hook refuses a test file with no
+`task-test.md` plan above it; mentis's `hooks/verify-gate.sh` refuses a `passes: true` claim with no read
+evidence. Different promises, and they chain — plan before tests, then evidence before passing. Both stay.
+
+**State to fix on the package side** (2026-08-06): npm publishes **1.0.4**, `package.json` says **1.0.10**,
+the CHANGELOG's top section is **1.1.0**. Three numbers, so "I update it and it propagates" doesn't hold
+today — the missing step is the publish, not any plumbing here.
 
 ## Live upstream docs: `context7`
 

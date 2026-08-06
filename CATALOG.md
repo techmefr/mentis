@@ -29,6 +29,15 @@ Overlaps found and resolved, each by a stated boundary written into the mentis b
 | `skills/dotnet-conventions` | `csharp` (15) | it owns the rules; we keep the analyzer baseline for a codebase without it |
 | `business/product-ownership` | `project-management` (9) | it owns the story artefact, its review axes, Jira mechanics and estimation; we own the decision around it (priority, refusal, criteria, ready/done) |
 
+**Same audit, applied to `test-casebook`** (MIT, `techmefr/test-casebook`, ours): it ships the testing
+doctrine *and* its executing agents (`test-writer`, `test-reviewer`) plus a plan-before-tests `PreToolUse`
+hook. Resolution: **the package is the authority where installed** — `tdd` defers to it and `dozer` hands
+over to `test-writer`, keeping only the default-FAIL contract, which must hold in a repo with nothing
+installed. Nothing is removed from the package: its agents are referenced throughout its own `AGENTS.md`
+and per-stack guides, so cutting them to protect our roster would gut a working product. And the two hooks
+are **not** duplicates — one refuses a test with no plan, the other refuses a pass with no evidence; they
+chain. Detail in `references/README.md`.
+
 **Still open, a decision rather than a finding:** the five `*-conventions` blocks above now carry a
 boundary note, but their sections 1–3 remain a *thinner duplicate* of plugin content. The clean end state
 is to cut those sections and keep only what the plugin has no equivalent for. That's a deletion pass on
@@ -142,7 +151,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
 | morpheus | Laravel/Eloquent implementation (API, queues, perf) | ✅ (not dogfooded yet) |
 | trinity | NestJS/Node implementation (modules, DTOs, Zod/tRPC contracts, Prisma) | ✅ (not dogfooded yet; fills the builder gap opposite frodo) |
-| dozer | writes the test suite (test-casebook doctrine, default-FAIL contract), tests only, never implementation | ✅ (not dogfooded yet) |
+| dozer | writes the test suite (default-FAIL contract), tests only, never implementation — **defers to `test-casebook`'s `test-writer` where that package is installed**, and is the fallback otherwise | 🟡 (never run; the package's own agents are further along) |
 | keymaker | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | link | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | mouse | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
