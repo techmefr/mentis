@@ -16,7 +16,9 @@ After `code` (implementation done), before `review`.
 1. For every `{ passes: false }` line in `test-results.json`, **produce evidence**: test
    output, `verify-flow` screenshot, or a log; then **read** it (`Read`).
 2. The native `PreToolUse` hook **refuses** to write `passes: true` until the matching evidence
-   has been read. You cannot declare yourself passing without observing.
+   has been read. You cannot declare yourself passing without observing. The scripts and the
+   per-repo wiring are in [`hooks/`](../../hooks/README.md); "exists" isn't enough, the evidence
+   has to appear in the read log.
 3. Run the **clean-context evaluator**: a subagent **with no Write/Edit**, which didn't watch
    the build, examines the diff + the evidence and returns `PASS` or `NEEDS_WORK` + findings.
 4. `NEEDS_WORK` → the findings become the prompt for the next `code` pass. Loop back.

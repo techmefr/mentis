@@ -32,6 +32,10 @@
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices | 🟡 (sourced from the market, no dedicated production experience at Xefi) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling | 🟡 (sourced from the market, no dedicated production experience at Xefi) |
 | auth-session-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate jwt/oauth-oidc/keycloak/auth0 agents, no equivalent here) + a documented internal incident on a token refresh flow + OWASP session management; §4 (reference login flow) extracted from our two real frontend implementations read side by side | 🟢 (§4 describes code already in production on two frontends; the rest still to dogfood) |
+| security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours | 🟡 (written, not dogfooded yet) |
+| background-jobs-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate kafka/rabbitmq/bullmq/sidekiq/celery agents, no equivalent here) + established distributed-systems practice (at-least-once, idempotency keys, bounded retries, dead-letter) | 🟡 (written, not dogfooded yet) |
+| webperf | 6 | a market generalist dev skill catalogue (`webperf`) + web.dev performance guidance + bundle-weight items from a market open source TypeScript project | 🟡 (written, not dogfooded yet) |
+| domain-modeling | 3 | a recognised market skill author (`domain-modeling`) + DDD staples; states-not-flags is ours | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
 | api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule) | 🟢 (direct rewrite) |
 | observability-instrumentation | 6 | a market generalist dev skill catalogue (on-call questions, RED/USE, anti-cardinality) | 🟢 (direct rewrite) |
@@ -45,7 +49,7 @@
 | writing-skills | cross-cutting (meta) | a market skill/agent framework | 🟡 (written, applies the single template + rule B checklist) |
 | writing-agents | cross-cutting (meta) | internal synthesis (formalises the 7-pillar template already in use) | 🟢 |
 | portless-ready | setup/infra | a market portless tool (wiring is ours) | 🟡 (makes a stack portless: HTTPS alias + port hygiene) |
-| **gate** | 7 | market long-running agent patterns (`default-FAIL hook` + `fresh-context evaluator`) | 🟡 (agent `galadriel` written; per-repo default-FAIL hook still to be laid down) |
+| **gate** | 7 | market long-running agent patterns (`default-FAIL hook` + `fresh-context evaluator`) | 🟡 (agent `galadriel` + the `hooks/` pair written and unit-tested against 6 cases; per-repo wiring still to do) |
 | review | 8 | a recognised market skill author (two-axis code review) + Xefi agents + native | 🟡 |
 | simplify | 9 | native `simplify` | 🟡 |
 | ship | 10 | internal (`/SHIP`, gandalf) | 🟡 |
@@ -59,7 +63,7 @@
 | boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET) |
 | elrond | review orchestrator: detects the stack, delegates, never reviews itself | ✅ |
 | gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
-| **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; per-repo default-FAIL hook not laid down yet, not dogfooded yet) |
+| **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; the hook pair now exists in `hooks/`, per-repo wiring not done yet, not dogfooded yet) |
 | neo | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
 | tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
 | morpheus | Laravel/Eloquent implementation (API, queues, perf) | ✅ (not dogfooded yet) |
@@ -81,13 +85,14 @@ linters, orchestration frameworks, etc. on the market).
 | Source category | Idea / agent to take | Enriches | Status |
 |---|---|---|---|
 | market long-running agent patterns | `evaluator.md` (fresh-context evaluator pattern) → `galadriel` agent | gate | ✅ (agent written) |
-| market long-running agent patterns | `verify-gate.sh` (PreToolUse default-FAIL hook on read evidence) | gate | 🟡 (mechanism identified, per-repo wiring still to do) |
+| market long-running agent patterns | `verify-gate.sh` (PreToolUse default-FAIL hook on read evidence) | gate | ✅ (rewritten as the `hooks/` pair; ours: fail-closed only on the guarded path so a repo without a parser still works, plus a read log so "produced" and "looked at" are distinguished; tested against 6 cases, per-repo wiring still to do) |
 | recognised market skill author | grill-with-docs → CONTEXT.md+ADR | spec | ✅ |
 | recognised market skill author | non-polluting two-axis code review | review | ✅ |
 | recognised market skill author | `wayfinder` → `wayfinder` skill, `handoff` → `handoff` skill, `improve-codebase-architecture` → `architect` agent | plan / session resumption / architecture audit | ✅ |
-| recognised market skill author | `domain-modeling` | archi | 🔎 (partially overlaps documentation-adr, not yet isolated as a dedicated block) |
+| recognised market skill author | `domain-modeling` | domain-modeling | ✅ (the assumed overlap with documentation-adr was only in the output: that block is a recording template, nothing covered reaching the decision) |
 | market generalist dev skill catalogue | `observability-and-instrumentation` → `observability-instrumentation` skill, `api-and-interface-design` → `api-design` skill, `documentation-and-adrs` → `documentation-adr` skill, `deprecation-and-migration` → `deprecation-migration` skill | code/api/docs/migration | ✅ |
-| market generalist dev skill catalogue | `security-and-hardening`, `webperf`, `context-engineering` | new blocks | 🔎 (context-engineering = meta on writing prompts/CLAUDE.md, not a dev skill (relevant for improving this repo itself, not a daily use)) |
+| market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
+| market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
 | market skill/agent framework | `dispatching-parallel-agents`, `subagent-driven-development`, `writing-plans` | plan / orchestration | 🔎 (already native skills → to be *owned*) |
 | market Claude Code agent catalogues (several) | `git-advanced-workflows` (advanced worktrees) | start-feature / finish | 🔎 (reference cited, to be verified) |
@@ -177,7 +182,7 @@ linters, orchestration frameworks, etc. on the market).
 | official Anthropic skills repo | `webapp-testing` (reconnaissance/action split, never act on an unseen selector, wait for the page to settle before reading the DOM) | qa-exploratory-testing | ✅ (section 4 added, transposed from Playwright to our Browser pane tooling) |
 | official Anthropic skills repo | `skill-creator`, `frontend-design`, `mcp-builder`, `claude-api`, document/creative skills (docx/pdf/pptx/xlsx, algorithmic-art, canvas-design, theme-factory, brand-guidelines, internal-comms, slack-gif-creator, web-artifacts-builder, doc-coauthoring) | / | ✕ (skill-creator overlaps writing-skills, frontend-design and mcp-builder already ruled out earlier, the rest is document/creative production outside the dev pipeline) |
 | market per-technology agent catalogue (137 agents, one per library/framework) | `jwt-expert`, `oauth-oidc-expert`, `keycloak-expert`, `auth0-expert` → flow-level discipline extracted into a new block | auth-session-conventions | ✅ (the per-provider agents themselves ruled out: per-library fragmentation against our per-role doctrine; the auth gap they revealed was real and is now covered) |
-| market per-technology agent catalogue (137 agents) | `kafka`/`rabbitmq`/`bullmq`/`sidekiq`/`celery`-expert (background jobs, retries, idempotency, dead-letter) | possible new block | 🔎 (real gap: no queue/background-job block today, and queues are used on the Laravel backend; moderate signal, no documented incident yet) |
+| market per-technology agent catalogue (137 agents) | `kafka`/`rabbitmq`/`bullmq`/`sidekiq`/`celery`-expert (background jobs, retries, idempotency, dead-letter) | background-jobs-conventions | ✅ (broker-independent discipline extracted into a new block; the per-broker agents themselves ruled out as per-library fragmentation) |
 | market per-technology agent catalogue (137 agents) | `github-actions-expert`, `gitlab-ci-expert`, `docker-expert`, `kubernetes-expert`, `terraform-expert`, `pulumi-expert` | devops-conventions | ✕ (CI/container platform specifics are infra reality, they stay outside this repo per rule C; the generic practice is already in devops-conventions) |
 | market per-technology agent catalogue (137 agents) | `owasp-top10-expert`, `opentelemetry-expert`, `openapi-expert`, `rest-expert` | seraph / observability-instrumentation / api-design | ✕ (same sources already folded into the existing blocks) |
 | market per-technology agent catalogue (137 agents) | ~120 remaining per-library experts (frameworks, DBs, test runners, cloud SDKs, ML libs, languages outside the stack) | / | ✕ (one agent per library is the opposite of our per-role doctrine: it would fragment the roster into near-duplicates and none of them carries a fresh-context or evidence mechanism we don't already have) |
