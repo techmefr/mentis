@@ -1,6 +1,6 @@
-# construct : catalogue des briques & backlog de sourcing
+# mentis : catalogue des briques & backlog de sourcing
 
-> **construct = superpowers, version Xefi, qu'on maîtrise.** Un framework *à nous*, enrichi en
+> **mentis = superpowers, version Xefi, qu'on maîtrise.** Un framework *à nous*, enrichi en
 > continu en **réécrivant** (règle B, `CONVENTIONS.md`) les meilleures idées/agents d'autres
 > repos du marché, jamais en dépendant d'eux. Ce fichier tient : **1)** ce qu'on a, **2)** ce qu'on peut
 > réécrire pour compléter/améliorer. Vivant : on l'étend au fil de l'eau.
@@ -21,7 +21,7 @@
 | vue-nuxt-vuetify-conventions | 6 | plusieurs catalogues de skills Vue/Nuxt/Vuetify du marché (patterns Vue, Nuxt4, composables Nuxt, Vuetify) + un linter Nuxt/Vue du marché (correctness/sécurité) + un projet open source TypeScript du marché (a11y/bundle) + retours de review internes Xefi dénominalisés (patterns récurrents) | 🟡 |
 | react-nextjs-conventions | 6 | un catalogue de skills React du marché (best practices) + un catalogue de skills React/Node du marché (redux-toolkit) + un catalogue de skills shadcn du marché + un linter React du marché (section correctness/sécurité) + un projet open source TypeScript du marché (a11y/bundle) | 🟡 (écrit, pas encore dogfoodé) |
 | over-engineering-review | 9 | un outil de review orienté suppression du marché (angle suppression, tags, score net de lignes) | 🟡 |
-| nestjs-node-conventions | 6 | un catalogue de skills NestJS du marché + une skill TypeScript avancée du marché + un catalogue de skills React/Node du marché (prisma/trpc/zod) | 🟡 (écrit, pas encore dogfoodé ; première brique construct back Node) |
+| nestjs-node-conventions | 6 | un catalogue de skills NestJS du marché + une skill TypeScript avancée du marché + un catalogue de skills React/Node du marché (prisma/trpc/zod) | 🟡 (écrit, pas encore dogfoodé ; première brique mentis back Node) |
 | typescript-patterns | 6 | synthèse interne (vécu de production réel g.compigni sur TS/JS pur) | 🟢 |
 | php-patterns | 6 | PHP-FIG (PSR-12) + doc officielle PHP | 🟡 (sourcé marché, même statut d'incertitude que gimli (g.compigni débute en PHP)) |
 | python-conventions | 6 | PEP 484/526/604/8 + ruff + mypy/pyright | 🟡 (sourcé marché, pas de vécu de production interne, même statut que go-conventions) |
@@ -109,7 +109,7 @@ d'agents/skills Claude Code, linters de stack, frameworks d'orchestration, etc. 
 | des frameworks d'autonomie agentique totale du marché | autonomie 24/7 / bout-en-bout | / | ✕ (repoussoir : no-auto-merge) |
 | catalogue de skills Vue du marché (autre) | `skills/vue/` (usage lib tierce de rendu JSON→Vue) | vue-nuxt-vuetify-conventions | ✕ (pas une convention Vue générique, hors besoin Xefi) |
 | catalogue de skills Nuxt du marché (autre) | `skills/nuxt-modules/` (auteuring de module Nuxt publié/npm) | vue-nuxt-vuetify-conventions | ✕ (hors périmètre : g.compigni fait du code d'app, pas de module) |
-| catalogue de skills Nuxt du marché (autre) | `skills/nuxt/SKILL.md` (dispatcher) | vue-nuxt-vuetify-conventions | ✕ (redondant avec le principe de progressive-disclosure déjà acquis dans using-construct) |
+| catalogue de skills Nuxt du marché (autre) | `skills/nuxt/SKILL.md` (dispatcher) | vue-nuxt-vuetify-conventions | ✕ (redondant avec le principe de progressive-disclosure déjà acquis dans using-mentis) |
 | catalogue de skills du marché (autre) | `using-git-worktrees` | merge-worktree | ✕ (redistribution telle quelle d'un skill déjà repris nativement et dans start-feature) |
 | lib headless Vuetify du marché | lib headless (`@vuetify/v0`) | vue-nuxt-vuetify-conventions | ✕ (différente du Vuetify stylé Material utilisé sur le front Nuxt/Vue) |
 | repo de skills Vue du marché (deux variantes, même contenu) | `vuetify-skilld` | vue-nuxt-vuetify-conventions | ✕ (dossier absent de l'arbre git actuel, contenu introuvable (même constat sur les deux forks)) |
