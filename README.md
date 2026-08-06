@@ -80,6 +80,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `start-feature` | 0 | Starts a feature (worktree) |
 | `brainstorm` | 1 | Explores intent/need before any code |
 | `spec` | 2 | Frames the need as verifiable criteria |
+| `domain-modeling` | 3 | What is this concept, what's always true about it, where the rules live |
 | `archi` | 3 | Architecture decisions, before the plan |
 | `api-design` | 3 | Contract-first API design (Hyrum's law, extension vs breakage) |
 | `documentation-adr` | 3 | Documents a significant decision (ADR template, never deleted) |
@@ -98,6 +99,9 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
 | `auth-session-conventions` | 6 | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
+| `security-hardening` | 6 | Trust boundaries while writing: validation, escaping per context, access control, uploads |
+| `background-jobs-conventions` | 6 | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
+| `webperf` | 6 | Diagnose slowness from a measurement, not from intuition |
 | `seo` | 6 | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | 6 | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `qa-exploratory-testing` | 8 (complement) | Manual/exploratory testing of a flow, distinct from tdd, sourced from ISTQB/session-based testing |

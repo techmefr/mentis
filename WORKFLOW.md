@@ -57,10 +57,10 @@ The authoritative registry, with maturity per block, is `CATALOG.md` §1. This i
 | 0 | `start-feature`, `portless-ready` (setup) | — |
 | 1 | `brainstorm` | — |
 | 2 | `spec` | — |
-| 3 | `archi`, `api-design`, `documentation-adr` | `architect` (periodic debt audit, outside the pipeline) |
+| 3 | `domain-modeling`, `archi`, `api-design`, `documentation-adr` | `architect` (periodic debt audit, outside the pipeline) |
 | 4 | `plan`, `wayfinder` | — |
 | 5 | `tdd` | `dozer` |
-| 6 | `code` + the conventions block for the stack: `typescript-patterns`, `php-patterns`, `vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`, `nestjs-node-conventions`, `go-conventions`, `dotnet-conventions`, `python-conventions`, `java-conventions`, `auth-session-conventions`, `seo`, `accessibility`, `observability-instrumentation`, `devops-conventions`, `data-pipeline-conventions` | `neo` (Vue/Nuxt), `morpheus` (Laravel), `trinity` (NestJS/Node), `tank` (SQL/ES) |
+| 6 | `code` + the conventions block for the stack: `typescript-patterns`, `php-patterns`, `vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`, `nestjs-node-conventions`, `go-conventions`, `dotnet-conventions`, `python-conventions`, `java-conventions`, `auth-session-conventions`, `security-hardening`, `background-jobs-conventions`, `webperf`, `seo`, `accessibility`, `observability-instrumentation`, `devops-conventions`, `data-pipeline-conventions` | `neo` (Vue/Nuxt), `morpheus` (Laravel), `trinity` (NestJS/Node), `tank` (SQL/ES) |
 | — | `debug` | — |
 | 7 | `gate` | `galadriel` |
 | 8 | `review`, `qa-exploratory-testing` | `elrond` → `aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo`; `mouse`, `seraph`, `keymaker`, `link` |
