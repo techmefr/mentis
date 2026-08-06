@@ -14,7 +14,7 @@
 | start-feature | 0 (worktree) | internal starfleet + a market skill for worktree management | 🟡 |
 | brainstorm | 1 | native `brainstorming` | 🟡 |
 | spec | 2 | a market skill catalogue (grill-with-docs) + internal | 🟡 |
-| archi | 3 | internal graphify (+ dedup still to build) | 🔜 |
+| archi | 3 | internal graphify + a three-way dedup pass (name, shape, call site) with the negative result recorded | 🟡 (dedup mechanism written, not dogfooded yet) |
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
 | tdd | 5 | Xefi `test-casebook` + market long-running agent patterns (default-FAIL contract) | 🟡 |
 | code | 6 | native + internal | 🟡 |
