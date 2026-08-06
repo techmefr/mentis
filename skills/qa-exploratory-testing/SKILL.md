@@ -37,6 +37,22 @@ real user journey: not on an internal refactor with no user-facing surface.
 2. Compare the before/after behaviour if there's any doubt, rather than relying on the memory of "how
    it used to work".
 
+### 4. Driving the browser: reconnaissance before action
+1. **Never act on a selector you haven't seen.** Read the rendered page first
+   (`read_page`, which hands back element refs), then click/type against those refs: a
+   click on a guessed selector or on raw coordinates is what makes a session
+   non-reproducible.
+2. **Wait for the page to settle before reading it.** On any app that fetches after
+   mount, the DOM read too early is a different DOM: a "the field is missing" finding
+   observed before the load finished is a false positive, not a bug.
+3. **Separate the two phases explicitly**: a reconnaissance pass (read the state,
+   note the refs) then an action pass (interact, re-read to confirm the effect).
+   Interleaving them is how you end up reporting the consequence of your own
+   mis-click.
+4. A finding whose reproduction sequence can't be replayed from the refs observed
+   goes back to step 5 of the LOOP as "to be reproduced", never straight into the
+   report as a bug.
+
 ## Output / checkpoint
 Every bug found is reported with: the exact journey to reproduce it, observed vs expected result,
 severity (blocking/major/minor). No bug reported without a precise reproduction sequence.
@@ -52,4 +68,7 @@ severity (blocking/major/minor). No bug reported without a precise reproduction 
 ## Origin
 Sourced from established exploratory testing techniques (James Bach/Michael Bolton: session-based test
 management, charter, timeboxing) and classic boundary testing (ISTQB). Mechanisms rewritten, no copied
-text. Market research, no dedicated internal QA production feedback at this stage.
+text. Market research, no dedicated internal QA production feedback at this stage. Section 4
+(reconnaissance before action, wait for the page to settle before reading the DOM) is a rewrite of the
+discipline in Anthropic's official `webapp-testing` skill, transposed from Playwright to our Browser
+pane tooling.

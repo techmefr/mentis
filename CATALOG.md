@@ -31,6 +31,7 @@
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience at Xefi) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices | 🟡 (sourced from the market, no dedicated production experience at Xefi) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling | 🟡 (sourced from the market, no dedicated production experience at Xefi) |
+| auth-session-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate jwt/oauth-oidc/keycloak/auth0 agents, no equivalent here) + a documented internal incident on a token refresh flow + OWASP session management | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
 | api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule) | 🟢 (direct rewrite) |
 | observability-instrumentation | 6 | a market generalist dev skill catalogue (on-call questions, RED/USE, anti-cardinality) | 🟢 (direct rewrite) |
@@ -70,7 +71,8 @@
 
 ## 2. Sourcing backlog: ideas/agents to rewrite in order to complete/improve
 
-Market scouting is done continuously (last pass 2026-08). Each line = an idea to **rewrite here**,
+Market scouting is done continuously (last pass 2026-08, including the official Anthropic skills
+repo and a 137-agent per-technology catalogue). Each line = an idea to **rewrite here**,
 not to install; sources are anonymised by category (Claude Code agent/skill catalogues, stack
 linters, orchestration frameworks, etc. on the market).
 
@@ -170,6 +172,13 @@ linters, orchestration frameworks, etc. on the market).
 | market React/Node skill catalogue (same source) | `typescript` (generic) | nestjs-node-conventions | ✕ (too generic, already repeated by the nestjs/trpc/zod blocks) |
 | market shadcn-ui repo | shadcn-ui | react-nextjs-conventions | ✕ (repo not found/dead, only a third-party summary retrieved, not the source itself) |
 | market shadcn audit tool | audit/discovery of existing shadcn components | react-nextjs-conventions | ✕ (different mechanism, a reviewer role rather than code conventions; keep as a separate lead) |
+| official Anthropic skills repo | `webapp-testing` (reconnaissance/action split, never act on an unseen selector, wait for the page to settle before reading the DOM) | qa-exploratory-testing | ✅ (section 4 added, transposed from Playwright to our Browser pane tooling) |
+| official Anthropic skills repo | `skill-creator`, `frontend-design`, `mcp-builder`, `claude-api`, document/creative skills (docx/pdf/pptx/xlsx, algorithmic-art, canvas-design, theme-factory, brand-guidelines, internal-comms, slack-gif-creator, web-artifacts-builder, doc-coauthoring) | / | ✕ (skill-creator overlaps writing-skills, frontend-design and mcp-builder already ruled out earlier, the rest is document/creative production outside the dev pipeline) |
+| market per-technology agent catalogue (137 agents, one per library/framework) | `jwt-expert`, `oauth-oidc-expert`, `keycloak-expert`, `auth0-expert` → flow-level discipline extracted into a new block | auth-session-conventions | ✅ (the per-provider agents themselves ruled out: per-library fragmentation against our per-role doctrine; the auth gap they revealed was real and is now covered) |
+| market per-technology agent catalogue (137 agents) | `kafka`/`rabbitmq`/`bullmq`/`sidekiq`/`celery`-expert (background jobs, retries, idempotency, dead-letter) | possible new block | 🔎 (real gap: no queue/background-job block today, and queues are used on the Laravel backend; moderate signal, no documented incident yet) |
+| market per-technology agent catalogue (137 agents) | `github-actions-expert`, `gitlab-ci-expert`, `docker-expert`, `kubernetes-expert`, `terraform-expert`, `pulumi-expert` | devops-conventions | ✕ (CI/container platform specifics are infra reality, they stay outside this repo per rule C; the generic practice is already in devops-conventions) |
+| market per-technology agent catalogue (137 agents) | `owasp-top10-expert`, `opentelemetry-expert`, `openapi-expert`, `rest-expert` | seraph / observability-instrumentation / api-design | ✕ (same sources already folded into the existing blocks) |
+| market per-technology agent catalogue (137 agents) | ~120 remaining per-library experts (frameworks, DBs, test runners, cloud SDKs, ML libs, languages outside the stack) | / | ✕ (one agent per library is the opposite of our per-role doctrine: it would fragment the roster into near-duplicates and none of them carries a fresh-context or evidence mechanism we don't already have) |
 
 ## 3. The rule that keeps us "in control" (reminder)
 
