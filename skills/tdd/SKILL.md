@@ -8,6 +8,14 @@ description: Use during the tests step, before the code, write the tests first (
 Step 5 of the pipeline (`WORKFLOW.md`). Tests first, and a **default-FAIL contract** that will
 make the GATE (step 7) mechanical.
 
+**Where the doctrine lives.** The testing doctrine itself — `data-test-*` selectors, the `task-test.md`
+plan, the permission/persona matrix, the coverage floor, the per-stack guides — is owned by the
+`test-casebook` package (MIT, `techmefr/test-casebook`), which also ships its own executing agents and a
+plan-before-tests hook. **Where it's installed, it is the authority and this block defers to it**; install
+it in the project (`npm i -D test-casebook`, pinned) rather than restating its rules here. What stays ours
+is the **default-FAIL contract** and its link to the gate — that has to hold in a repo with no package
+installed at all.
+
 ## When
 After `plan`, before writing the implementation.
 
@@ -33,4 +41,8 @@ No test bypassed, hidden or disabled. The default contract is **failure**: nothi
 close a gap: a test that can't fail reports safety that isn't there.
 
 ## Origin
-Xefi `test-casebook` + market long-running agent patterns (default-FAIL contract), rewritten.
+`test-casebook` (MIT, `techmefr/test-casebook`) for the doctrine, plus market long-running agent patterns
+for the default-FAIL contract, rewritten. **Aligned with test-casebook `package.json` 1.0.10** (its
+CHANGELOG carries a 1.1.0 section and npm publishes 1.0.4 — three different numbers, so treat the doctrine
+as "as fresh as the copy installed in the project", not as a version this block can claim). Re-verify
+against the installed package rather than from memory (`skills/source-freshness`). Stamped 2026-08-06.

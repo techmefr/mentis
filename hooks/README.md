@@ -23,6 +23,16 @@ They're split because the guarantee needs both halves: `verify-gate.sh` alone co
 a file *exists*, and evidence produced but never looked at is exactly the failure mode we're
 guarding against. A test run whose output nobody opened is a green tick, not a verification.
 
+## Coexisting with the `test-casebook` gate
+
+A project that installs `test-casebook` already has a `PreToolUse` hook of its own, which refuses a test
+file with no `task-test.md` plan above it. **That is not a duplicate of this pair and both should be
+wired**: it guards *plan before tests*, this pair guards *evidence before passing*. They fire on the same
+event and chain in either order — a blocked write is a blocked write.
+
+The only thing to check when wiring both: `settings.json` holds an **array** of `PreToolUse` matchers, so
+add ours alongside theirs rather than replacing the block.
+
 ## Wiring, per repo
 
 Copy both into the target repo's `.claude/hooks/`, make them executable, then in
