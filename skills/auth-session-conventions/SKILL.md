@@ -23,19 +23,30 @@ service that had none.
    the refresh. Force the expiry (shorten the TTL in a dev config, or fast-forward the clock) and
    replay the journey: this is the only way to observe the renewal path.
 2. **One refresh in flight at a time.** Several parallel requests hitting a 401 together must not
-   each fire their own refresh: queue them behind a single renewal, then replay them. Without
-   that, concurrent refreshes race and invalidate each other's token.
+   each fire their own refresh: queue them behind a single renewal, then replay them. Mechanism in
+   section 4.7, including the cross-tab case that a shared promise doesn't cover.
 3. **A failed refresh logs out cleanly**, it never retries in a loop: a refresh that 401s and gets
    retried indefinitely spins forever and hides the real cause.
 4. **The expiry margin is explicit**: renew shortly *before* expiry, never exactly at it, or clock
    skew between client and server produces intermittent failures no one can reproduce.
 
 ### 2. Storage and transport
-1. A session/refresh token lives in an **httpOnly cookie** (`Secure`, `SameSite`), never in
-   `localStorage`: anything readable by JavaScript is readable by any injected script.
-2. Never a token in a URL/query string: it lands in logs, in the browser history and in the
-   `Referer` header.
-3. Logout **invalidates on the server side** too: clearing the client store while the token stays
+1. **Never a token in a URL, in any form.** Not in the path, not in the query string, not in a
+   fragment. A URL is copied into server access logs, into browser history, into the `Referer`
+   header sent to third parties, and into every proxy and analytics tool on the path. The only
+   credential allowed to travel in a redirect URL is a **short-lived, single-use authorization
+   code**, exchanged once against the backend (see the reference flow below). This is the one rule
+   in this block we hold against pressure: some teams do ship SSO by handing the token over in the
+   redirect URL, and adopting it "to be consistent with them" would be adopting the leak.
+2. A token lives in a cookie (`Secure`, `SameSite`), never in `localStorage`: `localStorage` is
+   readable by any injected script and survives with no expiry semantics.
+3. **Known trade-off in our own pattern, stated rather than hidden**: our frontends set that cookie
+   client-side and attach the token themselves as a `Bearer` header, so the cookie is **not**
+   `httpOnly` and an injected script can read it. `httpOnly` + a server-set cookie is strictly
+   stronger and is the target for a new service that can be built that way. On an existing
+   frontend, don't half-migrate: a token that's both in a JS-readable cookie and expected in a
+   header gains nothing until the whole chain moves.
+4. Logout **invalidates on the server side** too: clearing the client store while the token stays
    valid server-side is not a logout.
 
 ### 3. Authorisation: the check lives on the server
@@ -48,7 +59,42 @@ service that had none.
    the fact: filtering in the response means the data was already fetched, and one forgotten branch
    leaks it.
 
-### 4. Verification before shipping
+### 4. Our reference login flow
+This is the shape already in production on two of our Nuxt frontends against a Laravel backend.
+A new frontend follows it rather than inventing a variant.
+
+1. **Provider redirect.** The `/login` page hands off to the identity provider. The frontend holds
+   no password and never sees one.
+2. **Callback with a code.** The provider returns to a dedicated callback route carrying a
+   short-lived `code` in the query. That page renders nothing but a progress state.
+3. **Exchange, once.** The callback exchanges the code against the backend for an access token.
+   Guard the exchange with a single-flight promise: a callback page can mount twice (a client
+   remount, the user refreshing) and a single-use code replayed a second time fails, logging the
+   user out at the exact moment they were logging in.
+4. **Token into a cookie, then a Bearer header.** The API layer reads the cookie and attaches
+   `Authorization: Bearer …` to every call. A `401` from any call triggers logout, in one place
+   (the API plugin), not per call site.
+5. **Deny by default at the router.** A global route middleware protects every route, with an
+   explicit allowlist of public routes (login, callback, error/waiting pages). New routes are
+   protected because they're new, not because someone remembered to protect them.
+6. **Typed auth outcomes, not a boolean.** The exchange and the refresh return an explicit state,
+   distinguishing at minimum: authenticated, unauthenticated, **awaiting account approval**, and
+   error. Each maps to its own destination. A boolean flattens "your account isn't approved yet"
+   into "login failed", which sends the user to retry a login that can never succeed.
+7. **Single-flight refresh, across tabs.** Both implementations dedupe the refresh, but not
+   equally: an in-memory shared promise only dedupes inside **one** JS context, so two open tabs
+   still fire two refreshes and can invalidate each other. The reference is the stronger one: a
+   cross-context lock (`navigator.locks`) around the refresh, plus a `BroadcastChannel` so the other
+   tabs **refetch the user** on the new token instead of racing for their own. An in-memory promise
+   alone is acceptable only where a single tab is guaranteed, which in a browser it never is.
+   Throttling the refresh (don't renew if the last one is very recent) is a useful complement, not a
+   substitute: it narrows the race window without closing it.
+8. **Teardown is complete.** Logout calls the backend, then clears local state in a `finally` so a
+   failing call can't leave a half-session behind. Clearing means the token *and* everything derived
+   from the identity: user, permissions, feature flags, and the domain state scoped to that user.
+   A leftover scoped selection is what leaks one user's context into the next session.
+
+### 5. Verification before shipping
 1. Replay the journey: login → expiry → refresh → logout, plus one protected route with an
    insufficient permission (expect a clean refusal, not a crash).
 2. Replay it a second time **concurrently** (two tabs on the same session) if the diff touched the
@@ -74,5 +120,13 @@ Gap found while scouting a market per-technology agent catalogue (separate `jwt`
 documented internal incident: a token refresh flow broken by a change, merged, and left broken
 because the normal loop never observed the post-expiry path. The per-provider agents were **not**
 retained (per-library fragmentation, against our per-role doctrine); what's kept here is the
-flow-level discipline that the incident showed was missing. Cookie/transport rules follow OWASP
+flow-level discipline that the incident showed was missing. Transport rules follow OWASP
 session-management guidance.
+
+Section 4 is **not** sourced from the market: it's extracted from the two real implementations
+already running on our own Nuxt frontends against a Laravel backend, read side by side. Where the
+two disagreed, the stronger one became the reference and the reason is stated inline (single-flight
+refresh: cross-context lock + cross-tab broadcast beats an in-memory promise). Where our own
+practice is weaker than the generic rule, that gap is stated rather than smoothed over (§2.3, the
+non-`httpOnly` cookie). The token-in-the-URL prohibition is written as a rule to hold precisely
+because the surrounding practice on other teams goes the other way.
