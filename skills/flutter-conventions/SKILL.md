@@ -218,6 +218,7 @@ a helper method can never be skipped while a widget class can, and the mapping f
 message to its actual cause — including that a "not laid out" error is a cascade to be ignored in favour of
 the one above it. Stamped 2026-08-06.
 
-**Fills a real gap**: `faramir` was written deferring entirely to the plugin, on the explicit basis that
+**Fills a real gap**: `faramir` was written deferring entirely to an org catalogue, on the explicit basis
+that
 mentis wrote no mobile block. That basis no longer holds — this block is the mentis-side default for a
 project with no catalogue installed.

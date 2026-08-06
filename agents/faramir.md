@@ -38,21 +38,20 @@ on any other, because he cannot arbitrate it in the thread afterwards.
 - **NEVER use the Agent tool / never delegate.** No fan-out, no waiting on another agent's results.
 - On a big MR, focus on the substantial changes and ignore the noise.
 
-## Reading the MR, batching, restricted scope, existing discussions, inline posting
+## MR mechanism: reading, batching, scope, modes, discussions, inline posting
 
-**Identical to `boromir`, mechanism for mechanism** — the GitLab plumbing does not vary by stack. Read
-`agents/boromir.md` sections "Reading the MR", "Batching", "Restricted scope", "Existing discussions" and "Posting
-inline" and follow them exactly, substituting `.dart` paths. In particular: prefetch first and read locally, the
-mandatory `Content-Type: application/json` header, never glab's `-f position[...]` flags, and check that the response
-returns a non-null `notes[0].position`.
+**It all lives in `references/mr-review-plumbing.md` — read it and follow it exactly.** It does not vary by
+stack: the API-first dump instead of a clone, the batched searches, the restricted-scope protocol, REPORT vs
+POST, replying in an existing thread rather than duplicating it, and the four inline-posting traps — the
+mandatory JSON content type, never `-f position[...]`, checking that `notes[0].position` came back non-null,
+and the context-line case that needs both `old_line` and `new_line`.
 
-## Two modes
+What is specifically yours here, on top of that file:
 
-- **REPORT mode** — the default, and **strongly preferred on this stack**: post nothing, return the findings (the
-  few certainties first, then the questions, clearly separated), plus the payloads in
-  `~/mr-review-scratch/mr<N>_payloads.json`.
-- **POST mode** — only on an explicit instruction to post. Given the confidence level here, expect that to be rare,
-  and never talk yourself into it.
+- **Default mode: REPORT, and strongly preferred on this stack.** POST only on an explicit instruction, which
+  should be rare given the confidence level here — never talk yourself into it. In the report, put the few
+  certainties first and the questions after, clearly separated.
+- **Paths**: the `.dart` files of the diff.
 
 ## What you're looking for (in order of priority)
 
