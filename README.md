@@ -122,6 +122,8 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `dispatch-parallel` | cross-cutting | Splits a task across parallel subagents on disjoint scopes |
 | `writing-skills` | cross-cutting (meta) | How to write/revise a skill in this framework |
 | `writing-agents` | cross-cutting (meta) | How to write/revise an agent in this framework (7-pillar template) |
+| `testing-blocks` | cross-cutting (meta) | Prove a block changes behaviour under pressure, before calling it done |
+| `distributing-blocks` | cross-cutting | Install/update for other teams: they pull and merge, we never push |
 | `portless-ready` | infra | Makes a stack portless (HTTPS alias, port hygiene) |
 
 ### Agents
@@ -197,30 +199,30 @@ Four stages, in this order, and the order is the point:
 4. **Keep it updated** for those users, without becoming the thing rule B
    warns about.
 
-### Stage 3 and 4 are not designed yet, and there's a tension to settle first
+### Stages 3 and 4: rule B, applied to myself
 
 Rule B exists so that **nobody upstream can break my workflow**. The moment
-this gets distributed and updates itself, *I become that upstream* for every
-colleague who installs it. Applying my own rule to myself has consequences:
+this gets distributed, *I become that upstream* for every colleague who
+installs it. The mechanism is in [`distributing-blocks`](./skills/distributing-blocks/SKILL.md),
+and it's deliberately boring: consumers clone a repo they own, updates are a
+merge **they** pull and read, conflicts are theirs to resolve, and staying on
+an older version on purpose has to remain possible.
 
-- **An update that silently rewrites someone's agents is exactly what rule B
-  forbids others from doing to me.** So updates get pulled and read, not
-  pushed: versioned, with a changelog, and pinnable. "It auto-updates" is a
-  feature request that needs this answered first, not a goal in itself.
-- **Consumers will customise blocks** (their own stack, their own review
-  conventions). An update that overwrites local edits destroys their work. The
-  distribution needs a declared boundary between my blocks and their
-  overrides, decided before the first person installs it, because it's
-  unfixable afterwards without breaking them.
-- **Rule C is load-bearing for this, not just for a hypothetical public
-  release.** Sharing across the company means many teams: a block that
-  hard-codes one team's project name is useless to the others and leaks to
-  everyone. The discipline that keeps this publishable is the same discipline
-  that makes it shareable internally.
-- **Order matters against rule A.** Sharing before stage 2 would distribute
-  blocks that have never been run once. The first colleagues to try it are the
-  ones whose trust is hardest to win back, so dogfooding isn't a nice-to-have
-  ahead of distribution, it's the precondition.
+- **No silent auto-update.** An update that rewrites someone's agents without
+  them reading it is precisely what rule B forbids others from doing to me.
+- **The ours-vs-theirs boundary needed no invention.** I had this listed as an
+  unsolved design problem requiring a folder convention before the first
+  install. It doesn't: consumers' customisations are commits, so git already
+  models the boundary and they survive a merge by construction.
+- **Rule C is load-bearing here, not just for a hypothetical public release.**
+  Sharing across the company means many teams: a block hard-coding one team's
+  project name is useless to the others and leaks to everyone. Some blocks are
+  therefore deliberately kept out of this repo, and stay local.
+- **Order still matters against rule A.** Distributing blocks that have never
+  been run spends the credibility of the first colleagues who try it, and
+  that's the hardest credit to win back. [`testing-blocks`](./skills/testing-blocks/SKILL.md)
+  is the cheap validation (does the block change behaviour under pressure?);
+  real use on real work is the expensive one. Neither substitutes for the other.
 
 ## Status
 
