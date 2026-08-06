@@ -29,7 +29,9 @@ Overlaps found and resolved, each by a stated boundary written into the mentis b
 | `skills/dotnet-conventions` | `csharp` (15) | it owns the rules; we keep the analyzer baseline for a codebase without it |
 | `business/product-ownership` | `project-management` (9) | it owns the story artefact, its review axes, Jira mechanics and estimation; we own the decision around it (priority, refusal, criteria, ready/done) |
 
-**Same audit, applied to `test-casebook`** (MIT, `techmefr/test-casebook`, ours): it ships the testing
+**Same audit, applied to the `test-casebook` family** (MIT, `techmefr/*`, ours — `test-casebook` 1.1.0 for
+the frontend, `test-casebook-back-js` 0.10.0 and `test-casebook-back-php` 0.14.0 for the backends, all three
+on npm as of 2026-08-06): it ships the testing
 doctrine *and* its executing agents (`test-writer`, `test-reviewer`) plus a plan-before-tests `PreToolUse`
 hook. Resolution: **the package is the authority where installed** — `tdd` defers to it and `dozer` hands
 over to `test-writer`, keeping only the default-FAIL contract, which must hold in a repo with nothing

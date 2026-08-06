@@ -50,6 +50,23 @@
 
 ## Owning a source without depending on it: `test-casebook`
 
+Three sibling packages, one method, split by what the tests actually drive — a project installs the one
+that matches its stack, and nothing forces a project to install more than one:
+
+| Package | Covers | npm (2026-08-06) |
+|---|---|---|
+| `test-casebook` | frontend/DOM (Nuxt, React, Vue, Svelte, Astro, Laravel/Livewire) | 1.1.0 |
+| `test-casebook-back-js` | Node/TypeScript backends (NestJS, Adonis, Express, Fastify, Hapi, Koa, tRPC, GraphQL) | 0.10.0 |
+| `test-casebook-back-php` | PHP backends (Laravel/Lomkit, Symfony, Slim, Mezzio, CodeIgniter 4) | 0.14.0 |
+
+The PHP one publishes on **npm, not Packagist**: what it distributes is a doctrine plus a Claude Code
+skill, never autoloaded PHP, so there is no service provider to provide. Its `npx` entry point is a Node
+wrapper that forwards to the same `bin/casebook-back-init.php` scaffolder.
+
+The two backend packages sit at `0.x` on purpose — the doctrine is written and the frameworks are
+documented from real runs, but neither playbook has been run end to end on a real project yet. Same honesty
+as a 🟡 here.
+
 `test-casebook` is ours (MIT, public, `techmefr/test-casebook`), which makes it tempting to wire in as a
 dependency of this repo. **Don't.** Ownership comes from the licence and the repo, not from the direction of
 the dependency; wiring it in only adds coupling, and the bill arrives at distribution — every team
@@ -67,9 +84,11 @@ The split that gives the update propagation anyway:
 `task-test.md` plan above it; mentis's `hooks/verify-gate.sh` refuses a `passes: true` claim with no read
 evidence. Different promises, and they chain — plan before tests, then evidence before passing. Both stay.
 
-**State to fix on the package side** (2026-08-06): npm publishes **1.0.4**, `package.json` says **1.0.10**,
-the CHANGELOG's top section is **1.1.0**. Three numbers, so "I update it and it propagates" doesn't hold
-today — the missing step is the publish, not any plumbing here.
+**Resolved (2026-08-06).** This section used to record three divergent numbers for the frontend package —
+npm at 1.0.4, `package.json` at 1.0.10, the CHANGELOG at 1.1.0 — which meant "I update it and it
+propagates" was false: the missing step was the publish, not any plumbing here. All three now agree at
+1.1.0, and the two backend siblings were published for the first time. Worth keeping as the failure mode:
+the propagation story is only as true as the last `npm publish`.
 
 ## Live upstream docs: `context7`
 

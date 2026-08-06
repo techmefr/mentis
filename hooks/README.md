@@ -25,8 +25,9 @@ guarding against. A test run whose output nobody opened is a green tick, not a v
 
 ## Coexisting with the `test-casebook` gate
 
-A project that installs `test-casebook` already has a `PreToolUse` hook of its own, which refuses a test
-file with no `task-test.md` plan above it. **That is not a duplicate of this pair and both should be
+A project that installs any of the `test-casebook` siblings (`test-casebook`, `test-casebook-back-js`,
+`test-casebook-back-php`) already has a `PreToolUse` hook of its own, which refuses a test file with no
+`task-test.md` plan above it. **That is not a duplicate of this pair and both should be
 wired**: it guards *plan before tests*, this pair guards *evidence before passing*. They fire on the same
 event and chain in either order — a blocked write is a blocked write.
 
