@@ -23,7 +23,7 @@
 | **Backend conventions** (Laravel/lomkit: filters to the max, status+message responses, simplicity > number of calls) | `doctrine-test-back-laravel-lomkit.md` + memory | doc/ | Pub (generic) | 🔜 **to write** `conventions-back.md` (points at the doctrine) |
 | **Git / commits / MR** (conventional, lowercase; MR comments short and emoji-free) | *scattered in memory* | / | Pub | 🔜 **to write** `git-mr.md` |
 | **Code smells** (baseline cited by the Standards axis of `review`) | to be formalised | / | Pub | 🔜 **to write** `code-smells.md` |
-| Agents (aragorn/gimli/legolas/valerianus/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
+| Agents (aragorn/gimli/legolas/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
 
 \* `CATALOG.md`: the structure is publishable, but its backlog names internal repos/layers → keep it internal until we've separated them.
 

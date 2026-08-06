@@ -143,7 +143,9 @@ your code beyond a verdict, and it never touches it.
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
 | `morpheus` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
+| `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Written, not dogfooded yet |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
+| `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
 | `keymaker` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
 | `link` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
 | `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
