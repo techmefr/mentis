@@ -65,6 +65,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `incident-communication` | communication |
 | `internal-communication` | communication |
 | `content-creation` | communication |
+| `community-management` | communication |
 | `social-publishing` | communication |
 
 ## Installing
