@@ -109,7 +109,8 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `data-pipeline-conventions` | 6 (data) | ETL/ELT, data quality and analytical modelling conventions, sourced from dbt/DAMA-DMBOK |
 | `observability-instrumentation` | 6 | What to log, which metric, which label; complements devops-conventions at code level |
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
-| `debug` | support | Systematic debugging |
+| `testing-anti-patterns` | 5 / review | Mock theatre, incomplete mocks, timing guesses: how a green suite lies |
+| `debug` | support | Trace the cause backwards to its origin, then make the class of bug impossible |
 | `gate` | 7 | Cold verification before merge, see the `galadriel` agent |
 | `review` | 8 | Diff review, see the per-stack reviewer agents |
 | `over-engineering-review` | 9 | Deletion angle only: dead code, over-abstraction, yagni |
