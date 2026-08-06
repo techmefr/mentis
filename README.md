@@ -156,6 +156,7 @@ without internal expertise in that function.
 | `internal-communication` | communication | The ask in the first line; a decision that lives only in a call isn't announced |
 | `content-creation` | communication | Start from work actually done, mine the pipeline's own artefacts, and keep the hook honest |
 | `community-management` | communication | The replies, every day: sort and route, never delete criticism, and what a CM must never answer alone |
+| `product-ownership` | product | Whether it should exist, in what order, and how anyone knows it's done — the story artefact stays with the plugin |
 | `social-publishing` | communication | One message adapted per platform, never four truths; an agent drafts, a human publishes |
 
 ### Agents
