@@ -1,6 +1,6 @@
 ---
 name: devops-conventions
-description: Use when writing/reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring/alerting, conventions for reliability and reproducibility, not for application code. No dedicated Xefi production experience at this stage, sourced from established practice (12-factor, DORA metrics).
+description: Use when writing/reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring/alerting, conventions for reliability and reproducibility, not for application code. No dedicated in-house production experience at this stage, sourced from established practice (12-factor, DORA metrics).
 ---
 
 # devops-conventions
@@ -54,7 +54,7 @@ Pipeline/infra compliant with the sections above, `plan`/`dry-run` read and cite
 - Never an automatic `apply`/deployment on a shared environment without explicit human confirmation
   (consistent with the framework's general doctrine: actions that are hard to undo stay a human
   checkpoint).
-- This block has no dedicated Xefi production experience yet: to be confronted with the first real
+- This block has no dedicated in-house production experience yet: to be confronted with the first real
   infra/CI audit, not to be treated as proven doctrine.
 
 ## Origin

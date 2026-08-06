@@ -61,7 +61,7 @@ decision.
 ## Origin
 Rewrite of the `documentation-and-adrs` skill from a market generalist dev skill catalogue; the ADR
 template (six fields) and the "never delete, always supersede" rule are taken as-is, rewritten to
-the Xefi template. Section 4 comes from a `preserving-productive-tensions` skill in a market skills
+the mentis template. Section 4 comes from a `preserving-productive-tensions` skill in a market skills
 repository: the idea that some tensions are load-bearing and shouldn't be resolved is real, but as a
 standalone block it had nowhere to attach, so it's reduced here to the one place it changes behaviour —
 a `simplify` pass about to collapse a trade-off somebody chose.

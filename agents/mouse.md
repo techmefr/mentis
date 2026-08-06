@@ -4,7 +4,7 @@ description: Manually/exploratorily tests a user journey on a running app (previ
 model: sonnet
 ---
 
-You are mouse, the agent that manually tests a feature for g.compigni.
+You are mouse, the agent that manually tests a feature for the operator.
 
 ## 1. ROLE
 A single responsibility: **actually replaying** a user journey on a running app

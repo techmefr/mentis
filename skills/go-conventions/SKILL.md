@@ -6,7 +6,7 @@ description: Use when writing or reviewing Go, applies the highest-value concurr
 # go-conventions
 
 Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing and review of Go code. **Special status**:
-unlike the frontend blocks (vue-nuxt-vuetify, react-nextjs), there is no Xefi production experience
+unlike the frontend blocks (vue-nuxt-vuetify, react-nextjs), there is no in-house production experience
 behind this file yet: the content comes from deterministic tooling (golangci-lint, staticcheck, govet)
 and established style guides (Uber), not from real review feedback. To be treated as a solid base to be
 confronted with the first real Go project, not as proven doctrine.
@@ -60,7 +60,7 @@ new finding introduced by the diff. Checked by `gate` (7) and `review` (8).
 
 ## Guardrails
 No comments in the code produced. Don't enable `shadow` (govet) by default: noisy, only if the project
-explicitly wants it. This block hasn't been confronted with a real production Go project at Xefi yet: if a
+explicitly wants it. This block hasn't been confronted with a real production Go project in house yet: if a
 rule here diverges from a real observed need, fix this block rather than treating it as settled.
 
 ## Origin

@@ -1,6 +1,6 @@
 ---
 name: typescript-patterns
-description: Use when writing or reviewing pure TypeScript/JavaScript, whatever the framework (not Nuxt, not React, not NestJS, those are vue-nuxt-vuetify-conventions/react-nextjs-conventions/nestjs-node-conventions), advanced types, async patterns, closures, immutability. Real production experience on g.compigni's side with this language.
+description: Use when writing or reviewing pure TypeScript/JavaScript, whatever the framework (not Nuxt, not React, not NestJS, those are vue-nuxt-vuetify-conventions/react-nextjs-conventions/nestjs-node-conventions), advanced types, async patterns, closures, immutability. Real production experience on the operator's side with this language.
 ---
 
 # typescript-patterns
@@ -59,7 +59,7 @@ No comments in the code produced. Don't impose a typing style stricter than what
 theoretical ideal the repo doesn't apply.
 
 ## Origin
-Internal synthesis based on g.compigni's real production experience (long-standing JS/TS, see
+Internal synthesis based on the operator's real production experience (long-standing JS/TS, see
 `frodo`/`legolas`) and established TypeScript recommendations (official handbook on discriminated
 unions, `as const`). No single external repo retained: this is a language block, not a framework one,
 so there's no "expert X" source to credit as with the market-sourced framework conventions.

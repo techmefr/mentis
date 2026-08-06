@@ -1,6 +1,6 @@
 ---
 name: data-pipeline-conventions
-description: Use when writing/reviewing a data pipeline (ETL/ELT), an analytical schema model, or a data quality validation, conventions for data reliability and traceability, distinct from transactional application code. No dedicated Xefi production experience at this stage, sourced from established practice (dbt, data quality dimensions).
+description: Use when writing/reviewing a data pipeline (ETL/ELT), an analytical schema model, or a data quality validation, conventions for data reliability and traceability, distinct from transactional application code. No dedicated in-house production experience at this stage, sourced from established practice (dbt, data quality dimensions).
 ---
 
 # data-pipeline-conventions
@@ -54,7 +54,7 @@ the result is considered usable downstream.
 
 ## Guardrails
 Never run a destructive pipeline (full replacement of a production table) without explicit human
-confirmation. This block has no dedicated Xefi production experience yet: to be confronted with the
+confirmation. This block has no dedicated in-house production experience yet: to be confronted with the
 first real data pipeline, not to be treated as proven doctrine.
 
 ## Origin

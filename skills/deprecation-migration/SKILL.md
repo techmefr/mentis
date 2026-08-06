@@ -56,4 +56,4 @@ consumers.
 ## Origin
 Rewrite of the `deprecation-and-migration` skill from a market generalist dev skill catalogue; the
 5-question checklist and the 4 patterns (Strangler/Adapter/Feature Flag/Expand-Contract) are taken
-as-is, rewritten to the Xefi template.
+as-is, rewritten to the mentis template.

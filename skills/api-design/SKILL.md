@@ -52,4 +52,4 @@ slips quietly into a "minor" evolution: go explicitly through `deprecation-migra
 ## Origin
 Rewrite of the `api-and-interface-design` skill from a market generalist dev skill catalogue;
 Hyrum's law, the "One-Version Rule" and the final verification checklist are taken as-is,
-rewritten to the Xefi template.
+rewritten to the mentis template.

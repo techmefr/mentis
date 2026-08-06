@@ -62,4 +62,4 @@ incident. Never PII in clear text in a log, even in a test environment.
 ## Origin
 Rewrite of the `observability-and-instrumentation` skill from a market generalist dev skill
 catalogue; the "define the questions before instrumenting" rule, the RED/USE metrics, the
-anti-cardinality rule and symptom-based alerting are taken as-is, rewritten to the Xefi template.
+anti-cardinality rule and symptom-based alerting are taken as-is, rewritten to the mentis template.

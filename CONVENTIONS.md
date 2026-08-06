@@ -30,13 +30,13 @@ reimplement the principle.
 ### Checklist for adopting an external block
 1. Read the source, isolate **the mechanism** (not the prose).
 2. Check that no internal block already covers it (otherwise: extend, don't duplicate).
-3. Rewrite it in the **single template** (below), Xefi voice, in English.
+3. Rewrite it in the **single template** (below), the house voice, in English.
 4. Fill in `Origin` (where the idea comes from, honestly).
 5. **Zero external install**: the block lives in our repo. No network dependency.
 
 ## Rule C: mentis stays publishable
 
-Rule C carries two loads, and the nearer one is the company, not the public. **Sharing across Xefi
+Rule C carries two loads, and the nearer one is the company, not the public. **Sharing inside a company
 means many teams**: a block hard-coding one team's project name is useless to the others and leaks to
 everyone. The second load is that `mentis/` should stay **extractable into a public repo** one day. Both
 are served by holding the same boundary **from the moment we write**:
@@ -48,7 +48,7 @@ are served by holding the same boundary **from the moment we write**:
   references those hard-coded**, it names a role ("the Laravel backend"), not a specific project
   (an internal repo name).
 
-Simple rule: if a sentence couldn't be read by a dev outside Xefi, it doesn't go in `mentis/`.
+Simple rule: if a sentence couldn't be read by a dev outside the company, it doesn't go in `mentis/`.
 Publication itself is **out of agent scope** (a human decision).
 
 A block that can't pass this test isn't rewritten to be vaguer — it's **kept out and stays local**. That
@@ -97,7 +97,7 @@ A `business/` block has no checkpoint and says so.>
 ```
 
 ### Form rules (non-negotiable)
-- **English**, Xefi voice. The description starts with `Use when …` (reliable triggering).
+- **English**, the house voice. The description starts with `Use when …` (reliable triggering).
 - **Agent naming = two families, and the family carries meaning.** A Lord of the
   Rings name means the agent only **watches**: review or gate, a verdict and a
   report, never Write/Edit on the repo under review. A Matrix name means the

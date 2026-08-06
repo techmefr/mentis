@@ -11,16 +11,25 @@
 **Host and scripts.** Commands below assume `glab` is authenticated against the project's host. On a
 self-hosted instance, `glab` falls back to `gitlab.com` unless the host is explicit — **pass
 `--hostname <host>` on every `glab api` call** against a self-hosted project, or the response comes back from
-the wrong instance and the failure looks like a permissions problem. The helper scripts
-(`prefetch_mr.py`, `search_blobs.py`, `post_mr_comments.py`) live in the operator's own scratch folder, outside
-this repo, and take the host as a default they set themselves.
+the wrong instance and the failure looks like a permissions problem.
+
+The three helper scripts **ship with this repo**, in `bin/`: `prefetch_mr.py`, `search_blobs.py`,
+`post_mr_comments.py`. They read two environment variables and hard-code nothing:
+
+- **`GITLAB_HOST`** — the instance. Unset, they fall back to glab's own default, with the caveat above.
+  `prefetch_mr.py` also takes it as a third positional argument, and a payload file can carry a `host` key.
+- **`MR_SCRATCH`** — where dumps and payload files go, default `~/mr-review-scratch`. It is a working folder
+  **outside any repo under review**: nothing a review produces is ever written into the reviewed project.
+
+Below, `<scratch>` means that folder and `<clones>` the warm-clone folder next to it. `<mentis>` is wherever
+this repo is checked out — invoke the scripts as `python3 <mentis>/bin/<script>.py`.
 
 ## 1. Reading the MR: API first, no clone
 
 The time cost is fetching the project, not the reasoning. By default you fetch **nothing** — everything is
 read through the API.
 
-- **One mandatory first call**: `python3 <scratch>/prefetch_mr.py <ns/repo> <N>`. It dumps, in parallel, into
+- **One mandatory first call**: `python3 <mentis>/bin/prefetch_mr.py <ns/repo> <N>`. It dumps, in parallel, into
   `<scratch>/mr<N>/`: `mr.json` (metadata, `diff_refs`, source branch), `diffs.json` (every hunk),
   `discussions.json`, and `files/` (each touched file on the head side, path flattened with `__`). After that,
   **everything is read locally from the dump** — no further API call for the diff, the files or the
@@ -43,7 +52,7 @@ read through the API.
 ## 2. Batching: cut the round trips
 - Every tool call is a slow round trip. **Group them**: read what you need in parallel in one turn, never
   re-read a file you already read.
-- **Batched searches**: `python3 <scratch>/search_blobs.py <ns/repo> <source-branch> term1 term2 term3 …`
+- **Batched searches**: `python3 <mentis>/bin/search_blobs.py <ns/repo> <source-branch> term1 term2 term3 …`
   runs them all in parallel in ONE call and returns `path:line` plus context. Accumulate the terms and fire
   once; one call per term is the pattern to avoid.
 - On a local clone, one multi-pattern grep (alternation `a|b|c`) rather than N greps.
@@ -67,8 +76,8 @@ When the instruction hands you a ready dump (`<scratch>/mr<N>/` exists) **and** 
   {"project": "<ns/repo>", "iid": 0, "comments": [{"path": "…", "line": 42, "body": "…"}]}
   ```
   so that a validation posts them without relaunching you:
-  `python3 <scratch>/post_mr_comments.py --file <scratch>/mr<N>_payloads.json`. **Name that path at the end of
-  your report** — a payload file nobody knows about is a report with a missing half.
+  `python3 <mentis>/bin/post_mr_comments.py --file <scratch>/mr<N>_payloads.json`. **Name that path at the end
+  of your report** — a payload file nobody knows about is a report with a missing half.
 - **POST** — only when the instruction explicitly says to post. You review **and** post the inline comments
   directly, without waiting for further agreement: whoever launched you already took that decision. You end
   with a recap of what was posted (`file:line` + subject).
@@ -77,7 +86,9 @@ When the instruction hands you a ready dump (`<scratch>/mr<N>/` exists) **and** 
   they appear publicly on someone's MR.
 
 **Before posting from a payload file, re-read it.** A stale file from an earlier run posts duplicates, and its
-line numbers are not necessarily the diff's `new_line`. Verify both against the current dump.
+line numbers are not necessarily the diff's `new_line`. Verify both against the current dump — and when the
+file wasn't written in this session, `--dry-run` first: it resolves every position and prints what would go
+out, without touching the MR.
 
 ## 5. Existing discussions: read them before reviewing
 They're already in the dump (`<scratch>/mr<N>/discussions.json`). Note each discussion's `id`, its author, the
