@@ -46,7 +46,22 @@ service that had none.
    stronger and is the target for a new service that can be built that way. On an existing
    frontend, don't half-migrate: a token that's both in a JS-readable cookie and expected in a
    header gains nothing until the whole chain moves.
-4. Logout **invalidates on the server side** too: clearing the client store while the token stays
+4. **Never a token in a log either**, and a clean URL doesn't get you this for free: the usual leak
+   isn't the URL, it's logging a whole object that happens to carry the credential. Watch four
+   paths in particular:
+   - **HTTP client error objects.** A failed request's error carries the request config, headers
+     included. `logger.error(err)` on it writes the `Authorization` header out in full.
+   - **Exception reporters and breadcrumbs.** Crash/APM tooling serialises request headers and
+     cookies by default: the allowlist/denylist has to be configured, not assumed.
+   - **Debug dumps of a request** (curl-style replay lines, "request/response" trace logging):
+     convenient precisely because they're complete, which is the problem.
+   - **The token as a correlation key.** Never use it to tie logs together; that's what a
+     correlation ID is for.
+   Redact at the point of writing, on the field name (`authorization`, `cookie`, `set-cookie`,
+   `access_token`, `refresh_token`), not by trusting call sites to pass the right thing. A token in
+   a log is a valid credential sitting in a system with wider read access than the app itself, and
+   with a much longer retention than the token's own TTL.
+5. Logout **invalidates on the server side** too: clearing the client store while the token stays
    valid server-side is not a logout.
 
 ### 3. Authorisation: the check lives on the server
@@ -99,6 +114,9 @@ A new frontend follows it rather than inventing a variant.
    insufficient permission (expect a clean refusal, not a crash).
 2. Replay it a second time **concurrently** (two tabs on the same session) if the diff touched the
    refresh: that's where the race shows up.
+3. **Then search the logs the replay just produced** for the token value you were issued, and for
+   `Authorization`/`Bearer`. A clean grep is the evidence; assuming the redaction works is not. Do
+   this on the error paths too, since that's where whole objects get logged.
 
 ## Output / checkpoint
 The expiry/refresh path was observed, not assumed: evidence attached (log, network trace, or
