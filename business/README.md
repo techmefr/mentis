@@ -56,6 +56,8 @@ checklist assembled from public sources, not professional advice, and each one s
 |---|---|
 | `data-protection` | legal |
 | `licence-compliance` | legal |
+| `legal-documents` | legal |
+| `regulatory-watch` | legal |
 | `ux-writing` | UI/UX |
 | `product-marketing` | marketing |
 | `sales-support` | sales |

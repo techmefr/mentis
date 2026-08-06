@@ -127,6 +127,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `testing-blocks` | cross-cutting (meta) | Prove a block changes behaviour under pressure, before calling it done |
 | `distributing-blocks` | cross-cutting | Install/update for other teams: they pull and merge, we never push |
 | `maintaining-blocks` | cross-cutting (meta) | Audits this corpus: dangling references, stale statuses, blocks that duplicate each other |
+| `source-freshness` | cross-cutting (meta) | External facts carry a source and an expiry; refresh against real docs (`context7`), never memory |
 | `portless-ready` | infra | Makes a stack portless (HTTPS alias, port hygiene) |
 
 ### Business layer (second layer, weaker contract)
@@ -142,6 +143,8 @@ without internal expertise in that function.
 |---|---|---|
 | `data-protection` | legal | Which GDPR questions must reach a lawyer/DPO before the code is written, and what the code then owes |
 | `licence-compliance` | legal | Recognise the licence category before installing, escalate copyleft, meet attribution mechanically |
+| `legal-documents` | legal | Which public documents apply (terms, policies, DPA, SLA), and the factual pack a lawyer needs before drafting |
+| `regulatory-watch` | legal | Jurisdiction first, primary source or `[verify]`, and a deadline past its window is unverified |
 | `ux-writing` | UI/UX | Errors with a next action, buttons naming the outcome, empty states that aren't "No data" |
 | `product-marketing` | marketing | Positioning in four sentences; every factual claim carries a source before it ships |
 | `sales-support` | sales | Estimate ≠ commitment, never a date in the room, demos show what exists |
