@@ -23,7 +23,7 @@ migration pattern, of a boundary between modules): never for a local, easily rev
 3. **API docs**: the contract consumed by others (see `api-design`), not the same document as an
    ADR.
 
-### 2. ADR template: five fields, always the same
+### 2. ADR template: six fields, always the same
 1. **Status**: proposed / accepted / superseded (never an indefinite "in progress").
 2. **Date**: the date of the decision, to place the context in time.
 3. **Context**: the situation that made the decision necessary, what won't be obvious any more in
@@ -39,6 +39,16 @@ migration pattern, of a boundary between modules): never for a local, easily rev
 2. The decision history stays readable over time: understanding why we changed our mind matters as
    much as the current decision.
 
+### 4. Say when a trade-off is permanent
+1. Some decisions don't resolve a tension, they **hold it**: two things that both matter and pull in
+   opposite directions (a boundary that costs indirection but keeps two teams independent, duplication
+   kept deliberately because merging it would couple two lifecycles).
+2. When that's the case, say so in **Consequences**: this tension is deliberate and stays. Otherwise the
+   next reader sees only the cost, "simplifies" it, and rediscovers the reason the hard way — usually
+   during `simplify`, which is exactly the step that trusts an ADR.
+3. This is one sentence, not a section. An ADR that philosophises about tensions is worse than one that
+   names the one it's keeping.
+
 ## Output / checkpoint
 An ADR file created for every significant decision from the `archi` step, with the six fields
 filled in: never a field left empty "to go faster".
@@ -50,5 +60,8 @@ decision.
 
 ## Origin
 Rewrite of the `documentation-and-adrs` skill from a market generalist dev skill catalogue; the ADR
-template (5-6 fields) and the "never delete, always supersede" rule are taken as-is, rewritten to
-the Xefi template.
+template (six fields) and the "never delete, always supersede" rule are taken as-is, rewritten to
+the Xefi template. Section 4 comes from a `preserving-productive-tensions` skill in a market skills
+repository: the idea that some tensions are load-bearing and shouldn't be resolved is real, but as a
+standalone block it had nowhere to attach, so it's reduced here to the one place it changes behaviour —
+a `simplify` pass about to collapse a trade-off somebody chose.
