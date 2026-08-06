@@ -94,13 +94,14 @@ linters, orchestration frameworks, etc. on the market).
 | market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
 | market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
-| market skill/agent framework | `dispatching-parallel-agents`, `subagent-driven-development`, `writing-plans` | plan / orchestration | 🔎 (already native skills → to be *owned*) |
-| market Claude Code agent catalogues (several) | `git-advanced-workflows` (advanced worktrees) | start-feature / finish | 🔎 (reference cited, to be verified) |
-| market live-state tool | live state from reality + socket API | FLEET | 🔎 (after dogfooding) |
-| market replay/audit tool | post-hoc replay/audit | FLEET / graphify | 🔎 (nice-to-have) |
-| market token compression tool | compression + per-call token measurement | Taskling | 🔎 (rewrite vs consume the native one (to be decided)) |
-| market voice→vault pipeline | voice→vault pipeline | Lumia | 🔎 (reference, rewrite with a read-only classifier) |
-| market multi-agent orchestration framework | org-chart coordinator+agents | multi-agent dispatch | 🔎 (architecture reference only) |
+| market skill/agent framework | `dispatching-parallel-agents` + `subagent-driven-development` → merged into `dispatch-parallel` | orchestration | ✅ |
+| market skill/agent framework | `writing-plans` | plan | ✅ (owned by `plan`: atomic increments, dependency order, one task item each, and no auto-execution of the whole plan) |
+| market Claude Code agent catalogues (several) | `git-advanced-workflows` (advanced worktrees) | start-feature / finish | ✕ (duplicate lead, same source ruled out below: a reference course, not an orchestrated block; worktree mechanics already covered by `start-feature`/`merge-worktree`) |
+| market multi-agent orchestration framework | org-chart coordinator+agents | multi-agent dispatch | ✕ (architecture reading only, same conclusion as the row below: no forced fresh context, no evidence/verdict mechanism, so nothing to take for the GATE) |
+| market live-state tool | live state from reality + socket API | a separate personal project | 🔎 **deferred** (different product, not a mentis block) |
+| market replay/audit tool | post-hoc replay/audit | a separate personal project | 🔎 **deferred** (different product, not a mentis block) |
+| market token compression tool | compression + per-call token measurement | a separate personal project | 🔎 **deferred** (different product; and the native equivalent may be enough) |
+| market voice→vault pipeline | voice→vault pipeline | a separate personal project | 🔎 **deferred** (different product, not a mentis block) |
 | market Vue skill catalogue | `skills/vue/` (script-setup-macros, core-new-apis, advanced-patterns) | vue-nuxt-vuetify-conventions | ✅ |
 | market Nuxt skill catalogue | `skills/nuxt4-patterns/SKILL.md` | vue-nuxt-vuetify-conventions | ✅ |
 | market Nuxt skill catalogue (another) | `skills/nuxt/references/nuxt-composables.md` (useState/useCookie/useRequestFetch discipline, limited extract) | vue-nuxt-vuetify-conventions | ✅ |
