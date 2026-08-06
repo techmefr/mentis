@@ -14,8 +14,8 @@
 | Governance + template | `mentis/CONVENTIONS.md` | doc | Pub | ✅ |
 | Block registry + backlog | `mentis/CATALOG.md` | doc | Int* | ✅ |
 | Scouting still to triage | `mentis/SOURCING-INBOX.md` | doc | Int | ✅ |
-| Scouting comparison | `VEILLE.md` (root) | doc | **Int** | ✅ |
-| Infra / ports / SSO reality | `CHALLENGE.md`, `FRICTIONS.md` (root) | doc | **Int** | ✅ |
+| Scouting comparison | `VEILLE.md` — **outside this repo**, in the operator's own working folder | doc | **Int** | ✅ (exists, deliberately not committed here: rule C) |
+| Infra / ports / SSO reality | `CHALLENGE.md`, `FRICTIONS.md` — **outside this repo**, same folder | doc | **Int** | ✅ (exist, deliberately not committed here: they name real servers) |
 | **Design system** (token discipline, spacing, chips, buttons, containers, icons) | an org design catalogue (10 skills) | skills | Pub | ✅ (mined → `business/interface-design`, house values excluded) |
 | **RGAA accessibility** | an org design catalogue's accessibility skill (mockup) + `skills/accessibility` (rendered code, cites WCAG) | skill | Pub | ✅ (index — deliberately not mined, see `CATALOG.md` §0) |
 | **Laravel framework layer** (models, authorisation, schema, queries, tests, config) | an org catalogue (45 skills) | skills | Pub | ✅ (mined → `skills/laravel-conventions`; `php-patterns` stays below it, on the language) |
