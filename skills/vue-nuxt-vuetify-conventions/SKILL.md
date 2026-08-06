@@ -1,178 +1,249 @@
 ---
 name: vue-nuxt-vuetify-conventions
-description: Use when writing a component, a page or a composable on the Vue 3/Nuxt/Vuetify stack, applies the pure Composition API conventions, the Nuxt hydration patterns, the Vuetify patterns (utilities, component catalogue), the vue-doctor/nuxt-doctor style reactivity/security correctness, and the recurring Xefi review patterns. Merges these convention families of the same stack into a single block of the code step.
+description: Use when writing or reviewing anything on the Vue 3/Nuxt stack, the SFC shape, the composable and store discipline, typing, naming, i18n, layered structure, CSS naming, accessibility in templates, the UI-toolkit-first rule, hydration safety, the choice of data primitive, realtime events, and the correctness/security rules derived from the vue-doctor/nuxt-doctor linters. Self-contained, it assumes no plugin or catalogue installed.
 ---
 
 # vue-nuxt-vuetify-conventions
 
-Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing of frontend code on the Vue 3 + Nuxt + Vuetify
-stack: three families of rules (Vue, Nuxt, Vuetify) that overlap because it's always the same stack and the
-same step: a single block rather than three that step on each other.
+Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing of frontend code on the Vue 3 + Nuxt stack with a
+component library. Every rule below holds in a repo with **nothing installed** — that's the point of the
+block (`CONVENTIONS.md`, rule A).
 
-**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `nuxt` plugin ships 21
-skills on component structure, Vuetify, typing, Pinia and naming. **Where it's installed, it is the
-authority on those style and structure rules** — sections 1 to 3 below defer to it on any point where the
-two could differ. What this block keeps and the plugin has no equivalent for: section 4 (the
-reactivity/hydration correctness and security rules derived from the linter rule sets) and section 5 (the
-quality debt observed in real reviews).
+**Relation to an org skill catalogue.** Where a company ships its own versioned catalogue for this stack, it
+is the authority on **its** house style — its package list, its named internal libraries, its file
+layout — and it overrides this block on any point where the two differ. This block is the generic default,
+not a competitor: it states the rule and the reason, so an agent can apply it on a project that has no
+catalogue at all, and can recognise a house override as an override rather than as a contradiction.
 
 ## When
-As soon as a `.vue` component, a Nuxt page or a composable is written or modified, or a Vuetify component is
-chosen for a UI need, during `code` (6) or `tdd` (5).
+As soon as a `.vue` component, a Nuxt page, a composable, a store or a server route is written or modified,
+during `code` (6) or `tdd` (5).
 
 ## Steps
 
-### 1. Vue 3: pure Composition API
-1. `<script setup lang="ts">` mandatory. Never the Options API, never untyped JS.
-2. Props/emits/model through macros only: `defineProps<T>()`, `defineEmits<T>()`, `defineModel<T>()`. No
-   runtime `props: {}` object if the typing is enough.
-3. `shallowRef` by default for any non-primitive state (objects, arrays, heavy DOM refs). A deep `ref` only
-   if the nested reactivity is genuinely consumed.
-4. Never destructure a reactive `props` object directly (`const { foo } = props` breaks reactivity). Access
-   through `props.foo`, or go through `toRefs(props)` / a `computed`.
-5. A composable returns `ref`s/`computed`s, never raw values. If it takes a parameter that can be a value or
-   a ref, read it with `toValue()`: never `unref()` alone (no getter support).
+### 1. The shape of a component
+1. `<script setup lang="ts">`, always. Never the Options API, never untyped JS, never a `<script>` without
+   `setup`.
+2. Block order fixed across the codebase (`<template>` → `<script setup>` → `<style scoped>`) so a reviewer
+   reads every file the same way. `<style>` always scoped; global styles live in a project-level stylesheet.
+3. One component per file. A child component declared inside another file's script is invisible to search
+   and impossible to test on its own.
+4. Never ship an empty `<script setup>` or an empty `<style>` block: an empty block reads as logic deleted
+   halfway, and says nothing about the component's intent. Omit it.
+5. **A component renders, a composable thinks.** Logic — every `ref`, watcher, handler body, fetch and
+   lifecycle hook — belongs in a composable, not inline in `<script setup>`. This is the most-broken rule of
+   the set, so treat extraction as the default reflex rather than something to justify.
+6. Past a soft size limit (the project's, ~150–200 lines of template), split rather than scroll.
+7. Use the shorthand when the prop name matches the variable being passed.
+8. Props/emits/model typed at the boundary. Which form — the generic macro or the runtime/validator form —
+   is a project decision, applied consistently; what is never acceptable is an untyped prop.
+9. Never destructure a reactive `props` object directly (`const { foo } = props` breaks reactivity). Read
+   `props.foo`, or go through `toRefs(props)` / a `computed`.
+10. `shallowRef` for non-primitive state (objects, arrays, heavy DOM refs) unless the nested reactivity is
+    genuinely consumed.
+11. A composable returns `ref`s/`computed`s, never raw values. A parameter that may be a value or a ref is
+    read with `toValue()`, never `unref()` alone (no getter support).
 
-### 2. Nuxt: hydration safety and fetch choice
-1. **Never** `Date.now()`, `Math.random()`, or any direct `window`/`document` access at the level of the
-   synchronous `setup()`: it diverges between the server render and the client render (hydration mismatch).
-   Isolate that kind of value in `onMounted`, behind `import.meta.client`, or in `<ClientOnly>`.
-2. Choice of data primitive according to the need:
+### 2. Composables and stores
+1. **A composable owns exactly one domain**, and a function lives in the composable whose subject it
+   matches — a contract-sync function belongs in the contract composable, never in the contract-line one.
+   The name is a promise about what's inside; "I was already in this file" is how that promise breaks.
+2. **No namespace stutter**: a member reached through something that already names its domain doesn't repeat
+   it. `useContract().sync()`, not `useContract().syncContract()`.
+3. A store (Pinia or equivalent) is for state genuinely shared across **unrelated** components or pages.
+   Everything else stays a composable, a `ref`, or an SSR-safe shared state primitive — a store used as a
+   convenient global is how state becomes untraceable.
+4. `defineStore()` is called once at module level, never inside a `setup()`/composable/function body:
+   otherwise each call recreates a store definition instead of reusing the shared singleton.
+5. Async loading and error state belong to whatever owns the fetch, exposed explicitly (`data`, `pending`,
+   `error`), never inferred by the caller from a null check.
+6. A data-fetching composable carries its own fetch and returns `data`/`refresh`.
+
+### 3. Typing
+1. `any` is banned; `unknown` keeps the value opaque and forces the narrowing you needed anyway. The two
+   narrow exceptions — an untyped third-party lib with no shim available, and a generic parameter defaulting
+   for backwards-compatible inference — stay confined to one file.
+2. `import type` for type-only symbols, so the build can erase them.
+3. Business types live in one predictable place per module rather than next to whichever component first
+   needed them, and the project's prefix/casing convention is applied uniformly (a mixed codebase is worse
+   than either convention).
+4. A mapped type (`Record<K, V>`) rather than an interface with an index signature.
+5. Annotate explicitly by default; fall back to inference only where the explicit type would be genuinely
+   unreadable.
+6. No type assertion (`as`) where a narrowing check would do: an assertion is a claim the compiler can't
+   check.
+
+### 4. Naming and style
+1. Casing fixed per artefact kind (files, components, composables, stores, types, constants) and applied
+   without exception.
+2. Booleans prefixed `is`/`has`/`can`/`should`. `loading` is ambiguous — a boolean? a promise? a count?
+   `isLoading` isn't.
+3. A callback parameter is the full singular word of the collection it iterates (`post` in `posts.map`),
+   never `p` or `u`. A `reduce` accumulator is named for what it accumulates (`runningTotal`, `byId`),
+   never `acc`.
+4. Functions declared as arrow functions assigned to a `const`, consistently — the point is one shape
+   across the codebase, not a claim that `function` is broken.
+5. CSS class names follow a single naming scheme, BEM by default (`.block`, `.block__element`,
+   `.block--modifier`) — this is about naming, not about the preprocessor, and applies identically to plain
+   CSS.
+6. Class and style bindings expressed through the framework's binding syntax rather than string
+   concatenation built by hand.
+7. Don't hand-import what the framework auto-imports (in Nuxt: composables, components, stores, utils, and
+   your own project types). A manual import line for an auto-imported symbol is noise that drifts out of
+   date; the fix is usually deleting the import, not aliasing it.
+8. Prefer an import alias over a relative path across folders, once the architecture linter resolves it.
+
+### 5. Structure and dependencies
+1. Separate code by **technical concern** vs **functional/business concern** (the layered/OSDD split), and
+   `technical/` never imports `functional/`: if a value is missing, the caller passes it as a parameter.
+2. Tests and stories sit where the project decided — a dedicated folder mirroring the source tree, or
+   co-located — but the decision is uniform. Half a codebase each way costs more than either choice.
+3. One package manager per project, and a curated list of approved dependencies. A new dependency is a
+   decision (licence, maintenance, bundle weight), not a reflex; check what's already there first.
+4. Declarative config in a `config/` folder as soon as N near-identical entities are being wired by hand
+   with duplicated watchers and hardcoded arrays.
+5. Look for an existing nearby component/composable before writing a new one.
+
+### 6. i18n
+1. Locale files flat, no nested objects: nesting makes a key impossible to grep and invites two keys for one
+   string.
+2. Keys are the full source sentence in the source language, lowercase — in the source-language file, key
+   and value are identical. A key like `err.42` tells a translator nothing.
+3. Domain-specific strings live with the domain that owns them (its own `lang/` folder, merged at runtime);
+   only genuinely transverse strings — navigation, shared buttons, generic errors used by more than one
+   feature — go in the central file.
+4. An i18n label inside a list/config = `computed(() => [...])`, never frozen at `setup()` time: a label
+   frozen at setup doesn't follow a locale change.
+5. Page title/subtitle metadata is translated too. A `definePageMeta`-style title left as a raw string is
+   the page that stays in the wrong language.
+6. No user-visible text hardcoded in a component. Where a project has no i18n layer at all, the text still
+   comes from one place, not from wherever it was first typed.
+
+### 7. Accessibility in templates
+1. Native semantic element (or the toolkit's wrapper for it) first — never a clickable `div`/`span`.
+2. Heading order respected, no skipping levels.
+3. Page shell wrapped in landmark elements.
+4. Every icon-only control gets an accessible name (`aria-label`).
+5. Every toggleable / expandable / selectable / checked / current state exposed through the matching ARIA
+   attribute, not through a CSS class alone.
+6. An icon sitting next to visible text is decorative: hide it from assistive tech rather than having it
+   read twice.
+7. Async UI feedback (toasts, status messages, form error summaries) announced through a live region.
+8. An open modal: focus placed on it, trapped inside, returned to the trigger on close.
+9. Never block paste on an authentication field, never disable viewport zoom. If the layout breaks at 200%,
+   the layout is the problem.
+
+### 8. The component library
+1. **Toolkit first**: if the chosen UI library ships a component, composable, directive or utility class for
+   the need, use it rather than pulling another package or hand-rolling a `<div>`. Mixing a second UI library
+   splits both the visual language and the mental model.
+2. Go to the most specific component available (a data table for a sortable/filterable list of rows, a
+   dialog for a one-off confirmation, a chip for a status) rather than assembling one from primitives.
+3. Spacing, visibility and state utilities come from the toolkit's own classes (`ma-*`, `pa-*`, `d-*`,
+   cursor and opacity helpers) rather than a custom scoped `<style>`. A scoped style for a simple
+   padding/margin/background is a review signal.
+4. Check a prop really exists in the project's version of the toolkit before passing it. A prop that
+   silently does nothing (a `:show-select="false"` on a wrapped data table) is the recurring shape of this
+   mistake, and it survives review because nothing errors.
+5. Inside an item slot of a data table / autocomplete / select, the object exposed is often the library's
+   internal wrapper: read the data through its raw payload (`item.raw`), not through `item` directly.
+6. A carve-out from rule 1 is legitimate — many projects route notifications to a dedicated toast library
+   rather than the toolkit's snackbar, and date handling to a dedicated date lib. Read the project's
+   decision instead of assuming either way.
+7. Extend a generated/vendored component through a wrapper, never by editing the generated file in place.
+
+### 9. Nuxt: hydration safety and the choice of data primitive
+1. **Never** `Date.now()`, `Math.random()`, or any direct `window`/`document`/`navigator`/`localStorage`
+   access at the level of the synchronous `setup()`: those globals don't exist server-side, and a
+   non-deterministic value diverges between the two renders (hydration mismatch). Isolate it in
+   `onMounted`, behind `import.meta.client`, or in `<ClientOnly>`.
+2. The same rule inside a `computed` getter: a `computed` is evaluated server-side too.
+3. Choice of data primitive according to the need:
    - `useFetch`: a simple call tied to the component's lifecycle, automatic cache/dedup.
-   - `useAsyncData`: transformation/aggregation logic before returning, or several sources combined.
+   - `useAsyncData`: transformation/aggregation before returning, or several sources combined.
    - `$fetch`: an imperative call outside the render cycle (form submit, user action).
    - `useState`: SSR-safe shared state between components (not a classic global `ref`).
    - `useCookie`: state that has to survive a reload and be readable server-side.
-   - `useRequestFetch`: a server call that has to forward the incoming request's headers/cookies (SSR to an
-     authenticated internal API).
-3. `routeRules` (`nuxt.config`) to arbitrate rendering per route (`ssr: false`, `prerender`, `swr`, cache)
+   - `useRequestFetch`: a server call that has to forward the incoming request's headers/cookies.
+4. `useAsyncData`/`useFetch` called in a loop without an explicit string key cause duplicated requests and
+   cache fragmentation: always a unique key passed explicitly inside a loop.
+5. `routeRules` (`nuxt.config`) to arbitrate rendering per route (`ssr: false`, `prerender`, `swr`, cache)
    rather than conditionals in every page.
-4. Lazy hydration (`<Lazy...>` or `hydrate-on-visible`/`hydrate-on-interaction` when Nuxt exposes them) for
-   any heavy component outside the initial viewport.
-5. **Review checklist before merging a Nuxt page/component**:
-   - [ ] no non-deterministic value generated outside a client hook
-   - [ ] the fetch primitive chosen matches the need (not `useFetch` everywhere out of reflex)
-   - [ ] no data leaking between requests through shared module-level state
-   - [ ] `routeRules` set if the page needs a rendering mode different from the default
+6. Lazy hydration (`<Lazy...>`, `hydrate-on-visible`/`hydrate-on-interaction`) for any heavy component
+   outside the initial viewport.
+7. **Checklist before merging a page/component**: no non-deterministic value outside a client hook; the
+   fetch primitive matches the need; no data leaking between requests through module-level state;
+   `routeRules` set if the page needs a non-default rendering mode.
 
-### 3. Vuetify: the component that matches the need, and utility classes
-1. Need → component table (go to the most specific one, never a custom `<div>` if Vuetify already has the
-   component):
+### 10. Realtime events
+1. An incoming realtime/websocket message is **translated into an application-level hook or event**, not
+   consumed inline in the component that happens to be mounted. A component subscribing directly couples
+   the transport to the view and leaks a listener the moment it unmounts.
+2. One place owns the connection and its lifecycle (connect, reconnect, teardown); components subscribe to
+   the application event, not to the socket.
+3. A payload arriving from the wire is untrusted input: validate it at the boundary like any other.
 
-   | Need | Vuetify component |
-   |---|---|
-   | Sortable/filterable list of rows | `VDataTable` (server-side if pagination is on the backend) |
-   | Form + validation | `VForm` + `VTextField`/`VSelect` + rules |
-   | One-off confirmation/edit | `VDialog` |
-   | Contextual side panel | `VNavigationDrawer` |
-   | Transient notification | `VSnackbar` |
-   | Status/label | `VChip` |
-   | Metric at a glance | `VCard` + `VSparkline`/`VProgressLinear` |
-2. Spacing and visibility: always the Vuetify utility classes (`ma-*`, `pa-*`, `d-*`, `bg-*`,
-   `cursor-not-allowed`, `opacity-0`…`opacity-100`) rather than a custom scoped `<style>`. A scoped style for
-   a simple padding/margin/background colour is a review signal.
-3. Inside an `#item` slot of `VDataTable`/`VAutocomplete`/`VSelect`, the object exposed is the internal
-   `ListItem`: always read the data through `item.raw`, never `item` directly.
-4. Mini-catalogue of assembly patterns:
-   - **Dashboard**: a grid of `VCard`s (one metric per card) + a shared filter area above, every counter
-     scoped on the same active filter.
-   - **CRUD + dialog**: `VDataTable` (the list) + a single `VDialog` reused for create/edit, a
-     `mode: 'create' | 'edit'` state driven by a composable.
-   - **List**: a server-side `VDataTable` as soon as pagination/sorting has to hit the backend; `v-for` +
-     `VCard` only for a short unpaginated list.
-   - **Form-detail**: a `VForm` in read-only mode toggled into editing (not two separate components),
-     validation before `submit`.
-   - **Login**: `VForm` + a password-type `VTextField` with a visibility toggle, errors inline under the
-     field concerned (not a `VSnackbar` for a field error).
-
-### 4. Reactivity/hydration correctness and security (vue-doctor/nuxt-doctor)
-Deterministic rules taken from a market scanner (the `oxlint-plugin-vue-doctor` / `oxlint-plugin-nuxt-doctor`
-packages, itself explicitly inspired by its React equivalent but locked to Vue 3 + Nuxt 4: so directly
-applicable to this stack, with no niche-framework filtering to do as on the React side).
-
-**Reactivity and composition, the most frequent mistake**:
-1. `defineStore()` is called once at module level, never inside a `setup()`/composable/function body:
-   otherwise each call recreates a store definition instead of reusing the shared singleton. The
-   `useXxxStore()` it returns is called normally inside `setup()`.
-2. Never invoke a prop callback (`props.onXxx()`) during the body of `setup()` or inside a `computed` getter:
-   that's a side effect on the render path, replayed on every re-evaluation and during SSR. Where it goes:
-   an event handler, a `watch`, or a lifecycle hook.
-3. A `watch`/`watchEffect` that registers a listener/timer/observer (`addEventListener`,
+### 11. Reactivity and security correctness (linter-derived)
+1. Never invoke a prop callback (`props.onXxx()`) during the body of `setup()` or inside a `computed`
+   getter: that's a side effect on the render path, replayed on every re-evaluation and during SSR. It goes
+   in an event handler, a `watch`, or a lifecycle hook.
+2. A `watch`/`watchEffect` that registers a listener/timer/observer (`addEventListener`,
    `setInterval`/`setTimeout`, `IntersectionObserver`/`MutationObserver`/`ResizeObserver`,
-   `WebSocket`/`EventSource`/`BroadcastChannel`) must have its exact cleanup returned or done through
-   `onWatcherCleanup`: the same rule as on the React side (the corresponding section of
-   `react-nextjs-conventions`): whatever is added must be explicitly removed.
+   `WebSocket`/`EventSource`/`BroadcastChannel`) must have its **exact** cleanup returned or done through
+   `onWatcherCleanup`: whatever is added is explicitly removed.
+3. Never an auth token/secret in `localStorage`/`sessionStorage`: exposed to any XSS payload. A cookie
+   that's `HttpOnly`, `Secure`, `SameSite` and set server-side is the only sane option.
+4. `eval()`, `new Function()`, and `setTimeout`/`setInterval` with a string argument are XSS/RCE vectors:
+   explicit logic, `JSON.parse` for data.
+5. Assigning `innerHTML`/`outerHTML` injects unsanitised markup (a direct DOM XSS sink): `textContent` for
+   text, or sanitise before assigning if HTML really is necessary.
+6. Server routes (h3): `throw createError()`, never `throw new Error()` — the latter leaks the stack trace
+   and internal details.
+7. `readValidatedBody()` parses and validates the request body in one step; `readBody()` leaves you to
+   remember the validation.
+8. The `event` parameter of a `defineEventHandler` is typed explicitly; an untyped handler loses the
+   guardrails on `event.context`/`event.node`.
+9. No mutable module-level state on the server side, shared between concurrent requests.
 
-**Nuxt: hydration, the second most frequent mistake**:
-4. No direct access to `window`/`document`/`navigator`/`localStorage`/`sessionStorage` at the root level of a
-   `<script setup>`: it crashes on the server side (those globals don't exist under SSR). Guard with
-   `import.meta.client` (or `process.client`) or move it into `onMounted`.
-5. The same rule inside a `computed` getter: a `computed` is also evaluated on the server side, so reading a
-   browser global inside it crashes or produces a hydration mismatch instead of waiting for the client mount.
-6. `useAsyncData`/`useFetch` called in a loop without an explicit string key as the first argument cause
-   duplicated requests and cache fragmentation; always a unique key passed explicitly inside a loop.
-
-**Security, never negotiable**:
-7. Never an auth token/secret in `localStorage`/`sessionStorage`: exposed to any XSS payload. A cookie that's
-   `HttpOnly`, `Secure`, `SameSite` and set server-side is the only sane option.
-8. `eval()`, `new Function()`, and `setTimeout`/`setInterval` with a string argument are XSS/RCE vectors:
-   replace them with explicit logic, `JSON.parse` for data.
-9. Assigning `innerHTML`/`outerHTML` injects unsanitised markup (a direct DOM XSS sink); `textContent` for
-   text, or go through DOMPurify before assigning if HTML really is necessary.
-
-**Nuxt server routes (h3/Nuxt 4)**:
-10. `throw new Error()` in a server handler leaks the stack trace and internal details; `throw createError()`
-    (h3) for a clean HTTP error with no stack leak.
-11. `readBody()` is the legacy h3 reader; under Nuxt 4/h3 v2, `readValidatedBody()` parses and validates the
-    request body in a single step: no manual validation afterwards.
-12. The `event` parameter of a `defineEventHandler` must be typed explicitly
-    (`defineEventHandler<H3Event>(...)` or a direct annotation); an untyped handler loses autocompletion and
-    the type guardrails on `event.context`/`event.node`.
-
-### 5. Recurring Xefi review patterns (quality debt observed in the field)
-A short checklist, findings repeated in frontend reviews on this stack.
-
-1. Boolean prefixed with `is`/`has`/`can`/`should`, always.
-2. Check that a Vuetify prop really exists (the project's version) before passing it.
-3. An i18n label in a list/config = `computed(() => [...])`, never frozen at `setup()` time.
-4. A data-fetching composable = it carries its own `useAsyncData`/`useFetch`, returns `data`/`refresh`.
-5. Response/DTO interface in the module's `types/index.ts`, prefixed with `I`, not local.
-6. No pre-emptive chunking/retry without a verified backend constraint. A notification in a loop = only once.
-7. Look for an existing nearby component/composable before writing a new one.
-8. An import alias rather than a relative path across folders (if the architecture linter resolves it).
-9. Declarative config in `config/` as soon as N near-identical entities are wired by hand.
-10. A summary card above a table: the total recomputed on the table's active filters.
-11. Table filter: read the backend Resource/Model (id/name/slug) before writing the `whereIn`/sort.
-12. Endpoint response: a status/type + a human message, not just an HTTP code.
-13. `.client.vue`: DOM ref through `watch(..., { immediate: true, flush: 'post' })`; API exposed through
-    `emit('ready', api)`, not `defineExpose`.
-14. Dark/light switch: cut the CSS transitions during the change (a temporary class, a double
-    `requestAnimationFrame`, an SSR guard) to avoid the flash on refresh.
-15. An icon-only button with no visible label = a mandatory `aria-label`. An open modal = focus placed on it
-    and trapped inside, returned to the trigger on close.
-16. A default import from an icon lib (the whole lib instead of one icon) or a heavy module loaded at the
-    level of a rarely visited route = bloats the bundle for nothing: named import / lazy component.
+### 12. Recurring review patterns (quality debt observed in the field)
+1. No pre-emptive chunking/retry without a verified backend constraint. A notification in a loop = once.
+2. A summary card above a table: the total recomputed on the table's **active filters**, not on the user's
+   full scope.
+3. Table filter: read the backend Resource/Model (does the field take an id, a name, a slug?) before writing
+   the `whereIn`/sort. A 422 from a live request is not a specification.
+4. Endpoint response: a status/type **and** a human-readable message, not just an HTTP code — the front has
+   to display something.
+5. A client-only component: DOM ref through `watch(..., { immediate: true, flush: 'post' })`; API exposed
+   through `emit('ready', api)`, not `defineExpose` (a client-only wrapper doesn't relay it).
+6. Dark/light switch: cut the CSS transitions during the change (a temporary class, a double
+   `requestAnimationFrame`, an SSR guard) to avoid the flash on refresh.
+7. A default import from an icon lib (the whole lib instead of one icon), or a heavy module loaded at the
+   level of a rarely visited route, bloats the bundle for nothing: named import / lazy component.
+8. Check the permission name against the backend before wiring a menu entry or a guard on it: a plausible
+   name that doesn't exist fails open or hides the entry for everyone.
 
 ## Output / checkpoint
-Code compliant with the five sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and
+Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and
 `review` (8), like the rest of the code produced at the `code`/`tdd` step.
 
 ## Guardrails
-No comments in the code produced. Don't reinvent a component Vuetify already provides. Don't duplicate an
-existing composable before checking that no nearby composable already covers the need. `technical/` never
-imports `functional/`; if a value is missing, it's passed as a parameter from the caller. When in doubt about
-a Nuxt/Vuetify rule not covered here, escalate rather than guess.
+No comments in the code produced. Don't reinvent a component the UI toolkit already provides. Don't duplicate
+an existing composable before checking that no nearby one covers the need. `technical/` never imports
+`functional/`. Where an org catalogue is installed and disagrees with a rule here, **it wins** — say so
+explicitly rather than silently applying either one. When in doubt about a rule covered by neither, escalate
+rather than guess.
 
 ## Origin
-Ideas taken from: a market Vue skill catalogue (skills/vue/, SKILL.md, script-setup-macros.md,
-core-new-apis.md, advanced-patterns.md) for the Vue section; a market Nuxt skill catalogue
-(skills/nuxt4-patterns/SKILL.md) and another market Nuxt skill catalogue
-(skills/nuxt/references/nuxt-composables.md, an extract limited to the useState/useCookie/useRequestFetch
-discipline) for the Nuxt section; a market Vuetify skill catalogue (.deprecated/vuetify-4/SKILL.md +
-references/patterns/) for the Vuetify section; a market linter (the
-`oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor` packages, itself inspired by its React equivalent,
-locked to Vue 3 + Nuxt 4) for the correctness/security section; internal Xefi review feedback (recurring
-quality debt observed across several frontend projects on the same stack, generalised and de-identified) for
-the review patterns section; a market open source TypeScript project (the `typescript-review` skill,
-accessibility/bundle-weight blind spots) for items 15-16 of that same section. Mechanisms rewritten, no copied
-text.
+Ideas taken from: a market Vue skill catalogue (script-setup macros, core APIs, advanced patterns) and a
+market Nuxt catalogue (`nuxt4-patterns`, plus a `nuxt-composables` extract limited to the
+`useState`/`useCookie`/`useRequestFetch` discipline) for sections 1 and 9; a market Vuetify catalogue for
+section 8; a market linter (the `oxlint-plugin-vue-doctor`/`oxlint-plugin-nuxt-doctor` packages, itself
+inspired by its React equivalent, locked to Vue 3 + Nuxt 4) for section 11; a market open source TypeScript
+project (the `typescript-review` skill) for the accessibility/bundle-weight blind spots; **an org skill
+catalogue for this stack (21 skills: SFC shape, composable cohesion, namespace stutter, typing, naming,
+callback naming, arrow functions, auto-imports, BEM, class binding, i18n conventions and domain placement,
+layered structure, package management, store management, test placement, template ARIA and semantics,
+toolkit-first, realtime)** — rules extracted, de-identified and rewritten generically, with everything
+naming an internal library, package list or project deliberately left out (rule C). Internal review feedback
+(recurring quality debt across several projects on this stack, generalised) for section 12. Mechanisms
+rewritten, no copied text. Stamped 2026-08-06.

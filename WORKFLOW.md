@@ -56,8 +56,9 @@ The authoritative registry, with maturity per block, is `CATALOG.md` §1. This i
 
 **Two things are deliberately outside this pipeline.** The `business/` blocks (legal, marketing, sales,
 communication, product) sit alongside it and **never gate a step** — they carry a weaker contract, stated in
-`business/README.md`. And the `xefi-claude-skills` marketplace owns the per-stack style and structure rules;
-where it's installed, the conventions blocks below defer to it (`CATALOG.md` §0).
+`business/README.md`. And an org skill catalogue, where a company ships one, owns **its** house style; the
+conventions blocks below carry the generic form of those rules and are overridden by it where it's installed,
+without depending on it (`CATALOG.md` §0).
 
 | Step | Skill | Agents involved |
 |---|---|---|
@@ -120,10 +121,13 @@ organisational tidiness, each one is load-bearing.
   human. No agent merges its own work. Outside the code this is stricter still: nothing is published,
   posted or replied to on a public account without a human approving that exact content
   (`business/social-publishing`, `business/community-management`).
-- **Own a rule, or defer to whoever does.** Two sources for one rule is the same failure as a producer
-  judging itself: nobody knows which one holds. Where the `xefi-claude-skills` marketplace covers a
-  subject, it wins and mentis points at it (`CATALOG.md` §0). Where a fact comes from outside the repo
-  entirely, it carries a source and an expiry (`skills/source-freshness`).
+- **Own a rule, or defer to whoever does — but never at the cost of not working alone.** Two sources for one
+  rule is the same failure as a producer judging itself: nobody knows which one holds, and the second copy
+  drifts into a contradiction (`CATALOG.md` §0 has two real examples). Deferring is the answer when the other
+  side ships the thing that runs — a package installed in the project, a versioned catalogue on the machine.
+  It is *not* the answer when it would leave a step broken on a plain repo: there, the rule gets rewritten
+  generically and owned here, with the other side named as the override. Where a fact comes from outside the
+  repo entirely, it carries a source and an expiry (`skills/source-freshness`).
 
 When a block starts needing "and also", that's the signal to split it, not to grow it.
 

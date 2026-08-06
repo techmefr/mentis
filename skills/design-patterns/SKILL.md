@@ -16,11 +16,11 @@ a decision.
 The useful skill here is subtraction. Two thirds of the catalogue is already in the framework you're
 using, and naming a structure you don't have yet is how a one-caller interface gets built.
 
-**Boundary with the `xefi-claude-skills` plugin.** Its `design-patterns` plugin holds per-pattern
-implementation skills (`state`, `strategy`, `null-object`, `object-construction`) with language-specific
-references. Those answer **how** to implement one well. This block answers **whether to reach for one at
-all** — and once the answer is yes, the plugin's skill for that pattern is the authority on the shape, not
-this file. Two responsibilities, one boundary; don't restate their content here.
+**Relation to an org skill catalogue.** Where a company ships per-pattern implementation skills with
+language-specific references, those are the authority on **how** to shape each pattern in that house style.
+This block owns **whether to reach for one at all**, plus the entry conditions below — the trigger that says
+a given pattern is now earned. Where such a catalogue is installed, follow its shape and this block's
+threshold.
 
 ## When
 When about to introduce a pattern by name; when a design discussion produces one as an answer; when
@@ -67,7 +67,31 @@ Not a rejection of the catalogue — the cases that hold up in our stacks:
    abstraction (`background-jobs-conventions`).
 5. **State when the transitions are the domain** and getting them wrong is the bug you're preventing.
 
-### 4. If you use the name, use it correctly
+### 4. The four with a concrete entry condition
+For these, the trigger is mechanical enough to state — which is what makes them reviewable rather than a
+matter of taste. Each still passes §1's second-real-case threshold first.
+
+1. **Strategy** — a `switch`/`match` on a `type`/`channel`/`provider`/`mode`/`kind` field with **3+ branches
+   that keeps growing**, or sibling classes differing only in one method. The axis of variation must be
+   **one**: two axes means you're about to build a matrix, and a map of functions keyed by the pair is
+   smaller. Each strategy owns its tests.
+2. **State** — one object moves through **named statuses** (`pending` → `approved` → `paid` → `refunded`) and
+   its behaviour shifts at each step, with the `if`/`match` on that field repeated across **several**
+   methods. The trigger is the repetition, not the existence of a status field: a status read in one place is
+   a status field, not a state machine. What you're really buying is that an invalid transition becomes
+   unrepresentable — if the transitions don't matter, this is over-abstraction.
+3. **Null Object** — the same "is this collaborator absent?" branch repeats (`if ($logger)`, `if ($user)`,
+   optional constructor arguments defaulted to null, a lookup returning null for an unknown key, a
+   guest/anonymous case). Substitute an instance that does nothing, so the caller stops asking. It pays when
+   the branch is **repeated**; a single null check is a null check.
+4. **Object construction** — the honest answer to "this constructor has too many parameters", and the
+   smallest fix wins: a **parameter object** (group the ones that travel together), a **named constructor**
+   (`::fromX`, a `from_x` classmethod) when there are several distinct valid ways to build the thing, a
+   **readonly class / dataclass / validated model** when it's really a value, and a **fluent builder** only
+   when construction genuinely has many optional parts. Reach for the builder last: it's the most code and
+   the least type safety of the four.
+
+### 5. If you use the name, use it correctly
 1. **A misnamed pattern is worse than an unnamed structure.** "Factory" on something that isn't one
    sends every future reader looking for indirection that doesn't exist.
 2. **Name it in the code or in the ADR, once** — not in a comment (`documentation-adr` §1.2, and no
@@ -95,10 +119,12 @@ The catalogue itself is the classic Gang of Four set as published on the widely 
 Its catalogue pages describe when each pattern applies and carry **no caution about overuse**, which is
 the gap this block exists to fill: taken at face value, a catalogue is read as a menu.
 
-A dedup audit on 2026-08-06 found the installed `xefi-claude-skills` marketplace already ships four
-per-pattern implementation skills. The boundary stated above is the resolution: they own the shape of each
-pattern, this block owns the decision to use one — which none of them covers, since a skill about a pattern
-assumes you've decided to use it.
+Section 4's entry conditions come from **an org skill catalogue's four per-pattern skills** (state, strategy,
+null object, object construction), extracted and rewritten generically: their triggers are precise and
+worth owning here, while their language-specific implementation references stay with them (rule C — nothing
+naming an internal library or project crossed over). Where that catalogue is installed it remains the
+authority on the shape; this block keeps the decision and the trigger, which a skill about a pattern can't
+cover, since it assumes you've already decided to use it.
 
 What's ours: recognise-don't-apply with the second-real-case threshold, the framework-already-does-it
 subtraction pass (which is where most of the catalogue goes in our stacks), Adapter/Facade justified by

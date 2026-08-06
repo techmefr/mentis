@@ -16,10 +16,10 @@ master yet is more credible than displayed certainty.
 
 ## Where the rules come from, in this order
 
-1. **The `xefi-claude-skills` plugin's `python` skills, when installed** — they are the organisation's authority on
+1. **An org skill catalogue for this stack, where one is installed** — it is the organisation's authority on
    the toolchain (ruff / uv / mypy-strict), type hints on new code, errors-as-values at public boundaries, explicit
    is-None checks, and the framework conventions. **Read them rather than restating them**, and never contradict one.
-2. **`skills/python-conventions`** for what the plugin doesn't cover, and as the whole basis on a repo outside that
+2. **`skills/python-conventions`**, the mentis-side default, and the whole basis on a repo outside that
    framework.
 3. **The repo's own existing code.** Where the repo already does otherwise everywhere, note the inconsistency rather
    than imposing a rule solo.

@@ -199,7 +199,7 @@ Two consequences of the same honesty:
   a separate folder precisely so the dev core's claims aren't diluted by
   association — the reasoning is in `business/README.md`.
 - **Where someone else already owns a rule, I don't.** The
-  `xefi-claude-skills` marketplace (211 skills, versioned, installed org-wide)
+  org skill catalogue (211 skills, versioned, installed org-wide)
   is the authority on per-stack style and structure. Two sources for one rule
   is the same failure as a producer judging its own work: nobody knows which
   holds. The boundary is drawn block by block in `CATALOG.md` §0.

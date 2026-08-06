@@ -11,23 +11,37 @@
 ## 0. Dedup audit vs the `xefi-claude-skills` marketplace (2026-08-06)
 
 The installed marketplace ships **211 skills** across ten plugins: laravel 45, flutter 37, react 36, nuxt
-21, python 20, csharp 15, global 14, design 10, project-management 9, design-patterns 4. It is versioned,
-org-wide and already installed on Xefi machines — so on any subject it covers, **it is the authority and
-mentis defers**. A second source for one responsibility is the bug `maintaining-blocks` §4 exists to catch.
+21, python 20, csharp 15, global 14, design 10, project-management 9, design-patterns 4. It is versioned and
+org-wide, so **where it is installed it is the authority on the house style** — its package lists, its
+internal libraries, its tracker charter, its design tokens.
 
-Overlaps found and resolved, each by a stated boundary written into the mentis block:
+**The resolution changed on 2026-08-06, deliberately** (see the two entries at the end of this section). The
+first pass drew a boundary per block and deleted the mentis side of each overlap. That pass ran on two blocks
+before the direction was reversed: deferring means a block **stops working when the catalogue isn't
+installed**, which is rule A's soft-dependency failure — and mentis is meant to hold up on a plain repo with
+nothing installed. So the rules were **mined, de-identified and rewritten generically** instead, and the
+boundary now runs the other way: mentis carries the generic default, the catalogue overrides it as a house
+style where present. Nothing naming an internal library, package list, product, tracker or design value
+crossed over (rule C).
 
-| mentis block | Plugin counterpart | Boundary |
+| Subject | Catalogue counterpart | Where it landed in mentis |
 |---|---|---|
-| `skills/design-patterns` | `design-patterns` (4 per-pattern skills) | they own **how** to shape each pattern; we own **whether** to reach for one — which none of them covers |
-| `business/ux-writing` | `design:ux-writing` | it owns the wording rules at **design time** in a mockup; we keep the **code-time** pass on text that never passes through one |
-| `skills/accessibility` | `design:accessibility` | it owns RGAA thresholds on a **mockup**; we keep the **rendered-code** pass (semantics, focus order, ARIA, forms) |
-| `skills/vue-nuxt-vuetify-conventions` | `nuxt` (21) | it owns structure/style; we keep the linter-derived correctness rules and the debt observed in real reviews |
-| `skills/react-nextjs-conventions` | `react` (36) | same split |
-| `skills/php-patterns` | `laravel` (45) | it owns the framework layer; we stay below it, on the language |
-| `skills/python-conventions` | `python` (20) | it owns the toolchain and framework doctrine; we're the fallback outside it |
-| `skills/dotnet-conventions` | `csharp` (15) | it owns the rules; we keep the analyzer baseline for a codebase without it |
-| `business/product-ownership` | `project-management` (9) | it owns the story artefact, its review axes, Jira mechanics and estimation; we own the decision around it (priority, refusal, criteria, ready/done) |
+| Cross-language rules | `global` (14) | **`skills/code-baseline`** (new): no comments, no ticket refs, no AI attribution, file ceiling, no god classes/bag-names, domain exceptions, external APIs behind an owned client, parsed files as typed objects, distinct concepts as distinct types, tests owed by new behaviour, diff coverage |
+| Laravel | `laravel` (45) | **`skills/laravel-conventions`** (new): thin models, events over observers, permissions not roles, no DB enums, no cascade, no queries in loops, validation, typing, naming, config, seeders, soft-delete pruning, job ordering, REST shape, test tiers. `php-patterns` stays on the language below it |
+| Flutter | `flutter` (37) | **`skills/flutter-conventions`** (new): context across async gaps, disposal, decomposition, constraints, the four async states, routing, forms, state management, secure storage, permissions, tests |
+| Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (12 sections) |
+| React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
+| Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
+| C#/.NET | `csharp` (15) | `skills/dotnet-conventions`, rewritten self-contained (6 sections) |
+| Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded** |
+| Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
+| Patterns | `design-patterns` (4) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction), on top of the whether-to-reach-for-one decision that remains ours |
+
+Two subjects were **not** brought over, on purpose: mockup accessibility stays with `skills/accessibility`
+(which cites its standard rather than a remembered number) and mockup copy stays with
+`business/ux-writing` — both already own the rendered-code side, and a design-time twin would be the second
+source `maintaining-blocks` §4 exists to catch. `go-conventions` and `java-conventions` have no counterpart
+and are untouched.
 
 **Same audit, applied to the `test-casebook` family** (MIT, `techmefr/*`, ours — `test-casebook` 1.1.0 for
 the frontend, `test-casebook-back-js` 0.10.0 and `test-casebook-back-php` 0.14.0 for the backends, all three
@@ -40,17 +54,23 @@ and per-stack guides, so cutting them to protect our roster would gut a working 
 are **not** duplicates — one refuses a test with no plan, the other refuses a pass with no evidence; they
 chain. Detail in `references/README.md`.
 
-**Still open, a decision rather than a finding:** the five `*-conventions` blocks above now carry a
-boundary note, but their sections 1–3 remain a *thinner duplicate* of plugin content. The clean end state
-is to cut those sections and keep only what the plugin has no equivalent for. That's a deletion pass on
-live content, so it waits for an explicit go. `go-conventions` and `java-conventions` have **no** plugin
-counterpart and stay as they are.
+**What the deletion pass found before it was reversed, worth keeping.** Reading the catalogue closely to
+decide what to cut surfaced **two rules in mentis that contradicted it**, not merely duplicated it: a Vuetify
+need-to-component table routing transient notifications to a snackbar the catalogue explicitly bans, and a
+"macros only, never the runtime props form" rule its typing skill prescribes the opposite of. Both are gone.
+That's the real argument for the audit: a second source doesn't stay a duplicate, it drifts into a
+disagreement, and the block that drifts is the one nobody re-reads. Two further conflicts are now stated
+rather than hidden — `type` vs `interface` and where tests live differ **between** catalogues, so the generic
+blocks say "pick one and apply it uniformly" instead of picking for you.
 
-**What the marketplace completed in mentis** (same pass): it revealed two stacks Xefi clearly works on that our
+**What the catalogue completed in mentis** (same pass): it revealed two stacks clearly worked on that our
 roster ignored — Python (20 skills) and Flutter (37) — with `elrond` routing an MR on either of them **nowhere**.
-Fixed by adding `samwise` and `faramir`, both deferring to the plugin for the rules, plus updating `elrond`, which
-had also gone stale on `frodo`/`boromir`/`theoden` (it still routed only three stacks out of eight). No new
-conventions block was written for those stacks: the plugin already holds them, and we have no experience to add.
+Fixed by adding `samwise` and `faramir`, plus updating `elrond`, which had also gone stale on
+`frodo`/`boromir`/`theoden` (it still routed only three stacks out of eight). It also revealed **three whole
+subjects mentis had no block for at all**: the cross-language floor (now `code-baseline`), the Laravel
+framework layer (now `laravel-conventions` — `php-patterns` had explicitly stopped at the framework boundary
+and nothing picked it up), and mobile (now `flutter-conventions`). Those three are the clearest value of the
+audit: not deduplication, but three gaps nobody had noticed.
 
 **Known duplication left inside mentis, not fixed here:** the eight per-stack readers each carry ~150 lines of
 identical GitLab plumbing (prefetch, batching, inline-posting payload, the `-f position[...]` trap). `samwise` and
@@ -81,7 +101,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | nestjs-node-conventions | 6 | a market NestJS skill catalogue + an advanced market TypeScript skill + a market React/Node skill catalogue (prisma/trpc/zod) | 🟡 (written, not dogfooded yet; first mentis block for the Node backend) |
 | typescript-patterns | 6 | internal synthesis (real production experience from g.compigni on pure TS/JS) | 🟢 |
 | php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs | 🟡 (sourced from the market, same uncertainty status as gimli (g.compigni is new to PHP)) |
-| python-conventions | 6 | PEP 484/526/604/8 + ruff + mypy/pyright | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
+| python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified | 🟡 (no internal production experience, same status as go-conventions) |
+| code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on | 🟡 |
+| laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open | 🟡 |
+| flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position | 🟡 (no mobile production experience at all, `faramir`'s question register applies) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data) | 🟡 (sourced from the market, no dedicated SEO production experience at Xefi) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG | 🟡 (sourced from the market, no dedicated a11y production experience at Xefi) |
@@ -192,7 +215,7 @@ linters, orchestration frameworks, etc. on the market).
 | market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
 | market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
-| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (56 skills + 14 business blocks / 21 agents, as of 2026-08-06), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
+| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (59 skills + 15 business blocks / 21 agents, as of 2026-08-06), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
 | market skills repository (companion) | `meta/testing-skills-with-subagents` → `testing-blocks` | validating our own 🟡 blocks | ✅ |
 | market skills repository (companion) | `meta/pulling-updates-from-skills-repository` + `meta/sharing-skills` → `distributing-blocks` | README stages 3-4 | ✅ |
 | market skills repository (companion) | `debugging/root-cause-tracing` + `debugging/defense-in-depth` → folded into `debug` | debug | ✅ (extended rather than duplicated; the layering was bounded to boundaries, the source doesn't limit it) |

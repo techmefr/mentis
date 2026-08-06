@@ -23,7 +23,7 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-06: **56 skills**, **14 business blocks**, **21 agents**, one gate hook pair.
+At a glance, as of 2026-08-06: **59 skills**, **15 business blocks**, **21 agents**, one gate hook pair.
 Maturity is the honest part — see [Status](#status).
 
 ## Why my own version
@@ -49,11 +49,14 @@ an external repo to keep my pipeline running.
 - **Domain agents** (`neo`, `morpheus`, `trinity`, `tank`, `dozer`, the eight
   per-stack reviewers, `gandalf`, `galadriel`) = the layer that actually does
   the work, plugged into the pipeline slots below.
-- **The `xefi-claude-skills` marketplace** (211 skills across ten plugins,
-  installed org-wide) = the authority on **per-stack style and structure
-  rules**. This repo owns the *method*; where that marketplace covers a
-  subject, mentis defers to it rather than keeping a second copy. The boundary
-  is drawn block by block in [`CATALOG.md`](./CATALOG.md) §0.
+- **An org skill catalogue** (where a company ships one — the reference audit
+  used a 211-skill, ten-plugin one) = the authority on **its own house style**:
+  its package lists, internal libraries, tracker charter, design tokens. mentis
+  does **not** depend on one being installed: those rules were mined,
+  de-identified and rewritten generically into the per-stack blocks, so every
+  block works on a plain repo. Where a catalogue is present and disagrees, it
+  wins as a house override and the block says so. What landed where:
+  [`CATALOG.md`](./CATALOG.md) §0.
 
 ## The pipeline
 
@@ -110,7 +113,10 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `react-nextjs-conventions` | 6 | React/Next.js conventions, sourced from the market |
 | `nestjs-node-conventions` | 6 | NestJS/Node conventions (DI, DTO, Zod, Prisma) |
 | `go-conventions` | 6 | Go conventions: concurrency, errors, context (sourced from the market) |
-| `dotnet-conventions` | 6 | C#/.NET conventions: async, IDisposable, DI, EF Core (sourced from the market) |
+| `code-baseline` | 6 | The rules that don't change with the language: comments, size, exceptions, boundaries, tests owed |
+| `laravel-conventions` | 6 | Laravel: thin models, events over observers, permissions not roles, schema, queries, tests |
+| `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
+| `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI, the prohibitions, disposal, EF Core |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
 | `shell-scripting-conventions` | 6 | Shell fails silently by default: fail closed, quote everything, test the failure cases |
@@ -296,12 +302,16 @@ remarks are phrased as questions rather than statements: `boromir` (Go),
 `theoden` (.NET), `samwise` (Python), `faramir` (Flutter/mobile), and the
 matching `go-conventions` / `dotnet-conventions` / `python-conventions`.
 
+Written with no internal experience on the stack, and now with a mentis-side
+block each: `flutter-conventions` replaced the earlier decision to write no
+mobile block at all.
+
 Known gaps, stated rather than implied: **most of the roster has never run
-once** (stage 2 below), `testing-blocks` has never been executed on itself,
-the five `*-conventions` blocks for stacks the marketplace also covers still
-carry sections that duplicate it, and the eight per-stack reviewers repeat the
+once** (stage 2 below), `testing-blocks` has never been executed on itself, the
+newly rewritten per-stack blocks have been checked against a real catalogue but
+not yet applied to a real diff, and the eight per-stack reviewers repeat the
 same GitLab plumbing instead of sharing it. Line-by-line detail in
-[`CATALOG.md`](./CATALOG.md), including the dedup audit in §0.
+[`CATALOG.md`](./CATALOG.md), including the audit in §0.
 
 ## Licence
 

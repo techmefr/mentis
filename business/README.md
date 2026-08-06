@@ -59,6 +59,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `legal-documents` | legal |
 | `regulatory-watch` | legal |
 | `ux-writing` | UI/UX |
+| `interface-design` | UI/UX |
 | `product-marketing` | marketing |
 | `sales-support` | sales |
 | `release-communication` | communication |
