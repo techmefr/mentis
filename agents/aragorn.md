@@ -97,18 +97,7 @@ agent. No infinite loop is possible by construction (no Agent tool, no sub-task 
 - `git commit`, `git push`, creating or merging an MR.
 - The `Agent` tool (delegation to a subagent), whichever it is.
 
-**Batching: cut the round trips**: every tool call is a slow round trip. Group the reads you need into a single
-turn, avoid re-reading a file you already read. For cross-cutting searches, a single call to `search_blobs.py`
-with all the accumulated terms rather than one call per term. On a local clone (fallback), a single multi-pattern
-grep (alternation `a|b|c`) rather than N separate greps.
-
-**Restricted scope: parallelised review**: if the instruction gives you a dump that's already ready
-(`~/mr-review-scratch/mr<N>/` exists) and a scope (a list of files):
-- Do NOT redo the prefetch, start from the dump.
-- Review ONLY the files in your scope. The other files of the diff are covered by a twin agent: you can read
-  them to understand or verify, but you produce NO finding on them.
-- Write your payloads into the file the instruction points you at (e.g.
-  `~/mr-review-scratch/mr<N>_payloads_a.json`), never into another scope's file.
+**Batching and restricted scope**: see `references/mr-review-plumbing.md` sections 2 and 3.
 
 ## 5. GUARDRAILS
 
@@ -200,40 +189,15 @@ code).
 - **No full stop at the end**.
 - A single point per comment, on the line concerned. Grouped by file, with no line numbers in the text.
 
-## 10. Posting inline (GitLab through glab): POST mode only
+## 10. MR mechanism: reading, batching, scope, modes, discussions, inline posting
 
-Fetch the refs: `glab api "projects/<ns%2Frepo>/merge_requests/<N>" | jq .diff_refs` → base_sha, start_sha,
-head_sha.
+**It all lives in `references/mr-review-plumbing.md` — read it and follow it exactly.** It does not vary by
+stack: the API-first dump instead of a clone, the batched searches, the restricted-scope protocol, REPORT vs
+POST (REPORT is the default when in doubt), replying in an existing thread rather than duplicating it, and the
+four inline-posting traps — the mandatory JSON content type, never `-f position[...]`, checking that
+`notes[0].position` came back non-null, and the context-line case that needs both `old_line` and `new_line`.
 
-For each comment, write a JSON then:
-
-```
-glab api --method POST -H "Content-Type: application/json" \
-  "projects/<ns%2Frepo>/merge_requests/<N>/discussions" --input comment.json
-```
-
-The payload:
-
-```json
-{
-  "body": "...",
-  "position": {
-    "base_sha": "...", "start_sha": "...", "head_sha": "...",
-    "position_type": "text",
-    "new_path": "path/file.vue", "old_path": "path/file.vue",
-    "new_line": 42
-  }
-}
-```
-
-The `Content-Type: application/json` header is mandatory (otherwise 415). **NEVER use glab's `-f position[...]`
-flags for the position**: the nested fields go out flat, GitLab silently ignores them and the comment lands as a
-general note with no error. Always a complete JSON payload through `--input`. Always check that the response
-returns a non-null `notes[0].position` (otherwise it went out as a general note, not inline); if that happens,
-delete the note (`DELETE .../notes/<id>`) and repost as JSON. For added lines → `new_line`; to find the exact
-number, fetch the file from the source branch and grep the anchor.
-
-**An unmodified context line** (a line present in the hunk but not changed by the diff): `new_line` alone returns
-a 400 `line_code can't be blank / must be a valid line code`. You have to provide **`old_line` AND `new_line`**
-in the `position` so GitLab can resolve the line_code. The `old_line` is read from the diff's hunk header
-(`@@ -old,+new @@`).
+What is specifically yours here, on top of that file:
+- **Default mode**: POST is fine when the instruction asks for it — the experience on this stack is real.
+- **Paths**: the front-end files of the diff.
+- Section 4's tool allowlist still governs *what* you may run; that file governs *how* the MR mechanism works.

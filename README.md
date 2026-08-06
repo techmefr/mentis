@@ -177,7 +177,7 @@ without internal expertise in that function.
 | `internal-communication` | communication | The ask in the first line; a decision that lives only in a call isn't announced |
 | `content-creation` | communication | Start from work actually done, mine the pipeline's own artefacts, and keep the hook honest |
 | `community-management` | communication | The replies, every day: sort and route, never delete criticism, and what a CM must never answer alone |
-| `product-ownership` | product | Whether it should exist, in what order, and how anyone knows it's done — the story artefact stays with the plugin |
+| `product-ownership` | product | Whether it should exist, in what order, how the story is written and reviewed, and how anyone knows it's done |
 | `social-publishing` | communication | One message adapted per platform, never four truths; an agent drafts, a human publishes |
 
 ### Agents
@@ -204,8 +204,8 @@ your code beyond a verdict, and it never touches it.
 | `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
 | `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
-| `samwise` | Python reviewer, uncertainty phrased as questions; defers to the plugin's `python` skills | Written, not dogfooded yet |
-| `faramir` | Flutter/Dart reviewer, question register by default; defers entirely to the plugin's `flutter` skills | Written, not dogfooded yet |
+| `samwise` | Python reviewer, uncertainty phrased as questions; reads `python-conventions` | Written, not dogfooded yet |
+| `faramir` | Flutter/Dart reviewer, question register by default; reads `flutter-conventions` | Written, not dogfooded yet |
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
 | `morpheus` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Written, not dogfooded yet |

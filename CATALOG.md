@@ -8,9 +8,9 @@
 > dogfooded yet / 🔜 to wire up / 🔎 to mine / ✕ ruled out. **🟢 is the only one that means "proven"** — ✅
 > says the rewrite is done, not that anyone has run it.
 
-## 0. Dedup audit vs the `xefi-claude-skills` marketplace (2026-08-06)
+## 0. Audit vs an org skill catalogue (2026-08-06)
 
-The installed marketplace ships **211 skills** across ten plugins: laravel 45, flutter 37, react 36, nuxt
+The catalogue audited ships **211 skills** across ten plugins: laravel 45, flutter 37, react 36, nuxt
 21, python 20, csharp 15, global 14, design 10, project-management 9, design-patterns 4. It is versioned and
 org-wide, so **where it is installed it is the authority on the house style** — its package lists, its
 internal libraries, its tracker charter, its design tokens.
@@ -72,10 +72,14 @@ framework layer (now `laravel-conventions` — `php-patterns` had explicitly sto
 and nothing picked it up), and mobile (now `flutter-conventions`). Those three are the clearest value of the
 audit: not deduplication, but three gaps nobody had noticed.
 
-**Known duplication left inside mentis, not fixed here:** the eight per-stack readers each carry ~150 lines of
-identical GitLab plumbing (prefetch, batching, inline-posting payload, the `-f position[...]` trap). `samwise` and
-`faramir` point at `boromir` for it rather than copying it again, which is a stopgap — an agent reading another
-agent's file is not a real shared mechanism. Factoring it out into one referenced doc is a separate pass.
+**The one duplicate found inside mentis, now fixed:** the eight per-stack readers each carried ~150 lines of
+identical GitLab plumbing (prefetch, batching, the two modes, existing discussions, the inline-posting payload
+and its four traps). `samwise` and `faramir` pointed at `boromir` for it rather than copying it again, which was
+a stopgap — an agent reading another agent's file inherits its stack bias too, so that is not a shared
+mechanism. It now lives once in `references/mr-review-plumbing.md`, cited by all eight; each agent keeps only
+its own default mode and file paths. The five stack readers dropped to ~40% of their previous length
+(gimli 225→106, legolas 186→71, frodo 188→76, boromir 211→95, theoden 209→92) and `aragorn` kept its numbered
+structure with §10 as the pointer.
 
 No duplicate found **inside** mentis otherwise: the pairs most at risk were checked — `bug-triage` vs
 `qa-exploratory-testing` (report handling vs pre-merge discovery), `security-hardening` vs `seraph`
@@ -136,7 +140,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, verified 2026-08-06); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours | 🟡 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
-| product-ownership | product | reduced after the dedup audit: the plugin's 9 `project-management` skills already own the story artefact and its estimation; public sources for given/when/then criteria and definition-of-ready/done | 🟡 (deliberately thin; ours is the priority/refusal/criteria layer and tying "done" to the two guarantees) |
+| product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
 | community-management | communication | a marketplace community-management skill (moderation policy templates, engagement ladder, DAU/MAU + member-to-member replies + support deflection as metrics, "what you tolerate in the first hundred members becomes the culture") + a B2B SaaS social-media-manager skill for crisis response | 🟡 (no internal CM expertise; §4 — what a CM must never answer alone — is ours and is the failure we actually expect) |
 | content-creation | communication | an MIT marketing skill collection (34 skills), a LinkedIn growth set, a YouTube creator set and several repurposing skills — the repurposing insight taken, plus the observation that per-network work differs mainly in hook and length; none of them reviews or fact-checks a claim, and all start from a topic rather than from an artefact | 🟡 (no internal content expertise; §2's artefact→format table and the honest-hook line are ours) |
 | social-publishing | communication | a community social-media skill suite (`social-ai-team`, 10 skills) for its pause-and-approve gate at every handoff; its per-platform writers rejected as fragmentation, the volatile facts moved to `references/social-platforms.md` | 🟡 (no internal social-media expertise; the access table is the part with a six-month expiry) |
@@ -168,7 +172,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 |---|---|---|
 | aragorn / gimli / legolas | MR review, Xefi style (Nuxt/Vue · React) | ✅ |
 | boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET) |
-| samwise / faramir | MR review (Python · Flutter/Dart) | 🟡 (added by the marketplace-completion pass: the plugin ships 20 Python and 37 Flutter skills, so those stacks are worked on at Xefi and `elrond` routed them nowhere; both defer to the plugin for the rules and carry no conventions block of their own — mentis writes **no** mobile block) |
+| samwise / faramir | MR review (Python · Flutter/Dart) | 🟡 (added by the catalogue-completion pass: 20 Python and 37 Flutter skills there meant those stacks are worked on and `elrond` routed them nowhere; both now read `python-conventions` / `flutter-conventions` first and treat an installed catalogue as the house override) |
 | elrond | review orchestrator: detects the stack, delegates, never reviews itself | ✅ |
 | gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
 | **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; the hook pair now exists in `hooks/`, per-repo wiring not done yet, not dogfooded yet) |

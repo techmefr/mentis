@@ -33,6 +33,7 @@
 | **Code smells** (baseline cited by the Standards axis of `review`) | to be formalised | / | Pub | 🔜 **to write** `code-smells.md` |
 | Agents (aragorn/gimli/legolas/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
 | **Current library/framework docs** (upstream, beyond any training cutoff) | `context7` MCP server, on demand | tool | Pub | ✅ installed (see below) |
+| **MR review plumbing** (API-first dump, batching, restricted scope, REPORT/POST, discussions, inline posting and its four traps) | `references/mr-review-plumbing.md` | doc | Pub | ✅ (extracted 2026-08-06 from `boromir`; cited by all eight readers, which keep only their default mode and paths) |
 | **Social platform publishing access** (who gates posting, what it costs, what's not worth it) | `references/social-platforms.md` | doc | Pub | ✅ (dated 2026-08-06, six-month window) |
 
 \* `CATALOG.md`: the structure is publishable, but its backlog names internal repos/layers → keep it internal until we've separated them.

@@ -8,7 +8,8 @@ description: Use when writing or reviewing pure PHP at the language level, whate
 Step 6 of the pipeline (`WORKFLOW.md`), upstream of the Laravel layer: the language itself, before
 the Eloquent/Laravel conventions that stack on top (see `gimli`, `morpheus`).
 
-**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `laravel` plugin ships 45
+**Boundary with the framework layer** (audit, 2026-08-06): `skills/laravel-conventions` now holds it, mined
+from an org catalogue of 45
 skills on the framework layer — routing, tests, config, control flow, package choices, CRUD via the REST
 API. **Where it's installed, it is the authority there.** This block stays deliberately below it: the PHP
 language itself, on any framework. Don't add a Laravel rule here.
