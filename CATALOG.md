@@ -44,7 +44,7 @@
 | writing-skills | cross-cutting (meta) | a market skill/agent framework | 🟡 (written, applies the single template + rule B checklist) |
 | writing-agents | cross-cutting (meta) | internal synthesis (formalises the 7-pillar template already in use) | 🟢 |
 | portless-ready | setup/infra | a market portless tool (wiring is ours) | 🟡 (makes a stack portless: HTTPS alias + port hygiene) |
-| **gate** | 7 | market long-running agent patterns (`default-FAIL hook` + `fresh-context evaluator`) | 🟡 (agent `arbitre` written; per-repo default-FAIL hook still to be laid down) |
+| **gate** | 7 | market long-running agent patterns (`default-FAIL hook` + `fresh-context evaluator`) | 🟡 (agent `galadriel` written; per-repo default-FAIL hook still to be laid down) |
 | review | 8 | a recognised market skill author (two-axis code review) + Xefi agents + native | 🟡 |
 | simplify | 9 | native `simplify` | 🟡 |
 | ship | 10 | internal (`/SHIP`, gandalf) | 🟡 |
@@ -58,15 +58,15 @@
 | valerianus | review triage/rewording (anti-argument) | ✅ |
 | gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
 | tuteur-laravel | teaching (outside the pipeline) | ✅ |
-| **arbitre** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; per-repo default-FAIL hook not laid down yet, not dogfooded yet) |
-| vue-nuxt-builder | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
-| sql-es-tuner | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
-| laravel-builder | Laravel/Eloquent implementation (API, queues, perf), distinct from tuteur-laravel | ✅ (not dogfooded yet) |
-| seo-auditor | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
-| accessibility-auditor | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
-| qa-tester | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
-| security-auditor | dedicated static security audit (OWASP, secrets, dependencies), read-only, never active exploitation | ✅ (not dogfooded yet) |
-| architecture-debt-auditor | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | ✅ (not dogfooded yet) |
+| **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; per-repo default-FAIL hook not laid down yet, not dogfooded yet) |
+| neo | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
+| tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
+| morpheus | Laravel/Eloquent implementation (API, queues, perf), distinct from tuteur-laravel | ✅ (not dogfooded yet) |
+| keymaker | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
+| link | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
+| mouse | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
+| seraph | dedicated static security audit (OWASP, secrets, dependencies), read-only, never active exploitation | ✅ (not dogfooded yet) |
+| architect | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | ✅ (not dogfooded yet) |
 
 ## 2. Sourcing backlog: ideas/agents to rewrite in order to complete/improve
 
@@ -76,15 +76,15 @@ linters, orchestration frameworks, etc. on the market).
 
 | Source category | Idea / agent to take | Enriches | Status |
 |---|---|---|---|
-| market long-running agent patterns | `evaluator.md` (fresh-context evaluator pattern) → `arbitre` agent | gate | ✅ (agent written) |
+| market long-running agent patterns | `evaluator.md` (fresh-context evaluator pattern) → `galadriel` agent | gate | ✅ (agent written) |
 | market long-running agent patterns | `verify-gate.sh` (PreToolUse default-FAIL hook on read evidence) | gate | 🟡 (mechanism identified, per-repo wiring still to do) |
 | recognised market skill author | grill-with-docs → CONTEXT.md+ADR | spec | ✅ |
 | recognised market skill author | non-polluting two-axis code review | review | ✅ |
-| recognised market skill author | `wayfinder` → `wayfinder` skill, `handoff` → `handoff` skill, `improve-codebase-architecture` → `architecture-debt-auditor` agent | plan / session resumption / architecture audit | ✅ |
+| recognised market skill author | `wayfinder` → `wayfinder` skill, `handoff` → `handoff` skill, `improve-codebase-architecture` → `architect` agent | plan / session resumption / architecture audit | ✅ |
 | recognised market skill author | `domain-modeling` | archi | 🔎 (partially overlaps documentation-adr, not yet isolated as a dedicated block) |
 | market generalist dev skill catalogue | `observability-and-instrumentation` → `observability-instrumentation` skill, `api-and-interface-design` → `api-design` skill, `documentation-and-adrs` → `documentation-adr` skill, `deprecation-and-migration` → `deprecation-migration` skill | code/api/docs/migration | ✅ |
 | market generalist dev skill catalogue | `security-and-hardening`, `webperf`, `context-engineering` | new blocks | 🔎 (context-engineering = meta on writing prompts/CLAUDE.md, not a dev skill (relevant for improving this repo itself, not a daily use)) |
-| market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `qa-tester`/`verify-flow`) | ✕ (redundant) |
+| market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
 | market skill/agent framework | `dispatching-parallel-agents`, `subagent-driven-development`, `writing-plans` | plan / orchestration | 🔎 (already native skills → to be *owned*) |
 | market Claude Code agent catalogues (several) | `git-advanced-workflows` (advanced worktrees) | start-feature / finish | 🔎 (reference cited, to be verified) |
 | market live-state tool | live state from reality + socket API | FLEET | 🔎 (after dogfooding) |
@@ -97,13 +97,13 @@ linters, orchestration frameworks, etc. on the market).
 | market Nuxt skill catalogue (another) | `skills/nuxt/references/nuxt-composables.md` (useState/useCookie/useRequestFetch discipline, limited extract) | vue-nuxt-vuetify-conventions | ✅ |
 | market Vuetify skill catalogue | `.deprecated/vuetify-4/SKILL.md` + `references/patterns/` | vue-nuxt-vuetify-conventions | ✅ |
 | market context-engineering kit | `plugins/git/skills/git-worktrees/SKILL.md` ("How to Merge Worktree" section) | merge-worktree | ✅ |
-| market Claude Code agent catalogue | `vue-expert` (frameworks) → `vue-nuxt-builder` agent | domain agents (frontend build) | ✅ |
-| market Claude Code agent catalogue (large collection) | confirmed absence of a Vue/Nuxt agent (grep across 203 agents) → confirms the gap filled by `vue-nuxt-builder` | domain agents (frontend build) | ✅ (cross-reference) |
-| market Claude Code agent catalogue (another) | `sql-pro` (02-language-specialists) → `sql-es-tuner` agent | domain agents (data) | ✅ |
-| market Claude Code agent catalogue (large collection) | `sql-pro`, `database-optimizer` → `sql-es-tuner` agent | domain agents (data) | ✅ |
-| market Claude Code agent catalogue | `elasticsearch-expert` → `sql-es-tuner` agent | domain agents (data) | ✅ |
-| market Claude Code agent catalogue (another) | `laravel-specialist` (02-language-specialists) → `laravel-builder` agent | domain agents (backend build) | ✅ |
-| market Claude Code agent catalogue (large collection) | `php-pro` (web-scripting), no Laravel specialisation → confirms the gap filled by `laravel-builder` | domain agents (backend build) | ✅ (cross-reference) |
+| market Claude Code agent catalogue | `vue-expert` (frameworks) → `neo` agent | domain agents (frontend build) | ✅ |
+| market Claude Code agent catalogue (large collection) | confirmed absence of a Vue/Nuxt agent (grep across 203 agents) → confirms the gap filled by `neo` | domain agents (frontend build) | ✅ (cross-reference) |
+| market Claude Code agent catalogue (another) | `sql-pro` (02-language-specialists) → `tank` agent | domain agents (data) | ✅ |
+| market Claude Code agent catalogue (large collection) | `sql-pro`, `database-optimizer` → `tank` agent | domain agents (data) | ✅ |
+| market Claude Code agent catalogue | `elasticsearch-expert` → `tank` agent | domain agents (data) | ✅ |
+| market Claude Code agent catalogue (another) | `laravel-specialist` (02-language-specialists) → `morpheus` agent | domain agents (backend build) | ✅ |
+| market Claude Code agent catalogue (large collection) | `php-pro` (web-scripting), no Laravel specialisation → confirms the gap filled by `morpheus` | domain agents (backend build) | ✅ (cross-reference) |
 | market long-running agent patterns | kill-switch / steer (operator hooks) | / | ✕ (a human is present) |
 | market output-compression style | output compression | / | 🟡 re-assessed: the fully telegraphic style stays ruled out (unreadable), but the principle "short output by default, to limit output-token spend" is kept as a cross-cutting guarantee (see `doc/HOW-WE-WRITE-OUR-AGENTS.md` §5) |
 | market frameworks for fully agentic autonomy | 24/7 / end-to-end autonomy | / | ✕ (counter-example: no-auto-merge) |
@@ -131,7 +131,7 @@ linters, orchestration frameworks, etc. on the market).
 | market Claude Code agent catalogue (large collection) | code-reviewer/security-auditor/penetration-tester/debugger/test-automator/qa-expert/accessibility-tester/refactoring-specialist | / | ✕ (already covered by the per-stack reviewers/gandalf/kobold + the systematic-debugging/testing-doctrine-casebook/design:accessibility/simplify skills) |
 | market Claude Code agent catalogue (large collection) | legacy-modernizer | / | ✕ (no framework migration under way) |
 | market Claude Code agent catalogue (large collection) | typescript-pro | / | ✕ (generic and weak signal, no documented TS pain) |
-| market Claude Code agent catalogue (large collection) | database-architect | / | ✕ (no schema design from scratch; covered by `sql-es-tuner`) |
+| market Claude Code agent catalogue (large collection) | database-architect | / | ✕ (no schema design from scratch; covered by `tank`) |
 | market Claude Code agent catalogue (large collection) | frontend-security-coder / backend-security-coder | / | ✕ (gandalf already runs /security-review + delegates to the stack reviewer) |
 | market Claude Code agent catalogue (large collection) | devops-troubleshooter | / | ✕ (docker-proxy zombies already handled by a documented fix, not an agent-shaped need) |
 | market Claude Code agent catalogue (large collection) | context-manager/team-lead/team-reviewer/team-implementer/team-debugger | / | multi-agent dispatch | ✕ (org-chart style implementation, architecture to be assessed, not an agent to write now) |
@@ -157,7 +157,7 @@ linters, orchestration frameworks, etc. on the market).
 | market open source TypeScript project (same publisher) | `clojure-review` | / | ✕ (language outside Xefi scope) |
 | review plugin from a market IDE vendor | `thermo-nuclear-code-quality-review` |, | ✕ (same angle as over-engineering-review, less actionable, no tags/score) |
 | internal skill catalogue from another vendor | `code-quality` | / | ✕ (specific to their proprietary per-context stack, the rest is already covered by the per-stack reviewers+conventions) |
-| market architecture review tool | `architecture-review` | / | ✕ (exact SKILL.md path not confirmed; content already overlaps gandalf/arbitre/over-engineering-review, not differentiating enough) |
+| market architecture review tool | `architecture-review` | / | ✕ (exact SKILL.md path not confirmed; content already overlaps gandalf/galadriel/over-engineering-review, not differentiating enough) |
 | market NestJS skill catalogue | `skills/nestjs-expert/SKILL.md` (module/controller/service, constructor DI, DTO+class-validator, HTTP exceptions, tests) | nestjs-node-conventions | ✅ |
 | advanced market TypeScript skill | Zod+z.infer contracts, discriminated unions, mapped types/type guards on Prisma models | nestjs-node-conventions | ✅ |
 | market React/Node skill catalogue | `prisma-development/SKILL.md` + `trpc/SKILL.md` + `zod-schema-validation/SKILL.md` | nestjs-node-conventions | ✅ |

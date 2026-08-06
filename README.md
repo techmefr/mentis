@@ -29,7 +29,7 @@ generic discipline: brainstorming, TDD, systematic debugging, fresh-context
 review. But a generic method does not carry my Xefi conventions, my real
 stacks (Nuxt/Vuetify, Laravel, React), nor my own core requirement,
 default = failure: work declared "done" is never taken on trust, it has to
-be proven. That is the role of `arbitre`, the agent that embodies this rule
+be proven. That is the role of `galadriel`, the agent that embodies this rule
 and that none of the market sources I looked at covers.
 
 Rather than installing such a framework as-is, I rewrote every useful idea
@@ -42,8 +42,8 @@ an external repo to keep my pipeline running.
   executes it (agents).
 - **`xefi-mr-review`** (separate repo) = a specialised implementation: the
   review/gate step only, wired into GitLab CI, one folder per stack.
-- **Domain agents** (`vue-nuxt-builder`, `laravel-builder`, `sql-es-tuner`,
-  the per-stack reviewers, `gandalf`, `arbitre`) = the layer that actually
+- **Domain agents** (`neo`, `morpheus`, `tank`,
+  the per-stack reviewers, `gandalf`, `galadriel`) = the layer that actually
   does the work, plugged into the pipeline slots below.
 
 ## The pipeline
@@ -56,14 +56,14 @@ flowchart LR
     D --> E[tdd]
     E --> F[code]
     F --> G[debug]
-    G --> H[gate: arbitre]
+    G --> H[gate: galadriel]
     H --> I[review: per-stack reviewers]
     I --> J[ship: gandalf]
     J --> K[finish]
 ```
 
 Two guarantees hold the whole pipeline together. Fresh context: whoever
-judges or reviews never watched the code being written (`arbitre`, the
+judges or reviews never watched the code being written (`galadriel`, the
 reviewers, `gandalf`). Default = failure: I believe nothing without a cited
 piece of evidence.
 
@@ -102,7 +102,7 @@ piece of evidence.
 | `observability-instrumentation` | 6 | What to log, which metric, which label; complements devops-conventions at code level |
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
 | `debug` | support | Systematic debugging |
-| `gate` | 7 | Cold verification before merge, see the `arbitre` agent |
+| `gate` | 7 | Cold verification before merge, see the `galadriel` agent |
 | `review` | 8 | Diff review, see the per-stack reviewer agents |
 | `over-engineering-review` | 9 | Deletion angle only: dead code, over-abstraction, yagni |
 | `simplify` | 9 | Applies the identified simplifications |
@@ -118,9 +118,20 @@ piece of evidence.
 
 ### Agents
 
+Two name families, and the family tells you what the agent is allowed to do:
+
+- **Lord of the Rings = watching.** Review and gate only. These agents read a
+  diff, judge it and report. None of them holds Write/Edit on the repo under
+  review.
+- **The Matrix = the dev cycle.** Everything that takes part in producing the
+  work: the implementers, and the auditors that probe a running app or a repo.
+
+So the name is a readable guarantee: a LotR name never decides anything about
+your code beyond a verdict, and it never touches it.
+
 | Agent | Role | Status |
 |---|---|---|
-| `arbitre` | Fresh-context GATE: PASS/NEEDS_WORK verdict, never edits, never gives the benefit of the doubt | Real production experience |
+| `galadriel` | Fresh-context GATE: PASS/NEEDS_WORK verdict, never edits, never gives the benefit of the doubt | Real production experience |
 | `gandalf` | Final MR gate: test gate + delegates the review + `/code-review` + `/security-review` | Real production experience |
 | `elrond` | Orchestrator: detects the stack and delegates to the right reviewer, never reviews itself | Real production experience |
 | `aragorn` | Nuxt/Vue/Vuetify reviewer | Real production experience |
@@ -129,14 +140,14 @@ piece of evidence.
 | `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
 | `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
-| `vue-nuxt-builder` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
-| `laravel-builder` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
-| `sql-es-tuner` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
-| `seo-auditor` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
-| `accessibility-auditor` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
-| `qa-tester` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
-| `security-auditor` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
-| `architecture-debt-auditor` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
+| `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
+| `morpheus` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
+| `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
+| `keymaker` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
+| `link` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
+| `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
+| `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
+| `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
 
 Full detail: [`CATALOG.md`](./CATALOG.md) (registry + sourcing backlog, with
 every idea credited to its real source) and
@@ -167,9 +178,9 @@ Claude Code's native format:
 
 Active demonstrator: my doctrine (template, rules A/B/C, default = failure,
 fresh context) is stable and applied, some agents have real production
-experience (`aragorn`, `gimli`, `gandalf`, `arbitre`, `elrond`), others are
-written but not dogfooded yet (`vue-nuxt-builder`, `laravel-builder`,
-`sql-es-tuner`) or sourced from the market with no internal experience yet
+experience (`aragorn`, `gimli`, `gandalf`, `galadriel`, `elrond`), others are
+written but not dogfooded yet (`neo`, `morpheus`,
+`tank`) or sourced from the market with no internal experience yet
 (`boromir`, `theoden`, `go-conventions`, `dotnet-conventions`). The exact
 line-by-line detail is in `CATALOG.md`.
 

@@ -1,12 +1,12 @@
 ---
 name: php-patterns
-description: Use when writing or reviewing pure PHP, whatever the framework (not Laravel/Eloquent, that's gimli/laravel-builder), typing, error handling, OOP patterns. No deep internal production experience on this language alone (g.compigni is new to PHP), content sourced from PHP-FIG (PSR) and established market standards.
+description: Use when writing or reviewing pure PHP, whatever the framework (not Laravel/Eloquent, that's gimli/morpheus), typing, error handling, OOP patterns. No deep internal production experience on this language alone (g.compigni is new to PHP), content sourced from PHP-FIG (PSR) and established market standards.
 ---
 
 # php-patterns
 
 Step 6 of the pipeline (`WORKFLOW.md`), upstream of the Laravel layer: the language itself, before
-the Eloquent/Laravel conventions that stack on top (see `gimli`, `laravel-builder`).
+the Eloquent/Laravel conventions that stack on top (see `gimli`, `morpheus`).
 
 ## When
 As soon as PHP is written or reviewed, on any framework: this block is the common base, the Laravel

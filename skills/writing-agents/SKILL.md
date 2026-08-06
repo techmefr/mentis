@@ -11,7 +11,7 @@ inside the pipeline.
 
 ## When
 - A gap is spotted in the agent roster (e.g. "we're missing a dedicated SEO audit" →
-  `seo-auditor`).
+  `keymaker`).
 - A sourced idea (market repo, agent catalogue) deserves to be rewritten as a Xefi agent.
 - An existing agent has a role that drifted from its original description and needs clarifying or
   splitting.
@@ -50,8 +50,8 @@ A complete `agents/<name>.md` file with the 7 pillars, referenced in `CATALOG.md
 ## Guardrails
 - Never an agent without an explicit pillar 6 (FRESH-CONTEXT REVIEW): even a read-only audit
   agent must say clearly how its results go back through the normal pipeline.
-- Never grant Write/Edit to a review/audit agent (`aragorn`, `gimli`, `seo-auditor`,
-  `security-auditor`, etc.), its scope is to report, never to fix things itself.
+- Never grant Write/Edit to a review/audit agent (`aragorn`, `gimli`, `keymaker`,
+  `seraph`, etc.), its scope is to report, never to fix things itself.
 - An agent that duplicates an existing role is a regression, not an addition: check step 1 before
   writing.
 
