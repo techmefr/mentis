@@ -126,6 +126,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `writing-agents` | cross-cutting (meta) | How to write/revise an agent in this framework (7-pillar template) |
 | `testing-blocks` | cross-cutting (meta) | Prove a block changes behaviour under pressure, before calling it done |
 | `distributing-blocks` | cross-cutting | Install/update for other teams: they pull and merge, we never push |
+| `maintaining-blocks` | cross-cutting (meta) | Audits this corpus: dangling references, stale statuses, blocks that duplicate each other |
 | `portless-ready` | infra | Makes a stack portless (HTTPS alias, port hygiene) |
 
 ### Business layer (second layer, weaker contract)
