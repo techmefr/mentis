@@ -16,8 +16,16 @@
 | Scouting still to triage | `mentis/SOURCING-INBOX.md` | doc | Int | ✅ |
 | Scouting comparison | `VEILLE.md` (root) | doc | **Int** | ✅ |
 | Infra / ports / SSO reality | `CHALLENGE.md`, `FRICTIONS.md` (root) | doc | **Int** | ✅ |
-| **Design system** (4px grid, spacing, chips, buttons, containers, icons, ux-writing) | `xefi-claude-skills` plugin → `design:*` skills | skills | Pub | ✅ (index) |
+| **Design system** (4px grid, spacing, chips, buttons, containers, icons, ux-writing) | `xefi-claude-skills` plugin → `design:*` skills (10) | skills | Pub | ✅ (index) |
 | **RGAA accessibility** | `design:accessibility` skill | skill | Pub | ✅ (index) |
+| **Laravel framework layer** (routing, tests, config, packages, CRUD via the REST API) | `xefi-claude-skills` → `laravel:*` (45) | skills | Pub | ✅ (index — `php-patterns` stays below it, on the language) |
+| **Nuxt/Vue structure & style** (components, Vuetify, typing, Pinia, naming) | `xefi-claude-skills` → `nuxt:*` (21) | skills | Pub | ✅ (index — we keep the linter-derived correctness rules) |
+| **React structure & style** (naming, hooks, typing, TanStack Query) | `xefi-claude-skills` → `react:*` (36) | skills | Pub | ✅ (index — same split) |
+| **C#/.NET rules** | `xefi-claude-skills` → `csharp:*` (15) | skills | Pub | ✅ (index) |
+| **Python toolchain & framework** (ruff/uv/mypy-strict, errors-as-values, is-None) | `xefi-claude-skills` → `python:*` (20) | skills | Pub | ✅ (index) |
+| **Flutter / mobile** (OSDD, Cubit-first, widgets, async UI states, lomkit SDK) | `xefi-claude-skills` → `flutter:*` (37) | skills | Pub | ✅ (index — **mentis writes no mobile block**, the agent `faramir` defers to these) |
+| **Stack-agnostic code shape** (file size, no god classes, no comments, OSDD, API via SDK) | `xefi-claude-skills` → `global:*` (14) | skills | Pub | ✅ (index — `over-engineering-review` scores deletions, it doesn't set the thresholds) |
+| **Story artefact & Jira mechanics** (structure, review axes, formatting, labels, breakdown + estimation) | `xefi-claude-skills` → `project-management:*` (9) | skills | Pub | ✅ (index — `business/product-ownership` owns only the decision around it) |
 | **Testing** (test-casebook: data-test-*, persona matrix, ≥90%; env-attr-cleaner) | `test-casebook` repo + `doctrine-test-back-laravel-lomkit.md` | repo/doc | Pub | ✅ (index) |
 | **Frontend conventions** (Nuxt/Vue/Vuetify: shorthand props, is/has booleans, i18n in a computed, no non-existent Vuetify prop) | *scattered in memory* | / | Pub (generic) | 🔜 **to write** `conventions-front.md` |
 | **Backend conventions** (Laravel/lomkit: filters to the max, status+message responses, simplicity > number of calls) | `doctrine-test-back-laravel-lomkit.md` + memory | doc/ | Pub (generic) | 🔜 **to write** `conventions-back.md` (points at the doctrine) |
@@ -32,6 +40,10 @@
 ## Usage rules
 - **Don't duplicate**: if a subject already has a skill (design, testing), we **point** at it, we
   don't copy it over. A skill that needs a number reads it from the source, not hard-coded.
+- **The `xefi-claude-skills` marketplace is the authority on everything it covers** — 211 skills across ten
+  plugins, versioned and already installed org-wide. mentis owns the *method* (pipeline, gate, evidence,
+  agents) and the subjects the marketplace doesn't cover; on a per-stack style rule it defers. See
+  `CATALOG.md` §0 for the boundary drawn per block.
 - **Filling a gap = a single doc** here, cited by every block concerned.
 - **Publishable** (Pub) → can live in a future public repo; **Internal** (Int) → never. A
   "Pub (generic)" doc names **no** real project/colleague (rule C).

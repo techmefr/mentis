@@ -183,6 +183,8 @@ your code beyond a verdict, and it never touches it.
 | `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
 | `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
+| `samwise` | Python reviewer, uncertainty phrased as questions; defers to the plugin's `python` skills | Written, not dogfooded yet |
+| `faramir` | Flutter/Dart reviewer, question register by default; defers entirely to the plugin's `flutter` skills | Written, not dogfooded yet |
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
 | `morpheus` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Written, not dogfooded yet |
