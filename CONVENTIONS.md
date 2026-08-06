@@ -44,8 +44,8 @@ moment we write**:
   agents. No secrets, no real project names, no infra reality.
 - **Outside `mentis/` (internal, private)**: real project names, infra (ports, SSO, hosts, DB
   server names), `CHALLENGE.md` / `FRICTIONS.md` / `VEILLE.md`, the memory. A block **never
-  references those hard-coded**, it names a role ("the backend"), not a project ("the Laravel
-  backend").
+  references those hard-coded**, it names a role ("the Laravel backend"), not a specific project
+  (an internal repo name).
 
 Simple rule: if a sentence couldn't be read by a dev outside Xefi, it doesn't go in `mentis/`.
 Publication itself is **out of agent scope** (a human decision).
