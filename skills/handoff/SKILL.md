@@ -40,4 +40,4 @@ missed its goal.
 ## Origin
 Rewrite of the `handoff` skill from a recognised market skill author: the rule "never duplicate,
 reference by path" is taken as-is, rewritten to the mentis template and explicitly linked to
-`worktree-one-task-close-after-merge` already in place on the house side.
+`worktree-one-task-close-after-merge` already in place in house.
