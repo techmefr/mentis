@@ -1,4 +1,4 @@
-# construct : carte du savoir (références)
+# mentis : carte du savoir (références)
 
 > « Voir tous les `.md` qu'il faut » pour extraire, améliorer, accélérer, maintenir.
 > **Discipline (règle B appliquée aux docs) : une seule source par sujet.** Un doc de référence
@@ -10,10 +10,10 @@
 
 | Sujet | Source unique de vérité | Type | Pub/Int | Statut |
 |---|---|---|---|---|
-| Méthode / pipeline | `construct/WORKFLOW.md` | doc | Pub | ✅ |
-| Gouvernance + gabarit | `construct/CONVENTIONS.md` | doc | Pub | ✅ |
-| Registre briques + backlog | `construct/CATALOG.md` | doc | Int* | ✅ |
-| Veille à trier | `construct/SOURCING-INBOX.md` | doc | Int | ✅ |
+| Méthode / pipeline | `mentis/WORKFLOW.md` | doc | Pub | ✅ |
+| Gouvernance + gabarit | `mentis/CONVENTIONS.md` | doc | Pub | ✅ |
+| Registre briques + backlog | `mentis/CATALOG.md` | doc | Int* | ✅ |
+| Veille à trier | `mentis/SOURCING-INBOX.md` | doc | Int | ✅ |
 | Comparatif veille | `VEILLE.md` (racine) | doc | **Int** | ✅ |
 | Réalité infra / ports / SSO | `CHALLENGE.md`, `FRICTIONS.md` (racine) | doc | **Int** | ✅ |
 | **Design system** (grille 4px, spacing, chips, boutons, conteneurs, icônes, ux-writing) | plugin `xefi-claude-skills` → skills `design:*` | skills | Pub | ✅ (indexer) |

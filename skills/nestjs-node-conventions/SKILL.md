@@ -5,7 +5,7 @@ description: Use quand on code un module, un controller, un service ou un router
 
 # nestjs-node-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Première brique construct pour le backend Node, 
+Étape 6 du pipeline (`WORKFLOW.md`). Première brique mentis pour le backend Node, 
 aucune n'existait avant, pertinente pour la vision du futur projet Node/NestJS (NestJS + Prisma + tRPC). Cadre
 l'écriture de code sur cette stack : architecture Nest, contrats de validation, contrats
 type-safe transverses attendus par tRPC, et accès données Prisma : quatre familles de

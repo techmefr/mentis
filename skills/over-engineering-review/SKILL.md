@@ -59,4 +59,4 @@ de suppression sur une supposition.
 ## Origine
 Idée reprise d'un outil de review orienté suppression du marché (skills `ponytail-review`/`ponytail-audit`, angle
 suppression exclusif, tags par catégorie, score net de lignes) : mécanisme et tags réécrits
-dans le vocabulaire des briques construct, pas de texte copié.
+dans le vocabulaire des briques mentis, pas de texte copié.

@@ -1,22 +1,22 @@
 ---
-name: using-construct
-description: Use when starting any task in a Xefi project, établit le pipeline construct (tâche → brainstorm → spec → archi → plan → TDD → code → review → MR → merge → finish) et comment les skills se branchent sur starfleet.
+name: using-mentis
+description: Use when starting any task in a Xefi project, établit le pipeline mentis (tâche → brainstorm → spec → archi → plan → TDD → code → review → MR → merge → finish) et comment les skills se branchent sur starfleet.
 ---
 
-# using-construct
+# using-mentis
 
 Point d'entrée de la couche méthode Xefi. À lire au début de toute tâche.
 
 ## La règle
 
 **Avant toute action** (y compris une question de clarification ou l'exploration du repo),
-identifie la skill construct qui s'applique et invoque-la. Annonce « J'utilise [skill]
+identifie la skill mentis qui s'applique et invoque-la. Annonce « J'utilise [skill]
 pour [but] » puis suis-la. Si une checklist existe, une todo par item.
 
 ## Le pipeline (ordre)
 
 Chaque étape écrit son checkpoint dans starfleet (`update_checkpoint`). Toutes les briques
-suivent le **gabarit unique** (`construct/CONVENTIONS.md`) et sont réécrites à notre sauce :
+suivent le **gabarit unique** (`mentis/CONVENTIONS.md`) et sont réécrites à notre sauce :
 
 1. **start-feature** : crée la worktree isolée (starfleet `create_task` + `launch_worktree`).
 2. **brainstorm** : explorer l'intention avant tout code.
@@ -33,9 +33,9 @@ suivent le **gabarit unique** (`construct/CONVENTIONS.md`) et sont réécrites �
 
 ## Le seam avec starfleet
 
-Une skill construct **ne réinvente pas l'orchestration** : elle appelle les tools MCP de
+Une skill mentis **ne réinvente pas l'orchestration** : elle appelle les tools MCP de
 starfleet (create_task, launch_worktree, update_checkpoint, set_arch_node, escalate,
-finish_task) et laisse le dashboard refléter l'état. Méthode ≠ état : construct décide
+finish_task) et laisse le dashboard refléter l'état. Méthode ≠ état : mentis décide
 *quoi/comment*, starfleet tient *où/état*.
 
 ## Garde-fous

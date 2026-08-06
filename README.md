@@ -1,4 +1,4 @@
-# xefi-superpowers
+# mentis
 
 Ma version d'un framework équivalent vu sur le marché open source, en
 gardant la main dessus. Un framework d'agents et de skills Claude Code pour
@@ -73,7 +73,7 @@ juge ou review n'a jamais vu le code s'écrire (`arbitre`, les reviewers,
 
 | Skill | Étape | Ce qu'il fait |
 |---|---|---|
-| `using-construct` | 0 | Discipline d'utilisation du framework, point d'entrée |
+| `using-mentis` | 0 | Discipline d'utilisation du framework, point d'entrée |
 | `start-feature` | 0 | Démarre une feature (worktree) |
 | `brainstorm` | 1 | Explore intention/besoin avant tout code |
 | `spec` | 2 | Cadre le besoin en critères vérifiables |
