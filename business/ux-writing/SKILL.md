@@ -55,7 +55,17 @@ error, an empty state, a confirmation dialog, a notification, a transactional em
 3. **Distinguish both from "failed to load"** — showing an empty state when a request errored teaches
    the user their data is gone.
 
-### 4. Mechanics that keep it consistent
+### 4. One product, one voice
+1. **One form of address, applied everywhere** — every message, error, label and confirmation. Which one is a
+   product decision, and in several languages it is a grammatical fork with no neutral option; mixing them
+   inside one product is what reads as unfinished.
+2. **One word per action, across the whole product.** If deleting an item is "Delete", it is never "Remove" or
+   "Clear" three screens later. Two words for one action make a user wonder whether they do the same thing,
+   and they make consistent translation impossible.
+3. This is also why the wording lives in one place rather than wherever it was first typed
+   (`vue-nuxt-vuetify-conventions` section 6, `laravel-conventions` section 5).
+
+### 5. Mechanics that keep it consistent
 1. **One term per concept, everywhere.** If it's a "customer" in one screen and a "client" in the next,
    users assume they're different things. Pick one and use it in the code too
    (`skills/domain-modeling` §1).
