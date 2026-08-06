@@ -23,6 +23,7 @@ flowchart LR
     K --> L[11 finish]
     H -- NEEDS_WORK --> F
     I -- findings --> F
+    R[bug-triage] --> G
 ```
 
 The steps are numbered because the order carries meaning, not because every task needs all of
@@ -41,6 +42,7 @@ producing findings. Both land back in `code`. Everything else moves forward.
 | 4 | `plan` | in what order, in what slices? | verifiable steps |
 | 5 | `tdd` | what will prove it works? | one contract line per criterion, all failing |
 | 6 | `code` | the implementation | the scope's tests pass |
+| — | `bug-triage` | is there a case to debug at all? | a reproduction someone else can run, or a stated blocker |
 | — | `debug` | why doesn't it do what I think? | the cause is found, not guessed |
 | 7 | `gate` | is "it works" a fact or a claim? | evidence read, fresh-context verdict `PASS` |
 | 8 | `review` | is the diff good, and faithful to the spec? | findings triaged, verified, posted |
@@ -51,6 +53,11 @@ producing findings. Both land back in `code`. Everything else moves forward.
 ## 2. Step → block mapping
 
 The authoritative registry, with maturity per block, is `CATALOG.md` §1. This is the routing table.
+
+**Two things are deliberately outside this pipeline.** The `business/` blocks (legal, marketing, sales,
+communication, product) sit alongside it and **never gate a step** — they carry a weaker contract, stated in
+`business/README.md`. And the `xefi-claude-skills` marketplace owns the per-stack style and structure rules;
+where it's installed, the conventions blocks below defer to it (`CATALOG.md` §0).
 
 | Step | Skill | Agents involved |
 |---|---|---|
@@ -110,7 +117,13 @@ organisational tidiness, each one is load-bearing.
   mechanism, one home.
 - **Propose vs ratify.** Anything with consequences outside the worktree — a destructive migration, a
   shared-environment change, a breaking contract, a merge — is proposed by an agent and ratified by a
-  human. No agent merges its own work.
+  human. No agent merges its own work. Outside the code this is stricter still: nothing is published,
+  posted or replied to on a public account without a human approving that exact content
+  (`business/social-publishing`, `business/community-management`).
+- **Own a rule, or defer to whoever does.** Two sources for one rule is the same failure as a producer
+  judging itself: nobody knows which one holds. Where the `xefi-claude-skills` marketplace covers a
+  subject, it wins and mentis points at it (`CATALOG.md` §0). Where a fact comes from outside the repo
+  entirely, it carries a source and an expiry (`skills/source-freshness`).
 
 When a block starts needing "and also", that's the signal to split it, not to grow it.
 

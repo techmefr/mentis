@@ -13,7 +13,8 @@ After `review` (`reviewed`), before `ship`.
 ## Steps
 1. Re-read the diff: missed reuse, duplicated code, pointless indirection, over-abstraction.
 2. Simplify at identical behaviour (the GATE tests stay green).
-3. Check consistency with the architecture (`set_arch_node`: mark the nodes `done`).
+3. Check consistency with what `archi` (3) wrote down, and mark as built what is now built — so the
+   architecture record stops describing a plan and starts describing the code.
 
 ## Output / checkpoint
 `simplified`.

@@ -4,7 +4,9 @@
 > continuously enriched by **rewriting** (rule B, `CONVENTIONS.md`) the best ideas/agents from
 > other repos on the market, never by depending on them. This file holds: **1)** what we have,
 > **2)** what we could rewrite to complete/improve it. Living document: we extend it as we go.
-> Statuses: ✅ rewritten here / 🟡 written, not dogfooded yet / 🔜 to wire up / 🔎 to mine / ✕ ruled out.
+> Statuses: 🟢 used on real production work / ✅ rewritten here (idea taken and reworked) / 🟡 written, not
+> dogfooded yet / 🔜 to wire up / 🔎 to mine / ✕ ruled out. **🟢 is the only one that means "proven"** — ✅
+> says the rewrite is done, not that anyone has run it.
 
 ## 0. Dedup audit vs the `xefi-claude-skills` marketplace (2026-08-06)
 
@@ -55,7 +57,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 ### Skills: the pipeline (`WORKFLOW.md` §2)
 | Block | Step / layer | Origin (idea rewritten) | Maturity |
 |---|---|---|---|
-| start-feature | 0 (worktree) | internal starfleet + a market skill for worktree management | 🟡 |
+| start-feature | 0 (worktree) | a market worktree-management skill, rewritten | 🟡 (rewritten 2026-08-06: it called a local orchestrator's MCP tools directly, which broke rule B and made step 0 undistributable — plain git is now the default path, the orchestrator optional. Same correction in `using-mentis`, `plan`, `brainstorm`, `finish`) |
 | brainstorm | 1 | native `brainstorming` | 🟡 |
 | spec | 2 | a market skill catalogue (grill-with-docs) + internal | 🟡 |
 | archi | 3 | internal graphify + a three-way dedup pass (name, shape, call site) with the negative result recorded | 🟡 (dedup mechanism written, not dogfooded yet) |
@@ -111,7 +113,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | review | 8 | a recognised market skill author (two-axis code review) + Xefi agents + native | 🟡 |
 | simplify | 9 | native `simplify` | 🟡 |
 | ship | 10 | internal (`/SHIP`, gandalf) | 🟡 |
-| finish | 11 | internal (`finish_task`) | 🟡 |
+| finish | 11 | internal, plain git — rewritten from an orchestrator teardown step with no dependency on it | 🟡 |
 | merge-worktree | 11 | a market context-engineering kit (`git-worktrees`) | 🟡 |
 
 ### Business layer (`business/`, weaker contract: no gate, no evidence, 🟡 ceiling)
@@ -179,7 +181,7 @@ linters, orchestration frameworks, etc. on the market).
 | market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
 | market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
-| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (47 skills / 19 agents), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
+| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (56 skills + 14 business blocks / 21 agents, as of 2026-08-06), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
 | market skills repository (companion) | `meta/testing-skills-with-subagents` → `testing-blocks` | validating our own 🟡 blocks | ✅ |
 | market skills repository (companion) | `meta/pulling-updates-from-skills-repository` + `meta/sharing-skills` → `distributing-blocks` | README stages 3-4 | ✅ |
 | market skills repository (companion) | `debugging/root-cause-tracing` + `debugging/defense-in-depth` → folded into `debug` | debug | ✅ (extended rather than duplicated; the layering was bounded to boundaries, the source doesn't limit it) |

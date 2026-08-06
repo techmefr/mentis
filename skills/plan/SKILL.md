@@ -14,10 +14,11 @@ After `archi`, before `tdd`.
 ## Steps
 1. Break into **atomic** increments: each one testable and deliverable independently.
 2. Order by dependency (whatever unblocks the rest comes first).
-3. Create one `add_task_item` per increment (tracked in starfleet + dashboard).
+3. Record **one tracked item per increment**, wherever the task's trail lives (a todo list, the ticket, a
+   local orchestrator if there is one). The tracking must exist; the tool is not prescribed.
 
 ## Output / checkpoint
-`plan_done` + `task_items` filled in.
+`plan_done` + one tracked item per increment, in dependency order.
 
 ## Guardrails
 No automatic execution of the whole plan (**no `/build auto`**: see `WORKFLOW.md`, auto-mode

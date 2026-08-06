@@ -185,8 +185,24 @@ that is precisely what proves the triage is real, not just a pile-up.
 
 No overselling here. Some of my agents have real production experience,
 others are written but not yet confronted with a real project. The table is
-kept up to date in `CATALOG.md`, the maturity column (✅ / 🟡 / 🔜) is the
-source of truth, not this document.
+kept up to date in `CATALOG.md`, and its maturity column is the source of
+truth, not this document. One distinction matters there: **🟢 means it ran on
+real work; ✅ only means the rewrite is finished.** Most of the repo is 🟡 —
+written, never run — and saying so is the point of the column.
+
+Two consequences of the same honesty:
+
+- **A second layer exists with a weaker contract.** The `business/` blocks
+  (legal, marketing, sales, communication, product) are written *without*
+  internal expertise in those functions, they never gate anything, and 🟡 is
+  their ceiling until someone who owns that function reviews them. They live in
+  a separate folder precisely so the dev core's claims aren't diluted by
+  association — the reasoning is in `business/README.md`.
+- **Where someone else already owns a rule, I don't.** The
+  `xefi-claude-skills` marketplace (211 skills, versioned, installed org-wide)
+  is the authority on per-stack style and structure. Two sources for one rule
+  is the same failure as a producer judging its own work: nobody knows which
+  holds. The boundary is drawn block by block in `CATALOG.md` §0.
 
 ## 9. A loop is possible, but not on everything
 

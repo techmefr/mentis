@@ -19,8 +19,12 @@ the market in my own voice, without ever depending on a third-party repo.
 - [What's inside](#whats-inside)
 - [The rule that keeps me in control](#the-rule-that-keeps-me-in-control)
 - [Quickstart](#quickstart)
+- [Where this is going](#where-this-is-going)
 - [Status](#status)
 - [Licence](#licence)
+
+At a glance, as of 2026-08-06: **56 skills**, **14 business blocks**, **21 agents**, one gate hook pair.
+Maturity is the honest part — see [Status](#status).
 
 ## Why my own version
 
@@ -42,9 +46,14 @@ an external repo to keep my pipeline running.
   executes it (agents).
 - **`xefi-mr-review`** (separate repo) = a specialised implementation: the
   review/gate step only, wired into GitLab CI, one folder per stack.
-- **Domain agents** (`neo`, `morpheus`, `tank`,
-  the per-stack reviewers, `gandalf`, `galadriel`) = the layer that actually
-  does the work, plugged into the pipeline slots below.
+- **Domain agents** (`neo`, `morpheus`, `trinity`, `tank`, `dozer`, the eight
+  per-stack reviewers, `gandalf`, `galadriel`) = the layer that actually does
+  the work, plugged into the pipeline slots below.
+- **The `xefi-claude-skills` marketplace** (211 skills across ten plugins,
+  installed org-wide) = the authority on **per-stack style and structure
+  rules**. This repo owns the *method*; where that marketplace covers a
+  subject, mentis defers to it rather than keeping a second copy. The boundary
+  is drawn block by block in [`CATALOG.md`](./CATALOG.md) §0.
 
 ## The pipeline
 
@@ -58,9 +67,15 @@ flowchart LR
     F --> G[debug]
     G --> H[gate: galadriel]
     H --> I[review: per-stack reviewers]
-    I --> J[ship: gandalf]
-    J --> K[finish]
+    I --> J[simplify]
+    J --> K[ship: gandalf]
+    K --> L[finish]
+    R[bug-triage] --> G
 ```
+
+A reported bug enters through `bug-triage`, which turns a report into a
+reproducible case before `debug` starts. The numbered version of this diagram,
+with the two backward loops, is in [`WORKFLOW.md`](./WORKFLOW.md).
 
 Two guarantees hold the whole pipeline together. Fresh context: whoever
 judges or reviews never watched the code being written (`galadriel`, the
@@ -220,6 +235,11 @@ Claude Code's native format:
 3. Agents are invoked through Claude Code's `Agent` / `Task` tool, directly
    by name (e.g. `elrond` for a multi-stack review, or `aragorn`/`gimli`/...
    directly if the stack is already known).
+4. The gate hook pair is opt-in per repo and has to be wired deliberately by a
+   human who has read what it does: see [`hooks/README.md`](./hooks/README.md).
+5. Business blocks live in [`business/`](./business/README.md) and install the
+   same way — but read that folder's README first, they carry an explicitly
+   weaker contract and never gate anything.
 
 ## Where this is going
 
@@ -261,13 +281,27 @@ an older version on purpose has to remain possible.
 
 ## Status
 
-Active demonstrator: my doctrine (template, rules A/B/C, default = failure,
-fresh context) is stable and applied, some agents have real production
-experience (`aragorn`, `gimli`, `gandalf`, `galadriel`, `elrond`), others are
-written but not dogfooded yet (`neo`, `morpheus`,
-`tank`) or sourced from the market with no internal experience yet
-(`boromir`, `theoden`, `go-conventions`, `dotnet-conventions`). The exact
-line-by-line detail is in `CATALOG.md`.
+Active demonstrator. The doctrine (template, rules A/B/C, default = failure,
+fresh context) is stable and applied. The honest breakdown:
+
+| | Count | State |
+|---|---|---|
+| Skills | 56 | 9 marked 🟢 real production use; the rest 🟡 |
+| Business blocks | 14 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| Agents | 21 | 4 with real production experience (`aragorn`, `gimli`, `gandalf`, `elrond`); the rest written, not dogfooded |
+| `hooks/` | 1 pair | passes its 6-case smoke test, **wired into no repo yet** |
+
+Written with **no internal production experience on the stack**, so their
+remarks are phrased as questions rather than statements: `boromir` (Go),
+`theoden` (.NET), `samwise` (Python), `faramir` (Flutter/mobile), and the
+matching `go-conventions` / `dotnet-conventions` / `python-conventions`.
+
+Known gaps, stated rather than implied: **most of the roster has never run
+once** (stage 2 below), `testing-blocks` has never been executed on itself,
+the five `*-conventions` blocks for stacks the marketplace also covers still
+carry sections that duplicate it, and the eight per-stack reviewers repeat the
+same GitLab plumbing instead of sharing it. Line-by-line detail in
+[`CATALOG.md`](./CATALOG.md), including the dedup audit in §0.
 
 ## Licence
 

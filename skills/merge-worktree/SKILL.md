@@ -7,7 +7,7 @@ description: Use when only part of a worktree needs to come back into the curren
 
 Brings the work from one or several worktrees back into the current branch when a full merge
 isn't the right fit (we only want part of the content, or we want to review before validating).
-Sits at step 11 (`finish`) of `WORKFLOW.md`, upstream of `finish_task`: here we choose *what* to
+Sits at step 11 of `WORKFLOW.md`, just upstream of `finish`: here we choose *what* to
 bring back, `finish` then tidies away the worktree that has become useless.
 
 ## When
@@ -44,8 +44,8 @@ bring back, `finish` then tidies away the worktree that has become useless.
 ## Output / checkpoint
 
 The targeted content merged into the current branch, the source worktree(s) removed cleanly.
-If the step chains into `finish`, `finish_task` takes over for the task's main worktree and
-updates the integration base.
+If the step chains into `finish`, that block takes over for the task's main worktree and updates
+the integration base.
 
 ## Guardrails
 
@@ -65,4 +65,4 @@ updates the integration base.
 
 Idea taken from: a market context-engineering kit,
 plugins/git/skills/git-worktrees/SKILL.md, "How to Merge Worktree" section. Mechanism rewritten
-our way (mentis template, articulation with `finish`/`finish_task`).
+our way (mentis template, articulation with `finish`).
