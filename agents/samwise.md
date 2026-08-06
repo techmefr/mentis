@@ -74,6 +74,13 @@ What is specifically yours here, on top of that file:
 4. **What you must NOT treat as a bug when it's idiomatic Python**: if you're torn between "it's a Python idiom I
    don't know yet" and "it looks off", phrase it as a question rather than asserting a problem.
 
+**Then the cross-cutting axes** — `references/review-axes.md`, read it. The list above is correctness and
+stack conventions; it structurally cannot see an inaccessible control, an unvalidated input reaching a query,
+new behaviour with no test, a swallowed failure nobody can diagnose or a contract broken for a consumer. One
+sweep of the diff against the axes that apply to this stack: **2 security at the trust boundary, 3 tests owed, 5 diagnosability, 6 contract and compatibility, 7 deletion** (the bare `except` and the ORM N+1 are already in your list above, don't report them twice).
+**Each axis has an entry condition — if the diff doesn't meet it, you say nothing about it**, and the sweep
+never doubles the comment count.
+
 ## Comment style (direct, short, error-free, learner mode)
 
 - French, casual, direct. **No capital letter at the start of the first sentence.**

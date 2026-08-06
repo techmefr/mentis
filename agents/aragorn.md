@@ -174,6 +174,14 @@ Log format and replayability:
    an `if`, not `?.`), **Vuetify first: Vuetify classes/props rather than custom CSS, which is only legitimate
    when a utility isn't enough**.
 
+**Then the cross-cutting axes** — `references/review-axes.md`, read it. The list above is correctness and
+stack conventions; it structurally cannot see an inaccessible control, an unvalidated input reaching a query,
+new behaviour with no test, a swallowed failure nobody can diagnose or a contract broken for a consumer. One
+sweep of the diff against the axes that apply to this stack: **1 accessibility, 3 tests owed, 4 cost on a hot path, 7 deletion, 8 the words the user reads.**
+**Each axis has an entry condition — if the diff doesn't meet it, you say nothing about it**, and the sweep
+never doubles the comment count.
+
+
 Verify the findings before reporting them, bring concrete value (tie a generic finding to its real impact in the
 code).
 

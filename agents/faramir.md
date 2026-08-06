@@ -79,6 +79,13 @@ What is specifically yours here, on top of that file:
 4. **What you must NOT treat as a bug**: anything that is a Flutter idiom you don't know. On this stack that
    category is large — default to the question.
 
+**Then the cross-cutting axes** — `references/review-axes.md`, read it. The list above is correctness and
+stack conventions; it structurally cannot see an inaccessible control, an unvalidated input reaching a query,
+new behaviour with no test, a swallowed failure nobody can diagnose or a contract broken for a consumer. One
+sweep of the diff against the axes that apply to this stack: **1 accessibility, 3 tests owed, 7 deletion, 8 the words the user reads** (touch targets and secrets in storage are already in your list above, don't report them twice).
+**Each axis has an entry condition — if the diff doesn't meet it, you say nothing about it**, and the sweep
+never doubles the comment count.
+
 ## Comment style (direct, short, error-free, strong learner mode)
 
 - French, casual, direct. **No capital letter at the start of the first sentence.**
