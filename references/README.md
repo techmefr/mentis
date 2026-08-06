@@ -24,7 +24,8 @@
 | **Git / commits / MR** (conventional, lowercase; MR comments short and emoji-free) | *scattered in memory* | / | Pub | 🔜 **to write** `git-mr.md` |
 | **Code smells** (baseline cited by the Standards axis of `review`) | to be formalised | / | Pub | 🔜 **to write** `code-smells.md` |
 | Agents (aragorn/gimli/legolas/gandalf…) | `.claude/agents/*` | defs | Int | ✅ (registry in CATALOG) |
-| **Current library/framework docs** (upstream, beyond any training cutoff) | `context7` MCP server, on demand | tool | Pub | 🔜 to wire (see below) |
+| **Current library/framework docs** (upstream, beyond any training cutoff) | `context7` MCP server, on demand | tool | Pub | ✅ installed (see below) |
+| **Social platform publishing access** (who gates posting, what it costs, what's not worth it) | `references/social-platforms.md` | doc | Pub | ✅ (dated 2026-08-06, six-month window) |
 
 \* `CATALOG.md`: the structure is publishable, but its backlog names internal repos/layers → keep it internal until we've separated them.
 

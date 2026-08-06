@@ -154,6 +154,7 @@ without internal expertise in that function.
 | `release-communication` | communication | Sort by what the reader must do; deprecations carry a path and a date |
 | `incident-communication` | communication | First message before the cause is known, announced cadence, no speculation, no blame |
 | `internal-communication` | communication | The ask in the first line; a decision that lives only in a call isn't announced |
+| `social-publishing` | communication | One message adapted per platform, never four truths; an agent drafts, a human publishes |
 
 ### Agents
 
