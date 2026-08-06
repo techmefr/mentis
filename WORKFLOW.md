@@ -59,7 +59,7 @@ The authoritative registry, with maturity per block, is `CATALOG.md` §1. This i
 | 2 | `spec` | — |
 | 3 | `domain-modeling`, `archi`, `api-design`, `documentation-adr` | `architect` (periodic debt audit, outside the pipeline) |
 | 4 | `plan`, `wayfinder` | — |
-| 5 | `tdd` | `dozer` |
+| 5 | `tdd`, `testing-anti-patterns` | `dozer` |
 | 6 | `code` + the conventions block for the stack: `typescript-patterns`, `php-patterns`, `vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`, `nestjs-node-conventions`, `go-conventions`, `dotnet-conventions`, `python-conventions`, `java-conventions`, `auth-session-conventions`, `security-hardening`, `background-jobs-conventions`, `webperf`, `seo`, `accessibility`, `observability-instrumentation`, `devops-conventions`, `data-pipeline-conventions` | `neo` (Vue/Nuxt), `morpheus` (Laravel), `trinity` (NestJS/Node), `tank` (SQL/ES) |
 | — | `debug` | — |
 | 7 | `gate` | `galadriel` |
@@ -67,7 +67,7 @@ The authoritative registry, with maturity per block, is `CATALOG.md` §1. This i
 | 9 | `simplify`, `over-engineering-review` | — |
 | 10 | `ship` | `gandalf` |
 | 11 | `finish`, `merge-worktree` | — |
-| cross-cutting | `deprecation-migration`, `handoff`, `choose-model`, `dispatch-parallel`, `extract-conventions`, `writing-skills`, `writing-agents`, `using-mentis` | — |
+| cross-cutting | `deprecation-migration`, `handoff`, `choose-model`, `dispatch-parallel`, `extract-conventions`, `writing-skills`, `writing-agents`, `testing-blocks`, `distributing-blocks`, `using-mentis` | — |
 
 ## 3. The two guarantees that hold it together
 

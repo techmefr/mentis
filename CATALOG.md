@@ -42,7 +42,8 @@
 | documentation-adr | 3 | a market generalist dev skill catalogue (5-6 field ADR template) | 🟢 (direct rewrite) |
 | wayfinder | cross-cutting | a recognised market skill author (parent ticket with 5 sections + typed children) | 🟢 (direct rewrite, adapted to Jira) |
 | handoff | cross-cutting | a recognised market skill author (reference by path, never duplicate) | 🟢 (direct rewrite) |
-| debug | support 6 | native `systematic-debugging` | 🟡 |
+| debug | support 6 | native `systematic-debugging` + a market skills repository (`root-cause-tracing`: backwards call-chain walk + stack capture; `defense-in-depth`: layered validation) | 🟡 (extended: our version named the goal but gave no technique to reach it) |
+| testing-anti-patterns | 5 / review lens | a market skills repository (`testing-anti-patterns` + `condition-based-waiting`, merged: tests that report safety they don't have) | 🟡 (written, not dogfooded yet) |
 | extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (generates the references from the real code) |
 | choose-model | cross-cutting | internal synthesis (no external source taken as-is) | 🟡 (grid written, not yet applied retroactively to all existing agents) |
 | dispatch-parallel | cross-cutting | a market skill/agent framework (dispatching-parallel-agents + subagent-driven-development, merged) | 🟡 (written, partial experience via elrond→aragorn/gimli/legolas) |
@@ -99,8 +100,9 @@ linters, orchestration frameworks, etc. on the market).
 | **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (47 skills / 19 agents), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
 | market skills repository (companion) | `meta/testing-skills-with-subagents` → `testing-blocks` | validating our own 🟡 blocks | ✅ |
 | market skills repository (companion) | `meta/pulling-updates-from-skills-repository` + `meta/sharing-skills` → `distributing-blocks` | README stages 3-4 | ✅ |
-| market skills repository (companion) | `debugging/root-cause-tracing`, `debugging/defense-in-depth`, `debugging/verification-before-completion` | debug (we have 1 skill where they have 4) | 🔎 (next) |
-| market skills repository (companion) | `testing/testing-anti-patterns`, `testing/condition-based-waiting` (the flaky-test remedy: wait on a condition, never on a duration) | tdd / testing doctrine | 🔎 (next, no equivalent here) |
+| market skills repository (companion) | `debugging/root-cause-tracing` + `debugging/defense-in-depth` → folded into `debug` | debug | ✅ (extended rather than duplicated; the layering was bounded to boundaries, the source doesn't limit it) |
+| market skills repository (companion) | `debugging/verification-before-completion` | gate | ✅ (already owned: that's what step 7 + `galadriel` + the `hooks/` pair do, with cited evidence) |
+| market skills repository (companion) | `testing/testing-anti-patterns` + `testing/condition-based-waiting` → `testing-anti-patterns` | tdd / review | ✅ (merged: one responsibility, tests that report safety they don't have) |
 | market skills repository (companion) | `problem-solving/*` (when-stuck, inversion-exercise, simplification-cascades, scale-game, collision-zone-thinking, meta-pattern-recognition), `architecture/preserving-productive-tensions`, `research/tracing-knowledge-lineages`, `collaboration/remembering-conversations` | new category: thinking techniques | 🔎 (nothing here covers "how to get unstuck"; to be filtered against rule B rather than taken wholesale) |
 | market skills repository (companion) | `meta/gardening-skills-wiki` | / | 🔎 (maintenance of a skills corpus; relevant once there are consumers) |
 | market skill/agent framework | `dispatching-parallel-agents` + `subagent-driven-development` → merged into `dispatch-parallel` | orchestration | ✅ |
