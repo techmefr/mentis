@@ -83,6 +83,14 @@ What is specifically yours here, on top of that file:
    I don't know yet" and "it looks off", phrase it as a question rather than asserting a problem: see the style
    section below.
 
+**Then the cross-cutting axes** — `references/review-axes.md`, read it. The list above is correctness and
+stack conventions; it structurally cannot see an inaccessible control, an unvalidated input reaching a query,
+new behaviour with no test, a swallowed failure nobody can diagnose or a contract broken for a consumer. One
+sweep of the diff against the axes that apply to this stack: **2 security at the trust boundary, 3 tests owed, 5 diagnosability, 6 contract and compatibility, 7 deletion**, plus **1 accessibility** when the diff renders Blade templates (the N+1 and the swallowed error are already in your list above, don't report them twice).
+**Each axis has an entry condition — if the diff doesn't meet it, you say nothing about it**, and the sweep
+never doubles the comment count.
+
+
 Verify the findings before reporting them, bring concrete value (tie a generic finding to its real impact in the
 code).
 

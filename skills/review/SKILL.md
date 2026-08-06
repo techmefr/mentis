@@ -13,8 +13,11 @@ After `gate` (`verified`), before `simplify`.
 
 ## Steps
 1. Run **two subagents in parallel** (separate contexts, no cross-pollution):
-   - **Standards axis**: Xefi conventions + code smells (reuse, simplification, duplicated
-     CSS).
+   - **Standards axis**: the stack's conventions + code smells (reuse, simplification, duplicated
+     CSS), **then the cross-cutting sweep of `references/mr-review-plumbing.md`'s companion,
+     `references/review-axes.md`** — accessibility, trust boundary, tests owed, cost on a hot path,
+     diagnosability, contract, deletion, user-visible words. Each axis has an entry condition, so a
+     diff that doesn't meet it produces nothing on that axis.
    - **Spec axis**: is the diff **faithful to the ticket / the spec**? (which the native
      `/code-review` doesn't cover). Clean skip if there's no spec.
 2. Aggregate both side by side.
