@@ -9,6 +9,11 @@ Step 6 of the pipeline (`WORKFLOW.md`), complementing
 `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`: applies to every page/component meant for
 real users (not to internal scripts or dev-only tooling).
 
+**Boundary with the `xefi-claude-skills` plugin.** Its `design:accessibility` skill checks a **mockup**
+against RGAA before any code exists, and `references/README.md` already names it as the single source for
+RGAA thresholds. This block is the **code-time** pass on what's actually rendered — semantics, focus order,
+ARIA, form wiring — which a mockup can't show. Don't restate a threshold here: read it from that skill.
+
 ## When
 As soon as a frontend component/page is written or modified, during `code` (6) or at review time
 (`review`, 8) if the diff touches UI.

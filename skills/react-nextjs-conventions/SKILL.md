@@ -11,6 +11,12 @@ always the same stack and the same step: a single block rather than three that s
 Complementary to `legolas` (the diff review agent): here we write the code, legolas re-reads it
 afterwards.
 
+**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `react` plugin ships 36
+skills covering naming, component structure, typing, hooks discipline and TanStack Query conventions.
+**Where it's installed, it is the authority on those rules.** What this block keeps: the linter-derived
+correctness rules (state/effects, perf, security, a11y) and the parts tied to the stack combination as a
+whole, which no single-rule skill covers.
+
 ## When
 As soon as a `.tsx` component, a Next.js route, a hook, a Redux Toolkit slice is written or modified, or a
 shadcn/ui component is composed, during `code` (6) or `tdd` (5).

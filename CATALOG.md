@@ -6,6 +6,39 @@
 > **2)** what we could rewrite to complete/improve it. Living document: we extend it as we go.
 > Statuses: ✅ rewritten here / 🟡 written, not dogfooded yet / 🔜 to wire up / 🔎 to mine / ✕ ruled out.
 
+## 0. Dedup audit vs the `xefi-claude-skills` marketplace (2026-08-06)
+
+The installed marketplace ships **211 skills** across ten plugins: laravel 45, flutter 37, react 36, nuxt
+21, python 20, csharp 15, global 14, design 10, project-management 9, design-patterns 4. It is versioned,
+org-wide and already installed on Xefi machines — so on any subject it covers, **it is the authority and
+mentis defers**. A second source for one responsibility is the bug `maintaining-blocks` §4 exists to catch.
+
+Overlaps found and resolved, each by a stated boundary written into the mentis block:
+
+| mentis block | Plugin counterpart | Boundary |
+|---|---|---|
+| `skills/design-patterns` | `design-patterns` (4 per-pattern skills) | they own **how** to shape each pattern; we own **whether** to reach for one — which none of them covers |
+| `business/ux-writing` | `design:ux-writing` | it owns the wording rules at **design time** in a mockup; we keep the **code-time** pass on text that never passes through one |
+| `skills/accessibility` | `design:accessibility` | it owns RGAA thresholds on a **mockup**; we keep the **rendered-code** pass (semantics, focus order, ARIA, forms) |
+| `skills/vue-nuxt-vuetify-conventions` | `nuxt` (21) | it owns structure/style; we keep the linter-derived correctness rules and the debt observed in real reviews |
+| `skills/react-nextjs-conventions` | `react` (36) | same split |
+| `skills/php-patterns` | `laravel` (45) | it owns the framework layer; we stay below it, on the language |
+| `skills/python-conventions` | `python` (20) | it owns the toolchain and framework doctrine; we're the fallback outside it |
+| `skills/dotnet-conventions` | `csharp` (15) | it owns the rules; we keep the analyzer baseline for a codebase without it |
+| `business/product-ownership` | `project-management` (9) | it owns the story artefact, its review axes, Jira mechanics and estimation; we own the decision around it (priority, refusal, criteria, ready/done) |
+
+**Still open, a decision rather than a finding:** the five `*-conventions` blocks above now carry a
+boundary note, but their sections 1–3 remain a *thinner duplicate* of plugin content. The clean end state
+is to cut those sections and keep only what the plugin has no equivalent for. That's a deletion pass on
+live content, so it waits for an explicit go. `go-conventions` and `java-conventions` have **no** plugin
+counterpart and stay as they are.
+
+No duplicate found **inside** mentis: the pairs most at risk were checked — `bug-triage` vs
+`qa-exploratory-testing` (report handling vs pre-merge discovery), `security-hardening` vs `seraph`
+(writing-time vs audit-time), `debug` vs `when-stuck` (a bug with a cause vs the approach itself),
+`over-engineering-review` vs `simplify` (lists vs applies), `internal-communication` vs `handoff`
+(human vs agent), `content-creation` vs `social-publishing` (worth publishing vs publishing it).
+
 ## 1. Block registry
 
 ### Skills: the pipeline (`WORKFLOW.md` §2)
@@ -56,6 +89,7 @@
 | design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, verified 2026-08-06); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours | 🟡 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
+| product-ownership | product | reduced after the dedup audit: the plugin's 9 `project-management` skills already own the story artefact and its estimation; public sources for given/when/then criteria and definition-of-ready/done | 🟡 (deliberately thin; ours is the priority/refusal/criteria layer and tying "done" to the two guarantees) |
 | community-management | communication | a marketplace community-management skill (moderation policy templates, engagement ladder, DAU/MAU + member-to-member replies + support deflection as metrics, "what you tolerate in the first hundred members becomes the culture") + a B2B SaaS social-media-manager skill for crisis response | 🟡 (no internal CM expertise; §4 — what a CM must never answer alone — is ours and is the failure we actually expect) |
 | content-creation | communication | an MIT marketing skill collection (34 skills), a LinkedIn growth set, a YouTube creator set and several repurposing skills — the repurposing insight taken, plus the observation that per-network work differs mainly in hook and length; none of them reviews or fact-checks a claim, and all start from a topic rather than from an artefact | 🟡 (no internal content expertise; §2's artefact→format table and the honest-hook line are ours) |
 | social-publishing | communication | a community social-media skill suite (`social-ai-team`, 10 skills) for its pause-and-approve gate at every handoff; its per-platform writers rejected as fragmentation, the volatile facts moved to `references/social-platforms.md` | 🟡 (no internal social-media expertise; the access table is the part with a six-month expiry) |

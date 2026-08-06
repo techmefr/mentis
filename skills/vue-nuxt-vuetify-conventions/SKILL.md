@@ -9,6 +9,13 @@ Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing of frontend code on t
 stack: three families of rules (Vue, Nuxt, Vuetify) that overlap because it's always the same stack and the
 same step: a single block rather than three that step on each other.
 
+**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `nuxt` plugin ships 21
+skills on component structure, Vuetify, typing, Pinia and naming. **Where it's installed, it is the
+authority on those style and structure rules** — sections 1 to 3 below defer to it on any point where the
+two could differ. What this block keeps and the plugin has no equivalent for: section 4 (the
+reactivity/hydration correctness and security rules derived from the linter rule sets) and section 5 (the
+quality debt observed in real reviews).
+
 ## When
 As soon as a `.vue` component, a Nuxt page or a composable is written or modified, or a Vuetify component is
 chosen for a UI need, during `code` (6) or `tdd` (5).

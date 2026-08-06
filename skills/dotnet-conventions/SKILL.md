@@ -11,6 +11,11 @@ the Roslyn analyzers (`Microsoft.CodeAnalysis.NetAnalyzers`, enabled by default 
 Meziantou.Analyzer, not from real review feedback. A solid base to be confronted with the first real .NET
 project, not proven doctrine.
 
+**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `csharp` plugin ships 15
+skills (async/await with cancellation, constructor DI, logger injection, restrictive access, and a set of
+explicit prohibitions). **Where it's installed, it is the authority.** This block keeps the
+analyzer-derived baseline for a codebase without it.
+
 ## When
 As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
 

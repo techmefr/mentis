@@ -66,6 +66,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `internal-communication` | communication |
 | `content-creation` | communication |
 | `community-management` | communication |
+| `product-ownership` | product |
 | `social-publishing` | communication |
 
 ## Installing

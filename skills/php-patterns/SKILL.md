@@ -8,6 +8,11 @@ description: Use when writing or reviewing pure PHP, whatever the framework (not
 Step 6 of the pipeline (`WORKFLOW.md`), upstream of the Laravel layer: the language itself, before
 the Eloquent/Laravel conventions that stack on top (see `gimli`, `morpheus`).
 
+**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `laravel` plugin ships 45
+skills on the framework layer — routing, tests, config, control flow, package choices, CRUD via the REST
+API. **Where it's installed, it is the authority there.** This block stays deliberately below it: the PHP
+language itself, on any framework. Don't add a Laravel rule here.
+
 ## When
 As soon as PHP is written or reviewed, on any framework: this block is the common base, the Laravel
 conventions apply on top of it, not instead of it.

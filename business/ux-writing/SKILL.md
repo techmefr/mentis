@@ -12,6 +12,14 @@ user reads for the next three years.
 This block isn't about tone of voice, which belongs to whoever owns the brand. It's about the specific
 places where wording causes a support ticket, a wrong click, or a user stuck with no route forward.
 
+**Boundary with the `xefi-claude-skills` plugin.** Its `design:ux-writing` skill covers the same subject
+**at design time**, inside a mockup, and carries the organisation's own rules — form of address, one word
+per action, explicit button labels. Where that plugin is installed, **it is the authority on the wording
+rules and this block defers to it**; what remains here is the code-time pass, on text that reaches a diff
+without ever passing through a mockup: validation messages, error states, transactional emails,
+concatenated strings. A dedup audit on 2026-08-06 confirmed the overlap is real; this is the resolution,
+and the two must not diverge on a shared rule.
+
 ## When
 As soon as a diff adds or changes text a user sees: a field label, a button, a validation message, an
 error, an empty state, a confirmation dialog, a notification, a transactional email.

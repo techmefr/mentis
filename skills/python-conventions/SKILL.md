@@ -10,6 +10,11 @@ status**: like `go-conventions`/`dotnet-conventions`, no Xefi production experie
 yet: content coming from the official PEPs and deterministic tooling (ruff, mypy), not from real review
 feedback.
 
+**Boundary with the `xefi-claude-skills` plugin** (dedup audit, 2026-08-06): its `python` plugin ships 20
+skills including a full toolchain doctrine (ruff/uv/mypy-strict), errors-as-values at boundaries and a
+framework-specific set. **Where it's installed, it is the authority.** This block is the fallback for a
+Python codebase outside that framework, and should not restate its rules.
+
 ## When
 As soon as Python code is written or modified, during `code` (6) or `tdd` (5).
 

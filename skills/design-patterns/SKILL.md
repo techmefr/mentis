@@ -16,6 +16,12 @@ a decision.
 The useful skill here is subtraction. Two thirds of the catalogue is already in the framework you're
 using, and naming a structure you don't have yet is how a one-caller interface gets built.
 
+**Boundary with the `xefi-claude-skills` plugin.** Its `design-patterns` plugin holds per-pattern
+implementation skills (`state`, `strategy`, `null-object`, `object-construction`) with language-specific
+references. Those answer **how** to implement one well. This block answers **whether to reach for one at
+all** — and once the answer is yes, the plugin's skill for that pattern is the authority on the shape, not
+this file. Two responsibilities, one boundary; don't restate their content here.
+
 ## When
 When about to introduce a pattern by name; when a design discussion produces one as an answer; when
 reviewing code that names one; when the same shape has appeared for the third time and needs a name.
@@ -88,6 +94,11 @@ The catalogue itself is the classic Gang of Four set as published on the widely 
 `refactoring.guru` reference — 5 creational, 7 structural, 10 behavioural patterns, verified 2026-08-06.
 Its catalogue pages describe when each pattern applies and carry **no caution about overuse**, which is
 the gap this block exists to fill: taken at face value, a catalogue is read as a menu.
+
+A dedup audit on 2026-08-06 found the installed `xefi-claude-skills` marketplace already ships four
+per-pattern implementation skills. The boundary stated above is the resolution: they own the shape of each
+pattern, this block owns the decision to use one — which none of them covers, since a skill about a pattern
+assumes you've decided to use it.
 
 What's ours: recognise-don't-apply with the second-real-case threshold, the framework-already-does-it
 subtraction pass (which is where most of the catalogue goes in our stacks), Adapter/Facade justified by
