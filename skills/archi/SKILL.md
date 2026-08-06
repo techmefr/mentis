@@ -28,11 +28,13 @@ After `spec`, before `/PLAN`. Systematic as soon as we touch shared code or an e
       is the evidence that justifies creating. Without it, "there was nothing" is a claim, and
       the duplicate that shows up in review had a findable original.
 3. Decide **where the feature plugs in** (reuse vs create), note the extension points.
-4. Write the target architecture via **`set_arch_node`** (file / role / `planned` status).
+4. **Write the target architecture down** — file, role, and the fact that it's still `planned` rather than
+   built. A repo-local doc, or a graph/registry tool where the project has one; what matters is that it's
+   written and findable, not which tool holds it.
 
 ## Output / checkpoint
-`arch_done` + architecture nodes filled in (living documentation), and for each capability either
-the existing thing being reused or the recorded reason it couldn't be.
+`arch_done` + the target architecture written (file, role, planned-vs-built), and for each capability
+either the existing thing being reused or the recorded reason it couldn't be.
 
 ## Guardrails
 Extracting shared code = **a coordinated refactor, a human decision**: don't refactor quietly

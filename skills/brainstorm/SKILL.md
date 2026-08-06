@@ -18,7 +18,8 @@ Right after `start-feature`, before `/SPEC`. As soon as the real need isn't 100%
 4. Note a suspected out-of-scope and the open questions for the dev/human.
 
 ## Output / checkpoint
-No formal checkpoint: a summary written in `context_summary` (starfleet). Prepares `/SPEC`.
+No formal checkpoint: a written summary of the intent and the options weighed, kept where the task's trail
+lives (`WORKFLOW.md` §5). Prepares `spec` (2).
 
 ## Guardrails
 No code. Product choices go back to the dev/human, we don't decide alone.

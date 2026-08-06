@@ -5,10 +5,11 @@
 
 ## Rule A: test the complete approach first
 
-We assemble the **whole pipeline** (steps 1→11 of `WORKFLOW.md`) and push **one real feature end
-to end** before splitting things into projects (mentis / starfleet / FLEET / …). The split comes
-*after*, once the complete approach has been validated in the field. Until the full loop has run
-once, no project boundary gets frozen.
+We assemble the **whole pipeline** (steps 0→11 of `WORKFLOW.md`) and push **one real feature end to
+end** before splitting anything out into a separate project or tool. The split comes *after*, once the
+complete approach has been validated in the field. Until the full loop has run once, no boundary gets
+frozen — and **no block may depend at runtime on a tool that split off**, which is where rule A meets
+rule B (see `start-feature`, corrected for exactly that).
 
 ## Rule B: rewrite it "our way", never depend on it
 
@@ -35,10 +36,10 @@ reimplement the principle.
 
 ## Rule C: mentis stays publishable
 
-`mentis/` is designed to be **extracted one day into a public repo** ("superpowers, the Xefi
-version", along the lines of the equivalent frameworks opened up by independent devs on the
-market). So that it's a plain copy-paste when the time comes, we hold the boundary **from the
-moment we write**:
+Rule C carries two loads, and the nearer one is the company, not the public. **Sharing across Xefi
+means many teams**: a block hard-coding one team's project name is useless to the others and leaks to
+everyone. The second load is that `mentis/` should stay **extractable into a public repo** one day. Both
+are served by holding the same boundary **from the moment we write**:
 
 - **Inside `mentis/` (generic, publishable)**: pipeline, skills, template, conventions, generic
   agents. No secrets, no real project names, no infra reality.
@@ -49,6 +50,17 @@ moment we write**:
 
 Simple rule: if a sentence couldn't be read by a dev outside Xefi, it doesn't go in `mentis/`.
 Publication itself is **out of agent scope** (a human decision).
+
+A block that can't pass this test isn't rewritten to be vaguer — it's **kept out and stays local**. That
+has already happened, and the mechanism for deciding is in `skills/distributing-blocks` §1.
+
+## The second layer: `business/`
+
+Blocks for the company's other functions (legal, UI/UX, marketing, sales, communication, product) live in
+`business/`, follow the **same template**, and carry an **explicitly weaker contract**: no fresh-context
+judge, no cited evidence, they never gate anything, and 🟡 is their maturity ceiling. Rules A/B/C apply
+unchanged. The reasoning, and the honesty rule specific to that layer, are in `business/README.md` — read
+it before adding one.
 
 ---
 
@@ -74,7 +86,8 @@ description: Use when <precise triggering situation>, <what the block does>. <on
 <Numbered, actionable. What the dev/agent does, in order.>
 
 ## Output / checkpoint
-<What gets produced + the starfleet checkpoint written (`spec_done`, `verified`, …).>
+<What gets produced + the pipeline checkpoint written (`spec_done`, `verified`, …), see `WORKFLOW.md` §5.
+A `business/` block has no checkpoint and says so.>
 
 ## Guardrails
 <What we don't do. Agent/human boundary if relevant. Escalation if blocked.>
@@ -102,12 +115,15 @@ description: Use when <precise triggering situation>, <what the block does>. <on
 
 ---
 
-## State of the blocks (to be consolidated under this template)
+## State of the blocks
 
-Today the blocks are scattered (`starfleet/.claude/commands`, `starfleet/.claude/skills`,
-`mentis/skills`) and use different formats. Target: **everything under `mentis/skills`**, one
-thin `command` per step, a single template. Step → block mapping in `WORKFLOW.md` §2.
+Consolidation is done: **every block lives under `mentis/skills` or `mentis/business`**, one folder per
+block, one template, no other format left. Step → block mapping in `WORKFLOW.md` §2, registry and maturity
+in `CATALOG.md` §1.
 
-Gaps still to write (our way): **brainstorm** (1), **archi/graphify** (3), **GATE default-FAIL +
-evaluator** (7), plus reinforcements **grill→ADR** (2), **two-axis review** (8), **`{passes:false}`
-contract** (5), **finish** (11, wrapper around `finish_task`).
+What remains open is validation, not structure: most blocks are 🟡 — written, never run on real work. A
+block only earns 🟢 by being used, and `skills/testing-blocks` is the cheap check in the meantime.
+
+That list of gaps is closed: every step 0→11 has its block, the gate has its default-FAIL hook pair, and
+the business layer exists. The live backlog is in `CATALOG.md` §2 — and the top item there is no longer
+writing, it's **running**.
