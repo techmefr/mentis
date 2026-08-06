@@ -161,4 +161,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except RuntimeError as e:
+        sys.exit(f"error: {e}")
+    except FileNotFoundError as e:
+        sys.exit(f"error: {e}")
+    except (KeyError, json.JSONDecodeError) as e:
+        sys.exit(f"error: malformed payload file ({e})")

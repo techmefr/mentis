@@ -279,6 +279,17 @@ export GITLAB_HOST=gitlab.example.com && python3 bin/prefetch_mr.py group/repo 4
 Posting is the only outward-facing step: `post_mr_comments.py` takes
 `--dry-run`, and every reader defaults to REPORT, which posts nothing.
 
+To check the plumbing on your machine before pointing it at a real MR — no
+network, no GitLab, nothing to install:
+
+```bash
+python3 bin/test_scripts.py
+```
+
+It covers line-position resolution (added line, context line, out-of-hunk), the
+call shape behind the four inline-posting traps, the two environment variables,
+and the error paths.
+
 ## Where this is going
 
 Four stages, in this order, and the order is the point:

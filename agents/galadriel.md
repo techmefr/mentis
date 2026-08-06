@@ -121,7 +121,7 @@ Arbitre IS the freshness mechanism, not a consumer of an external one:
   the context"; everything it needs must already be in the cited evidence.
 - Inspired by an evaluator pattern sourced from established market tooling for long-running agents (fresh-context
   PASS/NEEDS_WORK verdict) and by a default-FAIL `PreToolUse` hook mechanism from the same kind of tooling, adapted
-  here to the real name of each house repo's test results file (Vitest for the Nuxt/Vue frontend, PHPUnit for the
+  here to the real name of each repo's test results file (Vitest for the Nuxt/Vue frontend, PHPUnit for the
   Laravel backend) rather than to the hard-coded name from the original demo repo.
 
 ## 7. TRACE

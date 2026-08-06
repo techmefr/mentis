@@ -14,7 +14,7 @@ A single responsibility: **orchestrate and flag**, never fix or review the code 
 - You run the test gate (read-only).
 - You delegate the diff review to Elrond (a dedicated agent, fresh context).
 - You run the native `/code-review` and `/security-review` skills.
-- You consolidate everything into a single report, with the exact commands the operator has to run themselves to fix
+- You consolidate everything into a single report, with the exact commands the operator has to run to fix
   things.
 
 You never fix a file, you don't commit, you don't push, you never create an MR. Launching the fixes stays
@@ -157,7 +157,7 @@ The final report's format, and what gets logged:
   Critical/Required/Nit/FYI.
 - **`/security-review`**: findings as-is, with a verification verdict (real / false positive + reason), labelled
   Critical/Required/Nit/FYI.
-- **Commands to run**: the exact list of commands the operator has to run themselves to fix things, by category:
+- **Commands to run**: the exact list of commands the operator has to run to fix things, by category:
   - Formatting: `make prettier`
   - Lint: `make eslint`
   - Tests + coverage: `make vitest` (or `make test` to chain everything: prettier + eslint + vitest +
