@@ -1,31 +1,34 @@
 ---
 name: review
-description: Use quand le GATE est vert, avant la simplification, revue sur deux axes parallèles (Standards + Spec) puis passe des agents Xefi.
+description: Use when the GATE is green, before simplification, review along two parallel axes (Standards + Spec) then a pass by the Xefi agents.
 ---
 
 # review
 
-Étape 8 du pipeline (`WORKFLOW.md`). Deux regards indépendants, qui ne se polluent pas.
+Step 8 of the pipeline (`WORKFLOW.md`). Two independent viewpoints that don't pollute each
+other.
 
-## Quand
-Après `gate` (`verified`), avant `simplify`.
+## When
+After `gate` (`verified`), before `simplify`.
 
-## Étapes
-1. Lancer **deux sous-agents en parallèle** (contextes séparés, ne se polluent pas) :
-   - **axe Standards** : conventions Xefi + code-smells (réutilisation, simplification, CSS dupliqué).
-   - **axe Spec** : le diff est-il **fidèle au ticket / à la spec** ? (ce que `/code-review` natif
-     ne couvre pas). Skip propre si aucune spec.
-2. Agréger les deux côte à côte.
-3. Passe des **agents Xefi** dans le style habituel du dev : `aragorn`/`gimli`/`legolas` puis
-   `valerianus` (tri, reformulation, anti-débat stérile).
-4. Pour la profondeur : `/code-review` + `/security-review` natifs (gandalf en gate final).
+## Steps
+1. Run **two subagents in parallel** (separate contexts, no cross-pollution):
+   - **Standards axis**: Xefi conventions + code smells (reuse, simplification, duplicated
+     CSS).
+   - **Spec axis**: is the diff **faithful to the ticket / the spec**? (which the native
+     `/code-review` doesn't cover). Clean skip if there's no spec.
+2. Aggregate both side by side.
+3. A pass by the **Xefi agents** in the dev's usual style: `aragorn`/`gimli`/`legolas` then
+   `valerianus` (triage, rewording, no pointless arguments).
+4. For depth: native `/code-review` + `/security-review` (gandalf as the final gate).
 
-## Sortie / checkpoint
+## Output / checkpoint
 `reviewed`.
 
-## Garde-fous
-Les deux axes restent **indépendants** (pas de contexte partagé). On invoque le natif, on ne
-le réimplémente pas. Commentaires simples, sans emojis/flèches, minuscule en début de phrase.
+## Guardrails
+The two axes stay **independent** (no shared context). We invoke the native tooling, we don't
+reimplement it. Plain comments, no emojis/arrows, lowercase at the start of a sentence.
 
-## Origine
-Un auteur de skills reconnu du marché (code-review 2 axes non-polluants) + agents Xefi + natif, réécrit.
+## Origin
+A recognised market skill author (non-polluting two-axis code review) + Xefi agents + native,
+rewritten.

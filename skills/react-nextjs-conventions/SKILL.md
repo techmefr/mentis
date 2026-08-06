@@ -1,127 +1,127 @@
 ---
 name: react-nextjs-conventions
-description: Use quand on code un composant, un hook, un slice Redux ou un écran sur la stack React/Next.js des collègues, applique les patterns de rendering/perf, la structuration Redux Toolkit et la composition shadcn/ui. Fusionne les trois familles de conventions de la même stack en une seule brique de l'étape code, pendant de vue-nuxt-vuetify-conventions.
+description: Use when writing a component, a hook, a Redux slice or a screen on the colleagues' React/Next.js stack, applies the rendering/perf patterns, the Redux Toolkit structuring and shadcn/ui composition. Merges the three convention families of the same stack into a single block of the code step, counterpart of vue-nuxt-vuetify-conventions.
 ---
 
 # react-nextjs-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Cadre l'écriture de code sur la stack React 18/19 +
-Next.js + Redux Toolkit + shadcn/ui des collègues front. Trois familles de règles qui se
-recoupent parce que c'est toujours la même stack et la même étape : une seule brique
-plutôt que trois qui se marchent dessus. Complémentaire de `legolas` (agent de review
-de diff) : ici on écrit le code, legolas le relit après coup.
+Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing of code on the front-end colleagues' React
+18/19 + Next.js + Redux Toolkit + shadcn/ui stack. Three families of rules that overlap because it's
+always the same stack and the same step: a single block rather than three that step on each other.
+Complementary to `legolas` (the diff review agent): here we write the code, legolas re-reads it
+afterwards.
 
-## Quand
-Dès qu'on écrit ou modifie un composant `.tsx`, une route Next.js, un hook, un slice
-Redux Toolkit, ou qu'on compose un composant shadcn/ui, pendant `code` (6) ou `tdd` (5).
+## When
+As soon as a `.tsx` component, a Next.js route, a hook, a Redux Toolkit slice is written or modified, or a
+shadcn/ui component is composed, during `code` (6) or `tdd` (5).
 
-## Étapes
+## Steps
 
-### 1. Rendering et perf
-1. Paralléliser les fetch indépendants avec `Promise.all` (Server Components) plutôt que
-   les enchaîner en séquence : un `await` après l'autre crée une waterfall réseau invisible
-   à la lecture du composant.
-2. Dériver l'état au render plutôt qu'un `useEffect` + `setState` redondant. Si une valeur
-   se calcule à partir de props/state existants, c'est une variable locale ou un `useMemo`,
-   jamais un effet qui resynchronise un state parallèle.
-3. Ne jamais définir de composant à l'intérieur d'un composant (function déclarée dans le
-   corps d'un autre composant) : ça recrée le type à chaque render et démonte/remonte tout
-   le sous-arbre, perte de state et de focus incluse. Sortir le composant au niveau module.
-4. `setState` fonctionnel (`setCount(c => c + 1)`) dès que la nouvelle valeur dépend de
-   l'ancienne, surtout dans un handler qui peut être appelé plusieurs fois avant le
-   prochain render (event rapide, effet, callback async).
-5. `next/dynamic` pour tout composant lourd non nécessaire au premier paint (éditeur riche,
-   graphique, modal complexe) : avec `ssr: false` si le composant dépend du DOM/window.
+### 1. Rendering and perf
+1. Parallelise independent fetches with `Promise.all` (Server Components) rather than chaining them in
+   sequence: one `await` after another creates a network waterfall that's invisible when reading the
+   component.
+2. Derive state at render time rather than a redundant `useEffect` + `setState`. If a value is computed
+   from existing props/state, it's a local variable or a `useMemo`, never an effect that resynchronises a
+   parallel state.
+3. Never define a component inside a component (a function declared in the body of another component): it
+   recreates the type on every render and unmounts/remounts the whole subtree, losing state and focus with
+   it. Move the component out to module level.
+4. Functional `setState` (`setCount(c => c + 1)`) as soon as the new value depends on the old one,
+   especially in a handler that can be called several times before the next render (fast event, effect,
+   async callback).
+5. `next/dynamic` for any heavy component not needed for the first paint (rich editor, chart, complex
+   modal): with `ssr: false` if the component depends on the DOM/window.
 
-### 2. Redux Toolkit : structuration
-1. Un slice = `createSlice` typé : `initialState` typé explicitement, reducers avec
-   `PayloadAction<T>`, jamais de state ou d'action `any`.
-2. Hooks typés obligatoires : `useAppDispatch`/`useAppSelector` (wrappers de
-   `useDispatch`/`useSelector` sur le `RootState`/`AppDispatch` du store), jamais les hooks
-   RTK bruts dans les composants : sinon le typage se reperd à chaque usage.
-3. Effet de bord async = `createAsyncThunk` avec `rejectWithValue` sur l'erreur, jamais un
-   `throw` nu : le slice doit pouvoir distinguer un rejet métier typé d'une exception
-   inattendue dans les reducers `extraReducers`.
-4. Sélecteur dérivé (filtre, tri, agrégat) = `createSelector` mémoïsé, jamais un `.filter()`/
-   `.map()` recalculé en ligne dans le composant à chaque render.
-5. Donnée serveur (fetch, cache, invalidation) : RTK Query plutôt qu'un thunk maison dès que
-   le besoin est CRUD standard avec cache : un thunk + slice custom ne se justifie que pour
-   une logique métier qui dépasse le cache/invalidation générique.
-6. Complément data-fetching : si le projet n'a pas Redux comme couche data serveur (RSC/Next
-   pur), TanStack Query couvre le même besoin : cache, dédup, invalidation, avec le même
-   principe que la section 1.2 : minimiser `useEffect`/`useState` manuels pour de la donnée
-   serveur, laisser la lib gérer le cycle de vie de la requête.
+### 2. Redux Toolkit: structuring
+1. One slice = a typed `createSlice`: explicitly typed `initialState`, reducers with `PayloadAction<T>`,
+   never an `any` state or action.
+2. Typed hooks mandatory: `useAppDispatch`/`useAppSelector` (wrappers around `useDispatch`/`useSelector`
+   over the store's `RootState`/`AppDispatch`), never the raw RTK hooks in components: otherwise the typing
+   gets lost again on every use.
+3. Async side effect = `createAsyncThunk` with `rejectWithValue` on the error, never a bare `throw`: the
+   slice has to be able to tell a typed business rejection from an unexpected exception in the
+   `extraReducers`.
+4. Derived selector (filter, sort, aggregate) = a memoised `createSelector`, never a `.filter()`/`.map()`
+   recomputed inline in the component on every render.
+5. Server data (fetch, cache, invalidation): RTK Query rather than a homemade thunk as soon as the need is
+   standard CRUD with caching: a custom thunk + slice is only justified for business logic that goes beyond
+   generic caching/invalidation.
+6. Data-fetching complement: if the project doesn't have Redux as its server data layer (pure RSC/Next),
+   TanStack Query covers the same need: caching, dedup, invalidation, with the same principle as section
+   1.2: minimise manual `useEffect`/`useState` for server data, let the lib manage the request's lifecycle.
 
-### 3. shadcn/ui : composition
-1. Philosophie copy-and-own : les fichiers dans `components/ui` sont générés une fois puis
-   possédés par le projet, pas une dépendance versionnée qu'on met à jour depuis l'extérieur.
-2. Étendre un composant shadcn par wrapper (nouveau composant qui compose le composant
-   généré), jamais en modifiant directement le fichier généré dans `components/ui`, sinon
-   toute regénération ou tout autre usage du composant de base hérite de la déviation.
-3. `cn()` (helper `clsx` + `tailwind-merge`) comme unique point de fusion de classes
-   Tailwind : jamais de concaténation de string de classes à la main, jamais deux sources de
-   classes conditionnelles différentes sur le même composant.
-4. Structure de dossiers : `components/ui` (composants générés, non modifiés en place),
-   `components/` (wrappers métier au-dessus), `lib/` (`cn()` et utilitaires), `hooks/`
-   (hooks partagés), providers au plus près de la racine (`app/providers.tsx` ou
-   équivalent) : pas de composant métier qui vit à plat dans `components/ui`.
+### 3. shadcn/ui: composition
+1. Copy-and-own philosophy: the files in `components/ui` are generated once then owned by the project, not
+   a versioned dependency updated from outside.
+2. Extend a shadcn component through a wrapper (a new component composing the generated one), never by
+   modifying the generated file in `components/ui` directly, otherwise any regeneration or any other use of
+   the base component inherits the deviation.
+3. `cn()` (the `clsx` + `tailwind-merge` helper) as the single merge point for Tailwind classes: never a
+   hand-built class string concatenation, never two different sources of conditional classes on the same
+   component.
+4. Folder structure: `components/ui` (generated components, not modified in place), `components/` (business
+   wrappers on top), `lib/` (`cn()` and utilities), `hooks/` (shared hooks), providers as close to the root
+   as possible (`app/providers.tsx` or equivalent): no business component living flat in `components/ui`.
 
-### 4. Correctness effects/state et sécurité (react-doctor)
-Checklist courte, sous-ensemble sévérité `error` du scanner `react-doctor` pertinent à cette
-stack (React/Next core, pas Ink/Remotion/R3F/shaders/React Native/React Router).
+### 4. Effects/state correctness and security (react-doctor)
+A short checklist, the `error`-severity subset of the `react-doctor` scanner relevant to this stack
+(React/Next core, not Ink/Remotion/R3F/shaders/React Native/React Router).
 
-**Effects et state** :
-1. Cleanup d'effet = même référence retirée que celle ajoutée (`addEventListener`, `observer.disconnect()`, `clearInterval`/`clearTimeout`, `unsubscribe()`), jamais une fonction inline recréée.
-2. Jamais de prop callback / mutation de ref / `Context`/store créé / navigation pendant le rendu, ça va dans un handler ou un `useEffect`. Un `Context`/store se crée au niveau module.
-3. Un reducer retourne un nouvel objet, ne mute jamais son state en place.
-4. Clé de liste = id stable de l'item, jamais `Math.random()`/`Date.now()`/index si l'ordre change.
-5. Dep d'effet réactive : pas de `ref.current`/`location.pathname` en dep, les lire dans le corps.
-6. Objet/tableau/fonction recréé à chaque render et utilisé en dep/prop mémoïsée → `useMemo`/`useCallback`/constante de module.
+**Effects and state**:
+1. Effect cleanup = the same reference removed as the one added (`addEventListener`,
+   `observer.disconnect()`, `clearInterval`/`clearTimeout`, `unsubscribe()`), never an inline function
+   recreated.
+2. Never a prop callback / ref mutation / `Context`/store creation / navigation during render, that goes in
+   a handler or a `useEffect`. A `Context`/store is created at module level.
+3. A reducer returns a new object, never mutates its state in place.
+4. List key = the item's stable id, never `Math.random()`/`Date.now()`/the index if the order changes.
+5. Reactive effect dep: no `ref.current`/`location.pathname` as a dep, read them in the body.
+6. An object/array/function recreated on every render and used as a dep/memoised prop → `useMemo`/
+   `useCallback`/a module constant.
 
-**Next.js App Router** :
-7. `cookies()`/`headers()`/`draftMode()`/`params`/`searchParams` : toujours `await` (Next 15+).
-8. Error boundary = Client Component (`'use client'`). `global-error.tsx` englobe `<html><body>`.
-9. `route.ts` exporte des handlers nommés (`GET`, `POST`...), jamais `export default`.
-10. `next/head` ignoré dans l'App Router : passer par l'API `Metadata`.
-11. Pas d'état mutable au niveau module côté serveur (`let`/`var` hors fonction), partagé entre requêtes concurrentes.
-12. Une Server Action exportée est appelable par un client non authentifié : elle vérifie l'auth elle-même.
+**Next.js App Router**:
+7. `cookies()`/`headers()`/`draftMode()`/`params`/`searchParams`: always `await` (Next 15+).
+8. Error boundary = a Client Component (`'use client'`). `global-error.tsx` wraps `<html><body>`.
+9. `route.ts` exports named handlers (`GET`, `POST`...), never `export default`.
+10. `next/head` is ignored in the App Router: go through the `Metadata` API.
+11. No mutable module-level state on the server side (`let`/`var` outside a function), shared between
+    concurrent requests.
+12. An exported Server Action is callable by an unauthenticated client: it checks auth itself.
 
-**Sécurité, jamais négociable** :
-13. Aucun secret commité : s'il l'est, retiré ET tourné, pas juste supprimé du prochain commit.
-14. Pas de fallback littéral en dur sur une variable d'env secrète : fail closed.
-15. `eval()`/`new Function()` sur une chaîne non fiable interdit : `JSON.parse` pour de la donnée.
-16. JWT : épingler l'algorithme attendu (`{ algorithms: ['RS256'] }`), jamais accepter `none`.
-17. Commande shell : jamais d'interpolation, arguments en tableau, allowlist stricte.
-18. Handler `GET` sans effet de bord (préchargé/prefetché) : mutation = `POST`.
+**Security, never negotiable**:
+13. No secret committed: if one is, it's removed AND rotated, not just dropped from the next commit.
+14. No hard-coded literal fallback on a secret env variable: fail closed.
+15. `eval()`/`new Function()` on an untrusted string is forbidden: `JSON.parse` for data.
+16. JWT: pin the expected algorithm (`{ algorithms: ['RS256'] }`), never accept `none`.
+17. Shell command: never interpolation, arguments as an array, a strict allowlist.
+18. A `GET` handler has no side effect (it gets preloaded/prefetched): a mutation is a `POST`.
 
-**Accessibilité et poids bundle** :
-19. Jamais bloquer le paste sur un champ d'authentification (mot de passe, code).
-20. Jamais désactiver le zoom viewport : si le layout casse à 200%, le layout est le problème.
-21. Bouton-icône sans libellé visible = `aria-label` obligatoire. Modal ouverte = focus posé
-    dessus et piégé dedans, rendu au déclencheur à la fermeture.
-22. Import par défaut d'une lib d'icônes ou module lourd chargé au niveau d'une route peu
-    visitée = alourdit le bundle pour rien : import nommé / `next/dynamic`.
+**Accessibility and bundle weight**:
+19. Never block paste on an authentication field (password, code).
+20. Never disable viewport zoom: if the layout breaks at 200%, the layout is the problem.
+21. An icon-only button with no visible label = a mandatory `aria-label`. An open modal = focus placed on
+    it and trapped inside, returned to the trigger on close.
+22. A default import from an icon lib or a heavy module loaded at the level of a rarely visited route =
+    bloats the bundle for nothing: named import / `next/dynamic`.
 
-## Sortie / checkpoint
-Code conforme aux trois sections ci-dessus. Pas de checkpoint dédié : la conformité est
-vérifiée par `gate` (7) et par `legolas` en review à l'étape `review` (8).
+## Output / checkpoint
+Code compliant with the three sections above. No dedicated checkpoint: compliance is checked by `gate` (7)
+and by `legolas` at review time in the `review` step (8).
 
-## Garde-fous
-Pas de commentaires dans le code produit. Ne jamais modifier un fichier généré dans
-`components/ui` en place : toujours passer par un wrapper. Ne pas dupliquer un hook ou un
-sélecteur existant avant d'avoir vérifié qu'aucun hook/sélecteur proche ne couvre déjà le
-besoin. Cette brique écrit du code, elle ne fait pas de review de diff, pour la review,
-c'est `legolas`. En cas de doute sur une règle Redux/shadcn non couverte ici, escalader
-plutôt que deviner.
+## Guardrails
+No comments in the code produced. Never modify a generated file in `components/ui` in place: always go
+through a wrapper. Don't duplicate an existing hook or selector before checking that no nearby
+hook/selector already covers the need. This block writes code, it doesn't review diffs; for the review,
+that's `legolas`. When in doubt about a Redux/shadcn rule not covered here, escalate rather than guess.
 
-## Origine
-Idées reprises de : un catalogue de skills React du marché (skill react-best-practices, AGENTS.md, patterns
-perf/rendering/waterfalls avec exemples avant/après) pour la section rendering/perf ;
-un catalogue de skills React/Node du marché (redux-toolkit/SKILL.md, createSlice typé, hooks typés, createAsyncThunk,
-sélecteurs mémoïsés) pour la section Redux Toolkit ; un catalogue de skills shadcn du marché
-(skills/shadcn/SKILL.md, composition par wrapper, cn(), structure de dossiers, new-york/
-sonner/React 19) pour la section shadcn/ui ; un linter React du marché (package
-`oxlint-plugin-react-doctor`, registre de ~780 règles déterministes, sous-ensemble sévérité
-`error` filtré et pertinent hors frameworks niches) pour la section correctness/sécurité ;
-un projet open source TypeScript du marché (skill `typescript-review` : blind-spots accessibilité/poids bundle) pour
-les items 21-22. Mécanismes réécrits, pas de texte copié.
+## Origin
+Ideas taken from: a market React skill catalogue (the react-best-practices skill, AGENTS.md,
+perf/rendering/waterfall patterns with before/after examples) for the rendering/perf section; a market
+React/Node skill catalogue (redux-toolkit/SKILL.md, typed createSlice, typed hooks, createAsyncThunk,
+memoised selectors) for the Redux Toolkit section; a market shadcn skill catalogue (skills/shadcn/SKILL.md,
+composition through a wrapper, cn(), folder structure, new-york/sonner/React 19) for the shadcn/ui section;
+a market React linter (the `oxlint-plugin-react-doctor` package, a registry of ~780 deterministic rules,
+`error`-severity subset filtered for relevance outside niche frameworks) for the correctness/security
+section; a market open source TypeScript project (the `typescript-review` skill: accessibility/bundle-weight
+blind spots) for items 21-22. Mechanisms rewritten, no copied text.

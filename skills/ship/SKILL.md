@@ -1,27 +1,29 @@
 ---
 name: ship
-description: Use quand tout est vert et simplifié, push de la branche et ouverture de la MR en draft ; l'agent s'arrête ici.
+description: Use when everything is green and simplified, push the branch and open the MR as a draft; the agent stops here.
 ---
 
 # ship
 
-Étape 10 du pipeline (`WORKFLOW.md`). La **frontière agent/humain** : on prépare, l'humain décide.
+Step 10 of the pipeline (`WORKFLOW.md`). The **agent/human boundary**: we prepare, the human
+decides.
 
-## Quand
-Après `simplify` (`simplified`), tests du GATE verts.
+## When
+After `simplify` (`simplified`), GATE tests green.
 
-## Étapes
-1. Vérifier une dernière fois : GATE `verified`, suite verte, checkpoints à jour.
-2. Push de la branche.
-3. Ouvrir la **MR en draft** (dev auteur + 2 collègues), description claire (statut + message).
-4. Marquer `mr_draft_pushed` / `status: awaiting_human`.
+## Steps
+1. Check one last time: GATE `verified`, suite green, checkpoints up to date.
+2. Push the branch.
+3. Open the **MR as a draft** (author dev + 2 colleagues), clear description (status +
+   message).
+4. Mark `mr_draft_pushed` / `status: awaiting_human`.
 
-## Sortie / checkpoint
+## Output / checkpoint
 `mr_draft_pushed`, `status: awaiting_human`.
 
-## Garde-fous
-**L'agent s'arrête ici.** Les 2 approbations humaines et le merge sont hors périmètre agent.
-Ne jamais merger automatiquement. Commit/MR : conventional commits, description en minuscule.
+## Guardrails
+**The agent stops here.** The 2 human approvals and the merge are outside agent scope. Never
+merge automatically. Commit/MR: conventional commits, lowercase description.
 
-## Origine
-Interne (séquence `/SHIP`, gate final `gandalf`), réécrit à notre sauce.
+## Origin
+Internal (`/SHIP` sequence, `gandalf` final gate), rewritten our way.

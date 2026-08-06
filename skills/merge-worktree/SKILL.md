@@ -1,70 +1,68 @@
 ---
 name: merge-worktree
-description: Use quand il faut ramener une partie seulement d'un worktree dans la branche courante, merge sélectif (fichier, patch, cherry-pick, merge en revue, multi-worktree) plutôt qu'un merge complet, suivi du nettoyage post-merge. Complète `finish` pour les cas où le retour n'est pas un simple fast-forward.
+description: Use when only part of a worktree needs to come back into the current branch, selective merge (file, patch, cherry-pick, merge under review, multi-worktree) rather than a full merge, followed by the post-merge cleanup. Complements `finish` for the cases where bringing work back isn't a plain fast-forward.
 ---
 
 # merge-worktree
 
-Ramène le travail d'une ou plusieurs worktrees dans la branche courante quand un merge complet
-ne convient pas (on ne veut qu'une partie du contenu, ou on veut revoir avant de valider).
-Se situe à l'étape 11 (`finish`) de `WORKFLOW.md`, en amont de `finish_task` : ici on choisit
-*quoi* ramener, `finish` range ensuite la worktree devenue inutile.
+Brings the work from one or several worktrees back into the current branch when a full merge
+isn't the right fit (we only want part of the content, or we want to review before validating).
+Sits at step 11 (`finish`) of `WORKFLOW.md`, upstream of `finish_task`: here we choose *what* to
+bring back, `finish` then tidies away the worktree that has become useless.
 
-## Quand
+## When
 
-- Une seule feature, un seul fichier à récupérer d'une worktree.
-- Une worktree contient plusieurs changements et seuls certains sont mûrs.
-- Il faut revoir le contenu avant de valider le merge (pas de commit automatique).
-- Plusieurs worktrees doivent converger dans une seule branche d'intégration.
+- A single feature, a single file to retrieve from a worktree.
+- A worktree contains several changes and only some of them are ripe.
+- The content needs reviewing before validating the merge (no automatic commit).
+- Several worktrees have to converge into a single integration branch.
 
-## Étapes
+## Steps
 
-1. **Repérer les worktrees actives** : `git worktree list`, vérifier chemin et branche de
-   chacune avant toute action.
-2. **Choisir la stratégie selon le besoin** :
-   - **Fichier(s) ciblé(s)** : on sait exactement quoi récupérer, tout le reste est ignoré :
-     `git checkout <branche-worktree> -- chemin/fichier`
-   - **Patch interactif** : on veut choisir hunk par hunk dans un fichier :
-     `git checkout -p <branche-worktree> -- chemin/fichier`
-   - **Cherry-pick sans commit** : un commit précis de la worktree, mais on veut retirer
-     certains fichiers du commit avant de valider :
-     `git cherry-pick --no-commit <sha>` puis `git restore --staged chemin/fichier-à-exclure`
-   - **Merge en revue** : tout le contenu de la branche, mais un dernier coup d'œil avant
-     de committer :
-     `git merge --no-commit --no-ff <branche-worktree>` puis relecture du diff staged
-     (`git diff --staged`) avant `git commit`.
-   - **Multi-worktree** : plusieurs branches doivent converger dans une seule branche
-     d'intégration : répéter le merge en revue par branche, une à une, en résolvant les
-     conflits avant de passer à la suivante.
-3. **Valider** : committer une fois le contenu vérifié (jamais de commit automatique sur
-   cherry-pick/merge tant que le diff staged n'a pas été relu).
-4. **Nettoyer** : lister les worktrees restantes (`git worktree list`), retirer celle(s)
-   devenue(s) inutiles (`git worktree remove <chemin>`), puis `git worktree prune` si des
-   entrées orphelines subsistent (worktree supprimée à la main, disque externe débranché…).
+1. **Spot the active worktrees**: `git worktree list`, check the path and branch of each one
+   before doing anything.
+2. **Choose the strategy according to the need**:
+   - **Targeted file(s)**: we know exactly what to retrieve, everything else is ignored:
+     `git checkout <worktree-branch> -- path/file`
+   - **Interactive patch**: we want to pick hunk by hunk within a file:
+     `git checkout -p <worktree-branch> -- path/file`
+   - **Cherry-pick without commit**: a specific commit from the worktree, but we want to drop
+     some files from the commit before validating:
+     `git cherry-pick --no-commit <sha>` then `git restore --staged path/file-to-exclude`
+   - **Merge under review**: all of the branch's content, but a last look before committing:
+     `git merge --no-commit --no-ff <worktree-branch>` then re-read the staged diff
+     (`git diff --staged`) before `git commit`.
+   - **Multi-worktree**: several branches have to converge into a single integration branch:
+     repeat the merge-under-review per branch, one at a time, resolving conflicts before moving
+     on to the next.
+3. **Validate**: commit once the content has been checked (never an automatic commit on a
+   cherry-pick/merge until the staged diff has been re-read).
+4. **Clean up**: list the remaining worktrees (`git worktree list`), remove the one(s) that have
+   become useless (`git worktree remove <path>`), then `git worktree prune` if orphan entries
+   remain (worktree deleted by hand, external drive unplugged…).
 
-## Sortie / checkpoint
+## Output / checkpoint
 
-Contenu ciblé mergé dans la branche courante, worktree(s) source retirée(s) proprement.
-Si l'étape s'enchaîne avec `finish`, `finish_task` prend le relais pour la worktree
-principale de la tâche et met à jour la base d'intégration.
+The targeted content merged into the current branch, the source worktree(s) removed cleanly.
+If the step chains into `finish`, `finish_task` takes over for the task's main worktree and
+updates the integration base.
 
-## Garde-fous
+## Guardrails
 
-- Jamais de `git merge`/`cherry-pick` sans `--no-commit` quand un doute existe sur le contenu :
-  toujours relire le diff staged avant de valider.
-- Ne pas confondre avec `finish` : `finish` clôt une tâche entière après MR mergée par un
-  humain ; `merge-worktree` sert *pendant* le développement, pour du merge sélectif ou
-  multi-source.
-- Conflit de merge : résoudre fichier par fichier, ne jamais `git checkout --theirs`/`--ours`
-  en masse sans relire : ça écrase silencieusement l'autre côté.
-- Fichiers modifiés localement en plus de la worktree : stash ou commit avant de merger,
-  sinon le merge peut échouer ou mélanger des changements non voulus.
-- Worktree stale (chemin disparu, branche supprimée côté remote) : `git worktree prune` avant
-  de reprendre la main dessus, ne pas forcer un `remove` sur une entrée déjà cassée sans
-  vérifier `git worktree list` d'abord.
+- Never a `git merge`/`cherry-pick` without `--no-commit` when there's any doubt about the
+  content: always re-read the staged diff before validating.
+- Don't confuse it with `finish`: `finish` closes a whole task after the MR has been merged by a
+  human; `merge-worktree` is used *during* development, for selective or multi-source merges.
+- Merge conflict: resolve file by file, never `git checkout --theirs`/`--ours` en masse without
+  re-reading: it silently overwrites the other side.
+- Files modified locally on top of the worktree: stash or commit before merging, otherwise the
+  merge can fail or mix in unwanted changes.
+- Stale worktree (path gone, branch deleted on the remote): `git worktree prune` before taking
+  it over again, don't force a `remove` on an already-broken entry without checking
+  `git worktree list` first.
 
-## Origine
+## Origin
 
-Idée reprise de : un kit d'ingénierie de contexte du marché, plugins/git/skills/git-worktrees/SKILL.md,
-section « How to Merge Worktree ». Mécanisme réécrit à notre sauce (gabarit mentis,
-articulation avec `finish`/`finish_task`).
+Idea taken from: a market context-engineering kit,
+plugins/git/skills/git-worktrees/SKILL.md, "How to Merge Worktree" section. Mechanism rewritten
+our way (mentis template, articulation with `finish`/`finish_task`).

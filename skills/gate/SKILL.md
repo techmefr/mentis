@@ -1,31 +1,34 @@
 ---
 name: gate
-description: Use quand le code est écrit, avant la review, verrou mécanique : interdit de déclarer un critère « passant » sans preuve, et un évaluateur à contexte propre tranche.
+description: Use when the code is written, before the review, mechanical lock: declaring a criterion "passing" without evidence is forbidden, and a clean-context evaluator decides.
 ---
 
 # gate
 
-Étape 7 du pipeline (`WORKFLOW.md`). **Le renfort n°1 de la veille.** Transforme « tests verts »
-d'un vœu déclaratif en un **fait prouvé**. « Done » devient structurel, pas une affirmation.
+Step 7 of the pipeline (`WORKFLOW.md`). **The number one reinforcement from the scouting.**
+Turns "tests are green" from a declarative wish into a **proven fact**. "Done" becomes
+structural, not a claim.
 
-## Quand
-Après `code` (implémentation faite), avant `review`.
+## When
+After `code` (implementation done), before `review`.
 
-## Étapes
-1. Pour chaque ligne `{ passes: false }` de `test-results.json`, **produire une preuve** :
-   sortie de test, screenshot `verify-flow`, ou log : puis la **lire** (`Read`).
-2. Le hook natif `PreToolUse` **refuse** d'écrire `passes: true` tant que la preuve
-   correspondante n'a pas été lue. On ne peut pas se déclarer passant sans observer.
-3. Lancer l'**évaluateur à contexte propre** : un sous-agent **sans Write/Edit**, qui n'a pas
-   vu la construction, examine le diff + les preuves et rend `PASS` ou `NEEDS_WORK` + findings.
-4. `NEEDS_WORK` → les findings deviennent le prompt du prochain passage `code`. Reboucler.
+## Steps
+1. For every `{ passes: false }` line in `test-results.json`, **produce evidence**: test
+   output, `verify-flow` screenshot, or a log; then **read** it (`Read`).
+2. The native `PreToolUse` hook **refuses** to write `passes: true` until the matching evidence
+   has been read. You cannot declare yourself passing without observing.
+3. Run the **clean-context evaluator**: a subagent **with no Write/Edit**, which didn't watch
+   the build, examines the diff + the evidence and returns `PASS` or `NEEDS_WORK` + findings.
+4. `NEEDS_WORK` → the findings become the prompt for the next `code` pass. Loop back.
 
-## Sortie / checkpoint
-`verified` : toutes les lignes `passes: true`, chacune adossée à une preuve lue, évaluateur `PASS`.
+## Output / checkpoint
+`verified`: every line `passes: true`, each backed by evidence that was read, evaluator `PASS`.
 
-## Garde-fous
-L'agent ne peut **pas s'auto-valider** : la validation vient du hook (preuve) + de l'évaluateur
-(contexte propre). Reste dans le natif Claude Code (hooks + sous-agent), aucune couche maison.
+## Guardrails
+The agent **cannot validate itself**: validation comes from the hook (evidence) + the
+evaluator (clean context). Stays within native Claude Code (hooks + subagent), no homemade
+layer.
 
-## Origine
-Des patterns d'agents long-running du marché (default-FAIL hook + fresh-context evaluator), réécrits à notre sauce.
+## Origin
+Market long-running agent patterns (default-FAIL hook + fresh-context evaluator), rewritten
+our way.

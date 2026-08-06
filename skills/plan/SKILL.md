@@ -1,26 +1,28 @@
 ---
 name: plan
-description: Use quand l'archi est posée, avant d'écrire des tests ou du code, découper la feature en tâches atomiques testables.
+description: Use when the architecture is set, before writing tests or code, break the feature into atomic testable tasks.
 ---
 
 # plan
 
-Étape 4 du pipeline (`WORKFLOW.md`). Transformer l'archi cible en incréments livrables.
+Step 4 of the pipeline (`WORKFLOW.md`). Turn the target architecture into deliverable
+increments.
 
-## Quand
-Après `archi`, avant `tdd`.
+## When
+After `archi`, before `tdd`.
 
-## Étapes
-1. Découper en incréments **atomiques** : chacun testable et livrable indépendamment.
-2. Ordonner par dépendance (ce qui débloque le reste d'abord).
-3. Créer un `add_task_item` par incrément (suivi dans starfleet + dashboard).
+## Steps
+1. Break into **atomic** increments: each one testable and deliverable independently.
+2. Order by dependency (whatever unblocks the rest comes first).
+3. Create one `add_task_item` per increment (tracked in starfleet + dashboard).
 
-## Sortie / checkpoint
-`plan_done` + `task_items` renseignés.
+## Output / checkpoint
+`plan_done` + `task_items` filled in.
 
-## Garde-fous
-Pas d'exécution automatique de tout le plan (**pas de `/build auto`** : cf. `WORKFLOW.md`,
-l'auto-mode a été retiré volontairement). Le dev valide et avance étape par étape.
+## Guardrails
+No automatic execution of the whole plan (**no `/build auto`**: see `WORKFLOW.md`, auto-mode
+was removed on purpose). The dev validates and moves forward step by step.
 
-## Origine
-Natif / un catalogue de skills dev généralistes du marché (planning-and-task-breakdown), réécrit à notre sauce.
+## Origin
+Native / a market generalist dev skill catalogue (planning-and-task-breakdown), rewritten our
+way.

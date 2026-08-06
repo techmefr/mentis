@@ -1,87 +1,76 @@
 ---
 name: dotnet-conventions
-description: Use quand on code ou revoit du C#/.NET (ASP.NET Core, EF Core), applique les patterns async/await, IDisposable, injection de dépendances et EF Core les plus à haute valeur des Roslyn analyzers (CAxxxx) et de Meziantou.Analyzer. Pas de vécu de production interne derrière cette brique, contenu sourcé sur l'outillage/guides établis du marché.
+description: Use when writing or reviewing C#/.NET (ASP.NET Core, EF Core), applies the highest-value async/await, IDisposable, dependency injection and EF Core patterns from the Roslyn analyzers (CAxxxx) and Meziantou.Analyzer. No internal production experience behind this block, content sourced from established market tooling/guides.
 ---
 
 # dotnet-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Cadre l'écriture et la review de code
-C#/.NET. **Statut particulier** : comme `go-conventions`, pas encore de vécu
-de production Xefi derrière ce fichier : contenu issu des Roslyn analyzers
-(`Microsoft.CodeAnalysis.NetAnalyzers`, activés par défaut depuis .NET 5) et
-de Meziantou.Analyzer, pas de retours de review réels. Base solide à
-confronter au premier vrai projet .NET, pas une doctrine éprouvée.
+Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing and review of C#/.NET code. **Special
+status**: like `go-conventions`, no Xefi production experience behind this file yet: content coming from
+the Roslyn analyzers (`Microsoft.CodeAnalysis.NetAnalyzers`, enabled by default since .NET 5) and
+Meziantou.Analyzer, not from real review feedback. A solid base to be confronted with the first real .NET
+project, not proven doctrine.
 
-## Quand
-Dès qu'on écrit ou modifie du code C#/.NET, pendant `code` (6) ou `tdd` (5).
+## When
+As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
 
-## Étapes
+## Steps
 
-### 1. Async/await : la faute la plus fréquente
-1. Jamais `.Result`/`.Wait()`/`.GetAwaiter().GetResult()` dans une méthode
-   déjà async (CA1849) : source classique de deadlock sur le contexte de
-   synchronisation.
-2. `async void` réservé aux event handlers : ailleurs, les exceptions ne sont
-   pas catchables et la méthode ne se compose pas avec `await`.
-3. Une `Task` jamais `await`-ée ni stockée ("fire-and-forget" implicite) avale
-   silencieusement ses exceptions.
-4. `ConfigureAwait(false)` dans le code de librairie partagée ; moins
-   critique côté ASP.NET Core serveur (pas de contexte de synchro à ce
-   niveau), mais à garder explicite plutôt qu'à l'oublier par défaut (CA2007).
+### 1. Async/await: the most frequent mistake
+1. Never `.Result`/`.Wait()`/`.GetAwaiter().GetResult()` inside a method that's already async (CA1849): a
+   classic source of deadlock on the synchronisation context.
+2. `async void` reserved for event handlers: elsewhere, exceptions can't be caught and the method doesn't
+   compose with `await`.
+3. A `Task` that's never `await`-ed or stored (implicit "fire-and-forget") silently swallows its
+   exceptions.
+4. `ConfigureAwait(false)` in shared library code; less critical on the ASP.NET Core server side (no
+   synchronisation context at that level), but worth keeping explicit rather than forgetting it by default
+   (CA2007).
 
-### 2. IDisposable et lifecycle
-1. Un `IDisposable` créé localement est disposé sur tous les chemins
-   (`using`/`using` declaration), y compris les chemins d'exception (CA2000).
-2. Pattern `Dispose(bool)` complet avec `GC.SuppressFinalize` si
-   `IDisposable` est implémenté à la main (CA1063) : jamais un `Dispose()`
-   partiel.
-3. `!` (null-forgiving) n'est pas un moyen de faire taire le compilateur sans
-   garantie réelle : chaque usage doit être justifiable, pas réflexe. Nullable
-   Reference Types activé de façon cohérente sur tout le projet, pas partiel.
-4. Une requête LINQ réénumérée plusieurs fois (`multiple enumeration`) sur un
-   `IEnumerable` à exécution différée réexécute la requête à chaque itération
-, matérialiser (`.ToList()`) si la source est coûteuse ou a un effet de
-   bord (CA1851, angles morts connus : vérifier à l'œil aussi).
-5. `catch {}` vide ou `catch (Exception) {}` sans log ni rethrow avale un vrai
-   bug : jamais un catch silencieux.
+### 2. IDisposable and lifecycle
+1. An `IDisposable` created locally is disposed on every path (`using`/`using` declaration), including the
+   exception paths (CA2000).
+2. The full `Dispose(bool)` pattern with `GC.SuppressFinalize` if `IDisposable` is implemented by hand
+   (CA1063): never a partial `Dispose()`.
+3. `!` (null-forgiving) is not a way to silence the compiler with no real guarantee: every use has to be
+   justifiable, not a reflex. Nullable Reference Types enabled consistently across the whole project, not
+   partially.
+4. A LINQ query re-enumerated several times (multiple enumeration) on a deferred-execution `IEnumerable`
+   re-runs the query on every iteration; materialise it (`.ToList()`) if the source is expensive or has a
+   side effect (CA1851, known blind spots: check by eye too).
+5. An empty `catch {}` or a `catch (Exception) {}` with no log or rethrow swallows a real bug: never a
+   silent catch.
 
-### 3. Injection de dépendances
-1. Un service `Scoped` jamais injecté dans un `Singleton` ("captive
-   dependency") : il se gèle pour toute la durée de vie de l'app (ex.
-   `DbContext` partagé entre requêtes concurrentes).
-2. Règle générale de durée de vie : un service ne dépend que d'un service de
-   durée de vie égale ou supérieure à la sienne.
-3. Un `Singleton`/background worker qui a besoin d'un service scoped passe
-   par `IServiceScopeFactory` pour créer un scope manuel : jamais une
-   injection directe du service scoped.
+### 3. Dependency injection
+1. A `Scoped` service never injected into a `Singleton` ("captive dependency"): it freezes for the app's
+   whole lifetime (e.g. a `DbContext` shared between concurrent requests).
+2. General lifetime rule: a service only depends on a service with a lifetime equal to or longer than its
+   own.
+3. A `Singleton`/background worker that needs a scoped service goes through `IServiceScopeFactory` to
+   create a manual scope: never a direct injection of the scoped service.
 
-### 4. ASP.NET Core et EF Core
-1. `AsNoTracking()` sur toute requête EF Core en lecture seule : sans ça,
-   coût perf mesuré (~2x plus lent à l'échelle) et tracking d'état non désiré.
-2. Ordre des middlewares vérifié à l'œil (`UseRouting`/`UseAuthentication`/
-   `UseAuthorization`) : pas de règle Roslyn dédiée, erreur de review fréquente
-   et sans détection automatique.
-3. Minimal API : validation/filtres par endpoint moins visibles qu'en
-   Controllers classiques : vérifier explicitement en review qu'ils existent,
-   pas supposer qu'ils sont hérités d'ailleurs.
+### 4. ASP.NET Core and EF Core
+1. `AsNoTracking()` on every read-only EF Core query: without it, a measured perf cost (~2x slower at
+   scale) and unwanted state tracking.
+2. Middleware order checked by eye (`UseRouting`/`UseAuthentication`/`UseAuthorization`): no dedicated
+   Roslyn rule, a frequent review mistake with no automatic detection.
+3. Minimal API: per-endpoint validation/filters are less visible than in classic Controllers: check
+   explicitly at review time that they exist, don't assume they're inherited from elsewhere.
 
-## Sortie / checkpoint
-Code conforme aux quatre sections ci-dessus, et build sans nouveau warning
-`Microsoft.CodeAnalysis.NetAnalyzers`/Meziantou introduit par le diff.
-Vérifié par `gate` (7) et `review` (8).
+## Output / checkpoint
+Code compliant with the four sections above, and a build with no new
+`Microsoft.CodeAnalysis.NetAnalyzers`/Meziantou warning introduced by the diff. Checked by `gate` (7) and
+`review` (8).
 
-## Garde-fous
-Pas de commentaires dans le code produit. Cette brique n'a pas encore été
-confrontée à un vrai projet .NET de production chez Xefi, en cas d'écart
-entre une règle ici et un besoin réel observé, corriger cette brique plutôt
-que de la traiter comme acquise. Les Framework Design Guidelines (naming
-d'API publique) ne sont pertinentes que pour du code de librairie partagée,
-pas pour de l'applicatif interne : ne pas les imposer hors de ce contexte.
+## Guardrails
+No comments in the code produced. This block hasn't been confronted with a real production .NET project
+at Xefi yet; if a rule here diverges from a real observed need, fix this block rather than treating it as
+settled. The Framework Design Guidelines (public API naming) are only relevant for shared library code,
+not for internal application code: don't impose them outside that context.
 
-## Origine
-Idées reprises de : Roslyn analyzers `Microsoft.CodeAnalysis.NetAnalyzers`
-(règles CA2007, CA1849, CA2000, CA1063, CA1851 citées) ; Meziantou.Analyzer
-(async/disposal/culture-invariance) ; documentation EF Core (tracking vs
-no-tracking) ; pattern "captive dependency" documenté côté communauté .NET.
-Mécanismes réécrits, pas de texte copié. Recherche de marché, pas de retour
-de production interne à ce stade.
+## Origin
+Ideas taken from: the `Microsoft.CodeAnalysis.NetAnalyzers` Roslyn analyzers (rules CA2007, CA1849,
+CA2000, CA1063, CA1851 cited); Meziantou.Analyzer (async/disposal/culture-invariance); the EF Core
+documentation (tracking vs no-tracking); the "captive dependency" pattern documented by the .NET
+community. Mechanisms rewritten, no copied text. Market research, no internal production feedback at this
+stage.

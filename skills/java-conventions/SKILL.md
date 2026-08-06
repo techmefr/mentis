@@ -1,75 +1,64 @@
 ---
 name: java-conventions
-description: Use quand on code ou revoit du Java, typage/immutabilité (records, Optional), gestion d'erreurs (checked vs unchecked), concurrence, patterns Spring courants. Pas de vécu de production interne Xefi sur ce langage, sourcé sur les conventions établies du marché (Effective Java, Spring) et l'outillage (SpotBugs/Error Prone).
+description: Use when writing or reviewing Java, typing/immutability (records, Optional), error handling (checked vs unchecked), concurrency, common Spring patterns. No internal Xefi production experience on this language, sourced from established market conventions (Effective Java, Spring) and tooling (SpotBugs/Error Prone).
 ---
 
 # java-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Cadre l'écriture et la review de code
-Java. **Statut particulier** : comme `go-conventions`/`python-conventions`,
-pas encore de vécu de production Xefi derrière cette brique : contenu venant
-des conventions établies (Effective Java) et de l'outillage déterministe
-(SpotBugs, Error Prone), pas de retours de review réels.
+Step 6 of the pipeline (`WORKFLOW.md`). Frames the writing and review of Java code. **Special status**:
+like `go-conventions`/`python-conventions`, no Xefi production experience behind this block yet: content
+coming from established conventions (Effective Java) and deterministic tooling (SpotBugs, Error Prone),
+not from real review feedback.
 
-## Quand
-Dès qu'on écrit ou modifie du code Java, pendant `code` (6) ou `tdd` (5).
+## When
+As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
 
-## Étapes
+## Steps
 
-### 1. Immutabilité et typage
-1. `record` (Java 16+) pour toute donnée immuable simple (DTO, value object)
-   plutôt qu'une classe avec getters/setters manuels.
-2. Champs `final` par défaut, mutabilité seulement si réellement nécessaire.
-3. `Optional<T>` en type de retour pour une absence légitime, jamais en
-   paramètre de méthode ni en champ de classe (source de complexité inutile,
-   consensus Effective Java).
-4. Éviter `null` en retour d'une méthode publique quand `Optional` ou une
-   exception exprime mieux l'intention réelle.
+### 1. Immutability and typing
+1. `record` (Java 16+) for any simple immutable data (DTO, value object) rather than a class with manual
+   getters/setters.
+2. `final` fields by default, mutability only if genuinely necessary.
+3. `Optional<T>` as a return type for a legitimate absence, never as a method parameter or a class field
+   (a source of pointless complexity, the Effective Java consensus).
+4. Avoid returning `null` from a public method when `Optional` or an exception expresses the real intent
+   better.
 
-### 2. Error handling : checked vs unchecked
-1. Exception *unchecked* (`RuntimeException`) pour une erreur de programmation
-   (précondition violée), *checked* pour une erreur récupérable que
-   l'appelant doit gérer explicitement : ne pas transformer toute exception
-   en unchecked par confort.
-2. Un `catch` qui avale l'exception sans la relancer ni la logger masque un
-   vrai bug : jamais silencieux.
-3. `try-with-resources` pour toute ressource `AutoCloseable` (fichier,
-   connexion) : jamais de fermeture manuelle dans un `finally` écrit à la
-   main quand `try-with-resources` couvre le cas.
+### 2. Error handling: checked vs unchecked
+1. An *unchecked* exception (`RuntimeException`) for a programming error (violated precondition),
+   *checked* for a recoverable error the caller has to handle explicitly: don't turn every exception into
+   an unchecked one out of convenience.
+2. A `catch` that swallows the exception without rethrowing or logging it hides a real bug: never silent.
+3. `try-with-resources` for every `AutoCloseable` resource (file, connection): never a manual close in a
+   hand-written `finally` when `try-with-resources` covers the case.
 
-### 3. Concurrence
-1. Collection partagée entre threads : `java.util.concurrent`
-   (`ConcurrentHashMap`, etc.) plutôt qu'une collection standard synchronisée
-   manuellement au coup par coup.
-2. `synchronized` sur un bloc le plus court possible, jamais sur une méthode
-   entière par réflexe quand seule une section critique le nécessite.
-3. `ExecutorService` avec un pool dimensionné et fermé explicitement
-   (`shutdown()`), jamais de `Thread` brut créé à la volée sans gestion de
-   cycle de vie.
+### 3. Concurrency
+1. A collection shared between threads: `java.util.concurrent` (`ConcurrentHashMap`, etc.) rather than a
+   standard collection synchronised by hand case by case.
+2. `synchronized` on the shortest possible block, never on a whole method out of reflex when only a
+   critical section needs it.
+3. `ExecutorService` with a sized pool that's explicitly shut down (`shutdown()`), never a raw `Thread`
+   created on the fly with no lifecycle management.
 
-### 4. Patterns Spring courants (si applicable)
-1. Injection par constructeur, jamais par champ (`@Autowired` sur un champ) : 
-   rend les dépendances explicites et testables sans réflexion.
-2. DTO distinct de l'entité JPA exposé en API : jamais l'entité persistée
-   directement au bord de l'API (couplage schéma DB / contrat public).
-3. Transactions (`@Transactional`) posées au niveau du service, jamais du
-   contrôleur : le contrôleur ne doit pas connaître la frontière
-   transactionnelle.
+### 4. Common Spring patterns (if applicable)
+1. Constructor injection, never field injection (`@Autowired` on a field): it makes the dependencies
+   explicit and testable without reflection.
+2. A DTO distinct from the JPA entity exposed in the API: never the persisted entity directly at the API
+   edge (coupling of the DB schema to the public contract).
+3. Transactions (`@Transactional`) placed at service level, never at controller level: the controller
+   shouldn't know about the transactional boundary.
 
-## Sortie / checkpoint
-Code conforme aux quatre sections ci-dessus (section 4 seulement si Spring),
-et SpotBugs/Error Prone sans nouveau finding introduit par le diff. Vérifié
-par `gate` (7) et `review` (8).
+## Output / checkpoint
+Code compliant with the four sections above (section 4 only if Spring), and SpotBugs/Error Prone with no
+new finding introduced by the diff. Checked by `gate` (7) and `review` (8).
 
-## Garde-fous
-Pas de commentaires dans le code produit. Cette brique n'a pas encore été
-confrontée à un vrai projet Java de production chez Xefi : en cas d'écart
-entre une règle ici et un besoin réel observé, corriger cette brique plutôt
-que de la traiter comme acquise.
+## Guardrails
+No comments in the code produced. This block hasn't been confronted with a real production Java project
+at Xefi yet: if a rule here diverges from a real observed need, fix this block rather than treating it as
+settled.
 
-## Origine
-Idées reprises de : Effective Java (Joshua Bloch, immutabilité, `Optional`,
-checked vs unchecked), SpotBugs/Error Prone (règles statiques par défaut),
-conventions Spring établies (injection par constructeur, DTO vs entité).
-Mécanismes réécrits, pas de texte copié. Recherche de marché, pas de retour de
-production interne à ce stade : même statut que `go-conventions`.
+## Origin
+Ideas taken from: Effective Java (Joshua Bloch, immutability, `Optional`, checked vs unchecked),
+SpotBugs/Error Prone (default static rules), established Spring conventions (constructor injection, DTO
+vs entity). Mechanisms rewritten, no copied text. Market research, no internal production feedback at
+this stage: same status as `go-conventions`.

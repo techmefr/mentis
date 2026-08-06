@@ -1,29 +1,29 @@
 ---
 name: tdd
-description: Use lors de l'étape tests, avant le code, écrire les tests d'abord (doctrine test-casebook) et transformer chaque critère d'acceptation en une ligne de contrat qui échoue par défaut.
+description: Use during the tests step, before the code, write the tests first (test-casebook doctrine) and turn every acceptance criterion into a contract line that fails by default.
 ---
 
 # tdd
 
-Étape 5 du pipeline (`WORKFLOW.md`). Les tests d'abord, et un **contrat par défaut à ÉCHEC**
-qui rendra le GATE (étape 7) mécanique.
+Step 5 of the pipeline (`WORKFLOW.md`). Tests first, and a **default-FAIL contract** that will
+make the GATE (step 7) mechanical.
 
-## Quand
-Après `plan`, avant d'écrire l'implémentation.
+## When
+After `plan`, before writing the implementation.
 
-## Étapes
-1. Pour **chaque critère d'acceptation** de la spec, créer une ligne dans `test-results.json`
-   initialisée à `{ "passes": false }` (le contrat démarre à l'échec).
-2. Écrire le test correspondant selon **test-casebook** (sélecteurs `data-test-*`, exhaustif,
-   persona matrix, couverture cible ≥ 90 %).
-3. Lancer la suite : **tout est rouge**, c'est le résultat attendu à cette étape.
+## Steps
+1. For **every acceptance criterion** in the spec, create a line in `test-results.json`
+   initialised to `{ "passes": false }` (the contract starts as a failure).
+2. Write the matching test following **test-casebook** (`data-test-*` selectors, exhaustive,
+   persona matrix, target coverage ≥ 90%).
+3. Run the suite: **everything is red**, that's the expected result at this step.
 
-## Sortie / checkpoint
-`tests_written` + `test-results.json` (toutes lignes `{ passes: false }`).
+## Output / checkpoint
+`tests_written` + `test-results.json` (every line `{ passes: false }`).
 
-## Garde-fous
-Aucun test contourné, masqué ou désactivé. Le contrat par défaut est **échec** : rien n'est
-« passant » tant que le GATE ne l'a pas prouvé.
+## Guardrails
+No test bypassed, hidden or disabled. The default contract is **failure**: nothing is
+"passing" until the GATE has proven it.
 
-## Origine
-Xefi `test-casebook` + des patterns d'agents long-running du marché (default-FAIL contract), réécrits.
+## Origin
+Xefi `test-casebook` + market long-running agent patterns (default-FAIL contract), rewritten.

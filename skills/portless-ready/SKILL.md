@@ -1,46 +1,47 @@
 ---
 name: portless-ready
-description: Use quand une stack doit passer en portless, rend un projet compatible avec l'outil portless du marché (route HTTPS nommée, arrêt des ports backing publiés, URLs front↔back alignées).
+description: Use when a stack has to go portless, makes a project compatible with the market portless tool (named HTTPS route, published backing ports switched off, frontend↔backend URLs aligned).
 ---
 
 # portless-ready
 
-Brique de **setup / infra** (pas une étape du pipeline). Rend une stack Docker exploitable via
-**l'outil portless du marché** : une URL HTTPS stable par service, zéro collision de port, navigateur
-Windows → conteneur WSL. C'est « l'agent qui corrige pour utiliser portless à chaque fois ».
+**Setup / infra** block (not a pipeline step). Makes a Docker stack usable through **the market
+portless tool**: one stable HTTPS URL per service, zero port collision, Windows browser → WSL
+container. This is "the agent that fixes things so portless gets used every time".
 
-## Quand
-À la demande, avant de tester une stack dans le navigateur, ou en migrant un projet en portless.
+## When
+On demand, before testing a stack in the browser, or while migrating a project to portless.
 
-## Étapes
-1. **Vérifier portless installé** (CA trustée en WSL *et* Windows). Sinon : demander au dev de
-   lancer l'installation : c'est un **changement système** (CA dans le Root store Windows),
-   l'agent ne le fait pas.
-2. **Identifier les entrées HTTP** à exposer (app, front, vite, mailpit) et leur port réel.
-3. **Router** : `portless alias <projet>-<rôle> <port>` → `https://<projet>-<rôle>.localhost`
-   (les worktrees préfixent la branche automatiquement).
-4. **Hygiène de compose** (proposée, **ratifiée par le dev** : touche le vrai compose) : les
-   services *backing* (db, redis, elasticsearch) **ne publient plus sur l'hôte** (ils se parlent
-   par nom dans le réseau docker). S'ils doivent rester joignables par un outil externe (DBeaver),
-   offset **conscient** au lieu de la valeur par défaut.
-5. **Aligner les variables** front↔back sur les noms `.localhost` (`NUXT_BACKEND_URL`,
-   `FRONT_END_URL`, etc.), plus de resync manuelle à chaque changement de port.
-6. **Vérifier** : navigateur Windows → `https://<projet>-<rôle>.localhost` → conteneur WSL.
+## Steps
+1. **Check portless is installed** (CA trusted in WSL *and* Windows). Otherwise: ask the dev to run
+   the installation: it's a **system change** (CA in the Windows Root store), the agent doesn't do
+   it.
+2. **Identify the HTTP entry points** to expose (app, frontend, vite, mailpit) and their real port.
+3. **Route**: `portless alias <project>-<role> <port>` → `https://<project>-<role>.localhost`
+   (worktrees prefix the branch automatically).
+4. **Compose hygiene** (proposed, **ratified by the dev**: it touches the real compose file): the
+   *backing* services (db, redis, elasticsearch) **no longer publish on the host** (they talk to
+   each other by name inside the docker network). If they have to stay reachable by an external tool
+   (DBeaver), a **conscious** offset instead of the default value.
+5. **Align the variables** frontend↔backend onto the `.localhost` names (`NUXT_BACKEND_URL`,
+   `FRONT_END_URL`, etc.), no more manual resync on every port change.
+6. **Verify**: Windows browser → `https://<project>-<role>.localhost` → WSL container.
 
-## Sortie / checkpoint
-Stack portless-ready : route(s) HTTPS nommée(s), zéro collision HTTP, variables alignées.
-Pas de checkpoint pipeline.
+## Output / checkpoint
+Portless-ready stack: named HTTPS route(s), zero HTTP collision, variables aligned. No pipeline
+checkpoint.
 
-## Garde-fous
-- **portless = plomberie consommée**, pas réécrite. La brique qu'on possède, c'est *ce câblage*.
-- **L'agent propose, l'humain ratifie** : toute modif de `compose`/`.env` réel passe par le dev.
-- **Ne règle que l'HTTP(S).** Les ports non-HTTP (3306/6379/9200) se traitent par
-  **non-publication** (intra-réseau) ou **offset conscient** : portless ne les couvre pas.
-- **À la demande**, jamais un hook auto. Installer portless = action humaine (change système).
-- **SSO Microsoft** : l'URL `https://<...>.localhost` comme redirect URI Azure AD est **à
-  vérifier** côté Azure : ne pas présumer que ça passe.
+## Guardrails
+- **portless = plumbing consumed**, not rewritten. What we own is *this wiring*.
+- **The agent proposes, the human ratifies**: any change to the real `compose`/`.env` goes through
+  the dev.
+- **Only handles HTTP(S).** Non-HTTP ports (3306/6379/9200) are handled by **not publishing them**
+  (intra-network) or a **conscious offset**: portless doesn't cover them.
+- **On demand**, never an automatic hook. Installing portless = a human action (system change).
+- **Microsoft SSO**: using the `https://<...>.localhost` URL as an Azure AD redirect URI is **to be
+  verified** on the Azure side: don't assume it works.
 
-## Origine
-Un outil portless du marché (la plomberie : proxy 443 + `*.localhost` + CA WSL/Windows +
-noms de worktree). Le câblage/la correction par projet = à nous. Réalise l'idée « agent
-portless » du plan (cf. mémoire, `CHALLENGE.md`).
+## Origin
+A market portless tool (the plumbing: 443 proxy + `*.localhost` + WSL/Windows CA + worktree names).
+The wiring/the per-project fixing is ours. Realises the "portless agent" idea from the plan (see the
+memory, `CHALLENGE.md`).

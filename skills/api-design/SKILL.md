@@ -1,59 +1,55 @@
 ---
 name: api-design
-description: Use quand on conçoit une nouvelle API/interface (REST, tRPC, GraphQL) avant de l'implémenter, contract-first, loi de Hyrum (tout comportement observable finit par être dépendu), extension plutôt que rupture, checklist de vérification courte avant de livrer le contrat.
+description: Use when designing a new API/interface (REST, tRPC, GraphQL) before implementing it, contract-first, Hyrum's law (every observable behaviour ends up depended on), extension rather than breakage, short verification checklist before shipping the contract.
 ---
 
 # api-design
 
-Étape 3 du pipeline (`WORKFLOW.md`, entre `archi` et `plan`), quand la tâche
-consiste à concevoir une interface consommée par d'autres (front, service
-tiers, autre équipe) : pas pour une fonction interne sans contrat public.
+Step 3 of the pipeline (`WORKFLOW.md`, between `archi` and `plan`), when the task is designing an
+interface consumed by others (frontend, third-party service, another team): not for an internal
+function with no public contract.
 
-## Quand
-Avant d'implémenter un nouvel endpoint/route/procédure : jamais après coup en
-"documentant ce qui existe déjà" (ça, c'est trop tard pour orienter le design).
+## When
+Before implementing a new endpoint/route/procedure: never after the fact by "documenting what
+already exists" (by then it's too late to steer the design).
 
-## Étapes
+## Steps
 
 ### 1. Contract-first
-1. Le schéma typé (DTO, type tRPC, schéma OpenAPI/GraphQL) est écrit **avant**
-   l'implémentation, pas déduit du code après coup.
-2. Validation posée **uniquement aux frontières** (entrée de l'API) : le code
-   interne fait confiance au type déjà validé, pas de revalidation en
-   profondeur qui duplique la logique.
-3. Un seul format d'erreur système-wide (même structure pour toute erreur
-   renvoyée), jamais un format différent par endpoint.
+1. The typed schema (DTO, tRPC type, OpenAPI/GraphQL schema) is written **before** the
+   implementation, not inferred from the code afterwards.
+2. Validation placed **only at the boundaries** (the API entry point): internal code trusts the
+   already-validated type, no deep revalidation that duplicates the logic.
+3. A single system-wide error format (the same structure for every error returned), never a
+   different format per endpoint.
 
-### 2. Loi de Hyrum : ce qui est observable sera dépendu
-1. Tout comportement observable (ordre des champs, valeur par défaut, format
-   d'une erreur) finira, tôt ou tard, dépendu par un consommateur même non
-   documenté : traiter ce risque dès la conception, pas le découvrir en
-   cassant un consommateur plus tard.
-2. Champs internes/techniques jamais exposés "parce que c'est pratique" : 
-   seul ce qui est un vrai contrat public l'est.
+### 2. Hyrum's law: whatever is observable will be depended on
+1. Every observable behaviour (field order, default value, error format) will sooner or later be
+   depended on by a consumer, even an undocumented one: handle that risk at design time, don't
+   discover it by breaking a consumer later.
+2. Internal/technical fields never exposed "because it's handy": only what is a genuine public
+   contract is.
 
-### 3. Extension plutôt que rupture : "One-Version Rule"
-1. Étendre le contrat existant par des **champs optionnels** plutôt que de
-   forker une nouvelle version pour un changement mineur.
-2. Un changement réellement incompatible (retrait de champ, changement de
-   type) passe par `deprecation-migration` (Expand/Contract ou versioning
-   explicite), jamais par une modification silencieuse du contrat existant.
-3. Pagination, tri, filtrage : conventions cohérentes sur toute l'API, pas
-   réinventées endpoint par endpoint.
+### 3. Extension rather than breakage: the "One-Version Rule"
+1. Extend the existing contract with **optional fields** rather than forking a new version for a
+   minor change.
+2. A genuinely incompatible change (removing a field, changing a type) goes through
+   `deprecation-migration` (Expand/Contract or explicit versioning), never through a silent
+   modification of the existing contract.
+3. Pagination, sorting, filtering: consistent conventions across the whole API, not reinvented
+   endpoint by endpoint.
 
-## Sortie / checkpoint
-Checklist de vérification finale passée avant de livrer le contrat :
-pagination cohérente avec le reste de l'API, compatibilité ascendante
-vérifiée (aucun champ existant retiré/retypé), format d'erreur conforme au
-standard système-wide, aucun champ interne exposé sans raison.
+## Output / checkpoint
+Final verification checklist cleared before shipping the contract: pagination consistent with the
+rest of the API, backwards compatibility verified (no existing field removed/retyped), error
+format compliant with the system-wide standard, no internal field exposed without reason.
 
-## Garde-fous
-Pas de sur-ingénierie du contrat pour un besoin hypothétique non demandé : 
-le contrat couvre le besoin réel, extensible plus tard si besoin, pas
-pré-généralisé. Un changement incompatible ne se glisse jamais discrètement
-dans une évolution "mineure" : passer explicitement par `deprecation-migration`.
+## Guardrails
+No over-engineering of the contract for a hypothetical need nobody asked for: the contract covers
+the real need, extensible later if required, not pre-generalised. An incompatible change never
+slips quietly into a "minor" evolution: go explicitly through `deprecation-migration`.
 
-## Origine
-Réécriture du skill `api-and-interface-design` d'un catalogue de skills dev généralistes du marché, 
-la loi de Hyrum, la "One-Version Rule" et la checklist de vérification finale
-sont reprises telles quelles, réécrites en français au gabarit Xefi.
+## Origin
+Rewrite of the `api-and-interface-design` skill from a market generalist dev skill catalogue;
+Hyrum's law, the "One-Version Rule" and the final verification checklist are taken as-is,
+rewritten to the Xefi template.

@@ -1,106 +1,91 @@
 ---
 name: nestjs-node-conventions
-description: Use quand on code un module, un controller, un service ou un router tRPC sur la stack NestJS/Node de la vision du futur projet Node/NestJS, applique l'architecture DI par constructeur, les DTO validés, les contrats Zod/tRPC transverses et le repository pattern Prisma. Fusionne les conventions Nest, Prisma, tRPC et Zod (même stack, même étape) en une seule brique de l'étape code.
+description: Use when writing a module, a controller, a service or a tRPC router on the NestJS/Node stack of the future Node/NestJS project vision, applies constructor DI architecture, validated DTOs, cross-cutting Zod/tRPC contracts and the Prisma repository pattern. Merges the Nest, Prisma, tRPC and Zod conventions (same stack, same step) into a single block of the code step.
 ---
 
 # nestjs-node-conventions
 
-Étape 6 du pipeline (`WORKFLOW.md`). Première brique mentis pour le backend Node, 
-aucune n'existait avant, pertinente pour la vision du futur projet Node/NestJS (NestJS + Prisma + tRPC). Cadre
-l'écriture de code sur cette stack : architecture Nest, contrats de validation, contrats
-type-safe transverses attendus par tRPC, et accès données Prisma : quatre familles de
-règles qui se recoupent parce que c'est toujours la même stack et la même étape, une seule
-brique plutôt qu'une par librairie.
+Step 6 of the pipeline (`WORKFLOW.md`). The first mentis block for the Node backend, none existed before,
+relevant to the future Node/NestJS project vision (NestJS + Prisma + tRPC). Frames the writing of code on
+this stack: Nest architecture, validation contracts, cross-cutting type-safe contracts expected by tRPC,
+and Prisma data access: four families of rules that overlap because it's always the same stack and the
+same step, a single block rather than one per library.
 
-## Quand
-Dès qu'on écrit ou modifie un module Nest, un controller, un service, un DTO, un router ou
-une procedure tRPC, ou un repository Prisma, pendant `code` (6) ou `tdd` (5).
+## When
+As soon as a Nest module, a controller, a service, a DTO, a tRPC router or procedure, or a Prisma
+repository is written or modified, during `code` (6) or `tdd` (5).
 
-## Étapes
+## Steps
 
-### 1. NestJS : architecture module/controller/service
-1. Un module par domaine métier (`UsersModule`, `OrdersModule`...), déclaré avec ses
-   `providers`/`controllers`/`exports` explicites. Pas de logique métier dans le module
-   lui-même.
-2. Le controller ne fait que router et sérialiser : il reçoit le DTO validé, appelle le
-   service, retourne le résultat. Aucune règle métier, aucun accès Prisma direct dans un
-   controller.
-3. Injection de dépendances par constructeur uniquement (`constructor(private readonly
-   usersService: UsersService) {}`). Jamais de `new Service()` : ça casse le cycle de vie
-   Nest et le graphe de DI devient invérifiable.
-4. `forwardRef()` en dernier recours seulement, quand une dépendance circulaire entre deux
-   modules est réellement inévitable. Avant d'y recourir, vérifier qu'un découpage de
-   module ne supprime pas le cycle.
-5. Tests via `Test.createTestingModule({...}).compile()`, jamais d'instanciation manuelle
-   de service dans un test unitaire, pour garder le même graphe de DI qu'en prod (mocks des
-   providers injectés, pas du service testé).
+### 1. NestJS: module/controller/service architecture
+1. One module per business domain (`UsersModule`, `OrdersModule`...), declared with its explicit
+   `providers`/`controllers`/`exports`. No business logic in the module itself.
+2. The controller only routes and serialises: it receives the validated DTO, calls the service, returns
+   the result. No business rule, no direct Prisma access in a controller.
+3. Dependency injection through the constructor only (`constructor(private readonly usersService:
+   UsersService) {}`). Never a `new Service()`: it breaks the Nest lifecycle and the DI graph becomes
+   unverifiable.
+4. `forwardRef()` as a last resort only, when a circular dependency between two modules really is
+   unavoidable. Before reaching for it, check whether splitting a module removes the cycle.
+5. Tests through `Test.createTestingModule({...}).compile()`, never a manual service instantiation in a
+   unit test, so the DI graph stays the same as in production (mock the injected providers, not the
+   service under test).
 
-### 2. DTO et validation : frontière HTTP
-1. Un DTO par forme d'entrée (`CreateUserDto`, `UpdateUserDto`), décoré `class-validator`
-   (`@IsString()`, `@IsEmail()`, `@IsOptional()`...). Jamais de `any` ou d'objet non typé en
-   paramètre de controller.
-2. `ValidationPipe` global (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
-   forbidNonWhitelisted: true }))`) plutôt qu'un pipe posé route par route.
-3. Les exceptions HTTP typées (`NotFoundException`, `ConflictException`,
-   `BadRequestException`...) sont levées côté service, jamais côté controller, le service
-   connaît la règle métier qui justifie le statut, le controller non.
+### 2. DTOs and validation: the HTTP boundary
+1. One DTO per input shape (`CreateUserDto`, `UpdateUserDto`), decorated with `class-validator`
+   (`@IsString()`, `@IsEmail()`, `@IsOptional()`...). Never an `any` or an untyped object as a controller
+   parameter.
+2. A global `ValidationPipe` (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
+   forbidNonWhitelisted: true }))`) rather than a pipe placed route by route.
+3. Typed HTTP exceptions (`NotFoundException`, `ConflictException`, `BadRequestException`...) are thrown
+   on the service side, never on the controller side; the service knows the business rule that justifies
+   the status, the controller doesn't.
 
-### 3. Contrats type-safe transverses (Zod + tRPC)
-1. Aux frontières où le contrat doit être partagé avec un client type-safe (tRPC), dériver
-   le type depuis le schéma de validation avec `z.infer<typeof schema>` plutôt que
-   maintenir une interface TypeScript en parallèle du schéma Zod : une seule source de
-   vérité, jamais deux définitions qui peuvent diverger.
-2. Réponses d'API hétérogènes (succès/erreur, plusieurs variantes de résultat) modélisées
-   en union discriminée (`{ status: 'ok', data } | { status: 'error', message }`) avec un
-   champ discriminant explicite, jamais un objet à champs optionnels que l'appelant doit
-   deviner.
-3. Arborescence tRPC organisée par domaine métier, symétrique aux modules Nest : un router
-   par domaine (`usersRouter`, `ordersRouter`), composé dans un `appRouter` racine ;
-   chaque procedure (`query`/`mutation`) valide son input avec un schéma Zod passé à
-   `.input()`.
-4. Le schéma Zod de la procedure et le DTO `class-validator` du controller REST équivalent
-   décrivent la même forme de données : en cas de double exposition (REST + tRPC) d'un même
-   cas d'usage, vérifier qu'ils ne divergent pas silencieusement plutôt que les laisser
-   évoluer indépendamment.
+### 3. Cross-cutting type-safe contracts (Zod + tRPC)
+1. At the boundaries where the contract has to be shared with a type-safe client (tRPC), derive the type
+   from the validation schema with `z.infer<typeof schema>` rather than maintaining a TypeScript interface
+   alongside the Zod schema: a single source of truth, never two definitions that can diverge.
+2. Heterogeneous API responses (success/error, several result variants) modelled as a discriminated union
+   (`{ status: 'ok', data } | { status: 'error', message }`) with an explicit discriminant field, never an
+   object with optional fields the caller has to guess at.
+3. tRPC tree organised by business domain, symmetric to the Nest modules: one router per domain
+   (`usersRouter`, `ordersRouter`), composed into a root `appRouter`; each procedure (`query`/`mutation`)
+   validates its input with a Zod schema passed to `.input()`.
+4. The procedure's Zod schema and the equivalent REST controller's `class-validator` DTO describe the same
+   data shape: when a single use case is exposed twice (REST + tRPC), check they don't diverge silently
+   rather than letting them evolve independently.
 
-### 4. Prisma : schema, migrations, accès données
-1. Un repository par agrégat métier (`UsersRepository`), injecté dans le service comme
-   n'importe quel provider Nest : le service ne connaît jamais `PrismaClient` directement,
-   seulement le repository.
-2. Toute évolution de `schema.prisma` passe par une migration (`prisma migrate dev`)
-   commitée, jamais par une modification manuelle du schéma en base.
-3. Opérations type-safe : s'appuyer sur les types générés par Prisma (`Prisma.UserCreateInput`,
-   `Prisma.UserWhereInput`...) plutôt que retyper à la main les entrées/sorties d'une query.
-4. Mapped types Prisma (`Prisma.UserGetPayload<{ include: {...} }>`) pour typer précisément
-   le résultat d'une query avec relations, plutôt qu'un type maison approximatif ou un
-   `any` sur le retour du repository.
-5. Type guards sur les modèles quand une relation est optionnelle (`include` conditionnel) :
-   vérifier la présence de la relation avant de la lire, jamais un cast qui masque le cas
-   `undefined`.
-6. Pour tout point d'intégration Prisma non couvert ici (stratégies de transaction,
-   middleware, seed, connexions multiples...), se référer à la documentation officielle
-   Prisma plutôt que deviner : les sources de cette brique ne détaillent l'ORM que côté
-   TypeORM, pas Prisma.
+### 4. Prisma: schema, migrations, data access
+1. One repository per business aggregate (`UsersRepository`), injected into the service like any other Nest
+   provider: the service never knows `PrismaClient` directly, only the repository.
+2. Every change to `schema.prisma` goes through a committed migration (`prisma migrate dev`), never through
+   a manual change to the schema in the database.
+3. Type-safe operations: rely on the types generated by Prisma (`Prisma.UserCreateInput`,
+   `Prisma.UserWhereInput`...) rather than retyping a query's inputs/outputs by hand.
+4. Prisma mapped types (`Prisma.UserGetPayload<{ include: {...} }>`) to type precisely the result of a
+   query with relations, rather than an approximate homemade type or an `any` on the repository's return.
+5. Type guards on the models when a relation is optional (conditional `include`): check the relation is
+   present before reading it, never a cast that hides the `undefined` case.
+6. For any Prisma integration point not covered here (transaction strategies, middleware, seeding, multiple
+   connections...), refer to the official Prisma documentation rather than guessing: this block's sources
+   only detail the ORM on the TypeORM side, not Prisma.
 
-## Sortie / checkpoint
-Code conforme aux quatre sections ci-dessus. Pas de checkpoint dédié : la conformité est
-vérifiée par `gate` (7) et `review` (8), au même titre que le reste du code produit à
-l'étape `code`/`tdd`.
+## Output / checkpoint
+Code compliant with the four sections above. No dedicated checkpoint: compliance is checked by `gate` (7)
+and `review` (8), like the rest of the code produced at the `code`/`tdd` step.
 
-## Garde-fous
-Pas de commentaires dans le code produit. Jamais de `new Service()` : la DI passe toujours
-par le constructeur. `forwardRef()` en dernier recours, pas en réflexe face à une erreur de
-dépendance circulaire. Jamais de logique métier dans un controller ou un router tRPC. Pas
-de double définition de type là où `z.infer` peut dériver le type depuis le schéma. Ne pas
-réimplémenter un mécanisme que Nest, Prisma ou tRPC fournissent déjà. En cas de doute sur
-l'intégration Prisma non couverte ici, consulter la doc officielle plutôt que deviner.
+## Guardrails
+No comments in the code produced. Never a `new Service()`: DI always goes through the constructor.
+`forwardRef()` as a last resort, not as a reflex when facing a circular dependency error. Never business
+logic in a controller or a tRPC router. No duplicate type definition where `z.infer` can derive the type
+from the schema. Don't reimplement a mechanism that Nest, Prisma or tRPC already provide. When in doubt
+about a Prisma integration not covered here, consult the official docs rather than guessing.
 
-## Origine
-Idées reprises de : un catalogue de skills NestJS du marché (skills/nestjs-expert/SKILL.md) pour
-l'architecture module/controller/service, la DI par constructeur, les DTO
-`class-validator`, les exceptions HTTP et les tests `Test.createTestingModule` ;
-une skill TypeScript avancée du marché pour les contrats Zod/`z.infer`, les unions
-discriminées et les mapped types/type guards sur les modèles Prisma ; un catalogue de skills React/Node du marché
-(prisma-development/SKILL.md pour le schema/migrations/opérations type-safe, trpc/SKILL.md
-pour l'arborescence routers/procedures, zod-schema-validation/SKILL.md pour la validation
-aux frontières). Mécanismes réécrits, pas de texte copié.
+## Origin
+Ideas taken from: a market NestJS skill catalogue (skills/nestjs-expert/SKILL.md) for the
+module/controller/service architecture, constructor DI, `class-validator` DTOs, HTTP exceptions and
+`Test.createTestingModule` tests; an advanced market TypeScript skill for the Zod/`z.infer` contracts,
+discriminated unions and mapped types/type guards on Prisma models; a market React/Node skill catalogue
+(prisma-development/SKILL.md for the schema/migrations/type-safe operations, trpc/SKILL.md for the
+routers/procedures tree, zod-schema-validation/SKILL.md for validation at the boundaries). Mechanisms
+rewritten, no copied text.

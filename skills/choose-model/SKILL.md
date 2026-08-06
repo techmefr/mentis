@@ -1,59 +1,50 @@
 ---
 name: choose-model
-description: Use quand on écrit un nouvel agent, ou qu'on lance une tâche ponctuelle, et qu'il faut décider quel modèle Claude assigner, Haiku pour les tâches mécaniques/répétitives à faible enjeu, Sonnet par défaut pour le build et la review, Opus pour un gate ou un juge dont le verdict est difficile à revenir en arrière (bloque un merge, une décision).
+description: Use when writing a new agent, or launching a one-off task, and the Claude model has to be decided, Haiku for mechanical/repetitive low-stakes tasks, Sonnet by default for build and review, Opus for a gate or a judge whose verdict is hard to walk back (blocks a merge, a decision).
 ---
 
 # choose-model
 
-Brique transverse (pas une étape numérotée du pipeline) : s'applique à
-chaque fois qu'un agent est créé ou qu'une tâche ponctuelle est lancée sans
-modèle déjà imposé.
+Cross-cutting block (not a numbered pipeline step): applies every time an agent is created or a
+one-off task is launched without a model already imposed.
 
-## Quand
-- En écrivant un nouvel agent (frontmatter `model:` à renseigner).
-- En lançant une tâche ponctuelle où le modèle n'est pas déjà fixé par un
-  agent existant.
-- En doutant si un agent existant est sur le bon modèle (sur- ou
-  sous-dimensionné).
+## When
+- While writing a new agent (`model:` frontmatter to fill in).
+- While launching a one-off task where the model isn't already set by an existing agent.
+- When in doubt whether an existing agent is on the right model (over- or under-sized).
 
-## Étapes
+## Steps
 
-1. **Caractériser la tâche**, pas le rôle de l'agent :
-   - Est-ce mécanique/répétitif (extraction, formatage, résumé court,
-     classification simple) ? → **Haiku**.
-   - Est-ce un travail de construction ou de lecture normale (écrire du
-     code, reviewer un diff, appliquer des conventions documentées) ?
-     → **Sonnet**, le défaut.
-   - Le verdict est-il difficile à revenir en arrière une fois pris (bloque
-     un merge, tranche entre deux architectures, juge à contexte frais sans
-     seconde chance immédiate) ? → **Opus**.
-2. **Vérifier le coût de l'erreur**, pas seulement la complexité apparente :
-   une tâche qui a l'air simple mais dont une erreur est coûteuse à
-   rattraper (ex. un gate qui laisse passer un bug en prod) monte d'un cran
-   plutôt que de rester au niveau "complexité perçue".
-3. **Ne jamais sur-dimensionner par réflexe.** Opus partout coûte cher et
-   n'améliore rien sur une tâche mécanique : le sur-dimensionnement est aussi
-   une erreur de choix, pas seulement le sous-dimensionnement.
-4. **Documenter le choix** dans le frontmatter de l'agent (`model: sonnet`
-   par exemple) : jamais laissé implicite, pour qu'une relecture ultérieure
-   puisse contester le choix sur des critères explicites.
+1. **Characterise the task**, not the agent's role:
+   - Is it mechanical/repetitive (extraction, formatting, short summary, simple
+     classification)? → **Haiku**.
+   - Is it building work or normal reading (writing code, reviewing a diff, applying documented
+     conventions)? → **Sonnet**, the default.
+   - Is the verdict hard to walk back once taken (blocks a merge, decides between two
+     architectures, judges with a fresh context and no immediate second chance)? → **Opus**.
+2. **Check the cost of being wrong**, not just the apparent complexity: a task that looks simple
+   but where an error is expensive to recover from (e.g. a gate that lets a bug through to
+   production) moves up a tier rather than staying at the "perceived complexity" level.
+3. **Never over-size out of reflex.** Opus everywhere is expensive and improves nothing on a
+   mechanical task: over-sizing is a choice error too, not just under-sizing.
+4. **Document the choice** in the agent's frontmatter (`model: sonnet` for instance): never left
+   implicit, so that a later re-read can challenge the choice on explicit criteria.
 
-## Sortie / checkpoint
-Le champ `model:` du frontmatter de l'agent est renseigné, avec un choix
-justifiable en une phrase selon la grille ci-dessus. Pour une tâche
-ponctuelle sans agent dédié, le modèle est choisi avant de lancer, pas
-changé en cours de route sauf signal fort (timeout, échec répété).
+## Output / checkpoint
+The agent frontmatter's `model:` field is filled in, with a choice justifiable in one sentence
+against the grid above. For a one-off task with no dedicated agent, the model is chosen before
+launching, not changed halfway through unless there's a strong signal (timeout, repeated
+failure).
 
-## Garde-fous
-- Pas de règle rigide par nom d'agent : un agent déjà "connu" peut changer
-  de palier si la nature réelle de son travail a changé.
-- En cas de doute entre deux paliers, prendre le palier du dessous et
-  remonter seulement si un échec concret le justifie : pas l'inverse.
+## Guardrails
+- No rigid rule by agent name: an already "known" agent can change tier if the real nature of its
+  work has changed.
+- When in doubt between two tiers, take the lower one and move up only if a concrete failure
+  justifies it: not the other way round.
 
-## Origine
-Grille de décision interne : caractérisation par nature de tâche
-(mécanique/construction/verdict-difficile-à-défaire) et par coût de
-l'erreur, pas par complexité perçue. Pas de source externe spécifique
-retenue : plusieurs frameworks de routing de modèle du marché existent,
-mais aucun n'a été jugé assez proche de notre réalité de stack/agents pour
-être réécrit tel quel ; la grille ci-dessus est une synthèse propre.
+## Origin
+Internal decision grid: characterisation by the nature of the task
+(mechanical/building/hard-to-undo verdict) and by the cost of being wrong, not by perceived
+complexity. No specific external source retained: several market model-routing frameworks exist,
+but none was judged close enough to our stack/agent reality to be rewritten as-is; the grid above
+is a synthesis of our own.

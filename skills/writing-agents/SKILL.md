@@ -1,69 +1,61 @@
 ---
 name: writing-agents
-description: Use quand il faut créer un nouvel agent (ou réviser un agent existant) pour ce framework, applique le gabarit unique en 7 piliers (RÔLE, MÉMOIRE, BOUCLE, OUTILS & PÉRIMÈTRE, GARDE-FOUS, REVIEW CONTEXTE FRAIS, TRACE), vérifie qu'aucun agent existant ne couvre déjà le rôle, et choisit le bon modèle.
+description: Use when a new agent has to be created (or an existing agent revised) for this framework, applies the single 7-pillar template (ROLE, MEMORY, LOOP, TOOLS & SCOPE, GUARDRAILS, FRESH-CONTEXT REVIEW, TRACE), checks that no existing agent already covers the role, and picks the right model.
 ---
 
 # writing-agents
 
-Brique transverse (méta), pendant de `writing-skills` mais pour les agents :
-un agent a un rôle exécutable persistant (revoit, construit, audite,
-tranche), une skill est une procédure appliquée à l'intérieur du pipeline.
+Cross-cutting (meta) block, the counterpart of `writing-skills` but for agents: an agent has a
+persistent executable role (reviews, builds, audits, decides), a skill is a procedure applied
+inside the pipeline.
 
-## Quand
-- Un manque est repéré dans le roster d'agents (ex : "il manque un audit
-  SEO dédié" → `seo-auditor`).
-- Une idée sourcée (repo marché, catalogue d'agents) mérite d'être réécrite
-  en agent Xefi.
-- Un agent existant a un rôle qui a dérivé de sa description d'origine et
-  doit être clarifié ou scindé.
+## When
+- A gap is spotted in the agent roster (e.g. "we're missing a dedicated SEO audit" →
+  `seo-auditor`).
+- A sourced idea (market repo, agent catalogue) deserves to be rewritten as a Xefi agent.
+- An existing agent has a role that drifted from its original description and needs clarifying or
+  splitting.
 
-## Étapes
-1. **Vérifier qu'aucun agent existant ne couvre déjà le rôle** : lire
-   `CATALOG.md` et le tableau agents de `README.md` avant d'écrire quoi que
-   ce soit. Un agent qui fait presque la même chose qu'un autre finit par
-   créer de la confusion sur lequel invoquer.
-2. **Distinguer rôle d'agent vs étape de skill** : si la brique est une
-   procédure appliquée pendant une étape du pipeline (ex vérifier une
-   convention avant de commit), c'est une skill (`writing-skills`) ; si c'est
-   un rôle qui reçoit une tâche, agit avec ses propres outils et rend un
-   verdict/livrable autonome, c'est un agent.
-3. **Écrire au gabarit unique en 7 piliers** (voir
-   `doc/COMMENT-ON-ECRIT-NOS-AGENTS.md` §4) :
-   - **1. RÔLE** : une seule responsabilité, énoncée avec ce que l'agent
-     n'est *pas* (les confusions à éviter avec les agents voisins).
-   - **2. MÉMOIRE** : ce qui persiste entre deux invocations (conventions
-     dans MEMORY.md) et ce qui ne persiste jamais (aucun état de session à
-     session, chaque tâche relit le réel).
-   - **3. BOUCLE** : les étapes concrètes, avec une **condition de sortie
-     explicite et bornée** (jamais "je continue tant que ce n'est pas
-     parfait" : un nombre d'itérations maximum ou un critère binaire).
-   - **4. OUTILS & PÉRIMÈTRE** : ce qui est autorisé et interdit, en clair.
-   - **5. GARDE-FOUS** : ce qui checkpoint un humain avant une action difficile
-     à annuler (migration destructive, merge, push en Ready).
-   - **6. REVIEW CONTEXTE FRAIS** : qui relit ce travail, avec un contexte
-     neuf : un agent ne se certifie jamais lui-même "prêt".
-   - **7. TRACE** : ce que la sortie de fin de tâche contient toujours
-     (fichiers touchés, preuve de test, statut).
-4. **Choisir le modèle** via `choose-model` (Haiku/Sonnet/Opus), documenté
-   dans le frontmatter `model:`.
-5. **Mettre à jour `CATALOG.md`** (registre + traçabilité) et le tableau
-   agents de `README.md` dans le même geste.
+## Steps
+1. **Check that no existing agent already covers the role**: read `CATALOG.md` and the agents
+   table in `README.md` before writing anything. An agent that does almost the same thing as
+   another ends up creating confusion about which one to invoke.
+2. **Tell an agent role from a skill step apart**: if the block is a procedure applied during a
+   pipeline step (e.g. checking a convention before committing), it's a skill
+   (`writing-skills`); if it's a role that receives a task, acts with its own tools and returns
+   an autonomous verdict/deliverable, it's an agent.
+3. **Write to the single 7-pillar template** (see `doc/HOW-WE-WRITE-OUR-AGENTS.md` §4):
+   - **1. ROLE**: a single responsibility, stated together with what the agent is *not* (the
+     confusions to avoid with neighbouring agents).
+   - **2. MEMORY**: what persists between two invocations (conventions in MEMORY.md) and what
+     never persists (no state from session to session, every task re-reads reality).
+   - **3. LOOP**: the concrete steps, with an **explicit and bounded exit condition** (never "I
+     keep going until it's perfect": a maximum number of iterations or a binary criterion).
+   - **4. TOOLS & SCOPE**: what is allowed and forbidden, stated plainly.
+   - **5. GUARDRAILS**: what checkpoints a human before an action that's hard to undo
+     (destructive migration, merge, pushing to Ready).
+   - **6. FRESH-CONTEXT REVIEW**: who re-reads this work, with a fresh context: an agent never
+     certifies itself "ready".
+   - **7. TRACE**: what the end-of-task output always contains (files touched, test evidence,
+     status).
+4. **Choose the model** via `choose-model` (Haiku/Sonnet/Opus), documented in the `model:`
+   frontmatter.
+5. **Update `CATALOG.md`** (registry + traceability) and the agents table in `README.md` in the
+   same move.
 
-## Sortie / checkpoint
-Un fichier `agents/<nom>.md` complet avec les 7 piliers, référencé dans
-`CATALOG.md` et le tableau `README.md`, `model:` renseigné et justifié.
+## Output / checkpoint
+A complete `agents/<name>.md` file with the 7 pillars, referenced in `CATALOG.md` and the
+`README.md` table, `model:` filled in and justified.
 
-## Garde-fous
-- Jamais d'agent sans pilier 6 (REVIEW CONTEXTE FRAIS) explicite : même un
-  agent d'audit en lecture seule doit dire clairement comment ses résultats
-  repassent par le pipeline normal.
-- Jamais de Write/Edit accordé à un agent de review/audit (`aragorn`,
-  `gimli`, `seo-auditor`, `security-auditor`, etc.), son scope est de
-  rapporter, jamais de corriger lui-même.
-- Un agent qui duplique un rôle existant est une régression, pas un ajout :
-  vérifier l'étape 1 avant d'écrire.
+## Guardrails
+- Never an agent without an explicit pillar 6 (FRESH-CONTEXT REVIEW): even a read-only audit
+  agent must say clearly how its results go back through the normal pipeline.
+- Never grant Write/Edit to a review/audit agent (`aragorn`, `gimli`, `seo-auditor`,
+  `security-auditor`, etc.), its scope is to report, never to fix things itself.
+- An agent that duplicates an existing role is a regression, not an addition: check step 1 before
+  writing.
 
-## Origine
-Synthèse interne : formalisation du gabarit 7 piliers déjà en usage sur tous
-les agents de ce framework (`doc/COMMENT-ON-ECRIT-NOS-AGENTS.md` §4), packagé
-en skill invocable pour symétrie avec `writing-skills`.
+## Origin
+Internal synthesis: formalises the 7-pillar template already in use on every agent in this
+framework (`doc/HOW-WE-WRITE-OUR-AGENTS.md` §4), packaged as an invocable skill for symmetry with
+`writing-skills`.

@@ -1,69 +1,60 @@
 ---
 name: observability-instrumentation
-description: Use quand on ajoute des logs, métriques, traces ou alertes dans du code applicatif, définit d'abord les questions que l'on-call se posera, avant d'instrumenter quoi que ce soit, pour éviter de collecter des données inutiles. Complète devops-conventions (qui couvre le pipeline/l'infra) au niveau du code lui-même.
+description: Use when adding logs, metrics, traces or alerts in application code, define first the questions the on-call will ask, before instrumenting anything, to avoid collecting useless data. Complements devops-conventions (which covers the pipeline/infra) at the level of the code itself.
 ---
 
 # observability-instrumentation
 
-Étape 6 du pipeline (`WORKFLOW.md`), en complément de `devops-conventions`
-(qui couvre CI/CD/infra/monitoring au niveau plateforme) : ici l'instrumentation
-au niveau du code applicatif : où logger, quelle métrique, quel label.
+Step 6 of the pipeline (`WORKFLOW.md`), complementing `devops-conventions` (which covers
+CI/CD/infra/monitoring at platform level): here, instrumentation at application-code level: where
+to log, which metric, which label.
 
-## Quand
-Dès qu'on ajoute ou modifie du logging, une métrique, une trace ou une alerte
-dans du code applicatif : jamais en ajoutant de l'instrumentation "au cas où"
-sans question précise derrière.
+## When
+As soon as logging, a metric, a trace or an alert is added or modified in application code: never
+by adding instrumentation "just in case" with no precise question behind it.
 
-## Étapes
+## Steps
 
-### 1. Définir les questions avant d'instrumenter
-1. Formuler 2 à 4 questions concrètes que l'on-call se posera en incident
-   ("pourquoi cette requête est-elle lente ?", "combien d'utilisateurs sont
-   affectés ?"), **avant** d'écrire le premier log ou la première métrique.
-2. Chaque donnée collectée doit répondre à au moins une de ces questions : 
-   une métrique/log qui ne répond à aucune question posée est du bruit à ne
-   pas ajouter.
+### 1. Define the questions before instrumenting
+1. State 2 to 4 concrete questions the on-call will ask during an incident ("why is this request
+   slow?", "how many users are affected?"), **before** writing the first log or the first metric.
+2. Every piece of data collected must answer at least one of those questions: a metric/log that
+   answers none of the questions asked is noise, don't add it.
 
-### 2. Logs structurés
-1. Format structuré (JSON), jamais du texte libre pour un événement qui doit
-   être requêtable en incident.
-2. Correlation ID obligatoire sur toute chaîne d'appels traversant plusieurs
-   services/couches : sans lui, impossible de relier les logs d'une même
-   requête.
-3. Redaction des données personnelles/sensibles (PII) avant écriture : jamais
-   un email, un mot de passe ou une donnée client en clair dans un log.
+### 2. Structured logs
+1. Structured format (JSON), never free text for an event that has to be queryable during an
+   incident.
+2. Correlation ID mandatory on any call chain crossing several services/layers: without it, it's
+   impossible to tie together the logs of a single request.
+3. Redaction of personal/sensitive data (PII) before writing: never an email, a password or a
+   client's data in clear text in a log.
 
-### 3. Métriques : anti-cardinalité
-1. Métriques RED (Rate/Errors/Duration) pour les services, USE
-   (Utilization/Saturation/Errors) pour les ressources : grille de départ,
-   pas la seule possible, mais un défaut sain.
-2. Labels de métriques **bornés** : jamais un user ID, une URL brute ou tout
-   autre identifiant à cardinalité illimitée en label : explosion de
-   cardinalité qui rend le système de métriques inutilisable ou hors de prix.
-3. Traces distribuées (OpenTelemetry ou équivalent déjà en place) posées aux
-   frontières de service, pas à chaque fonction interne.
+### 3. Metrics: anti-cardinality
+1. RED metrics (Rate/Errors/Duration) for services, USE (Utilization/Saturation/Errors) for
+   resources: a starting grid, not the only possible one, but a healthy default.
+2. **Bounded** metric labels: never a user ID, a raw URL or any other unlimited-cardinality
+   identifier as a label: a cardinality explosion makes the metrics system unusable or
+   prohibitively expensive.
+3. Distributed traces (OpenTelemetry or an equivalent already in place) placed at service
+   boundaries, not on every internal function.
 
-### 4. Alerting : symptom-based
-1. Une alerte se déclenche sur un **symptôme observable par l'utilisateur**
-   (latence, taux d'erreur), jamais directement sur une cause infra
-   (CPU haut) sauf si ce lien est déjà prouvé causal.
-2. Vérification finale obligatoire : forcer volontairement la condition
-   d'alerte (ou la simuler) pour confirmer qu'elle se déclenche réellement : 
-   une alerte jamais testée est une alerte dont on ne sait pas si elle marche.
+### 4. Alerting: symptom-based
+1. An alert fires on a **symptom observable by the user** (latency, error rate), never directly on
+   an infra cause (high CPU) unless that link has already been proven causal.
+2. Mandatory final verification: deliberately force the alert condition (or simulate it) to confirm
+   it really fires: an alert that was never tested is an alert you don't know works.
 
-## Sortie / checkpoint
-Instrumentation ajoutée répond explicitement à une des questions on-call
-formulées en étape 1 ; aucun label à cardinalité non bornée introduit ;
-alerte testée en conditions simulées avant d'être considérée fiable.
+## Output / checkpoint
+The instrumentation added explicitly answers one of the on-call questions stated at step 1; no
+unbounded-cardinality label introduced; the alert tested under simulated conditions before being
+considered reliable.
 
-## Garde-fous
-Ne jamais instrumenter par réflexe ("on ne sait jamais") sans question
-on-call identifiée derrière : le coût de collecte/stockage n'est pas gratuit
-et le bruit noie le signal utile en incident réel. Jamais de PII en clair
-dans un log, même en environnement de test.
+## Guardrails
+Never instrument out of reflex ("you never know") with no identified on-call question behind it: the
+cost of collection/storage isn't free and the noise drowns the useful signal during a real
+incident. Never PII in clear text in a log, even in a test environment.
 
-## Origine
-Réécriture du skill `observability-and-instrumentation` d'un catalogue de skills dev généralistes du marché, 
-la règle "définir les questions avant d'instrumenter", les métriques RED/USE,
-la règle anti-cardinalité et l'alerting symptom-based sont repris tels quels,
-réécrits en français au gabarit Xefi.
+## Origin
+Rewrite of the `observability-and-instrumentation` skill from a market generalist dev skill
+catalogue; the "define the questions before instrumenting" rule, the RED/USE metrics, the
+anti-cardinality rule and symptom-based alerting are taken as-is, rewritten to the Xefi template.

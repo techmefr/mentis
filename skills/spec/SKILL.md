@@ -1,28 +1,30 @@
 ---
 name: spec
-description: Use quand on verrouille le périmètre d'une feature avant le plan, interview de clarification, périmètre + hors-scope explicites, CONTEXT.md et ADR.
+description: Use when locking down the scope of a feature before the plan, clarification interview, explicit scope + out-of-scope, CONTEXT.md and ADR.
 ---
 
 # spec
 
-Étape 2 du pipeline (`WORKFLOW.md`). Verrouiller *quoi* on construit, avec un vocabulaire
-partagé et des décisions tracées.
+Step 2 of the pipeline (`WORKFLOW.md`). Lock down *what* we're building, with a shared
+vocabulary and traced decisions.
 
-## Quand
-Après `brainstorm`, avant `/PLAN`. Ou dès que le périmètre / les critères d'acceptation sont flous.
+## When
+After `brainstorm`, before `/PLAN`. Or as soon as the scope / acceptance criteria are unclear.
 
-## Étapes
-1. **Interviewer** le dev : une question ciblée par ambiguïté, jusqu'à ce que le périmètre soit net.
-2. Écrire **`CONTEXT.md`** : le vocabulaire partagé de la feature (termes, entités, règles métier).
-3. Lister les **critères d'acceptation** explicites (ils deviendront le contrat de `tdd`).
-4. Lister le **hors-scope** explicite.
-5. Écrire un **ADR** pour chaque décision structurante (choix + alternatives écartées + pourquoi).
+## Steps
+1. **Interview** the dev: one targeted question per ambiguity, until the scope is sharp.
+2. Write **`CONTEXT.md`**: the shared vocabulary of the feature (terms, entities, business
+   rules).
+3. List the explicit **acceptance criteria** (they become the contract for `tdd`).
+4. List the explicit **out-of-scope**.
+5. Write an **ADR** for every structural decision (choice + alternatives ruled out + why).
 
-## Sortie / checkpoint
+## Output / checkpoint
 `spec_done` + `CONTEXT.md` + ADR(s).
 
-## Garde-fous
-Aucun code. Si le périmètre reste flou après l'interview, `escalate` plutôt que deviner.
+## Guardrails
+No code. If the scope is still unclear after the interview, `escalate` rather than guess.
 
-## Origine
-Un auteur de skills reconnu du marché (grill-with-docs → CONTEXT.md + ADR) + interne `spec-clarification`, réécrit.
+## Origin
+A recognised market skill author (grill-with-docs → CONTEXT.md + ADR) + internal
+`spec-clarification`, rewritten.

@@ -1,68 +1,59 @@
 ---
 name: writing-skills
-description: Use quand il faut créer une nouvelle skill (ou réviser une skill existante) pour ce framework, applique le gabarit unique, vérifie qu'aucune brique existante ne couvre déjà le besoin, et crédite la source si l'idée vient d'ailleurs.
+description: Use when a new skill has to be created (or an existing skill revised) for this framework, applies the single template, checks that no existing block already covers the need, and credits the source if the idea comes from elsewhere.
 ---
 
 # writing-skills
 
-Brique transverse (méta) : c'est la skill qui explique comment écrire les
-autres skills. S'applique dès qu'un manque est identifié dans le pipeline ou
-qu'une idée sourcée mérite d'être réécrite à notre sauce (Règle B).
+Cross-cutting (meta) block: this is the skill that explains how to write the other skills.
+Applies as soon as a gap is identified in the pipeline or a sourced idea deserves to be
+rewritten our way (Rule B).
 
-## Quand
-- Un manque est repéré dans le pipeline (ex : "il manque un routeur de
-  modèle" → `choose-model`).
-- Une idée vue ailleurs (repo marché, article, aitmpl.com, superpowers)
-  semble utile mais n'existe pas encore chez nous.
-- Une skill existante ne colle plus à l'usage réel et doit être révisée.
+## When
+- A gap is spotted in the pipeline (e.g. "we're missing a model router" → `choose-model`).
+- An idea seen elsewhere (market repo, article, aitmpl.com, superpowers) looks useful but doesn't
+  exist here yet.
+- An existing skill no longer matches real usage and needs revising.
 
-## Étapes
-1. **Vérifier qu'aucune brique existante ne couvre déjà le besoin** : lire
-   `CATALOG.md` et le tableau skills de `README.md` avant d'écrire quoi que ce
-   soit. Un doublon coûte plus cher qu'un manque (Règle B, checklist
-   d'adoption).
-2. **Isoler le mécanisme réel**, pas l'emballage : si la skill est sourcée
-   d'un repo externe, lire le concept jusqu'à pouvoir l'expliquer sans le
-   fichier source sous les yeux.
-3. **Écrire au gabarit unique** (`CONVENTIONS.md`) :
-   - frontmatter `name` + `description` qui commence par "Use quand..."
-   - `# nom`
-   - `## Quand`
-   - `## Étapes`
-   - `## Sortie / checkpoint`
-   - `## Garde-fous`
-   - `## Origine` : jamais vide : soit une source externe créditée
-     honnêtement, soit "pas de source externe, synthèse interne".
-4. **Placer la skill dans le pipeline** si elle a une étape numérotée (voir le
-   tableau `README.md`), ou la marquer "transverse" si elle s'applique partout
-   sans être une étape séquentielle (ex `choose-model`, `dispatch-parallel`).
-5. **Mettre à jour `CATALOG.md`** (registre + traçabilité de la source) et le
-   tableau skills de `README.md` dans le même geste, une skill non
-   référencée dans les deux devient invisible et se fait réécrire en double
-   plus tard.
-6. **Rester publiable** (Règle C) : pas de nom de projet réel, pas de secret,
-   un rôle générique ("le back Laravel") jamais un nom de repo interne : sauf
-   dans `xefi-mr-review` qui a un statut différent (preuve de prod, noms réels
-   assumés).
+## Steps
+1. **Check that no existing block already covers the need**: read `CATALOG.md` and the skills
+   table in `README.md` before writing anything. A duplicate costs more than a gap (Rule B,
+   adoption checklist).
+2. **Isolate the real mechanism**, not the packaging: if the skill is sourced from an external
+   repo, read the concept until you can explain it without the source file in front of you.
+3. **Write to the single template** (`CONVENTIONS.md`):
+   - frontmatter `name` + `description` starting with "Use when..."
+   - `# name`
+   - `## When`
+   - `## Steps`
+   - `## Output / checkpoint`
+   - `## Guardrails`
+   - `## Origin`: never empty: either an external source credited honestly, or "no external
+     source, internal synthesis".
+4. **Place the skill in the pipeline** if it has a numbered step (see the `README.md` table), or
+   mark it "cross-cutting" if it applies everywhere without being a sequential step (e.g.
+   `choose-model`, `dispatch-parallel`).
+5. **Update `CATALOG.md`** (registry + source traceability) and the skills table in `README.md`
+   in the same move; a skill not referenced in both becomes invisible and gets rewritten twice
+   later.
+6. **Stay publishable** (Rule C): no real project name, no secret, a generic role ("the Laravel
+   backend") never an internal repo name: except in `xefi-mr-review`, which has a different
+   status (production evidence, real names owned).
 
-## Sortie / checkpoint
-Un fichier `skills/<nom>/SKILL.md` complet au gabarit, référencé dans
-`CATALOG.md` et dans le tableau `README.md`, avec une section `Origine` non
-vide.
+## Output / checkpoint
+A complete `skills/<name>/SKILL.md` file following the template, referenced in `CATALOG.md` and
+in the `README.md` table, with a non-empty `Origin` section.
 
-## Garde-fous
-- Jamais de skill sans `## Origine` : l'honnêteté sur la source (interne vs
-  sourcée marché vs réécrite d'un repo précis) est structurelle, pas
-  optionnelle.
-- Jamais d'installation d'un repo externe comme dépendance : on lit, on
-  réécrit, on crédite (Règle B) : jamais un `git submodule` ou un import
-  runtime vers un repo tiers.
-- Une skill qui duplique une brique existante est une régression, pas un
-  ajout : vérifier l'étape 1 avant d'écrire, pas après.
+## Guardrails
+- Never a skill without `## Origin`: honesty about the source (internal vs sourced from the
+  market vs rewritten from a specific repo) is structural, not optional.
+- Never install an external repo as a dependency: we read, we rewrite, we credit (Rule B): never
+  a `git submodule` or a runtime import to a third-party repo.
+- A skill that duplicates an existing block is a regression, not an addition: check step 1 before
+  writing, not after.
 
-## Origine
-Réécriture de la skill `writing-skills` d'un framework de skills/agents du marché, chez eux elle
-documente leur propre gabarit ; ici elle documente le nôtre (le gabarit unique
-de `CONVENTIONS.md`), avec en plus la checklist d'adoption de la Règle B
-(vérifier les doublons, créditer la source) qui n'existe pas telle quelle côté
-superpowers.
+## Origin
+Rewrite of the `writing-skills` skill from a market skill/agent framework; there it documents
+their own template, here it documents ours (the single template in `CONVENTIONS.md`), plus the
+Rule B adoption checklist (check for duplicates, credit the source) which doesn't exist as such
+on the superpowers side.

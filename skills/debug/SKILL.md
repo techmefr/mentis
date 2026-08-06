@@ -1,26 +1,26 @@
 ---
 name: debug
-description: Use dès qu'un bug, un échec de test inattendu ou une erreur répétée survient pendant le code, comprendre la cause avant de proposer un fix.
+description: Use as soon as a bug, an unexpected test failure or a repeated error shows up during the code step, understand the cause before proposing a fix.
 ---
 
 # debug
 
-Brique de support de l'étape 6 (`code`). Trouver la **cause racine**, pas le symptôme.
+Support block for step 6 (`code`). Find the **root cause**, not the symptom.
 
-## Quand
-Pendant `code` / `/BUILD`, à la première erreur inattendue ou au deuxième échec identique.
+## When
+During `code` / `/BUILD`, at the first unexpected error or the second identical failure.
 
-## Étapes
-1. Reproduire de façon fiable (commande + entrée minimale).
-2. Isoler : formuler une hypothèse unique, la vérifier (log/test ciblé), avant d'en changer.
-3. Corriger la **cause**, pas le symptôme ; ajouter/ajuster un test qui capture le cas.
-4. Toujours en boucle > 2 tentatives sans progrès → `escalate`.
+## Steps
+1. Reproduce reliably (command + minimal input).
+2. Isolate: state a single hypothesis, verify it (targeted log/test), before changing it.
+3. Fix the **cause**, not the symptom; add/adjust a test that captures the case.
+4. Still looping after more than 2 attempts with no progress → `escalate`.
 
-## Sortie / checkpoint
-Pas de checkpoint propre : reprend `code`.
+## Output / checkpoint
+No checkpoint of its own: resumes `code`.
 
-## Garde-fous
-Pas de fix « au hasard » ni de retry en boucle. Une hypothèse à la fois.
+## Guardrails
+No "random" fixes and no retry loops. One hypothesis at a time.
 
-## Origine
-Natif / interne `systematic-debugging`, réécrit à notre sauce.
+## Origin
+Native / internal `systematic-debugging`, rewritten our way.

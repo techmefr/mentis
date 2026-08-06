@@ -1,46 +1,46 @@
 ---
 name: using-mentis
-description: Use when starting any task in a Xefi project, établit le pipeline mentis (tâche → brainstorm → spec → archi → plan → TDD → code → review → MR → merge → finish) et comment les skills se branchent sur starfleet.
+description: Use when starting any task in a Xefi project, establishes the mentis pipeline (task → brainstorm → spec → archi → plan → TDD → code → review → MR → merge → finish) and how the skills plug into starfleet.
 ---
 
 # using-mentis
 
-Point d'entrée de la couche méthode Xefi. À lire au début de toute tâche.
+Entry point of the Xefi method layer. To be read at the start of every task.
 
-## La règle
+## The rule
 
-**Avant toute action** (y compris une question de clarification ou l'exploration du repo),
-identifie la skill mentis qui s'applique et invoque-la. Annonce « J'utilise [skill]
-pour [but] » puis suis-la. Si une checklist existe, une todo par item.
+**Before any action** (including a clarifying question or exploring the repo), identify the
+mentis skill that applies and invoke it. Announce "I'm using [skill] for [goal]" then follow
+it. If a checklist exists, one todo per item.
 
-## Le pipeline (ordre)
+## The pipeline (order)
 
-Chaque étape écrit son checkpoint dans starfleet (`update_checkpoint`). Toutes les briques
-suivent le **gabarit unique** (`mentis/CONVENTIONS.md`) et sont réécrites à notre sauce :
+Every step writes its checkpoint in starfleet (`update_checkpoint`). All blocks follow the
+**single template** (`mentis/CONVENTIONS.md`) and are rewritten our way:
 
-1. **start-feature** : crée la worktree isolée (starfleet `create_task` + `launch_worktree`).
-2. **brainstorm** : explorer l'intention avant tout code.
-3. **spec** : verrouiller périmètre + hors-scope ; `CONTEXT.md` + ADR → `spec_done`.
-4. **archi** : archi cible via graphify (anti-duplication), écrite (`set_arch_node`) → `arch_done`.
-5. **plan** : découper en tâches atomiques → `plan_done`.
-6. **tdd** : tests d'abord (**test-casebook**) + contrat `{passes:false}` → `tests_written`.
-7. **code** : construire par incréments (`debug` en support) → `build_done`.
-8. **gate** : verrou mécanique : preuve obligatoire + évaluateur à contexte propre → `verified`.
-9. **review** : 2 axes parallèles (Standards + Spec) + agents Xefi + `/code-review`/`/security-review`.
-10. **simplify** : passe qualité à iso-comportement → `simplified`.
-11. **ship** : push + MR **draft** (dev + 2 collègues) → `mr_draft_pushed`, `awaiting_human`. **L'agent s'arrête.**
-12. **finish** : post-merge humain : `finish_task` (serveur, worktree, base d'intégration).
+1. **start-feature**: creates the isolated worktree (starfleet `create_task` + `launch_worktree`).
+2. **brainstorm**: explore the intent before any code.
+3. **spec**: lock down scope + out-of-scope; `CONTEXT.md` + ADR → `spec_done`.
+4. **archi**: target architecture via graphify (anti-duplication), written (`set_arch_node`) → `arch_done`.
+5. **plan**: break into atomic tasks → `plan_done`.
+6. **tdd**: tests first (**test-casebook**) + `{passes:false}` contract → `tests_written`.
+7. **code**: build in increments (`debug` in support) → `build_done`.
+8. **gate**: mechanical lock: mandatory evidence + clean-context evaluator → `verified`.
+9. **review**: 2 parallel axes (Standards + Spec) + Xefi agents + `/code-review`/`/security-review`.
+10. **simplify**: quality pass at identical behaviour → `simplified`.
+11. **ship**: push + **draft** MR (dev + 2 colleagues) → `mr_draft_pushed`, `awaiting_human`. **The agent stops.**
+12. **finish**: after the human merge: `finish_task` (server, worktree, integration base).
 
-## Le seam avec starfleet
+## The seam with starfleet
 
-Une skill mentis **ne réinvente pas l'orchestration** : elle appelle les tools MCP de
-starfleet (create_task, launch_worktree, update_checkpoint, set_arch_node, escalate,
-finish_task) et laisse le dashboard refléter l'état. Méthode ≠ état : mentis décide
-*quoi/comment*, starfleet tient *où/état*.
+A mentis skill **does not reinvent orchestration**: it calls starfleet's MCP tools
+(create_task, launch_worktree, update_checkpoint, set_arch_node, escalate, finish_task) and
+lets the dashboard reflect the state. Method ≠ state: mentis decides *what/how*, starfleet
+holds *where/state*.
 
-## Garde-fous
+## Guardrails
 
-- Les **2 approbations humaines** et le **merge** sont hors du périmètre agent, on s'arrête
-  à la MR draft et on rend la main.
-- Bloqué et ça se répète ? `escalate` plutôt que boucler.
-- « Je sais déjà faire » ≠ « j'ai suivi la skill ». Invoque-la.
+- The **2 human approvals** and the **merge** are outside agent scope, we stop at the draft MR
+  and hand back.
+- Blocked and it keeps happening? `escalate` rather than loop.
+- "I already know how to do this" ≠ "I followed the skill". Invoke it.

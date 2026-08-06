@@ -1,37 +1,36 @@
 ---
 name: start-feature
-description: Use au tout début d'une feature, avant de coder, crée la worktree isolée via starfleet (create_task + launch_worktree) et amorce le pipeline. Réécriture Xefi de superpowers:using-git-worktrees, branchée sur starfleet.
+description: Use at the very start of a feature, before coding, creates the isolated worktree via starfleet (create_task + launch_worktree) and kicks off the pipeline. Xefi rewrite of superpowers:using-git-worktrees, wired into starfleet.
 ---
 
 # start-feature
 
-Démarre une feature dans un espace **isolé** (worktree dédiée), coordonné par starfleet
-(port déterministe unique, état partagé, visibilité dashboard).
+Starts a feature in an **isolated** space (dedicated worktree), coordinated by starfleet
+(unique deterministic port, shared state, dashboard visibility).
 
-## Étapes
+## Steps
 
-1. **Identité** : déduis le projet (remote git `git config --get remote.origin.url`, sinon
-   racine du repo) et la branche cible.
-2. **Enregistrer + allouer** : appelle le tool MCP starfleet **`create_task`** avec
-   `project`, `branch`, `repoPath`, `runCommand` (commande de dev), et `feature`/`role`
-   (front/back) si pertinent. Tu récupères un **port unique** (aucune collision avec les
-   autres projets/worktrees).
-3. **Créer la worktree** : appelle **`launch_worktree`**, starfleet fait le
-   `git worktree add` dans un dossier voisin, isolé de ton workspace courant.
-   (Vérifie d'abord que le dossier des worktrees est bien gitignore.)
-4. **(option) Démarrer le serveur** : `start_server`, lance `runCommand` avec le port injecté ;
-   le dashboard passe la worktree en « live » et donne le lien « Ouvrir ».
-5. **Enchaîner** : passe à `brainstorm` puis `spec`. À chaque étape franchie,
-   `update_checkpoint`.
+1. **Identity**: infer the project (git remote `git config --get remote.origin.url`, otherwise
+   the repo root) and the target branch.
+2. **Register + allocate**: call the starfleet MCP tool **`create_task`** with `project`,
+   `branch`, `repoPath`, `runCommand` (the dev command), and `feature`/`role` (front/back) if
+   relevant. You get back a **unique port** (no collision with the other
+   projects/worktrees).
+3. **Create the worktree**: call **`launch_worktree`**, starfleet runs the `git worktree add`
+   in a sibling folder, isolated from your current workspace. (First check that the worktree
+   folder really is gitignored.)
+4. **(optional) Start the server**: `start_server` runs `runCommand` with the injected port;
+   the dashboard flips the worktree to "live" and gives you the "Open" link.
+5. **Move on**: go to `brainstorm` then `spec`. On every step cleared, `update_checkpoint`.
 
-## Pourquoi passer par starfleet
+## Why go through starfleet
 
-L'isolation par worktree seule (comme superpowers:using-git-worktrees) empêche les
-interférences, mais **ne coordonne pas** les ports ni la visibilité multi-projets. Le seam
-avec starfleet ajoute : port déterministe anti-collision, source de vérité partagée,
-dashboard, et le nettoyage post-merge (`finish_task`).
+Worktree isolation on its own (like superpowers:using-git-worktrees) prevents interference,
+but **does not coordinate** ports or multi-project visibility. The seam with starfleet adds:
+a deterministic collision-free port, a shared source of truth, the dashboard, and the
+post-merge cleanup (`finish_task`).
 
-## Fin de vie
+## End of life
 
-Ne supprime pas la worktree à la main : c'est `finish` (→ `finish_task`) qui l'enlève
-proprement après merge et met à jour develop.
+Don't delete the worktree by hand: `finish` (→ `finish_task`) removes it cleanly after the
+merge and updates develop.

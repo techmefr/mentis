@@ -1,27 +1,27 @@
 ---
 name: brainstorm
-description: Use quand une feature démarre, avant toute spec ou code, explore l'intention réelle et les options avant de verrouiller quoi que ce soit.
+description: Use when a feature starts, before any spec or code, explores the real intent and the options before locking anything down.
 ---
 
 # brainstorm
 
-Étape 1 du pipeline (`WORKFLOW.md`). Explorer le *pourquoi* et les approches possibles
-avant de figer le périmètre.
+Step 1 of the pipeline (`WORKFLOW.md`). Explore the *why* and the possible approaches before
+freezing the scope.
 
-## Quand
-Juste après `start-feature`, avant `/SPEC`. Dès qu'on n'est pas certain à 100 % du besoin réel.
+## When
+Right after `start-feature`, before `/SPEC`. As soon as the real need isn't 100% certain.
 
-## Étapes
-1. Reformuler le besoin réel (le problème, pas la solution demandée).
-2. Lister 2-3 approches possibles avec leurs compromis.
-3. Repérer les risques et les zones floues.
-4. Noter un hors-scope pressenti et les questions ouvertes pour le dev/humain.
+## Steps
+1. Restate the real need (the problem, not the solution asked for).
+2. List 2-3 possible approaches with their trade-offs.
+3. Spot the risks and the grey areas.
+4. Note a suspected out-of-scope and the open questions for the dev/human.
 
-## Sortie / checkpoint
-Pas de checkpoint formel : un résumé écrit dans `context_summary` (starfleet). Prépare `/SPEC`.
+## Output / checkpoint
+No formal checkpoint: a summary written in `context_summary` (starfleet). Prepares `/SPEC`.
 
-## Garde-fous
-Aucun code. Les choix produit se remontent au dev/humain, on ne tranche pas seul.
+## Guardrails
+No code. Product choices go back to the dev/human, we don't decide alone.
 
-## Origine
-Natif Claude Code (skill `brainstorming`), réécrit à notre sauce.
+## Origin
+Native Claude Code (`brainstorming` skill), rewritten our way.

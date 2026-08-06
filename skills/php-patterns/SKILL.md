@@ -1,67 +1,58 @@
 ---
 name: php-patterns
-description: Use quand on code ou revoit du PHP pur, indépendamment du framework (pas Laravel/Eloquent, ça c'est gimli/laravel-builder), typage, gestion d'erreurs, patterns OOP. Pas de vécu de production interne profond sur ce langage seul (g.compigni débute en PHP), contenu sourcé sur PHP-FIG (PSR) et les standards établis du marché.
+description: Use when writing or reviewing pure PHP, whatever the framework (not Laravel/Eloquent, that's gimli/laravel-builder), typing, error handling, OOP patterns. No deep internal production experience on this language alone (g.compigni is new to PHP), content sourced from PHP-FIG (PSR) and established market standards.
 ---
 
 # php-patterns
 
-Étape 6 du pipeline (`WORKFLOW.md`), en amont de la couche Laravel, le
-langage lui-même, avant les conventions Eloquent/Laravel qui s'ajoutent
-par-dessus (voir `gimli`, `laravel-builder`).
+Step 6 of the pipeline (`WORKFLOW.md`), upstream of the Laravel layer: the language itself, before
+the Eloquent/Laravel conventions that stack on top (see `gimli`, `laravel-builder`).
 
-## Quand
-Dès qu'on écrit ou revoit du PHP, sur n'importe quel framework : cette brique
-est le socle commun, les conventions Laravel s'appliquent en plus, pas à la
-place.
+## When
+As soon as PHP is written or reviewed, on any framework: this block is the common base, the Laravel
+conventions apply on top of it, not instead of it.
 
-## Étapes
+## Steps
 
-### 1. Typage : PHP moderne (8.x) n'est plus du PHP non typé
-1. Signatures de fonction/méthode typées (paramètres + retour), y compris
-   `void`/`?type` explicite, un paramètre non typé est une régression, pas
-   un style neutre en PHP 8+.
-2. `readonly` sur les propriétés qui ne changent jamais après construction
-   (value objects, DTO) : évite une mutation accidentelle en profondeur.
-3. Types union (`int|string`) plutôt que `mixed` par réflexe : `mixed`
-   n'exprime aucune intention, un union type explicite documente le contrat
-   réel.
-4. Enums natifs PHP 8.1+ (`enum ... : string`) plutôt que des constantes de
-   classe éparpillées pour représenter un ensemble fermé de valeurs.
+### 1. Typing: modern PHP (8.x) is no longer untyped PHP
+1. Typed function/method signatures (parameters + return), including an explicit `void`/`?type`; an
+   untyped parameter is a regression, not a neutral style in PHP 8+.
+2. `readonly` on properties that never change after construction (value objects, DTOs): prevents an
+   accidental deep mutation.
+3. Union types (`int|string`) rather than `mixed` out of reflex: `mixed` expresses no intent, an
+   explicit union type documents the real contract.
+4. Native PHP 8.1+ enums (`enum ... : string`) rather than class constants scattered around to
+   represent a closed set of values.
 
 ### 2. Error handling
-1. Exception spécifique levée (classe dédiée, pas `\Exception` générique) dès
-   que l'appelant doit pouvoir distinguer le cas d'erreur pour réagir
-   différemment.
-2. Un `catch` qui avale l'exception sans la relancer ni la logger masque un
-   vrai bug : jamais un `catch` silencieux, même en dernier recours.
-3. `null` de retour ambigu (échec vs absence légitime) : préférer une
-   exception pour un échec réel, `null`/option seulement pour une absence
-   attendue et documentée.
+1. A specific exception thrown (a dedicated class, not a generic `\Exception`) as soon as the caller
+   has to be able to tell the error case apart to react differently.
+2. A `catch` that swallows the exception without rethrowing or logging it hides a real bug: never a
+   silent `catch`, even as a last resort.
+3. An ambiguous `null` return (failure vs legitimate absence): prefer an exception for a real
+   failure, `null`/an option only for an expected and documented absence.
 
-### 3. OOP et structure
-1. Composition plutôt qu'héritage profond (>2 niveaux) : un héritage profond
-   couple des comportements qui devraient rester indépendants.
-2. Interface définie au bord (contrat public d'un service) même à un seul
-   côté implémenté : facilite le remplacement/mock sans casser l'appelant.
-3. Propriété statique mutable = état global caché : à éviter sauf cas
-   explicitement assumé (config immuable, pas un compteur qui change).
-4. `match` (PHP 8+) plutôt que `switch` pour une comparaison de valeur simple
-, pas de fallthrough implicite, retourne une valeur directement.
+### 3. OOP and structure
+1. Composition rather than deep inheritance (>2 levels): deep inheritance couples behaviours that
+   should stay independent.
+2. An interface defined at the edge (a service's public contract) even with a single implementation:
+   makes replacement/mocking easier without breaking the caller.
+3. A mutable static property = hidden global state: to be avoided except in an explicitly accepted
+   case (immutable config, not a counter that changes).
+4. `match` (PHP 8+) rather than `switch` for a simple value comparison: no implicit fallthrough,
+   returns a value directly.
 
-## Sortie / checkpoint
-Code conforme aux trois sections ci-dessus, vérifié en plus des conventions
-Laravel applicables via `gate` (7) et `review` (8, `gimli`).
+## Output / checkpoint
+Code compliant with the three sections above, checked on top of the applicable Laravel conventions
+through `gate` (7) and `review` (8, `gimli`).
 
-## Garde-fous
-Pas de commentaires dans le code produit (règle d'équipe Xefi, tous repos).
-Cette brique n'a pas de vécu de production interne profond derrière (g.compigni
-débute en PHP, comme noté sur `gimli`) : en cas d'écart entre une règle ici et
-un besoin réel observé sur le terrain, corriger cette brique plutôt que la
-traiter comme acquise.
+## Guardrails
+No comments in the code produced (Xefi team rule, all repos). This block has no deep internal
+production experience behind it (g.compigni is new to PHP, as noted on `gimli`): if a rule here
+diverges from a real need observed in the field, fix this block rather than treating it as settled.
 
-## Origine
-Sourcé sur PHP-FIG (PSR-12 style, PSR de base), la documentation officielle
-PHP (types, enums, `readonly`, `match`) et les pratiques établies du marché
-PHP moderne. Mécanismes réécrits, pas de texte copié. Recherche de marché, pas
-de retour de production interne profond à ce stade : même statut
-d'incertitude que `gimli`.
+## Origin
+Sourced from PHP-FIG (PSR-12 style, the base PSRs), the official PHP documentation (types, enums,
+`readonly`, `match`) and established modern PHP market practice. Mechanisms rewritten, no copied
+text. Market research, no deep internal production feedback at this stage: same uncertainty status
+as `gimli`.

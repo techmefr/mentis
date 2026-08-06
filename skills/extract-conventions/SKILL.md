@@ -1,41 +1,43 @@
 ---
 name: extract-conventions
-description: Use quand on démarre sur un projet ou qu'on veut rafraîchir ses docs de référence, génère depuis le CODE RÉEL un brouillon des conventions observées, au lieu de les écrire à la main.
+description: Use when starting on a project or when the reference docs need refreshing, generates from the REAL CODE a draft of the observed conventions, instead of writing them by hand.
 ---
 
 # extract-conventions
 
-Brique de **setup / maintenance** (pas une étape du pipeline). Rend les agents plus forts en
-leur donnant des références **ancrées dans le vrai code**, et automatise la récupération du
-savoir *interne* d'un projet. Complète `SOURCING-INBOX` (qui, lui, ramasse le savoir *externe*).
+**Setup / maintenance** block (not a pipeline step). Makes the agents stronger by giving them
+references **anchored in the real code**, and automates the recovery of a project's *internal*
+knowledge. Complements `SOURCING-INBOX` (which collects *external* knowledge).
 
-## Quand
-Au démarrage sur un projet, ou pour rafraîchir les références avant que `review`/`code`/`archi`
-s'appuient dessus. Toujours à la demande d'un humain.
+## When
+When starting on a project, or to refresh the references before `review`/`code`/`archi` rely on
+them. Always at a human's request.
 
-## Étapes
-1. Lire le code réel via **graphify** + lecture ciblée : structure, patterns récurrents,
-   nommage, réponses back, composants front, tokens design réellement utilisés, patterns de test.
-2. Extraire les **conventions observées** par domaine (front / back / tests / design).
-3. Émettre un **brouillon** `references/observed/<projet>.md`, marqué **INTERNE**
-   (il contient des specifics du projet).
-4. **Ratification humaine** : le dev valide / corrige. Ce qui est validé **et générique** est
-   distillé (à la main) vers les conventions publiables (`references/conventions-*.md`) ; le
-   reste demeure interne.
-5. Rejouable : relancer produit un diff vs la version précédente (dérive visible).
+## Steps
+1. Read the real code via **graphify** + targeted reading: structure, recurring patterns, naming,
+   backend responses, frontend components, design tokens actually used, test patterns.
+2. Extract the **observed conventions** by domain (frontend / backend / tests / design).
+3. Emit a **draft** `references/observed/<project>.md`, marked **INTERNAL** (it contains project
+   specifics).
+4. **Human ratification**: the dev validates / corrects. What is validated **and generic** is
+   distilled (by hand) into the publishable conventions (`references/conventions-*.md`); the rest
+   stays internal.
+5. Replayable: running it again produces a diff against the previous version (drift becomes
+   visible).
 
-## Sortie / checkpoint
-`references/observed/<projet>.md` (interne) + éventuelle mise à jour des conventions génériques
-après ratification. Pas de checkpoint pipeline.
+## Output / checkpoint
+`references/observed/<project>.md` (internal) + a possible update of the generic conventions after
+ratification. No pipeline checkpoint.
 
-## Garde-fous
-- **L'auto propose, l'humain ratifie** : la sortie n'a aucune autorité tant qu'elle n'est pas
-  validée. On extrait ce que le code *fait* (bonnes ET mauvaises habitudes) ≠ ce qu'il *devrait*.
-- **Interne par défaut** (règle C) : généré depuis un vrai projet → le publiable est une
-  distillation humaine, sans nom de projet/collègue.
-- **Lecture seule** du projet : on lit, on n'édite jamais le code.
-- **À la demande**, jamais un hook automatique (le « doc-freshness » auto a été retiré exprès).
+## Guardrails
+- **The automation proposes, the human ratifies**: the output has no authority until it's
+  validated. We extract what the code *does* (good AND bad habits) ≠ what it *should* do.
+- **Internal by default** (rule C): generated from a real project → the publishable version is a
+  human distillation, with no project/colleague name.
+- **Read-only** on the project: we read, we never edit the code.
+- **On demand**, never an automatic hook (the auto "doc-freshness" was removed on purpose).
 
-## Origine
-Interne `graphify` + un auteur de skills reconnu du marché (improve-codebase-architecture) + un catalogue de skills dev généralistes du marché
-(source-driven-development / context-engineering), réécrit à notre sauce.
+## Origin
+Internal `graphify` + a recognised market skill author (improve-codebase-architecture) + a market
+generalist dev skill catalogue (source-driven-development / context-engineering), rewritten our
+way.
