@@ -94,6 +94,7 @@ piece of evidence.
 | `dotnet-conventions` | 6 | C#/.NET conventions: async, IDisposable, DI, EF Core (sourced from the market) |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
+| `auth-session-conventions` | 6 | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
 | `seo` | 6 | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | 6 | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `qa-exploratory-testing` | 8 (complement) | Manual/exploratory testing of a flow, distinct from tdd, sourced from ISTQB/session-based testing |
