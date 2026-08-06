@@ -67,6 +67,9 @@ judges or reviews never watched the code being written (`galadriel`, the
 reviewers, `gandalf`). Default = failure: I believe nothing without a cited
 piece of evidence.
 
+Step-by-step detail, the step → block routing table and the reasoning behind
+each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
+
 ## What's inside
 
 ### Skills: the pipeline
