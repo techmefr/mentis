@@ -36,7 +36,7 @@ already-framed story (that's `breakdown`).
 
 ### 3. One session = one ticket resolved
 1. We never work on several child tickets at the same time in the same session: consistent with
-   `worktree-one-task-close-after-merge`.
+   one task per worktree, closed after the merge.
 2. At the end of a session, the parent ticket is updated (notes, decisions, what moved from "not
    specified yet" to "decided").
 

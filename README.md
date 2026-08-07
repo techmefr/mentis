@@ -248,8 +248,15 @@ Claude Code's native format:
 3. Agents are invoked through Claude Code's `Agent` / `Task` tool, directly
    by name (e.g. `elrond` for a multi-stack review, or `aragorn`/`gimli`/...
    directly if the stack is already known).
-4. The gate hook pair is opt-in per repo and has to be wired deliberately by a
-   human who has read what it does: see [`hooks/README.md`](./hooks/README.md).
+4. Hooks are opt-in per repo and wired deliberately by a human who has read what
+   they do: see [`hooks/README.md`](./hooks/README.md). Wire
+   **`block-installs.sh`** first — it refuses every package install, one-shot
+   package runner and `curl | bash` on the agent's side, because an install runs
+   lifecycle scripts with your tokens and keys in the environment, and the
+   instruction to install something usually comes from a README or an error
+   message rather than from you. Need a dependency? The agent names it, you run
+   `pnpm add -D <package>` yourself. It applies to any repo where an agent has a
+   shell, unlike the gate pair, which only makes sense inside this pipeline.
 5. Business blocks live in [`business/`](./business/README.md) and install the
    same way — but read that folder's README first, they carry an explicitly
    weaker contract and never gate anything.

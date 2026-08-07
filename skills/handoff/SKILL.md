@@ -6,7 +6,7 @@ description: Use when a task spills over a session and the context has to be pas
 # handoff
 
 Cross-cutting step, at the boundary between two sessions on the same task: complements
-`worktree-one-task-close-after-merge`: the worktree stays open, but the context of the session
+the one-task-per-worktree rule: the worktree stays open, but the context of the session
 that's ending has to survive cleanly into the next one.
 
 ## When
@@ -40,4 +40,4 @@ missed its goal.
 ## Origin
 Rewrite of the `handoff` skill from a recognised market skill author: the rule "never duplicate,
 reference by path" is taken as-is, rewritten to the mentis template and explicitly linked to
-`worktree-one-task-close-after-merge` already in place in house.
+the one-task-per-worktree rule already in place in house.

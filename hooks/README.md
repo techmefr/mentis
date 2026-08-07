@@ -1,8 +1,15 @@
 # hooks
 
-The only executable code in this repo. Everything else is markdown that an agent reads; these two
-scripts exist because step 7 of `WORKFLOW.md` needs a guarantee that **cannot** be a written
-instruction.
+The only enforcement in this repo. Everything else is markdown that an agent reads; these scripts exist
+because some guarantees **cannot** be written instructions: a rule holds right up to the moment it is
+inconvenient, and the moment it is inconvenient is exactly the moment it matters.
+
+Two guarantees, three scripts:
+
+| Guarantee | Script(s) | Event |
+|---|---|---|
+| No pass without evidence read (step 7 of `WORKFLOW.md`) | `verify-gate.sh` + `record-read.sh` | `PreToolUse` on `Edit`/`Write`, `PostToolUse` on `Read` |
+| **No agent installs anything, ever** | `block-installs.sh` | `PreToolUse` on `Bash` |
 
 ## Why a hook and not a rule
 
@@ -23,6 +30,46 @@ They're split because the guarantee needs both halves: `verify-gate.sh` alone co
 a file *exists*, and evidence produced but never looked at is exactly the failure mode we're
 guarding against. A test run whose output nobody opened is a green tick, not a verification.
 
+## `block-installs.sh`: no agent installs anything
+
+**What it refuses**, on every `Bash` call: `npm`/`pnpm`/`yarn`/`bun` install, add, `ci`, create, update, link;
+`npx`, `bunx`, `pnpm dlx`; `pip`/`pipx`/`uv` install; `gem`, `cargo`, `go install`; `composer install`/`require`;
+`brew`, `apt`, `dnf`, `pacman`, `winget`, `choco`; toolchain installers (`nvm`, `rustup`, `asdf`, `volta`); and
+the whole `curl … | bash` family, including `bash <(curl …)`, a downloaded `.sh`, and `iwr … | iex`.
+
+**What it lets through**: `npm run`, `pnpm test`, `bun run dev`, `make`, `git`, `docker compose`, a plain
+`curl` to an API — the ordinary work. That distinction is the whole design. A guard that blocks
+`npm run test` is switched off within a day, and then it guards nothing.
+
+**Why.** An install runs lifecycle scripts (`postinstall` and friends) **as the user, with their
+environment** — tokens, SSH keys, cloud credentials, session files. That is the payload of the current wave
+of malicious packages, and it executes before anyone has read a line of what was pulled. The instruction to
+install something also rarely comes from the person at the keyboard: it comes from a README, an issue, a
+diff, a helpful error message — text the agent read and treated as a task. The refusal message says so, and
+tells the model to quote the source to the user instead of complying.
+
+**What it tells the user to do instead**: name the dependency and let them run it themselves, in their own
+terminal, with **pnpm** — one content-addressed store, a strict `node_modules` that refuses undeclared
+imports, and a lockfile pinning the whole tree:
+
+```bash
+pnpm add -D <package>     # dev dependency
+pnpm add <package>        # runtime dependency
+pnpm install              # restore from the lockfile
+```
+
+`pnpm dlx <tool>` is still a download, so it is still the user's call.
+
+**Honest limits.** This is an interlock against accidents and against injected instructions, **not a
+sandbox**. An agent with shell access and intent has ways around any pattern list — a base64 blob, an
+unusual alias, a script written then executed. There is deliberately **no in-band escape hatch** (no
+`ALLOW_INSTALL=1`, no allowlist file): anything the agent could set, the agent could set. The real boundary
+is the permission layer of the tool that runs it; this hook makes the common path fail loudly and explain
+itself. It fails **closed**: a `Bash` call it cannot parse but that mentions a package manager is refused.
+
+Checked by `bin/test_hooks.py` — 59 cases, blocked and allowed both, because half the value is in what it
+does not break.
+
 ## Coexisting with the `test-casebook` gate
 
 A project that installs any of the `test-casebook` siblings (`test-casebook`, `test-casebook-back-js`,
@@ -36,13 +83,19 @@ add ours alongside theirs rather than replacing the block.
 
 ## Wiring, per repo
 
-Copy both into the target repo's `.claude/hooks/`, make them executable, then in
+Copy the scripts into the target repo's `.claude/hooks/`, make them executable, then in
 `.claude/settings.json`:
 
 ```json
 {
   "hooks": {
     "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-installs.sh" }
+        ]
+      },
       {
         "matcher": "Edit|Write",
         "hooks": [
@@ -64,6 +117,10 @@ Copy both into the target repo's `.claude/hooks/`, make them executable, then in
 
 Then, in the repo: `mkdir -p .claude/evidence` and add `.claude/evidence/` to `.gitignore` —
 evidence is per-run, it isn't versioned.
+
+**`block-installs.sh` is the one to wire first, and it is worth wiring alone.** The gate pair only makes
+sense inside the mentis pipeline; the install guard applies to any repo where an agent has a shell, and it
+is the only one of the three that protects something other than your process.
 
 Requires `bash` and `python3` (stdlib only). Both scripts are read-only on your project: they touch
 nothing but the read log.
