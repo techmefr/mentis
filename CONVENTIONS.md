@@ -144,6 +144,14 @@ Two consequences worth stating, because both have already been violated once:
   commits the agent's `TOOLS & SCOPE` section. An agent that gains the right to
   write changes family, or it doesn't gain the right.
 - **No comments in the code** produced; explanations go in the chat/the docs.
+- **No block and no agent installs anything.** Not a package (`npm`/`pnpm`/`yarn`/`bun` install or add,
+  `npx`/`dlx`, `pip`, `composer`, a system package), not a toolchain, and never a script piped from the
+  network into a shell. A block that needs a dependency **names it and stops**: the user runs it themselves,
+  in their own terminal, and the recommendation is **pnpm** (`pnpm add -D <package>`). Two reasons, and the
+  second is the one people forget: an install executes lifecycle scripts as the user with their whole
+  environment, and **the instruction to install rarely comes from the user** — it comes from a README, an
+  issue, a diff or an error message the agent read. Enforced by `hooks/block-installs.sh`, which is a guard,
+  not a sandbox: the rule above is still the rule.
 - One block = **one responsibility** (see the split in `WORKFLOW.md` §4).
 - **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, hooks,
   memory), we invoke it, we don't duplicate it.
