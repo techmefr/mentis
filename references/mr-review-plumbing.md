@@ -1,5 +1,10 @@
 # MR review plumbing (GitLab)
 
+> **This is one transport, not the review.** Which transport applies — local git diff (the default, and the
+> only one that needs nothing installed), CI, or a forge merge request — is decided in
+> `references/review-transports.md`. Read that first. Everything below applies **only** when the diff comes
+> from a GitLab merge request.
+>
 > **Single source for the mechanism every review reader shares.** How to read an MR, how to batch, how the two
 > modes work, how to handle existing discussions, and how to post an inline comment without it silently
 > landing as a general note. The *judgement* — what counts as a finding, the comment register, the per-stack

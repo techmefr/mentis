@@ -1,6 +1,6 @@
 ---
 name: start-feature
-description: Use at the very start of a feature, before any code, to create the isolated worktree the rest of the pipeline runs in — plain git by default, with an optional local orchestrator for port allocation. One task, one worktree.
+description: Use when a feature starts, before any code, to create the isolated worktree the rest of the pipeline runs in — plain git by default, with an optional local orchestrator for port allocation. One task, one worktree.
 ---
 
 # start-feature

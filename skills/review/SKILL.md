@@ -12,6 +12,9 @@ other.
 After `gate` (`verified`), before `simplify`.
 
 ## Steps
+0. **Get the diff in.** `references/review-transports.md` decides how: locally
+   (`bin/prefetch_local.py`, git only — the default), from a CI checkout, or from a forge merge request. The
+   review below is identical in all three; only the way in, and what happens to the findings, differ.
 1. Run **two subagents in parallel** (separate contexts, no cross-pollution):
    - **Standards axis**: the stack's conventions + code smells (reuse, simplification, duplicated
      CSS), **then the cross-cutting sweep of `references/mr-review-plumbing.md`'s companion,

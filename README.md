@@ -254,41 +254,50 @@ Claude Code's native format:
    same way — but read that folder's README first, they carry an explicitly
    weaker contract and never gate anything.
 
-**Nothing above needs anything installed.** Every block works on a plain repo
-with plain git, which is rule A. The one exception is the MR review readers,
-which drive a GitLab MR through its API and therefore need:
-
-- **`glab`**, authenticated, and **python3** — no third-party package;
-- **`GITLAB_HOST`**, e.g. `gitlab.example.com`. Unset, `glab` falls back to
-  `gitlab.com` even on a self-hosted project, and the 404 reads like a
-  permissions problem;
-- **`MR_SCRATCH`** (default `~/mr-review-scratch`), a working folder **outside
-  any reviewed repo**, where dumps and pending-comment payloads are written.
-
-The three scripts they use ship here in [`bin/`](./bin/) and hard-code nothing.
-The mechanism they implement — reading, batching, the two modes, existing
-discussions, inline posting and its four traps — is written once in
-[`references/mr-review-plumbing.md`](./references/mr-review-plumbing.md), and
-what a review looks at beyond correctness is in
-[`references/review-axes.md`](./references/review-axes.md).
+**Nothing above needs anything installed** — every block works on a plain repo
+with plain git, which is rule A. That includes the review: **no forge, no
+account, no token**.
 
 ```bash
-export GITLAB_HOST=gitlab.example.com && python3 bin/prefetch_mr.py group/repo 42
+python3 bin/prefetch_local.py            # this branch vs where it forked from
+python3 bin/prefetch_local.py --staged   # what you are about to commit
 ```
 
-Posting is the only outward-facing step: `post_mr_comments.py` takes
-`--dry-run`, and every reader defaults to REPORT, which posts nothing.
+Then run the reader for your stack (or `elrond` to route by stack) on that dump.
+It returns findings — file, line, consequence, and the fix where there is one —
+**and you apply them yourself**. Nothing is posted anywhere.
+
+That is the point if you generate a lot of code and read little of it: run it
+before you commit, fix, run again. The readers look for correctness first, then
+sweep the axes a correctness pass structurally cannot see — an unvalidated input
+reaching a query, new behaviour with no test, a control no keyboard can reach, a
+failure nobody can diagnose ([`review-axes.md`](./references/review-axes.md)).
+
+The other two transports are the same review with a different way in
+([`review-transports.md`](./references/review-transports.md)): **CI**, where the
+pipeline produces the dump and publishes the report, and a **GitLab merge
+request**, which additionally needs `glab` plus `GITLAB_HOST`, and is the only
+one that can post comments — on an explicit instruction, never by default
+([`mr-review-plumbing.md`](./references/mr-review-plumbing.md)). GitHub pull
+requests aren't implemented; the local transport covers a GitHub repo already.
+
+One optional variable everywhere: **`MR_SCRATCH`** (default
+`~/mr-review-scratch`), the working folder **outside any reviewed repo** where
+dumps and pending comments are written.
 
 To check the plumbing on your machine before pointing it at a real MR — no
 network, no GitLab, nothing to install:
 
 ```bash
-python3 bin/test_scripts.py
+python3 bin/test_scripts.py && python3 bin/test_local.py
 ```
 
-It covers line-position resolution (added line, context line, out-of-hunk), the
-call shape behind the four inline-posting traps, the two environment variables,
-and the error paths.
+43 checks: line-position resolution (added, context, out-of-hunk), the call
+shape behind the four inline-posting traps, the two environment variables, the
+error paths, and — the one that matters most — that the position resolver
+written for the forge transport works unchanged on a locally produced diff.
+If that ever fails, the two transports have drifted and every reader is
+affected.
 
 ## Where this is going
 

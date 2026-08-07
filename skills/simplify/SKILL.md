@@ -1,6 +1,6 @@
 ---
 name: simplify
-description: Use after the review, before SHIP, quality pass on the changed code (reuse, simplification, efficiency), no bug hunting.
+description: Use when the review is done and before SHIP, quality pass on the changed code (reuse, simplification, efficiency), no bug hunting.
 ---
 
 # simplify

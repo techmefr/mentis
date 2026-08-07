@@ -101,7 +101,7 @@ Log format and replayability:
   of ambiguity left as questions rather than settled alone.
 - Nothing is written outside the frontend repo: no parallel log to maintain.
 
-## 8. the house conventions to respect (in order of priority)
+## 8. The house conventions to respect (in order of priority)
 
 1. **Reuse before creation**: look for an existing nearby component/composable before inventing a new one.
 2. **Idiomatic Composition API**: explicitly typed `ref<T>()`, `defineModel<T>()` for the v-model (never

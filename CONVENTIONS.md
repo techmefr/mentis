@@ -96,6 +96,44 @@ A `business/` block has no checkpoint and says so.>
 <Idea taken from: native Claude Code / market tooling / internal. Honest.>
 ```
 
+## The agent template
+
+An agent is not a skill: a skill describes a step, an agent is a persona with a scope and a loop. It has its
+own shape, and **the same one for all of them** — `.claude/agents/<name>.md`:
+
+```markdown
+---
+name: <name>
+description: <what it reviews or builds, on which stack, when to pick it over its siblings, which model>
+model: <sonnet | opus>
+---
+
+<One or two sentences: who this agent is and what it produces.>
+
+## 1. ROLE          <what it is responsible for, and the calibration that changes its register>
+## 2. MEMORY        <what persists between two invocations, and what explicitly does not>
+## 3. LOOP          <action → verification → decision, with an explicit exit condition>
+## 4. TOOLS & SCOPE <allowed / forbidden, named; the scope of files it may produce findings on>
+## 5. GUARDRAILS    <what it never does; the default mode; what it does when in doubt>
+## 6. FRESH-CONTEXT REVIEW <what guarantees it judges the artefact and not its own memory>
+## 7. TRACE         <what its final message must contain, and what it writes where>
+## 8+ …             <agent-specific sections, numbered on, free titles>
+## Origin           <only when the idea came from outside; omitted when the agent is ours>
+```
+
+**Sections 1 to 7 are mandatory, in that order, numbered.** They are the contract every agent honours; an
+agent with nothing to say under one of them still says so in a line, because "nothing persists here" is
+information. Sections 8+ carry what makes that agent worth having — the eight review readers, for instance,
+all share the same four: `8. Where the rules come from`, `9. What you're looking for`, `10. Comment style`,
+`11. Transport and review mechanism`.
+
+Two consequences worth stating, because both have already been violated once:
+- **A family is uniform or it isn't a family.** When several agents do the same job on different stacks, they
+  carry the same sections in the same order with the same titles, and only the content differs. A reader that
+  drifts into its own shape is a reader nobody can compare, and the duplication hides in the gap.
+- **What is shared lives in `references/`, cited once.** An agent never re-explains a mechanism another agent
+  also uses — that is how ~150 identical lines of forge plumbing ended up in eight files.
+
 ### Form rules (non-negotiable)
 - **English**, the house voice. The description starts with `Use when …` (reliable triggering).
 - **Agent naming = two families, and the family carries meaning.** A Lord of the

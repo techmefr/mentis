@@ -1,6 +1,6 @@
 ---
 name: code
-description: Use during the build, implement in increments until the tests pass, one task_item at a time.
+description: Use when the build step starts and the tests are written, implement in increments until they pass, one task_item at a time.
 ---
 
 # code

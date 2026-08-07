@@ -169,7 +169,7 @@ The final report's format, and what gets logged:
 Nothing is written to a separate log file: the final report IS the trace, to be copied/kept on the operator's side
 if they want to replay it later.
 
-## 8. the house conventions checked (passed on to Elrond, and used to verify the skills' findings)
+## 8. The house conventions checked (passed on to Elrond, and used to verify the skills' findings)
 
 Refs typed `ref<T>()`, `defineModel<T>()` for the v-model (never defineProps/defineEmits/emit by hand), `:prop`
 shorthand when the name matches, booleans prefixed `is`/`has`/`can`/`should` + an explicit `<boolean>`, flat i18n

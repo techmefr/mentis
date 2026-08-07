@@ -21,6 +21,11 @@ spend an afternoon being creative about a problem that needed a measurement.
 | Something behaves wrongly, with a traceable cause | not here → `debug` |
 | Blocked on information only a human has | not a technique → ask |
 
+## When
+As soon as the same approach has been retried without progress — a spec that won't settle, a design
+decision that keeps reversing, a bug whose cause moves every time you look, a task that has been "almost
+done" for hours. **Not** for a wrong behaviour with a findable cause: that is `debug`.
+
 ## Steps
 
 ### 1. Unify, or delete: the simplification cascade

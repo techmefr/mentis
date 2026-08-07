@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Use as soon as a bug, an unexpected test failure or a repeated error shows up during the code step, trace the cause backwards to its origin before proposing a fix, then make the bug structurally impossible rather than locally absent.
+description: Use when a bug, an unexpected test failure or a repeated error shows up during the code step, trace the cause backwards to its origin before proposing a fix, then make the bug structurally impossible rather than locally absent.
 ---
 
 # debug
