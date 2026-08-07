@@ -170,6 +170,6 @@ in `CATALOG.md` §1.
 What remains open is validation, not structure: most blocks are 🟡 — written, never run on real work. A
 block only earns 🟢 by being used, and `skills/testing-blocks` is the cheap check in the meantime.
 
-That list of gaps is closed: every step 0→11 has its block, the gate has its default-FAIL hook pair, and
-the business layer exists. The live backlog is in `CATALOG.md` §2 — and the top item there is no longer
+That list of gaps is closed: every step 0→11 has its block, the gate has its default-FAIL hook pair, the
+install guard refuses what no rule alone could, and the business layer exists. The live backlog is in `CATALOG.md` §2 — and the top item there is no longer
 writing, it's **running**.

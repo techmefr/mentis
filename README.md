@@ -29,7 +29,8 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-06: **59 skills**, **15 business blocks**, **21 agents**, one gate hook pair.
+At a glance, as of 2026-08-06: **59 skills**, **15 business blocks**, **21 agents**, **3 hooks** (the
+default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
 
 ## Why my own version
@@ -351,10 +352,11 @@ fresh context) is stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---|---|
-| Skills | 56 | 9 marked 🟢 real production use; the rest 🟡 |
-| Business blocks | 14 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| Skills | 59 | 9 marked 🟢 real production use; the rest 🟡 |
+| Business blocks | 15 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | Agents | 21 | 4 with real production experience (`aragorn`, `gimli`, `gandalf`, `elrond`); the rest written, not dogfooded |
-| `hooks/` | 1 pair | passes its 6-case smoke test, **wired into no repo yet** |
+| `hooks/` | 3 scripts | the gate pair passes its 6-case smoke test and is **wired into no repo yet**; `block-installs.sh` passes 68 cases and is the one worth wiring anywhere an agent has a shell |
+| `bin/` | 5 scripts | 43 checks across the two transports; the local one is exercised, the forge one is ported and unit-tested but has not run against a live MR in this form |
 
 Written with **no internal production experience on the stack**, so their
 remarks are phrased as questions rather than statements: `boromir` (Go),

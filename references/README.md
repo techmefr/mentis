@@ -37,6 +37,7 @@
 | **Review transports** (where the diff comes from, where the findings go: local git, CI, forge) | `references/review-transports.md` | doc | Pub | ✅ (written 2026-08-06; the local transport is the default and needs only git — a forge is never required) |
 | **The review scripts themselves** (prefetch dump, batched blob search, inline posting with position resolution) | `bin/*.py`, documented in `references/mr-review-plumbing.md` | code | Pub | ✅ (shipped 2026-08-06; host from `GITLAB_HOST`, scratch from `MR_SCRATCH`, nothing hard-coded, `--dry-run` on the posting one) |
 | **Cross-cutting review axes** (accessibility, trust boundary, tests owed, hot-path cost, diagnosability, contract, deletion, user-visible words) | `references/review-axes.md` | doc | Pub | ✅ (written 2026-08-06 from real reviews that came back silent on all eight; cited by the eight readers and by `skills/review`) |
+| **What an agent may never run** (package installs, one-shot runners, `curl \| bash`, and what a `package.json` script hides) | `hooks/block-installs.sh` + `hooks/README.md` | code | Pub | ✅ (written 2026-08-06; the rule is in all 21 agents and in `CONVENTIONS.md`, the hook is what enforces it) |
 | **Social platform publishing access** (who gates posting, what it costs, what's not worth it) | `references/social-platforms.md` | doc | Pub | ✅ (dated 2026-08-06, six-month window) |
 
 \* `CATALOG.md`: the structure is publishable, but its backlog names internal repos/layers → keep it internal until we've separated them.
