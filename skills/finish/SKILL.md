@@ -1,6 +1,6 @@
 ---
 name: finish
-description: Use after the human merge of the MR, cleans up the worktree and updates the integration branch. Closes the pipeline loop.
+description: Use when the MR has been merged by a human, clean up the worktree and update the integration branch. Closes the pipeline loop.
 ---
 
 # finish

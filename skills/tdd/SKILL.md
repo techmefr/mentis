@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use during the tests step, before the code, write the tests first (test-casebook doctrine) and turn every acceptance criterion into a contract line that fails by default.
+description: Use when the tests step starts, before any implementation code, write the tests first (test-casebook doctrine) and turn every acceptance criterion into a contract line that fails by default.
 ---
 
 # tdd
