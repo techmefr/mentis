@@ -31,6 +31,15 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
    the triggering element on close.
 5. Standard keyboard shortcuts respected: `Escape` closes a modal/dropdown, `Enter`/`Space` activates a
    focused button.
+6. **A sticky header/footer/cookie banner never fully hides the focused element** (WCAG 2.2, Focus Not
+   Obscured): a fixed-position overlay covering the bottom of the viewport is the recurring way a focus
+   ring becomes invisible on `Tab` even though it's technically still "visible" in the DOM.
+7. **Any drag-only interaction (reorder, resize, a slider dragged by its handle) needs a single-pointer
+   alternative** that doesn't require dragging (buttons to move up/down, arrow-key support, a numeric
+   input next to the slider) — WCAG 2.2, Dragging Movements. A user who can click but not drag precisely
+   is otherwise locked out of the interaction entirely, not just inconvenienced.
+8. **Touch/click target at least 24×24 CSS px**, or 24px of unobstructed spacing around a smaller one
+   (WCAG 2.2, Target Size) — a row of small icon-only actions packed edge to edge is the usual offender.
 
 ### 2. ARIA: only when native HTML isn't enough
 1. Golden rule: no ARIA rather than wrong ARIA; an incorrect `role` or `aria-*` is worse than its
@@ -58,6 +67,15 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
    appears (not only displayed visually).
 3. Required fields marked with `required`/`aria-required`, not only by a visual asterisk with no exposed
    equivalent.
+4. **Never re-ask for information the user already gave earlier in the same process** (WCAG 2.2, Redundant
+   Entry) — a multi-step form that loses a field's value going back a step, or an address re-typed after
+   it was already entered for billing, forces a choice between re-entry and abandoning. Carry the value
+   forward, or offer it as a pre-filled/selectable option.
+5. **No cognitive test (solve a puzzle, transcribe a code, recall a memorised answer) as the only way to
+   authenticate** (WCAG 2.2, Accessible Authentication Minimum) — a password field is fine as long as
+   paste and a password manager are allowed (never block paste on an authentication field, see also
+   `security-hardening`/the stack conventions), and a CAPTCHA needs a non-puzzle alternative (audio,
+   email link) alongside it.
 
 ## Output / checkpoint
 The four sections reviewed on the diff touched; for a broader audit of a page/site already in production
@@ -76,3 +94,12 @@ Sourced from WCAG 2.2 (level AA, success criteria taken over), MDN (HTML semanti
 practices), W3C ARIA APG (modal/accordion/tab patterns). Mechanisms rewritten as an actionable
 checklist, no copied text. Market research, no internal production feedback at this stage: same status
 as `seo`.
+
+Re-checked on 2026-08-10 against the closed list of success criteria genuinely new in WCAG 2.2 (not
+carried over from 2.1): 5 of the 6 at level A/AA were real gaps, now closed — Focus Not Obscured (§1.6),
+Dragging Movements (§1.7), Target Size Minimum (§1.8), Redundant Entry (§4.4), Accessible Authentication
+Minimum (§4.5). Consistent Help (3.2.6, level A — a help mechanism's position/order staying consistent
+across pages) was left out: it's a site-structure concern closer to `seo`'s navigation consistency than
+to this block's component-level checklist, and adding it here without a real multi-page help pattern to
+anchor it to would be exactly the "we'll need it" this framework's own `design-patterns` guardrail warns
+against.
