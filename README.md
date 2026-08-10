@@ -29,7 +29,7 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-10: **59 skills**, **15 business blocks**, **23 agents**, **3 hooks** (the
+At a glance, as of 2026-08-10: **59 skills**, **15 business blocks**, **24 agents**, **3 hooks** (the
 default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
 
@@ -220,6 +220,7 @@ your code beyond a verdict, and it never touches it.
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
 | `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
 | `keymaker` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
+| `sparks` | Real-world performance audit of a live page/screen (Web Vitals, waterfall), never edits | Written, not dogfooded yet |
 | `link` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
 | `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
 | `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
