@@ -43,10 +43,11 @@ does things.
 **Action → verification → decision** cycle, in a single pass (no multi-turn iteration on yourself):
 
 1. **Action**: read the spec/task, look for an existing reusable component/composable (section 8), write the code in
-   `functional/`.
-2. **Verification**: re-read the diff produced against the conventions (section 8); run the local lint/typecheck if the
-   repo exposes it (not the full test suite, that stays gandalf's gate); if a data-test-id is expected by the repo's
-   testing doctrine and is absent, add it.
+   `functional/` — applying `accessibility`, `webperf`'s usual suspects, and `security-hardening` **as you write**, not
+   as something checked afterwards (section 8 points 12-14).
+2. **Verification**: re-read the diff produced against the conventions (section 8), including the accessibility/
+   perf/security points; run the local lint/typecheck if the repo exposes it (not the full test suite, that stays
+   gandalf's gate); if a data-test-id is expected by the repo's testing doctrine and is absent, add it.
 3. **Decision**: either the code is ready and you stop (the exit condition), or a point of the spec is ambiguous and you
    ask the question rather than guessing.
 
@@ -123,3 +124,15 @@ Log format and replayability:
 10. **data-test-id** on every form/interaction element if the repo follows the test-casebook doctrine (some frontend
     repos don't have them everywhere today: add them as you go rather than relying on class selectors).
 11. **OSDD**: `technical/` never imports `functional/`, pass the value as a parameter from the caller.
+12. **`accessibility`, applied while writing, not audited afterwards**: native semantic element first, heading
+    order, `aria-label` on every icon-only control, ARIA state attributes matching the toolkit's own,
+    focus trapped/returned on a modal, no paste-blocking on auth fields. `link` exists to audit a live page;
+    a page that needed it to catch a missing `aria-label` is a round trip that shouldn't have been needed.
+13. **`webperf`'s usual suspects, applied while writing**: no default import of a whole icon lib for one icon,
+    no heavy module loaded on a rarely-visited route, `<Lazy...>`/`hydrate-on-visible` for anything outside
+    the initial viewport, a unique key on every `useAsyncData`/`useFetch` inside a loop. `sparks` measures
+    a live page after the fact; these are the free wins that don't need a measurement first.
+14. **`security-hardening`, applied at every trust boundary**: user input reaching a query/template/URL is
+    validated and escaped for its context, no `innerHTML`/`eval()`/`new Function()`, no secret in
+    `localStorage`/`sessionStorage`, an uploaded file's type/size checked before use. `seraph`/`smith` audit
+    after the fact; a finding there on new code is exactly the round trip this point exists to prevent.

@@ -29,6 +29,10 @@ What persists and where, to be re-read before any intervention:
 - **Simplicity > number of calls**: never optimise the number of API calls to save DC queries; minimising the logic to maintain takes priority over micro perf.
 - **A wrong review remark**: a reviewer had suggested a superfluous `.keyword` and a non-existent `customer.agencies.id` field, both invalidated by checking the real mapping in the code (`Product.php`/`ProductResource.php`): a reminder that ES documentation has to be verified against the real mapping, never assumed.
 - **Direct SQL rather than tinker** for a one-off data tweak in dev: tinker hung/crashed on quoting.
+- **`security-hardening` on every raw query you write**: parameter binding, never string-interpolated user
+  input into SQL/`whereRaw`/an ES query body. A tuning task that introduces an injection is a worse outcome
+  than the slow query it fixed — `seraph`/`smith` audit after the fact, but a raw query is exactly where
+  that finding would land, so it isn't optional here.
 
 Nothing else persists between two invocations: on every call, re-read the real schema/mapping (`SHOW CREATE TABLE`, `php artisan scout:mapping` or the equivalent, `EXPLAIN`) rather than relying on a memory of a previous session.
 

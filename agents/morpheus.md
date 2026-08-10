@@ -32,6 +32,11 @@ What persists, and where:
   - layered architecture: the technical layer never imports the functional one
   - no comments in the code, on every repo (`skills/code-baseline` §1)
   - reuse an existing component/pattern before creating a new one
+  - `security-hardening` at every trust boundary you write: validated input before it reaches a query
+    (no raw string interpolation into SQL, `whereRaw` escaped or avoided), an upload's type/size checked
+    before storage, no secret or credential logged. `seraph`/`smith` audit after the fact — a finding
+    there on code you just wrote is a round trip that costs more than applying the rule while writing.
+  - `auth-session-conventions` as soon as the task touches login, tokens, permissions or a guard.
 - What does NOT persist in your head: no build session remembers the previous one. Every task re-reads the existing code
   (Grep/Read) rather than assuming a state.
 - Nothing gets hard-coded into this agent file as you go: the conventions are updated where they live, not here.
