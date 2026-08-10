@@ -103,6 +103,15 @@ during `code` (6) or `tdd` (5).
 4. Declarative config in a `config/` folder as soon as N near-identical entities are being wired by hand
    with duplicated watchers and hardcoded arrays.
 5. Look for an existing nearby component/composable before writing a new one.
+6. **Nuxt 4's default directory layout, on a plain repo with no layer/OSDD convention installed**:
+   `srcDir` defaults to `app/` (components/composables/layouts/middleware/pages/plugins/utils/app.vue all
+   move under it, and `~` now resolves to `app/` instead of the project root); `serverDir` moves the other
+   way, to `<rootDir>/server` regardless of `srcDir`; `layers/`, `modules/`, `public/` stay resolved from
+   `<rootDir>`; and a new `shared/` directory (`shared/utils/`, `shared/types/`) is auto-imported into both
+   the Vue app and the Nitro server for code that's genuinely neither. [Same source as point 5 above,
+   read 2026-08-10.] **Where an OSDD-style layer convention is installed, it overrides this**: each layer
+   already carries its own self-contained `app/` subtree (see that convention's own structure), and this
+   generic default only applies where no such layer convention exists.
 
 ### 6. i18n
 1. Locale files flat, no nested objects: nesting makes a key impossible to grep and invites two keys for one
@@ -167,13 +176,20 @@ during `code` (6) or `tdd` (5).
    - `useRequestFetch`: a server call that has to forward the incoming request's headers/cookies.
 4. `useAsyncData`/`useFetch` called in a loop without an explicit string key cause duplicated requests and
    cache fragmentation: always a unique key passed explicitly inside a loop.
-5. `routeRules` (`nuxt.config`) to arbitrate rendering per route (`ssr: false`, `prerender`, `swr`, cache)
+5. **Nuxt 4: `useAsyncData`/`useFetch`'s returned `data` is a `shallowRef`, not a deep `ref`.** Mutating a
+   nested property (`data.value.items.push(x)`, `data.value.user.name = x`) no longer triggers a
+   re-render — only replacing the whole object does. Code that mutated the fetched object in place under
+   Nuxt 3 goes silently stale under Nuxt 4; replace the object (`data.value = { ...data.value, items:
+   [...] }`) or reach for `useState`/a store when nested mutation is genuinely needed. [Nuxt 4 upgrade
+   guide, nuxt.com/docs/4.x/getting-started/upgrade, read 2026-08-10.]
+6. `routeRules` (`nuxt.config`) to arbitrate rendering per route (`ssr: false`, `prerender`, `swr`, cache)
    rather than conditionals in every page.
-6. Lazy hydration (`<Lazy...>`, `hydrate-on-visible`/`hydrate-on-interaction`) for any heavy component
+7. Lazy hydration (`<Lazy...>`, `hydrate-on-visible`/`hydrate-on-interaction`) for any heavy component
    outside the initial viewport.
-7. **Checklist before merging a page/component**: no non-deterministic value outside a client hook; the
-   fetch primitive matches the need; no data leaking between requests through module-level state;
-   `routeRules` set if the page needs a non-default rendering mode.
+8. **Checklist before merging a page/component**: no non-deterministic value outside a client hook; the
+   fetch primitive matches the need; no nested mutation relied on for reactivity on a Nuxt 4 fetch result;
+   no data leaking between requests through module-level state; `routeRules` set if the page needs a
+   non-default rendering mode.
 
 ### 10. Realtime events
 1. An incoming realtime/websocket message is **translated into an application-level hook or event**, not
@@ -247,3 +263,10 @@ toolkit-first, realtime)** — rules extracted, de-identified and rewritten gene
 naming an internal library, package list or project deliberately left out (rule C). Internal review feedback
 (recurring quality debt across several projects on this stack, generalised) for section 12. Mechanisms
 rewritten, no copied text. Stamped 2026-08-06.
+
+Section 9 point 5 and section 5 point 6 (the `shallowRef` reactivity change and the Nuxt 4 directory
+defaults) refreshed against the official Nuxt 4 upgrade guide (nuxt.com/docs/4.x/getting-started/upgrade),
+read 2026-08-10 — supersedes the `nuxt4-patterns` extract above on this specific point, which predated the
+Nuxt 4 stable release. The layer-convention override note is cited generically per rule C; a published
+OSDD-style layer package for Nuxt confirms each layer keeps its own `app/` subtree, which is why the Nuxt 4
+root-level default doesn't compete with it.
