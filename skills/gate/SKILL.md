@@ -21,16 +21,18 @@ After `code` (implementation done), before `review`.
    has to appear in the read log.
 3. Run the **clean-context evaluator**: a subagent **with no Write/Edit**, which didn't watch
    the build, examines the diff + the evidence and returns `PASS` or `NEEDS_WORK` + findings.
-4. `NEEDS_WORK` → the findings become the prompt for the next `code` pass. Loop back.
+4. `NEEDS_WORK` → the findings become the prompt for the next `code` pass, driven by native
+   `/goal`: the exit condition is exactly the evaluator's verdict (`PASS`), so this is a goal-based
+   loop, not a manual relaunch. `/goal` re-invokes step 1-3 until `PASS` or the attempt cap.
 
 ## Output / checkpoint
 `verified`: every line `passes: true`, each backed by evidence that was read, evaluator `PASS`.
 
 ## Guardrails
 The agent **cannot validate itself**: validation comes from the hook (evidence) + the
-evaluator (clean context). Stays within native Claude Code (hooks + subagent), no homemade
-layer.
+evaluator (clean context). Stays within native Claude Code (hooks + subagent + `/goal`), no
+homemade layer — we invoke the native loop, we don't reimplement it.
 
 ## Origin
 Market long-running agent patterns (default-FAIL hook + fresh-context evaluator), rewritten
-our way.
+our way. The iteration itself is native `/goal` (Claude Code goal-based loops), not a block.

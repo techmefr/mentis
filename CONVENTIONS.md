@@ -153,8 +153,8 @@ Two consequences worth stating, because both have already been violated once:
   issue, a diff or an error message the agent read. Enforced by `hooks/block-installs.sh`, which is a guard,
   not a sandbox: the rule above is still the rule.
 - One block = **one responsibility** (see the split in `WORKFLOW.md` §4).
-- **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, hooks,
-  memory), we invoke it, we don't duplicate it.
+- **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, `/goal`,
+  `/loop`, `/schedule`, hooks, memory), we invoke it, we don't duplicate it.
 - **commands vs skills**: a `command` (`/SPEC`…) is a short *step trigger* that invokes the
   matching `skill(s)`. The logic lives in the skill, not in the command. Goal: a single source
   per mechanism.

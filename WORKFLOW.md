@@ -33,6 +33,14 @@ you never review before the gate, and you never gate work you're still writing.
 Two loops close backwards, and only these two: the gate returning `NEEDS_WORK`, and the review
 producing findings. Both land back in `code`. Everything else moves forward.
 
+The gate's loop has a measurable exit condition (`PASS`), which makes it a native **goal-based
+loop**: `/goal` drives step 6→7 until `PASS` or the attempt cap, instead of a human relaunching
+`code` by hand (`skills/gate` §Steps.4). The review's loop has no single measurable target — findings
+vary in count and severity per pass — so it stays a manual, turn-based cycle for now. `bug-triage`
+(the entry before `debug`) is the other native loop in this pipeline, but forward-facing: a
+**proactive/time-based loop** (`/loop`/`/schedule`) for a queue of incoming reports rather than a
+single one (`skills/bug-triage` §When).
+
 | # | Step | Question it answers | Done when |
 |---|---|---|---|
 | 0 | `start-feature` | where does this work live? | an isolated worktree exists |
