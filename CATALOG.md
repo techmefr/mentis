@@ -170,22 +170,24 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 ### Domain agents (invoked by steps 8/10)
 | Agent | Role | Maturity |
 |---|---|---|
-| aragorn / gimli / legolas | MR review, house style (Nuxt/Vue · React) | ✅ |
-| boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET) |
+| aragorn / gimli | MR review, house style (Nuxt/Vue · PHP/Laravel) | 🟢 (real production use, every MR on `skera-front-web`/`skera-api` — the two stacks actually worked day to day) |
+| legolas | MR review, house style (React · Next.js) | 🟢 (real production use, both React and Next.js MRs run through it) |
+| boromir / theoden / frodo | MR review (Go · C#/.NET · generic JS/TS backend) | ✅ (sourced from the market for Go/.NET, no real MR on those stacks yet) |
 | samwise / faramir | MR review (Python · Flutter/Dart) | 🟡 (added by the catalogue-completion pass: 20 Python and 37 Flutter skills there meant those stacks are worked on and `elrond` routed them nowhere; both now read `python-conventions` / `flutter-conventions` first and treat an installed catalogue as the house override) |
-| elrond | review orchestrator: detects the stack, delegates, never reviews itself | ✅ |
-| gandalf | final MR gate (`/code-review` + `/security-review`) | ✅ |
+| elrond | review orchestrator: detects the stack, delegates, never reviews itself | 🟢 (real production use, routes every MR to aragorn/gimli today) |
+| gandalf | final MR gate (`/code-review` + `/security-review`) | 🟢 (real production use; known limit logged separately: its nested sub-agents don't surface their findings back to it, see `gandalf-nested-agents-lose-results` in memory — consolidate/call readers directly meanwhile) |
 | **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; the hook pair now exists in `hooks/`, per-repo wiring not done yet, not dogfooded yet) |
 | neo | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
-| tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | ✅ (not dogfooded yet) |
-| morpheus | Laravel/Eloquent implementation (API, queues, perf) | ✅ (not dogfooded yet) |
-| trinity | NestJS/Node implementation (modules, DTOs, Zod/tRPC contracts, Prisma) | ✅ (not dogfooded yet; fills the builder gap opposite frodo) |
-| dozer | writes the test suite (default-FAIL contract), tests only, never implementation — **defers to `test-casebook`'s `test-writer` where that package is installed**, and is the fallback otherwise | 🟡 (never run; the package's own agents are further along) |
+| tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | 🟢 (dogfooded 2026-08-07 on `skera-api`/`skera-front-web`: found a real Scout mapping/filter-type mismatch across 7 files, distinct from the known SKR-7421 case, and said explicitly what it couldn't confirm without a live ES container) |
+| morpheus | Laravel/Eloquent implementation (API, queues, perf) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: turned dozer's 4 red tests green without touching the test file, ran the existing suite to confirm no regression, refused to self-certify beyond that and deferred to gimli/gandalf) |
+| trinity | NestJS/Node implementation (modules, DTOs, Zod/tRPC contracts, Prisma) | ✅ (not dogfooded yet; fills the builder gap opposite frodo; no NestJS project exists on disk yet to run it against) |
+| dozer | writes the test suite (default-FAIL contract), tests only, never implementation — **defers to `test-casebook`'s `test-writer` where that package is installed**, and is the fallback otherwise | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: wrote a genuinely red test for a real missing rate-limit, caught and fixed a Laravel test-helper quirk without touching app code, correctly told apart from the vulnerability under test, flagged unrelated suite flakiness rather than hiding it) |
 | keymaker | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | link | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | mouse | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
-| seraph | dedicated static security audit (OWASP, secrets, dependencies), read-only, never active exploitation | ✅ (not dogfooded yet) |
-| architect | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | ✅ (not dogfooded yet) |
+| seraph | dedicated static security audit (OWASP, secrets, dependencies), read-only, never active exploitation | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: 4 sourced majors, findings traced into the vendor packages' own source, not pattern-matched) |
+| architect | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: caught a real OSDD boundary leak and a dead access-control scope, applied the deletion test to correctly rule out two candidates) |
+| palantir | open-web research (advisories, fact-checking, market practice beyond training cutoff), sourced/dated answer, never edits | 🟢 (dogfooded 2026-08-07: cross-checked a Bun-runtime-evasion claim against 4 independent sources, surfaced a real interpretation split between them instead of flattening it) |
 
 ## 2. Sourcing backlog: ideas/agents to rewrite in order to complete/improve
 
@@ -204,6 +206,7 @@ linters, orchestration frameworks, etc. on the market).
 | `context7` MCP server | current library/framework documentation on demand, beyond any training cutoff | `source-freshness` §3, `references/README.md` | ✅ installed (user scope, verified connected 2026-08-06); authoring-time only, never a runtime dependency of a pipeline step — rule B |
 | `claude-mem` (npm, `thedotmack/claude-mem`) | session memory compression across Claude Code sessions, worker process, native auto-memory left enabled alongside it | README Quickstart §6 | ✅ installed 2026-08-10 (user scope, provider `claude`, runtime `worker`); kept alive by a plain hourly cron (`~/.claude-mem/keepalive.sh`), not a native loop — the worker is a background daemon `/loop`/`/schedule` can't reach, not wired into any pipeline step — rule B |
 | `graphify` (personal skill) | turns a repo into a queryable knowledge graph (`graphify-out/`), community detection, honest EXTRACTED/INFERRED/AMBIGUOUS trail | README Quickstart §6 | ✅ installed (personal skill, no package); refreshed check-at-use (graph age checked on invocation, `--update` runs itself past 24h) rather than a timed loop, since `--update` needs a live agent session — authoring-time convenience only, rule B |
+| Perplexity-backed MCP research servers on the market (several: Sonar search/deep-research/reasoning + citations) | broad web search → fetch the authoritative few → cross-check → cite, as an on-demand research agent | `palantir` agent | ✅ (mechanism rewritten on native `WebSearch`/`WebFetch`, no API key, no runtime MCP dependency — rule B) |
 | `refactoring.guru` design-pattern catalogue | the 22 Gang of Four patterns, when each applies | design-patterns | ✅ (catalogue taken as the reference; its missing overuse caution is what our block adds) |
 | community video-reading skills (`claude-real-video`, `watch-video-skill`, `claude-video-vision`) | make a video readable by an agent: scene-change frame extraction + dedup + subtitle-or-Whisper transcript, fully local on `ffmpeg`, MIT | bug-triage §1.1 | ✅ (idea taken, tool named as optional; local execution means using it breaks no rule, requiring it would) |
 | community social-media skill suite (`social-ai-team`) | 10 skills: brand onboarding, content calendar, one writer per platform (X/LinkedIn/Threads/Instagram/Facebook/TikTok), publisher, performance review; pause-and-approve gates | `business/social-publishing` | ✅ (approval gate taken — it matches our doctrine; the per-platform writers rejected as fragmentation, and its required paid image-generation + scheduling services would make every consumer buy a subscription, rule B) |
