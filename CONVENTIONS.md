@@ -51,6 +51,13 @@ are served by holding the same boundary **from the moment we write**:
 Simple rule: if a sentence couldn't be read by a dev outside the company, it doesn't go in `mentis/`.
 Publication itself is **out of agent scope** (a human decision).
 
+**Exception: a real tool the company itself ships publicly can be named directly.** The test above is
+whether a dev outside the company could read the sentence, not whether the company's name appears in
+it — a published open-source package (`nuxt-osdd`, `laravel-osdd`, the `test-casebook` family) is exactly
+as externally readable as citing `context7` or any other market tool, so cite it by name and link it
+(`source-freshness`), the same as any other Origin fact. What stays out is the *internal, unpublished*
+reality: an internal repo nobody outside the company can open, infra details, ports, SSO/host names.
+
 A block that can't pass this test isn't rewritten to be vaguer — it's **kept out and stays local**. That
 has already happened, and the mechanism for deciding is in `skills/distributing-blocks` §1.
 
