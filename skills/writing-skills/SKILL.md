@@ -39,6 +39,12 @@ rewritten our way (Rule B).
 6. **Stay publishable** (Rule C): no real project name, no secret, a generic role ("the Laravel
    backend") never an internal repo name: except in an internal MR-review implementation, which has a different
    status (production evidence, real names owned).
+7. **Order within a section by how often the rule fires, not by when it occurred to you.** A block grows one
+   real gap at a time (a re-check, a review finding), and appending each addition at the bottom of its
+   section is how the load-bearing rule from month one ends up under ten rare-case additions from month six —
+   the "lost in the middle" effect applies to a skill file exactly as it does to any other long context. When
+   a section passes roughly ten points, that's the signal to re-sort it (common case first) rather than to
+   keep appending, not a hard line to enforce mechanically.
 
 ## Output / checkpoint
 A complete `skills/<name>/SKILL.md` file following the template, referenced in `CATALOG.md` and
@@ -57,3 +63,11 @@ Rewrite of the `writing-skills` skill from a market skill/agent framework; there
 their own template, here it documents ours (the single template in `CONVENTIONS.md`), plus the
 Rule B adoption checklist (check for duplicates, credit the source) which doesn't exist as such
 on the superpowers side.
+
+Step 7 (ordering by frequency, re-sort past ~10 points) added 2026-08-10 from the "context engineering"
+literature's lost-in-middle effect and progressive-disclosure framing (surveyed via a market
+context-engineering skill kit while scouting for new market blocks worth adopting; no code or text
+copied, the mechanism was already familiar from long-context work and is stated here in our own terms).
+Concrete trigger for writing it now rather than leaving it as a general instinct: several blocks in this
+repo (`vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`) grew past 10 points per section across
+this session's re-checks, each addition appended at the bottom of its list.
