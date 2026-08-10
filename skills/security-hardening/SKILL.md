@@ -39,6 +39,11 @@ job, on demand.
    from a trusted source.
 3. **Never pass user data to a shell.** Use the API that takes an argument array; string interpolation
    into a command is not fixable by escaping.
+4. **A user-supplied URL fetched server-side is SSRF, not just injection.** The trust boundary named at
+   the top of this block ("an HTTP call") means an allowlist of destinations/schemes, a block on
+   internal/link-local/loopback and cloud-metadata IP ranges (`169.254.169.254` and equivalents), and no
+   blind following of redirects — a redirect can retarget an already-validated URL to an internal one
+   after the check has passed.
 
 ### 3. Access control on every new route
 1. **Every endpoint declares its authorisation**, and new endpoints are the ones that get forgotten:
@@ -89,3 +94,10 @@ consulted while the boundary is being written. Underlying references are OWASP (
 OWASP's cheat-sheet guidance on escaping per context. The split enforced here — auth in its own
 block, audit in `seraph`, writing-time checks here — is ours, and exists so that three blocks don't
 restate the same OWASP list in three places.
+
+Coverage check against OWASP Top 10 (2026-08-10): A02 (cryptographic failures) and A07
+(identification/auth failures) stay out deliberately — they're `auth-session-conventions`' boundary, not
+this one, per the split above. A09 (logging/monitoring failures) stays out too — that's
+`observability-instrumentation`'s boundary. §2.4 (SSRF) was added because A10 was a real gap: the
+trust-boundary definition already named "an outbound call with a user-supplied target" but no step
+covered it, the one item on this list this block actually owns and hadn't written yet.

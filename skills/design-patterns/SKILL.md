@@ -43,13 +43,27 @@ This is where most of the catalogue goes. Before writing one, look for what's al
   lifetime with a hidden global that tests can't reset.
 - **Notification / decoupling** — the framework's events, listeners and queued jobs are Observer and
   Command, already instrumented and already testable.
-- **Wrapping behaviour around a call** — middleware, pipelines and interceptors are Decorator, with
-  ordering handled.
+- **Wrapping behaviour around a call** — middleware, pipelines and interceptors are Decorator when each
+  layer always runs and adds behaviour; the same stack is **Chain of Responsibility** when a layer can
+  decide to short-circuit (an auth guard that stops the chain, a handler that claims the request and the
+  rest never runs). Framework middleware already gives you both; naming which one you mean only matters
+  in the ADR, not in new code.
 - **Interchangeable behaviour** — in a typed language, a map of functions or a discriminated union does
   what a Strategy class hierarchy does, in a fraction of the lines. Reach for classes when the behaviours
-  carry state.
+  carry state. The same discriminated union with an exhaustive `switch`/`match` is also what **Visitor**
+  buys in an untyped OOP language (dispatch per node type without touching the node classes) — the
+  compiler's exhaustiveness check is the "you forgot a case" guarantee Visitor exists to give you.
 - **Iteration, state machines, templates** — generators/iterables exist; and a state machine is better
   modelled as data (`domain-modeling` §states-not-flags) than as a class per state.
+- **Cloning** — `structuredClone`, object/array spread, `Object.create`, PHP's `clone`: **Prototype** is
+  the language, not a pattern to hand-roll.
+- **Reactivity and composition** — Vue's `ref`/`reactive` already are a **Proxy** (JS `Proxy` under the
+  hood: property access is intercepted to track dependencies); the component tree, parent and child
+  addressed the same way through props/slots, already is a **Composite**. Writing either by hand on top
+  of the framework duplicates what it does for free.
+- **Rarely earned in a GC'd web app**: **Flyweight** (sharing state to cut memory pressure) is a
+  rendering-engine/game-dev answer to a problem the garbage collector already solves at our scale; if
+  you're reaching for it, measure the allocation first (`sparks`), don't assume it.
 
 **A Repository over an ORM is the recurring local case.** It pays only when there's a genuine second
 implementation or a real intention to swap the store. Otherwise it's a one-caller wrapper over an API
@@ -66,6 +80,13 @@ Not a rejection of the catalogue — the cases that hold up in our stacks:
 4. **Command when work must be queued, retried or audited** — usually meaning the framework's job
    abstraction (`background-jobs-conventions`).
 5. **State when the transitions are the domain** and getting them wrong is the bug you're preventing.
+6. **Mediator when components must stay decoupled from each other, not just from the framework** — a
+   central event bus/store two features go through instead of importing each other directly. It earns
+   its place once a third participant needs to react to the same event; two callers with a direct
+   reference are simpler and don't need it.
+7. **Memento when the requirement is explicitly "undo" or "restore a previous state"** — a multi-step
+   wizard's back button, a draft auto-saved before an edit, an optimistic UI update rolled back on a
+   failed save. Without that explicit requirement, don't snapshot state "just in case".
 
 ### 4. The four with a concrete entry condition
 For these, the trigger is mechanical enough to state — which is what makes them reviewable rather than a
@@ -74,7 +95,11 @@ matter of taste. Each still passes §1's second-real-case threshold first.
 1. **Strategy** — a `switch`/`match` on a `type`/`channel`/`provider`/`mode`/`kind` field with **3+ branches
    that keeps growing**, or sibling classes differing only in one method. The axis of variation must be
    **one**: two axes means you're about to build a matrix, and a map of functions keyed by the pair is
-   smaller. Each strategy owns its tests.
+   smaller. Each strategy owns its tests. **Bridge** is the rare legitimate answer when both axes are real,
+   growing independently, and each side already has several implementations (e.g. a notification
+   abstraction with multiple channels *and* multiple formatters) — splitting into two hierarchies that
+   compose beats a matrix of concrete classes. It's an escape valve for when the map-of-functions above
+   stops being smaller, not a default.
 2. **State** — one object moves through **named statuses** (`pending` → `approved` → `paid` → `refunded`) and
    its behaviour shifts at each step, with the `if`/`match` on that field repeated across **several**
    methods. The trigger is the repetition, not the existence of a status field: a status read in one place is
@@ -130,3 +155,10 @@ What's ours: recognise-don't-apply with the second-real-case threshold, the fram
 subtraction pass (which is where most of the catalogue goes in our stacks), Adapter/Facade justified by
 containment rather than reuse, the Repository-over-ORM verdict, and wiring the whole thing to the
 existing `over-abstraction`/`yagni` tags so a named pattern gets no discount at review.
+
+Coverage pass (2026-08-10, refactoring.guru catalogue re-checked directly for Prototype/Composite/
+Bridge/Flyweight/Proxy/Chain of Responsibility/Mediator/Memento/Visitor definitions): every one of the
+22 patterns now has an explicit verdict in this file — either subtracted (already the framework/language,
+§2), dismissed with a reason (Flyweight), given a concrete entry condition (§4), or named as a rare escape
+valve (Bridge). None was added on the strength of "it's in the catalogue"; each verdict follows the same
+second-real-case/framework-subtraction test as the original seven.
