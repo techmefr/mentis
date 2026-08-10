@@ -25,6 +25,12 @@ review time (`review`, 8) if the diff touches public pages.
    we want indexed.
 4. Open Graph / Twitter Card filled in on shareable pages (title, description, image): otherwise social
    sharing shows an empty or generic preview.
+5. **`hreflang` on every page that exists in more than one language**, including a `x-default` entry,
+   pointing at the other language's own URL (never at itself): without it, a search engine can serve a
+   French user the English URL of a page that has a French version, or index both as duplicates of each
+   other. This is the direct SEO half of the i18n rules already in
+   `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions` — those cover the string/label side, this
+   covers the URL/indexing side.
 
 ### 2. HTML semantics: what a crawler and a screen reader read the same way
 1. A single `<h1>` per page, an `h1 > h2 > h3` hierarchy with no arbitrary level skipping for a visual
@@ -32,7 +38,10 @@ review time (`review`, 8) if the diff touches public pages.
 2. Real text content in the HTML served (SSR/SSG), never only injected client-side after hydration for
    content that has to be indexed: a crawler that doesn't run JS sees nothing.
 3. Internal links as real `<a href>` tags (navigable, crawlable), never a `<div onClick>` simulating a
-   link.
+   link, with anchor text that describes the destination rather than "click here"/"read more" repeated
+   across a page. An outbound link to content we don't vouch for (user-generated content, a comment, an
+   unmoderated submission) carries `rel="nofollow ugc"` — otherwise the page passes its own trust to
+   whatever the untrusted content links to.
 4. A descriptive `alt` attribute on meaningful images, empty (`alt=""`) on purely decorative ones: never
    absent.
 
@@ -72,3 +81,12 @@ The four sections reviewed on the diff touched; for a broader audit of a site al
 Sourced from established market guidelines: Google Search Central (indexing, structured data, Core Web
 Vitals), web.dev (LCP/CLS/INP, HTML semantics, images). Mechanisms rewritten as an actionable
 checklist, no copied text. Market research, no internal production feedback at this stage.
+
+Re-checked directly against Google's current SEO starter guide
+(developers.google.com/search/docs/fundamentals/seo-starter-guide) on 2026-08-10, item by item: two real
+gaps closed — `hreflang` for multi-language pages (§1.5, genuinely relevant since the frontend conventions
+this block complements already carry an i18n section) and `nofollow`/descriptive anchor text on links to
+content we don't vouch for (§2.3). Everything else the guide lists (canonical, sitemap, structured data,
+Core Web Vitals, robots control, image alt text) was already covered here under a different heading; the
+guide's own "not required" list (keywords meta tag, content-length targets, heading count/order,
+PageRank) confirms nothing was missing there either.
