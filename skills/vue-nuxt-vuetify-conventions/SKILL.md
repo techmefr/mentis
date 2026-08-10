@@ -109,9 +109,9 @@ during `code` (6) or `tdd` (5).
    way, to `<rootDir>/server` regardless of `srcDir`; `layers/`, `modules/`, `public/` stay resolved from
    `<rootDir>`; and a new `shared/` directory (`shared/utils/`, `shared/types/`) is auto-imported into both
    the Vue app and the Nitro server for code that's genuinely neither. [Same source as point 5 above,
-   read 2026-08-10.] **Where an OSDD-style layer convention is installed, it overrides this**: each layer
-   already carries its own self-contained `app/` subtree (see that convention's own structure), and this
-   generic default only applies where no such layer convention exists.
+   read 2026-08-10.] **Where `nuxt-osdd` (nuxt-osdd.xefi.com) is installed, it overrides this**: each layer
+   already carries its own self-contained `app/` subtree (see that package's own structure), and this
+   generic default only applies where no such layer package is installed.
 
 ### 6. i18n
 1. Locale files flat, no nested objects: nesting makes a key impossible to grep and invites two keys for one
@@ -267,6 +267,9 @@ rewritten, no copied text. Stamped 2026-08-06.
 Section 9 point 5 and section 5 point 6 (the `shallowRef` reactivity change and the Nuxt 4 directory
 defaults) refreshed against the official Nuxt 4 upgrade guide (nuxt.com/docs/4.x/getting-started/upgrade),
 read 2026-08-10 — supersedes the `nuxt4-patterns` extract above on this specific point, which predated the
-Nuxt 4 stable release. The layer-convention override note is cited generically per rule C; a published
-OSDD-style layer package for Nuxt confirms each layer keeps its own `app/` subtree, which is why the Nuxt 4
-root-level default doesn't compete with it.
+Nuxt 4 stable release. The layer-convention override note names `nuxt-osdd` (nuxt-osdd.xefi.com) directly
+rather than de-identified: it's the company's own published open-source package, publicly readable outside
+the company like `test-casebook` — rule C's generic-citation default is for internal/private facts, not for
+a real tool the company itself ships publicly (`CONVENTIONS.md` rule C). Confirmed against its own docs,
+read 2026-08-10: each layer keeps its own `app/` subtree, which is why the Nuxt 4 root-level default
+doesn't compete with it.

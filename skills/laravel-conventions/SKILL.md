@@ -217,8 +217,8 @@ written or modified, during `code` (6) or `tdd` (5).
    self-contained Composer package** — `composer.json`, `src/`, its own `database/` (migrations, seeders),
    its own `tests/`, its own service provider — generated and scaffolded through the package's own commands
    rather than by hand. Where installed, it's the house override for point 1: don't hand-roll a `functional/`
-   folder convention that competes with it. [a published open-source OSDD-style Laravel layer package, read
-   2026-08-10 — cited generically per rule C, see `source-freshness`.]
+   folder convention that competes with it. [`xefi/laravel-osdd`, github.com/xefi/laravel-osdd, read
+   2026-08-10.]
 
 ## Output / checkpoint
 Code compliant with the sections above, formatter clean, and no new static-analysis finding introduced by the
@@ -245,11 +245,13 @@ and rewritten generically, with the internal package names, architecture scaffol
 tooling deliberately left out (rule C); the framework's own documentation for the mechanisms cited.
 Mechanisms rewritten, no copied text.
 
-Section 10 point 4 (the Composer-package-per-layer structure) added 2026-08-10 from a published open-source
-OSDD-style Laravel layer package — cited generically per rule C rather than by name, matching how section
-1's split was already generic. Confirms the same layer-package shape as the Nuxt-side convention referenced
-in `vue-nuxt-vuetify-conventions` §5.6: each domain a self-contained package with its own tests/migrations,
-not a shared folder.
+Section 10 point 4 (the Composer-package-per-layer structure) added 2026-08-10 from `xefi/laravel-osdd`
+(github.com/xefi/laravel-osdd), read that date. Named directly rather than de-identified: it's the
+company's own published open-source package, publicly readable outside the company like `test-casebook`
+— rule C's generic-citation default is for internal/private facts, not for a real tool the company itself
+ships publicly (`CONVENTIONS.md` rule C). Confirms the same layer-package shape as the Nuxt-side convention
+referenced in `vue-nuxt-vuetify-conventions` §5.6: each domain a self-contained package with its own
+tests/migrations, not a shared folder.
 **Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
 read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
 catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the full cost of a DB-level
