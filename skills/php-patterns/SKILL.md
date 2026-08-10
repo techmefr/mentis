@@ -21,13 +21,18 @@ conventions apply on top of it, not instead of it.
 ## Steps
 
 ### 1. Typing: modern PHP (8.x) is no longer untyped PHP
-1. Typed function/method signatures (parameters + return), including an explicit `void`/`?type`; an
+1. **`declare(strict_types=1)` as the first line of every PHP file.** Without it, a typed signature is
+   only half-enforced: PHP still coerces `"5"` to `5` or `0` to `false` across the call, and the type
+   declaration from point 2 documents a contract it doesn't actually check. This is the one PSR-12 rule
+   that changes runtime behaviour rather than formatting, which is why it belongs here rather than
+   being left to Pint/PHP-CS-Fixer the way brace placement or line length are.
+2. Typed function/method signatures (parameters + return), including an explicit `void`/`?type`; an
    untyped parameter is a regression, not a neutral style in PHP 8+.
-2. `readonly` on properties that never change after construction (value objects, DTOs): prevents an
+3. `readonly` on properties that never change after construction (value objects, DTOs): prevents an
    accidental deep mutation.
-3. Union types (`int|string`) rather than `mixed` out of reflex: `mixed` expresses no intent, an
+4. Union types (`int|string`) rather than `mixed` out of reflex: `mixed` expresses no intent, an
    explicit union type documents the real contract.
-4. Native PHP 8.1+ enums (`enum ... : string`) rather than class constants scattered around to
+5. Native PHP 8.1+ enums (`enum ... : string`) rather than class constants scattered around to
    represent a closed set of values.
 
 ### 2. Error handling
@@ -62,3 +67,10 @@ Sourced from PHP-FIG (PSR-12 style, the base PSRs), the official PHP documentati
 `readonly`, `match`) and established modern PHP market practice. Mechanisms rewritten, no copied
 text. Market research, no deep internal production feedback at this stage: same uncertainty status
 as `gimli`.
+
+Re-checked directly against the PSR-12 text on 2026-08-10: almost every rule in it is pure formatting
+(brace placement, line length, keyword casing) already enforced mechanically by Pint/PHP-CS-Fixer, which
+is why this block never restated it. One rule genuinely changes behaviour rather than layout —
+`declare(strict_types=1)` — and that one was a real gap, closed at §1.1. Everything else PSR-12 states
+(instantiation parentheses, `elseif` over `else if`, `// no break` comments) stays a formatter's job, not
+a hand-applied rule.

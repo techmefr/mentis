@@ -29,6 +29,14 @@ service that had none.
    retried indefinitely spins forever and hides the real cause.
 4. **The expiry margin is explicit**: renew shortly *before* expiry, never exactly at it, or clock
    skew between client and server produces intermittent failures no one can reproduce.
+5. **A permission/role change invalidates the current token, it doesn't wait for it to expire
+   naturally.** A demoted or revoked user keeps acting on their old permission set for the rest of
+   the token's TTL otherwise — the refresh renews the token, it doesn't re-derive it from the user's
+   *current* state unless the backend forces that on the next refresh/request.
+6. **An absolute session lifetime, on top of the rolling per-token TTL.** The refresh mechanism can
+   otherwise renew a session indefinitely as long as the user stays active, which is a different
+   guarantee from "expires N minutes after issue": a hard cap forces re-authentication periodically
+   regardless of activity, bounding how long a hijacked session stays usable.
 
 ### 2. Storage and transport
 1. **Never a token in a URL, in any form.** Not in the path, not in the query string, not in a
@@ -39,7 +47,13 @@ service that had none.
    in this block we hold against pressure: some teams do ship SSO by handing the token over in the
    redirect URL, and adopting it "to be consistent with them" would be adopting the leak.
 2. A token lives in a cookie (`Secure`, `SameSite`), never in `localStorage`: `localStorage` is
-   readable by any injected script and survives with no expiry semantics.
+   readable by any injected script and survives with no expiry semantics. **Why this pattern isn't
+   also a CSRF exposure**: classic CSRF relies on the browser attaching a cookie *automatically* to a
+   cross-site request; here the frontend reads the cookie in JS and attaches it itself as a `Bearer`
+   header, so a forged cross-site request arrives with no `Authorization` header at all.
+   `SameSite=Strict`/`Lax` is still set (defence in depth, and it's what stops the cookie itself
+   being read cross-site), but the CSRF question is answered by the transport shape, not by a
+   separate CSRF token.
 3. **Known trade-off in our own pattern, stated rather than hidden**: our frontends set that cookie
    client-side and attach the token themselves as a `Bearer` header, so the cookie is **not**
    `httpOnly` and an injected script can read it. `httpOnly` + a server-set cookie is strictly
@@ -107,7 +121,10 @@ A new frontend follows it rather than inventing a variant.
 8. **Teardown is complete.** Logout calls the backend, then clears local state in a `finally` so a
    failing call can't leave a half-session behind. Clearing means the token *and* everything derived
    from the identity: user, permissions, feature flags, and the domain state scoped to that user.
-   A leftover scoped selection is what leaks one user's context into the next session.
+   A leftover scoped selection is what leaks one user's context into the next session. The
+   `Clear-Site-Data` response header on the logout call is the browser-level equivalent for anything
+   the app itself doesn't track (cache, storage, service workers) — cheap insurance on a shared
+   machine.
 
 ### 5. Verification before shipping
 1. Replay the journey: login → expiry → refresh → logout, plus one protected route with an
@@ -148,3 +165,13 @@ refresh: cross-context lock + cross-tab broadcast beats an in-memory promise). W
 practice is weaker than the generic rule, that gap is stated rather than smoothed over (§2.3, the
 non-`httpOnly` cookie). The token-in-the-URL prohibition is written as a rule to hold precisely
 because the surrounding practice on other teams goes the other way.
+
+Re-checked directly against the OWASP Session Management Cheat Sheet on 2026-08-10: three real gaps
+closed — renewal/invalidation on a privilege-level change rather than waiting for natural expiry (§1.5),
+an absolute session lifetime on top of the rolling TTL (§1.6), and `Clear-Site-Data` on logout (§4.8).
+The CSRF note in §2.2 was added the same pass: the cheat sheet leans on `SameSite` for CSRF defence,
+which this block already set — what was missing was saying explicitly *why* the Bearer-header transport
+closes the classic CSRF vector too, rather than leaving a reader to wonder if a CSRF token is also
+needed. Session-ID-regeneration-at-login and idle-timeout ranges stay out: they're framed for a
+server-side session store, and this reference flow is a stateless bearer token, where the equivalent
+guarantee is already the expiry-margin/refresh discipline in §1.
