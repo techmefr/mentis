@@ -103,6 +103,15 @@ during `code` (6) or `tdd` (5).
 4. Declarative config in a `config/` folder as soon as N near-identical entities are being wired by hand
    with duplicated watchers and hardcoded arrays.
 5. Look for an existing nearby component/composable before writing a new one.
+6. **`runtimeConfig` vs `app.config` is a security boundary, not a style choice.** `runtimeConfig`'s
+   top-level keys are server-only by default and read from `NUXT_*` environment variables (a secret goes
+   here, unnested, never under `public`); only `runtimeConfig.public`/`runtimeConfig.app` cross to the
+   client, and a value placed there is as exposed as if it were hardcoded in the bundle. `app.config.ts` is
+   for static, non-secret, build-time values (theme tokens, feature toggles) that need hot-reload during
+   dev, and **cannot** read an environment variable at all — reaching for it to keep a secret out of the
+   bundle is the opposite of what it does. In a layered/OSDD project each layer's own `nuxt.config.ts`
+   carries its own `runtimeConfig`, not a single root one. [nuxt.com/docs/4.x/getting-started/configuration,
+   nuxt.com/docs/4.x/guide/going-further/runtime-config, read 2026-08-10.]
 6. **Nuxt 4's default directory layout, on a plain repo with no layer/OSDD convention installed**:
    `srcDir` defaults to `app/` (components/composables/layouts/middleware/pages/plugins/utils/app.vue all
    move under it, and `~` now resolves to `app/` instead of the project root); `serverDir` moves the other
@@ -287,3 +296,10 @@ Section 9 point 8 (client-side error handling: `error.vue`, `NuxtErrorBoundary`,
 `showError`/`clearError`, `onErrorCaptured` vs `vue:error`) added 2026-08-10 from the official Nuxt error
 handling guide (nuxt.com/docs/getting-started/error-handling), filling a real gap: §11.6 only covered the
 server-side `createError()` half, nothing on the client side was documented at all.
+
+Section 5 point 6 (`runtimeConfig` vs `app.config` as a security boundary) added the same day from the
+official Nuxt configuration and runtime-config guides (nuxt.com/docs/4.x/getting-started/configuration,
+nuxt.com/docs/4.x/guide/going-further/runtime-config): filled a real gap, the skill had no rule at all on
+where a secret is allowed to live versus where a value becomes client-exposed. Cross-checked against
+`nuxt-osdd`'s real per-layer `runtimeConfig` usage (each layer's own `nuxt.config.ts`, `public.*` correctly
+scoped) rather than asserted from the docs alone.
