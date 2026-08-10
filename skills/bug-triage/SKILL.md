@@ -15,7 +15,12 @@ closed as "cannot reproduce" when the missing piece was one question away.
 
 ## When
 As soon as a bug comes from outside the people who wrote the code: support, a customer, a colleague, a
-project manager, a test session.
+project manager, a test session. One report, one pass through this skill.
+
+For a queue rather than one report — a support inbox, an error tracker, a recurring bug channel — this
+is the pipeline entry the market calls a proactive/time-based loop: wire native `/loop` (or `/schedule`
+for a fixed cadence) to run this skill on each new item unattended, still one ticket per bug (§3.4), still
+one human told per outcome. The triage logic doesn't change; only who presses the button does.
 
 ## Steps
 
@@ -83,7 +88,8 @@ The video-evidence step in §1.1 comes from a family of community Claude skills 
 by an agent — scene-change frame extraction with deduplication plus a subtitle-or-Whisper transcript,
 running entirely locally on `ffmpeg` (`claude-real-video`, `watch-video-skill` and similar, MIT). We take
 the *idea* and name the tool as optional: it's local, so using it breaks no rule, and a block that
-required it would (`source-freshness` §4.2). Reviewed 2026-08-06.
+required it would (`source-freshness` §4.2). Reviewed 2026-08-06. The queue framing in `## When` is
+native Claude Code (`/loop`/`/schedule`, proactive loops), invoked, not reimplemented.
 
 Everything else is ours, and mostly comes from repeated experience: observation versus the reporter's
 theory, "cannot reproduce" needing its own evidence list, intermittent treated as a fact, severity by
