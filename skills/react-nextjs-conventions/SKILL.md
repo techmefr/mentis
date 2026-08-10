@@ -34,7 +34,11 @@ during `code` (6) or `tdd` (5).
    presentational component that takes props.
 5. Extract shared **knowledge** into a hook or utility, and shared **meaningful** JSX into a component — but
    don't over-extract trivial layout markup: a `<div className="flex">` wrapper is not a component.
-6. Props typed through a named props type, destructured in the signature rather than reached through
+6. **Prop drilling past two layers is a structure problem, not a naming one.** A prop threaded unchanged
+   through a component that never reads it, just to reach a grandchild, means that middle component takes on
+   a dependency it doesn't have — composition (pass the element itself as a child/slot) or a scoped context
+   fixes the layer that doesn't need to know, without reaching for a global store.
+7. Props typed through a named props type, destructured in the signature rather than reached through
    `props.x` — the destructuring is the component's documented input list.
 
 ### 2. Naming
@@ -111,6 +115,13 @@ during `code` (6) or `tdd` (5).
     effect lies about when it runs. Read them in the body.
 11. Functional `setState` (`setCount(c => c + 1)`) as soon as the new value depends on the old one — a
     handler can fire several times before the next render.
+12. **Several `setState` calls in the same effect or handler for one logical update** is a sign the state
+    should be one `useReducer` call, or a value derived instead of stored — each separate `setState` is a
+    separate render, and a bug that reads the value between them is straightforward to introduce and hard to
+    spot.
+13. A handmade `isLoading`/`isPending` boolean gating a transition-worthy update (a tab switch, a filter
+    re-render, anything that keeps the current UI interactive while new state computes) is what
+    `useTransition`'s `isPending` already gives you, without blocking input on the stale screen.
 
 ### 6. Server state and stores
 1. Reach for the ecosystem's server-state library (TanStack Query, SWR, RTK Query) rather than
@@ -168,7 +179,9 @@ during `code` (6) or `tdd` (5).
    server-side is the only sane option.
 
 ### 10. Accessibility and bundle weight
-1. An icon-only button with no visible label needs an `aria-label`.
+1. An icon-only button with no visible label needs an `aria-label`. Every `<img>` needs an `alt`: the
+   description if it carries meaning, `alt=""` (never omitted) if it's purely decorative — a missing `alt`
+   reads out the filename to a screen reader.
 2. An open modal: focus placed on it, trapped inside, returned to the trigger on close.
 3. Native semantic elements over clickable `div`s; heading order without skipped levels.
 4. Never block paste on an authentication field (password, one-time code).
@@ -200,3 +213,11 @@ schema validation at boundaries, control flow, hooks discipline, immutability, m
 state, query-key factories, mutation callback split, atomic store selectors)** — rules extracted,
 de-identified and rewritten generically, with everything naming an internal library or project deliberately
 left out (rule C). Mechanisms rewritten, no copied text. Stamped 2026-08-06.
+
+Re-checked directly against the public **React Doctor** tool (react.doctor, the linter this block's
+effects/security section already traces to) on 2026-08-10: its documented rule set added three genuine gaps
+— prop drilling across component layers (§1.6), several `setState` calls for one logical update belonging
+in a `useReducer`/derived value, and a hand-rolled `isLoading` boolean where `useTransition` already applies
+(§5.12-13) — plus a missing-`alt` check folded into the existing icon-label rule (§10.1). Everything else it
+flags (unnecessary derived-state effects, array-index keys, hardcoded secrets, incorrect hook usage) was
+already covered here under a different heading.
