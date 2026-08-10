@@ -29,7 +29,7 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-06: **59 skills**, **15 business blocks**, **21 agents**, **3 hooks** (the
+At a glance, as of 2026-08-10: **59 skills**, **15 business blocks**, **23 agents**, **3 hooks** (the
 default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
 
@@ -223,6 +223,7 @@ your code beyond a verdict, and it never touches it.
 | `link` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
 | `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
 | `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
+| `smith` | Dynamic adversarial security probing on a running app (auth bypass, injection, IDOR), bounded to an explicitly authorised target, never edits | Written, not dogfooded yet |
 | `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
 
 Full detail: [`CATALOG.md`](./CATALOG.md) (registry + sourcing backlog, with
