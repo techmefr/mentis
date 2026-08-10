@@ -24,6 +24,10 @@ What persists, and where:
   `class-validator` on every HTTP input, Zod/`z.infer` contracts as the source of truth, the
   repository pattern over Prisma, import aliases): re-read it, don't reinvent them here.
 - `auth-session-conventions` applies as soon as the task touches login, tokens, sessions or a guard.
+- `security-hardening` at every trust boundary you write: a DTO validates every HTTP input before it
+  reaches a service, no raw query string built from user input, an upload's type/size checked before
+  storage. `seraph`/`smith` audit after the fact — a finding there on code you just wrote is a round trip
+  that costs more than applying the rule while writing.
 - `typescript-patterns` for the typing itself; no `any` introduced to silence a type error.
 - **OSDD**: the technical layer never imports the functional one; pass the value as a parameter from
   the caller rather than breaking the layering.
