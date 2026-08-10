@@ -52,6 +52,15 @@ when a regulatory change is announced; and as part of a `maintaining-blocks` aud
    the block's whole voice loses the parts that were ours.
 4. **Update the stamp even when nothing changed.** "Re-verified, unchanged" is the most useful outcome
    and the one most often left unrecorded.
+5. **When the source is a closed, named enumeration** (the Gang of Four's 22 patterns, OWASP's Top 10, a
+   linter's rule list, WCAG's success criteria) — don't refresh by re-reading the block's prose and
+   asking "does this still sound right". Fetch the enumeration itself and give **every item on it** an
+   explicit verdict against the block: covered under this heading, subsumed by the framework/language
+   (say which), deliberately out of scope (say why), or a genuine gap to close. A prose refresh can miss
+   an item quietly; an enumeration refresh can't, because there's nothing left to check once every item
+   has a verdict. This is what made the design-patterns/security-hardening/react-nextjs-conventions
+   re-checks on 2026-08-10 findable rather than another confidence pass — the list itself is the checklist,
+   not something to reconstruct from memory each time.
 
 ### 4. Rule B still applies to the fresh source
 1. **Read the docs, then write our rule.** A block that quotes upstream at length isn't a convention,
