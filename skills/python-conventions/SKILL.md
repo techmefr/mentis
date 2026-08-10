@@ -84,6 +84,11 @@ As soon as Python code is written or modified, during `code` (6) or `tdd` (5).
 7. Reach for the project's existing support layer before the stdlib or a new dependency for something it
    already covers (password hashing, structured logging, config access, encryption, events, DI, test
    scaffolding). A second way to do a solved thing is the duplication that bites later.
+8. Re-checked directly against PEP 8 and ruff's default rule set on 2026-08-10: re-verified, unchanged —
+   the PEP 8 items that carry a real judgment call (naming, truthiness, mutable defaults, comprehensions,
+   context managers) were already covered above; everything else it states is pure style ruff already
+   auto-fixes (import order, f-strings over `%`/`.format()`, `enumerate` over `range(len(...))`), the same
+   reason this block never restated PSR-12-style formatting the way `php-patterns` didn't.
 
 ### 6. Dependency injection and lifetimes
 1. A binding's default is an application-lifetime singleton. Reach for a different lifetime **deliberately**:

@@ -36,6 +36,14 @@ As soon as Go code is written or modified, during `code` (6) or `tdd` (5).
    deliberate choice, not a default.
 4. A `recover()` that swallows the error without rethrowing or logging it hides a real bug: never a silent
    `recover`.
+5. **`panic` is not error handling.** A library or a service function returns an `error` for anything a
+   caller could reasonably encounter; `panic` is reserved for a programmer error the caller couldn't have
+   guarded against (a genuinely unreachable branch, a broken invariant at startup) or an unrecoverable
+   condition, and `recover` belongs at the top of a goroutine's own boundary, not scattered to paper over
+   an error path that should have returned normally.
+6. **A type assertion always uses the comma-ok form** (`t, ok := i.(string)`), never the single-return form
+   outside a context that has already proven the type: the single-return form panics on a mismatch, which
+   is exactly the silent-crash shape this section exists to prevent elsewhere.
 
 ### 3. Context
 1. `context.Context` always the first parameter, never stored in a struct.
@@ -52,6 +60,10 @@ As soon as Go code is written or modified, during `code` (6) or `tdd` (5).
 4. `interface{}`/`any` as a catch-all to avoid typing properly: prefer generics or a concrete type.
 5. Slices/maps received or returned at API boundaries = a reference to the caller's data, mutable without
    their knowledge: copy if isolation is necessary.
+6. **`os.Exit`/`log.Fatal` only ever called from `main()`, and at most once there.** Anywhere else they
+   skip every deferred cleanup on the way out (no closed files, no released locks, no flushed logs) —
+   every other function returns its error and lets the caller decide. Wrap `main()`'s own logic in a
+   `run() error` so the exit call is the last line, not scattered through the business logic.
 
 ## Output / checkpoint
 Code compliant with the four sections above, and `golangci-lint run` (default config: errcheck, govet,
@@ -69,3 +81,11 @@ errcheck/govet/staticcheck/gosimple/ineffassign/unused); staticcheck.dev (the SA
 uber-go/guide (Uber Go Style Guide, copying slices/maps at boundaries, defer for resources, avoiding
 catch-all `interface{}`). Mechanisms rewritten, no copied text. Market research, no internal production
 feedback at this stage.
+
+Re-checked directly against the Uber Go Style Guide's text on 2026-08-10, filtered for what a linter
+doesn't already catch mechanically (the guide's own formatting/naming items stay with `gofmt`/`govet`,
+same reasoning as the PSR-12 pass on `php-patterns`): no panic in library code (§2.5), the comma-ok type
+assertion (§2.6), and `os.Exit`/`log.Fatal` confined to `main()` via a `run()` wrapper (§4.6) were real
+gaps, now closed. The guide's pointer-vs-value-receiver and channel-sizing guidance stay out: both are
+judgment calls that depend on the concrete type/use, not a rule with a mechanical trigger the way the
+three added ones are.
