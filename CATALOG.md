@@ -186,6 +186,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | link | technical a11y audit of a live page/site, never edits | ✅ (not dogfooded yet) |
 | mouse | manual/exploratory testing of a flow on a running app, never edits | ✅ (not dogfooded yet) |
 | seraph | dedicated static security audit (OWASP, secrets, dependencies), read-only, never active exploitation | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: 4 sourced majors, findings traced into the vendor packages' own source, not pattern-matched) |
+| smith | dynamic adversarial probing (auth bypass, injection, IDOR) on an explicitly authorised running target, complements seraph's static audit, never edits | ✅ (written 2026-08-10, filling a real gap: nobody in the roster attempted a live exploit, only static audit and functional exploration; not dogfooded yet) |
 | architect | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: caught a real OSDD boundary leak and a dead access-control scope, applied the deletion test to correctly rule out two candidates) |
 | palantir | open-web research (advisories, fact-checking, market practice beyond training cutoff), sourced/dated answer, never edits | 🟢 (dogfooded 2026-08-07: cross-checked a Bun-runtime-evasion claim against 4 independent sources, surfaced a real interpretation split between them instead of flattening it) |
 
