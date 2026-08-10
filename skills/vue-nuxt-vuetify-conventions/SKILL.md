@@ -186,10 +186,19 @@ during `code` (6) or `tdd` (5).
    rather than conditionals in every page.
 7. Lazy hydration (`<Lazy...>`, `hydrate-on-visible`/`hydrate-on-interaction`) for any heavy component
    outside the initial viewport.
-8. **Checklist before merging a page/component**: no non-deterministic value outside a client hook; the
+8. **Client-side error handling has its own toolkit, distinct from the server-side `createError()` in
+   §11.6**: `error.vue` at the app root replaces the page for a fatal/unhandled error; `NuxtErrorBoundary`
+   wraps a section of the tree so one widget failing doesn't take down the whole page (a dashboard with
+   independent cards is the textbook case); `useError()` reads the current global error reactively;
+   `showError()`/`clearError()` set/clear it programmatically; `onErrorCaptured` (component tree) and the
+   `vue:error` hook (anything that reaches the top) are the two places to intercept before Nuxt's default
+   handling takes over. A `useFetch`/`useAsyncData` call that never reads its `error` return value is
+   swallowing a real failure state silently rather than handling it. [nuxt.com/docs/getting-started/
+   error-handling, read 2026-08-10.]
+9. **Checklist before merging a page/component**: no non-deterministic value outside a client hook; the
    fetch primitive matches the need; no nested mutation relied on for reactivity on a Nuxt 4 fetch result;
    no data leaking between requests through module-level state; `routeRules` set if the page needs a
-   non-default rendering mode.
+   non-default rendering mode; a fetch's `error` state is read and handled, not just its `data`.
 
 ### 10. Realtime events
 1. An incoming realtime/websocket message is **translated into an application-level hook or event**, not
@@ -273,3 +282,8 @@ the company like `test-casebook` — rule C's generic-citation default is for in
 a real tool the company itself ships publicly (`CONVENTIONS.md` rule C). Confirmed against its own docs,
 read 2026-08-10: each layer keeps its own `app/` subtree, which is why the Nuxt 4 root-level default
 doesn't compete with it.
+
+Section 9 point 8 (client-side error handling: `error.vue`, `NuxtErrorBoundary`, `useError`,
+`showError`/`clearError`, `onErrorCaptured` vs `vue:error`) added 2026-08-10 from the official Nuxt error
+handling guide (nuxt.com/docs/getting-started/error-handling), filling a real gap: §11.6 only covered the
+server-side `createError()` half, nothing on the client side was documented at all.
