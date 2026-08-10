@@ -39,9 +39,13 @@ during `code` (6) or `tdd` (5).
    is a project decision, applied consistently; what is never acceptable is an untyped prop.
 9. Never destructure a reactive `props` object directly (`const { foo } = props` breaks reactivity). Read
    `props.foo`, or go through `toRefs(props)` / a `computed`.
-10. `shallowRef` for non-primitive state (objects, arrays, heavy DOM refs) unless the nested reactivity is
+10. **`defineProps`/`defineEmits`/`defineExpose`/`withDefaults` are compiler macros, never imported.** They
+    exist only inside `<script setup>`, injected by the compiler; an `import { defineProps } from 'vue'`
+    line is a request for a runtime export that doesn't exist and either errors or silently defeats the
+    macro's compile-time behaviour, depending on the toolchain.
+11. `shallowRef` for non-primitive state (objects, arrays, heavy DOM refs) unless the nested reactivity is
     genuinely consumed.
-11. A composable returns `ref`s/`computed`s, never raw values. A parameter that may be a value or a ref is
+12. A composable returns `ref`s/`computed`s, never raw values. A parameter that may be a value or a ref is
     read with `toValue()`, never `unref()` alone (no getter support).
 
 ### 2. Composables and stores
@@ -183,8 +187,12 @@ during `code` (6) or `tdd` (5).
    - `useState`: SSR-safe shared state between components (not a classic global `ref`).
    - `useCookie`: state that has to survive a reload and be readable server-side.
    - `useRequestFetch`: a server call that has to forward the incoming request's headers/cookies.
-4. `useAsyncData`/`useFetch` called in a loop without an explicit string key cause duplicated requests and
-   cache fragmentation: always a unique key passed explicitly inside a loop.
+4. **`useAsyncData`/`useFetch` should get an explicit string key by default, not only inside a loop.** The
+   auto-derived key is built from the file path and line number: fine for a single static call, but it
+   collides or drifts as soon as the call site isn't singular — inside a loop (the classic case, always a
+   unique key per iteration), inside a dynamic/conditionally-rendered component, or after a refactor that
+   moves the line. An explicit key is the cheap default; relying on the auto-derived one is the exception
+   to justify, not the other way round.
 5. **Nuxt 4: `useAsyncData`/`useFetch`'s returned `data` is a `shallowRef`, not a deep `ref`.** Mutating a
    nested property (`data.value.items.push(x)`, `data.value.user.name = x`) no longer triggers a
    re-render — only replacing the whole object does. Code that mutated the fetched object in place under
@@ -303,3 +311,9 @@ nuxt.com/docs/4.x/guide/going-further/runtime-config): filled a real gap, the sk
 where a secret is allowed to live versus where a value becomes client-exposed. Cross-checked against
 `nuxt-osdd`'s real per-layer `runtimeConfig` usage (each layer's own `nuxt.config.ts`, `public.*` correctly
 scoped) rather than asserted from the docs alone.
+
+Re-checked directly against the public **vue.doctor**/**nuxt.doctor** tools (the-doctor.report, the linter
+section 11 already traces to) on 2026-08-10: its two named custom rules that weren't already covered here —
+never importing a compiler macro (`defineProps`/`defineEmits`/etc.) from `'vue'` (§1.10), and an explicit
+`useAsyncData`/`useFetch` key as the default rather than only inside a loop (§9.4, widened) — are now
+closed. Its other named rules (props destructuring breaking reactivity) were already §1.9.
