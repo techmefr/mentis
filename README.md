@@ -261,6 +261,39 @@ Claude Code's native format:
 5. Business blocks live in [`business/`](./business/README.md) and install the
    same way — but read that folder's README first, they carry an explicitly
    weaker contract and never gate anything.
+6. **Recommended companion tooling — installed by the operator, never by a
+   block.** Rule B still holds: nothing here becomes a runtime dependency of a
+   pipeline step, and no skill or agent runs the install commands below for
+   you.
+   - **`context7` MCP server** (`source-freshness`'s retrieval side, current
+     library docs on demand): `npx -y @upstash/context7-mcp`, wired as an MCP
+     server, authoring-time only.
+   - **`claude-mem`** (session memory compression, complements — doesn't
+     replace — Claude Code's native memory): `npm install -g claude-mem` then
+     `npx claude-mem install --provider claude --runtime worker`. It needs
+     Bun; where the OS package manager can't install `unzip`/Bun without
+     `sudo`, fetch the release zip and extract it with `python3 -m zipfile
+     -e` instead of installing system packages.
+   - **`graphify`** (turns a repo into a queryable knowledge graph,
+     `graphify-out/`): a personal skill, no install beyond copying the file.
+   - **`claude-mem`'s worker degrades badly left unattended** — it doesn't
+     survive a reboot or a crash on its own, and this is a real background
+     daemon, not a pipeline step, so neither native `/loop` (session-bound,
+     dies with the session) nor `/schedule` (cloud-only, can't see a local
+     process) reaches it. The right native tool here is the OS's own: a
+     one-line **cron job** (`crontab -e`, hourly is plenty) that runs `npx
+     claude-mem status` and `npx claude-mem start` if it isn't running. Rule B
+     ("invoke native, don't reimplement") is about pipeline mechanisms, not a
+     ban on cron for host process supervision.
+   - **`graphify` is agent-driven, not a standalone binary** — `--update`
+     walks through LLM-assisted extraction steps inside a live Claude Code
+     session, so nothing can refresh it unattended in the background either.
+     The cheap fix is **check-at-use**: the skill checks `graphify-out/`'s age
+     the moment it's invoked and runs `--update` itself if it's past 24h,
+     otherwise answers straight from the existing graph — the same
+     authoring-time-only shape as `context7` in `source-freshness`. A day
+     with no `graphify` usage costs nothing, unlike a standing watcher or a
+     timed loop that would wake up whether or not anyone needed the graph.
 
 **Nothing above needs anything installed** — every block works on a plain repo
 with plain git, which is rule A. That includes the review: **no forge, no
