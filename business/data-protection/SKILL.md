@@ -67,6 +67,10 @@ Take these to the DPO/legal rather than guessing:
    feature intended.
 3. **Write down what leaves the system, to whom, and why** — you will be asked, and reconstructing it
    later from the code is much harder than noting it now.
+4. **The broader security/compliance review of the vendor itself — not just the data-processing
+   question — is `business/vendor-management`'s process.** This section covers what to ask about a
+   vendor that will hold personal data specifically; that block covers assessing and tracking the
+   vendor relationship generally.
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: the field list with a
