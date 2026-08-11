@@ -50,7 +50,7 @@ close a gap: a test that can't fail reports safety that isn't there.
 ## Origin
 `test-casebook` (MIT, `techmefr/test-casebook`) for the doctrine, plus market long-running agent patterns
 for the default-FAIL contract, rewritten. **Aligned with `test-casebook` 1.1.0**, `test-casebook-back-js`
-0.10.0 and `test-casebook-back-php` 0.14.0 — all three published on npm at that version. The doctrine is
+1.0.0 and `test-casebook-back-php` 1.0.0 — all three published on npm at that version. The doctrine is
 still only ever "as fresh as the copy installed in the project": a stamp here dates a reading, not the
 installed package. Re-verify
-against the installed package rather than from memory (`skills/source-freshness`). Stamped 2026-08-06.
+against the installed package rather than from memory (`skills/source-freshness`). Stamped 2026-08-11.
