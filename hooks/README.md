@@ -4,12 +4,13 @@ The only enforcement in this repo. Everything else is markdown that an agent rea
 because some guarantees **cannot** be written instructions: a rule holds right up to the moment it is
 inconvenient, and the moment it is inconvenient is exactly the moment it matters.
 
-Two guarantees, three scripts:
+Three guarantees, five scripts:
 
 | Guarantee | Script(s) | Event |
 |---|---|---|
 | No pass without evidence read (step 7 of `WORKFLOW.md`) | `verify-gate.sh` + `record-read.sh` | `PreToolUse` on `Edit`/`Write`, `PostToolUse` on `Read` |
 | **No agent installs anything, ever** | `block-installs.sh` | `PreToolUse` on `Bash` |
+| **No pre-existing test assertion disappears silently** (`skills/debug` §3.4) | `guard-test-changes.sh` + `guard-test-changes.py` | `PreToolUse` on `Edit`/`Write` |
 
 ## Why a hook and not a rule
 
@@ -91,6 +92,45 @@ manager.
 Checked by `bin/test_hooks.py` — 68 cases, blocked and allowed both, because half the value is in what it
 does not break.
 
+## `guard-test-changes.sh`: no pre-existing assertion disappears silently
+
+**What it refuses**, on every `Edit`/`Write` targeting a file that looks like a test
+(`*.test.*`, `*.spec.*`, `*_test.*`, `test_*.py`, `*Test.php`, `*Test.java`): an edit where a
+line that matched an assertion pattern (`expect(`, `assert*(`, `$this->assert*(`,
+`self.assert*(`, a bare `assert `, `Assert::`/`Assert.`, a Jest/Vitest matcher, `t.Error`/`t.Fatal`,
+`require.*`) existed **before** the edit and no longer appears, verbatim, **after** it — deleted,
+commented out, or its expected value changed.
+
+**What it lets through**: extending a test file with a new case (the old assertion line is
+still there, a new one joins it), touching a non-test file, and creating a brand-new test file
+(nothing on disk yet to tamper with).
+
+**Why.** `skills/debug` §3.4 states the rule: a pre-existing test that fails is a verdict on the
+implementation, not on the test, and the easy way out — editing the test's expectation to match
+the broken output instead of fixing the code — ships a regression behind a green suite. Written
+as an instruction alone it holds until it's inconvenient; this hook makes the common shape of
+that mistake mechanical, the same reasoning as `verify-gate.sh` for evidence.
+
+**The deliberate escape hatch, and why it's not in-band.** Unlike `block-installs.sh`, there's a
+real, legitimate reason for a test to change: the spec genuinely moved. `MENTIS_ALLOW_TEST_CHANGES=1`
+lets a specific push through — but it's an environment variable the human sets in their own shell
+before the session or the task, not a comment or a marker the agent could quietly add to its own
+diff. That's the difference between an honest escape hatch and a hole: nothing in the diff itself
+can unlock this guard.
+
+**Honest limits**, same spirit as `block-installs.sh`:
+- **A refactor that moves an assertion into a helper** (`expect(x).toBe(1)` becomes
+  `assertFoo(x)`) looks like a removal to this heuristic, because the literal line is gone. This is
+  the false-positive case `MENTIS_ALLOW_TEST_CHANGES` exists for.
+- **No AST, no real per-language parser.** A regex over lines, deliberately — the same tradeoff
+  `verify-gate.sh` makes for the contract file, for the same reason: exhaustive parsing for five
+  ecosystems isn't worth the maintenance for a guard whose job is catching the honest-mistake
+  shape, not every possible obfuscation.
+- **Only `Edit`/`Write`.** A test file changed through `Bash` (`sed -i`, a generated file) isn't
+  seen by this hook.
+
+Checked by `bin/test_guard_test_changes.py` — 12 cases across five ecosystems.
+
 ## Coexisting with the `test-casebook` gate
 
 A project that installs any of the `test-casebook` siblings (`test-casebook`, `test-casebook-back-js`,
@@ -120,7 +160,8 @@ Copy the scripts into the target repo's `.claude/hooks/`, make them executable, 
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/verify-gate.sh" }
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/verify-gate.sh" },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-test-changes.sh" }
         ]
       }
     ],
@@ -201,3 +242,8 @@ real repo at the time of writing. The mechanism is
 rewritten from market long-running-agent patterns (a default-FAIL `PreToolUse` hook plus a
 fresh-context evaluator); the read-log half, the fail-closed choice and the single-file scope are
 ours.
+
+`guard-test-changes.sh`/`.py`: written and unit-tested against 12 cases (`bin/test_guard_test_changes.py`),
+not yet dogfooded — same status. Internal synthesis, named directly by the operator; no external
+source, the shape mirrors `verify-gate.sh`'s own fail-closed/single-purpose design rather than
+copying an existing mechanism.

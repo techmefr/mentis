@@ -92,4 +92,6 @@ as a passing suite. `tdd`'s existing guardrail already forbade writing a weak te
 this is its sibling for the later moment, when a pre-existing (and correct) test gets edited instead of
 the code once it's inconvenient. Same rule stated for the build agents themselves (`code`'s own
 guardrails, and `neo`/`morpheus`/`trinity`'s), so it's caught before the diff, not only after it at
-`galadriel`.
+`galadriel`. A rule alone holds until it's inconvenient, so it's also mechanical now:
+`hooks/guard-test-changes.sh` blocks the edit at the tool layer when a pre-existing assertion
+disappears, the same "written instruction + hook" pairing as `gate`'s evidence rule.

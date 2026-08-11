@@ -4,10 +4,10 @@ set -euo pipefail
 repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
-echo "pre-push: running bin/test_scripts.py, bin/test_local.py, bin/test_hooks.py"
+echo "pre-push: running bin/test_scripts.py, bin/test_local.py, bin/test_hooks.py, bin/test_guard_test_changes.py"
 
 fail=0
-for suite in bin/test_scripts.py bin/test_local.py bin/test_hooks.py; do
+for suite in bin/test_scripts.py bin/test_local.py bin/test_hooks.py bin/test_guard_test_changes.py; do
   if ! python3 "$suite"; then
     fail=1
   fi
