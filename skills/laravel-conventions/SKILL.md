@@ -142,11 +142,13 @@ written or modified, during `code` (6) or `tdd` (5).
 
 ### 6. HTTP surface
 **Before applying this section's REST/resource-routing point, or an installed catalogue's stricter
-version of it (e.g. a mandatory REST package), check the project actually depends on that package**
-(`composer.json`/`composer.lock`) — a 5-verb controller shape with no such dependency is never enough
-on its own, and is exactly what an Inertia app's page controllers look like (no separate API, a
-controller returns a page and its props directly). See `skills/inertia-conventions` §4 before applying
-this section wholesale to that architecture.
+version of it (e.g. a mandatory REST package), check the specific controller** — what it returns, where
+it's routed — **not just whether the project depends on that package.** A project can genuinely run
+Inertia for its pages and a REST package for a separate real API surface at the same time; the package
+being installed doesn't make every 5-verb controller a REST endpoint, and an Inertia page controller
+(no separate API, a controller returns a page and its props directly) is exactly the shape this catches
+wrong if the check stops at the project level. See `skills/inertia-conventions` §4 before applying this
+section wholesale to that architecture.
 
 1. REST routes follow one consistent URI structure across the app, declared through the framework's resource
    routing rather than hand-rolled verb by verb.
