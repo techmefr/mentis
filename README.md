@@ -239,6 +239,15 @@ mechanism → I rewrite it in my single template → I credit the source in
 pipeline by changing their repo, and everything is written the same way (so
 it stays maintainable). Detail in [`CONVENTIONS.md`](./CONVENTIONS.md).
 
+## Public repo, protected branch
+
+This repo is public and `master` is protected: force pushes and branch
+deletion are disabled, and a pull request with at least one approval is
+required to merge — the one exception is the repo owner, who can still push
+directly (`enforce_admins` is off on purpose, matching the actual workflow
+this repo is maintained with). Anyone else proposing a change goes through a
+PR.
+
 ## Quickstart
 
 Every skill/agent is a self-contained markdown file (frontmatter + body), in
