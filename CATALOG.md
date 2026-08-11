@@ -167,7 +167,13 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | sales-support | sales | published discovery-before-solution practice and the estimate-versus-commitment distinction; the estimation rules mirror internal engineering practice (points, spikes, scope moves not the number) with nothing named | 🟡 (no internal sales expertise; pricing and contract terms deliberately out of scope under rule C) |
 | release-communication | communication | keep-a-changelog conventions + standard deprecation-notice practice; the three-bucket ordering by required action, and "anything fitting no bucket is internal noise", are ours | 🟡 (no internal technical-writing or comms expertise) |
 | incident-communication | communication | published status-page practice + blameless-postmortem culture; separating the communicator from the fixer, and "still investigating" counting as a real update, are the two rules we'd most want enforced | 🟡 (no internal incident-response expertise; escalation and on-call arrangements stay out under rule C) |
-| data-analytics | BI / data (new 2026-08-11) | `xefi-claude-skills` `bi/skills/contexte-xefi` + `bi/skills/main-tables`, a real BI team's reference material for a multi-instance SQL Server landscape (shared CRM, one database per business entity on an ERP instance, a referential instance, a views-only restitution instance) and its table usage guide; real instance/host names, entity counts and the ERP's real French table/column names left out under rule C | 🟡 (no internal data-engineering expertise; keeps the cross-instance-identifier trap, the crosswalk-table fix, usage-guide-vs-schema-dump split, and the `UNION ALL`-is-a-named-tradeoff point) |
+| data-analytics | BI / data (new 2026-08-11) | `xefi-claude-skills` `bi/skills/contexte-xefi` + `bi/skills/main-tables` (§1–§4: the multi-instance landscape, the cross-instance-identifier trap, the crosswalk-table fix, usage-guide-vs-schema-dump, `UNION ALL`-as-named-tradeoff — real instance/host names, entity counts and the ERP's real French table/column names left out under rule C); §3.3 layered modeling (staging/intermediate/mart) from established `dbt`-ecosystem analytics-engineering practice; §2.4 six-dimension data-quality vocabulary from DAMA-DMBOK; §5 KPI/dashboard discipline (decision test vs vanity metrics, single source of truth, glanceable KPI count) from published dashboard-design practice | 🟡 (no internal data-engineering expertise) |
+
+**First business-layer agent**: `oracle` (below, in the domain-agent table) reads a KPI/dashboard/
+analytics-query artefact against `data-analytics` — the business layer had 16 skills and no reader
+before it, unlike every dev-pipeline skill's stack reader (gimli/aragorn/…). It still never gates
+(business/README.md's weaker contract), so it sits in the agent roster rather than a business-only
+table.
 
 ### Domain agents (invoked by steps 8/10)
 | Agent | Role | Maturity |
@@ -192,6 +198,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | smith | dynamic adversarial probing (auth bypass, injection, IDOR) on an explicitly authorised running target, complements seraph's static audit, never edits | ✅ (written 2026-08-10, filling a real gap: nobody in the roster attempted a live exploit, only static audit and functional exploration; not dogfooded yet) |
 | architect | periodic architecture-debt audit (git hot-spots, deletion test, prioritised report) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: caught a real OSDD boundary leak and a dead access-control scope, applied the deletion test to correctly rule out two candidates) |
 | palantir | open-web research (advisories, fact-checking, market practice beyond training cutoff), sourced/dated answer, never edits | 🟢 (dogfooded 2026-08-07: cross-checked a Bun-runtime-evasion claim against 4 independent sources, surfaced a real interpretation split between them instead of flattening it) |
+| oracle | business-layer reader for a KPI/dashboard/analytics-query artefact against `business/data-analytics`, advisory notes only, never a gate (business/README.md's weaker contract) | ✅ (written 2026-08-11, the first business-layer agent — no internal BI expertise behind it, phrases thin-confidence findings as questions like `gimli`; not dogfooded yet) |
 
 ## 2. Sourcing backlog: ideas/agents to rewrite in order to complete/improve
 
