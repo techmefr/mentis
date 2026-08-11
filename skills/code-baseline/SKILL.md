@@ -1,6 +1,6 @@
 ---
 name: code-baseline
-description: Use when writing or reviewing code in any language, for the rules that hold regardless of stack, no comments, no god classes or bag-names, a file size ceiling with its exclusions, domain-specific exceptions instead of generic ones, every external API behind a client we own, parsed files wrapped in typed objects, distinct domain concepts as distinct types, no ticket references or AI attribution in the code, and the test obligations on new behaviour including diff coverage. Carries the scope stance every one of those rules depends on, new code only, legacy untouched unless asked.
+description: Use when writing or reviewing code in any language, for the rules that hold regardless of stack, no comments, no god classes or bag-names, a file size ceiling with its exclusions, domain-specific exceptions instead of generic ones, every external API behind a client we own, parsed files wrapped in typed objects, distinct domain concepts as distinct types, no ticket references or AI attribution in the code, the test obligations on new behaviour including diff coverage, and preferring the narrowest supported extension mechanism over copying or replacing a third party's file. Carries the scope stance every one of those rules depends on, new code only, legacy untouched unless asked.
 ---
 
 # code-baseline
@@ -202,6 +202,27 @@ testing package it points at.
    a behaviourless DTO or value object; an exception class that only carries a message; and the first commit
    in a brand-new repo, where the coverage tooling doesn't exist yet.
 
+### 7. Customising a third party
+1. **Changing a package's, framework's or generator's behaviour by copying and editing its file, or
+   replacing it outright, is the last resort — not the first move.** Narrowest first: a single config
+   key/flag, a documented config file, a documented file-override hook, a wholesale file replacement,
+   forking/patching the vendor code. Stop at the first tier that reaches the goal.
+2. **Investigate before overriding, every time**: identify the exact package and version, read its docs
+   for config keys/env vars/lifecycle hooks/extension points, and if the docs are thin, read the source
+   — how it loads user config, at which layer a default applies (build vs runtime, merge vs whole-file
+   replace). Skipping straight to "just replace the file" is usually a config key not yet found.
+3. **A whole-file override that only replaces part of the upstream file is a latent bug**: it silently
+   drops whatever else the package's default provided, surfacing far from the edit that caused it. A
+   whole-file replacement reproduces the upstream file faithfully and changes only what's needed.
+4. **When wholesale override genuinely is the answer** (confirmed from the docs or source that no
+   narrower hook exists), say so in the code or the PR — the sentence that proves the investigation
+   happened is what stops the next reader from re-deriving it, or reflexively "fixing" it back to a
+   config key that was already ruled out.
+5. **The tells that this rule was skipped**: copying a default/template file verbatim to change one
+   line; editing a file inside a package/dependency directory directly; a duplicated upstream template
+   that will drift the moment the package updates; reaching for "replace the whole thing" without having
+   checked for a config key first.
+
 ## Output / checkpoint
 No separate checkpoint: this is the floor `gate` (7) and `review` (8) check on every diff. A finding here is
 not a nit — each rule exists because its violation was expensive. What it owes at review: no new comment or
@@ -234,3 +255,11 @@ bodies added what mattered most and what a summary loses: **§0's scope stance**
 untouched, bundled versus drive-by cleanup, flag-don't-fix, and the user's local override — a coherent
 posture that appears in every one of those skills and that the descriptions never state), plus the exclusion
 lists, carve-outs and anti-pattern catalogues throughout. Stamped 2026-08-06.
+
+**§7 added 2026-08-11** from the same catalogue's `extend-dont-override`, a 15th skill added there after
+this block's original mining pass (confirmed absent from the "14 skills" counted above). Read directly
+from the installed plugin rather than from a description alone, since the source itself is short enough
+that the body is the whole rule: the preference order (config key → config file → override hook → whole-file
+replace → fork) and the "state why no narrower option worked" discipline are taken as-is and rewritten
+generically, with the source's Railpack/`php.ini` worked example left out (rule C — a specific vendor tool,
+not a mechanism worth naming here).
