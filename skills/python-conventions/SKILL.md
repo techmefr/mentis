@@ -15,6 +15,12 @@ is the authority on **its** house style — its framework, its internal support 
 versions — and overrides this block wherever the two differ. This block states the same rules with the
 internal names removed, so they apply to a project that has neither.
 
+**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
+report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
+broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
+real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
+no rule anywhere actually resolves the case — never as a general alarm.
+
 ## When
 As soon as Python code is written or modified, during `code` (6) or `tdd` (5).
 
