@@ -245,6 +245,11 @@ section wholesale to that architecture.
    rather than by hand. Where installed, it's the house override for point 1: don't hand-roll a `functional/`
    folder convention that competes with it. [`xefi/laravel-osdd`, github.com/xefi/laravel-osdd, read
    2026-08-10.]
+5. Where `laravel/boost` is present, install it with its agent skills (`--skills`), not the MCP server alone
+   — packages now ship their conventions as skills rather than guidelines, so a guidelines-only install
+   reaches nothing package-specific, including the concrete layout for point 4 that `xefi/laravel-osdd`
+   ships this way. Run interactively: a non-interactive first install silently drops every third-party
+   skill while still reporting success. [`laravel/boost`, github.com/laravel/boost, read 2026-08-11.]
 
 ## Output / checkpoint
 Code compliant with the sections above, formatter clean, and no new static-analysis finding introduced by the
@@ -278,6 +283,13 @@ company's own published open-source package, publicly readable outside the compa
 ships publicly (`CONVENTIONS.md` rule C). Confirms the same layer-package shape as the Nuxt-side convention
 referenced in `vue-nuxt-vuetify-conventions` §5.6: each domain a self-contained package with its own
 tests/migrations, not a shared folder.
+
+Section 10 point 5 (Boost's skill surface) added 2026-08-11, same rule-C carve-out as point 4: `laravel/boost`
+is Laravel's own first-party public package, not an internal fact. Sourced against the real, installed
+`xefi-claude-skills` `laravel` plugin (`boost` skill, rewritten 2026-08-11) after it stopped treating Boost
+as MCP-only — the point worth keeping here is narrow and durable (skills vs. guidelines as separate install
+surfaces, the non-interactive drop failure), not the plugin's own install-flow prose, which can drift.
+
 **Deepened 2026-08-06.** The first pass wrote this block from the catalogue skills' descriptions. This pass
 read the **bodies**, which is where the reasons, the exclusion lists, the carve-outs and the anti-pattern
 catalogues live — a description states the rule, a body states when it doesn't apply. What that added here: the full cost of a DB-level
