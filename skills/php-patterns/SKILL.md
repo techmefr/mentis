@@ -21,11 +21,20 @@ conventions apply on top of it, not instead of it.
 ## Steps
 
 ### 1. Typing: modern PHP (8.x) is no longer untyped PHP
-1. **`declare(strict_types=1)` as the first line of every PHP file.** Without it, a typed signature is
-   only half-enforced: PHP still coerces `"5"` to `5` or `0` to `false` across the call, and the type
+1. **`declare(strict_types=1)` as the first line of every PHP file** — on a framework-free file, or a
+   framework whose own boundary is already strictly typed. Without it, a typed signature is only
+   half-enforced: PHP still coerces `"5"` to `5` or `0` to `false` across the call, and the type
    declaration from point 2 documents a contract it doesn't actually check. This is the one PSR-12 rule
    that changes runtime behaviour rather than formatting, which is why it belongs here rather than
-   being left to Pint/PHP-CS-Fixer the way brace placement or line length are.
+   being left to Pint/PHP-CS-Fixer the way brace placement or line length are. **On Laravel specifically,
+   this default is overridden, not just "may be overridden"**: `laravel-conventions` sits above this block
+   for exactly this kind of conflict, and the framework boundary is the reason — request input, route
+   parameters and config values cross it as loose scalars by design (`$request->input('age')` is `"25"`,
+   not `25`), so `strict_types=1` turns Laravel's own coercion into a call-site `TypeError`, i.e. a 500 in a
+   path that worked before. Laravel's own `artisan make:*` stubs omit the declaration for that reason.
+   **Existing files that already declare it stay exactly as they are** — this is a default for new files,
+   never a drive-by removal — and a pure domain file with no framework-boundary calls (a value object, a
+   calculator) is still a reasonable place to opt in deliberately.
 2. Typed function/method signatures (parameters + return), including an explicit `void`/`?type`; an
    untyped parameter is a regression, not a neutral style in PHP 8+.
 3. `readonly` on properties that never change after construction (value objects, DTOs): prevents an
@@ -74,3 +83,15 @@ is why this block never restated it. One rule genuinely changes behaviour rather
 `declare(strict_types=1)` — and that one was a real gap, closed at §1.1. Everything else PSR-12 states
 (instantiation parentheses, `elseif` over `else if`, `// no break` comments) stays a formatter's job, not
 a hand-applied rule.
+
+**§1.1 corrected 2026-08-11**, cross-checked against the actual installed `xefi-claude-skills` `laravel`
+plugin (`laravel/skills/no-strict-types`) rather than a market source: the PSR-12 rule closed as a gap on
+2026-08-10 is exactly right at the language level, but the real, currently-installed house catalogue
+carries a **deliberate, dogfooded reversal** of it for Laravel specifically — Laravel's framework boundary
+relies on scalar coercion (route/request/config values arrive as loose strings), so `strict_types=1` turns
+that coercion into a runtime `TypeError` instead of catching anything static analysis (Larastan) doesn't
+already catch. This is the mechanism working as designed (`laravel-conventions` sits above this block
+precisely to override it where the two disagree), but until this pass the override existed only in
+principle — nothing here or in `laravel-conventions` named this specific, easy-to-miss conflict, so reading
+either block alone (without independently knowing the catalogue's rule) produced confidently wrong advice
+on the one stack this framework actually supports.
