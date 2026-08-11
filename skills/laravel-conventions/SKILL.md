@@ -23,11 +23,17 @@ written or modified, during `code` (6) or `tdd` (5).
 ### 1. Where behaviour lives
 1. **Keep models thin.** A model holds `$fillable`, `$casts`, relationships, simple scopes, trivial computed
    accessors over its own attributes, and lifecycle traits. Business logic, orchestration and anything
-   reaching another aggregate go in an action/service. A fat model is the class everything imports and nobody
-   can change.
+   reaching another aggregate go in an **action or query class** — never a generic `*Service`/`*Repository`
+   (`code-baseline`'s no-bag-name rule, §2 below). One class, one verb-plus-noun mission
+   (`RegisterUser`, `GetActiveSessionsForUser`), never a `UserManager`/`UserService` that accumulates
+   unrelated methods over time. A fat model is the class everything imports and nobody can change; a generic
+   service is the same failure one layer up.
 2. **Events + listeners, never model observers**, for reacting to lifecycle changes. An observer is invisible
    at the call site: something saves a row and unrelated code runs, with no trace in the flow being read.
-   Listeners are registered explicitly.
+   Listeners are registered explicitly. This includes the model's own `boot()`: a static `boot()` override
+   that registers lifecycle closures (`static::creating(...)`) is the same hidden-effect problem wearing the
+   framework's own clothes — the fix is the same listener registered in the `EventServiceProvider`, not a
+   closure moved into the model.
 3. Reusable cross-cutting model behaviour (historisation, auditing, snapshotting) goes in a trait the model
    **opts into**, shaped like the framework's own (`SoftDeletes`): the model declares what it tracks. A base
    class inherited by everything makes the behaviour mandatory and untestable in isolation.
@@ -151,7 +157,7 @@ written or modified, during `code` (6) or `tdd` (5).
 2. Third-party credentials and service settings live in config with an env-backed default, never inline in
    the class that calls the API.
 3. A console command declares an explicit signature and description; the class does the wiring, an
-   action/service does the work — a command whose `handle()` holds the logic can only be run from a terminal.
+   action class does the work — a command whose `handle()` holds the logic can only be run from a terminal.
 4. **Run the command rather than writing it out** for the user to copy, when a runtime is available. A
    command described but never executed is an untested claim (`WORKFLOW.md`, the default-is-failure
    guarantee).
@@ -264,3 +270,17 @@ anti-patterns. Stamped 2026-08-06.
 
 **Fills a real gap**: `php-patterns` covers the language and explicitly stopped at the framework boundary,
 leaving Laravel — the stack with the largest catalogue of the set — with no block at all on the mentis side.
+
+**§1.1/§1.2/§7.3 corrected 2026-08-11** against the real house doc (doc.stacktim.com, `/developer/nos-methodes`,
+read that date). §1.1 previously said business logic "goes in an action/service", which quietly allowed the
+exact `*Service`/`*Repository` bag-name `code-baseline` already forbids — an internal contradiction the real
+doc caught: it explicitly bans `UserManager`/`UserService`/`XxxRepository` and requires one verb-plus-noun
+action or query class per behaviour (`RegisterUser`, `GetActiveSessionsForUser`), with the reasoning that a
+repository over an ORM already abstracting persistence is a layer maintained for no benefit. §1.2 gained the
+explicit `boot()` prohibition (a lifecycle closure in `boot()` is the same hidden-effect problem as an
+Observer, moved one line over) — the source's own convention page states it as a **non-negotiable** rule,
+stronger than this block's existing generic phrasing. The source also names concrete required packages
+(`spatie/laravel-permission`, `-activitylog`, `-medialibrary`, `-translatable`, `-sluggable`, `tymon/jwt-auth`,
+Pulse, Telescope, Pint, Larastan) — left out here per rule C: those are the org's own package-list authority,
+already the domain of the installed `xefi-claude-skills` `laravel` plugin, not something to duplicate
+generically.
