@@ -52,32 +52,32 @@ checklist assembled from public sources, not professional advice, and each one s
 
 ## What's in here
 
-| Block | Function |
-|---|---|
-| `data-protection` | legal |
-| `licence-compliance` | legal |
-| `legal-documents` | legal |
-| `regulatory-watch` | legal |
-| `ux-writing` | UI/UX |
-| `interface-design` | UI/UX |
-| `product-marketing` | marketing |
-| `sales-support` | sales |
-| `release-communication` | communication |
-| `incident-communication` | communication |
-| `internal-communication` | communication |
-| `content-creation` | communication |
-| `community-management` | communication |
-| `product-ownership` | product |
-| `social-publishing` | communication |
-| `data-analytics` | BI / data |
-| `fintech-compliance` | legal / finance |
-| `people-ops` | HR |
-| `customer-success` | support / CS |
-| `finance-ops` | finance |
-| `vendor-management` | procurement |
-| `learning-development` | HR |
-| `sustainability-esg` | legal / comms |
-| `investor-relations` | finance |
+| Block | Function | When |
+|---|---|---|
+| `data-protection` | legal | a feature collects, stores, exports or shares personal data, or a new third party will receive it |
+| `licence-compliance` | legal | adding a dependency, vendoring code, or shipping something that bundles third-party code |
+| `legal-documents` | legal | before a first launch/public beta, charging, self-service signup, a new country, or a new subprocessor |
+| `regulatory-watch` | legal | before writing a regulatory obligation into a document, plan or estimate; periodically as an audit |
+| `ux-writing` | UI/UX | writing any text a user reads: labels, buttons, errors, empty states, emails |
+| `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded |
+| `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study |
+| `sales-support` | sales | engineering is pulled into a proposal, scoping call, demo, or RFP response |
+| `release-communication` | communication | a change ships that someone outside the team can notice |
+| `incident-communication` | communication | something user-visible is broken or degraded in production |
+| `internal-communication` | communication | announcing a decision, flagging a risk, asking for help, or handing off work |
+| `content-creation` | communication | producing content for a public channel, starting from work actually done |
+| `community-management` | communication | running the ongoing conversation on an account/community — replies, moderation, escalation |
+| `product-ownership` | product | deciding what gets built and in what order, or writing/reviewing a story |
+| `social-publishing` | communication | before publishing on any public social platform or account |
+| `data-analytics` | BI / data | working against real data for reporting, dashboards, KPIs, or cross-source extraction |
+| `fintech-compliance` | legal / finance | a feature touches payments, card data, a ledger, or onboards a user for a regulated financial service |
+| `people-ops` | HR | hiring, onboarding a new employee, or offboarding someone leaving |
+| `customer-success` | support / CS | setting up support triage/SLAs, or an ongoing account-health/churn process |
+| `finance-ops` | finance | setting up or reviewing expense approval, invoicing/receivables, or budgeting |
+| `vendor-management` | procurement | before signing/renewing a SaaS/vendor contract, or choosing between vendors |
+| `learning-development` | HR | proposing, choosing, or reviewing a training/upskilling program |
+| `sustainability-esg` | legal / comms | writing or reviewing a sustainability/ESG claim, report, or public commitment |
+| `investor-relations` | finance | preparing a fundraise data room, a board update, or responding to due diligence |
 
 ## Installing
 
