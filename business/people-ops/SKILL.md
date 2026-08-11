@@ -70,10 +70,29 @@ hire's first weeks, or someone (voluntarily or not) leaving the company.
    transfer, final pay/benefits administration) tied to the departure date — an offboarding checklist
    with no owner per line is a checklist nobody is actually accountable for finishing.
 
+### 4. Ongoing performance: continuous, not a once-a-year surprise
+1. **A once-a-year review graded mostly on the last few weeks is recency bias by construction.** The
+   fix isn't a better rating scale, it's not letting a whole review period go undocumented: regular
+   short check-ins (monthly or quarterly) with brief written notes create a real trail to grade against,
+   instead of reconstructing a year from memory the week the review is due.
+2. **Ground the review in something checkable** — stated goals from the last check-in, concrete
+   outcomes, peer/cross-functional input where the work is collaborative — rather than a single
+   manager's unaided impression. The goal is the same one `business/data-analytics` §5 states for a
+   KPI: a claim that survives being questioned later, not a vibe.
+3. **Calibrate across managers before ratings are final** for any process that compares people across
+   teams (a bonus pool, a promotion round): a short session comparing how different managers rated
+   similar work catches the manager who rates everyone a 4 and the one who never gives a 5, before that
+   inconsistency reaches the employee as an unexplained outcome.
+4. **State promotion/advancement criteria before the review that decides one**, not as a
+   post-hoc justification for a decision already made. An employee who doesn't know what a promotion
+   actually requires can't work toward it, and a criterion invented after the fact reads as exactly
+   that, whether or not it was.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: a scorecard per
 candidate tied to a stated competency list, a written 30/60/90 plan for a new hire with a manager
-actively engaged in it, and an offboarding checklist with access revoked on schedule, knowledge
+actively engaged in it, a documented trail of check-ins that a periodic review is graded against rather
+than the last few weeks alone, and an offboarding checklist with access revoked on schedule, knowledge
 captured during the notice period, and an owner per step.
 
 ## Guardrails
@@ -86,8 +105,10 @@ captured during the notice period, and an owner per step.
   to convenience.
 - Never treat knowledge transfer as something that happens automatically through documentation that
   already exists — if it wasn't written down before, it needs to be, during the notice period.
+- Never let a rating that compares people across teams go final without a calibration pass, and never
+  invent a promotion criterion after the decision it's meant to justify.
 - This block has no dedicated in-house HR expertise behind it yet: a solid set of structural defaults,
-  not proven doctrine, to be confronted with a real hiring/onboarding/offboarding cycle.
+  not proven doctrine, to be confronted with a real hiring/onboarding/offboarding/review cycle.
 
 ## Origin
 Assembled from public sources, written without internal HR expertise, same honesty posture as
@@ -98,4 +119,9 @@ comparing notes, documented job-related rationale): published hiring-bias-reduct
 research and guides. Offboarding staging (scheduled access revocation tied to departure type,
 privileged access revoked with general access, pre-revocation access audit, notice-period knowledge
 transfer into the team's normal documentation, owner-and-deadline per checklist step): published
-offboarding/IT-security checklists aimed at HR and security teams jointly. Stamped 2026-08-11.
+offboarding/IT-security checklists aimed at HR and security teams jointly. §4 (ongoing performance)
+added the same day from published continuous-feedback/recency-bias-mitigation and calibration-session
+practice — the once-a-year review's core failure mode (grading mostly on the last few weeks) and the
+fix (a documented trail of check-ins, cross-manager calibration before ratings are final, stated
+promotion criteria before the decision) are established performance-management guidance, not
+internally validated. Stamped 2026-08-11.
