@@ -169,11 +169,14 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | incident-communication | communication | published status-page practice + blameless-postmortem culture; separating the communicator from the fixer, and "still investigating" counting as a real update, are the two rules we'd most want enforced | 🟡 (no internal incident-response expertise; escalation and on-call arrangements stay out under rule C) |
 | data-analytics | BI / data (new 2026-08-11) | `xefi-claude-skills` `bi/skills/contexte-xefi` + `bi/skills/main-tables` (§1–§4: the multi-instance landscape, the cross-instance-identifier trap, the crosswalk-table fix, usage-guide-vs-schema-dump, `UNION ALL`-as-named-tradeoff — real instance/host names, entity counts and the ERP's real French table/column names left out under rule C); §3.3 layered modeling (staging/intermediate/mart) from established `dbt`-ecosystem analytics-engineering practice; §2.4 six-dimension data-quality vocabulary from DAMA-DMBOK; §5 KPI/dashboard discipline (decision test vs vanity metrics, single source of truth, glanceable KPI count) from published dashboard-design practice | 🟡 (no internal data-engineering expertise) |
 
+| fintech-compliance | legal / finance (new 2026-08-11) | published PCI DSS/tokenisation guidance (never let card data reach a server we control if a hosted-field/token alternative exists), published KYC/AML/sanctions-screening practice (onboarding + risk-driven re-screening, OFAC/UN/EU lists), published ledger-engineering writing aimed at engineers (Modern Treasury, TigerBeetle: append-only, no silent update/delete, balance as a derived read, atomic multi-entry posting), published Stripe-style payment-integration practice (idempotency keys on both the outgoing call and the incoming webhook, signature verification before trust, dedup by event id) | 🟡 (no internal fintech/compliance expertise; routes the regulatory calls, owns the engineering invariants — same posture as `data-protection`) |
+
 **First business-layer agent**: `oracle` (below, in the domain-agent table) reads a KPI/dashboard/
 analytics-query artefact against `data-analytics` — the business layer had 16 skills and no reader
 before it, unlike every dev-pipeline skill's stack reader (gimli/aragorn/…). It still never gates
 (business/README.md's weaker contract), so it sits in the agent roster rather than a business-only
-table.
+table. `fintech-compliance` gets no agent of its own, matching `data-protection`'s precedent: a routing
+checklist doesn't need a reader, only an artefact (a query, a dashboard) does.
 
 ### Domain agents (invoked by steps 8/10)
 | Agent | Role | Maturity |
