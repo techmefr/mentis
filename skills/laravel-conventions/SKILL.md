@@ -134,7 +134,11 @@ written or modified, during `code` (6) or `tdd` (5).
     is the exception, and it goes through translation.
 11. Whether new files declare strict types is a **project-wide decision applied uniformly**, and the
     framework's own scaffolding is the reference point: a codebase half strict and half not gets the downsides
-    of both.
+    of both. **The default for a new Laravel file is to omit `declare(strict_types=1)`, matching what
+    `artisan make:*` generates** — this overrides `php-patterns`' language-level default (see that block's
+    §1.1) precisely at this framework's boundary, where request/route/config values cross as loose scalars
+    on purpose. Leave an existing file's declaration exactly as it is either way; this is a default for new
+    files, not a retrofit.
 
 ### 6. HTTP surface
 1. REST routes follow one consistent URI structure across the app, declared through the framework's resource
