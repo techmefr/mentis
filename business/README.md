@@ -71,6 +71,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `social-publishing` | communication |
 | `data-analytics` | BI / data |
 | `fintech-compliance` | legal / finance |
+| `people-ops` | HR |
 
 ## Installing
 

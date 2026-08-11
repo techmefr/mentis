@@ -1,0 +1,101 @@
+---
+name: people-ops
+description: Use when hiring (writing a job posting, running interviews, deciding between candidates), onboarding a new employee, or offboarding someone leaving — the structure that keeps a hiring decision defensible, a new hire productive early, and a departure from leaking access or knowledge. Structured checklist, not employment-law advice: contracts, termination rules and discrimination law vary by jurisdiction and go to HR/legal, not here.
+---
+
+# people-ops
+
+Business layer (`business/README.md`). Same posture as `business/data-protection`: this is the
+engineering-adjacent structure around hiring/onboarding/offboarding, not the legal or contractual side
+of employment, which is jurisdiction-specific and goes to whoever owns HR/legal.
+
+**This is not employment-law advice.** Notice periods, termination rules, discrimination law, contract
+types — all jurisdiction-specific, all go to HR/legal. What this block owns: the structure that makes a
+hiring process fair and defensible, a new hire's first months productive, and an offboarding clean
+rather than a scramble.
+
+## When
+Writing a job posting, running or scoring interviews, choosing between final candidates, planning a new
+hire's first weeks, or someone (voluntarily or not) leaving the company.
+
+## Steps
+
+### 1. Hiring: structure before the first interview
+1. **Define the role's required competencies before writing the posting**, not while reading CVs — a
+   short list of what the job actually requires, derived from the real day-to-day work, not a wishlist
+   copied from a similar posting elsewhere.
+2. **The same questions, in the same order, for every candidate for a given round.** An unstructured
+   "just have a conversation" interview is where irrelevant impressions (does this person remind me of
+   someone, do we click) quietly outweigh job-relevant signal — structured interviews are measurably
+   better at predicting job performance, not just fairer on paper.
+3. **Score against a rubric tied to the competencies from step 1**, not a gut "yes/no" after the call.
+   A scorecard filled in by each interviewer independently, before comparing notes, catches a lot that a
+   group discussion starting from "so, what did everyone think?" doesn't.
+4. **Document why a candidate was passed over or advanced**, tied to the rubric. Not for ceremony — it's
+   what lets a hiring decision be explained later, to the candidate or otherwise, as job-related rather
+   than a vibe.
+5. **Involve more than one interviewer on any decision that ends a candidate's process**, and calibrate
+   interviewers on how to score before they run real interviews — an untrained scorer reverts to gut
+   feel with extra paperwork around it.
+
+### 2. Onboarding: the first 90 days have a plan
+1. **A new hire gets a written plan before day one**, broken into phases: the first 30 days is about
+   context (how the company/team actually works, who the key relationships are, the tools), the next 30
+   about starting to contribute on real but bounded work, the last 30 about executing more
+   independently. The exact split is less important than having *a* plan instead of "figure it out as
+   you go."
+2. **The manager owns onboarding, not HR handing over a checklist.** A new hire whose manager is
+   actively involved in the first weeks — regular 1:1s, explicit check-ins at the 30/60/90 marks — settles
+   in measurably faster than one left to self-serve through a wiki.
+3. **Set a small number of concrete goals per phase**, not a vague "get up to speed." A goal that's
+   checkable ("ship this bounded change," "own this recurring meeting") gives both sides a real signal
+   at the 30/60/90 review instead of an impression.
+4. **A remote or distributed new hire needs the relationship-building made explicit** — scheduled
+   1:1s with people outside their immediate team, not just their manager — because the hallway
+   conversations that would otherwise build those connections don't happen on their own.
+
+### 3. Offboarding: clean exit, no leaks
+1. **Access revocation is scheduled from the moment a departure is known, not improvised on the last
+   day.** For an involuntary departure, access is cut immediately; for a voluntary one, within hours of
+   the final working day — and privileged/admin access is revoked at the same time as general access,
+   never left for "later, when someone gets to it."
+2. **Audit what the departing person actually had access to before revoking it**, including any shared
+   credential they held — a shared account nobody rotates after someone leaves is a lingering access
+   nobody remembers granting.
+3. **Knowledge transfer happens during the notice period, not retroactively reconstructed after they're
+   gone.** A short written handover — the processes only they ran, the contacts only they had, the
+   decisions only they'd remember the reasoning for — captured in the team's normal documentation
+   location, not a one-off email that gets lost.
+4. **Assign an owner and a deadline to each offboarding step** (access, hardware return, knowledge
+   transfer, final pay/benefits administration) tied to the departure date — an offboarding checklist
+   with no owner per line is a checklist nobody is actually accountable for finishing.
+
+## Output / checkpoint
+No pipeline checkpoint (business layer, see `business/README.md`). What it owes: a scorecard per
+candidate tied to a stated competency list, a written 30/60/90 plan for a new hire with a manager
+actively engaged in it, and an offboarding checklist with access revoked on schedule, knowledge
+captured during the notice period, and an owner per step.
+
+## Guardrails
+- Never decide a termination's legality, a notice period, or how a specific jurisdiction's labour law
+  applies — that goes to HR/legal, the same way `business/data-protection` routes a lawful-basis
+  question.
+- Never run an unstructured, ad hoc interview process for a role that has a structured one defined —
+  consistency across candidates is what makes the process defensible.
+- Never leave access revocation until "whenever IT gets to it" — schedule it to the departure date, not
+  to convenience.
+- Never treat knowledge transfer as something that happens automatically through documentation that
+  already exists — if it wasn't written down before, it needs to be, during the notice period.
+- This block has no dedicated in-house HR expertise behind it yet: a solid set of structural defaults,
+  not proven doctrine, to be confronted with a real hiring/onboarding/offboarding cycle.
+
+## Origin
+Assembled from public sources, written without internal HR expertise, same honesty posture as
+`business/data-protection`. Structured-interview and scorecard practice (defined competencies before
+writing the posting, same questions in the same order, independent scoring against a rubric before
+comparing notes, documented job-related rationale): published hiring-bias-reduction guidance. The
+30-60-90-day onboarding structure and the manager-engagement finding: published onboarding-practice
+research and guides. Offboarding staging (scheduled access revocation tied to departure type,
+privileged access revoked with general access, pre-revocation access audit, notice-period knowledge
+transfer into the team's normal documentation, owner-and-deadline per checklist step): published
+offboarding/IT-security checklists aimed at HR and security teams jointly. Stamped 2026-08-11.
