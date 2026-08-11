@@ -44,8 +44,8 @@ source `maintaining-blocks` §4 exists to catch. `go-conventions` and `java-conv
 and are untouched.
 
 **Same audit, applied to the `test-casebook` family** (MIT, `techmefr/*`, ours — `test-casebook` 1.1.0 for
-the frontend, `test-casebook-back-js` 0.10.0 and `test-casebook-back-php` 0.14.0 for the backends, all three
-on npm as of 2026-08-06): it ships the testing
+the frontend, `test-casebook-back-js` 1.0.0 and `test-casebook-back-php` 1.0.0 for the backends, all three
+on npm as of 2026-08-11): it ships the testing
 doctrine *and* its executing agents (`test-writer`, `test-reviewer`) plus a plan-before-tests `PreToolUse`
 hook. Resolution: **the package is the authority where installed** — `tdd` defers to it and `dozer` hands
 over to `test-writer`, keeping only the default-FAIL contract, which must hold in a repo with nothing
