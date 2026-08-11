@@ -141,6 +141,10 @@ written or modified, during `code` (6) or `tdd` (5).
     files, not a retrofit.
 
 ### 6. HTTP surface
+**On a Laravel + Inertia.js app (no separate API, a controller returns a page and its props directly),
+this section's REST/lomkit assumptions don't hold — see `skills/inertia-conventions` §4 before applying
+it wholesale.**
+
 1. REST routes follow one consistent URI structure across the app, declared through the framework's resource
    routing rather than hand-rolled verb by verb.
 2. Standard CRUD on a model is declared through the resource/REST mechanism the project standardises on — a

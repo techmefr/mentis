@@ -15,6 +15,11 @@ generic default. Two house conventions in particular genuinely split across real
 `interface` for object shapes, and where tests live — and this block says "pick one and apply it uniformly"
 rather than pretending there's a universal answer.
 
+**On a Laravel + Inertia.js app with React pages, there is no Next.js runtime** (no App Router, no
+Next data fetching) — a page there is a plain component wired by Inertia. This block's Next-specific
+sections don't have an equivalent in that architecture; see `skills/inertia-conventions` §4 before
+flagging an Inertia repo against them.
+
 ## When
 As soon as a `.tsx` component, a Next.js route, a hook, a store slice or a query hook is written or modified,
 during `code` (6) or `tdd` (5).

@@ -15,6 +15,11 @@ layout — and it overrides this block on any point where the two differ. This b
 not a competitor: it states the rule and the reason, so an agent can apply it on a project that has no
 catalogue at all, and can recognise a house override as an override rather than as a contradiction.
 
+**On a Laravel + Inertia.js app, there is no Nuxt runtime** (no Nuxt routing/auto-imports/`useFetch`/SSR
+server) — a Vue page there is a plain SFC wired by Inertia, not a Nuxt page. This block's Nuxt-specific
+sections don't have an equivalent in that architecture; see `skills/inertia-conventions` §4 before
+flagging an Inertia repo against them.
+
 ## When
 As soon as a `.vue` component, a Nuxt page, a composable, a store or a server route is written or modified,
 during `code` (6) or `tdd` (5).
