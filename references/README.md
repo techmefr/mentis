@@ -59,11 +59,11 @@
 Three sibling packages, one method, split by what the tests actually drive — a project installs the one
 that matches its stack, and nothing forces a project to install more than one:
 
-| Package | Covers | npm (2026-08-06) |
+| Package | Covers | npm (2026-08-11) |
 |---|---|---|
 | `test-casebook` | frontend/DOM (Nuxt, React, Vue, Svelte, Astro, Laravel/Livewire) | 1.1.0 |
-| `test-casebook-back-js` | Node/TypeScript backends (NestJS, Adonis, Express, Fastify, Hapi, Koa, tRPC, GraphQL) | 0.10.0 |
-| `test-casebook-back-php` | PHP backends (Laravel/Lomkit, Symfony, Slim, Mezzio, CodeIgniter 4) | 0.14.0 |
+| `test-casebook-back-js` | Node/TypeScript backends (NestJS, Adonis, Express, Fastify, Hapi, Koa, tRPC, GraphQL) | 1.0.0 |
+| `test-casebook-back-php` | PHP backends (Laravel/Lomkit, Symfony, Slim, Mezzio, CodeIgniter 4) | 1.0.0 |
 
 The PHP one publishes on **npm, not Packagist**: what it distributes is a doctrine plus a Claude Code
 skill, never autoloaded PHP, so there is no service provider to provide. Its `npx` entry point is a Node
