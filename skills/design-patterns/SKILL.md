@@ -22,6 +22,12 @@ This block owns **whether to reach for one at all**, plus the entry conditions b
 a given pattern is now earned. Where such a catalogue is installed, follow its shape and this block's
 threshold.
 
+**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
+report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
+broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
+real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
+no rule anywhere actually resolves the case — never as a general alarm.
+
 ## When
 When about to introduce a pattern by name; when a design discussion produces one as an answer; when
 reviewing code that names one; when the same shape has appeared for the third time and needs a name.

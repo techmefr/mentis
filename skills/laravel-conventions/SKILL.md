@@ -14,6 +14,13 @@ is the authority on **its** house style — its approved package list, its archi
 broadcaster, its MCP tooling — and overrides this block wherever the two differ. The rules below are the
 generic form, with the internal package and product names removed (rule C).
 
+**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
+report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
+broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
+real project to get abandoned and restarted over nothing (the Inertia/REST-package case in §6 and
+`skills/inertia-conventions` is exactly that: a resolved case, not a real disagreement). Surface it as a
+specific, named question only when no rule anywhere actually resolves the case — never as a general alarm.
+
 ## When
 As soon as a controller, model, migration, job, listener, policy, FormRequest, command, seeder or factory is
 written or modified, during `code` (6) or `tdd` (5).

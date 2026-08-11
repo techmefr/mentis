@@ -15,6 +15,12 @@ generic default. Two house conventions in particular genuinely split across real
 `interface` for object shapes, and where tests live — and this block says "pick one and apply it uniformly"
 rather than pretending there's a universal answer.
 
+**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
+report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
+broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
+real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
+no rule anywhere actually resolves the case — never as a general alarm.
+
 **On a Laravel + Inertia.js app with React pages, there is no Next.js runtime** (no App Router, no
 Next data fetching) — a page there is a plain component wired by Inertia. This block's Next-specific
 sections don't have an equivalent in that architecture; see `skills/inertia-conventions` §4 before
