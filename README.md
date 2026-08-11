@@ -29,7 +29,7 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-10: **59 skills**, **15 business blocks**, **24 agents**, **3 hooks** (the
+At a glance, as of 2026-08-11: **59 skills**, **16 business blocks**, **25 agents**, **3 hooks** (the
 default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
 
