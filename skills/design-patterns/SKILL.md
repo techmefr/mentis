@@ -88,7 +88,7 @@ Not a rejection of the catalogue — the cases that hold up in our stacks:
    wizard's back button, a draft auto-saved before an edit, an optimistic UI update rolled back on a
    failed save. Without that explicit requirement, don't snapshot state "just in case".
 
-### 4. The four with a concrete entry condition
+### 4. The ones with a concrete entry condition
 For these, the trigger is mechanical enough to state — which is what makes them reviewable rather than a
 matter of taste. Each still passes §1's second-real-case threshold first.
 
@@ -114,7 +114,29 @@ matter of taste. Each still passes §1's second-real-case threshold first.
    (`::fromX`, a `from_x` classmethod) when there are several distinct valid ways to build the thing, a
    **readonly class / dataclass / validated model** when it's really a value, and a **fluent builder** only
    when construction genuinely has many optional parts. Reach for the builder last: it's the most code and
-   the least type safety of the four.
+   the least type safety of the four. Decide it **while the signature is being written** — reworking an
+   existing wide constructor unprompted is `simplify`'s territory, not this one's.
+5. **Value Object** — a domain value travels as a bare primitive: money as a float, an amount and a
+   currency as two separate parameters nothing keeps together, the same email/phone/IBAN shape validated at
+   2+ call sites, a start/end pair nothing keeps ordered, or raw ids from different tables passed
+   interchangeably because they're all just integers. Wrap it in a small immutable value object that
+   enforces its invariant **once**, in its constructor, instead of at every call site that touches it. Money
+   is never a float — that one is close to a hard rule, not a judgment call.
+6. **Pipeline** — one payload passes through an **ordered sequence of independent steps that keeps
+   growing** (import, ETL, validation-then-enrichment, checkout) — model each step as a named stage class
+   behind one interface, with an explicit ordered list, before the third step lands. The mechanical
+   counter-trigger matters as much as the trigger: a **fixed** three-step sequence that will never grow is
+   three named method calls in order, not a Pipeline — the abstraction has to earn its indirection against a
+   growing list, or it's ceremony around three lines. Refactoring an existing god-method into one is
+   `simplify`'s territory, not a drive-by here.
+7. **Transaction boundaries** — a single business operation performs **two or more writes that must succeed
+   or fail together** (create a parent then its children, decrement stock after creating an order,
+   multi-model writes in one action). One explicit transaction wraps **all** of that operation's writes, and
+   the boundary sits on the action/use-case — never on the model, never on the controller. Side effects that
+   aren't the database (mail, an outbound HTTP call, a queue dispatch, a broadcast event) move **outside**
+   the transaction and fire only after commit — inside it, a slow vendor call holds the lock, and a
+   rolled-back transaction can't un-send an email. Not for a read-only path, a single atomic statement, or
+   code that's already inside a caller's transaction.
 
 ### 5. If you use the name, use it correctly
 1. **A misnamed pattern is worse than an unnamed structure.** "Factory" on something that isn't one
@@ -144,12 +166,16 @@ The catalogue itself is the classic Gang of Four set as published on the widely 
 Its catalogue pages describe when each pattern applies and carry **no caution about overuse**, which is
 the gap this block exists to fill: taken at face value, a catalogue is read as a menu.
 
-Section 4's entry conditions come from **an org skill catalogue's four per-pattern skills** (state, strategy,
-null object, object construction), extracted and rewritten generically: their triggers are precise and
-worth owning here, while their language-specific implementation references stay with them (rule C — nothing
-naming an internal library or project crossed over). Where that catalogue is installed it remains the
-authority on the shape; this block keeps the decision and the trigger, which a skill about a pattern can't
-cover, since it assumes you've already decided to use it.
+Section 4's entry conditions come from **an org skill catalogue's per-pattern skills** (state, strategy,
+null object, object construction, and — added 2026-08-11 from the same catalogue's `design-patterns` plugin,
+read directly from its installed clone — value-object, pipeline, transaction-boundaries), extracted and
+rewritten generically: their triggers are precise and worth owning here, while their language-specific
+implementation references stay with them (rule C — nothing naming an internal library or project crossed
+over). Where that catalogue is installed it remains the authority on the shape; this block keeps the
+decision and the trigger, which a skill about a pattern can't cover, since it assumes you've already decided
+to use it. The three added points aren't classic GoF (the catalogue audited in the 2026-08-10 pass below is
+deliberately just the 22), which is exactly why they weren't already here — they're real, recurring shapes
+this file had no verdict on at all, not a gap in the GoF coverage pass.
 
 What's ours: recognise-don't-apply with the second-real-case threshold, the framework-already-does-it
 subtraction pass (which is where most of the catalogue goes in our stacks), Adapter/Facade justified by

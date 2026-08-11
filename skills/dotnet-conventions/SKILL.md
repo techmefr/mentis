@@ -43,8 +43,17 @@ As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
    not a placeholder to make a signature compile.
 
 ### 2. Dependencies and logging
-1. Dependencies injected **through the constructor**, as `private readonly` interface fields. A primary
-   constructor is an acceptable alternative form of the same rule.
+1. Dependencies injected **through the constructor**, as `private readonly` interface fields, written as an
+   **explicit constructor** — not a primary constructor on the class header. The two look like the same
+   feature but aren't: a primary-constructor parameter carries no `readonly` modifier at all and stays
+   assignable from any member the moment something reads it, and there's no constructor body for a
+   multi-statement guard or a computed field. (This is the opposite conclusion from PHP's constructor
+   property promotion, which *is* mandatory there — a promoted PHP parameter carries `private readonly` in
+   the signature itself, so it's the full property declaration; a C# header parameter carries neither.)
+   **Where primary constructors stay**: `record`/`record struct` (their parameters become public init-only
+   properties, not a hidden mutable capture field — the objection doesn't apply), a plain `struct`, test
+   fixtures, and generated/scaffolded code. Existing primary constructors in older files stay; a new class
+   follows this rule regardless of what sits next to it.
 2. **Never the Service Locator** (`IServiceProvider.GetService`/`GetRequiredService`) inside a class doing
    work: it hides the dependency from the constructor, so nothing fails at composition time and everything
    fails at runtime.
@@ -97,6 +106,19 @@ As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
 10. Every member starts at the **most restrictive** access modifier that works (default `private`) and is
     widened one rung only when a real caller requires it. Widening a member so a test can call it is a design
     smell: test it through its public surface.
+11. **Every new concrete class is `sealed` by default.** Inheritance is an explicit design decision made
+    once, not a default left open "in case" — polymorphism runs through an interface, and a base class
+    meant to be extended says so by being unsealed on purpose, not by omission.
+12. **A data-carrying type (DTO, wire payload, command/query payload, value object) defaults to a `sealed`
+    positional record**, or a `readonly record struct` for a small value type — value equality and
+    immutability come from the language instead of a hand-rolled `Equals`/`GetHashCode`/mutable setters. This
+    is also where a primary constructor is the right tool (point 1's carve-out): a record's parameters become
+    public init-only properties, not a hidden mutable field.
+13. **File-scoped namespaces** (`namespace Foo;` on its own line) on every new file, never the braced wrapper
+    — one indentation level saved on every type in the file, for no loss of information.
+14. **No `#region`.** It's unenforced structure nothing checks — a region can silently stop matching what's
+    actually inside it after a few edits, and it invites cramming unrelated things under one folded heading
+    instead of splitting the file. Split into a smaller type instead of folding it.
 
 ### 5. Disposal, nullability, enumeration
 1. An `IDisposable` created locally is disposed on **every** path, exception paths included
