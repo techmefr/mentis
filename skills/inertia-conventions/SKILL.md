@@ -102,6 +102,10 @@ As soon as an Inertia page component, a controller returning `Inertia::render(..
    This resolves the case a purely project-level dependency check gets wrong: a project using **both**
    Inertia for its pages and a REST package for a separate, real API surface — the mandate still governs
    that real API, it just never reaches the page controllers.
+7. **This whole section resolves the case, so apply it and keep going — don't tell a non-technical
+   stakeholder "there's a conflict between mentis and the house rules."** That framing reads as broken,
+   and a CdP with no way to judge it themselves has already responded to exactly that framing by
+   deleting the whole setup and starting over. There's a resolution stated above; use it silently.
 
 ### 5. Tests
 1. **A feature test for an Inertia route asserts the page component name and its props**, not a JSON
