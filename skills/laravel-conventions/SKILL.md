@@ -141,9 +141,12 @@ written or modified, during `code` (6) or `tdd` (5).
     files, not a retrofit.
 
 ### 6. HTTP surface
-**On a Laravel + Inertia.js app (no separate API, a controller returns a page and its props directly),
-this section's REST/lomkit assumptions don't hold — see `skills/inertia-conventions` §4 before applying
-it wholesale.**
+**Before applying this section's REST/resource-routing point, or an installed catalogue's stricter
+version of it (e.g. a mandatory REST package), check the project actually depends on that package**
+(`composer.json`/`composer.lock`) — a 5-verb controller shape with no such dependency is never enough
+on its own, and is exactly what an Inertia app's page controllers look like (no separate API, a
+controller returns a page and its props directly). See `skills/inertia-conventions` §4 before applying
+this section wholesale to that architecture.
 
 1. REST routes follow one consistent URI structure across the app, declared through the framework's resource
    routing rather than hand-rolled verb by verb.

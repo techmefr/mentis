@@ -81,6 +81,16 @@ As soon as an Inertia page component, a controller returning `Inertia::render(..
    Nuxt/Next conventions," that's this conflict surfacing** — point them here rather than adding either
    layer on top of Inertia; a Laravel+Inertia app doesn't need a REST API or a meta-framework runtime
    to be conventional, it needs Inertia's own conventions applied consistently.
+5. **Before applying any "CRUD goes through the REST package" mandate — this repo's or an installed
+   house catalogue's — check whether the project actually depends on that package at all**
+   (`lomkit/laravel-rest-api` in `composer.json`/`composer.lock`, or whatever the mandate names). No
+   dependency, no mandate: a 5-verb method shape alone never triggers it. This is a simpler and more
+   robust test than reasoning about the controller's intent case by case — it resolves the Inertia case
+   in §4's earlier points, and generalises to any other Laravel app that doesn't route CRUD through that
+   package (a plain API with no REST package installed, an admin panel built on a different toolkit),
+   without needing a named carve-out per architecture. Where the dependency **is** present, the mandate
+   still applies to the project's actual REST endpoints — this check only stops it from being forced onto
+   something that was never a REST endpoint to begin with.
 
 ### 5. Tests
 1. **A feature test for an Inertia route asserts the page component name and its props**, not a JSON
@@ -98,8 +108,9 @@ Nuxt/Next-runtime or REST/lomkit expectation applied where §4 says it doesn't h
 ## Guardrails
 - Never add a JSON API endpoint whose only purpose is feeding data a controller could pass directly as
   Inertia props.
-- Never apply `laravel-conventions` §6's REST-resource/lomkit guidance to an Inertia page's own data —
-  that section is for an actual API backend, which an Inertia app isn't.
+- Never apply `laravel-conventions` §6's REST-resource/lomkit guidance — or an installed org catalogue's
+  equivalent mandate — to a controller before checking the project actually depends on that package
+  (§4.5). A method-name match alone is never the trigger.
 - Never treat a missing Nuxt/Next-specific pattern (file routing, `useFetch`, the App Router) as a defect
   in an Inertia repo — there's no meta-framework runtime there to begin with.
 - Never hand-roll form submission/error-display state where `useForm` already does the job.
@@ -115,6 +126,10 @@ reusing the submission's own FormRequest rules). §4 (the override table against
 the Nuxt/Next-specific blocks) is ours: written after a real conflict surfaced where an Inertia repo was
 reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture — no
 existing skill named the boundary, in this repo or in the installed `xefi-claude-skills` marketplace
-(`laravel`/`nuxt` plugins), which don't cover Inertia either. No dedicated in-house Inertia production
-experience yet: a solid base from the framework's own documentation, not proven doctrine. Stamped
-2026-08-11.
+(`laravel`/`nuxt` plugins), which don't cover Inertia either. §4.5's dependency-check test (no
+`lomkit/laravel-rest-api` in `composer.json`/`composer.lock`, no mandate — checked before reasoning
+about architecture case by case) replaced an earlier, narrower version of this point that argued from
+the controller's intent; the dependency check is simpler, catches the same Inertia case, and also
+covers any other Laravel app that never installed the package, which the intent-based version didn't
+name. No dedicated in-house Inertia production experience yet: a solid base from the framework's own
+documentation, not proven doctrine. Stamped 2026-08-11.
