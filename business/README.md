@@ -69,6 +69,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `community-management` | communication |
 | `product-ownership` | product |
 | `social-publishing` | communication |
+| `data-analytics` | BI / data |
 
 ## Installing
 
