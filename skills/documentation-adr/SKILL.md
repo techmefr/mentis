@@ -12,6 +12,15 @@ expensive to undo: not for documenting every minor choice.
 After `archi` (3), as soon as a structural decision is taken (choice of a technology, of a
 migration pattern, of a boundary between modules): never for a local, easily reversible choice.
 
+**An ADR is not written unprompted.** A significant decision is *proposed* as an ADR — its six
+fields, in the chat reply or the PR description — never *committed as a new file* on your own
+initiative. Writing the file is triggered by one of: the user explicitly asks for it; the project
+already has an established ADR practice (an existing `docs/adr/`-shaped folder, or a house
+convention naming one); or the user accepts the proposal. A repo with a documentation policy that
+treats an unsolicited doc file as a defect (`no-project-docs`-shaped: code and commit/PR messages
+carry the explanation, not a prose file nobody asked for) is the default case to assume absent a
+signal otherwise, not the exception.
+
 ## Steps
 
 ### 1. Tell the three types of documentation apart
@@ -50,13 +59,16 @@ migration pattern, of a boundary between modules): never for a local, easily rev
    names the one it's keeping.
 
 ## Output / checkpoint
-An ADR file created for every significant decision from the `archi` step, with the six fields
-filled in: never a field left empty "to go faster".
+Every significant decision from the `archi` step has its six fields **proposed**, in chat or the PR
+description; an ADR **file** exists only where writing one was actually triggered (see `## When`),
+and where it does, never a field left empty "to go faster".
 
 ## Guardrails
 Don't write an ADR for a trivial/reversible choice: reserved for decisions that are expensive to
-undo. Stay publishable (rule C): an ADR contains no secret and no client name, only the technical
-decision.
+undo. **Don't create the file on your own initiative** — propose it, and let an explicit ask, an
+existing ADR folder, or acceptance of the proposal be what actually creates it; a repo's own
+no-unsolicited-docs policy, where one exists, wins over this block's default. Stay publishable
+(rule C): an ADR contains no secret and no client name, only the technical decision.
 
 ## Origin
 Rewrite of the `documentation-and-adrs` skill from a market generalist dev skill catalogue; the ADR
@@ -65,3 +77,12 @@ the mentis template. Section 4 comes from a `preserving-productive-tensions` ski
 repository: the idea that some tensions are load-bearing and shouldn't be resolved is real, but as a
 standalone block it had nowhere to attach, so it's reduced here to the one place it changes behaviour —
 a `simplify` pass about to collapse a trade-off somebody chose.
+
+**"When" and the Output/Guardrails corrected 2026-08-11** against the real, installed
+`xefi-claude-skills` `global` plugin (`no-project-docs`), read directly: "An architecture decision
+record is not automatically an exception. If the user wants one, write it; do not volunteer it."
+This block's original phrasing ("as soon as a structural decision is taken... an ADR file created")
+had the agent spontaneously committing a new doc file the moment a decision qualified — exactly the
+shape of unsolicited documentation the real house policy exists to refuse. The six-field template
+and the never-delete-supersede rule are unaffected: they govern what a *written* ADR looks like,
+not whether one gets written without being asked.
