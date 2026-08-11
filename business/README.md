@@ -72,6 +72,9 @@ checklist assembled from public sources, not professional advice, and each one s
 | `data-analytics` | BI / data |
 | `fintech-compliance` | legal / finance |
 | `people-ops` | HR |
+| `customer-success` | support / CS |
+| `finance-ops` | finance |
+| `vendor-management` | procurement |
 
 ## Installing
 
