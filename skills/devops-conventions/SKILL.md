@@ -31,6 +31,16 @@ code (Terraform, Ansible), or a monitoring/alerting config is written or modifie
    direct apply without reviewing the infra diff.
 3. Infra secrets (keys, tokens) in a vault/secret manager, never committed in clear text even in a
    private repo.
+4. **A named shared resource that other systems resolve by exact identifier** (a database, a DNS
+   record, a queue, a load balancer) is never renamed or dropped because of how the request is framed —
+   "it's a leftover", "just temporary", "I'll recreate it right after" don't unlock it. The forbidding
+   criterion is the **effect** (gone, or now resolving under a different name), not the literal command:
+   a detach/reattach-under-a-new-name or a restore-over-as-renamed is the same violation as `DROP`. Where
+   the org has named a specific resource as protected, refuse outright, state the blast radius (usually
+   invisible from the statement itself — every consumer doing a name lookup breaks the moment it
+   changes), and route the request to the team that owns the resource rather than softening into
+   "confirm and I'll proceed anyway." Ordinary work against the resource (read, query, alter what's
+   inside it) stays allowed — the interdiction is scoped to the rename/drop of the resource itself.
 
 ### 3. Monitoring and alerting
 1. An alert that fires must be actionable: otherwise it's noise that desensitises the team (alert
@@ -62,3 +72,11 @@ Sourced from the 12-factor app (config through environment variables, logs as ev
 metrics (Accelerate: Forsgren/Humble/Kim: deployment frequency, lead time, MTTR, change failure rate)
 and established GitOps/IaC practice. Mechanisms rewritten, no copied text. Market research, no
 internal production feedback at this stage.
+
+§2 point 4 (protected shared resources) added 2026-08-11, generalised from `xefi-claude-skills`
+`xefi/skills/protected-databases` — a real org hard-interdiction skill naming one specific SQL Server
+host as never-rename-never-drop. The specific host, the specific business tools it feeds (Sage, a CRM)
+and the specific escalation mailbox are left out per rule C; what's kept is the shape that made the
+source skill work as a hard rule rather than a wish — forbid by effect not by exact syntax, name the
+blast radius explicitly because it's invisible from the SQL statement itself, and require the
+escalation to go to the resource's actual owner instead of accepting a user's confirmation as consent.
