@@ -43,7 +43,11 @@ Fixing the origin removes this bug. Adding checks along the path removes the nex
 3. **Guard the context** where the consequence was severe: an operation that must never run outside a
    sandbox refuses to, rather than trusting the caller.
 4. **Add or adjust the test that captures the case** — at the origin, not at the symptom, or it'll pass
-   again the day the path changes.
+   again the day the path changes. "Adjust" means adding the case the origin fix actually introduces,
+   never loosening, deleting or retargeting an assertion that already existed before this bug was
+   found: a pre-existing test going from red to green because the implementation changed is the goal, the
+   same test going green because its expectation moved to match the broken output is the regression this
+   whole block exists to prevent — see the sharper statement of the same rule below.
 5. Validate **where data crosses a boundary**, not inside every function: a check in every frame is
    noise, and noise gets deleted wholesale later.
 
@@ -62,6 +66,14 @@ explains the symptom — not just a diff that makes the error stop.
 - **Never make an error quieter to make it stop**: a swallowed exception, a widened type, a removed
   assertion. Same bug, now undetectable.
 - A fix with no test capturing the case is a fix that comes back.
+- **A pre-existing test that fails is a verdict on the implementation, not on the test.** The fix goes
+  in the code being debugged. Editing the failing test itself is legitimate only to add the new case a
+  genuine spec change introduced — never to loosen, delete, comment out, or change an existing
+  assertion's expected value so it matches what the code currently does: that specific move is how a
+  regression ships behind a green suite, silently, which is exactly the failure mode `gate`/`galadriel`
+  exist to catch and this rule exists to prevent from reaching them in the first place. If the test is
+  genuinely wrong (the spec changed, the case it captures no longer applies), that's a decision to
+  surface explicitly and route back through `tdd`/`dozer`, never a silent edit inside this loop.
 
 ## Origin
 Native / internal `systematic-debugging`, rewritten. Sections 2 and 3 are rewrites of
@@ -72,3 +84,12 @@ stack-capture instrumentation and the layered-validation model are theirs, and t
 The "validate at boundaries, not in every frame" limit and the three-failed-hypotheses stop rule are
 ours; the source is deliberately silent on over-validation, and unqualified layering would collide
 with our standing preference for less logic to maintain.
+
+The explicit no-test-tampering rule (§3.4, Guardrails) added 2026-08-11: a gap named directly by the
+operator, not sourced from any catalogue — the concrete failure mode of a coding agent making a red
+test green by editing the test's expectation instead of the implementation, which reports a regression
+as a passing suite. `tdd`'s existing guardrail already forbade writing a weak test in the first place;
+this is its sibling for the later moment, when a pre-existing (and correct) test gets edited instead of
+the code once it's inconvenient. Same rule stated for the build agents themselves (`code`'s own
+guardrails, and `neo`/`morpheus`/`trinity`'s), so it's caught before the diff, not only after it at
+`galadriel`.

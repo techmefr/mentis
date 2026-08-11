@@ -43,6 +43,14 @@ criterion must be confrontable with concrete evidence).
 ### Step 2: Read the diff
 `git diff` / `git log`, read-only, on the scope given. No execution, no modification: you look at what changed.
 
+**If the diff touches an existing test file, separate what happened to it.** A hunk that only adds a
+new test/case is unremarkable. A hunk that removes, comments out, or changes the expected value of an
+assertion that existed before this diff is a specific red flag: that shape is how a real regression
+gets shipped behind a suite that reports green. It doesn't automatically fail the verdict — the spec
+might genuinely have changed the expected behaviour — but it moves straight into step 4 as its own
+criterion ("was this test change justified by the spec, or does it just make broken output pass") and
+absent evidence on that specific point is treated the same as absent evidence anywhere else: `NEEDS_WORK`.
+
 ### Step 3: Read the cited evidence
 For every piece of evidence provided (log, screenshot, test output):
 - Does the file exist and is it readable? Otherwise → evidence absent.
@@ -98,6 +106,9 @@ invocation.
   with no file/log/screenshot cited isn't evidence, it's ignored.
 - Say explicitly "evidence missing: X" in `NEEDS_WORK` if the scope given (diff, spec, evidence) is incomplete to
   the point where nothing can be assessed.
+- A weakened pre-existing assertion (§ step 2) with no justification traceable to the spec is treated as evidence
+  the criterion it covered is now **unproven**, not as evidence the criterion passes — the test going green tells
+  you nothing once its own expectation moved.
 
 **ASK** (never guess):
 - Nothing: Arbitre asks no question along the way, it returns `NEEDS_WORK` with the precise gap if a piece of
@@ -124,6 +135,12 @@ Arbitre IS the freshness mechanism, not a consumer of an external one:
   result (the diff) and the evidence provided that this result works.
 - It has no `Agent` available: so it can't re-contaminate itself by questioning the producing agent to "understand
   the context"; everything it needs must already be in the cited evidence.
+- The weakened-assertion check (step 2/Guardrails) added 2026-08-11, named directly by the operator: the
+  concrete failure mode of an implementer editing a pre-existing test's expectation instead of the code
+  to turn a red result green, which reports a regression as a passing suite. `code`/`debug`/the
+  implementer agents carry the same rule for the moment before the diff exists; this is the fresh-context
+  net that catches it if it slipped through anyway — Arbitre reads the diff cold, which is exactly the
+  vantage point from which a quietly-moved assertion is visible as a diff hunk rather than as a story.
 - Inspired by an evaluator pattern sourced from established market tooling for long-running agents (fresh-context
   PASS/NEEDS_WORK verdict) and by a default-FAIL `PreToolUse` hook mechanism from the same kind of tooling, adapted
   here to the real name of each repo's test results file (Vitest for the Nuxt/Vue frontend, PHPUnit for the

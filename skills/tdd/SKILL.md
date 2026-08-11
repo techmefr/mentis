@@ -32,7 +32,12 @@ After `plan`, before writing the implementation.
    and it turns green later for reasons unrelated to the behaviour.
 
 Delegate the writing to `dozer` (tests only, never implementation) when you want that separation
-enforced rather than relied on.
+enforced rather than relied on. That separation is the whole defence against a specific failure mode:
+the same agent that just wrote the implementation editing the test's expectation instead, later, to
+turn a red result green. This block's guardrail (below) covers the moment these tests are **written**;
+`code`/`debug` carry the sibling rule for the moment one of them **fails during implementation** —
+adding a case is fine, loosening or retargeting an existing assertion to match broken output isn't,
+whichever agent is at the keyboard.
 
 ## Output / checkpoint
 `tests_written` + `test-results.json` (every line `{ passes: false }`).

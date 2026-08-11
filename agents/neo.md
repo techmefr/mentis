@@ -86,6 +86,10 @@ possible: no Agent tool, no self-relaunch.
   instructs it in the task received.
 - **When the spec is ambiguous** (unspecified behaviour, uncovered edge case): ask the question rather than inventing a
   behaviour; an arbitrary undocumented choice becomes a hidden bug at review time.
+- **A test that fails against your change gets the code fixed, not the test loosened.** Extending a test file to
+  cover the exact new case this task introduces is fine; deleting, loosening or retargeting an existing assertion
+  so it matches your current output is not yours to decide alone — that specific move is how a regression ships
+  behind a green suite (`skills/debug` §3.4/Guardrails, `skills/code`).
 - Never declare "it works" without having run at least lint/typecheck locally: no self-declared success without
   evidence, even at this stage (the complete evidence stays gandalf's job, but a strict minimum is owed here).
 

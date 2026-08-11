@@ -97,8 +97,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | spec | 2 | a market skill catalogue (grill-with-docs) + internal | 🟡 |
 | archi | 3 | internal graphify + a three-way dedup pass (name, shape, call site) with the negative result recorded | 🟡 (dedup mechanism written, not dogfooded yet) |
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
-| tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract) | 🟡 |
-| code | 6 | native + internal | 🟡 |
+| tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
+| code | 6 | native + internal; no-test-tampering guardrail added 2026-08-11, named directly by the operator | 🟡 |
 | vue-nuxt-vuetify-conventions | 6 | several market Vue/Nuxt/Vuetify skill catalogues (Vue patterns, Nuxt4, Nuxt composables, Vuetify) + a market Nuxt/Vue linter (correctness/security) + a market open source TypeScript project (a11y/bundle) + de-identified internal review feedback (recurring patterns); re-checked directly against the public vue.doctor/nuxt.doctor tools on 2026-08-10, which surfaced 2 real gaps (compiler-macro import, useAsyncData key default) now closed | 🟡 |
 | react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed | 🟡 (written, not dogfooded yet) |
 | over-engineering-review | 9 | a market deletion-oriented review tool (deletion angle, tags, net line score) | 🟡 |
@@ -127,7 +127,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | documentation-adr | 3 | a market generalist dev skill catalogue (5-6 field ADR template) | 🟢 (direct rewrite) |
 | wayfinder | cross-cutting | a recognised market skill author (parent ticket with 5 sections + typed children) | 🟢 (direct rewrite, adapted to Jira) |
 | handoff | cross-cutting | a recognised market skill author (reference by path, never duplicate) | 🟢 (direct rewrite) |
-| debug | support 6 | native `systematic-debugging` + a market skills repository (`root-cause-tracing`: backwards call-chain walk + stack capture; `defense-in-depth`: layered validation) | 🟡 (extended: our version named the goal but gave no technique to reach it) |
+| debug | support 6 | native `systematic-debugging` + a market skills repository (`root-cause-tracing`: backwards call-chain walk + stack capture; `defense-in-depth`: layered validation); the no-test-tampering rule (§3.4/Guardrails) added 2026-08-11, named directly by the operator — a coding agent editing a failing test's expectation instead of the implementation, which reports a regression as a passing suite | 🟡 (extended: our version named the goal but gave no technique to reach it) |
 | when-stuck | cross-cutting | a market skills repository (`problem-solving/*`, merged; collision-zone-thinking dropped) | 🟡 (written, not dogfooded yet; first block here that isn't a convention) |
 | testing-anti-patterns | 5 / review lens | a market skills repository (`testing-anti-patterns` + `condition-based-waiting`, merged: tests that report safety they don't have) | 🟡 (written, not dogfooded yet) |
 | extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (generates the references from the real code) |
