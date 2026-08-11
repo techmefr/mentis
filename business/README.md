@@ -75,6 +75,9 @@ checklist assembled from public sources, not professional advice, and each one s
 | `customer-success` | support / CS |
 | `finance-ops` | finance |
 | `vendor-management` | procurement |
+| `learning-development` | HR |
+| `sustainability-esg` | legal / comms |
+| `investor-relations` | finance |
 
 ## Installing
 
