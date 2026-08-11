@@ -24,6 +24,7 @@ the market in my own voice, without ever depending on a third-party repo.
 - [The pipeline](#the-pipeline)
 - [What's inside](#whats-inside)
 - [The rule that keeps me in control](#the-rule-that-keeps-me-in-control)
+- [Versioning](#versioning)
 - [Quickstart](#quickstart)
 - [Where this is going](#where-this-is-going)
 - [Status](#status)
@@ -246,6 +247,22 @@ owner (`enforce_admins` is on): no direct push, no force push, no branch
 deletion. Every change — mine included — goes through a pull request. A
 review isn't required to merge (no second maintainer reliably available to
 give one), but the PR itself, and the trail it leaves, is mandatory.
+
+## Versioning
+
+Every change to `master` gets a semver tag (`vMAJOR.MINOR.PATCH`) so anyone
+who copied files out of this repo can tell if they're behind:
+
+- **MAJOR**: a breaking change — a skill/agent renamed or removed, a gate's
+  behaviour changed.
+- **MINOR**: a new skill, agent, hook, or business block added.
+- **PATCH**: a fix or a doc/wording change to something that already exists.
+
+To check for updates: `git -C mentis fetch --tags && git -C mentis tag -l`,
+or point Renovate/Dependabot at this repo's tags if you want it automated.
+There's no npm package here on purpose — mentis is markdown consumed by copy,
+not code imported at runtime, so a git tag is the right unit of version, not
+an npm release.
 
 ## Quickstart
 
