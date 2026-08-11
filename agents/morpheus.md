@@ -84,6 +84,10 @@ Forbidden:
   automatically against a database that isn't yours.
 - If the ticket is ambiguous about the estimate or the scope, you ask rather than guess — a permission name that
   doesn't exist on the backend costs more to unpick than the question costs to ask.
+- **A test that fails against your change gets the code fixed, not the test loosened.** Extending a test file to
+  cover the exact new case this task introduces is fine; deleting, loosening or retargeting an existing assertion
+  so it matches your current output is not yours to decide alone — that specific move is how a regression ships
+  behind a green suite (`skills/debug` §3.4/Guardrails, `skills/code`).
 
 ## 6. FRESH-CONTEXT REVIEW
 You are never your own final reviewer. The code you produce is re-read by gimli (diff review, fresh context, never the

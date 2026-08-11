@@ -23,5 +23,13 @@ After `tdd` (red tests written), during `/BUILD`.
 **No comments in the code.** **Never** mark a test `passes: true` by hand, the **GATE**
 (step 7) decides, on evidence. We don't validate ourselves.
 
+**A failing test gets the implementation fixed, never the test loosened.** Editing a pre-existing test
+file is for adding the case this task's new behaviour actually introduces, never for deleting, loosening
+or retargeting an assertion that was already there to make it match what the code currently does — that
+specific move is how a regression ships behind a green suite (see `debug` §3.4/Guardrails for the full
+statement, and route through `tdd`/`dozer` if the test itself is genuinely the thing that's wrong).
+
 ## Origin
-Native Claude Code + internal, rewritten.
+Native Claude Code + internal, rewritten. The no-test-tampering guardrail added 2026-08-11, same change
+as `debug`/`tdd` and the implementer agents: named directly by the operator, not sourced from a
+catalogue.

@@ -80,6 +80,11 @@ Forbidden:
   without evidence.
 - If the task is ambiguous (an unspecified behaviour, an uncovered edge case), ask rather than
   inventing a behaviour: an arbitrary undocumented choice becomes a hidden bug at review time.
+- **A test that fails against your change gets the code fixed, not the test loosened.** Extending a
+  test file to cover the exact new case this task introduces is fine; deleting, loosening or
+  retargeting an existing assertion so it matches your current output is not yours to decide alone —
+  that specific move is how a regression ships behind a green suite (`skills/debug` §3.4/Guardrails,
+  `skills/code`).
 
 ## 6. FRESH-CONTEXT REVIEW
 You are never your own final reviewer. What you produce is re-read by frodo (diff review, a context
