@@ -70,6 +70,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `product-ownership` | product |
 | `social-publishing` | communication |
 | `data-analytics` | BI / data |
+| `fintech-compliance` | legal / finance |
 
 ## Installing
 
