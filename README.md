@@ -241,12 +241,11 @@ it stays maintainable). Detail in [`CONVENTIONS.md`](./CONVENTIONS.md).
 
 ## Public repo, protected branch
 
-This repo is public and `master` is protected: force pushes and branch
-deletion are disabled, and a pull request with at least one approval is
-required to merge — the one exception is the repo owner, who can still push
-directly (`enforce_admins` is off on purpose, matching the actual workflow
-this repo is maintained with). Anyone else proposing a change goes through a
-PR.
+This repo is public and `master` is protected, for everyone including the
+owner (`enforce_admins` is on): no direct push, no force push, no branch
+deletion. Every change — mine included — goes through a pull request. A
+review isn't required to merge (no second maintainer reliably available to
+give one), but the PR itself, and the trail it leaves, is mandatory.
 
 ## Quickstart
 
