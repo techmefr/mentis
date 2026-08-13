@@ -56,7 +56,12 @@ endpoint, and the warm-clone fallback with its threshold. Follow it as written.
 
 1. **Action**: read the diff (prefetch dump), read the cross-referenced files needed (batched, see section 4).
 2. **Verification**: every candidate finding is confronted with the real code before being retained; no generic
-   finding disconnected from its real impact.
+   finding disconnected from its real impact. Two recurring false positives to guard against explicitly:
+   before claiming an ES/Scout field "doesn't exist" or that sorting/filtering on it is impossible, fetch and
+   read the backend Resource's `scoutFields`/`toSearchableArray` for that exact resource, don't infer it from
+   another resource's table; before claiming a framework function (an auto-imported composable, a Nuxt
+   built-in) is used "without import" and will throw a `ReferenceError`, check the framework's auto-import
+   config rather than assuming a missing import.
 3. **Decision**: classify (bug / reuse-architecture / nit), write in a direct, short, error-free style
    (section 10), then choose the output mode (section 5).
 
@@ -163,6 +168,10 @@ code).
 - **No em dash**, use a comma instead.
 - **No full stop at the end**.
 - A single point per comment, on the line concerned. Grouped by file, with no line numbers in the text.
+- **Correct French accents (é, è, à, ù, ç...) and straight apostrophes (l', d', c'), never flattened to ASCII**
+  — including when the comment is written out through a script (string escaping is not a reason to drop them).
+  Proofread the final text before returning or posting it: a missing accent or a stray typo reads as a spelling
+  mistake, not as casual French.
 
 ## 11. Transport and review mechanism
 
