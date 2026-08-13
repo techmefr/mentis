@@ -157,6 +157,10 @@ code).
 - **No em dash**, use a comma instead.
 - **No full stop at the end.** A question ends with a question mark, with no full stop after it.
 - A single point per comment, on the line concerned. Grouped by file, with no line numbers in the text.
+- **Correct French accents (é, è, à, ù, ç...) and straight apostrophes (l', d', c'), never flattened to ASCII**
+  — including when the comment is written out through a script (string escaping is not a reason to drop them).
+  Proofread the final text before returning or posting it: a missing accent or a stray typo reads as a spelling
+  mistake, not as casual French.
 
 ## 11. Transport and review mechanism
 
