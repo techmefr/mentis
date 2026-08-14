@@ -130,9 +130,15 @@ model: <sonnet | opus>
 
 **Sections 1 to 7 are mandatory, in that order, numbered.** They are the contract every agent honours; an
 agent with nothing to say under one of them still says so in a line, because "nothing persists here" is
-information. Sections 8+ carry what makes that agent worth having — the eight review readers, for instance,
-all share the same four: `8. Where the rules come from`, `9. What you're looking for`, `10. Comment style`,
-`11. Transport and review mechanism`.
+information. Sections 8+ carry what makes that agent worth having.
+
+**One exception, and it is the rule below applied to its limit: a family may hoist sections 1 to 7 into a
+single `references/` doc** when every member of that family honours them identically. The eight review
+readers do: their contract lives in `references/review-core.md`, which each of them reads first, and their
+own file opens on that pointer then carries only `1. Calibration`, `2. Scope and default mode`, `3. Where the
+rules come from`, `4. What you're looking for`, `5. Comment style`. The contract is not weaker — it is
+written once instead of eight times, which is the only way it stays identical. An agent outside such a family
+still carries all seven itself.
 
 Two consequences worth stating, because both have already been violated once:
 - **A family is uniform or it isn't a family.** When several agents do the same job on different stacks, they
