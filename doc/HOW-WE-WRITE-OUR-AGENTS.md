@@ -103,6 +103,18 @@ guarantee that judgement isn't polluted by the session that produced the
 work. TRACE, finally, is what the agent returns at the end, so that someone
 else can verify it after the fact.
 
+One exception, added on 2026-08-14, and it is the same rule pushed one step
+further. When several agents do the same job on different stacks, those seven
+sections end up identical, and identical text in eight files stops being
+identical the first time one of them is fixed. My eight review readers had
+drifted to 93 to 96 percent similar for 92 KB. So a **uniform family may hoist
+sections 1 to 7 into a single `references/` doc**: their contract now lives in
+`references/review-core.md`, each reader reads it first, and its own file
+carries only what actually differs, its calibration, its scope, its default
+mode, where its rules come from, what it looks for, its style delta. The
+contract isn't weaker, it's written once, which is the only way it stays
+identical. Any agent outside such a family still carries all seven itself.
+
 A concrete example, my `galadriel` agent (the cold judge). Its role: return a
 binary PASS/NEEDS_WORK verdict, nothing else, no fixes, no code
 suggestions. Its memory: nothing persists between two invocations, the input
@@ -148,6 +160,29 @@ again, it isn't given by default. I had explored a lead while sourcing, a
 ruled out, unreadable on a second pass. But the principle, short output by
 default rather than verbose, I keep as a cross-cutting guarantee, on the same
 footing as fresh context and default-failure.
+
+Until 2026-08-14 that guarantee was stated and enforced nowhere, so a review
+that found four things still came back as two pages. It now has a mechanism,
+`references/terse-reporting.md`, cited from the TRACE section of the seventeen
+agents that hand back a report and from `review-core.md`: verdict on the first
+line, one line per item with file, fact and consequence, then the artefact
+paths, and an explicit list of what never appears, preamble, restatement of my
+own instruction, method narrative, count of files read.
+
+Three things are exempt, and they are where a terse register actually breaks,
+not on length. **Negation and polarity**, because "nothing found on the parsing
+path" compressed to "parsing" inverts a verdict, and a gate reporting the
+opposite of what it found is worse than a gate saying nothing. **The verdict
+word itself**, spelled out, not an emoji or a colour. **The confidence level**,
+because flattening confirmed, worth-digging-into and speculative into one list
+is a loss, not a saving. And evidence stays quoted in full: under default =
+failure a paraphrased proof is not a proof.
+
+The boundary matters as much as the rule. This governs the **report**, what I
+read once and act on. It never governs the **artefact**, what someone else
+reads later, an MR comment, an ADR, a commit message. Those keep their own
+register, which for an MR comment is already short and direct for a different
+reason, it has to pass as written by me in a public thread.
 
 ## 6. ALWAYS / ASK / NEVER
 
