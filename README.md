@@ -30,9 +30,18 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-11: **60 skills**, **24 business blocks**, **25 agents**, **3 hooks** (the
+At a glance, as of 2026-08-14: **60 skills**, **24 business blocks**, **25 agents**, **3 hooks** (the
 default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
+
+**What a session actually loads.** Every block description sits in the system prompt of every session
+whether or not it gets used, so they are sized for routing, not for summarising: ~23 KB for the whole
+corpus. A block is loaded whole when invoked, so the five big convention blocks are a `Steps` table
+naming, per section, the condition under which that section has to be read — a task touching two of
+them loads 9 KB rather than 26 KB. And what the agents write back is capped too
+([`terse-reporting.md`](./references/terse-reporting.md)): verdict first, one line per finding, no
+preamble — with negation, verdict word, confidence level and quoted evidence explicitly exempt from
+the compression.
 
 ## Why my own version
 
@@ -348,6 +357,15 @@ request**, which additionally needs `glab` plus `GITLAB_HOST`, and is the only
 one that can post comments — on an explicit instruction, never by default
 ([`mr-review-plumbing.md`](./references/mr-review-plumbing.md)). GitHub pull
 requests aren't implemented; the local transport covers a GitHub repo already.
+
+Everything the eight readers share — the role and its prohibitions, the memory,
+the loop, the tools, the two output modes, the fresh-context guarantee, the base
+comment style, the trace — lives once in
+[`review-core.md`](./references/review-core.md), which each of them reads first.
+Their own file carries only what differs: the calibration (assertive on Vue/Nuxt,
+React and Node/TS, question register on the stacks with no production experience
+behind them), the scope, the default mode, where the rules come from, what to
+look for, the style delta.
 
 One optional variable everywhere: **`MR_SCRATCH`** (default
 `~/mr-review-scratch`), the working folder **outside any reviewed repo** where
