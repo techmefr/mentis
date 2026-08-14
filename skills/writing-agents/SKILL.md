@@ -1,6 +1,6 @@
 ---
 name: writing-agents
-description: Use when a new agent has to be created (or an existing agent revised) for this framework, applies the single 7-pillar template (ROLE, MEMORY, LOOP, TOOLS & SCOPE, GUARDRAILS, FRESH-CONTEXT REVIEW, TRACE), checks that no existing agent already covers the role, and picks the right model.
+description: Use when creating or revising an agent for this framework: the 7-pillar template, the check that no existing agent already covers the role, and the model choice.
 ---
 
 # writing-agents

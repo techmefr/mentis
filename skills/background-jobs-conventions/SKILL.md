@@ -1,6 +1,6 @@
 ---
 name: background-jobs-conventions
-description: Use when writing or changing anything that runs outside the request cycle (queued job, worker, scheduled task, message consumer), the rules that keep async work from failing silently. Complements observability-instrumentation (what to log) and api-design (contracts) on the surface where nobody is watching when it breaks.
+description: Use when writing or changing anything that runs outside the request cycle (a queued job, a worker, a scheduled task, a message consumer), to keep async work from failing silently.
 ---
 
 # background-jobs-conventions

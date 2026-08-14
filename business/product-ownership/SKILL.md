@@ -1,6 +1,6 @@
 ---
 name: product-ownership
-description: Use when deciding what gets built and in what order, or whether a request should become a story at all — priority, refusal, testable acceptance criteria, definition of ready and done — and when writing, reviewing or decomposing the story itself, its sections, its criticality, its review axes and its estimation. The technical specification that follows is skills/spec.
+description: Use when deciding what gets built and in what order, or whether a request should become a story at all: priority, refusal, acceptance criteria, ready and done, decomposition, estimation.
 ---
 
 # product-ownership

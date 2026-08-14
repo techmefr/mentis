@@ -1,6 +1,6 @@
 ---
 name: testing-blocks
-description: Use when a skill or agent in this framework has been written but never proven to change behaviour, validate it by running an agent through a pressure scenario without the block, then with it. The answer to "written, not dogfooded yet": a block that reads well is not a block that holds.
+description: Use when a skill or agent in this framework has been written but never proven to change behaviour: validate it with a pressure scenario, run without the block then with it.
 ---
 
 # testing-blocks

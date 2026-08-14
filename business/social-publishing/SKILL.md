@@ -1,6 +1,6 @@
 ---
 name: social-publishing
-description: Use when something is going out on a public social platform — a launch post, a recruitment post, a technical thread, a company page update, a video — covering who approves it, how one message adapts per platform without becoming four different truths, and what must never be automated.
+description: Use when something is going out on a public social platform: who approves it, how one message adapts per platform without becoming four different truths, and what must never be automated.
 ---
 
 # social-publishing

@@ -1,6 +1,6 @@
 ---
 name: choose-model
-description: Use when writing a new agent, or launching a one-off task, and the Claude model has to be decided, Haiku for mechanical/repetitive low-stakes tasks, Sonnet by default for build and review, Opus for a gate or a judge whose verdict is hard to walk back (blocks a merge, a decision).
+description: Use when writing a new agent or launching a one-off task and the Claude model has to be decided: Haiku for mechanical work, Sonnet by default, Opus for a gate or a judge.
 ---
 
 # choose-model

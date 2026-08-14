@@ -1,6 +1,6 @@
 ---
 name: legal-documents
-description: Use when a product needs its public legal set — terms of use, terms of sale, legal notice, privacy policy, cookie notice, DPA, SLA, EULA — to identify which documents apply, who owns each, and what engineering has to supply before a lawyer can draft. Never a substitute for the lawyer.
+description: Use when a product needs its public legal set (terms, legal notice, privacy policy, cookie notice, DPA, SLA, EULA): which apply, who owns each, what engineering must supply.
 ---
 
 # legal-documents

@@ -1,6 +1,6 @@
 ---
 name: python-conventions
-description: Use when writing or reviewing Python, type hints and mypy strict, explicit None checks, failures returned as values at public boundaries, naming that reveals intent, async correctness, the toolchain (ruff, uv, mypy, pytest), dependency injection with explicit lifetimes, layered project structure, configuration, and the ORM rules (no DB-side cascade, Python-side defaults, no implicit lazy loading, enums over magic strings). Self-contained, it assumes no plugin or catalogue installed.
+description: Use when writing or reviewing Python: type hints and mypy strict, failures returned as values at public boundaries, async correctness, the toolchain, layered structure, the ORM rules.
 ---
 
 # python-conventions

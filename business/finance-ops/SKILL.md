@@ -1,6 +1,6 @@
 ---
 name: finance-ops
-description: Use when setting up or reviewing internal financial operations — expense approval, invoicing/accounts receivable, budgeting — the structural controls that prevent error and fraud, not the technical ledger correctness of business/fintech-compliance (that block is for building a payment/ledger product; this one is for running the company's own books). Not accounting or tax advice.
+description: Use when setting up or reviewing the company's own financial operations (expense approval, invoicing, budgeting). Building a payment or ledger product is business/fintech-compliance.
 ---
 
 # finance-ops

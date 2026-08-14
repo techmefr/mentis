@@ -1,6 +1,6 @@
 ---
 name: go-conventions
-description: Use when writing or reviewing Go, applies the highest-value concurrency, error handling and context patterns from the golangci-lint meta-linter (govet/staticcheck/errcheck) and the Uber Go Style Guide. No internal production experience behind this block (unlike vue-nuxt-vuetify-conventions/react-nextjs-conventions), content sourced from established market tooling/style guides.
+description: Use when writing or reviewing Go: the concurrency, error handling and context patterns from the golangci-lint meta-linter and the Uber Go Style Guide.
 ---
 
 # go-conventions

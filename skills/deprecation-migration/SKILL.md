@@ -1,6 +1,6 @@
 ---
 name: deprecation-migration
-description: Use when a system, an API, a DB column or a dependency still in use has to be removed/replaced, frames the decision (advisory vs compulsory deprecation) then picks the progressive migration pattern (Strangler, Adapter, Feature Flag, Expand/Contract), rather than a brutal replacement in a single deployment.
+description: Use when a system, an API, a DB column or a dependency still in use has to be removed or replaced: advisory versus compulsory, then the progressive migration pattern.
 ---
 
 # deprecation-migration

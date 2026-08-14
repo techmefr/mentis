@@ -1,6 +1,6 @@
 ---
 name: nestjs-node-conventions
-description: Use when writing a module, a controller, a service or a tRPC router on the NestJS/Node stack of the future Node/NestJS project vision, applies constructor DI architecture, validated DTOs, cross-cutting Zod/tRPC contracts and the Prisma repository pattern. Merges the Nest, Prisma, tRPC and Zod conventions (same stack, same step) into a single block of the code step.
+description: Use when writing a module, a controller, a service or a tRPC router on the NestJS/Node stack: constructor injection, validated DTOs, Zod/tRPC contracts, the Prisma repository pattern.
 ---
 
 # nestjs-node-conventions

@@ -1,6 +1,6 @@
 ---
 name: documentation-adr
-description: Use when a significant architecture decision that is hard to walk back is taken, separates the ADR (the decision, with context/alternatives/consequences) from inline docs (only the non-obvious why) and from API docs, with a precise ADR template and a never-delete-always-supersede rule.
+description: Use when a significant architecture decision that is hard to walk back is taken: the ADR template, what belongs there rather than in inline docs, and the never-delete-always-supersede rule.
 ---
 
 # documentation-adr

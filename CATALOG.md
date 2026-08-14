@@ -81,6 +81,14 @@ its own default mode and file paths. The five stack readers dropped to ~40% of t
 (gimli 225→106, legolas 186→71, frodo 188→76, boromir 211→95, theoden 209→92) and `aragorn` kept its numbered
 structure with §10 as the pointer.
 
+**The same duplicate had grown back everywhere else in those files, and was extracted on 2026-08-14:** the
+plumbing pointer had been factored out, but the role, the memory, the loop, the tools, the prohibitions, the
+two modes, the fresh-context guarantee, the trace and the base comment style had drifted back into eight
+near-copies — 93 to 96% similarity against `aragorn`, for 92 KB paid on every reader spawn and doubled when
+`elrond` runs two in parallel. That trunk now lives once in `references/review-core.md` (9 KB), and each reader
+keeps only its calibration, its scope, its default mode, its rule sources, what it looks for and its style
+delta: 89 KB → 40 KB across the eight. A fix to the loop is now written once instead of eight times.
+
 No duplicate found **inside** mentis otherwise: the pairs most at risk were checked — `bug-triage` vs
 `qa-exploratory-testing` (report handling vs pre-merge discovery), `security-hardening` vs `seraph`
 (writing-time vs audit-time), `debug` vs `when-stuck` (a bug with a cause vs the approach itself),

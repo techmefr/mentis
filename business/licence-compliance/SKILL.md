@@ -1,6 +1,6 @@
 ---
 name: licence-compliance
-description: Use when adding a dependency, vendoring code, or shipping a product that bundles third-party code, check what the licence obliges us to do while the choice is still cheap. Also covers code produced from copied snippets. Structured checklist, not legal advice.
+description: Use when adding a dependency, vendoring code, or shipping a product that bundles third-party code, including code produced from copied snippets. Structured checklist, not legal advice.
 ---
 
 # licence-compliance

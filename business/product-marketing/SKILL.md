@@ -1,6 +1,6 @@
 ---
 name: product-marketing
-description: Use when writing anything that positions or promotes the product — a landing page, a feature announcement, a comparison, a pitch — the discipline that keeps a claim checkable. Technical SEO is skills/seo; this is about what the words commit us to.
+description: Use when writing anything that positions or promotes the product (a landing page, an announcement, a comparison, a pitch): the discipline that keeps a claim checkable.
 ---
 
 # product-marketing

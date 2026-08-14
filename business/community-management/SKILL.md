@@ -1,6 +1,6 @@
 ---
 name: community-management
-description: Use when running the ongoing conversation on an account or a community — replying, moderating, handling criticism and pile-ons, routing what arrives, and knowing what a community manager must never answer alone. Content is content-creation, publishing is social-publishing; this is everything after.
+description: Use when running the ongoing conversation on an account or a community: replying, moderating, handling criticism, routing what arrives, and what a community manager must never answer alone.
 ---
 
 # community-management

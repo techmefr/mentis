@@ -1,6 +1,6 @@
 ---
 name: palantir
-description: Use when a question needs research on the open web — a security advisory, a claim in an article to fact-check, current market/framework practice beyond training cutoff — to be invoked for a one-off research task, not to audit this repo's own code (that's the stack readers/seraph) nor to fetch a library's own docs (that's `context7`). Runs on Sonnet.
+description: Researches a question on the open web (an advisory, a claim to fact-check, practice beyond the training cutoff). Not for auditing this repo's code, not for a library's own docs (context7).
 model: sonnet
 ---
 
@@ -68,6 +68,12 @@ if the answer feeds a decision (adopting a tool, changing a hook, filing a ticke
 goes back through the normal pipeline, you don't make it.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every research task returns:
 - the question as clarified into concrete claims (step 1)
 - the sources actually used, each with its publication date, and why the ones discarded were

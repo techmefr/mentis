@@ -1,6 +1,6 @@
 ---
 name: webperf
-description: Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend, diagnose from a measurement rather than from intuition. Complements seo (which covers Core Web Vitals as a ranking factor) and the per-stack frontend conventions on the runtime cost of the code itself.
+description: Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend: diagnose from a measurement rather than from intuition.
 ---
 
 # webperf

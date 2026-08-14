@@ -1,6 +1,6 @@
 ---
 name: auth-session-conventions
-description: Use when touching authentication, sessions, tokens or permission checks (login, refresh, logout, guards, middleware), the rules that keep an auth flow from breaking silently. Complements api-design (contracts) and the per-stack conventions blocks (idiomatic code) on the one surface where a regression is invisible until it locks users out.
+description: Use when touching authentication, sessions, tokens or permission checks (login, refresh, logout, guards, middleware), the one surface where a regression stays invisible until it locks users out.
 ---
 
 # auth-session-conventions

@@ -1,6 +1,6 @@
 ---
 name: vendor-management
-description: Use before signing or renewing a SaaS/vendor contract, or when choosing between vendors — the risk-assessment structure (security/compliance review before signing, not after) and renewal-tracking discipline that keeps a vendor decision from being made on price and features alone, and keeps a contract from auto-renewing unnoticed. Sibling to business/licence-compliance (open-source licence obligations) and business/data-protection (which processor gets personal data) — this is the broader vendor-selection and contract-lifecycle process both plug into.
+description: Use before signing or renewing a SaaS or vendor contract, or when choosing between vendors: security and compliance review before signing, and renewal tracking.
 ---
 
 # vendor-management

@@ -1,6 +1,6 @@
 ---
 name: customer-success
-description: Use when setting up or reviewing post-sale customer support (ticket triage, priority levels, SLAs, escalation) or ongoing account health (churn signals, health scores, renewal risk) — the structure that keeps support from firefighting every ticket at the same urgency and keeps a churn risk from surfacing only at renewal time. Sibling to business/sales-support, which stops at the deal closing; this picks up after. Not a substitute for a real customer-success or support-ops function.
+description: Use when setting up or reviewing post-sale support (ticket triage, priorities, SLAs, escalation) or account health (churn signals, renewal risk). Picks up where business/sales-support stops.
 ---
 
 # customer-success

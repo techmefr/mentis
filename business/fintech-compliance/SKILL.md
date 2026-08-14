@@ -1,6 +1,6 @@
 ---
 name: fintech-compliance
-description: Use when a feature touches payments, card data, a financial ledger, onboarding a customer for a regulated financial service, or moving money between parties — the questions to settle before writing the code (PCI DSS scope, KYC/AML screening) and the engineering invariants that keep a financial system correct (idempotent payment operations, webhook verification, double-entry ledger integrity, decimal money, immutable audit trail). Structured checklist, not legal or compliance advice: it exists to make the regulatory question reach a compliance officer earlier, and to keep a builder from re-inventing a ledger bug that's already well understood.
+description: Use when a feature touches payments, card data, a financial ledger, KYC onboarding or moving money between parties: regulatory scope, and the engineering invariants that keep it correct.
 ---
 
 # fintech-compliance

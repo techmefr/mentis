@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: Use when producing or auditing a mockup, or deciding an interface's shape before it's coded — which container a piece of UI belongs in, which states a data-driven screen must plan, the design-token discipline (one spacing scale, one type scale, one icon set), button hierarchy and sizing, chips versus buttons, icon-text coupling, and how to gather visual references from a story. The design-time counterpart of skills/accessibility and business/ux-writing, which stay on the rendered code and the words.
+description: Use when producing or auditing a mockup, or deciding an interface's shape before it is coded: containers, states, design tokens, button hierarchy, chips versus buttons.
 ---
 
 # interface-design

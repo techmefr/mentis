@@ -1,6 +1,6 @@
 ---
 name: sustainability-esg
-description: Use when writing or reviewing a sustainability/ESG claim, report, or public commitment — the discipline that keeps a claim backed by measurable evidence rather than becoming greenwashing. Covers materiality (which issues actually matter to this business, not a generic checklist) and the same claim-needs-a-source posture as business/product-marketing, applied to environmental/social/governance statements specifically. Not a substitute for a qualified ESG/sustainability consultant or the company's actual reporting obligations.
+description: Use when writing or reviewing a sustainability or ESG claim, report or public commitment: materiality and evidence, so a claim does not become greenwashing.
 ---
 
 # sustainability-esg

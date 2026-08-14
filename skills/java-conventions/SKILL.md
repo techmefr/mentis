@@ -1,6 +1,6 @@
 ---
 name: java-conventions
-description: Use when writing or reviewing Java, typing/immutability (records, Optional), error handling (checked vs unchecked), concurrency, common Spring patterns. No in-house production experience on this language, sourced from established market conventions (Effective Java, Spring) and tooling (SpotBugs/Error Prone).
+description: Use when writing or reviewing Java: typing and immutability (records, Optional), checked versus unchecked errors, concurrency, common Spring patterns.
 ---
 
 # java-conventions
