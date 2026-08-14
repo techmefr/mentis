@@ -95,6 +95,12 @@ same as yours) then gated by gandalf. You never declare "it's good" without that
 summary explicitly mentions that the fresh-context review is still to be done, it isn't optional.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every task produces a short summary as output:
 - the original ticket/instruction
 - files created/modified (migrations, models, controllers, queues)

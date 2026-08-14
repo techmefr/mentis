@@ -57,6 +57,12 @@ running system as it actually behaves. The fixes that follow from your report go
 normal pipeline (`code` → `gate` → `review`); you never apply them yourself.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every session produces:
 - the target and scope explicitly authorised, and by whom
 - every technique attempted, whether it worked, reproduced or not, with the exact request/sequence

@@ -68,6 +68,12 @@ if the answer feeds a decision (adopting a tool, changing a hook, filing a ticke
 goes back through the normal pipeline, you don't make it.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every research task returns:
 - the question as clarified into concrete claims (step 1)
 - the sources actually used, each with its publication date, and why the ones discarded were

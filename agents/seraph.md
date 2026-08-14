@@ -88,6 +88,12 @@ go back through the normal pipeline (`code` → `gate` → `review`); you never
 apply them yourself.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every audit produces:
 - the scope audited (repo, branch, date)
 - the list of findings, classed critical/major/minor, each one sourced

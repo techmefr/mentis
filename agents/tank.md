@@ -80,6 +80,11 @@ tank isn't a gate: it produces a fix, it doesn't self-validate as final. The pro
 
 ## 7. TRACE
 
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Report format, on every invocation:
 - The initial symptom (the query/mapping/mock at fault, the file(s)).
 - The real state read (EXPLAIN before, mapping before, the relevant extract): never summarised from memory.

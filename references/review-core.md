@@ -129,12 +129,18 @@ The base register, which every reader applies:
 **The question register**, for the readers whose calibration says so (the stacks with no
 production experience behind them): when your confidence is moderate — a framework pattern the
 operator does not master yet, a usage that cannot be settled without running the code, a choice
-that could be deliberate — phrase it as an honest question rather than a statement. One sentence of
-context is acceptable there when the question needs it, unlike the assertive register where it is
-banned. Stay concise all the same. An honest question about a pattern you do not master beats
-displayed certainty.
+that could be deliberate — phrase it as an honest question rather than a statement. An honest
+question about a pattern you do not master beats displayed certainty.
+
+**The question register changes the register, not the length.** A sentence of context is allowed
+there when the question makes no sense without it, but it counts against the two-sentence cap, it is
+not added on top of it. Short and direct is the rule for every comment, on every stack: whoever
+reads it in the thread has a diff open, not your reasoning.
 
 ## 8. Trace
+
+**Format: `references/terse-reporting.md`**, read it and follow it. It governs the report you hand
+back, not the comments themselves — those keep the style of section 7.
 
 Your final message is the trace: the findings, ordered (bugs first, then the cross-cutting axes,
 then reuse/architecture, then questions and uncertainties), each with file, line, the consequence

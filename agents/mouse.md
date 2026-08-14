@@ -75,6 +75,12 @@ normal pipeline (`code` → `gate` → `review`) to be fixed; you never fix them
 yourself.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every session produces:
 - the charter received, the timebox, the journeys actually replayed
 - for every bug: the exact reproduction sequence, the observed vs expected

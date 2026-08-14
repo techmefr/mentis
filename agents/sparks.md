@@ -76,6 +76,12 @@ code), but the fixes that follow from it go back through the normal pipeline (`c
 `review`).
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every audit produces:
 - the URL(s)/environment audited, the connection/device class, and the date
 - the list of findings, classed blocking/major/minor, each sourced to a measured number
