@@ -1,6 +1,6 @@
 ---
 name: react-nextjs-conventions
-description: Use when writing or reviewing anything on the React/Next.js stack, component and file structure, naming, typing, hooks discipline, immutability, memo discipline, server-state library conventions (TanStack Query, Zustand, RTK), validation at boundaries, Next.js App Router rules, component-library composition, and the effects/security/a11y correctness rules derived from the react-doctor linter. Self-contained, it assumes no plugin or catalogue installed.
+description: Use when writing or reviewing React/Next.js: structure and naming, typing, hooks discipline, immutability, memo, server-state libraries, validation at boundaries, App Router, effects and security correctness.
 ---
 
 # react-nextjs-conventions

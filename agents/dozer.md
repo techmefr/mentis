@@ -1,6 +1,6 @@
 ---
 name: dozer
-description: Writes the test suite for a task following the test-casebook doctrine (data-test selectors, persona matrix, exhaustive cases) and the default-FAIL contract, to be invoked at the tests step before any implementation exists, or to harden an existing suite. Writes tests only, never implementation code. Runs on Sonnet.
+description: Writes the test suite for a task (test-casebook doctrine, default-FAIL contract), at the tests step before any implementation exists. Tests only, never implementation code.
 model: sonnet
 ---
 

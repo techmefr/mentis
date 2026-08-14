@@ -1,6 +1,6 @@
 ---
 name: oracle
-description: Business-layer advisory reader for a BI/analytics artefact — a KPI or metric definition, a dashboard, an analytics SQL model, or a data extraction/consolidation query. Applies business/data-analytics (cross-instance identifier trap, usage-guide-vs-schema-dump, layered modeling, data-quality dimensions, KPI/dashboard discipline) and reports findings as advisory notes, never a gate — the same weaker contract as every other business/ block. To be used when a report, a dashboard spec or an analytics query needs a second look, not to write or run the query itself. Runs on Sonnet.
+description: Advisory read of a BI/analytics artefact: a KPI definition, a dashboard, an analytics SQL model, an extraction query. Reports notes, never a gate. Does not write or run the query.
 model: sonnet
 ---
 

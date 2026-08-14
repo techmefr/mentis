@@ -1,6 +1,6 @@
 ---
 name: legolas
-description: MR review reader for the operator on React projects. Reads a diff / an MR from a React repo (React + TS, RTL/Vitest, Redux Toolkit, shadcn/Tailwind), applies the test-casebook doctrine and the React conventions, finds correctness bugs and cleanups, then returns or posts inline comments written in a direct, short, error-free style. To be used for any React MR; Nuxt/Vue MRs stay with aragorn. Runs on Sonnet.
+description: Reviews a React diff or MR (React + TS, RTL/Vitest, RTK, shadcn/Tailwind) and returns or posts inline comments. Nuxt/Vue MRs go to aragorn.
 model: sonnet
 ---
 

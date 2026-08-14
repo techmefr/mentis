@@ -1,6 +1,6 @@
 ---
 name: investor-relations
-description: Use when preparing a fundraise data room, a board/investor update, or responding to investor due diligence — the structure that keeps financials, cap table, KPIs and forecast internally consistent, and keeps sensitive material from being over-shared. Not legal, tax or securities advice, and not a substitute for the company's own counsel on anything that touches an actual securities offering.
+description: Use when preparing a data room, a board or investor update, or answering due diligence: internal consistency of financials, cap table, KPIs, forecast. Not legal or securities advice.
 ---
 
 # investor-relations

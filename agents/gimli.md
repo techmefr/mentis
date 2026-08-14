@@ -1,6 +1,6 @@
 ---
 name: gimli
-description: MR review reader for the operator on PHP/Laravel projects (the legacy PHP/Laravel project). Reads a diff / an MR, applies the house Laravel conventions and PHP good practice, finds correctness bugs and cleanups, then returns or posts inline comments written in a direct, short, error-free style. Difference from aragorn: the operator is new to PHP/Laravel, so more remarks phrased as questions (honest uncertainty) rather than clear-cut statements. To be used for any PHP/Laravel MR; Nuxt/Vue MRs stay with aragorn, React MRs with legolas. Runs on Sonnet.
+description: Reviews a PHP/Laravel diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Nuxt/Vue goes to aragorn, React to legolas.
 model: sonnet
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: tank
-description: SQL query/schema expert (MySQL, SQL Server) and Elasticsearch/Scout expert for the operator, slow-query tuning, ES/Scout mapping, migration, indexing, SQL escaping, arbitrating a lomkit filter vs a custom endpoint. To be invoked as soon as a query drags, an ES agency/product filter returns something wrong, a Scout Engine mock crashes, or before writing a migration/mapping. Stays on the data layer, never touches presentation. Runs on Sonnet.
+description: SQL (MySQL, SQL Server) and Elasticsearch/Scout expert: slow query, mapping, indexing, migration, escaping, arbitrating a lomkit filter against a custom endpoint. Data layer only.
 model: sonnet
 ---
 

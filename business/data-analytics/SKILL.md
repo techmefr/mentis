@@ -1,6 +1,6 @@
 ---
 name: data-analytics
-description: Use when working against a company's real data landscape for reporting, dashboards, KPIs or data extraction/consolidation — especially when that landscape is split across several independent systems of record (one database per entity/tenant, a CRM, an ERP, a reporting layer) rather than a single warehouse. Covers how to document tables as a usage guide before writing queries, how to avoid the cross-instance-code trap, when a consolidation view is the right tool versus a real warehouse, and the non-negotiable data-handling invariants. Not a substitute for the company's own data governance or a data engineer's judgement.
+description: Use when working against a real data landscape for reporting, dashboards, KPIs or extraction, especially when it is split across several independent systems of record rather than one warehouse.
 ---
 
 # data-analytics

@@ -1,6 +1,6 @@
 ---
 name: content-creation
-description: Use when producing content for a public channel — a technical post, a thread, a LinkedIn post, a video, a newsletter, a talk — starting from work that was actually done rather than from a topic. Covers what we're credible about, how to mine the pipeline's own output, and where a hook stops being honest.
+description: Use when producing content for a public channel (a post, a thread, a video, a newsletter, a talk) starting from work that was actually done rather than from a topic.
 ---
 
 # content-creation

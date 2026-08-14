@@ -1,6 +1,6 @@
 ---
 name: seo
-description: Use when writing or reviewing a frontend page/app meant to be indexed (Nuxt/React SSR or static), technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals performance, sitemap/robots. No dedicated SEO production experience in house at this stage, sourced from established market guidelines (Google Search Central, web.dev).
+description: Use when writing or reviewing a frontend page or app meant to be indexed, technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals, sitemap and robots.
 ---
 
 # seo

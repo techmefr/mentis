@@ -1,6 +1,6 @@
 ---
 name: wayfinder
-description: Use when a piece of work spans more than a session/several weeks and stays uncertain (large migration, progressive rework), breaks the work into a map of Jira tickets (one parent + typed Research/Prototype/Grilling/Task children) linked by dependencies, rather than one big ticket or a plan frozen up front. Distinct from breakdown (which splits an already-framed story into 1pt=1h).
+description: Use when a piece of work spans several weeks and stays uncertain (a large migration, a progressive rework): a map of typed Jira tickets rather than one big ticket or a plan frozen up front.
 ---
 
 # wayfinder

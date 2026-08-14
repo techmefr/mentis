@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: Use when designing a new API/interface (REST, tRPC, GraphQL) before implementing it, contract-first, Hyrum's law (every observable behaviour ends up depended on), extension rather than breakage, short verification checklist before shipping the contract.
+description: Use when designing a new API or interface (REST, tRPC, GraphQL) before implementing it: contract-first, Hyrum's law, extension rather than breakage.
 ---
 
 # api-design

@@ -1,6 +1,6 @@
 ---
 name: smith
-description: Dynamic adversarial security probing on a running app (preview/staging) — bounded, explicitly authorised exploitation attempts (auth bypass, injection, privilege escalation, session/IDOR abuse), distinct from seraph's static code/config audit and mouse's functional exploratory testing. Never edits, never touches production or a third party without explicit authorisation for that precise target. Runs on Opus.
+description: Bounded adversarial security probing on a running app, with explicit authorisation for that precise target (auth bypass, injection, privilege escalation, IDOR). Never edits, never production.
 model: opus
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: sales-support
-description: Use when engineering is pulled into a sales conversation — a proposal, a scoping call, a demo, a deadline question, an RFP answer — the discipline that keeps a commitment made in the room buildable afterwards. Estimation honesty above all.
+description: Use when engineering is pulled into a sales conversation (a proposal, a scoping call, a demo, a deadline question, an RFP): keeping a commitment made in the room buildable afterwards.
 ---
 
 # sales-support

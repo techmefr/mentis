@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: Use when writing code that crosses a trust boundary (user input reaching a query or a template, a file upload, a new endpoint, an outbound call with a user-supplied target), the checks to apply while writing rather than at audit time. The writing counterpart to the seraph agent, which audits after the fact; auth, sessions and permissions are in auth-session-conventions.
+description: Use when writing code that crosses a trust boundary (user input reaching a query or a template, a file upload, a new endpoint, an outbound call with a user-supplied target). The writing counterpart to the seraph agent.
 ---
 
 # security-hardening

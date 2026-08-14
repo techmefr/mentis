@@ -1,6 +1,6 @@
 ---
 name: seraph
-description: Statically audits a repo's code/config for security flaws (exposed secrets, missing/misplaced authorisation, injection surfaces, vulnerable dependencies), a deeper dedicated complement to the native /security-review already used by gandalf in the final gate. Read-only: never active exploitation, never editing. Runs on Opus.
+description: Static security audit of a repo's code and config (exposed secrets, missing authorisation, injection surfaces, vulnerable dependencies). Read-only: never exploits, never edits.
 model: opus
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: release-communication
-description: Use when a change ships and someone outside the team needs to know — release notes, a changelog entry, a feature announcement, a deprecation notice, an internal heads-up. Written from the reader's side, not from the commit log.
+description: Use when a change ships and someone outside the team needs to know: release notes, a changelog entry, an announcement, a deprecation notice, an internal heads-up.
 ---
 
 # release-communication

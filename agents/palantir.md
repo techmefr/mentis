@@ -1,6 +1,6 @@
 ---
 name: palantir
-description: Use when a question needs research on the open web — a security advisory, a claim in an article to fact-check, current market/framework practice beyond training cutoff — to be invoked for a one-off research task, not to audit this repo's own code (that's the stack readers/seraph) nor to fetch a library's own docs (that's `context7`). Runs on Sonnet.
+description: Researches a question on the open web (an advisory, a claim to fact-check, practice beyond the training cutoff). Not for auditing this repo's code, not for a library's own docs (context7).
 model: sonnet
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: laravel-conventions
-description: Use when writing or reviewing Laravel, thin models and where behaviour goes, events over observers, permissions not roles, no magic strings or DB enums, no queries in loops, relation accessors and OrFail fetches, validation and FormRequests, typing and docblocks, naming, config, seeders and factories, soft deletes with pruning, queued job ordering, translations and no markup in PHP, REST routing and CRUD shape, testing tiers, and static analysis. The framework layer above php-patterns. Self-contained, it assumes no plugin or catalogue installed.
+description: Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture. The framework layer above skills/php-patterns.
 ---
 
 # laravel-conventions

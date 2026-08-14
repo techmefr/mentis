@@ -1,6 +1,6 @@
 ---
 name: neo
-description: Vue 3 / Nuxt 3 implementer (Composition API, reactivity, perf) for the house frontend stack (the current Nuxt/Vue frontend, a future Node frontend to come). To be invoked when a task/spec has to be written as application code in functional/, never to review (that's aragorn) or to gate an MR (that's gandalf). Runs on Sonnet.
+description: Writes Vue 3 / Nuxt 3 application code (Composition API, reactivity, perf) from a task or a spec. Never reviews (that's aragorn), never gates (that's gandalf).
 model: sonnet
 ---
 

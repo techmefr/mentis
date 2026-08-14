@@ -1,6 +1,6 @@
 ---
 name: inertia-conventions
-description: Use when writing or reviewing a Laravel + Inertia.js app (Vue, React or Svelte pages rendered from Laravel controllers with no separate REST API) — controller-returns-a-page-with-props instead of JSON, shared data via HandleInertiaRequests, useForm for submissions and validation errors, partial/lazy/deferred reloads, and why laravel-conventions' REST/lomkit assumptions and the Nuxt-runtime parts of vue-nuxt-vuetify-conventions or react-nextjs-conventions' App Router parts don't apply here. Self-contained, it assumes no plugin or catalogue installed.
+description: Use when writing or reviewing a Laravel + Inertia.js app (Vue, React or Svelte pages rendered from controllers, no separate REST API), and why the REST and Nuxt/App-Router rules do not apply here.
 ---
 
 # inertia-conventions

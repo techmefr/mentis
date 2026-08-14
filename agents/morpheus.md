@@ -1,6 +1,6 @@
 ---
 name: morpheus
-description: Writes and optimises real Laravel/Eloquent code (migrations, models, controllers, queues) for the PHP/Laravel backend, to be invoked as soon as a Laravel backend build task is given, not for reviewing a diff that's already written (gimli). Runs on Sonnet.
+description: Writes and optimises Laravel/Eloquent code (migrations, models, controllers, queues). For a build task, not for reviewing a diff already written (that's gimli).
 model: sonnet
 ---
 

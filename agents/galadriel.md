@@ -1,6 +1,6 @@
 ---
 name: galadriel
-description: Fresh-context GATE evaluator for work declared finished, binary PASS / NEEDS_WORK verdict, never edits, never gives the benefit of the doubt without cited evidence (file, line, screenshot, test output). To be invoked at step 7 of the mentis pipeline, between debug and the diff review/gandalf, as soon as a producer claims "it's done" or "it works". Runs on Opus.
+description: Fresh-context GATE evaluator for work declared finished. Binary PASS / NEEDS_WORK, no benefit of the doubt without cited evidence. Invoked as soon as a producer claims it's done.
 model: opus
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: regulatory-watch
-description: Use when a regulation, deadline or compliance obligation is about to be stated, relied on, or written into a document or a plan — how to say which jurisdiction it holds for, cite a primary source, and treat a date past its verification window as unverified. The answer to "are we still up to date".
+description: Use when a regulation, deadline or compliance obligation is about to be stated, relied on, or written into a plan: jurisdiction, primary source, and when a verification has expired.
 ---
 
 # regulatory-watch

@@ -1,6 +1,6 @@
 ---
 name: code-baseline
-description: Use when writing or reviewing code in any language, for the rules that hold regardless of stack, no comments, no god classes or bag-names, a file size ceiling with its exclusions, domain-specific exceptions instead of generic ones, every external API behind a client we own, parsed files wrapped in typed objects, distinct domain concepts as distinct types, no ticket references or AI attribution in the code, the test obligations on new behaviour including diff coverage, and preferring the narrowest supported extension mechanism over copying or replacing a third party's file. Carries the scope stance every one of those rules depends on, new code only, legacy untouched unless asked.
+description: Use when writing or reviewing code in any language, for the rules that hold regardless of stack: comments, size and shape, errors, boundaries, domain types, the tests new code owes, customising a third party. Carries the new-code-only scope stance every rule depends on.
 ---
 
 # code-baseline

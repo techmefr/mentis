@@ -1,6 +1,6 @@
 ---
 name: aragorn
-description: MR review reader for the operator on Nuxt/Vue projects (e.g. the Nuxt/Vue frontend). Reads a diff / an MR, applies the house Nuxt/Vue/Vuetify conventions, finds correctness bugs and cleanups (reuse, simplification, duplicated CSS), then returns or posts inline comments written in a direct, short, error-free style. To be used for any Nuxt/Vue MR; PHP/Laravel MRs go to gimli, React MRs to legolas. Runs on Sonnet.
+description: Reviews a Nuxt/Vue diff or MR and returns or posts inline comments. Any Nuxt/Vue MR; PHP/Laravel goes to gimli, React to legolas.
 model: sonnet
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: ux-writing
-description: Use when writing any text a user reads in the product — labels, buttons, errors, empty states, confirmations, emails — the words are part of the interface and they're usually written last by whoever is closest to the code. Complements accessibility (which covers how the text is exposed) and i18n conventions (how it's stored).
+description: Use when writing any text a user reads in the product: labels, buttons, errors, empty states, confirmations, emails. Complements skills/accessibility and the i18n conventions.
 ---
 
 # ux-writing

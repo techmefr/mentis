@@ -1,6 +1,6 @@
 ---
 name: distributing-blocks
-description: Use when someone outside this repo wants to install these blocks, or an existing user needs the newer version, the install and update mechanism, and the boundary that keeps their customisations alive. Answers stages 3 and 4 of the README roadmap without making us the upstream rule B warns about.
+description: Use when someone outside this repo wants to install these blocks, or an existing user needs a newer version: the install and update mechanism, and the boundary that keeps their customisations alive.
 ---
 
 # distributing-blocks

@@ -1,6 +1,6 @@
 ---
 name: trinity
-description: Writes and optimises real NestJS/Node backend code (modules, controllers, services, DTOs, Zod/tRPC contracts, Prisma repositories, queues) for the generic JS/TS backend, to be invoked as soon as a Node backend build task is given, not for reviewing a diff that's already written (frodo) and not for the Laravel backend (morpheus). Runs on Sonnet.
+description: Writes and optimises NestJS/Node backend code (modules, services, DTOs, Zod/tRPC contracts, Prisma repositories, queues). Not for reviewing a diff (frodo), not for Laravel (morpheus).
 model: sonnet
 ---
 

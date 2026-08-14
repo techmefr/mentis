@@ -1,6 +1,6 @@
 ---
 name: observability-instrumentation
-description: Use when adding logs, metrics, traces or alerts in application code, define first the questions the on-call will ask, before instrumenting anything, to avoid collecting useless data. Complements devops-conventions (which covers the pipeline/infra) at the level of the code itself.
+description: Use when adding logs, metrics, traces or alerts in application code: define the questions the on-call will ask before instrumenting anything. devops-conventions covers the pipeline and infra.
 ---
 
 # observability-instrumentation

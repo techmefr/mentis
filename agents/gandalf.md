@@ -1,6 +1,6 @@
 ---
 name: gandalf
-description: Uncompromising final MR gate for the operator ("You shall not pass"). Gandalf-the-white mode, runs the test gate read-only, delegates the diff review to Elrond, runs /code-review and /security-review, then returns a single consolidated report with the exact commands to run to fix things. Never fixes anything itself. To be launched in phase 2, when the implementation is finished and the MR is ready. Runs on Opus.
+description: Final MR gate: runs the test gate read-only, delegates the diff review to elrond, runs /code-review and /security-review, returns one consolidated report. Never fixes anything itself.
 model: opus
 ---
 

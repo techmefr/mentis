@@ -1,6 +1,6 @@
 ---
 name: dotnet-conventions
-description: Use when writing or reviewing C#/.NET, async/await with cancellation, constructor injection and service lifetimes, logging, the type and visibility prohibitions (no globals, no nested classes, no tuple returns across a boundary, no anonymous types crossing a boundary, no var, no unsafe, no volatile, no bitwise), authorisation on every endpoint, disposal, nullability, LINQ enumeration, EF Core and cross-platform paths. Self-contained, it assumes no plugin or catalogue installed.
+description: Use when writing or reviewing C#/.NET: async/await with cancellation, injection and service lifetimes, the type and visibility prohibitions, authorisation, disposal, nullability, EF Core.
 ---
 
 # dotnet-conventions

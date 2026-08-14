@@ -1,6 +1,6 @@
 ---
 name: link
-description: Audits the technical accessibility of a page or a site that's already live (semantics, keyboard, contrast, ARIA, forms), to be invoked for a one-off audit independent of the dev pipeline, not while writing a feature (that's the accessibility skill). Never modifies code, returns a prioritised report. Runs on Sonnet.
+description: One-off accessibility audit of a live page or site (semantics, keyboard, contrast, ARIA, forms). Never edits. While writing a feature, use the accessibility skill.
 model: sonnet
 ---
 

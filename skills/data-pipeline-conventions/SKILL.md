@@ -1,6 +1,6 @@
 ---
 name: data-pipeline-conventions
-description: Use when writing/reviewing a data pipeline (ETL/ELT), an analytical schema model, or a data quality validation, conventions for data reliability and traceability, distinct from transactional application code. No dedicated in-house production experience at this stage, sourced from established practice (dbt, data quality dimensions).
+description: Use when writing or reviewing a data pipeline (ETL/ELT), an analytical schema model, or a data quality validation. Distinct from transactional application code.
 ---
 
 # data-pipeline-conventions

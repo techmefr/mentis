@@ -1,6 +1,6 @@
 ---
 name: sparks
-description: Audits the real-world performance of a page or a screen that's already live (Web Vitals, network waterfall, main-thread work, render count), to be invoked for a one-off audit independent of the dev pipeline, not while writing a feature (that's the webperf skill). Never modifies code, returns a measured, prioritised report. Runs on Sonnet.
+description: One-off performance audit of a live page or screen (Web Vitals, waterfall, main-thread work, render count). Never edits. While writing a feature, use the webperf skill.
 model: sonnet
 ---
 

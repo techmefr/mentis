@@ -1,6 +1,6 @@
 ---
 name: incident-communication
-description: Use when something is broken in production and people outside the team need to be told — the first message, the updates while it runs, the message that closes it, and the follow-up afterwards. Separate from fixing it; both happen at once.
+description: Use when something is broken in production and people outside the team need to be told: the first message, the updates while it runs, the one that closes it, the follow-up.
 ---
 
 # incident-communication

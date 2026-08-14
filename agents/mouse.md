@@ -1,6 +1,6 @@
 ---
 name: mouse
-description: Manually/exploratorily tests a user journey on a running app (preview/staging), through the browser, finds the bugs no automated test thought to cover (boundary, navigation, network errors, permissions). Never modifies code, returns a sourced bug report. Runs on Sonnet.
+description: Exploratory manual testing of a user journey on a running app, through the browser. Finds what no automated test covers. Never edits, returns a sourced bug report.
 model: sonnet
 ---
 

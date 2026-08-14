@@ -1,6 +1,6 @@
 ---
 name: keymaker
-description: Audits the technical SEO of a page or a site that's already live (meta, HTML semantics, Core Web Vitals, structured data, sitemap/robots), to be invoked for a one-off audit independent of the dev pipeline, not while writing a feature (that's the seo skill). Never modifies code, returns a prioritised report. Runs on Sonnet.
+description: One-off technical SEO audit of a live page or site (meta, semantics, Core Web Vitals, structured data, sitemap/robots). Never edits. While writing a feature, use the seo skill.
 model: sonnet
 ---
 
