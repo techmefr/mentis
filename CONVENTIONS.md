@@ -112,7 +112,7 @@ rules along with the rest. When a block's `Steps` reach that size, **the section
 section number, what it covers, **the condition under which it has to be read**, and the file. The
 numbering is preserved, so a `§4` cited elsewhere still resolves.
 
-The `Origin` section moves out the same way, into `references/origin.md`, with a one-line summary and a
+The `Origin` section moves out the same way, into `skills/<name>/references/origin.md`, with a one-line summary and a
 pointer left behind: provenance and source stamps are needed when auditing a rule's freshness
 (`skills/source-freshness`), never when applying it.
 
