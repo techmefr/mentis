@@ -103,6 +103,22 @@ A `business/` block has no checkpoint and says so.>
 <Idea taken from: native Claude Code / market tooling / internal. Honest.>
 ```
 
+### A block that outgrows one file: `Steps` becomes a router
+
+A `SKILL.md` is loaded whole, every time the block is invoked. Past roughly 10 KB that stops being a
+block and becomes a manual: a rename in a `.vue` file was loading the i18n, realtime and accessibility
+rules along with the rest. When a block's `Steps` reach that size, **the sections move to
+`skills/<name>/references/<NN>-<slug>.md`, one file per section, and `Steps` becomes a table**: the
+section number, what it covers, **the condition under which it has to be read**, and the file. The
+numbering is preserved, so a `§4` cited elsewhere still resolves.
+
+The `Origin` section moves out the same way, into `references/origin.md`, with a one-line summary and a
+pointer left behind: provenance and source stamps are needed when auditing a rule's freshness
+(`skills/source-freshness`), never when applying it.
+
+The rule for whoever reads the block: **read the rows whose trigger the task actually meets, not the
+table**. A section read is a section that has to be applied.
+
 ## The agent template
 
 An agent is not a skill: a skill describes a step, an agent is a persona with a scope and a loop. It has its
