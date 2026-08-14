@@ -128,7 +128,7 @@ own shape, and **the same one for all of them** — `.claude/agents/<name>.md`:
 ---
 name: <name>
 description: <what it reviews or builds, on which stack, when to pick it over its siblings, which model>
-model: <sonnet | opus>
+model: <haiku | sonnet | opus>   # per skills/choose-model, justifiable in one sentence
 ---
 
 <One or two sentences: who this agent is and what it produces.>
