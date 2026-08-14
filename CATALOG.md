@@ -89,6 +89,20 @@ near-copies — 93 to 96% similarity against `aragorn`, for 92 KB paid on every 
 keeps only its calibration, its scope, its default mode, its rule sources, what it looks for and its style
 delta: 89 KB → 40 KB across the eight. A fix to the loop is now written once instead of eight times.
 
+Worth stating plainly, because it was first written up as a token saving and it isn't one: a single review
+now loads 4 KB of reader plus 10 KB of core, against 11.5 KB of reader before — about 2 KB *more*. The
+eight are never loaded together, one reader runs at a time. This is a maintenance change, and the token
+work of the same day is elsewhere: the frontmatter descriptions (41 KB → 23 KB on every session) and the
+five oversized convention blocks (a task touching two sections loads 9 KB rather than 26 KB).
+
+**The output side, same day:** shrinking what an agent reads did nothing about what it writes, and
+`doc/HOW-WE-WRITE-OUR-AGENTS.md` §5 had been claiming "short output by default" as a cross-cutting
+guarantee with no mechanism behind it since it was written. `references/terse-reporting.md` is that
+mechanism, cited from the `TRACE` section of the seventeen report-producing agents and from
+`review-core.md` §8. It governs the report, never the artefact — an MR comment, an ADR and a commit
+message keep their own register — and it exempts the three things a terse register actually breaks:
+negation and polarity, the verdict word, the confidence level. Evidence stays quoted in full.
+
 No duplicate found **inside** mentis otherwise: the pairs most at risk were checked — `bug-triage` vs
 `qa-exploratory-testing` (report handling vs pre-merge discovery), `security-hardening` vs `seraph`
 (writing-time vs audit-time), `debug` vs `when-stuck` (a bug with a cause vs the approach itself),

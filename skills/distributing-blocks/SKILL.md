@@ -36,6 +36,22 @@ the triage step in `review` survived while the agent implementing it stayed priv
    the clone. Nothing is fetched at runtime — rule B applies to them too.
 3. Executable pieces (`hooks/`) are wired per repo, deliberately, by a human reading what they do.
 
+**Agents specifically: `bin/install_agents.py`.** Skills can be symlinked from the clone and stay
+current for free. Agents usually cannot, because a local install wants the real names back where the
+repo says "the operator", `<scratch>` and "an org skill catalogue" (rule C). The script does that
+localisation from a `{"from": "to"}` JSON map **kept outside the repo**, since that map names real
+people, hosts and paths. It is `--dry-run` by default and prints, before writing anything: what is
+new, what would change, what is left alone, and any substitution that did not apply. `--apply` backs
+up every file it overwrites into `<target>/.backup/` first.
+
+The rule the script enforces mechanically: **an agent that exists only in the target is never
+touched.** Locally-calibrated agents — the ones rule C keeps out of the repo — survive an install by
+construction, they are not something the operator has to remember to protect.
+
+A note on symlinking skills: a block whose `Steps` became a router needs its `references/` directory
+symlinked too, not just its `SKILL.md`. A router pointing at sections that aren't there is worse than
+a long block.
+
 ### 3. Update: they pull, we don't push
 1. **Stash or commit local work first.** An update that starts on a dirty tree is how someone loses an
    afternoon.
