@@ -1,6 +1,6 @@
 ---
 name: merge-worktree
-description: Use when only part of a worktree needs to come back into the current branch, selective merge (file, patch, cherry-pick, merge under review, multi-worktree) rather than a full merge, followed by the post-merge cleanup. Complements `finish` for the cases where bringing work back isn't a plain fast-forward.
+description: Use when only part of a worktree needs to come back into the current branch: selective merge (file, patch, cherry-pick, multi-worktree) and the post-merge cleanup. Complements finish.
 ---
 
 # merge-worktree

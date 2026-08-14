@@ -1,6 +1,6 @@
 ---
 name: link
-description: Audits the technical accessibility of a page or a site that's already live (semantics, keyboard, contrast, ARIA, forms), to be invoked for a one-off audit independent of the dev pipeline, not while writing a feature (that's the accessibility skill). Never modifies code, returns a prioritised report. Runs on Sonnet.
+description: One-off accessibility audit of a live page or site (semantics, keyboard, contrast, ARIA, forms). Never edits. While writing a feature, use the accessibility skill.
 model: sonnet
 ---
 
@@ -78,6 +78,12 @@ is needed on your own report (you produce no code), but the fixes that follow
 from it go back through the normal pipeline (`code` → `gate` → `review`).
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every audit produces:
 - the URL(s)/environment audited, the date of the audit, the keyboard paths
   replayed

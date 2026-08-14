@@ -103,6 +103,22 @@ A `business/` block has no checkpoint and says so.>
 <Idea taken from: native Claude Code / market tooling / internal. Honest.>
 ```
 
+### A block that outgrows one file: `Steps` becomes a router
+
+A `SKILL.md` is loaded whole, every time the block is invoked. Past roughly 10 KB that stops being a
+block and becomes a manual: a rename in a `.vue` file was loading the i18n, realtime and accessibility
+rules along with the rest. When a block's `Steps` reach that size, **the sections move to
+`skills/<name>/references/<NN>-<slug>.md`, one file per section, and `Steps` becomes a table**: the
+section number, what it covers, **the condition under which it has to be read**, and the file. The
+numbering is preserved, so a `§4` cited elsewhere still resolves.
+
+The `Origin` section moves out the same way, into `skills/<name>/references/origin.md`, with a one-line summary and a
+pointer left behind: provenance and source stamps are needed when auditing a rule's freshness
+(`skills/source-freshness`), never when applying it.
+
+The rule for whoever reads the block: **read the rows whose trigger the task actually meets, not the
+table**. A section read is a section that has to be applied.
+
 ## The agent template
 
 An agent is not a skill: a skill describes a step, an agent is a persona with a scope and a loop. It has its
@@ -112,7 +128,7 @@ own shape, and **the same one for all of them** — `.claude/agents/<name>.md`:
 ---
 name: <name>
 description: <what it reviews or builds, on which stack, when to pick it over its siblings, which model>
-model: <sonnet | opus>
+model: <haiku | sonnet | opus>   # per skills/choose-model, justifiable in one sentence
 ---
 
 <One or two sentences: who this agent is and what it produces.>
@@ -130,9 +146,15 @@ model: <sonnet | opus>
 
 **Sections 1 to 7 are mandatory, in that order, numbered.** They are the contract every agent honours; an
 agent with nothing to say under one of them still says so in a line, because "nothing persists here" is
-information. Sections 8+ carry what makes that agent worth having — the eight review readers, for instance,
-all share the same four: `8. Where the rules come from`, `9. What you're looking for`, `10. Comment style`,
-`11. Transport and review mechanism`.
+information. Sections 8+ carry what makes that agent worth having.
+
+**One exception, and it is the rule below applied to its limit: a family may hoist sections 1 to 7 into a
+single `references/` doc** when every member of that family honours them identically. The eight review
+readers do: their contract lives in `references/review-core.md`, which each of them reads first, and their
+own file opens on that pointer then carries only `1. Calibration`, `2. Scope and default mode`, `3. Where the
+rules come from`, `4. What you're looking for`, `5. Comment style`. The contract is not weaker — it is
+written once instead of eight times, which is the only way it stays identical. An agent outside such a family
+still carries all seven itself.
 
 Two consequences worth stating, because both have already been violated once:
 - **A family is uniform or it isn't a family.** When several agents do the same job on different stacks, they

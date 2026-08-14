@@ -1,6 +1,6 @@
 ---
 name: source-freshness
-description: Use when a block states a fact taken from outside this repo — a framework API, a version-specific convention, a regulatory deadline — or when refreshing one against the current upstream docs. Defines the stamp, the expiry, and the marker for anything asserted from memory rather than read.
+description: Use when a block states a fact taken from outside this repo (a framework API, a version-specific convention, a regulatory deadline), or when refreshing one: the stamp, the expiry, the memory marker.
 ---
 
 # source-freshness

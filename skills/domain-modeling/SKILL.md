@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: Use when the work introduces or reshapes a domain concept (a new entity, a status that keeps growing, a rule scattered across layers), agree on the vocabulary and where the rules live before designing the schema or the API. Runs before archi; documentation-adr records the decision, this block reaches it.
+description: Use when the work introduces or reshapes a domain concept: agree the vocabulary and where the rules live before designing the schema or the API. Runs before archi.
 ---
 
 # domain-modeling

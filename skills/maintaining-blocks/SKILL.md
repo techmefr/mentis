@@ -1,6 +1,6 @@
 ---
 name: maintaining-blocks
-description: Use when auditing this framework's own corpus — after renaming or removing a block or agent, before a release others will pull, or periodically — to catch dangling references, stale maturity claims and blocks that have drifted into duplicating each other.
+description: Use when auditing this framework's own corpus, after renaming or removing a block or agent, before a release others will pull, or periodically: dangling references, stale claims, drift.
 ---
 
 # maintaining-blocks

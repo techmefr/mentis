@@ -1,6 +1,6 @@
 ---
 name: php-patterns
-description: Use when writing or reviewing pure PHP at the language level, whatever the framework, typing, error handling, OOP patterns. The framework layer above it is skills/laravel-conventions; reviewing a diff is the PHP reviewer's job. Little internal production experience on this language, content sourced from PHP-FIG (PSR) and established market standards.
+description: Use when writing or reviewing pure PHP at the language level, whatever the framework: typing, error handling, OOP patterns. The framework layer above it is skills/laravel-conventions.
 ---
 
 # php-patterns

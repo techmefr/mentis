@@ -1,6 +1,6 @@
 ---
 name: accessibility
-description: Use when writing or reviewing a frontend page/app (Nuxt/React), technical accessibility checklist: HTML semantics, focus/keyboard, contrast, ARIA, forms. No dedicated a11y production experience in house at this stage, sourced from WCAG 2.2 (level AA) and established guidelines (MDN, W3C).
+description: Use when writing or reviewing a frontend page or app, technical accessibility checklist: HTML semantics, focus and keyboard, contrast, ARIA, forms. Sourced from WCAG 2.2 level AA.
 ---
 
 # accessibility

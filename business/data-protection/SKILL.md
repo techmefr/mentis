@@ -1,6 +1,6 @@
 ---
 name: data-protection
-description: Use when a feature collects, stores, exports or shares personal data, or when a new third-party service will receive it, the questions to settle before writing the code rather than during an audit. Structured checklist, not legal advice: it exists to make the question reach a lawyer or DPO earlier.
+description: Use when a feature collects, stores, exports or shares personal data, or when a new third party will receive it. Structured checklist, not legal advice.
 ---
 
 # data-protection

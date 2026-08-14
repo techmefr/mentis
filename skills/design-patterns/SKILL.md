@@ -1,6 +1,6 @@
 ---
 name: design-patterns
-description: Use when reaching for a named design pattern (Factory, Strategy, Observer, Repository…), or when reviewing code that has one, to check the structure earns its name — most of the classic catalogue is already provided by our frameworks, and a pattern introduced before the second real case is over-abstraction with a respectable name.
+description: Use when reaching for a named design pattern (Factory, Strategy, Observer, Repository) or reviewing code that has one, to check the structure earns its name.
 ---
 
 # design-patterns

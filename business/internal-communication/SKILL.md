@@ -1,6 +1,6 @@
 ---
 name: internal-communication
-description: Use when writing to colleagues about technical work — announcing a decision, flagging a risk, asking for something blocking you, handing work over, disagreeing in a review thread. Written so the reader can act without a meeting.
+description: Use when writing to colleagues about technical work: announcing a decision, flagging a risk, asking for something blocking you, handing work over, disagreeing in a review thread.
 ---
 
 # internal-communication

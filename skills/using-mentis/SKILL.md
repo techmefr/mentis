@@ -1,6 +1,6 @@
 ---
 name: using-mentis
-description: Use when starting any task in a project that has these blocks installed, to establish the pipeline (start-feature → brainstorm → spec → archi → plan → tdd → code → gate → review → simplify → ship → finish) and the discipline of invoking the block that applies instead of improvising.
+description: Use when starting any task in a project that has these blocks installed: establishes the pipeline and the discipline of invoking the block that applies instead of improvising.
 ---
 
 # using-mentis

@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Use when a task spills over a session and the context has to be passed cleanly to a fresh session/agent, compacts the state into a handover document that references the artefacts already written (plan, ADR, ticket, commit, diff) by path/URL rather than duplicating their content.
+description: Use when a task spills over a session and the context has to reach a fresh session or agent: compact the state into a handover that references the artefacts by path or URL.
 ---
 
 # handoff

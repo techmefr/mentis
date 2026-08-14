@@ -1,6 +1,6 @@
 ---
 name: people-ops
-description: Use when hiring (writing a job posting, running interviews, deciding between candidates), onboarding a new employee, or offboarding someone leaving — the structure that keeps a hiring decision defensible, a new hire productive early, and a departure from leaking access or knowledge. Structured checklist, not employment-law advice: contracts, termination rules and discrimination law vary by jurisdiction and go to HR/legal, not here.
+description: Use when hiring, onboarding or offboarding: a defensible hiring decision, a new hire productive early, a departure that leaks neither access nor knowledge. Not employment-law advice.
 ---
 
 # people-ops

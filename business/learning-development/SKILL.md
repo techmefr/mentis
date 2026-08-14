@@ -1,6 +1,6 @@
 ---
 name: learning-development
-description: Use when setting up or reviewing a training/upskilling program — the structure that keeps L&D spend from being a line item nobody can justify. Covers identifying a real skills gap before choosing training, establishing a baseline before measuring impact, and tying outcomes to something checkable rather than attendance or satisfaction alone. Sibling to business/people-ops (which owns onboarding and performance) — this owns ongoing skill-building specifically.
+description: Use when setting up or reviewing a training or upskilling program: a real skills gap, a baseline before measuring impact, outcomes tied to something checkable. Onboarding is business/people-ops.
 ---
 
 # learning-development

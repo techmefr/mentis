@@ -1,6 +1,6 @@
 ---
 name: qa-exploratory-testing
-description: Use when a feature is coded and gated but before the merge, manual/exploratory testing of a real user journey on the running app, distinct from tdd (automated tests written during the code step) and from gate (evidence that the tests pass). Finds what no automated test thought to cover.
+description: Use when a feature is coded and gated but not yet merged: manual exploratory testing of a real user journey on the running app. Distinct from tdd and from gate.
 ---
 
 # qa-exploratory-testing

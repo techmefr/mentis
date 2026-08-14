@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Audits a repo's architecture debt, spots the hot-spots (files that often change together, via git history), the frictions (interfaces as complex as the implementation, leaking coupling) and applies a deletion test (if removing a module concentrates the complexity elsewhere rather than making it disappear, it's a real candidate). Returns a prioritised report, never edits. To be invoked as a periodic audit, not during a feature (that's archi/simplify). Runs on Opus.
+description: Periodic audit of a repo's architecture debt: hot-spots, leaking coupling, deletion test. Returns a prioritised report, never edits. Not during a feature (that's archi/simplify).
 model: opus
 ---
 
@@ -76,6 +76,12 @@ the normal pipeline (`archi` → `plan` → `code` → `gate` → `review`); you
 apply them yourself.
 
 ## 7. TRACE
+
+**Format: `references/terse-reporting.md`**, read it and follow it. Verdict on the first line, then
+one line per item (`file:line — the fact — the consequence`), then the artefact paths. No preamble, no
+restatement of the instruction, no method narrative, no count of what you did. Negation, verdict word
+and confidence level are never compressed, and evidence stays quoted in full.
+
 Every audit produces:
 - the history window analysed, the hot-spots spotted (files + frequency)
 - for every finding: the confidence level (Strong/Worth digging into/

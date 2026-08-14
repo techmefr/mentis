@@ -1,6 +1,6 @@
 ---
 name: over-engineering-review
-description: Use when re-reading a diff or a whole repo looking for one thing only, what can be deleted (dead code, reinvented stdlib, over-abstraction, unrequested anticipation). Complements the diff reviewers/gandalf (which judge correctness and conventions) and the native simplify skill (which applies the fixes): here we only score and list, pure deletion angle.
+description: Use when re-reading a diff or a repo looking for one thing only, what can be deleted: dead code, reinvented stdlib, over-abstraction, unrequested anticipation. Scores and lists, never applies.
 ---
 
 # over-engineering-review

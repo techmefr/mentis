@@ -1,6 +1,6 @@
 ---
 name: devops-conventions
-description: Use when writing/reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring/alerting, conventions for reliability and reproducibility, not for application code. No dedicated in-house production experience at this stage, sourced from established practice (12-factor, DORA metrics).
+description: Use when writing or reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring and alerting. Not for application code.
 ---
 
 # devops-conventions
