@@ -1,6 +1,6 @@
 ---
 name: product-ownership
-description: "Use when deciding what gets built and in what order, or whether a request should become a story at all: priority, refusal, acceptance criteria, ready and done, decomposition, estimation."
+description: "Use when deciding what gets built and in what order, or whether a request should become a story at all: priority, refusal, acceptance criteria, ready and done, decomposition sized to one MR, estimation, and the case where the story's author is also the builder."
 ---
 
 # product-ownership
@@ -144,13 +144,43 @@ a story is about to be picked up and it isn't clear what "done" means.
 
 ### 8. Decomposition and estimation
 1. Decompose into tasks that each end in something verifiable, not into phases.
-2. A task nobody can finish inside a normal working slice is still two tasks.
-3. **Estimating without reading the code is a guess with a number on it.** Where the repository isn't
+2. **A story is sized to one merge request.** That is the sizing test, and it is mechanical enough to settle
+   an argument: if the honest plan needs two branches merged separately, it is two stories, and splitting it
+   now costs less than splitting a half-merged one later. What this buys is a review unit that matches the
+   story a reviewer read, and a story whose "done" is a single observable event rather than a state spread
+   across three MRs nobody can total up. A story that cannot be delivered in one MR because it genuinely
+   spans two systems is a dependency (§6.1.4), declared as such, not a big story.
+3. **Decomposition, confirmation, then writing — never collapsed.** The plan is the deliverable the person
+   who will build it judges; creating the tasks in the tracker is a mechanical consequence of an approved
+   plan, not an initiative. Four phases in order: read the story, decompose while asking only the questions
+   you actually need, estimate and present the plan, and write it down **only after an explicit go**. A
+   tracker filled with tasks nobody approved is worse than an empty one: it looks decided.
+4. A task nobody can finish inside a normal working slice is still two tasks.
+5. **Estimating without reading the code is a guess with a number on it.** Where the repository isn't
    accessible, say the estimate is unavailable rather than producing a figure that will be held against the
    team.
-4. State the unit and keep it stable across the backlog; a re-scaled unit invalidates every past comparison.
-5. A bug in work you are currently delivering isn't estimated separately — it's part of that work. A
+6. State the unit and keep it stable across the backlog; a re-scaled unit invalidates every past comparison.
+7. A bug in work you are currently delivering isn't estimated separately — it's part of that work. A
    pre-existing or third-party bug is estimated like anything else.
+
+### 9. When the story's author is also the builder
+1. **This is a configuration, not a violation** — an org can put the epic with one person and the stories
+   with the people who will implement them, each also carrying the project-management side of their own
+   work. Where it holds, apply §1–§8 unchanged: the discovery, the section set, the criteria and the
+   sizing test do not depend on who holds the pen.
+2. **What it removes is §7's second pair of eyes, and that has to be replaced deliberately.** A story
+   reviewed by its author reads as complete because the author knows what the missing sentence meant. Two
+   replacements, and they are not interchangeable: the **epic** above it is the check on *whether this is
+   the right work* — if the story cannot be traced to one, that gap is the finding, not a formality; and the
+   **fresh-context gate** on the delivered code is the check on *whether it does what the story said*
+   (`skills/gate`). §5.4's separation moves to those two, it does not disappear.
+3. **Write it for the reader who is not you**, and specifically for the agents that will act on it. A story
+   whose scope lives in the author's head produces work that matches the head, not the story — and where
+   the implementation is delegated, the story *is* the brief. The exclusions of §6.1.4 and the edge cases of
+   §6.1.7 stop being paperwork and become the part that prevents an agent inventing a rule (§7.4).
+4. **Escalate rather than decide alone on anything the epic did not settle** — a business rule nobody has
+   chosen, a scope change, a refusal. Writing the story does not transfer the decision; it makes you the
+   person who noticed it needs making.
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the problem stated separately from the requested
@@ -171,7 +201,9 @@ separated from improvements.
 - Where an org catalogue defines the tracker fields, the presentation charter or the label taxonomy, **it
   wins** — this block's §6–§8 are the generic form, not a competing charter.
 - Where a company has a product owner or a project manager, they decide; this block structures the
-  decision, it doesn't take it.
+  decision, it doesn't take it. Where the same person writes the story and builds it (§9), that
+  applies to whoever owns the epic — **never decide an unsettled business rule because you happen
+  to hold both roles.**
 
 ## Origin
 Written **without internal product-management expertise**. Sections 6 to 8 come from **an org skill catalogue
@@ -195,3 +227,14 @@ that data-loss and security consequences outrank features, "leave room for the w
 naming which of the three kinds of "no" a refusal is, criteria as the direct input to `tdd` and
 `qa-exploratory-testing`, and tying "done" to the pipeline's two guarantees rather than to a developer's
 say-so. Verified 2026-08-06 against the installed plugin.
+
+**§8.2–§8.3 and §9 added 2026-09-07.** The catalogue's tenth skill (task decomposition with a hard
+confirmation gate before any tracker write) had no equivalent here: §8 covered estimation but not the phase
+order, and "the tracker write is a mechanical consequence of an approved plan" is the part that stops an
+agent filling a backlog nobody approved. §8.2's one-MR sizing test and §9 come from a real organisational
+change rather than from the catalogue: the epic sits with one person and the stories sit with the people who
+implement them, who also carry the project-management side of their own work. §9 exists because that
+configuration silently removes §7's independent reader, and the honest answer is *what replaces it* — the
+epic above and the fresh-context gate below — rather than pretending the separation survives. Its point 3 is
+the one that matters in practice: where the implementation is delegated to agents, the story is the brief,
+so §6's exclusions and edge cases stop being paperwork.
