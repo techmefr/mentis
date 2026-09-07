@@ -1,6 +1,6 @@
 ---
 name: react-nextjs-conventions
-description: Use when writing or reviewing React/Next.js: structure and naming, typing, hooks discipline, immutability, memo, server-state libraries, validation at boundaries, App Router, effects and security correctness.
+description: "Use when writing or reviewing React/Next.js: structure and naming, typing, hooks discipline, immutability, memo, server-state libraries, validation at boundaries, App Router, effects and security correctness."
 ---
 
 # react-nextjs-conventions

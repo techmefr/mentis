@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Use when a task spills over a session and the context has to reach a fresh session or agent: compact the state into a handover that references the artefacts by path or URL.
+description: "Use when a task spills over a session and the context has to reach a fresh session or agent: compact the state into a handover that references the artefacts by path or URL."
 ---
 
 # handoff

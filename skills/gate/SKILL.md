@@ -1,6 +1,6 @@
 ---
 name: gate
-description: Use when the code is written, before the review, mechanical lock: declaring a criterion "passing" without evidence is forbidden, and a clean-context evaluator decides.
+description: "Use when the code is written, before the review, mechanical lock: declaring a criterion \"passing\" without evidence is forbidden, and a clean-context evaluator decides."
 ---
 
 # gate

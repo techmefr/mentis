@@ -97,7 +97,18 @@ ROLE is what this agent's single responsibility is, and what it never does.
 MEMORY is what persists between two invocations and where it lives. LOOP is
 the exact cycle, action then verification then decision, and how it stops.
 TOOLS & SCOPE lists what is allowed and what is forbidden, hard-coded, not
-just verbally. GUARDRAILS is what must always happen, what I want asked
+just verbally — and until 2026-09-07 that sentence was a claim I hadn't
+earned. All 25 agents carried `name`, `description` and `model` in their
+frontmatter and nothing else, so twelve of them stated "Never Write/Edit: you
+fix nothing, you report" while the runtime handed them every tool. The
+prohibition was real in the prose and absent in the config: it held exactly as
+long as the model chose to honour it, which is the shape of guarantee this
+whole framework exists to refuse from anyone else. Twenty of them now declare
+`disallowedTools`, so the forbidden tools are gone before the first turn. What
+the field cannot express is a path-scoped rule — my eight readers do write,
+inside their scratch directory and nowhere else — so each of those now says
+which half the runtime holds and which half is still trust, rather than
+implying it's all covered. GUARDRAILS is what must always happen, what I want asked
 rather than guessed, what is off limits. FRESH-CONTEXT REVIEW explains how I
 guarantee that judgement isn't polluted by the session that produced the
 work. TRACE, finally, is what the agent returns at the end, so that someone
@@ -252,6 +263,19 @@ style of the market's fully agentic autonomy frameworks I explicitly ruled
 out as a counter-example while sourcing (`CATALOG.md`): an agent that merges
 code on its own without validation is exactly the counter-example I don't
 want to become. The loop speeds up production, never the decision to merge.
+
+Which native loop, though, is a choice with three answers and I had only been
+using two. `/goal` is for a loop whose exit condition is a verdict I produce —
+that's the gate, step 6 back to 7 until PASS. `/loop` is for a loop whose exit
+condition is somebody else's state and has to be sampled — a queue of incoming
+bug reports. The third is the **`Monitor` tool**, for when there is a stream to
+tail rather than a state to sample: a build, a log, a test watcher. It streams
+the output lines into the conversation as they arrive, where a `/loop` spends a
+whole turn per sample to ask "is it done yet". Nothing in this repo named it
+until 2026-09-07, which means the shape my own `dispatch-parallel` block would
+have blessed — agents dispatched to poll something — was the expensive one.
+The mechanics, and the seven-day expiry that bounds a `/loop` I forget about,
+are in `references/claude-code-platform.md` §5.
 
 ## 10. The vision: the system should learn, not just run
 

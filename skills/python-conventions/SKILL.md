@@ -1,6 +1,6 @@
 ---
 name: python-conventions
-description: Use when writing or reviewing Python: type hints and mypy strict, failures returned as values at public boundaries, async correctness, the toolchain, layered structure, the ORM rules.
+description: "Use when writing or reviewing Python: type hints and mypy strict, failures returned as values at public boundaries, async correctness, the toolchain, layered structure, the ORM rules."
 ---
 
 # python-conventions

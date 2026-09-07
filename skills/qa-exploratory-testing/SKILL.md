@@ -1,6 +1,6 @@
 ---
 name: qa-exploratory-testing
-description: Use when a feature is coded and gated but not yet merged: manual exploratory testing of a real user journey on the running app. Distinct from tdd and from gate.
+description: "Use when a feature is coded and gated but not yet merged: manual exploratory testing of a real user journey on the running app. Distinct from tdd and from gate."
 ---
 
 # qa-exploratory-testing

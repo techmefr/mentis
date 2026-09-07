@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: Use when producing or auditing a mockup, or deciding an interface's shape before it is coded: containers, states, design tokens, button hierarchy, chips versus buttons.
+description: "Use when producing or auditing a mockup, or deciding an interface's shape before it is coded: containers, states, design tokens, button hierarchy, chips versus buttons."
 ---
 
 # interface-design

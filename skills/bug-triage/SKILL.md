@@ -1,6 +1,6 @@
 ---
 name: bug-triage
-description: Use when a bug arrives from outside the team, before debug: turn a report into a reproducible case with an evidence trail, and decide what happens now versus later.
+description: "Use when a bug arrives from outside the team, before debug: turn a report into a reproducible case with an evidence trail, and decide what happens now versus later."
 ---
 
 # bug-triage

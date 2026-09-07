@@ -1,6 +1,6 @@
 ---
 name: php-patterns
-description: Use when writing or reviewing pure PHP at the language level, whatever the framework: typing, error handling, OOP patterns. The framework layer above it is skills/laravel-conventions.
+description: "Use when writing or reviewing pure PHP at the language level, whatever the framework: typing, error handling, OOP patterns. The framework layer above it is skills/laravel-conventions."
 ---
 
 # php-patterns

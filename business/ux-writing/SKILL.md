@@ -1,6 +1,6 @@
 ---
 name: ux-writing
-description: Use when writing any text a user reads in the product: labels, buttons, errors, empty states, confirmations, emails. Complements skills/accessibility and the i18n conventions.
+description: "Use when writing any text a user reads in the product: labels, buttons, errors, empty states, confirmations, emails. Complements skills/accessibility and the i18n conventions."
 ---
 
 # ux-writing

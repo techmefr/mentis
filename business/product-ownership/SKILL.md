@@ -1,6 +1,6 @@
 ---
 name: product-ownership
-description: Use when deciding what gets built and in what order, or whether a request should become a story at all: priority, refusal, acceptance criteria, ready and done, decomposition, estimation.
+description: "Use when deciding what gets built and in what order, or whether a request should become a story at all: priority, refusal, acceptance criteria, ready and done, decomposition, estimation."
 ---
 
 # product-ownership

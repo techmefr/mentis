@@ -1,6 +1,6 @@
 ---
 name: tank
-description: SQL (MySQL, SQL Server) and Elasticsearch/Scout expert: slow query, mapping, indexing, migration, escaping, arbitrating a lomkit filter against a custom endpoint. Data layer only.
+description: "SQL (MySQL, SQL Server) and Elasticsearch/Scout expert: slow query, mapping, indexing, migration, escaping, arbitrating a lomkit filter against a custom endpoint. Data layer only."
 model: sonnet
 ---
 
