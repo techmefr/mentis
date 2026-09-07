@@ -19,7 +19,11 @@ the RED run in step 1, mechanised, with the comparison the protocol below asks y
 The steps that follow are still the method: the runner gives you the harness and the scoring, it
 does not invent the pressure scenario or record the rationalisation for you. The honest state of
 this block as of 2026-09-07 is that its protocol predates the runner and hasn't been re-expressed
-as eval cases yet — that is the open item in `CATALOG.md` §2, not a settled design.
+as eval cases yet — that is the open item in `CATALOG.md` §2, not a settled design. And it stays
+open for a reason worth stating rather than rediscovering: **the runner is in early access**, so on
+CLI 2.1.218 `claude plugin eval init` returns *"`plugin eval` is currently in early access"* and no
+case here can actually be run. Until that opens, the manual protocol below is not a legacy path, it
+is the only one — so keep running it, and check the runner again rather than assuming the gate moved.
 
 ## When
 Before a block moves out of 🟡. Also when a block was followed in the calm case and ignored the one

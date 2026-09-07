@@ -45,8 +45,19 @@ search result means read the code, not assume it's absent. And **reusing somethi
 right**: bending an existing helper to a need it wasn't built for produces a shared thing that's
 wrong for both callers, which is worse than the duplicate. Reuse is the default, not an obligation.
 
+**A repo with no stack yet is still not a free choice.** When there is nothing to plug into — a new
+service, a new tool — the stack is decided, not defaulted: take what the surrounding repos already
+run, because the cost of a stack is the second one, not the first. Where there is no surrounding
+repo, the choice is the operator's and it gets asked, once, before scaffolding. What is forbidden is
+letting it be an accident of whichever framework came to mind first: that decision outlives the
+feature, and nobody revisits it.
+
 ## Origin
 Internal (graphify) + convergence of several market skill authors (architecture before build),
 rewritten. The three-way dedup search (name, shape, call site) and the requirement to record the
 negative result are ours: "I looked and found nothing" was the step that kept producing duplicates,
 because searching by the name you already chose can only find things that share your vocabulary.
+Point added 2026-09-07: the org catalogue this repo was measured against carries a *"default project
+stack"* rule, and it was the one generic rule with no mentis home. Its content is that org's own stack
+choice, which rule C keeps out of here — what generalises is the shape of the mistake it prevents, so
+that is what the guardrail states instead of a stack name.

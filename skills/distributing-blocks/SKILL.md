@@ -48,6 +48,15 @@ The rule the script enforces mechanically: **an agent that exists only in the ta
 touched.** Locally-calibrated agents — the ones rule C keeps out of the repo — survive an install by
 construction, they are not something the operator has to remember to protect.
 
+**The third shape, since 2026-09-07: one plugin instead of N symlinks.** The repo root carries a
+`.claude-plugin/plugin.json` declaring `skills` (`./skills`, `./business`) and `agents` (`./agents`),
+so a clone symlinked to `~/.claude/skills/mentis` registers as a single `mentis@skills-dir` plugin on
+the next session rather than as eighty-odd loose directories. What that buys is not tidiness: it is
+one enable/disable switch, a `claude plugin details` reading of the projected token cost, and a target
+`claude plugin eval` can resolve with its no-plugin baseline arm. It does not replace the per-block
+symlinks — a consumer wanting four blocks should still take four — and the two forms must never be
+installed at once, because every block would then be loaded twice.
+
 A note on symlinking skills: a block whose `Steps` became a router needs its `references/` directory
 symlinked too, not just its `SKILL.md`. A router pointing at sections that aren't there is worse than
 a long block.
