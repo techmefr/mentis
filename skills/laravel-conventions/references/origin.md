@@ -110,5 +110,16 @@ a broadcast is a hint rather than a state update. Sources are the framework's ow
 behaviour plus this repo's recorded incidents, de-identified per rule C — no catalogue prose was
 reproduced, and `global:no-skill-export` is why that line matters.
 
-Still short of parity on this block: ~67,000 words, tracked in `CATALOG.md` §2 as a programme rather
+**Second pass, §6 and §1, same day.** §6 went 292 → 1,027 words and §1 589 → 996. §6 is where the
+gap was widest after the first three, because a route table looks like the simple part: what it was
+missing is the input surface nobody validates (query parameters, sort columns, page size), the three
+different contracts of `nullable`/`sometimes`/absent on a partial update, using the validated payload
+rather than reading the request again past validation, serialising through a resource so a new column
+does not reach the API the day it is migrated, and the status code as contract. §1 gained the action's
+own shape (one public method, returns a value and never a response — otherwise the console cannot
+reuse it), the read/write split, the two refusals that carry the most weight in review (do not factor
+out what protects nothing, do not build the extension point before the second real case) and the
+accessor that is an N+1 wearing the clothes of a field.
+
+Still short of parity on this block: ~66,000 words, tracked in `CATALOG.md` §2 as a programme rather
 than a claim.
