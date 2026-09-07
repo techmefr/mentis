@@ -83,3 +83,12 @@ bodies. Re-diffed skill by skill against §1–§10: 48 were already covered. Wh
 Deliberately left out: the house package list and static-analysis ruleset, the house faker extension, the
 MCP-for-AI-APIs tooling rule, and an admin-panel column-visibility rule too specific to one package to
 generalise (rule C, and rule A for the last one). Mechanisms rewritten, no copied text.
+
+**§10.6 added 2026-08-11, landed 2026-09-07.** Boost's skill surface, under the same rule-C carve-out as
+§10.5: `laravel/boost` is Laravel's own first-party public package, not an internal fact. Sourced against the
+real, installed org `laravel` plugin (its `boost` skill, rewritten 2026-08-11) after it stopped treating
+Boost as MCP-only. The point worth keeping here is narrow and durable — skills and guidelines are separate
+install surfaces, and the non-interactive install drops the former while reporting success — not the
+plugin's own install-flow prose, which can drift. Written against §10 while it still lived inline in
+`SKILL.md`; re-applied here after the section moved into `references/`, which is the only reason it is
+stamped twice.

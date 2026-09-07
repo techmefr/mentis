@@ -22,3 +22,8 @@
    rather than by hand. Where installed, it's the house override for point 1: don't hand-roll a `functional/`
    folder convention that competes with it. [`xefi/laravel-osdd`, github.com/xefi/laravel-osdd, read
    2026-08-10.]
+6. **Where `laravel/boost` is present, install it with its agent skills (`--skills`), not the MCP server
+   alone** — packages now ship their conventions as skills rather than as guidelines, so a guidelines-only
+   install reaches nothing package-specific, including the concrete layout point 5 depends on. Run it
+   interactively: a non-interactive first install silently drops every third-party skill while still
+   reporting success. [`laravel/boost`, github.com/laravel/boost, read 2026-08-11.]
