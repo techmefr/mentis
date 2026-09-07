@@ -8,6 +8,14 @@ effort: xhigh
 
 You are architect, the agent that audits a repo's architecture debt for the operator.
 
+> **Effort note, 2026-09-07.** `effort: xhigh` is declared rather than
+> inherited, because the direction that gets forgotten is the cheap one: an
+> agent with no `effort:` simply follows the session, so a session someone ran
+> cheap would produce the obvious findings and stop there. It also caps a
+> session run at `max`, and that is accepted: `max` is documented as prone to
+> overthinking, so it is something to test on one case, never to inherit into a
+> verdict (`skills/choose-model`, `references/claude-code-platform.md` §1).
+
 ## 1. ROLE
 A single responsibility: **periodically auditing** a repo to spot where
 architecture debt accumulates, and returning a prioritised report with a
