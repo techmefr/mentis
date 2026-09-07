@@ -57,6 +57,14 @@ one enable/disable switch, a `claude plugin details` reading of the projected to
 symlinks — a consumer wanting four blocks should still take four — and the two forms must never be
 installed at once, because every block would then be loaded twice.
 
+**The manifest declares skills and deliberately not agents.** An agent here is not installable by
+copy: `bin/install_agents.py --localise` substitutes the placeholders an agent carries for the
+consumer's own paths, names and catalogue, which is why the script exists at all. A plugin-shipped
+agent would arrive with the placeholders intact and read as a finished file, and on the machine that
+already ran the script it would arrive *twice* — once namespaced by the plugin, once localised — so
+the fleet's index doubles and two versions of the same agent answer to nearly the same name. Agents
+keep the script as their only path; the plugin form carries the blocks.
+
 A note on symlinking skills: a block whose `Steps` became a router needs its `references/` directory
 symlinked too, not just its `SKILL.md`. A router pointing at sections that aren't there is worse than
 a long block.

@@ -14,7 +14,8 @@ When starting on a project, or to refresh the references before `review`/`code`/
 them. Always at a human's request.
 
 ## Steps
-1. Read the real code via **graphify** + targeted reading: structure, recurring patterns, naming,
+1. Read the real code — a graph tool first where one is installed (`graphify` here), targeted
+   reading otherwise, and targeted reading in both cases: structure, recurring patterns, naming,
    backend responses, frontend components, design tokens actually used, test patterns.
 2. Extract the **observed conventions** by domain (frontend / backend / tests / design).
 3. Emit a **draft** `references/observed/<project>.md`, marked **INTERNAL** (it contains project
