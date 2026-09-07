@@ -13,10 +13,19 @@ After `spec`, before `/PLAN`. Systematic as soon as we touch shared code or an e
 
 ## Steps
 1. **Get a map of what exists** in the worktree(s) concerned, before searching for anything
-   specific. A graph tool where one is installed (`graphify` here) is faster than reading; the
-   directory tree plus the entry points is always available and is what this step actually requires.
-   Naming a tool as the first action was a rule-B break hiding in plain sight: the step is *have a
-   map*, and a consumer with no graph tool must still be able to clear it.
+   specific. The directory tree plus the entry points is always available and is what this step
+   actually requires. Naming a tool as the first action was a rule-B break hiding in plain sight:
+   the step is *have a map*, and a consumer with no tooling must still be able to clear it.
+   1. Where tooling exists, prefer **an index built from the code on demand** — an AST/structural
+      search that answers per query — over **a graph built once into an artefact**. The artefact
+      form has a staleness problem the index form does not have at all: a graph directory is right
+      the day it is generated and quietly wrong afterwards, and refreshing it costs a whole pass.
+      (`claude-mem`'s `smart-explore` is the index form here, `graphify` the artefact form.)
+   2. **Do not narrow the scan to the module you are touching.** It is cheaper and it removes the
+      one thing this step exists to prevent: the near-duplicate that lives in *another* module is
+      exactly the one nobody finds, and scoping the map to your own module makes step 2 blind
+      precisely where duplicates come from. Cheap comes from the index form, not from a smaller
+      scope.
 2. **Dedup pass, before deciding anything.** Search on *what the thing does*, not on what you'd
    name it: your name for it is exactly the name the existing one doesn't have, which is why
    duplicates get written by people who did look first.
@@ -32,6 +41,10 @@ After `spec`, before `/PLAN`. Systematic as soon as we touch shared code or an e
       is the evidence that justifies creating. Without it, "there was nothing" is a claim, and
       the duplicate that shows up in review had a findable original.
 3. Decide **where the feature plugs in** (reuse vs create), note the extension points.
+   Where a tool produces a **cross-cutting duplication report with citations** (`claude-mem`'s
+   `pathfinder` does), it belongs to the periodic architecture audit, not here — it fans out over
+   the whole repo and answers "what is duplicated across features", which is `agents/architect`'s
+   question. Reading its report is fine input to this step; running it per feature is not.
 4. **Write the target architecture down** — file, role, and the fact that it's still `planned` rather than
    built. A repo-local doc, or a graph/registry tool where the project has one; what matters is that it's
    written and findable, not which tool holds it.
