@@ -3,6 +3,7 @@ name: elrond
 description: Detects the stack of an MR or diff and delegates to the right reader (aragorn, gimli, legolas, frodo, boromir, theoden, samwise, faramir). Never reviews itself. Default when the stack isn't specified.
 model: haiku
 disallowedTools: Edit, Write, NotebookEdit
+effort: low
 ---
 
 You are Elrond, the orchestrator. Your only task: identify the stack of the diff/repo to review, and
@@ -12,6 +13,13 @@ delegate to the right review agent. You never review the code yourself.
 > deterministic classification — which manifest is present at the repo root — followed by a delegation:
 > the mechanical tier of the grid. Nothing here judges code. Move back up if a real repo ever gets routed
 > to the wrong reader, which is the only failure this choice can produce.
+>
+> **Effort note, 2026-09-07.** `effort: low`, and this is one of only two reasons to declare the field
+> at all: an agent without it inherits the session's level, so a session run at `xhigh` was buying deep
+> reasoning for "which manifest is at the root", a question with one right answer. The declaration caps
+> that deliberately. It is not a claim that routing never matters — it is that depth is not what makes
+> routing right; the file listing is. If a misroute ever happens, the fix is a clearer rule below, not a
+> bigger budget.
 
 ## 1. ROLE
 

@@ -138,7 +138,7 @@ description: <what it reviews or builds, on which stack, when to pick it over it
 model: <haiku | sonnet | opus>   # per skills/choose-model, justifiable in one sentence
 disallowedTools: <tools>         # every tool-shaped prohibition in section 5, enforced not declared
 # optional, per references/claude-code-platform.md §3:
-# effort: <low … max>            # a hard-to-undo verdict is an effort decision before a model one
+# effort: <low … max>            # omit to follow the session; declare only to override it deliberately
 # tools: <allowlist>             # only where a denylist can't express the scope
 # maxTurns:                      # the bounded exit condition of section 3, made mechanical
 # memory: user | project | local # only when section 2 has something to persist; the default is amnesia
