@@ -30,7 +30,11 @@ protection — it's a claim the next reader will trust. Wire it or delete it.
    implying it's covered. This repo learned that one on itself: twelve of its own agents carried a prose
    *"never edit files"* rule for a month with nothing in their frontmatter denying the tool
    (`references/claude-code-platform.md`, and the correction stamped 2026-09-07 in
-   `doc/HOW-WE-WRITE-OUR-AGENTS.md`).
+   `doc/HOW-WE-WRITE-OUR-AGENTS.md`). The variant to watch for is subtler: **removing a declaration is
+   not the same as declaring the absence.** Dropping `agents` from this repo's own plugin manifest left
+   `claude plugin details` still reporting 25 agents, because the loader discovers the directory by
+   convention — the fix was `"agents": []`, and the way it was found was reading the tool's own
+   inventory back instead of trusting the edit (`skills/distributing-blocks`).
 5. **Carve-outs — a caller that is legitimately elsewhere.** A published API surface exports for consumers
    outside the repo, so zero in-repo call sites proves nothing. Framework contracts have the framework as
    their caller. A deliberate extension point counts where the variants exist or land in the same milestone
