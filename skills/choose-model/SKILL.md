@@ -37,19 +37,32 @@ grid below to be current on model names.
    production) moves up a tier rather than staying at the "perceived complexity" level.
 3. **Never over-size out of reflex.** Opus everywhere is expensive and improves nothing on a
    mechanical task: over-sizing is a choice error too, not just under-sizing.
-4. **Then set the effort level, separately.** Leave it inherited (`high`, the default) for
-   everything that reads or builds normally. Declare `effort: xhigh` only where step 2 said the
-   cost of being wrong is high: a gate, a security audit, an architecture verdict. `max` is
-   documented as prone to overthinking — it is something to test on one case and keep only if it
-   demonstrably found what `xhigh` missed, never a default.
-5. **Document both** in the agent's frontmatter: never left implicit, so that a later re-read can
-   challenge the choice on explicit criteria. An omitted `effort:` is a choice too — it says "the
-   session's level is right for this agent" — so an agent that needed one and doesn't have it
-   reads identically to one that was decided.
-6. **Know what actually wins at runtime.** For a subagent the order is: the per-invocation `model`
-   parameter, the agent file's `model:`, `CLAUDE_CODE_SUBAGENT_MODEL`, then the session's model —
-   and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` overrides all of it. An agent pinned to `opus` that came
-   back reasoning like Sonnet is usually that variable, not a bad `model:` line.
+4. **Then set the effort level, separately — and leave it out by default.** An agent with no
+   `effort:` **inherits the session's level**, which is the behaviour you want almost everywhere:
+   the operator who ran the session at `xhigh` gets deeper readers for free, and the one who ran it
+   cheap gets cheap readers. Declare a level only where the agent must **not** follow the session,
+   and there are exactly two such cases. `effort: xhigh` where step 2 said the cost of being wrong
+   is high — a gate, a security audit, an architecture verdict — so it stays deep even in a session
+   someone ran cheap. And `effort: low` for a genuinely mechanical agent — a classifier, a router —
+   which has no use for a deep session's budget and would otherwise burn it on a decision with one
+   right answer. `max` is documented as prone to overthinking: test it on one case, keep it only if
+   it demonstrably found what `xhigh` missed, never a default. **`effort: high` is almost always
+   the wrong line to write.** It reads like a small improvement over omitting the field and is a
+   different rule: a declared level overrides the session **in both directions**, so it caps a
+   session the operator deliberately ran deeper. Write it only when capping is the actual intent,
+   and say so in the same sentence.
+5. **Write the reasoning down where the field cannot carry it.** `model:` is always declared, so a
+   one-sentence note next to it is enough. `effort:` is usually absent, and an absent field cannot
+   say whether it was decided or forgotten — an agent that needed a level and never got one reads
+   identically to one where inheriting was the right answer. So the note says which: either
+   "follows the session deliberately", or the reason for the level that overrides it.
+6. **Know what actually wins at runtime.** For a subagent the model order is: the per-invocation
+   `model` parameter, the agent file's `model:`, `CLAUDE_CODE_SUBAGENT_MODEL`, then the session's
+   model — and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` overrides all of it. An agent pinned to `opus`
+   that came back reasoning like Sonnet is usually that variable, not a bad `model:` line. **Effort
+   resolves on its own axis**: the frontmatter beats the session, and the environment variable
+   beats the frontmatter — so an agent that ignores its own `effort: xhigh` is an environment
+   question, not a file question (`references/claude-code-platform.md` §1).
 
 ## Output / checkpoint
 The agent frontmatter's `model:` field is filled in, with a choice justifiable in one sentence
@@ -82,3 +95,13 @@ the grid into a single-axis one, which is how "this reader is shallow" kept reso
 Opus". Facts read the same day from `code.claude.com/docs/en/model-config` and stamped in
 `references/claude-code-platform.md` §1 — the aliases and the per-model level lists live there, not
 here, so this block doesn't have to be re-verified every time a model ships.
+
+**Steps 4, 5 and 6 corrected 2026-09-07, same day.** The rewrite earlier that day said an omitted
+`effort:` was "inherited (`high`, the default)", conflating two different facts: `high` is the
+**session** default, while a subagent with no `effort:` inherits whatever the session is at.
+Re-verified against code.claude.com/docs/en/sub-agents, and the correction matters because it
+inverts a recommendation — the obvious-looking move of declaring `effort: high` on the eight
+readers is not a small improvement on omitting it, it is a cap on any session the operator ran
+deeper. What the corrected step asks for instead is the two narrow cases: `xhigh` where a verdict
+must stay deep in a cheap session, and `low` where the agent is mechanical enough that a deep
+session's budget is waste (`elrond`, the only one that qualifies today).

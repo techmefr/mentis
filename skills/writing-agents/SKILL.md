@@ -41,8 +41,12 @@ inside the pipeline.
      certifies itself "ready".
    - **7. TRACE**: what the end-of-task output always contains (files touched, test evidence,
      status).
-4. **Choose the model and the effort level** via `choose-model`, documented in the `model:` and
-   (where the verdict is hard to walk back) `effort:` frontmatter.
+4. **Choose the model, then decide the effort level separately**, via `choose-model`. `model:` is
+   always declared and always justified in one sentence. `effort:` is normally **omitted**, because
+   an agent without it inherits the session's level — declare one only to override the session on
+   purpose: `xhigh` where the verdict is hard to walk back, `low` where the loop is mechanical
+   enough that a deep session's budget would be spent on a decision with one right answer. Either
+   way the reason is written next to the field, since an absent field cannot say it was decided.
 5. **Fill in the rest of the frontmatter the contract implies.** The seven pillars are prose; four
    of them have a mechanical counterpart, and writing only the prose half is how a guarantee ends
    up unenforced — pillar 4 is `disallowedTools`/`tools`, pillar 3's bounded exit is `maxTurns`,

@@ -35,15 +35,29 @@ differently on a gateway than it does locally. That is a reason to state the ali
 model ID: the alias degrades to whatever that provider has, a hardcoded ID fails outright.
 
 **Effort levels** are `low`, `medium`, `high`, `xhigh`, `max`, available on Fable 5.x, Opus 5,
-Sonnet 5, Opus 4.8 and Opus 4.7; Opus 4.6 and Sonnet 4.6 have no `xhigh`. The default is `high`.
-`xhigh` buys deeper reasoning for more tokens, and `max` is documented as prone to overthinking —
-so it is a thing to test on a case, not a default to reach for. `effort:` is a frontmatter field on
-both skills and agents, and `/effort` sets it for a session.
+Sonnet 5, Opus 4.8 and Opus 4.7; Opus 4.6 and Sonnet 4.6 have no `xhigh`. **A session** defaults to
+`high` (Opus 4.7 to `xhigh`). **A subagent with no `effort:` inherits the session's level** — it
+does not default to `high` independently, which is the distinction that decides how this repo should
+use the field, and which the first version of this section got wrong. [Re-verified 2026-09-07
+against code.claude.com/docs/en/sub-agents: "Effort level when this subagent is active. Overrides
+the session effort level. Default: inherits from session."] `xhigh` buys deeper reasoning for more
+tokens, and `max` is documented as prone to overthinking — so it is a thing to test on a case, not a
+default to reach for. `effort:` is a frontmatter field on both skills and agents, and `/effort` sets
+it for a session.
 
 The consequence for this repo: **a hard-to-undo verdict is an effort decision before it is a model
 decision.** Moving a reader from Sonnet to Opus multiplies its cost on every diff it ever reads;
 leaving it on Sonnet and giving the four agents whose verdict blocks a merge an explicit
 `effort: xhigh` buys the depth where the cost of being wrong actually sits.
+
+And the second consequence, which follows from the inheritance above: **a declared `effort:`
+overrides the session in both directions.** It raises a cheap session and it **caps an expensive
+one** — an agent pinned to `high` stays at `high` in a session the operator deliberately ran at
+`xhigh`. So declaring `effort: high` on an agent is not a small improvement over leaving it out; it
+is a different rule, and usually a worse one, because it takes the decision away from the person who
+set the session level. Declare a level only where the agent must not follow the session: a judge
+that has to stay deep in a cheap session (`xhigh` on the four gates), or a classifier that has no
+use for a deep one (`low`).
 
 **Subagent model resolution**, in order (v2.1.251+): the per-invocation `model` parameter, then the
 agent file's `model:`, then `CLAUDE_CODE_SUBAGENT_MODEL`, then the main conversation's model.
