@@ -288,7 +288,20 @@ Every skill/agent is a self-contained markdown file (frontmatter + body), in
 Claude Code's native format:
 
 1. Copy the file(s) you want into `.claude/agents/` or `.claude/skills/` in
-   the target repo.
+   the target repo. Two other shapes exist and
+   [`distributing-blocks`](./skills/distributing-blocks/SKILL.md) arbitrates
+   between all three: **symlink** a few blocks from a clone, so they follow
+   `git pull`; or, to take the whole thing, symlink the clone itself to
+   `~/.claude/skills/mentis` — the repo carries
+   [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) and registers
+   on the next session as one `mentis@skills-dir` plugin. That last form buys
+   a single enable/disable switch and a `claude plugin details` reading of the
+   projected token cost (84 skills, ~4,268 tok always-on as of 2026-09-07).
+   **Never install two of these forms at once** — every block would be loaded
+   twice. And whichever form you pick, **agents do not travel with it**: the
+   manifest declares `"agents": []` on purpose, because
+   `bin/install_agents.py --localise` is what substitutes an agent's
+   placeholders for your own paths and names.
 2. Pipeline skills are invoked in sequence (`brainstorm` → `spec` → ... →
    `finish`) or à la carte depending on the need.
 3. Agents are invoked through Claude Code's `Agent` / `Task` tool, directly
