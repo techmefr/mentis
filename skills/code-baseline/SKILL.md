@@ -1,6 +1,6 @@
 ---
 name: code-baseline
-description: "Use when writing or reviewing code in any language, for the rules that hold regardless of stack: comments, size and shape, errors, boundaries, domain types, the tests new code owes, customising a third party. Carries the new-code-only scope stance every rule depends on."
+description: "Use when writing or reviewing code in any language, for the rules that hold regardless of stack: comments, size and shape, errors, boundaries, domain types, the tests new code owes, customising a third party, guarantees that need a mechanism. Carries the new-code-only scope stance every rule depends on."
 ---
 
 # code-baseline
@@ -62,12 +62,14 @@ trigger the diff meets, not the whole table.
 | 5 | Domain types | two distinct concepts share a primitive type | [`05-domain-types.md`](./references/05-domain-types.md) |
 | 6 | Tests owed by new code | new behaviour is added | [`06-tests-owed-new.md`](./references/06-tests-owed-new.md) |
 | 7 | Customising a third party | a vendor file, template or component needs changing | [`07-customising-third-party.md`](./references/07-customising-third-party.md) |
+| 8 | Guarantees | the change is about to be called done | [`08-guarantees.md`](./references/08-guarantees.md) |
 
 ## Output / checkpoint
 No separate checkpoint: this is the floor `gate` (7) and `review` (8) check on every diff. A finding here is
 not a nit — each rule exists because its violation was expensive. What it owes at review: no new comment or
 ticket key, no new bag-named class, no new generic throw, no new raw external call, no new raw parsed map
-escaping its reader, and the diff's own lines covered by tests that were actually run.
+escaping its reader, no guarantee declared without a named line enforcing it, and the diff's own lines
+covered by tests that were actually run.
 
 ## Guardrails
 - **§0 is not optional.** Applying any rule below it to legacy code, unprompted, is the failure mode of this
