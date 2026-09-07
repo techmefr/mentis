@@ -12,7 +12,11 @@ target architecture by looking at the real code.
 After `spec`, before `/PLAN`. Systematic as soon as we touch shared code or an existing domain.
 
 ## Steps
-1. Run **graphify** on the worktree(s) concerned → a graph of what exists.
+1. **Get a map of what exists** in the worktree(s) concerned, before searching for anything
+   specific. A graph tool where one is installed (`graphify` here) is faster than reading; the
+   directory tree plus the entry points is always available and is what this step actually requires.
+   Naming a tool as the first action was a rule-B break hiding in plain sight: the step is *have a
+   map*, and a consumer with no graph tool must still be able to clear it.
 2. **Dedup pass, before deciding anything.** Search on *what the thing does*, not on what you'd
    name it: your name for it is exactly the name the existing one doesn't have, which is why
    duplicates get written by people who did look first.

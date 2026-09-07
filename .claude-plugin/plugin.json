@@ -2,15 +2,12 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "mentis",
   "version": "0.1.0",
-  "description": "Conventions, pipeline steps and agents, written so every rule holds in a repo with nothing installed.",
+  "description": "Conventions and pipeline steps, written so every rule holds in a repo with nothing installed. Agents ship through bin/install_agents.py, not this manifest.",
   "author": {
     "name": "g.compigni"
   },
   "skills": [
     "./skills",
     "./business"
-  ],
-  "agents": [
-    "./agents"
   ]
 }
