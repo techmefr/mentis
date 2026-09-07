@@ -16,13 +16,17 @@
 6. **Constructor property promotion** for a constructor that only assigns its parameters to properties.
 7. String building through interpolation with braced placeholders rather than concatenation splicing quoted
    fragments.
-8. Blank lines **between logical steps** inside a method body, so the steps are visible; not between every
+8. **A date rendered as text goes through the date library's own localised accessors** (a month name, a
+   weekday name, a translated format), never a lookup array keyed by the month number or a `match` on it.
+   The hand-rolled version reinvents a catalogue the library already ships for every locale, and hardcodes
+   user-facing text while doing it — two rules broken by one array (point 3 and point 11).
+9. Blank lines **between logical steps** inside a method body, so the steps are visible; not between every
    pair of lines.
-9. Guard clauses and early returns rather than nested branches; no brace-less single-line statement.
-10. **All code in one language — English** — including class and method names, command signatures and
+10. Guard clauses and early returns rather than nested branches; no brace-less single-line statement.
+11. **All code in one language — English** — including class and method names, command signatures and
     descriptions, log messages, console output, exception messages, queue and config keys. User-facing text
     is the exception, and it goes through translation.
-11. Whether new files declare strict types is a **project-wide decision applied uniformly**, and the
+12. Whether new files declare strict types is a **project-wide decision applied uniformly**, and the
     framework's own scaffolding is the reference point: a codebase half strict and half not gets the downsides
     of both. **The default for a new Laravel file is to omit `declare(strict_types=1)`, matching what
     `artisan make:*` generates** — this overrides `php-patterns`' language-level default (see that block's

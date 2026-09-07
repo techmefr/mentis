@@ -64,6 +64,12 @@ As soon as Python code is written or modified, during `code` (6) or `tdd` (5).
 2. **No magic strings or numbers with domain meaning.** A domain value (status, type, kind, mode) becomes an
    `Enum`/`StrEnum` and is typed as that enum on the model; a threshold or limit becomes a named constant.
    A literal `"pending"` compared in three files is three chances to typo it.
+3. **A status field whose values move through named transitions is a state machine, not a column.** Two
+   signals together are enough — more than one function branching on the status, and at least one
+   transition that must be refused — and the answer is `skills/design-patterns` §4 plus
+   `skills/domain-modeling`, read before the first transition function exists. Named here because the task
+   never arrives in pattern vocabulary: it arrives as "add a publish action" or "it should go back to
+   draft".
 
 ### 4. Async
 1. `asyncio.gather` for independent operations, never a serial `await` in a loop out of reflex.
@@ -148,3 +154,11 @@ transactions through one facade, no DB cascade, Python-side defaults, non-loadin
 test doubles, application test base, ruff/uv/mypy/pytest toolchain)** — rules extracted, de-identified and
 rewritten generically, with the internal framework and support-library names deliberately left out (rule C).
 Mechanisms rewritten, no copied text. Stamped 2026-08-06.
+
+**§3.3 added 2026-09-07** from a bodies pass over the same org catalogue, now 22 skills against the 20 mined:
+the state-machine recognition pointer, which mirrors `laravel-conventions` §1.5 and exists for the same
+reason — the source ships it as a skill whose only job is to be *seen*, because the task never arrives
+phrased in pattern vocabulary. Everything else in the two-skill delta was already covered (§4.3's async
+engine, §2's explicit `None` check, §7.3's non-loading relationships, §8's pinned toolchain); the internal
+framework's own bootstrap, provider and utility APIs stay out under rule C, their mechanisms already being
+§5, §6 and §7.

@@ -1,6 +1,6 @@
 ---
 name: vue-nuxt-vuetify-conventions
-description: "Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, linter-derived correctness."
+description: "Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, the data-access client, linter-derived correctness."
 ---
 
 # vue-nuxt-vuetify-conventions
@@ -51,6 +51,7 @@ trigger the diff meets, not the whole table.
 | 10 | Realtime events | a socket, a broadcast or a live update | [`10-realtime-events.md`](./references/10-realtime-events.md) |
 | 11 | Reactivity and security correctness (linter-derived) | reviewing a diff, or chasing a reactivity bug | [`11-reactivity-security-correctness.md`](./references/11-reactivity-security-correctness.md) |
 | 12 | Recurring review patterns (quality debt observed in the field) | reviewing a diff, for the debt that keeps coming back | [`12-recurring-review-patterns.md`](./references/12-recurring-review-patterns.md) |
+| 13 | The data-access client | the front end calls the backend through a typed client or model layer | [`13-data-access-client.md`](./references/13-data-access-client.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and
@@ -58,7 +59,8 @@ Code compliant with the sections above. No dedicated checkpoint: compliance is c
 
 ## Guardrails
 No comments in the code produced. Don't reinvent a component the UI toolkit already provides. Don't duplicate
-an existing composable before checking that no nearby one covers the need. `technical/` never imports
+an existing composable before checking that no nearby one covers the need. Where the project ships a typed
+client for its API, don't open a second path to a resource that already has a model. `technical/` never imports
 `functional/`. Where an org catalogue is installed and disagrees with a rule here, **it wins** — say so
 explicitly rather than silently applying either one. When in doubt about a rule covered by neither, escalate
 rather than guess.
