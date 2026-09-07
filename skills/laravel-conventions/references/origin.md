@@ -92,3 +92,23 @@ install surfaces, and the non-interactive install drops the former while reporti
 plugin's own install-flow prose, which can drift. Written against §10 while it still lived inline in
 `SKILL.md`; re-applied here after the section moved into `references/`, which is the only reason it is
 stamped twice.
+
+**Depth pass on §2, §4 and §8, 2026-09-07.** Measured rather than felt: the org catalogue this block
+was mined from carries 65 skills and 79,825 words of body against this block's 9,198, and the gap is
+not spread evenly — it sits in the sections that were written as pointers. §2 was 166 words against
+their ~2,500 on permissions, §4 was 261 against ~6,900 on queries and models, §8 was 137 against
+~2,350 on jobs, notifications and broadcasting. Those three are also the daily surface of the stack
+this repo actually ships on, which is why they went first rather than the worst ratio (`csharp`, at
+x17.9, is a stack nobody here writes).
+
+What was added is failure modes and carve-outs, not restated rules: how an ownership check after the
+fetch differs from a scoped query, why an aggregate beside a scoped list is part of that list's
+contract, why a nested existence check is usually a column that was already there, why a search
+index returns empty instead of erroring when the filter names the wrong field, why a chunked read
+skips rows when the rows are mutated, why dispatching inside a transaction is intermittent, and why
+a broadcast is a hint rather than a state update. Sources are the framework's own documented
+behaviour plus this repo's recorded incidents, de-identified per rule C — no catalogue prose was
+reproduced, and `global:no-skill-export` is why that line matters.
+
+Still short of parity on this block: ~67,000 words, tracked in `CATALOG.md` §2 as a programme rather
+than a claim.

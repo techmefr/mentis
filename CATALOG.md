@@ -378,6 +378,39 @@ linters, orchestration frameworks, etc. on the market).
 | market per-technology agent catalogue (137 agents) | `owasp-top10-expert`, `opentelemetry-expert`, `openapi-expert`, `rest-expert` | seraph / observability-instrumentation / api-design | ✕ (same sources already folded into the existing blocks) |
 | market per-technology agent catalogue (137 agents) | ~120 remaining per-library experts (frameworks, DBs, test runners, cloud SDKs, ML libs, languages outside the stack) | / | ✕ (one agent per library is the opposite of our per-role doctrine: it would fragment the roster into near-duplicates and none of them carries a fresh-context or evidence mechanism we don't already have) |
 
+### Depth parity with the org catalogue — a measured programme, 2026-09-07
+
+Subject coverage was verified in September 2026 and is essentially complete: every generic rule in the
+catalogue resolved to a block here except one (`default-project-stack`, closed in `skills/archi`). **Depth
+is a different question and the honest answer is that this repo is thinner**, so the gap is recorded per
+stack rather than left as an impression. Bodies are not in the permanent index — only descriptions are — so
+closing this costs nothing that made this repo cheaper to load.
+
+| stack | their skills / words | our blocks / words | deficit | priority |
+|---|---|---|---|---|
+| laravel | 65 / 79,825 | 3 / 9,198 | −70,627 | **1** — the stack this repo ships on |
+| csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
+| python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
+| flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
+| nuxt | 21 / 19,869 | 1 / 5,543 | −14,326 | **2** — the other stack shipped daily |
+| global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
+| project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
+| design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
+| react | 36 / 9,302 | 1 / 3,279 | −6,023 | 5 |
+| bi, design, xefi | 16 / 17,306 | 4 / 5,874 | −11,432 | ✕ — internal landscape, rule C keeps it out |
+
+Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
+per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
+cannot live in a publishable repo, so parity is per *subject treated to the same depth*, not per word.
+And it is **not a licence to reproduce**: `global:no-skill-export` makes the catalogue internal IP, so each
+pass is written from the underlying reality — framework behaviour, public practice, this repo's own recorded
+incidents de-identified — which is also why a pass is slow.
+
+**Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 words → 873/875/769), the three sections that
+had been written as pointers. **Next**: `laravel-conventions` §6 and §1, then `vue-nuxt-vuetify-conventions`.
+Progress is measurable with the same script that produced this table, which is the point of recording it
+here rather than in a commit message.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it

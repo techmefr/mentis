@@ -41,7 +41,7 @@ trigger the diff meets, not the whole table.
 | 5 | Naming, typing, style | a symbol has to be named, or a docblock written | [`05-naming-typing-style.md`](./references/05-naming-typing-style.md) |
 | 6 | HTTP surface | a route, a controller action, a FormRequest, a response shape | [`06-http-surface.md`](./references/06-http-surface.md) |
 | 7 | Configuration and commands | `config/`, `env()`, an artisan command, a seeder or a factory | [`07-configuration-commands.md`](./references/07-configuration-commands.md) |
-| 8 | Jobs and realtime | a queued job, a notification, a broadcast | [`08-jobs-realtime.md`](./references/08-jobs-realtime.md) |
+| 8 | Jobs, notifications and realtime | a queued job, a scheduled task, a notification or mail, a broadcast | [`08-jobs-realtime.md`](./references/08-jobs-realtime.md) |
 | 9 | Tests and static analysis | tests are written, or Larastan/Pint is in play | [`09-tests-static-analysis.md`](./references/09-tests-static-analysis.md) |
 | 10 | Architecture | the change spans layers, or a new one is proposed | [`10-architecture.md`](./references/10-architecture.md) |
 | 11 | Failures | an operation can fail, an exception is thrown, caught or mapped to a response | [`11-failures.md`](./references/11-failures.md) |
