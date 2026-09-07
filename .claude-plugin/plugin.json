@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "mentis",
+  "version": "0.1.0",
+  "description": "Conventions, pipeline steps and agents, written so every rule holds in a repo with nothing installed.",
+  "author": {
+    "name": "g.compigni"
+  },
+  "skills": [
+    "./skills",
+    "./business"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}
