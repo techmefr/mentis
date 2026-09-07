@@ -32,8 +32,14 @@
 9. A factory produces a valid minimal object; the test states what it needs on top. A factory that fabricates
    a fully-populated aggregate makes every test depend on data it never asked for.
 10. Reference data inserted by a migration or a seeder is idempotent — it runs again on the next environment.
-11. Where a static analyser is installed, detect its configured level on the first edit and **write to that
+11. **A change that introduces or changes persisted data ships its seed data in the same change.** The bar
+    is a fresh migrate-and-seed showing the new feature populated with realistic, varied data, without
+    anyone touching their database by hand: a new model gets its seeder registered, an extended enum gets
+    rows for the new cases, a new column gets values that are not all the default. A feature whose data
+    only exists on the author's machine is a feature the next person cannot see, and the seeder written
+    three weeks later is written against a schema that has moved.
+12. Where a static analyser is installed, detect its configured level on the first edit and **write to that
    level**, rather than introducing findings someone else has to clear. Its baseline is not a licence to add
    to the baseline.
-12. Beware a factory whose model has a lifecycle listener performing an outbound call: the test needs that
+13. Beware a factory whose model has a lifecycle listener performing an outbound call: the test needs that
    call faked, or the suite makes real network requests and fails for reasons that look like flakiness.

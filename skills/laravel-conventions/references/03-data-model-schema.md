@@ -39,10 +39,23 @@
 11. **Decide all of this at the ERD/plan stage, not at code review.** A plan sentence like "delete the user
     and cascade to orders and sessions" has already chosen the mechanism, and a verbal answer to "should
     deleting a company remove its invoices?" is the same decision made without noticing.
-12. **Don't factorise two concepts into one table** just because they look alike or share columns today. The
-   shared table is cheap now and is the thing you can't unpick later, when one side grows a rule the other
-   can't have.
+12. **Don't factorise two concepts into one table, model or abstraction** just because they look alike or
+   share columns today. The shared table is cheap now and is the thing you can't unpick later, when one
+   side grows a rule the other can't have. Factorisation is earned by **shared meaning and shared
+   change** — the two play the same role in the domain and will evolve together — never by shared *shape*
+   (similar columns right now) or shared *screen* (a designer drew them on one page). A mockup listing two
+   kinds of thing in one table is a layout decision, and reading it as a schema decision is the most common
+   way this one gets made.
 13. Every model using soft deletes also carries a **pruning policy** with a retention window. Soft deletes
    without pruning is an unbounded table that silently becomes the biggest one in the database.
-14. Column defaults: prefer the application-side default, visible at the call site and testable without a
+14. **Pruning is deleting, and a sweep fires the same per-row events as a delete.** A mass-prune trait,
+   event suppression, a quiet delete, a table truncate and a hand-rolled `DELETE … WHERE created_at <`
+   cron are the same bypass as point 5's database cascade arriving from the other direction: the rows
+   leave and nothing downstream hears. "This data is never deleted, only pruned" is a contradiction — if a
+   row can be purged after eighteen months then it is deletable, and the retention window only says when.
+   A summary event carrying a class name and a count is not a substitute, because nothing can audit,
+   archive, re-index or sync from a number: it says how many rows vanished, never which. Where the volume
+   genuinely makes per-row events untenable, that is point 10's deliberate purge — an explicit decision
+   with the lost listeners named, not a trait chosen to keep the log quiet.
+15. Column defaults: prefer the application-side default, visible at the call site and testable without a
     database.
