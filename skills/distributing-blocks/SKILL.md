@@ -65,6 +65,13 @@ already ran the script it would arrive *twice* — once namespaced by the plugin
 the fleet's index doubles and two versions of the same agent answer to nearly the same name. Agents
 keep the script as their only path; the plugin form carries the blocks.
 
+**And declaring that takes `"agents": []`, not an omitted key** — measured, not assumed. With the key
+absent, `claude plugin details` still reported `Agents (25)`: the loader picks `./agents` up by
+directory convention, so the first attempt at this rule was a claim with nothing behind it, which is
+`code-baseline` §8 exactly. The empty array reports `Agents (0)`. Anything a manifest is supposed to
+*not* ship has to be denied explicitly and then read back from `claude plugin details`, because the
+default is discovery.
+
 A note on symlinking skills: a block whose `Steps` became a router needs its `references/` directory
 symlinked too, not just its `SKILL.md`. A router pointing at sections that aren't there is worse than
 a long block.
