@@ -27,7 +27,7 @@ that
 mentis wrote no mobile block. That basis no longer holds — this block is the mentis-side default for a
 project with no catalogue installed.
 
-**§7 deepened 2026-08-11** from the real house doc (the internal house documentation, `/developer/nos-methodes/flutter/bloc`,
+**§7 deepened 2026-08-11** from the company's own internal house documentation (its Flutter BLoC page,
 read that date) — unlike the rest of this block, that page is written from the company's own real production
 use of `flutter_bloc`, not from a catalogue description. It sharpened three things this block only had
 generically: **why** the event-driven form exists at all (a plain method can't be cancelled once made; the

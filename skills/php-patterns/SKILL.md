@@ -84,8 +84,8 @@ is why this block never restated it. One rule genuinely changes behaviour rather
 (instantiation parentheses, `elseif` over `else if`, `// no break` comments) stays a formatter's job, not
 a hand-applied rule.
 
-**§1.1 corrected 2026-08-11**, cross-checked against the actual installed the org catalogue `laravel`
-plugin (`laravel/skills/no-strict-types`) rather than a market source: the PSR-12 rule closed as a gap on
+**§1.1 corrected 2026-08-11**, cross-checked against the actual installed org catalogue's Laravel
+plugin (`no-strict-types`) rather than a market source: the PSR-12 rule closed as a gap on
 2026-08-10 is exactly right at the language level, but the real, currently-installed house catalogue
 carries a **deliberate, dogfooded reversal** of it for Laravel specifically — Laravel's framework boundary
 relies on scalar coercion (route/request/config values arrive as loose strings), so `strict_types=1` turns

@@ -117,5 +117,5 @@ outgoing calls, signature verification before trust, dedup by event id under a u
 re-fetching authoritative state rather than trusting the payload): published Stripe-style payment
 integration practice, generalised beyond one named processor. The money-as-value-object point is not
 new here — it cross-references `skills/design-patterns` §4.5, added 2026-08-11 from the real
-the org catalogue `design-patterns` plugin — this block is where its highest-stakes case gets spelled
+the org catalogue's design-patterns plugin — this block is where its highest-stakes case gets spelled
 out. Stamped 2026-08-11.

@@ -36,8 +36,8 @@ anti-patterns. Stamped 2026-08-06.
 **Fills a real gap**: `php-patterns` covers the language and explicitly stopped at the framework boundary,
 leaving Laravel — the stack with the largest catalogue of the set — with no block at all on the mentis side.
 
-**§1.1/§1.2/§7.3 corrected 2026-08-11** against the real house doc (the internal house documentation, `/developer/nos-methodes`,
-read that date). §1.1 previously said business logic "goes in an action/service", which quietly allowed the
+**§1.1/§1.2/§7.3 corrected 2026-08-11** against the company's own internal house documentation (its
+methods section, read that date). §1.1 previously said business logic "goes in an action/service", which quietly allowed the
 exact `*Service`/`*Repository` bag-name `code-baseline` already forbids — an internal contradiction the real
 doc caught: it explicitly bans `UserManager`/`UserService`/`XxxRepository` and requires one verb-plus-noun
 action or query class per behaviour (`RegisterUser`, `GetActiveSessionsForUser`), with the reasoning that a
@@ -47,7 +47,7 @@ Observer, moved one line over) — the source's own convention page states it as
 stronger than this block's existing generic phrasing. The source also names concrete required packages
 (`spatie/laravel-permission`, `-activitylog`, `-medialibrary`, `-translatable`, `-sluggable`, `tymon/jwt-auth`,
 Pulse, Telescope, Pint, Larastan) — left out here per rule C: those are the org's own package-list authority,
-already the domain of the installed the org catalogue `laravel` plugin, not something to duplicate
+already the domain of the installed org catalogue's Laravel plugin, not something to duplicate
 generically.
 
 **Bodies pass on the org catalogue, 2026-09-07.** The catalogue this block was mined from has grown from 45

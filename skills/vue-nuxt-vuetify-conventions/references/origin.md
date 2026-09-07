@@ -20,7 +20,7 @@ rewritten, no copied text. Stamped 2026-08-06.
 Section 9 point 5 and section 5 point 6 (the `shallowRef` reactivity change and the Nuxt 4 directory
 defaults) refreshed against the official Nuxt 4 upgrade guide (nuxt.com/docs/4.x/getting-started/upgrade),
 read 2026-08-10 — supersedes the `nuxt4-patterns` extract above on this specific point, which predated the
-Nuxt 4 stable release. The layer-convention override note names `nuxt-osdd` an internal host directly
+Nuxt 4 stable release. The layer-convention override note names the `nuxt-osdd` package directly
 rather than de-identified: it's the company's own published open-source package, publicly readable outside
 the company like `test-casebook` — rule C's generic-citation default is for internal/private facts, not for
 a real tool the company itself ships publicly (`CONVENTIONS.md` rule C). Confirmed against its own docs,

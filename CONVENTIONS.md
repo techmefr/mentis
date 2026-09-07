@@ -51,6 +51,22 @@ are served by holding the same boundary **from the moment we write**:
 Simple rule: if a sentence couldn't be read by a dev outside the company, it doesn't go in `mentis/`.
 Publication itself is **out of agent scope** (a human decision).
 
+**And that rule is now a test, `bin/test_rule_c.py`, wired into `bin/pre-push`** — because the prose
+version failed. A scan on 2026-09-07 found 39 occurrences already committed to the public tree: an
+internal documentation host cited three times as a source, the org's private skill marketplace and
+individual skill paths inside it named about twenty times, two real repository names, one tracker key
+and two internal subdomains. No secret, no credential, no server hostname — but every one of them a
+sentence a reader outside the company cannot use, which is the test above.
+
+Where they got in matters more than the count. Not in the blocks' rules, which were written
+carefully, but in **`origin.md` provenance stamps and `CATALOG.md` source columns** — the places whose
+whole job is saying honestly where a fact came from, where an author is thinking about attribution
+and forgets that *the citation is itself the fact*. Honest provenance and rule C are not in conflict:
+"the org catalogue's Laravel plugin, read 2026-08-11" carries the same evidential weight as its name
+and reveals nothing. The carve-out stays narrow and is encoded in the test — a first-party package
+the company publishes openly may be named, by **package name and never by host**, since rule C lists
+hosts as infra.
+
 **Exception: a real tool the company itself ships publicly can be named directly.** The test above is
 whether a dev outside the company could read the sentence, not whether the company's name appears in
 it — a published open-source package (`nuxt-osdd`, `laravel-osdd`, the `test-casebook` family) is exactly

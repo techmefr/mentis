@@ -141,8 +141,8 @@ generated from the same DTO/resource the backend returns, Laravel Precognition f
 reusing the submission's own FormRequest rules). §4 (the override table against `laravel-conventions` and
 the Nuxt/Next-specific blocks) is ours: written after a real conflict surfaced where an Inertia repo was
 reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture — no
-existing skill named the boundary, in this repo or in the installed the org catalogue marketplace
-(`laravel`/`nuxt` plugins), which don't cover Inertia either. §4.5/§4.6 went through two revisions the
+existing skill named the boundary, in this repo or in the installed org catalogue
+(its Laravel and Nuxt plugins), which don't cover Inertia either. §4.5/§4.6 went through two revisions the
 same day: a first pass checked only whether the REST package was a project dependency at all — too
 coarse for a project using **both** Inertia (for its pages) and a REST package (for a genuinely separate
 API surface), which is a real, coherent architecture, not a contradiction. The current version checks
