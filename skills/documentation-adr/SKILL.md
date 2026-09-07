@@ -1,6 +1,6 @@
 ---
 name: documentation-adr
-description: Use when a significant architecture decision that is hard to walk back is taken: the ADR template, what belongs there rather than in inline docs, and the never-delete-always-supersede rule.
+description: "Use when a significant architecture decision that is hard to walk back is taken: the ADR template, what belongs there rather than in inline docs, and the never-delete-always-supersede rule."
 ---
 
 # documentation-adr

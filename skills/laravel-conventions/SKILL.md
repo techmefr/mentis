@@ -1,6 +1,6 @@
 ---
 name: laravel-conventions
-description: Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture. The framework layer above skills/php-patterns.
+description: "Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture. The framework layer above skills/php-patterns."
 ---
 
 # laravel-conventions

@@ -1,6 +1,6 @@
 ---
 name: distributing-blocks
-description: Use when someone outside this repo wants to install these blocks, or an existing user needs a newer version: the install and update mechanism, and the boundary that keeps their customisations alive.
+description: "Use when someone outside this repo wants to install these blocks, or an existing user needs a newer version: the install and update mechanism, and the boundary that keeps their customisations alive."
 ---
 
 # distributing-blocks

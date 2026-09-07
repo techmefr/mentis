@@ -1,6 +1,6 @@
 ---
 name: people-ops
-description: Use when hiring, onboarding or offboarding: a defensible hiring decision, a new hire productive early, a departure that leaks neither access nor knowledge. Not employment-law advice.
+description: "Use when hiring, onboarding or offboarding: a defensible hiring decision, a new hire productive early, a departure that leaks neither access nor knowledge. Not employment-law advice."
 ---
 
 # people-ops

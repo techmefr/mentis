@@ -1,6 +1,6 @@
 ---
 name: regulatory-watch
-description: Use when a regulation, deadline or compliance obligation is about to be stated, relied on, or written into a plan: jurisdiction, primary source, and when a verification has expired.
+description: "Use when a regulation, deadline or compliance obligation is about to be stated, relied on, or written into a plan: jurisdiction, primary source, and when a verification has expired."
 ---
 
 # regulatory-watch

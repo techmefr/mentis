@@ -1,6 +1,6 @@
 ---
 name: vendor-management
-description: Use before signing or renewing a SaaS or vendor contract, or when choosing between vendors: security and compliance review before signing, and renewal tracking.
+description: "Use before signing or renewing a SaaS or vendor contract, or when choosing between vendors: security and compliance review before signing, and renewal tracking."
 ---
 
 # vendor-management

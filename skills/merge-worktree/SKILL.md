@@ -1,6 +1,6 @@
 ---
 name: merge-worktree
-description: Use when only part of a worktree needs to come back into the current branch: selective merge (file, patch, cherry-pick, multi-worktree) and the post-merge cleanup. Complements finish.
+description: "Use when only part of a worktree needs to come back into the current branch: selective merge (file, patch, cherry-pick, multi-worktree) and the post-merge cleanup. Complements finish."
 ---
 
 # merge-worktree

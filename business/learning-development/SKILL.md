@@ -1,6 +1,6 @@
 ---
 name: learning-development
-description: Use when setting up or reviewing a training or upskilling program: a real skills gap, a baseline before measuring impact, outcomes tied to something checkable. Onboarding is business/people-ops.
+description: "Use when setting up or reviewing a training or upskilling program: a real skills gap, a baseline before measuring impact, outcomes tied to something checkable. Onboarding is business/people-ops."
 ---
 
 # learning-development

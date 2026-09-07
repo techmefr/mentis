@@ -1,6 +1,6 @@
 ---
 name: over-engineering-review
-description: Use when re-reading a diff or a repo looking for one thing only, what can be deleted: dead code, reinvented stdlib, over-abstraction, unrequested anticipation. Scores and lists, never applies.
+description: "Use when re-reading a diff or a repo looking for one thing only, what can be deleted: dead code, reinvented stdlib, over-abstraction, unrequested anticipation. Scores and lists, never applies."
 ---
 
 # over-engineering-review

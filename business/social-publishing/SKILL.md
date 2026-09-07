@@ -1,6 +1,6 @@
 ---
 name: social-publishing
-description: Use when something is going out on a public social platform: who approves it, how one message adapts per platform without becoming four different truths, and what must never be automated.
+description: "Use when something is going out on a public social platform: who approves it, how one message adapts per platform without becoming four different truths, and what must never be automated."
 ---
 
 # social-publishing

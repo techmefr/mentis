@@ -1,6 +1,6 @@
 ---
 name: wayfinder
-description: Use when a piece of work spans several weeks and stays uncertain (a large migration, a progressive rework): a map of typed Jira tickets rather than one big ticket or a plan frozen up front.
+description: "Use when a piece of work spans several weeks and stays uncertain (a large migration, a progressive rework): a map of typed Jira tickets rather than one big ticket or a plan frozen up front."
 ---
 
 # wayfinder

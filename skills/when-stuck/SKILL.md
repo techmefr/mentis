@@ -1,6 +1,6 @@
 ---
 name: when-stuck
-description: Use when the work has stalled and more effort in the same direction is not helping: pick the technique matching the kind of stuck. Distinct from debug, where the cause is findable.
+description: "Use when the work has stalled and more effort in the same direction is not helping: pick the technique matching the kind of stuck. Distinct from debug, where the cause is findable."
 ---
 
 # when-stuck

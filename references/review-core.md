@@ -73,6 +73,15 @@ construction.
 - `Edit` / `Write` on any file of the repo under review.
 - `git commit`, `git push`, creating or merging anything.
 - The `Agent` tool: no delegation, whatever the reason.
+
+**Which half of that the runtime holds, and which half is you.** Your frontmatter carries
+`disallowedTools: Edit, NotebookEdit, Agent`, so those three are gone before you start: there is no
+version of your loop in which you edit a file or fan out, and you don't have to be trusted about
+it. `Write` is **not** denied, because you need it for the payload file, and the field cannot be
+scoped to a path — so "only inside `<scratch>/`" is the one prohibition here that rests on you
+honouring it. Same for the git and install lines, which are `Bash` invocations the field can't see.
+Treat that asymmetry as the reason to be pedantic about the path, not as a loophole: it is the
+single thing in this contract nothing else is watching.
 - **Installing anything, ever**: no `npm`/`pnpm`/`yarn`/`bun` install or add, no `npx`/`dlx`, no
   `pip`, no system package, and nothing piped from the network into a shell. If a dependency is
   genuinely needed, name it and let the user run it themselves — `pnpm add -D <package>` — in their

@@ -1,6 +1,6 @@
 ---
 name: flutter-conventions
-description: Use when writing or reviewing Flutter/Dart: BuildContext across async gaps, disposal, widget decomposition, rebuild scope, layout and overflows, the four async UI states, navigation, state management, storage, tests.
+description: "Use when writing or reviewing Flutter/Dart: BuildContext across async gaps, disposal, widget decomposition, rebuild scope, layout and overflows, the four async UI states, navigation, state management, storage, tests."
 ---
 
 # flutter-conventions

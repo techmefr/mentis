@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: Use when the work introduces or reshapes a domain concept: agree the vocabulary and where the rules live before designing the schema or the API. Runs before archi.
+description: "Use when the work introduces or reshapes a domain concept: agree the vocabulary and where the rules live before designing the schema or the API. Runs before archi."
 ---
 
 # domain-modeling
