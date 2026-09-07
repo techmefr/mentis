@@ -1,6 +1,6 @@
 ---
 name: laravel-conventions
-description: "Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture. The framework layer above skills/php-patterns."
+description: "Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture, failures. The framework layer above skills/php-patterns."
 ---
 
 # laravel-conventions
@@ -44,6 +44,7 @@ trigger the diff meets, not the whole table.
 | 8 | Jobs and realtime | a queued job, a notification, a broadcast | [`08-jobs-realtime.md`](./references/08-jobs-realtime.md) |
 | 9 | Tests and static analysis | tests are written, or Larastan/Pint is in play | [`09-tests-static-analysis.md`](./references/09-tests-static-analysis.md) |
 | 10 | Architecture | the change spans layers, or a new one is proposed | [`10-architecture.md`](./references/10-architecture.md) |
+| 11 | Failures | an operation can fail, an exception is thrown, caught or mapped to a response | [`11-failures.md`](./references/11-failures.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, formatter clean, and no new static-analysis finding introduced by the

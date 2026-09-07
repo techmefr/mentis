@@ -7,9 +7,15 @@
 2. A new dependency is a decision: check what the project already standardises on for the need (factories,
    policies, permissions, media, activity logging, translations, auth tokens, queues, multi-tenancy, static
    analysis) before adding a second library for something already solved.
-3. Prefer the framework's own mechanism over a custom one; prefer configuration over a new abstraction. The
+3. **A version branch past its security-fix end of life is not a maintenance choice.** Both the framework's
+   and the language's support windows are published and mechanical, so the question has a date for an
+   answer rather than an opinion: a new project starts on the newest stable major and the newest minor that
+   major supports, and an existing one is planned off a branch before its security window closes, not after
+   an advisory forces it. Staying behind also compounds — each skipped major makes the next upgrade the
+   one nobody has budget for.
+4. Prefer the framework's own mechanism over a custom one; prefer configuration over a new abstraction. The
    framework already does most of the design-pattern work (`skills/design-patterns`).
-4. **Where a layer-package convention (OSDD-style) is installed**, point 1's split is enforced structurally,
+5. **Where a layer-package convention (OSDD-style) is installed**, point 1's split is enforced structurally,
    not just by discipline: each functional (`users`, `billing`, ...) or technical domain is its **own
    self-contained Composer package** — `composer.json`, `src/`, its own `database/` (migrations, seeders),
    its own `tests/`, its own service provider — generated and scaffolded through the package's own commands

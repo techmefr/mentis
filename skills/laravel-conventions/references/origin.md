@@ -49,3 +49,37 @@ stronger than this block's existing generic phrasing. The source also names conc
 Pulse, Telescope, Pint, Larastan) — left out here per rule C: those are the org's own package-list authority,
 already the domain of the installed `xefi-claude-skills` `laravel` plugin, not something to duplicate
 generically.
+
+**Bodies pass on the org catalogue, 2026-09-07.** The catalogue this block was mined from has grown from 45
+skills to 65 since the 2026-08-06 pass, and that pass read descriptions before the 2026-08-06 deepening read
+bodies. Re-diffed skill by skill against §1–§10: 48 were already covered. What was not, and is now:
+
+- **§11 is new — failures.** The block had no rule at all on what happens to an error, which was the largest
+  single hole in it: throw rather than return a built error response (a returned failure never reaches error
+  tracking, so the endpoint fails and the error rate stays flat); reporting to a tracker without throwing
+  makes the operation look successful; a `catch` earns its place by doing something; an exception whose
+  meaning is always one HTTP status is HTTP-native rather than mapped in a render callback, because such a
+  callback's return value is used verbatim and is therefore forced to re-implement content negotiation; and
+  no hand-rolled JSON-versus-HTML branch. `code-baseline` §3 already governed what an exception *is*, which
+  is why that half is referenced rather than repeated.
+- **§1.4** — a concern trait owns its concept end to end (relationship, casts, scopes, accessors together),
+  which resolves a real tension: §1.1 listed "simple scopes" as model-body furniture, the source moves them
+  into the trait that owns the concept. §1.1 was corrected to match rather than left contradicting §1.4.
+- **§1.5** — recognising a state machine and a pipeline from their Laravel-shaped triggers rather than from
+  pattern vocabulary. Taken from two source skills that exist purely to be *seen* and hand off; the handoff
+  target here is `skills/design-patterns` §4 and `skills/domain-modeling`.
+- **§3.14** — pruning is deleting: a mass-prune trait, event suppression, a quiet delete, a truncate or a
+  raw `DELETE` cron is §3.5's cascade bypass arriving from the other direction, and a summary event with a
+  count is not a substitute for per-row events.
+- **§3.12** — widened from "one table" to table/model/abstraction, with the earned-by test (shared meaning
+  and shared change, never shared shape or shared screen).
+- **§4.5** — every table reached through its model, pivots included; the raw query-builder facade skips
+  casts, accessors, global scopes and events.
+- **§5.8** — a date rendered as text goes through the date library's localised accessors.
+- **§7.4** — a command earns its place by running more than once; a one-off data change is a migration.
+- **§9.11** — a change to persisted data ships its seed data in the same change.
+- **§10.3** — a branch past its security-fix end of life is a date, not an opinion.
+
+Deliberately left out: the house package list and static-analysis ruleset, the house faker extension, the
+MCP-for-AI-APIs tooling rule, and an admin-panel column-visibility rule too specific to one package to
+generalise (rule C, and rule A for the last one). Mechanisms rewritten, no copied text.
