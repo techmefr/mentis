@@ -73,8 +73,8 @@ metrics (Accelerate: Forsgren/Humble/Kim: deployment frequency, lead time, MTTR,
 and established GitOps/IaC practice. Mechanisms rewritten, no copied text. Market research, no
 internal production feedback at this stage.
 
-§2 point 4 (protected shared resources) added 2026-08-11, generalised from `xefi-claude-skills`
-`xefi/skills/protected-databases` — a real org hard-interdiction skill naming one specific SQL Server
+§2 point 4 (protected shared resources) added 2026-08-11, generalised from the org catalogue's
+hard-interdiction skill on protected shared databases — a real rule naming one specific SQL Server
 host as never-rename-never-drop. The specific host, the specific business tools it feeds (Sage, a CRM)
 and the specific escalation mailbox are left out per rule C; what's kept is the shape that made the
 source skill work as a hard rule rather than a wish — forbid by effect not by exact syntax, name the

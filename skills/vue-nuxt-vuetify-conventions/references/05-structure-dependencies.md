@@ -26,6 +26,6 @@
    way, to `<rootDir>/server` regardless of `srcDir`; `layers/`, `modules/`, `public/` stay resolved from
    `<rootDir>`; and a new `shared/` directory (`shared/utils/`, `shared/types/`) is auto-imported into both
    the Vue app and the Nitro server for code that's genuinely neither. [Same source as point 5 above,
-   read 2026-08-10.] **Where `nuxt-osdd` (nuxt-osdd.xefi.com) is installed, it overrides this**: each layer
+   read 2026-08-10.] **Where the company's `nuxt-osdd` package is installed, it overrides this**: each layer
    already carries its own self-contained `app/` subtree (see that package's own structure), and this
    generic default only applies where no such layer package is installed.

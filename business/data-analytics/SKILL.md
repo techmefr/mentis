@@ -137,7 +137,7 @@ traceable to the table and logic that produced it, and — for a KPI or dashboar
   defaults, not proven doctrine, to be confronted with a real analytics engagement.
 
 ## Origin
-§§1-4 generalised from `xefi-claude-skills` `bi/skills/contexte-xefi` and `bi/skills/main-tables` — a
+§§1-4 generalised from the org catalogue's two BI landscape skills — a
 real BI team's reference material for a landscape of several independent SQL Server instances (a shared
 CRM, one database per business entity on an ERP instance, a referential/uniformisation instance, and a
 views-only restitution instance), plus a usage guide to its main tables. The real instance names, host
