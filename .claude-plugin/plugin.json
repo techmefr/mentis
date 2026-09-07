@@ -9,5 +9,6 @@
   "skills": [
     "./skills",
     "./business"
-  ]
+  ],
+  "agents": []
 }
