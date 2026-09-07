@@ -14,9 +14,11 @@ When starting on a project, or to refresh the references before `review`/`code`/
 them. Always at a human's request.
 
 ## Steps
-1. Read the real code — a graph tool first where one is installed (`graphify` here), targeted
-   reading otherwise, and targeted reading in both cases: structure, recurring patterns, naming,
-   backend responses, frontend components, design tokens actually used, test patterns.
+1. Read the real code — a structural index first where one is installed (an AST search such as
+   `claude-mem`'s `smart-explore`, or a graph artefact such as `graphify`), and targeted reading
+   in every case: structure, recurring patterns, naming, backend responses, frontend components,
+   design tokens actually used, test patterns. The index only tells you where to look; a
+   convention is observed in the code, never inferred from a symbol list.
 2. Extract the **observed conventions** by domain (frontend / backend / tests / design).
 3. Emit a **draft** `references/observed/<project>.md`, marked **INTERNAL** (it contains project
    specifics).
