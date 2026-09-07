@@ -406,8 +406,9 @@ And it is **not a licence to reproduce**: `global:no-skill-export` makes the cat
 pass is written from the underlying reality — framework behaviour, public practice, this repo's own recorded
 incidents de-identified — which is also why a pass is slow.
 
-**Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 words → 873/875/769), the three sections that
-had been written as pointers. **Next**: `laravel-conventions` §6 and §1, then `vue-nuxt-vuetify-conventions`.
+**Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 → 873/875/769) then §6 and §1 (292/589 →
+1,027/996) — five of eleven sections, 1,445 words → 4,700. **Next**: `vue-nuxt-vuetify-conventions`, whose
+deficit is the second largest and whose stack ships daily here, then `laravel-conventions` §3 and §9.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 

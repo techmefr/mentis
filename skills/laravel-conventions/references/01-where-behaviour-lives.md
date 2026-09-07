@@ -11,6 +11,16 @@
    (`RegisterUser`, `GetActiveSessionsForUser`), never a `UserManager`/`UserService` that accumulates
    unrelated methods over time. A fat model is the class everything imports and nobody can change; a generic
    service is the same failure one layer up.
+   1. **An action has one public method, and it returns a value.** Its collaborators arrive through
+      constructor promotion, its inputs are typed parameters rather than the request, and its result is
+      domain data — never a response, never a redirect. An action that returns an HTTP response cannot be
+      called from a command, a job or a test without a fake request, which is how the same rule ends up
+      duplicated in the console.
+   2. **Separate the read from the write.** A query class answers a question and touches nothing; an action
+      changes state. Merging them gives a method whose name cannot be honest (`getOrCreateAndNotify`), and
+      the caller can no longer tell whether calling it twice is safe.
+   3. **A controller validates, delegates, responds.** Business branching in a controller is the same
+      logic the console command will need next month, in the one place a console command cannot reach it.
 2. **Events + listeners, never model observers**, for reacting to lifecycle changes. An observer is invisible
    at the call site: something saves a row and unrelated code runs, with no trace in the flow being read.
    Listeners are registered explicitly. This includes the model's own `boot()`: a static `boot()` override
@@ -36,8 +46,23 @@
    as "add a publish button", "the status should go back to draft", "it should also send a notification".
    That is the whole reason to name the recognition here rather than trusting the pattern block's own
    triggers to fire.
-6. **No markup in PHP.** A service, action, accessor, controller or job never builds HTML — no tags, no inline
+6. **Do not factor out what protects nothing.** A helper wrapping one framework call, a class extracted
+   because two lines looked alike, an interface with one implementation "for later" — each adds a hop and
+   removes the reader's ability to see what happens. The test is whether the extraction holds an invariant
+   somebody could otherwise break: a rule about how a thing must be built, a boundary a caller must not
+   cross. Shared shape is not an invariant, and two call sites that happen to look alike today are the most
+   common reason a helper ends up with a boolean parameter that switches its behaviour.
+7. **Do not build the extension point before the second real case.** A strategy, a registry, an event with
+   one listener, a config key with one value — all of them are guesses about a variation that has not
+   arrived, and they cost the same whether the guess was right or wrong. `skills/design-patterns` holds the
+   threshold; what belongs here is where the pressure comes from in this framework: a package's own
+   extension hook makes it feel free, and it still has to be read by whoever comes next.
+8. **An accessor is a projection of the row, not a query.** The moment it loads a relation, counts
+   something, or reaches configuration, it becomes an N+1 wearing the clothes of a field (§4 point 1), and
+   nothing at the call site says so. Anything needing another table is a method with a verb in its name, or
+   it belongs in a query class.
+9. **No markup in PHP.** A service, action, accessor, controller or job never builds HTML — no tags, no inline
    styles, no concatenated `<span>`. Markup belongs in the view layer; a backend class returns data.
-7. **The application owns its domain.** When integrating an external system (payment provider, CRM, ERP), the
+10. **The application owns its domain.** When integrating an external system (payment provider, CRM, ERP), the
    app remains the central source of functional knowledge — it doesn't become a thin proxy whose rules live in
    someone else's product and whose behaviour changes without a deploy.
