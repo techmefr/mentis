@@ -331,7 +331,21 @@ Claude Code's native format:
      `npx claude-mem install --provider claude --runtime worker`. It needs
      Bun; where the OS package manager can't install `unzip`/Bun without
      `sudo`, fetch the release zip and extract it with `python3 -m zipfile
-     -e` instead of installing system packages.
+     -e` instead of installing system packages. **Its CLI needs Node ≥ 20**
+     (`node:util.styleText`): on a host whose default `node` is 18, every
+     `npx claude-mem …` dies in an unreadable ESM trace, and so does the
+     bare-`node` MCP server it registers — measured on v18.19.1, 2026-09-07.
+     Anything invoking it outside an interactive shell has to select the
+     runtime itself, which is why the keepalive below sources `nvm` on its
+     first line rather than trusting `PATH`.
+   - **`claude-mem` is also where two code-mapping tools live**, and that
+     matters when deciding whether to install it: `smart-explore` (tree-sitter
+     AST search over MCP, answering per query with nothing persisted) is the
+     index form [`archi`](./skills/archi/SKILL.md) step 1 now prefers, and
+     `pathfinder` (cross-feature duplication report with citations) is input
+     to [`architect`](./agents/architect.md)'s periodic audit rather than to a
+     per-feature step. Reading it as "session memory" alone undersells what it
+     replaces.
    - **`graphify`** (turns a repo into a queryable knowledge graph,
      `graphify-out/`): a personal skill, no install beyond copying the file.
    - **`claude-mem`'s worker degrades badly left unattended** — it doesn't
@@ -349,12 +363,17 @@ Claude Code's native format:
    - **`graphify` is agent-driven, not a standalone binary** — `--update`
      walks through LLM-assisted extraction steps inside a live Claude Code
      session, so nothing can refresh it unattended in the background either.
-     The cheap fix is **check-at-use**: the skill checks `graphify-out/`'s age
-     the moment it's invoked and runs `--update` itself if it's past 24h,
+     The mitigation is **check-at-use**: the skill checks `graphify-out/`'s
+     age the moment it's invoked and runs `--update` itself if it's past 24h,
      otherwise answers straight from the existing graph — the same
      authoring-time-only shape as `context7` in `source-freshness`. A day
      with no `graphify` usage costs nothing, unlike a standing watcher or a
      timed loop that would wake up whether or not anyone needed the graph.
+     **But it mitigates the artefact form, it does not fix it**: a graph
+     built once into a directory is right the day it is generated and quietly
+     wrong afterwards, and check-at-use only moves the refresh cost to the
+     moment you need an answer. That is why `archi` step 1 prefers an index
+     built on demand and names this as the fallback shape, not the target.
 
 **Nothing above needs anything installed** — every block works on a plain repo
 with plain git, which is rule A. That includes the review: **no forge, no
