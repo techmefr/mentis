@@ -23,6 +23,15 @@ analysis is written or modified (not the app's own transactional database).
 3. Transformations tested on a sample before a full run on production data, especially for a
    destructive transformation (full replacement of a table).
 
+4. **A file someone handed you is never the working copy.** Read it, work on an in-memory or copied
+   representation, and write the result somewhere else — the original stays byte-identical, because it is
+   often the only copy and always the only evidence of what arrived. This is the ad-hoc counterpart of §3.1's
+   raw layer: the same rule, at the scale of one file and one request rather than a scheduled run.
+5. **A destructive transformation is confirmed before it is applied, not after.** Replacing values,
+   dropping rows, merging accounts or normalising identifiers on someone's data is not reversible from
+   their side. Say what the step will change and on how many rows, then apply it — one step at a time,
+   rather than a single pass whose result has to be trusted wholesale.
+
 ### 2. Data quality: verified, not assumed
 1. Explicit validation of the expected constraints (non-null on required fields, key uniqueness,
    plausible value ranges) at the pipeline's input and output: a validation failure blocks the
@@ -53,6 +62,8 @@ Pipeline compliant with the four sections above; the data quality validations ru
 the result is considered usable downstream.
 
 ## Guardrails
+- **Never write back over a supplied source file**, and never apply a destructive transformation to
+  someone's data without saying first what it changes and on how many rows.
 Never run a destructive pipeline (full replacement of a production table) without explicit human
 confirmation. This block has no dedicated in-house production experience yet: to be confronted with the
 first real data pipeline, not to be treated as proven doctrine.
@@ -62,3 +73,10 @@ Sourced from established dbt conventions (staging/intermediate/marts layers, sch
 DMBOK data quality dimensions (completeness/accuracy/consistency/timeliness), and the classic SCD
 patterns in dimensional modelling (Kimball). Mechanisms rewritten, no copied text. Market research, no
 internal production feedback at this stage.
+
+**§1.4–§1.5 added 2026-09-07** from an org BI skill for handling supplied accounting files, read for its
+handling discipline rather than its format knowledge: never write back over the file someone handed you, and
+confirm a destructive transformation before applying it rather than reporting it afterwards. §3.1 already
+held the raw-layer version of the first at pipeline scale; what was missing was the ad-hoc case — one file,
+one request, no scheduled run — which is where an agent actually meets it. The regulatory file format itself,
+the ERP export specifics and the internal instance names stay out (rule C).
