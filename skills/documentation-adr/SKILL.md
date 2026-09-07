@@ -79,7 +79,7 @@ standalone block it had nowhere to attach, so it's reduced here to the one place
 a `simplify` pass about to collapse a trade-off somebody chose.
 
 **"When" and the Output/Guardrails corrected 2026-08-11** against the real, installed
-`xefi-claude-skills` `global` plugin (`no-project-docs`), read directly: "An architecture decision
+org catalogue's cross-cutting plugin (`no-project-docs`), read directly: "An architecture decision
 record is not automatically an exception. If the user wants one, write it; do not volunteer it."
 This block's original phrasing ("as soon as a structural decision is taken... an ADR file created")
 had the agent spontaneously committing a new doc file the moment a decision qualified — exactly the
