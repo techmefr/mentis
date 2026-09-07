@@ -44,3 +44,15 @@ section 11 already traces to) on 2026-08-10: its two named custom rules that wer
 never importing a compiler macro (`defineProps`/`defineEmits`/etc.) from `'vue'` (§1.10), and an explicit
 `useAsyncData`/`useFetch` key as the default rather than only inside a loop (§9.4, widened) — are now
 closed. Its other named rules (props destructuring breaking reactivity) were already §1.9.
+
+**Bodies pass on the org catalogue, 2026-09-07.** The 2026-08-06 stamp above mined that catalogue's 21
+skills from their **descriptions**; this pass read the bodies, which is where the thresholds, the
+anti-pattern lists and the runtime gotchas live. Four real gaps, all of them mechanism rather than house
+policy: §4.5 gained BEM's three out-of-scheme shapes (grandchild, bare modifier, camel case), §4.6 the
+static/dynamic split with its extract-to-`computed` threshold and the reactive-CSS-in-the-style-block
+preference, §4.7 the opt-a-folder-into-the-scan rule, and **§13 is new** — the typed-client layer, which the
+descriptions pass had reduced to "go through the model" and whose real weight is the hydration-typing trap,
+the shared applied state between two handles on one record, and the foreign-ORM muscle memory. The house
+client's own name, decorators and config stay out (rule C); `lomkit/laravel-rest-api` is named in §13.2
+under the same carve-out as elsewhere in the repo, as a public package. The 17 other skills were already
+covered by §1–§12 and are unchanged.
