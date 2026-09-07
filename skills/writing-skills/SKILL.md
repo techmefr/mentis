@@ -22,7 +22,17 @@ rewritten our way (Rule B).
 2. **Isolate the real mechanism**, not the packaging: if the skill is sourced from an external
    repo, read the concept until you can explain it without the source file in front of you.
 3. **Write to the single template** (`CONVENTIONS.md`):
-   - frontmatter `name` + `description` starting with "Use when..."
+   - frontmatter `name` + `description` starting with "Use when..."; `description` is what routes
+     the block, and it is **truncated at 1,536 characters in the listing** — that is a platform
+     limit, not a style preference, so a description written to summarise instead of to route
+     loses its tail silently
+   - the optional frontmatter fields, **declared only when the block needs one**: `paths` so a
+     stack block doesn't load on another stack's files, `allowed-tools` so an operator isn't
+     approving each gate command, `disallowed-tools` to keep an autonomous block out of
+     `AskUserQuestion`, `disable-model-invocation` for a step nobody should trigger by accident,
+     `context: fork` when the step belongs in a subagent rather than in the conversation. The list
+     and what each one costs are in `references/claude-code-platform.md` §2 — including which of
+     them make the block Claude Code-only, which is a rule C decision and not a detail
    - `# name`
    - `## When`
    - `## Steps`

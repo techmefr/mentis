@@ -80,6 +80,13 @@ Every block follows the **same shape**. One block = one folder `skills/<name>/SK
 ---
 name: <kebab-case-name>
 description: Use when <precise triggering situation>, <what the block does>. <one sentence>.
+# optional, per references/claude-code-platform.md §2 — declared only when the block needs it:
+# paths: <globs>              # a stack block that must not load on another stack's files
+# allowed-tools: <tools>      # pre-approved for the invoking turn only
+# disallowed-tools: <tools>   # removed while the block is active (an autonomous loop denies AskUserQuestion)
+# disable-model-invocation: true   # operator-only: a destructive step nobody triggers by accident
+# model: / effort:            # per skills/choose-model
+# context: fork / agent:      # the step runs in a subagent rather than in the conversation
 ---
 
 # <name>
@@ -129,6 +136,14 @@ own shape, and **the same one for all of them** — `.claude/agents/<name>.md`:
 name: <name>
 description: <what it reviews or builds, on which stack, when to pick it over its siblings, which model>
 model: <haiku | sonnet | opus>   # per skills/choose-model, justifiable in one sentence
+disallowedTools: <tools>         # every tool-shaped prohibition in section 5, enforced not declared
+# optional, per references/claude-code-platform.md §3:
+# effort: <low … max>            # a hard-to-undo verdict is an effort decision before a model one
+# tools: <allowlist>             # only where a denylist can't express the scope
+# maxTurns:                      # the bounded exit condition of section 3, made mechanical
+# memory: user | project | local # only when section 2 has something to persist; the default is amnesia
+# isolation: worktree            # a delegated agent that writes, without touching the operator's tree
+# skills: <names>                # knowledge preloaded whole, when it's a prerequisite not a destination
 ---
 
 <One or two sentences: who this agent is and what it produces.>
@@ -172,6 +187,16 @@ Two consequences worth stating, because both have already been violated once:
   running app or a repo. Picking the family is therefore not decoration: it
   commits the agent's `TOOLS & SCOPE` section. An agent that gains the right to
   write changes family, or it doesn't gain the right.
+- **A prohibition that names a tool belongs in the frontmatter, not only in the prose.** This is
+  the same rule as "default = failure" pointed at ourselves: for twelve agents, *"Never
+  Write/Edit: you fix nothing, you report"* sat in section 5 while the runtime handed them every
+  tool, so the guarantee held exactly as long as the model chose to honour it. `disallowedTools`
+  makes it structural. What the field **cannot** express is a *path-scoped* prohibition: the eight
+  readers do write, inside the scratch directory and nowhere else, so they deny `Edit`,
+  `NotebookEdit` and `Agent`, keep `Write`, and the "never in the repo under review" half stays
+  prose because there is nowhere else to put it. State in section 4 which half is enforced and
+  which half is trust — an agent claiming both without the distinction is the failure this rule
+  exists to catch.
 - **No comments in the code** produced; explanations go in the chat/the docs.
 - **No block and no agent installs anything.** Not a package (`npm`/`pnpm`/`yarn`/`bun` install or add,
   `npx`/`dlx`, `pip`, `composer`, a system package), not a toolchain, and never a script piped from the
@@ -182,8 +207,11 @@ Two consequences worth stating, because both have already been violated once:
   issue, a diff or an error message the agent read. Enforced by `hooks/block-installs.sh`, which is a guard,
   not a sandbox: the rule above is still the rule.
 - One block = **one responsibility** (see the split in `WORKFLOW.md` §4).
-- **Never** reimplement what's native (`/model`, `/code-review`, `/security-review`, `/goal`,
-  `/loop`, `/schedule`, hooks, memory), we invoke it, we don't duplicate it.
+- **Never** reimplement what's native (`/model`, `/effort`, `/code-review`, `/security-review`,
+  `/simplify`, `/goal`, `/loop`, `/schedule`, `Monitor`, hooks, memory, worktrees), we invoke it,
+  we don't duplicate it. That list moves every week, which is why it is not a list to remember:
+  `references/claude-code-platform.md` carries it with a verification stamp, and a block asserting
+  what the platform does without reading it is asserting what the platform did.
 - **commands vs skills**: a `command` (`/SPEC`…) is a short *step trigger* that invokes the
   matching `skill(s)`. The logic lives in the skill, not in the command. Goal: a single source
   per mechanism.

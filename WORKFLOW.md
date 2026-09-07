@@ -41,6 +41,14 @@ vary in count and severity per pass — so it stays a manual, turn-based cycle f
 **proactive/time-based loop** (`/loop`/`/schedule`) for a queue of incoming reports rather than a
 single one (`skills/bug-triage` §When).
 
+Three shapes, and the pipeline uses each one for a different reason: **`/goal`** when the exit
+condition is a verdict we produce (the gate), **`/loop`** when it is somebody else's state and has
+to be polled (the report queue), and the **`Monitor`** tool when there is a stream to tail rather
+than a state to sample — a build, a log, a test watcher. The third one is the correction worth
+carrying: a `/loop` that re-runs a prompt to check whether a command finished costs a full turn per
+sample, where `Monitor` streams the output lines as they come. Mechanics, limits and the seven-day
+expiry that bounds a forgotten `/loop`: `references/claude-code-platform.md` §5.
+
 | # | Step | Question it answers | Done when |
 |---|---|---|---|
 | 0 | `start-feature` | where does this work live? | an isolated worktree exists |

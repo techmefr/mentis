@@ -19,6 +19,7 @@ the market in my own voice, without ever depending on a third-party repo.
 ## Contents
 
 - [How I write and govern my agents](./doc/HOW-WE-WRITE-OUR-AGENTS.md), the doc to read to understand everything, with diagrams
+- [The native platform surface](./references/claude-code-platform.md), stamped: what Claude Code provides, so no block reimplements it and no block declares a guarantee the frontmatter should be enforcing
 - [Why my own version](#why-my-own-version)
 - [Positioning](#positioning)
 - [The pipeline](#the-pipeline)
@@ -30,9 +31,17 @@ the market in my own voice, without ever depending on a third-party repo.
 - [Status](#status)
 - [Licence](#licence)
 
-At a glance, as of 2026-08-14: **60 skills**, **24 business blocks**, **25 agents**, **3 hooks** (the
+At a glance, as of 2026-09-07: **60 skills**, **24 business blocks**, **25 agents**, **3 hooks** (the
 default-FAIL gate pair and the install guard), and the review scripts in `bin/`.
 Maturity is the honest part — see [Status](#status).
+
+**20 of the 25 agents now deny their forbidden tools in the frontmatter**, not only in their prose.
+Twelve of them had carried *"Never Write/Edit: you fix nothing, you report"* while the runtime
+handed them every tool — a guarantee that held only as long as the model chose to honour it, which
+is precisely the thing this repo refuses to accept from anyone else. The five implementers write
+code and are untouched. The one prohibition still resting on trust is the readers' *"write only
+inside the scratch directory"*, because `disallowedTools` cannot be scoped to a path, and each
+reader's contract now says so explicitly instead of implying the runtime has it covered.
 
 **What a session actually loads.** Every block description sits in the system prompt of every session
 whether or not it gets used, so they are sized for routing, not for summarising: ~23 KB for the whole
@@ -315,8 +324,11 @@ Claude Code's native format:
    - **`claude-mem`'s worker degrades badly left unattended** — it doesn't
      survive a reboot or a crash on its own, and this is a real background
      daemon, not a pipeline step, so neither native `/loop` (session-bound,
-     dies with the session) nor `/schedule` (cloud-only, can't see a local
-     process) reaches it. The right native tool here is the OS's own: a
+     dies with the session, and expires after seven days) nor a cloud routine
+     (fresh clone, no view of a local process) reaches it. A **Desktop
+     scheduled task** does see local files and could, at the cost of tying
+     process supervision to the desktop app being open. The right native tool
+     here stays the OS's own: a
      one-line **cron job** (`crontab -e`, hourly is plenty) that runs `npx
      claude-mem status` and `npx claude-mem start` if it isn't running. Rule B
      ("invoke native, don't reimplement") is about pipeline mechanisms, not a

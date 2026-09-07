@@ -12,6 +12,15 @@ It's the `tdd` discipline turned on the framework itself: **a block's output is 
 the test is behavioural. And it's cheaper than what we were waiting for — you don't need a real
 project and a real feature to find out a block doesn't work.
 
+**Run it through `claude plugin eval`, not by hand.** The platform now runs scored eval cases
+(`evals/**/case.yaml`, graders in `graders/*.md`) against a plugin, a skills directory or a
+`plugin@marketplace` id, and it **adds a no-plugin baseline arm automatically** — which is exactly
+the RED run in step 1, mechanised, with the comparison the protocol below asks you to do manually.
+The steps that follow are still the method: the runner gives you the harness and the scoring, it
+does not invent the pressure scenario or record the rationalisation for you. The honest state of
+this block as of 2026-09-07 is that its protocol predates the runner and hasn't been re-expressed
+as eval cases yet — that is the open item in `CATALOG.md` §2, not a settled design.
+
 ## When
 Before a block moves out of 🟡. Also when a block was followed in the calm case and ignored the one
 time it mattered: that's not bad luck, that's a failed test nobody ran.
