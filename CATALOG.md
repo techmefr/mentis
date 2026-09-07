@@ -32,7 +32,7 @@ crossed over (rule C).
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (12 sections) |
 | React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
-| C#/.NET | `csharp` (15) | `skills/dotnet-conventions`, rewritten self-contained (6 sections) |
+| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07) |
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded** |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
