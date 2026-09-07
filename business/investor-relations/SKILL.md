@@ -1,6 +1,6 @@
 ---
 name: investor-relations
-description: Use when preparing a data room, a board or investor update, or answering due diligence: internal consistency of financials, cap table, KPIs, forecast. Not legal or securities advice.
+description: "Use when preparing a data room, a board or investor update, or answering due diligence: internal consistency of financials, cap table, KPIs, forecast. Not legal or securities advice."
 ---
 
 # investor-relations

@@ -1,6 +1,6 @@
 ---
 name: go-conventions
-description: Use when writing or reviewing Go: the concurrency, error handling and context patterns from the golangci-lint meta-linter and the Uber Go Style Guide.
+description: "Use when writing or reviewing Go: the concurrency, error handling and context patterns from the golangci-lint meta-linter and the Uber Go Style Guide."
 ---
 
 # go-conventions

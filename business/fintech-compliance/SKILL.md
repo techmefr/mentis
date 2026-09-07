@@ -1,6 +1,6 @@
 ---
 name: fintech-compliance
-description: Use when a feature touches payments, card data, a financial ledger, KYC onboarding or moving money between parties: regulatory scope, and the engineering invariants that keep it correct.
+description: "Use when a feature touches payments, card data, a financial ledger, KYC onboarding or moving money between parties: regulatory scope, and the engineering invariants that keep it correct."
 ---
 
 # fintech-compliance

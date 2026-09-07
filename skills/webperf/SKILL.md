@@ -1,6 +1,6 @@
 ---
 name: webperf
-description: Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend: diagnose from a measurement rather than from intuition.
+description: "Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend: diagnose from a measurement rather than from intuition."
 ---
 
 # webperf

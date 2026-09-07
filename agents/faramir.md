@@ -1,6 +1,6 @@
 ---
 name: faramir
-description: Reviews a Flutter/Dart diff or MR and returns or posts inline comments. Learner calibration: most remarks phrased as questions. Other stacks go to the sibling readers.
+description: "Reviews a Flutter/Dart diff or MR and returns or posts inline comments. Learner calibration: most remarks phrased as questions. Other stacks go to the sibling readers."
 model: sonnet
 disallowedTools: Edit, NotebookEdit, Agent
 ---

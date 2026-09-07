@@ -1,6 +1,6 @@
 ---
 name: dotnet-conventions
-description: Use when writing or reviewing C#/.NET: async/await with cancellation, injection and service lifetimes, the type and visibility prohibitions, authorisation, disposal, nullability, EF Core.
+description: "Use when writing or reviewing C#/.NET: async/await with cancellation, injection and service lifetimes, the type and visibility prohibitions, authorisation, disposal, nullability, EF Core."
 ---
 
 # dotnet-conventions

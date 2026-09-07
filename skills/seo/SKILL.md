@@ -1,6 +1,6 @@
 ---
 name: seo
-description: Use when writing or reviewing a frontend page or app meant to be indexed, technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals, sitemap and robots.
+description: "Use when writing or reviewing a frontend page or app meant to be indexed, technical SEO checklist: meta tags, HTML semantics, structured data, Core Web Vitals, sitemap and robots."
 ---
 
 # seo

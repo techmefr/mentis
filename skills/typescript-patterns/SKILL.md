@@ -1,6 +1,6 @@
 ---
 name: typescript-patterns
-description: Use when writing or reviewing pure TypeScript or JavaScript whatever the framework: advanced types, async patterns, closures, immutability. Nuxt, React and NestJS have their own blocks.
+description: "Use when writing or reviewing pure TypeScript or JavaScript whatever the framework: advanced types, async patterns, closures, immutability. Nuxt, React and NestJS have their own blocks."
 ---
 
 # typescript-patterns

@@ -1,6 +1,6 @@
 ---
 name: community-management
-description: Use when running the ongoing conversation on an account or a community: replying, moderating, handling criticism, routing what arrives, and what a community manager must never answer alone.
+description: "Use when running the ongoing conversation on an account or a community: replying, moderating, handling criticism, routing what arrives, and what a community manager must never answer alone."
 ---
 
 # community-management

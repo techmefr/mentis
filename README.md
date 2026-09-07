@@ -398,9 +398,16 @@ If that ever fails, the two transports have drifted and every reader is
 affected.
 
 **Maintaining this repo.** `bin/test_scripts.py` + `bin/test_local.py` +
-`bin/test_hooks.py` + `bin/test_guard_test_changes.py` (123 checks total)
-cover the scripts, the local review transport, `hooks/block-installs.sh`, and
-`hooks/guard-test-changes.sh`. Run `bash bin/install-git-hooks.sh` once per
+`bin/test_hooks.py` + `bin/test_guard_test_changes.py` +
+`bin/test_frontmatter.py` (130 checks total) cover the scripts, the local
+review transport, `hooks/block-installs.sh`, `hooks/guard-test-changes.sh`,
+and every block's frontmatter. That last suite exists because on 2026-09-07,
+**63 of the 109 blocks here had frontmatter a real YAML parser refuses** — a
+`description` containing `: ` left unquoted. Claude Code's own reader is
+lenient, so every block loaded and nothing surfaced it; `bin/install_agents.py`
+and `skills/distributing-blocks` are the reason that mattered anyway, because a
+consumer parses these files with whatever they have. Run
+`bash bin/install-git-hooks.sh` once per
 clone to wire them as a `pre-push` git hook — a push with any suite red is
 refused locally, before it ever reaches CI. This is repo maintenance, not a
 pipeline step: nothing in `skills/`/`agents/` depends on the hook being

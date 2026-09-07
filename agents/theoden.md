@@ -1,6 +1,6 @@
 ---
 name: theoden
-description: Reviews a C#/.NET diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to aragorn/gimli/legolas/boromir.
+description: "Reviews a C#/.NET diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to aragorn/gimli/legolas/boromir."
 model: sonnet
 disallowedTools: Edit, NotebookEdit, Agent
 ---

@@ -1,6 +1,6 @@
 ---
 name: testing-blocks
-description: Use when a skill or agent in this framework has been written but never proven to change behaviour: validate it with a pressure scenario, run without the block then with it.
+description: "Use when a skill or agent in this framework has been written but never proven to change behaviour: validate it with a pressure scenario, run without the block then with it."
 ---
 
 # testing-blocks

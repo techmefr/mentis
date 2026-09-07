@@ -1,6 +1,6 @@
 ---
 name: oracle
-description: Advisory read of a BI/analytics artefact: a KPI definition, a dashboard, an analytics SQL model, an extraction query. Reports notes, never a gate. Does not write or run the query.
+description: "Advisory read of a BI/analytics artefact: a KPI definition, a dashboard, an analytics SQL model, an extraction query. Reports notes, never a gate. Does not write or run the query."
 model: sonnet
 disallowedTools: Edit, Write, NotebookEdit, Agent
 ---

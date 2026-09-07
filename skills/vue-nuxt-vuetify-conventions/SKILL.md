@@ -1,6 +1,6 @@
 ---
 name: vue-nuxt-vuetify-conventions
-description: Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, linter-derived correctness.
+description: "Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, linter-derived correctness."
 ---
 
 # vue-nuxt-vuetify-conventions

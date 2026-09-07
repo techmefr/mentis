@@ -1,6 +1,6 @@
 ---
 name: writing-agents
-description: Use when creating or revising an agent for this framework: the 7-pillar template, the check that no existing agent already covers the role, and the model choice.
+description: "Use when creating or revising an agent for this framework: the 7-pillar template, the check that no existing agent already covers the role, and the model choice."
 ---
 
 # writing-agents

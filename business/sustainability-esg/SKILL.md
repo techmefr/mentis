@@ -1,6 +1,6 @@
 ---
 name: sustainability-esg
-description: Use when writing or reviewing a sustainability or ESG claim, report or public commitment: materiality and evidence, so a claim does not become greenwashing.
+description: "Use when writing or reviewing a sustainability or ESG claim, report or public commitment: materiality and evidence, so a claim does not become greenwashing."
 ---
 
 # sustainability-esg

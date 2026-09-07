@@ -1,6 +1,6 @@
 ---
 name: code-baseline
-description: Use when writing or reviewing code in any language, for the rules that hold regardless of stack: comments, size and shape, errors, boundaries, domain types, the tests new code owes, customising a third party. Carries the new-code-only scope stance every rule depends on.
+description: "Use when writing or reviewing code in any language, for the rules that hold regardless of stack: comments, size and shape, errors, boundaries, domain types, the tests new code owes, customising a third party. Carries the new-code-only scope stance every rule depends on."
 ---
 
 # code-baseline

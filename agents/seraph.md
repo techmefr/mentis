@@ -1,6 +1,6 @@
 ---
 name: seraph
-description: Static security audit of a repo's code and config (exposed secrets, missing authorisation, injection surfaces, vulnerable dependencies). Read-only: never exploits, never edits.
+description: "Static security audit of a repo's code and config (exposed secrets, missing authorisation, injection surfaces, vulnerable dependencies). Read-only: never exploits, never edits."
 model: opus
 disallowedTools: Edit, Write, NotebookEdit
 effort: xhigh

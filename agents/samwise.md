@@ -1,6 +1,6 @@
 ---
 name: samwise
-description: Reviews a Python diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to the sibling readers.
+description: "Reviews a Python diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to the sibling readers."
 model: sonnet
 disallowedTools: Edit, NotebookEdit, Agent
 ---

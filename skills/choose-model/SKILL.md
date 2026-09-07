@@ -1,6 +1,6 @@
 ---
 name: choose-model
-description: Use when writing a new agent or launching a one-off task and the model and reasoning budget have to be decided: Haiku for mechanical work, Sonnet by default, Opus for a gate or a judge, and the effort level for how hard it thinks.
+description: "Use when writing a new agent or launching a one-off task and the model and reasoning budget have to be decided: Haiku for mechanical work, Sonnet by default, Opus for a gate or a judge, and the effort level for how hard it thinks."
 ---
 
 # choose-model

@@ -1,6 +1,6 @@
 ---
 name: boromir
-description: Reviews a Go diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to aragorn/gimli/legolas/theoden.
+description: "Reviews a Go diff or MR and returns or posts inline comments. Learner calibration: remarks phrased as questions. Other stacks go to aragorn/gimli/legolas/theoden."
 model: sonnet
 disallowedTools: Edit, NotebookEdit, Agent
 ---

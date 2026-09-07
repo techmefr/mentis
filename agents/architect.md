@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Periodic audit of a repo's architecture debt: hot-spots, leaking coupling, deletion test. Returns a prioritised report, never edits. Not during a feature (that's archi/simplify).
+description: "Periodic audit of a repo's architecture debt: hot-spots, leaking coupling, deletion test. Returns a prioritised report, never edits. Not during a feature (that's archi/simplify)."
 model: opus
 disallowedTools: Edit, Write, NotebookEdit
 effort: xhigh

@@ -1,6 +1,6 @@
 ---
 name: gandalf
-description: Final MR gate: runs the test gate read-only, delegates the diff review to elrond, runs /code-review and /security-review, returns one consolidated report. Never fixes anything itself.
+description: "Final MR gate: runs the test gate read-only, delegates the diff review to elrond, runs /code-review and /security-review, returns one consolidated report. Never fixes anything itself."
 model: sonnet
 disallowedTools: Edit, Write, NotebookEdit
 ---

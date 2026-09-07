@@ -1,6 +1,6 @@
 ---
 name: java-conventions
-description: Use when writing or reviewing Java: typing and immutability (records, Optional), checked versus unchecked errors, concurrency, common Spring patterns.
+description: "Use when writing or reviewing Java: typing and immutability (records, Optional), checked versus unchecked errors, concurrency, common Spring patterns."
 ---
 
 # java-conventions
