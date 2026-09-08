@@ -34,3 +34,36 @@
    failure, the check downstream is unreachable at runtime and exists for the static analyser — keep it if
    the narrowing is needed, but its body throws rather than returning a response. The guard was never the
    problem; the `return` was.
+7. **A failure carries what the caller needs in order to act.** A validation failure carries per-field
+   detail, not a sentence, because the form has to point at the field the user must fix; a domain exception
+   carries the identifiers and values involved, as data on the exception rather than baked into a string.
+   A message the caller has to parse is a contract that breaks the first time somebody rewords it.
+8. **The exception message is for developers; the user-facing text is the handler's decision.** Putting a
+   polished, translated sentence in the throw site mixes two audiences and guarantees the sentence gets
+   duplicated, because the next throw site needs the same words. And it goes the other way too: internal
+   detail — a query, a path, an upstream body — must not reach the response, which is exactly what §11.1's
+   hand-built error response tends to leak.
+9. **Inside a transaction, a throw is the rollback.** So do not catch and continue in there: swallowing the
+   exception commits a half-finished unit of work, which is the one failure mode a transaction existed to
+   prevent. The corollary is that irreversible side effects — mail, a queued job, an outbound HTTP call —
+   do not belong inside the transaction, because a rollback cannot recall them (§8 covers dispatching after
+   commit).
+10. **A retry re-runs everything before the failure point.** So a job or command that can be retried is
+    idempotent by construction, or its first steps happen twice: two emails, two charges, two rows (§8).
+    "It only fails rarely" is not an answer — rare is exactly when nobody is watching the second run.
+11. **An external call fails in five ways, not one.** A timeout, a refused connection, a 5xx, a rate limit
+    and a malformed body are different outcomes with different correct responses, and a single
+    `catch (Exception)` around an HTTP client treats a rate limit as a bug and a bug as a rate limit. Set
+    the timeout explicitly while you are there: several clients default to none, and a dependency that
+    hangs becomes your outage rather than theirs.
+12. **An expected failure is not a defect, and the tracker has to know the difference.** A 422, a 404 on a
+    stale link, a rejected login — these are the application working. Reporting them next to real
+    exceptions raises the volume until the real ones are unfindable, which is the same harm as reporting
+    nothing, arrived at from the other direction.
+13. **Attach identifiers to a report, not payloads.** The tenant, the user, the resource id and the
+    operation are what make an exception diagnosable; dumping the request body puts personal data into a
+    third-party tool, where it is now retained under someone else's policy and outside the deletion path
+    the application promises.
+14. **The failure path is asserted.** A throw is behaviour, so a test names it and proves it (§9);
+    otherwise the first refactor quietly turns it back into the returned error response point 1 forbids,
+    and nothing anywhere goes red.

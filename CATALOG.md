@@ -388,7 +388,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | priority |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 12,796 | −67,029 | **1** — the stack this repo ships on |
+| laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | **1** — the stack this repo ships on |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
@@ -430,9 +430,26 @@ to x6.2.
 before writing showed **§3 already at 980 words** from an earlier pass — the queue had been written from
 memory rather than from the counts. The order is now recomputed each time from the actual file sizes,
 which is the only reason the table exists.
-**Next**, by measured thinness: `laravel-conventions` §11 failures (515) and §9 tests/static analysis
-(655), then the remaining stacks in deficit order — csharp is the worst ratio at x17.9 and the stack
-nobody here writes, so python (x8.5) and the `global` blocks come first.
+Then `laravel-conventions` §11 and §9 (515/655 → 1,019/1,073), which completes that block: **ten of its
+eleven sections have had a pass**, and the eleventh (§3) was already at 980 by the bodies pass, which is
+where these passes land. The laravel stack is at 13,718 against 79,825, x5.8.
+
+**What the two completed blocks say about the rest of the table**, counted rather than assumed. Five
+blocks are *sectioned* and so can take the same pass — read the section, name the failure each rule
+prevents, keep the original: `vue-nuxt-vuetify-conventions` (14 files, done),
+`laravel-conventions` (12, done), `flutter-conventions` (11), `react-nextjs-conventions` (11) and
+`code-baseline` (9). The rest are single-file blocks with no `references/` at all —
+`dotnet-conventions` 3,195 words, `python-conventions` 1,868, `inertia-conventions` 1,743,
+`php-patterns` 991 — and deepening one of those means first deciding what its sections are, which is a
+design decision per block rather than a writing pass. That distinction is where the remaining ~66,000
+words on laravel actually live, and it is why the two numbers in this table's last column are not
+interchangeable.
+
+**Next**: `react-nextjs-conventions` and `flutter-conventions`, because they are already sectioned and
+the pass is known to work on that shape. Then the single-file blocks, starting with `python-conventions`.
+`dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
+purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
+thicker would not change that letter.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 
