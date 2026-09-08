@@ -1,13 +1,29 @@
 #!/usr/bin/env bash
+# The repo's own test gate. Install it as a git hook with bin/install-git-hooks.sh, which
+# writes a shim that delegates here rather than copying this file.
+#
+# The suite list is declared once, below, and the announcement is derived from it. It used
+# to be written twice — once in an echo, once in the loop — which is a second place to
+# forget.
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
-echo "pre-push: running bin/test_scripts.py, bin/test_local.py, bin/test_hooks.py, bin/test_guard_test_changes.py, bin/test_frontmatter.py, bin/test_rule_c.py"
+suites=(
+  bin/test_scripts.py
+  bin/test_local.py
+  bin/test_hooks.py
+  bin/test_guard_test_changes.py
+  bin/test_frontmatter.py
+  bin/test_rule_c.py
+  bin/test_git_hooks.py
+)
+
+echo "pre-push: running ${suites[*]}"
 
 fail=0
-for suite in bin/test_scripts.py bin/test_local.py bin/test_hooks.py bin/test_guard_test_changes.py bin/test_frontmatter.py bin/test_rule_c.py; do
+for suite in "${suites[@]}"; do
   if ! python3 "$suite"; then
     fail=1
   fi
