@@ -161,7 +161,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | testing-blocks | cross-cutting (meta) | a market skills repository (`testing-skills-with-subagents`: RED/GREEN/REFACTOR on behaviour, pressure taxonomy, record the rationalisation verbatim) | 🟡 (written; the obvious next move is to run it on itself) |
 | distributing-blocks | cross-cutting | a market skills repository (`pulling-updates-from-skills-repository` + `sharing-skills`) | 🟡 (written; answers README stages 3-4, no consumer yet) |
 | maintaining-blocks | cross-cutting (meta) | a market skills repository (`meta/gardening-skills-wiki`); the checks themselves are this repo's own past bugs | 🟡 (written; the first real run is the reference audit before a tagged release) |
-| design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set | 🟡 |
+| design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers (2,347 → 6,333 words of rules, x5.19 → x1.92). §4 kept its number and every point inside it, since `business/fintech-compliance` cites §4.5 and `laravel-conventions` cites the transaction rule at §4.7 twice; §2's bullets became numbered points, text unchanged. The new §6 (when a pattern stops earning its place) closes a structural gap rather than an oversight: the source catalogue, and every section here, was about whether to *add* a pattern, and nothing said when to take one out — hence the deletion test, the interface whose second implementation was decommissioned, the pool justified by a measurement on a runtime since upgraded, the pattern grown to fit a case that does not share its axis, the suite with a test per implementation and none for the dispatch, and the ADR line that outlives the structure and gets the pattern reimplemented from the document. Two stale references into this block were fixed in the same pass: `laravel-conventions` §4 and §8 both cited a §7 this block has never had | 🟡 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the queue framing is native Claude Code (`/loop`/`/schedule`, proactive loops); the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
 | product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
@@ -394,9 +394,9 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,877 | −11,429 | x2.94 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
-| design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | x5.19 |
 | global | 18 / 20,280 | 5 / 11,886 | −8,394 | x1.71 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
+| design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -404,11 +404,11 @@ fails if this table stops matching what it measures. **Ratio** is theirs over ou
 lower is closer and below 1 is ahead.
 
 **Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
-single file first), `code-baseline` (8) inside the `global` row, `inertia-conventions` (6) and
-`php-patterns` (5) — the last three sectioned out of a single file first, all on 2026-09-08, and
-`laravel` (11) the day before. That completes the whole `laravel` row: 13,718 → 23,118, x5.82 → x3.45.
-Still to do: `dotnet-conventions` (worst ratio, and the stack nobody here writes, so it stays last on
-purpose) and `design-patterns`, the last single-file block. The `bi, design, xefi` row stays ✕: it is
+single file first), `code-baseline` (8) inside the `global` row, `inertia-conventions` (6),
+`php-patterns` (5) and `design-patterns` (6) — the last four sectioned out of a single file first, all on
+2026-09-08, and `laravel` (11) the day before. That completes the whole `laravel` row (13,718 → 23,118,
+x5.82 → x3.45) and every single-file block except one. Still to do: `dotnet-conventions` — the worst
+ratio in the table, and the stack nobody here writes, which is why it was left last. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -422,7 +422,7 @@ flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 1,030, api-design 375, documentation-adr 841, observability-instrumentation 511
 project-management: product-ownership 2,952, spec 140
-design-patterns: design-patterns 2,347
+design-patterns: design-patterns 6,333
 react: react-nextjs-conventions 10,476
 bi, design, xefi: data-analytics 1,804, interface-design 2,041, ux-writing 1,005, accessibility 1,027
 ```
@@ -614,9 +614,51 @@ mistake is fatal at class-load time, i.e. on the first request that reaches the 
 deploy (§1.12); `clone` is shallow (§3.9); and `unserialize` on anything a user can influence is remote
 code execution (§3.13).
 
-**Next**: `design-patterns` (2,347 words), the last single-file block. `inertia-conventions`
-(1,705 → 6,679) and `php-patterns` (960 → 5,386) are done, which finishes the `laravel` row — the widest
-deficit in the table — at 23,118 against 79,825, x5.82 → **x3.45** in two passes.
+Then `design-patterns`, the last single-file block. Five inline sections moved to `references/` and a
+sixth was added. §1 recognise-don't-apply 78 → 827, §2 the framework-already-does-it subtraction pass
+418 → 974, §3 where they earn their place 228 → 809, §4 the seven entry conditions 710 → 1,286, §5 using
+the name correctly 74 → 737, §6 when a pattern stops earning its place **new** → 898. Router plus
+sections 2,347 → **6,333**, and the row goes from x5.19 to **x1.92** — the second-closest row in the
+table. §4 kept its number and every point inside it, because `business/fintech-compliance` cites §4.5
+(money is never a float) and `laravel-conventions` cites the transaction-boundaries rule twice. §2's
+bullet list became numbered points with its text unchanged, so its verdicts can be cited like every
+other rule in the repo.
+
+**§6 is the section this block was missing most, and the gap was structural rather than an oversight.**
+Everything here, and everything in the source catalogue, was about whether to *add* a pattern; nothing
+said when to take one out — which is exactly why patterns accumulate in a codebase that has been
+reviewed carefully at every step. So §6 states the deletion test (inline the pattern in your head and
+see whether the code reads better: the net-line test applied to code somebody already merged) and then
+the things nobody gets a notification about: the interface whose second implementation was
+decommissioned, the state machine whose middle states a product change removed, the pool justified by a
+measurement taken on a runtime version since upgraded, the pattern grown to fit a case that does not
+share its axis until every implementation ignores half its own signature, the suite with a test per
+implementation and none for the dispatch where the bugs actually live, and the ADR line that outlives
+the structure it justified and gets the pattern reimplemented from the document. It also says the part
+that keeps removals from happening: a removal is a normal reviewed change, not an apology for a decision
+that was right when it was made.
+
+The five original sections were deepened the usual way. Worth citing: a class hierarchy loses the
+exhaustiveness check a discriminated union gives you, so a new subclass that forgets a method silently
+inherits the parent's (§2.4); the concrete loss when a Repository wraps an ORM is eager loading, query
+composition and seeing the query that ran — all re-exposed one method at a time until it is the ORM with
+a different spelling (§2.9); a state machine's transitions are where concurrency bites, so the guard has
+to be a conditional write rather than a read-decide-save (§4.2); a Null Object that hides a failure
+instead of a legitimate absence is a no-op mailer reporting success (§4.3); same-typed neighbours are
+what make a wide constructor dangerous rather than merely ugly (§4.4); a pipeline has to answer what a
+failing stage does and whether a stage may mutate what later stages read, or it is worse than the
+god-method it replaced (§4.6); and a job dispatched inside a transaction can be picked up before the
+commit, so it reads a row that does not exist yet (§4.7).
+
+**Two stale cross-references into this block were found and fixed in the same pass.**
+`laravel-conventions` §4 and §8 both cited `skills/design-patterns` §7 for transaction boundaries, and
+this block has never had a §7 — the rule is §4.7. Wrong since those lines were written, and found by
+resolving every reference rather than by reading — which makes four defects this programme has turned up
+that predated it, after flutter §9 citing §1's async-context rule for disposal and `code-baseline`'s own
+`origin.md` carrying a stale point range.
+
+**Next**: `dotnet-conventions` (3,167 words), the only block the programme has left and the one it
+deliberately kept for last.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.

@@ -16,7 +16,7 @@
    with has to carry that state as scalars, and a job whose subject can be deleted has to tolerate the
    missing model instead of throwing on every retry until the queue gives up.
 4. **Dispatch after commit.** A job dispatched inside a transaction can start before the commit, or after a
-   rollback, and then reads state that never existed. This is the same rule as `skills/design-patterns` §7
+   rollback, and then reads state that never existed. This is the same rule as `skills/design-patterns` §4.7
    and it is the one that gets forgotten, because the failure is intermittent and looks like a queue
    problem.
 5. **Failure is part of the design, not the operator's problem.** Every job declares what happens when it

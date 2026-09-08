@@ -147,7 +147,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
 | `shell-scripting-conventions` | 6 | Shell fails silently by default: fail closed, quote everything, test the failure cases |
-| `design-patterns` | 3 / 6 | Recognise a pattern the code already has; most of the catalogue is already in the framework |
+| `design-patterns` | 3 / 6 | Recognise a pattern the code already has; most of the catalogue is already in the framework; and when one already in the code has stopped earning its place |
 | `auth-session-conventions` | 6 | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
 | `security-hardening` | 6 | Trust boundaries while writing: validation, escaping per context, access control, uploads |
 | `background-jobs-conventions` | 6 | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |

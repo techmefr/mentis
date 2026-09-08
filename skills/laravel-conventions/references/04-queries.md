@@ -53,5 +53,5 @@
     written. Bindings sidestep both. A raw *fragment* that names only columns and operators is a different
     thing and is fine.
 11. **Two writes that must both land are a transaction, not a sequence** — and where that gets decided is
-    `skills/design-patterns` §7, including the part people skip: a queued job or a notification dispatched
+    `skills/design-patterns` §4.7, including the part people skip: a queued job or a notification dispatched
     inside the transaction fires against state that may roll back, so it is dispatched after commit.
