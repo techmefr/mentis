@@ -34,7 +34,14 @@ protection — it's a claim the next reader will trust. Wire it or delete it.
    not the same as declaring the absence.** Dropping `agents` from this repo's own plugin manifest left
    `claude plugin details` still reporting 25 agents, because the loader discovers the directory by
    convention — the fix was `"agents": []`, and the way it was found was reading the tool's own
-   inventory back instead of trusting the edit (`skills/distributing-blocks`).
+   inventory back instead of trusting the edit (`skills/distributing-blocks`). A third variant, same
+   family: **a guarantee installed by copy is a fork of the guarantee.** This repo wired its own test
+   gate into `.git/hooks/pre-push` with `cp`, so the hook froze at the moment it was installed; two
+   suites added a month later never ran on a push, and the stale hook printed "all suites green" while
+   running four of six. A guard that reports success while enforcing an older contract is worse than an
+   absent one, because it answers the question nobody re-asks. Install by delegation — a shim that
+   resolves and executes the versioned file — and, where the copy cannot be avoided, test that it still
+   matches its source.
 5. **Carve-outs — a caller that is legitimately elsewhere.** A published API surface exports for consumers
    outside the repo, so zero in-repo call sites proves nothing. Framework contracts have the framework as
    their caller. A deliberate extension point counts where the variants exist or land in the same milestone

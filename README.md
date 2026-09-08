@@ -429,21 +429,31 @@ written for the forge transport works unchanged on a locally produced diff.
 If that ever fails, the two transports have drifted and every reader is
 affected.
 
-**Maintaining this repo.** `bin/test_scripts.py` + `bin/test_local.py` +
-`bin/test_hooks.py` + `bin/test_guard_test_changes.py` +
-`bin/test_frontmatter.py` (130 checks total) cover the scripts, the local
-review transport, `hooks/block-installs.sh`, `hooks/guard-test-changes.sh`,
-and every block's frontmatter. That last suite exists because on 2026-09-07,
-**63 of the 109 blocks here had frontmatter a real YAML parser refuses** — a
-`description` containing `: ` left unquoted. Claude Code's own reader is
-lenient, so every block loaded and nothing surfaced it; `bin/install_agents.py`
-and `skills/distributing-blocks` are the reason that mattered anyway, because a
-consumer parses these files with whatever they have. Run
-`bash bin/install-git-hooks.sh` once per
-clone to wire them as a `pre-push` git hook — a push with any suite red is
-refused locally, before it ever reaches CI. This is repo maintenance, not a
-pipeline step: nothing in `skills/`/`agents/` depends on the hook being
-installed, per rule B.
+**Maintaining this repo.** Seven suites, 159 checks total, listed once in
+`bin/pre-push`: `test_scripts.py` + `test_local.py` + `test_hooks.py` +
+`test_guard_test_changes.py` cover the scripts, the local review transport,
+`hooks/block-installs.sh` and `hooks/guard-test-changes.sh`;
+`test_frontmatter.py` covers every block's frontmatter; `test_rule_c.py`
+scans every tracked file for anything rule C keeps out of a publishable repo;
+`test_git_hooks.py` covers the wiring of the gate itself.
+
+Two of them exist because of a specific failure, and both are worth stating.
+`test_frontmatter.py`: on 2026-09-07, **63 of the 109 blocks here had
+frontmatter a real YAML parser refuses** — a `description` containing `: `
+left unquoted. Claude Code's own reader is lenient, so every block loaded and
+nothing surfaced it; `bin/install_agents.py` and `skills/distributing-blocks`
+are the reason that mattered anyway, because a consumer parses these files
+with whatever they have. `test_git_hooks.py`: until 2026-09-08 the installer
+put the gate in place with `cp`, so `.git/hooks/pre-push` was a **fork** of
+`bin/pre-push`, frozen at install time — the two suites added on 2026-09-07
+never gated a push in this clone, and the stale hook reported "all suites
+green" while running four of six. The installer now writes a shim that
+delegates, and the suite catches a hook that has drifted.
+
+Run `bash bin/install-git-hooks.sh` once per clone to wire the gate as a
+`pre-push` git hook — a push with any suite red is refused locally, before it
+ever reaches CI. This is repo maintenance, not a pipeline step: nothing in
+`skills/`/`agents/` depends on the hook being installed, per rule B.
 
 ## Where this is going
 
