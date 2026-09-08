@@ -135,7 +135,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `tdd` | 5 | Test-driven development, test-casebook doctrine |
 | `code` | 6 | Implementation |
 | `typescript-patterns` | 6 | Pure TS/JS patterns (typing, async, closures), real production experience |
-| `php-patterns` | 6 | Pure PHP patterns (typing, OOP, errors), sourced from PSR/the market |
+| `php-patterns` | 6 | Pure PHP patterns (typing, errors, OOP, comparison and array semantics, time/money/text), sourced from PSR/the market |
 | `vue-nuxt-vuetify-conventions` | 6 | Nuxt/Vue/Vuetify conventions, real production experience |
 | `react-nextjs-conventions` | 6 | React/Next.js conventions, sourced from the market |
 | `nestjs-node-conventions` | 6 | NestJS/Node conventions (DI, DTO, Zod, Prisma) |

@@ -127,7 +127,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | nestjs-node-conventions | 6 | a market NestJS skill catalogue + an advanced market TypeScript skill + a market React/Node skill catalogue (prisma/trpc/zod) | 🟡 (written, not dogfooded yet; first mentis block for the Node backend) |
 | inertia-conventions | 6 (new 2026-08-11) | official Inertia.js documentation (shared data via `HandleInertiaRequests`, `useForm`, partial/lazy/deferred reloads) + current Laravel+Inertia integration practice (typed props from the same DTO/resource, Laravel Precognition); §4 (the override against `laravel-conventions`/Nuxt-Next-specific sections) is ours, written after a real conflict: a Laravel+Inertia repo reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture, and neither this repo nor the installed org catalogue (its Laravel and Nuxt plugins) covered Inertia at all before this; §4.5/§4.6 went through two revisions the same day — a project-level "is the REST package a dependency" test was too coarse for a project running **both** Inertia (pages) and the REST package (a separate real API) at once, a real reported case; the fix checks the specific controller (what it returns, where it's routed) instead; §4 point 7 added 2026-08-11 — a CdP running the fixed version still had their own Claude session say "conflict between mentis and the house rules" and deleted their whole setup over a case that was already resolved, so every stack block's override paragraph now says explicitly to apply the resolution and move on, never report it as an open conflict; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers, and every section took the same depth pass as the sectioned blocks (1,705 → 6,679 words of rules, taking the `laravel` row from x5.82 to x4.27). §4 kept its number and every point number inside it, because three other blocks cite it and this block's own guardrails cite §4.5/§4.6; tests moved from §5 to §6, which nothing outside the block cited. The new §5 is the visit lifecycle, on which the block had said nothing: scroll and local state reset on every visit unless preserved, the cancelled-visit rule that makes a search box correct for free, an asset version that has to be wired to the build or a browser open across a deploy keeps running the old bundle, page data living in the browser's history entry and so surviving a logout on a shared machine, prefetch issuing real requests against `GET` routes with side effects, SSR being an optional second process. The other addition worth citing is what the reader can actually read: a page's props are in the HTML and in devtools whether a component renders them or not (§2.6), which is why authorization belongs in the controller before they are computed (§1.8) and why a negative assertion is the only test that catches a leak (§6.5) | 🟡 (no in-house Inertia production experience yet; `laravel-conventions` §6 and `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`' intros now point here) |
 | typescript-patterns | 6 | internal synthesis (real production experience from the operator on pure TS/JS) | 🟢 |
-| php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs; re-checked directly against the PSR-12 text on 2026-08-10 — almost all of it is formatting already covered by Pint/PHP-CS-Fixer, `declare(strict_types=1)` was the one real gap (the one PSR-12 rule with runtime effect); §1.1 corrected 2026-08-11 against the real, installed org catalogue's Laravel plugin (`no-strict-types`) — Laravel deliberately omits the declaration at its framework boundary (loose scalars in from routes/requests/config, Larastan does the static enforcement instead), a real, dogfooded, currently-installed reversal of the PSR-12 default that neither this block nor `laravel-conventions` named explicitly until now | 🟡 (sourced from the market, same uncertainty status as gimli (the operator is new to PHP)) |
+| php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs; re-checked directly against the PSR-12 text on 2026-08-10 — almost all of it is formatting already covered by Pint/PHP-CS-Fixer, `declare(strict_types=1)` was the one real gap (the one PSR-12 rule with runtime effect); §1.1 corrected 2026-08-11 against the real, installed org catalogue's Laravel plugin (`no-strict-types`) — Laravel deliberately omits the declaration at its framework boundary (loose scalars in from routes/requests/config, Larastan does the static enforcement instead), a real, dogfooded, currently-installed reversal of the PSR-12 default that neither this block nor `laravel-conventions` named explicitly until now; **sectioned and deepened 2026-09-08** — the three sections that lived inline in `SKILL.md` moved to one file each under `references/`, two were added, the router became a table of triggers (960 → 5,386 words of rules, finishing the `laravel` row at x3.45). §1 kept its number and §1.1 its position, since `laravel-conventions` §5.12 cites it by number as the rule it overrides. The new §4 (comparison, arrays and the standard library) and §5 (time, numbers and text) were completely absent and are pure language: `==` changing meaning for string-to-number comparison in PHP 8, `in_array` comparing loosely against what are usually allow-lists, `isset` versus `array_key_exists` on a key holding null, `+` being a union while `array_merge` renumbers, `array_filter` preserving keys so `json_encode` emits an object instead of an array depending on which element was filtered out, a by-reference `foreach` leaving a live reference the next loop overwrites with, `DateTime` mutating in place while returning itself, a date with no timezone taking the server's default, floats not holding decimals and integer overflow becoming a float in silence, byte-based string functions cutting a UTF-8 character in half so `json_encode` returns `false` and the response is empty, and the four function choices that are security decisions rather than style (`hash_equals`, `password_hash`, `random_int`, `preg_quote`) | 🟡 (sourced from the market, same uncertainty status as gimli (the operator is new to PHP)) |
 | go-conventions | 6 | golangci-lint (errcheck/govet/staticcheck/gosimple/ineffassign/unused) + uber-go/guide; re-checked directly against the Uber Go Style Guide on 2026-08-10, filtered for what a linter doesn't catch mechanically — 3 real gaps closed (no panic in library code, comma-ok type assertion, os.Exit/log.Fatal confined to main()) | 🟡 (no internal production experience) |
 | python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged; **sectioned and deepened 2026-09-08** — the eight sections that lived inline in `SKILL.md` moved to one file each under `references/`, the router became a table of triggers, and every section took the same depth pass as the five already-sectioned blocks (1,629 → 7,697 words of rules). The real absences were in the two sections that were thin out of proportion to what can go wrong in them: §4 async (110 words) had nothing on `gather`'s failure semantics, unbounded concurrency, cancellation-as-an-exception or the fact that `async` provides no lock — only the absence of pre-emption between awaits — and §6 DI (69 words) had nothing on a dependency's lifetime being unable to exceed the lifetime of what it holds. The PEP 8 re-check note moved out of §5, where it was provenance sitting among the rules, into `references/origin.md` | 🟡 (no internal production experience, same status as go-conventions — depth does not change that, and `samwise` keeps its question register) |
 | code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file; **depth pass 2026-09-08 on all eight sections** (4,397 → 9,129 words of rules) — the block with least room, since it was already the deepest here, so the additions are the failure modes the sections were silent on: catch scope, cleanup on the failure path and cause preservation in §3; the primitive-obsession family (two ids of one primitive type, units, money as amount-plus-currency, a boolean pair encoding one state, a nullable field carrying two meanings) in §5; timeout, retry-with-backoff, idempotency on an outbound write, testing the client at the transport layer rather than mocking the client, and the webhook receiver's own three rules in §4; §6 reframed around the debt rather than the doctrine; and five more shapes in §8, including enforced-on-the-happy-path-only and verify-by-reading-the-system's-answer | 🟡 |
@@ -388,7 +388,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 18,692 | −61,133 | x4.27 |
+| laravel | 65 / 79,825 | 3 / 23,118 | −56,707 | x3.45 |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | x17.91 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
@@ -404,18 +404,18 @@ fails if this table stops matching what it measures. **Ratio** is theirs over ou
 lower is closer and below 1 is ahead.
 
 **Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
-single file first), `code-baseline` (8) inside the `global` row and `inertia-conventions` (6, likewise
-sectioned first) — all on 2026-09-08, and `laravel` (11) the day before. Still to do:
-`dotnet-conventions` (worst ratio, and the stack nobody here writes, so it stays last on purpose),
-`design-patterns` and `php-patterns` — both single-file blocks where the sections have to be decided
-first. The `bi, design, xefi` row stays ✕: it is
+single file first), `code-baseline` (8) inside the `global` row, `inertia-conventions` (6) and
+`php-patterns` (5) — the last three sectioned out of a single file first, all on 2026-09-08, and
+`laravel` (11) the day before. That completes the whole `laravel` row: 13,718 → 23,118, x5.82 → x3.45.
+Still to do: `dotnet-conventions` (worst ratio, and the stack nobody here writes, so it stays last on
+purpose) and `design-patterns`, the last single-file block. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,053, php-patterns 960, inertia-conventions 6,679
+laravel: laravel-conventions 11,053, php-patterns 5,386, inertia-conventions 6,679
 csharp: dotnet-conventions 3,167
 python: python-conventions 7,697, data-pipeline-conventions 749
 flutter: flutter-conventions 10,321
@@ -580,10 +580,43 @@ not (§2.6), which makes authorization the controller's job before the props are
 makes a negative assertion the only test that catches a leak (§6.5). Thirty intra-block references
 re-checked against the new numbering, none dangling.
 
-**Next**: `php-patterns` (960 words) and `design-patterns` (2,347), the last two single-file blocks,
-where the sections have to be decided before they can be deepened. `inertia-conventions` was the third
-and is done: 1,705 → 6,679, which moves the `laravel` row from x5.82 to x4.27 — the widest deficit in
-the table, and the only row where a single pass changes it by five thousand words.
+Then `php-patterns`, the third single-file block and the one that finishes the `laravel` row. Three
+inline sections moved to `references/` and two were added. §1 typing 150 → 959, §2 error handling 116 →
+946, §3 OOP and structure 168 → 948, §4 comparison, arrays and the standard library **new** → 948, §5
+time, numbers and text **new** → 971. Router plus sections 960 → **5,386**, and the row goes from x4.27
+to **x3.45** — 23,118 against 79,825, from x5.82 two passes ago. §1 kept its number and §1.1 its
+position, because `laravel-conventions` §5.12 cites it by number as the rule it overrides.
+
+The two new sections are the language's own traps, and both were completely absent. **§4** is where PHP's
+defaults differ most from what the code looks like it says: `==` changed meaning for string-to-number
+comparison in PHP 8, so conditions carried across that version boundary changed without being edited;
+`in_array` is loose unless told otherwise, which matters because the arrays it runs against are usually
+allow-lists; six values are falsy and two of them (`0`, `"0"`) are real data; `isset` and
+`array_key_exists` answer different questions about a key holding null; `+` on arrays is a union while
+`array_merge` renumbers; `array_filter` preserves keys, so a filtered list stops being a list and
+`json_encode` emits an object instead of an array *depending on which element was removed*; and a
+by-reference `foreach` leaves a live reference behind that the next loop uses to overwrite the last
+element. **§5** is the three value kinds where a plausible line is wrong for some of the data:
+`DateTime` mutating in place while also returning itself, a date with no timezone taking the server's
+default, a month having no fixed length, floats not holding decimals, integer overflow becoming a float
+in silence, byte-based string functions cutting a UTF-8 character in half — which then makes
+`json_encode` return `false` and the response empty — and the four function choices that are security
+decisions rather than style: `hash_equals`, `password_hash`, `random_int`, `preg_quote`.
+
+The three original sections got the usual treatment, and the additions worth citing are the ones that
+look like they are already handled: `catch (\Exception)` does not catch `\Error`, so the block written
+to catch everything lets exactly the programmer errors through (§2.4); wrapping an exception without
+passing it as `$previous` deletes its own cause from the log (§2.5); a `return` inside `finally`
+discards a pending exception silently (§2.6); `assert()` is compiled out in production, so a check
+written as an assertion holds only in development (§2.14); a typed property with no default is
+uninitialised rather than null, which is a different error in a different place (§1.7); a variance
+mistake is fatal at class-load time, i.e. on the first request that reaches the class rather than at
+deploy (§1.12); `clone` is shallow (§3.9); and `unserialize` on anything a user can influence is remote
+code execution (§3.13).
+
+**Next**: `design-patterns` (2,347 words), the last single-file block. `inertia-conventions`
+(1,705 → 6,679) and `php-patterns` (960 → 5,386) are done, which finishes the `laravel` row — the widest
+deficit in the table — at 23,118 against 79,825, x5.82 → **x3.45** in two passes.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.

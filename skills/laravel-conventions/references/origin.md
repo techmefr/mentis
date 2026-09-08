@@ -206,3 +206,11 @@ not need one from this programme: the bodies pass above already took it to 980 w
 passes land. So the block is done, and what remains for the laravel stack is `php-patterns` (960 words,
 no `references/` at all) and `inertia-conventions` (1,705, same) — both single-file blocks, which is a
 different shape of work from deepening sections that already exist.
+
+**Both of those landed the next day, 2026-09-08**, and the row is now 23,118 against 79,825, **x3.45**:
+`inertia-conventions` 1,705 → 6,679 (five inline sections moved to `references/`, a sixth added for the
+visit lifecycle) and `php-patterns` 960 → 5,386 (three moved, two added for the standard library's
+comparison and array semantics and for time/money/text). Two boundary rules of this block are cited by
+name from there and both still hold: §6's REST-resource guidance is scoped by `inertia-conventions` §4 to
+controllers that actually return JSON for a non-Inertia consumer, and §5.12's no-`strict_types` default
+is the override of `php-patterns` §1.1 — which kept its number for exactly that reason.
