@@ -138,7 +138,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience in house) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
-| data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling | 🟡 (sourced from the market, no dedicated production experience in house) |
+| data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling; §1.4–§1.5 added 2026-09-07 from an org BI skill for handling supplied accounting files, read for its handling discipline rather than its format knowledge (never write back over the file someone handed you; confirm a destructive transformation before applying it) — §3.1 already held the raw-layer version at pipeline scale, the missing case was the ad-hoc one; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (749 → 3,212 words of rules), the **last single-file block counted in the depth table**. No section added; §1.4, §1.5 and §3.1 kept their numbers. None of the failures here announces itself, which is the depth: idempotence covering the *whole* run so an upsert followed by a log append or a notification is not idempotent, a partial run having to leave a state you can classify, a run keyed on the wall clock being unbackfillable, late-arriving corrections making a forward-only window stop matching the source, a quarantine with a published count rather than a silent skip, the *number* of failing rows being what makes an alert actionable, a validation with no owner getting loosened at the first inconvenient hour, duplicates being defined by a business key whose wrong choice deletes real data, a check reading the pipeline's own output passing on any consistent error, a deletion upstream being an event rather than an absence, reusing the source's key letting a renumbering rewrite your history, and incremental processing being correct only if you can say what "new" means | 🟡 (sourced from the market, no dedicated production experience in house) |
 | auth-session-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate jwt/oauth-oidc/keycloak/auth0 agents, no equivalent here) + a documented internal incident on a token refresh flow + OWASP session management; §4 (reference login flow) extracted from our two real frontend implementations read side by side; re-checked directly against the OWASP Session Management Cheat Sheet on 2026-08-10, 3 real gaps closed (privilege-change invalidation, absolute session lifetime, Clear-Site-Data on logout) plus an explicit CSRF note | 🟢 (§4 describes code already in production on two frontends; the rest still to dogfood) |
 | security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,030 → 4,144 words of rules). No section added: the five are the shape of a boundary. §3 kept its number (`business/data-protection` cites it) and §2.4 stayed the SSRF rule the 2026-08-10 OWASP check added. None of these failures is loud — a missing authorisation declaration returns the right data to whoever wrote it — so the depth is the skipped case: the boundary being the right place because it is *enumerable*, reject-don't-repair, request-binding accepting fields the interface never shows, a value from another system still being untrusted, escaping on input giving a database correct for one destination, a resolved-path check rather than a join, secrets in URLs reaching history and proxies, an outbound call spending its own credentials, authorising before the work, **default-deny**, every response *field* being subject to the endpoint's decision, a webhook's authorisation being signature verification, the lock file being the real inventory, an install step running with your credentials, and the negative test being the only proof | 🟡 (written, not dogfooded yet) |
 | background-jobs-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate kafka/rabbitmq/bullmq/sidekiq/celery agents, no equivalent here) + established distributed-systems practice (at-least-once, idempotency keys, bounded retries, dead-letter) | 🟡 (written, not dogfooded yet) |
@@ -390,7 +390,7 @@ closing this costs nothing that made this repo cheaper to load.
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 23,118 | −56,707 | x3.45 |
 | csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
-| python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
+| python | 20 / 22,097 | 2 / 10,908 | −11,189 | x2.03 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
@@ -412,8 +412,9 @@ were still single-file and were holding their rows back: `product-ownership` and
 takes `project-management` from x4.7 to **x1.29**, then `interface-design`, `data-analytics`,
 `ux-writing` and `accessibility`, which take `bi, design, xefi` from x2.94 to **x0.93**, then
 `security-hardening`, `documentation-adr`, `api-design` and `observability-instrumentation`,
-which take `global` from x1.71 to **x0.94**. One block counted in the table is still
-single-file: `data-pipeline-conventions`, in the `python` row. The `bi, design, xefi` row stays ✕: it is
+which take `global` from x1.71 to **x0.94**, and finally `data-pipeline-conventions`, which
+takes `python` from x2.62 to **x2.03**. **No block counted in the table is single-file any
+more.** The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -422,7 +423,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 ```
 laravel: laravel-conventions 11,053, php-patterns 5,386, inertia-conventions 6,679
 csharp: dotnet-conventions 6,976
-python: python-conventions 7,697, data-pipeline-conventions 749
+python: python-conventions 7,697, data-pipeline-conventions 3,211
 flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,392, documentation-adr 2,909, observability-instrumentation 3,048
@@ -840,6 +841,40 @@ class a symptom-based set misses unless written deliberately; an indefinite ADR 
 codebase compliant with both halves citing the file; and §4's asymmetry, that a held trade-off's cost is
 readable in the code while its benefit is readable nowhere, so a reader comparing what they can see
 against nothing concludes correctly from the available evidence and removes it.
+
+**The extension is finished, 2026-09-08: `data-pipeline-conventions`.** The last single-file block
+counted anywhere in the table, 749 → **3,212** in four sections: idempotence and reproducibility (761),
+data quality (674), analytical modelling (652), performance and cost (634). No section added. The
+`python` row goes from x2.62 to **x2.03** and the table to **132,073 against 272,884**, worst
+**x8.13**, median **x1.76**.
+
+**No block counted in the depth table is single-file any more.** Ten rows, and every block inside every
+row now has a router in `SKILL.md` and one file per section under `references/`. The four passes of the
+extension covered fifteen blocks and forty-nine sections, and added none: in every case the sections
+already covered their subject and what they lacked was the mechanism.
+
+`data-pipeline-conventions` is a subject where nothing announces itself — a non-idempotent pipeline
+produces a plausible total, a skipped validation produces figures somebody acts on, a missing grain
+produces a sum that double-counts, and a full reload works right up to the volume where it does not. The
+additions worth citing: idempotence covering the *whole* run, so an upsert followed by a log append, a
+counter or a notification is not idempotent and it is the side effect rather than the data that
+duplicates; a partial run having to leave a state you can resume from or discard, since failing halfway
+is the normal case; a run keyed on the wall clock being unbackfillable, which turns a one-line fix into
+a manual reconstruction; late-arriving corrections making a forward-only window quietly stop matching
+the source; a quarantine with a published count instead of a silent skip; the *number* of failing rows
+being what makes an alert actionable; a validation with no owner getting loosened at the first
+inconvenient hour and staying loosened; duplicates being defined by a business key whose wrong choice
+deletes real data irrecoverably; a check that reads the pipeline's own output passing on any consistent
+error; a deletion upstream being an event rather than an absence, or a historical count changes
+retroactively with the evidence gone; and reusing the source's primary key letting a renumbering
+upstream silently rewrite your history.
+
+**What the table cannot show is still the part that matters.** Nine of the ten rows are at or under
+x3.5 and only `csharp` remains above, at x8.13 — the stack nobody here writes. Several blocks are still
+🟡 for want of a real project, and that letter is not moved by writing: `dotnet-conventions`,
+`flutter-conventions`, `react-nextjs-conventions`, `php-patterns`, `accessibility`,
+`data-pipeline-conventions` and `data-analytics` all say so in their own status lines. The way to move
+them is to use them.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
