@@ -168,3 +168,41 @@ gives.
 
 Block now at 10,131 words for the router and the eleven sections, excluding this file — see the counting
 correction in `CATALOG.md` §2, which stopped counting provenance as depth.
+
+**Fourth pass, §11 and §9, 2026-09-08.** 515 → 1,019 and 655 → 1,073; 6 → 14 points and 13 → 19. Both
+sections were already well argued, so this pass added the failure modes they did not reach rather than
+restating the ones they did.
+
+§11 owned the throw-versus-return argument end to end and stopped at the throw. Added: a failure carries
+what the caller needs in order to act — per-field detail for a validation failure, identifiers as data on
+a domain exception rather than baked into a string a caller would have to parse; the exception message is
+for developers while the user-facing sentence is the handler's decision, which also keeps internal detail
+out of the response; **inside a transaction a throw is the rollback**, so catching and continuing there
+commits the half-finished unit of work the transaction existed to prevent, and irreversible side effects
+belong outside it because a rollback cannot recall an email; a retry re-runs everything before the failure
+point, so anything retryable is idempotent by construction; **an external call fails in five ways, not
+one** — timeout, refused connection, 5xx, rate limit, malformed body — and one `catch (Exception)` treats
+a rate limit as a bug; an expected failure is not a defect and reporting 422s beside real exceptions
+raises the volume until the real ones are unfindable; a report carries identifiers, not payloads, since
+dumping a request body puts personal data in a third-party tool under someone else's retention policy;
+and the failure path is asserted, or the first refactor turns the throw back into the returned error
+response point 1 forbids with nothing going red.
+
+§9 had the two tiers, the routing table and the seed-data bar. Added: **a test that has never failed
+proves nothing** — write it red, or break the behaviour once and watch it, which is the repo's own
+default-is-failure guarantee applied to its output; freeze time and randomness, because a suite reading
+the real clock fails on the first of the month and in the CI timezone; each test stands alone, since
+order-dependent tests read as infrastructure trouble rather than as the coupling they are; **assert the
+refusal, not only the success** — authorisation is tested per persona and the personas that matter are the
+ones who must not see the thing, because that is the failure that becomes an incident rather than a bug;
+coverage is a smoke detector and a line executed is not a line asserted; and a slow suite gets skipped, so
+its speed is part of its design. Point 13 was widened from the factory-with-an-outbound-listener trap to
+faking every external boundary, and point 12's continuation indent was corrected.
+
+Block now at 11,053 words for the router and eleven sections; the laravel stack (with `php-patterns` and
+`inertia-conventions`) at 13,718 against 79,825, x5.8. **Ten of the eleven sections have now had a depth
+pass** — §2, §4, §8, then §6, §1, then §7, §10, §5, then §11, §9. The one that has not is §3, and it does
+not need one from this programme: the bodies pass above already took it to 980 words, which is where these
+passes land. So the block is done, and what remains for the laravel stack is `php-patterns` (960 words,
+no `references/` at all) and `inertia-conventions` (1,705, same) — both single-file blocks, which is a
+different shape of work from deepening sections that already exist.
