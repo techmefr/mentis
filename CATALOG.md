@@ -392,12 +392,20 @@ closing this costs nothing that made this repo cheaper to load.
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
-| nuxt | 21 / 19,869 | 1 / 12,507 | −7,362 | **2** — the other stack shipped daily |
+| nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | ✔ — all 13 sections passed 2026-09-08 |
 | global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
 | design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
 | react | 36 / 9,302 | 1 / 3,279 | −6,023 | 5 |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,874 | −11,432 | ✕ — internal landscape, rule C keeps it out |
+
+**A counting correction, 2026-09-08.** The nuxt row now excludes `references/origin.md`, and so should
+every row from its next pass on. `origin.md` is provenance — where a rule came from, what was re-checked,
+what a pass changed — and the catalogue being compared against has no equivalent of it, so counting ours
+was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
+about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
+actually reach. The rows not yet re-measured (everything except nuxt) still include theirs and are
+therefore slightly flattering to us.
 
 Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
 per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
@@ -409,11 +417,15 @@ incidents de-identified — which is also why a pass is slow.
 **Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 → 873/875/769) then §6 and §1 (292/589 →
 1,027/996) — five of eleven sections, 1,445 words → 4,700; then `vue-nuxt-vuetify-conventions` §10, §2
 and §3 (113/211/174 → 875/944/899) on 2026-09-08, then §7 and §6 the same day (172/199 → 899/877), then
-§11, §12, §8, §1 and §5 (241/251/284/363/404 → 842/870/795/747/925) — **ten of thirteen sections**,
-2,617 words → 8,673, which moves that block from x3.6 to **x1.6** of its counterpart. §5's duplicated
-point number and its wrong source citation were fixed in the same pass.
-**Next**: the Nuxt block's last three sections, which are also its thickest (§4 naming 537, §9 hydration
-553, §13 data-access client 560), then `laravel-conventions` §3 and §9.
+§11, §12, §8, §1 and §5 (241/251/284/363/404 → 842/870/795/747/925), then §4, §9 and §13
+(537/553/560 → 997/973/972) — **the Nuxt block is complete, all thirteen sections**, 4,267 words →
+11,623, x3.6 → **x1.6** of its counterpart in one day. Three defects were found by doing the pass rather
+than by reading for them: §5 had two points numbered 6 and a citation pointing at the wrong one, §9
+pointed at `§11.6` for a rule the §11 pass had moved to point 10, and a reflow had flattened §9's
+sub-list and put a space inside a URL. All fifteen intra-block `§N.M` references were then re-checked
+one by one against the current numbering.
+**Next**: `laravel-conventions` §3 and §9, which returns to the largest deficit (−67,094). The Nuxt
+result sets the expectation for what one focused day closes on a stack.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 

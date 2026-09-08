@@ -29,7 +29,7 @@ doesn't compete with it.
 
 Section 9 point 8 (client-side error handling: `error.vue`, `NuxtErrorBoundary`, `useError`,
 `showError`/`clearError`, `onErrorCaptured` vs `vue:error`) added 2026-08-10 from the official Nuxt error
-handling guide (nuxt.com/docs/getting-started/error-handling), filling a real gap: §11.6 only covered the
+handling guide (nuxt.com/docs/getting-started/error-handling), filling a real gap: §11.10 only covered the
 server-side `createError()` half, nothing on the client side was documented at all.
 
 Section 5 point 6 (`runtimeConfig` vs `app.config` as a security boundary) added the same day from the
@@ -138,3 +138,44 @@ for one helper, and the lockfile as part of the change.
 
 **A defect fixed in passing**: §5 had two points numbered 6 and no 7, and the second one cited "point 5
 above" for a source that was actually point 6's. Renumbered and the citation corrected.
+
+**Depth pass, §4, §9 and §13 — the block is complete, 2026-09-08.** These three were already the deepest
+sections, so this pass added only what was missing and deliberately padded nothing. §4 8 → 16 points,
+§9 9 → 15, §13 6 → 12; the block's thirteen sections plus its router now stand at 12,443 words against
+the org catalogue's 19,869 for the same stack, **x1.6**, from x3.6 this morning. That figure deliberately
+excludes this file: provenance is not depth, the catalogue being compared against has no equivalent of
+it, and counting the ~1,700 words these stamps added today would have reported x1.34 for work that did
+not happen in the rules. `CATALOG.md` §2 records the convention change.
+
+§4 covered casing, BEM and auto-imports thoroughly and said nothing about what makes a name good. Added:
+a name states the subject rather than the plumbing or the type (`data`, `payload`, and the `Utils`/
+`Manager`/`Helper` bag-names at file level); a name numbered to dodge a collision is a name that gave up,
+and a renamed symbol renames its file; abbreviate only in the domain's own words; **an emitted event says
+what happened, not what the parent should do** — the reuse test being that a second parent can react
+differently to `saved` and cannot to `refreshTable`; name the positive, since a negative boolean
+double-negates at every call site; a translation key never leaks into an identifier; in a codebase that
+already chose, consistency beats correctness and a convention changes in its own pass; and if a name needs
+a comment, the name is wrong — which is why this block bans comments rather than merely discouraging them.
+
+§9 was strong on the primitives and silent on what SSR *exposes*. Added: a hydration mismatch routinely
+ships looking correct, so the dev-mode warning is the signal rather than the screenshot; `<ClientOnly>` is
+a hole in the server render with a real cost, not a free escape hatch; **everything a server-side fetch
+returns is serialised into the HTML payload**, so over-selecting publishes fields the template never
+renders and authorisation meant to withhold; `useFetch` runs on both sides unless the payload is reused,
+and a hand-rolled client guard is the sign the primitive is being fought; a server-side call to your own
+API is anonymous unless the request context is forwarded, which is why one endpoint answers 200 in the
+browser and 401 during SSR; and the server has no browser locale or timezone. The closing checklist was
+extended to match.
+
+§13 gained the operational half of the typed-client rule: the page size belongs to the model, not to each
+screen; a model method is a request and not a cache; extend by wrapping, never by patching the vendor's
+prototype; catch the client's own error type, because the per-field validation detail the form needs is
+only there; **an absent field is not a null field**, so a payload built from a partially loaded record can
+blank columns it never fetched; and the server authorises an include — a relation the builder will happily
+request is not one this user may read.
+
+**Two defects fixed in passing.** §9 point 8 pointed at `§11.6` for `createError`, which the §11 pass
+moved to point 10 — corrected here and in the 2026-08-10 stamp above that cites it. And a reflow pass had
+flattened §9's point 3 sub-list into a paragraph and inserted a space inside its error-handling URL; both
+restored. Every intra-block `§N.M` reference was then re-checked against the current numbering, one by
+one: fifteen of them, all resolving.
