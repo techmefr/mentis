@@ -52,5 +52,17 @@
 16. **A slow suite gets skipped, so its speed is part of its design.** A test that reaches a real network or
     a real sleep is a tax on every future change, and taxes get evaded locally by running a subset — which
     is when the pipeline becomes the first place anyone sees a failure.
-17. For the doctrine of *what* to test — plan first, exhaustive rather than happy-path, the persona/permission
+17. **Where the project has no dependency manager, points 1 to 7 have nothing to pin.** A stdlib-only
+    project — no manifest, no lock, no installable tools — cannot satisfy them, and pretending otherwise
+    makes this block's own checkpoint unsatisfiable on a repo that is in fact compliant. What still
+    applies there: the annotations are written whether or not a checker reads them, `unittest` is the
+    runner, `python -m compileall` is the only mechanical check available, and the checkpoint records
+    **no type checker available** as a finding rather than as a pass. Found by dogfooding 2026-09-08.
+18. **The rules above are portable to the stdlib runner, and it is worth saying because the vocabulary
+    hides it.** There is no plugin set to pin, so point 6 does not apply; "the project's test base"
+    (point 11) is a `TestCase` subclass the tests share; per-test isolation (point 12) is `setUp` plus
+    `addCleanup`, and the second is what guarantees a cleanup still runs after a failing assertion where
+    a hand-written teardown does not. Read as pytest-only, the section with the most portable content in
+    this block gets skipped entirely.
+19. For the doctrine of *what* to test — plan first, exhaustive rather than happy-path, the persona/permission
     matrix, the coverage floor — see `skills/tdd`; this section is only about the tooling.

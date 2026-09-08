@@ -18,7 +18,11 @@
 4. **Failing loudly is the point, and it is a choice with a cost.** A pipeline that blocks stops the
    downstream numbers from moving, which is visible and gets attention; one that continues produces
    figures somebody will act on. Where blocking genuinely is not acceptable, the shape is a quarantine
-   — the bad rows set aside, the run marked partial, the count published — never a silent skip.
+   — the bad rows set aside, the run marked partial, the count published — never a silent skip. **A
+   violation that is a property of the set makes the run the quarantine unit, not the row**: a duplicated
+   key, a total that disagrees with its parts, an entity counted in two groups — none of these is
+   attributable to one row, so setting rows aside is impossible and the honest granularity is the whole
+   run, refused by default with a deliberate way to store it anyway. Found by dogfooding 2026-09-08.
 5. **Say how many rows failed, not only that something did.** One row rejected and a third of the file
    rejected are different incidents with different responses, and a boolean result cannot distinguish
    them. The count, with an example, is what makes the alert actionable

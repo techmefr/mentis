@@ -57,3 +57,20 @@
 16. **A migration is reversible or says why it is not.** A destructive step — a dropped column, a
     transformation that loses information — cannot be undone by a downgrade, so the honest version fails
     loudly on the way back rather than pretending to restore something.
+17. **A project with a database and no ORM still owes points 8 to 11.** The transaction rules are about
+    the database, not about the mapper: one entry point that commits or rolls back, a raise being the
+    rollback, no transaction held across a network call, and no assumption that a nested block is a
+    nested transaction. Everything above point 8 is mapper-shaped and does not apply; those four do, and
+    a hand-written data layer is where they are most often absent, because there is no session facade to
+    inherit them from.
+18. **Hand-written DDL is a schema with no migration history, and that has to be said out loud.** A
+    create-if-not-absent script sets up a fresh database correctly and silently never changes an existing
+    one, so a column added to the script is present for every new install and missing everywhere the
+    software already ran — the same failure as point 15, arriving through the absence of a tool rather
+    than through a forgotten file. Either a real migration mechanism exists, or the script records which
+    version it produces and the gap is a known one.
+19. **Read the database's own defaults rather than assuming them.** Referential integrity that is off
+    unless enabled per connection, a type system that accepts what it documents as another type, an
+    upsert that needs its conflict target named explicitly: each is a property of the specific engine,
+    each is invisible in code that looks correct, and each is what a mapper would have handled. Found by
+    dogfooding 2026-09-08 against a hand-written `sqlite3` layer.
