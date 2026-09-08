@@ -132,7 +132,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged | 🟡 (no internal production experience, same status as go-conventions) |
 | code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file | 🟡 |
 | laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves | 🟡 |
-| flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description | 🟡 (no mobile production experience at all, `faramir`'s question register applies) |
+| flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned | 🟡 (no mobile production experience at all, `faramir`'s question register applies — the depth pass does not change that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
@@ -391,7 +391,7 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | **1** — the stack this repo ships on |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
-| flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
+| flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | ✔ — all 10 sections passed 2026-09-08, x2.0 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | ✔ — all 13 sections passed 2026-09-08 |
 | global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
@@ -404,8 +404,8 @@ so should every other row from its next pass on. `origin.md` is provenance — w
 what a pass changed — and the catalogue being compared against has no equivalent of it, so counting ours
 was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
 about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
-actually reach. The rows not yet re-measured (everything except nuxt, laravel and react) still include theirs and
-are therefore slightly flattering to us.
+actually reach. The rows not yet re-measured (everything except nuxt, laravel, react and flutter) still include
+theirs and are therefore slightly flattering to us.
 
 Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
 per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
@@ -446,17 +446,28 @@ corrected, and the three point numbers cited by the block's own 2026-08-10 re-ch
 **What the two completed blocks say about the rest of the table**, counted rather than assumed. Five
 blocks are *sectioned* and so can take the same pass — read the section, name the failure each rule
 prevents, keep the original: `vue-nuxt-vuetify-conventions` (14 files, done),
-`laravel-conventions` (12, done), `react-nextjs-conventions` (11, done), `flutter-conventions` (11) and
-`code-baseline` (9). The rest are single-file blocks with no `references/` at all —
+`laravel-conventions` (12, done), `react-nextjs-conventions` (11, done),
+`flutter-conventions` (11, done) and `code-baseline` (9). The rest are single-file blocks with no `references/` at all —
 `dotnet-conventions` 3,195 words, `python-conventions` 1,868, `inertia-conventions` 1,743,
 `php-patterns` 991 — and deepening one of those means first deciding what its sections are, which is a
 design decision per block rather than a writing pass. That distinction is where the remaining ~66,000
 words on laravel actually live, and it is why the two numbers in this table's last column are not
 interchangeable.
 
-**Next**: `flutter-conventions` (11 sections, the last sectioned block with no pass), then
-`code-baseline` (9). Then the single-file blocks, starting with `python-conventions`, where the pass is a
-different kind of work: the sections have to be decided first.
+Then `flutter-conventions`, **all ten sections**: §4 138 → 951, §9 144 → 892, §5 157 → 949, §6
+168 → 965, §8 217 → 1,045, §10 218 → 955, §3 299 → 993, §2 316 → 892, §1 494 → 921, §7 571 → 1,100.
+Router plus sections: 3,380 → 10,321 against that plugin's 20,772, x6.1 → **x2.0**. This is the block with
+no production experience behind it at all, so the pass was written from the framework's documented
+behaviour and from what the platform does — the device-level failures it had never named are the ones worth
+citing: a secure-storage read failing because the keystore was cleared, a session's data surviving a logout
+on a shared phone, the process being killed in the background, a permission revoked while the app was
+backgrounded, and a system permission prompt that can only be shown once per install. Thirty-six
+intra-block references re-checked; ten were pointing at the wrong rule after the renumbering, and one —
+§9's disposal citation pointing at §1's async-context rule — had been wrong since the section was written.
+
+**Next**: `code-baseline` (9 sections), the last sectioned block with no pass. Then the single-file blocks,
+starting with `python-conventions`, where the pass is a different kind of work: the sections have to be
+decided first.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.

@@ -19,20 +19,52 @@
    contradict each other; equality on the state class must hold, or the widget won't rebuild on a genuinely
    new state and appears to ignore an emitted change — mutating a list in place before re-emitting it is the
    common way to break that equality by accident, since the "old" and "new" state then hold the same instance.
-4. View logic (formatting, deriving a label) belongs to the state holder or a pure function, not inside
+4. **The initial state is a real state, not an absence.** A nullable state, or one that stands for "nothing
+   has happened yet" without saying so, forces every widget to invent a rendering for it — and they invent
+   different ones. Name it, and give it a layout like the other four (§4.15).
+5. **A failure is part of the state, not an exception the widget catches.** A holder that lets an exception
+   escape makes every call site responsible for a `try` it will forget, and the screen ends up with no
+   error rendering at all. Catch at the boundary, emit a failure state carrying what the UI needs to say
+   (§4.6), and report the diagnosis separately (§9.12).
+6. **Never put a `Future` or a stream in state; put its result.** A state holding an unresolved future
+   cannot be compared, cannot be rendered without a second builder inside the first, and re-triggers itself
+   on every rebuild — which is §2.16's side effect in `build` arriving through the state layer.
+7. View logic (formatting, deriving a label) belongs to the state holder or a pure function, not inside
    `build`.
-5. No business logic in a widget, and no widget import inside a state holder: the state layer must be
+8. No business logic in a widget, and no widget import inside a state holder: the state layer must be
    testable without the UI — including no `BuildContext` and nothing UI-owned (a text controller, a
    `GlobalKey`) inside it. Those belong to the widget that created them and are disposed there (§1); the state
    holder receives their derived value, not the controller itself.
-6. **Check whether the state holder is still alive before emitting after any `await`** — the same shape as
-   the `BuildContext`/`mounted` guard in §1, one layer down: a screen closed mid-request must not crash the
-   next emit.
-7. **A one-time reaction (navigation, a snackbar, a dialog) belongs to a listener, never to the builder that
-   renders the UI.** A builder can be re-invoked at any time for reasons that have nothing to do with the
-   state changing (a parent rebuild, a rotation) — code in it that reacts instead of rendering re-fires on
-   every one of those, and a listener condition must compare the previous and current state, not just inspect
-   the current one, or the same one-time reaction re-fires every time that state is revisited.
-8. Guard the double-submit case in the state holder, not the button: a status already "in flight" makes the
-   next call to the same method a no-op, and that status is what disables the button too — one source of
-   truth for both.
+9. **The holder receives its dependencies; it does not build them.** A holder that constructs its own HTTP
+   client or opens its own database cannot be exercised without one, so the tests either hit the network or
+   do not exist. Injected, the same holder is tested against a fake in milliseconds — which is the whole
+   claim of point 8 made operational.
+10. **The network and the cache belong below the holder.** A repository owns where data comes from and how
+    long it is kept; the holder orchestrates and decides what the screen sees. Collapsed into one, the
+    caching policy is duplicated by the next screen that needs the same data, and the two disagree.
+11. **One owner per piece of data.** Two holders that both load and hold the same record are two sources of
+    truth: an edit through one leaves the other stale, and which one the user sees depends on which screen
+    they opened first. Share the repository, not the state.
+12. **Scope is a decision, not a default.** Provided above the navigation stack, a holder survives leaving
+    the screen — which is what you want for a session and what you do not want for a form, where the next
+    visitor finds the previous one's half-typed data. Created with the screen, it dies with it. Neither is
+    right in general, and the wrong choice reads as either "it forgets" or, on a shared device, as a leak
+    between users.
+13. **Create it once.** A holder instantiated in `build`, or in a builder that re-runs, is a new holder with
+    a fresh initial state on every rebuild — the same class of mistake as creating a controller in `build`
+    (§1.14), and it presents as a screen that resets itself at random moments.
+14. **Check whether the state holder is still alive before emitting after any `await`** — the same shape as
+    the `BuildContext`/`mounted` guard in §1, one layer down: a screen closed mid-request must not crash the
+    next emit.
+15. **A one-time reaction (navigation, a snackbar, a dialog) belongs to a listener, never to the builder that
+    renders the UI.** A builder can be re-invoked at any time for reasons that have nothing to do with the
+    state changing (a parent rebuild, a rotation) — code in it that reacts instead of rendering re-fires on
+    every one of those, and a listener condition must compare the previous and current state, not just inspect
+    the current one, or the same one-time reaction re-fires every time that state is revisited.
+16. Guard the double-submit case in the state holder, not the button: a status already "in flight" makes the
+    next call to the same method a no-op, and that status is what disables the button too — one source of
+    truth for both.
+17. **Test the sequence, not the destination.** Asserting only the final state passes whether or not the
+    loading state was ever emitted, so the spinner that never appears — or the error state skipped on the
+    way to a stale success — is invisible to the suite. Assert the ordered emissions, which is the one thing
+    a holder is uniquely able to prove about itself.
