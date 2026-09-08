@@ -7,7 +7,13 @@ description: "Use when designing a new API or interface (REST, tRPC, GraphQL) be
 
 Step 3 of the pipeline (`WORKFLOW.md`, between `archi` and `plan`), when the task is designing an
 interface consumed by others (frontend, third-party service, another team): not for an internal
-function with no public contract.
+function with no public contract. Every rule below holds in a repo with **nothing installed**
+(`CONVENTIONS.md`, rule A).
+
+**Applying an override is silent.** Where an org catalogue or a house API convention governs a rule
+here, write what it requires and move on — never report "a conflict between mentis and the house rules"
+to whoever's watching. Surface it as a specific, named question only when no rule anywhere resolves the
+case.
 
 ## When
 Before implementing a new endpoint/route/procedure: never after the fact by "documenting what
@@ -15,41 +21,30 @@ already exists" (by then it's too late to steer the design).
 
 ## Steps
 
-### 1. Contract-first
-1. The typed schema (DTO, tRPC type, OpenAPI/GraphQL schema) is written **before** the
-   implementation, not inferred from the code afterwards.
-2. Validation placed **only at the boundaries** (the API entry point): internal code trusts the
-   already-validated type, no deep revalidation that duplicates the logic.
-3. A single system-wide error format (the same structure for every error returned), never a
-   different format per endpoint.
+**Read only the section the task actually needs.** The rules live one file per section under
+`references/`; §1 is a new contract, §2 is what the contract exposes, §3 is any change to one that
+already ships.
 
-### 2. Hyrum's law: whatever is observable will be depended on
-1. Every observable behaviour (field order, default value, error format) will sooner or later be
-   depended on by a consumer, even an undocumented one: handle that risk at design time, don't
-   discover it by breaking a consumer later.
-2. Internal/technical fields never exposed "because it's handy": only what is a genuine public
-   contract is.
-
-### 3. Extension rather than breakage: the "One-Version Rule"
-1. Extend the existing contract with **optional fields** rather than forking a new version for a
-   minor change.
-2. A genuinely incompatible change (removing a field, changing a type) goes through
-   `deprecation-migration` (Expand/Contract or explicit versioning), never through a silent
-   modification of the existing contract.
-3. Pagination, sorting, filtering: consistent conventions across the whole API, not reinvented
-   endpoint by endpoint.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Contract-first | designing a new endpoint, route or procedure | [`01-contract-first.md`](./references/01-contract-first.md) |
+| 2 | Hyrum's law: whatever is observable will be depended on | deciding what an interface exposes | [`02-hyrums-law.md`](./references/02-hyrums-law.md) |
+| 3 | Extension rather than breakage | an existing contract has to change | [`03-extension.md`](./references/03-extension.md) |
 
 ## Output / checkpoint
 Final verification checklist cleared before shipping the contract: pagination consistent with the
-rest of the API, backwards compatibility verified (no existing field removed/retyped), error
-format compliant with the system-wide standard, no internal field exposed without reason.
+rest of the API, backwards compatibility verified against the previous contract rather than from
+memory (§3.9), error format compliant with the system-wide standard, no internal field exposed without
+reason.
 
 ## Guardrails
-No over-engineering of the contract for a hypothetical need nobody asked for: the contract covers
-the real need, extensible later if required, not pre-generalised. An incompatible change never
-slips quietly into a "minor" evolution: go explicitly through `deprecation-migration`.
+No over-engineering of the contract for a hypothetical need nobody asked for (§1.11): the contract
+covers the real need, extensible later if required, not pre-generalised. An incompatible change never
+slips quietly into a "minor" evolution: go explicitly through `deprecation-migration` (§3.2), and note
+that a rename (§3.6) and a change of a field's *meaning* (§3.8) are both incompatible even though
+neither looks it. **Never expose an internal field because it's handy** (§2.2) — it is permanent from
+the first integration.
 
 ## Origin
-Rewrite of the `api-and-interface-design` skill from a market generalist dev skill catalogue;
-Hyrum's law, the "One-Version Rule" and the final verification checklist are taken as-is,
-rewritten to the mentis template.
+A rewrite of a market generalist catalogue's `api-and-interface-design` skill. The full provenance and
+the refresh log are in [`references/origin.md`](./references/origin.md).

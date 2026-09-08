@@ -140,14 +140,14 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling | 🟡 (sourced from the market, no dedicated production experience in house) |
 | auth-session-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate jwt/oauth-oidc/keycloak/auth0 agents, no equivalent here) + a documented internal incident on a token refresh flow + OWASP session management; §4 (reference login flow) extracted from our two real frontend implementations read side by side; re-checked directly against the OWASP Session Management Cheat Sheet on 2026-08-10, 3 real gaps closed (privilege-change invalidation, absolute session lifetime, Clear-Site-Data on logout) plus an explicit CSRF note | 🟢 (§4 describes code already in production on two frontends; the rest still to dogfood) |
-| security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours | 🟡 (written, not dogfooded yet) |
+| security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,030 → 4,144 words of rules). No section added: the five are the shape of a boundary. §3 kept its number (`business/data-protection` cites it) and §2.4 stayed the SSRF rule the 2026-08-10 OWASP check added. None of these failures is loud — a missing authorisation declaration returns the right data to whoever wrote it — so the depth is the skipped case: the boundary being the right place because it is *enumerable*, reject-don't-repair, request-binding accepting fields the interface never shows, a value from another system still being untrusted, escaping on input giving a database correct for one destination, a resolved-path check rather than a join, secrets in URLs reaching history and proxies, an outbound call spending its own credentials, authorising before the work, **default-deny**, every response *field* being subject to the endpoint's decision, a webhook's authorisation being signature verification, the lock file being the real inventory, an install step running with your credentials, and the negative test being the only proof | 🟡 (written, not dogfooded yet) |
 | background-jobs-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate kafka/rabbitmq/bullmq/sidekiq/celery agents, no equivalent here) + established distributed-systems practice (at-least-once, idempotency keys, bounded retries, dead-letter) | 🟡 (written, not dogfooded yet) |
 | webperf | 6 | a market generalist dev skill catalogue (`webperf`) + web.dev performance guidance + bundle-weight items from a market open source TypeScript project | 🟡 (written, not dogfooded yet) |
 | domain-modeling | 3 | a recognised market skill author (`domain-modeling`) + DDD staples; states-not-flags is ours | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
-| api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule) | 🟢 (direct rewrite) |
-| observability-instrumentation | 6 | a market generalist dev skill catalogue (on-call questions, RED/USE, anti-cardinality) | 🟢 (direct rewrite) |
-| documentation-adr | 3 | a market generalist dev skill catalogue (5-6 field ADR template); "When"/Guardrails corrected 2026-08-11 against the real, installed org catalogue's cross-cutting plugin (`no-project-docs`) — an ADR is proposed, never committed as a file, unless asked, an ADR folder already exists, or the proposal is accepted; the original phrasing had this block volunteering a new doc file the moment a decision qualified | 🟢 (direct rewrite) |
+| api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule); **sectioned and deepened 2026-09-08** — the three inline sections moved to one file each under `references/` and the router became a table of triggers (375 → 2,392 words of rules). This was the thinnest block counted in the depth table, for the same reason `spec` was: a checklist of principles an experienced reader already agrees with and cannot apply under pressure, because the pressure comes from a change that looks compatible and is not — so the depth is a catalogue of those: **loosening is compatible and tightening is not**, widening a type breaking every parser written against the narrower promise, renaming being removal plus addition, a change to a field's *meaning* being breaking with the type unchanged, a default value being part of the contract, consumers depending on our *failures* so a changed status code turns careful retry handling into a duplicated write, an unspecified ordering being a choice made once by accident, and compatibility being verified by comparing the two schemas rather than remembered | 🟢 (direct rewrite) |
+| observability-instrumentation | 6 | a market generalist dev skill catalogue (on-call questions, RED/USE, anti-cardinality); **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers, §1 marked read-every-time because it is what makes the other three judgeable (511 → 3,048 words of rules). No section added; §1 and §2 kept their numbers, cited from `skills/api-design` and `skills/security-hardening`. Instrumentation is written by someone who is not the person who will read it, at a moment that is not the incident, which is the gap the depth closes: cardinality being *multiplicative*, the pairs where one member is unbounded (route template vs raw path, error class vs error string), an average hiding the tail so the reader concludes the system is healthy, a counter resetting on deploy and reading as a drop, an error counter incremented only on the remembered branch reporting zero during an outage, a value interpolated into a log message defeating grouping, the correlation ID needing propagation across a queue, **duration as part of an alert's condition**, a percentage threshold paging on a single failure at a low-volume hour, and **alerting on absence** — the job that did not run | 🟢 (direct rewrite) |
+| documentation-adr | 3 | a market generalist dev skill catalogue (5-6 field ADR template); "When"/Guardrails corrected 2026-08-11 against the real, installed org catalogue's cross-cutting plugin (`no-project-docs`) — an ADR is proposed, never committed as a file, unless asked, an ADR folder already exists, or the proposal is accepted; the original phrasing had this block volunteering a new doc file the moment a decision qualified; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (841 → 2,909 words of rules). No section added, and §1.2 and §4 kept their numbers, both cited from `skills/design-patterns` §5 and §4 also from `business/interface-design` §6. Every rule here is ignorable at no immediate cost — a missing field, a deleted record and an unnamed trade-off all produce a repo that works today — so the depth is the later reader: an ADR being its own file because its subject is a *moment* and a record kept in a comment gets edited until it describes the present, an indefinite status leaving half the codebase compliant with both halves citing the file, the alternatives field being the one dropped for time and the one that does the work, an unfillable field being a finding, both supersession links having to exist and the forward one being the one usually missing, an ADR contradicted by the code being a live defect that makes the whole log untrustworthy, and §4's asymmetry — the cost is readable in the code and the benefit is readable nowhere | 🟢 (direct rewrite) |
 | wayfinder | cross-cutting | a recognised market skill author (parent ticket with 5 sections + typed children) | 🟢 (direct rewrite, adapted to Jira) |
 | handoff | cross-cutting | a recognised market skill author (reference by path, never duplicate) | 🟢 (direct rewrite) |
 | debug | support 6 | native `systematic-debugging` + a market skills repository (`root-cause-tracing`: backwards call-chain walk + stack capture; `defense-in-depth`: layered validation); the no-test-tampering rule (§3.4/Guardrails) added 2026-08-11, named directly by the operator — a coding agent editing a failing test's expectation instead of the implementation, which reports a regression as a passing suite | 🟡 (extended: our version named the goal but gave no technique to reach it) |
@@ -392,12 +392,12 @@ closing this costs nothing that made this repo cheaper to load.
 | csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
-| global | 18 / 20,280 | 5 / 11,886 | −8,394 | x1.71 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
+| global | 18 / 20,280 | 5 / 21,622 | +1,342 | x0.94 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -410,10 +410,10 @@ single file first, all on 2026-09-08, and `laravel` (11) the day before. Every *
 table has now had its pass. The programme was then extended to the other blocks a row aggregates, which
 were still single-file and were holding their rows back: `product-ownership` and `spec` first, which
 takes `project-management` from x4.7 to **x1.29**, then `interface-design`, `data-analytics`,
-`ux-writing` and `accessibility`, which take `bi, design, xefi` from x2.94 to **x0.93**. Five blocks
-counted in the table are still single-file: `security-hardening`, `documentation-adr`,
-`api-design` and `observability-instrumentation` in the `global` row, and
-`data-pipeline-conventions` in the `python` row. The `bi, design, xefi` row stays ✕: it is
+`ux-writing` and `accessibility`, which take `bi, design, xefi` from x2.94 to **x0.93**, then
+`security-hardening`, `documentation-adr`, `api-design` and `observability-instrumentation`,
+which take `global` from x1.71 to **x0.94**. One block counted in the table is still
+single-file: `data-pipeline-conventions`, in the `python` row. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -425,7 +425,7 @@ csharp: dotnet-conventions 6,976
 python: python-conventions 7,697, data-pipeline-conventions 749
 flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
-global: code-baseline 9,129, security-hardening 1,030, api-design 375, documentation-adr 841, observability-instrumentation 511
+global: code-baseline 9,129, security-hardening 4,144, api-design 2,392, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
 design-patterns: design-patterns 6,333
 react: react-nextjs-conventions 10,476
@@ -794,6 +794,52 @@ half-translated screen failing silently because a missing key renders as its sou
 *replacing* semantics rather than adding to them; a state attribute set once at render asserting
 something wrong half the time; and a disabled control announced as available while being unreachable by
 keyboard.
+
+**Third row of the extension, 2026-09-08: `global`.** Four single-file blocks beside `code-baseline`,
+which had already had its pass: `skills/security-hardening` 1,030 → **4,144** in five sections,
+`skills/documentation-adr` 841 → **2,909** in four, `skills/observability-instrumentation` 511 →
+**3,048** in four, and `skills/api-design` 375 → **2,392** in three. No section added to any of them.
+The row goes from x1.71 to **x0.94** and the table to **129,611 against 272,884**, worst still
+**x8.13**, median **x1.76**. That leaves one single-file block counted anywhere in the table:
+`data-pipeline-conventions`.
+
+**`api-design` was the thinnest block in the repo at 375 rules words, and the reason is the one `spec`
+had.** It was a checklist of principles an experienced reader already agrees with — contract-first,
+don't expose internals, extend rather than fork — every one uncontroversial when read and useless under
+pressure, because the pressure comes from a specific change that looks compatible and is not. So the
+depth is almost entirely a catalogue of those cases, and the load-bearing pair is that **loosening is
+compatible and tightening is not**: a validation rule added later breaks callers even though it makes
+the contract stricter and more correct, and a widened type breaks every parser written against the
+narrower promise.
+
+**The other three share a different property: none of their failures is loud.** A missing authorisation
+declaration returns the right data to the developer who wrote it; a log line written for the code rather
+than for the incident looks fine in review and is useless at three in the morning; a deleted ADR leaves
+a repo that works today and a reader who is wrong later. Each pass therefore kept its rules verbatim and
+added the case where the rule gets skipped.
+
+Numbers were pinned where they are cited from outside: §3 of `security-hardening`
+(`business/data-protection`) and §2.4, the SSRF rule the 2026-08-10 OWASP check added; §1.2 and §4 of
+`documentation-adr` (`skills/design-patterns` §5, and §4 also from `business/interface-design` §6); and
+§1 and §2 of `observability-instrumentation`, cited from `api-design` and `security-hardening`
+respectively — the second of which was added by this pass, since `security-hardening` §5 now says to
+read what got logged during a hostile-value replay, which is a different exposure from the one under
+test and one nothing else in that list surfaces.
+
+The additions worth citing across the four: **default-deny** as what makes "every endpoint declares its
+authorisation" enforceable rather than aspirational; every response *field* being subject to the same
+decision as the endpoint; a webhook's authorisation being signature verification, since HTTP middleware
+never reaches it; the lock file being the dependency inventory and the manifest the smaller half; a
+dependency's install step running with your credentials before any review; cardinality being
+*multiplicative*, so the fourth label added for one dashboard multiplies the bill; an error counter
+incremented only on the branch somebody remembered reporting zero during an outage, which is worse than
+having none; a value interpolated into a log message making every occurrence a distinct string and
+defeating grouping; **duration as part of an alert's condition**, which is what separates a page from a
+flap; **alerting on absence** — the job that did not run, the queue that stopped being consumed — the
+class a symptom-based set misses unless written deliberately; an indefinite ADR status leaving half the
+codebase compliant with both halves citing the file; and §4's asymmetry, that a held trade-off's cost is
+readable in the code while its benefit is readable nowhere, so a reader comparing what they can see
+against nothing concludes correctly from the available evidence and removes it.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
