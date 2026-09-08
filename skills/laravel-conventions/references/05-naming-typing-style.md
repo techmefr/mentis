@@ -33,3 +33,36 @@
     §1.1) precisely at this framework's boundary, where request/route/config values cross as loose scalars
     on purpose. Leave an existing file's declaration exactly as it is either way; this is a default for new
     files, not a retrofit.
+13. **A method that answers reads as a question; a method that acts is named for its effect.**
+    `isPublished()`, `canBeCancelled()`, `hasPendingInvoices()` on one side; `publish()`, `cancel()`,
+    `notifyOwner()` on the other. The mistake that costs is the middle ground — a `check…()` or
+    `handle…()` that both answers and mutates, because every caller then has to read the body to know
+    whether calling it twice is safe.
+14. **A class named after a pattern instead of a subject is a class with no subject.** `*Service`,
+    `*Manager` and `*Helper` are already banned by `skills/code-baseline`; the Laravel-specific case is
+    `*Repository`, and the reason is concrete rather than stylistic — Eloquent is already the data-access
+    layer, so a repository wrapper adds a class, forbids nothing, and gets bypassed by the first developer
+    who needs a query it does not expose. Name the behaviour: `PublishArticle`, `MonthlyRevenue`.
+15. **An enum that every caller `match`es on is an enum missing a method.** The label, the colour, the
+    allowed transitions and the permission belong on the enum itself; the same `match` written in a
+    controller, a resource and a Blade view is three places to forget the case you add next month. The
+    compiler cannot help with a `match` that has a default arm, so the duplication is silent.
+16. **A migration's file name is the only place its intent is legible.** `add_status_to_invoices` beats
+    `update_invoices_table`, because the list of migrations is read as a history — and a name that says
+    "update" forces the reader to open the file to know whether it is the one they are looking for.
+17. **Route names, ability names and queue names are string contracts, so renaming one is a search across
+    the whole repository** — Blade views, front-end code, tests, config, seeders — not just the PHP that
+    declares it. Nothing fails at compile time: a stale `route('…')` throws at runtime on the one page
+    nobody opened, and a stale ability name silently authorises nothing or everything depending on the
+    fallback.
+18. **A long collection pipeline gets named steps.** Five chained calls with inline closures cannot be read
+    in a review diff, and the reviewer's only options are to trust it or to rebuild it mentally. Break it
+    where the meaning changes and name the intermediate value; the performance is identical and the
+    argument becomes possible.
+19. **`array` and `mixed` in a signature are the absence of a type.** Where the shape is known, a typed
+    object, a value object or a typed collection carries it in a way the runtime enforces; an array shape
+    written only in a docblock is checked by static analysis at best and by nothing at worst (points 4 and
+    5). Keep them for the genuine boundary cases — a config blob, a decoded payload about to be validated.
+20. **An exception is named for the condition, not for the layer that threw it.**
+    `InvoiceAlreadyPaid` tells a catch block what happened; `InvoiceServiceException` tells it where the
+    code was, which is what the stack trace is already for (§11).

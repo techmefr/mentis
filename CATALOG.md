@@ -388,7 +388,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | priority |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 9,198 | −70,627 | **1** — the stack this repo ships on |
+| laravel | 65 / 79,825 | 3 / 12,796 | −67,029 | **1** — the stack this repo ships on |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
@@ -399,8 +399,8 @@ closing this costs nothing that made this repo cheaper to load.
 | react | 36 / 9,302 | 1 / 3,279 | −6,023 | 5 |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,874 | −11,432 | ✕ — internal landscape, rule C keeps it out |
 
-**A counting correction, 2026-09-08.** The nuxt row now excludes `references/origin.md`, and so should
-every row from its next pass on. `origin.md` is provenance — where a rule came from, what was re-checked,
+**A counting correction, 2026-09-08.** The nuxt and laravel rows now exclude `references/origin.md`, and
+so should every other row from its next pass on. `origin.md` is provenance — where a rule came from, what was re-checked,
 what a pass changed — and the catalogue being compared against has no equivalent of it, so counting ours
 was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
 about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
@@ -423,9 +423,16 @@ and §3 (113/211/174 → 875/944/899) on 2026-09-08, then §7 and §6 the same d
 than by reading for them: §5 had two points numbered 6 and a citation pointing at the wrong one, §9
 pointed at `§11.6` for a rule the §11 pass had moved to point 10, and a reflow had flattened §9's
 sub-list and put a space inside a URL. All fifteen intra-block `§N.M` references were then re-checked
-one by one against the current numbering.
-**Next**: `laravel-conventions` §3 and §9, which returns to the largest deficit (−67,094). The Nuxt
-result sets the expectation for what one focused day closes on a stack.
+one by one against the current numbering. Then `laravel-conventions` §7, §10 and §5 (272/361/442 →
+907/915/943), which brings that block's router and eleven sections to 10,131 words and the laravel stack
+to x6.2.
+**A queue correction**: this note previously said `laravel-conventions` §3 and §9 were next. Measuring
+before writing showed **§3 already at 980 words** from an earlier pass — the queue had been written from
+memory rather than from the counts. The order is now recomputed each time from the actual file sizes,
+which is the only reason the table exists.
+**Next**, by measured thinness: `laravel-conventions` §11 failures (515) and §9 tests/static analysis
+(655), then the remaining stacks in deficit order — csharp is the worst ratio at x17.9 and the stack
+nobody here writes, so python (x8.5) and the `global` blocks come first.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 

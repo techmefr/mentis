@@ -123,3 +123,48 @@ accessor that is an N+1 wearing the clothes of a field.
 
 Still short of parity on this block: ~66,000 words, tracked in `CATALOG.md` §2 as a programme rather
 than a claim.
+
+**Third pass, §7, §10 and §5, 2026-09-08.** The queue in `CATALOG.md` §2 said §3 and §9 next; measuring
+before writing showed §3 already at 980 words from an earlier pass, so the order was recomputed from the
+actual counts and the note corrected. The three thinnest were §7 (272), §10 (361) and §5 (442); they are
+now 907, 915 and 943. Same method as the Nuxt block passes earlier the same day: originals kept, mechanism
+and consequence attached, new points only where a section was silent.
+
+§7 was a config-and-commands checklist that stopped before the operational half. Added: a secret committed
+once is compromised even after removal, so the response is rotation rather than editing; a config file is
+data and anything non-serialisable in it breaks the cache — or works locally and fails at boot in
+production; a data-changing command is idempotent or refuses a second run, because someone will run it
+again after a timeout; it reports counts, since "Done" and a no-op are indistinguishable; a destructive one
+confirms and prefers a dry run, and validates its arguments as strictly as a request; a long one batches
+and resumes from state in the database rather than from a position in a dead process; a scheduled one
+declares its overlap policy and somewhere for a failure to surface, or it can stop working for weeks; a
+seeder upserts by natural key; a factory defines the valid minimum with named states rather than the happy
+path; and a backfill inside a migration is written against the schema, never against a model that will
+change under it. Point 1 also gained why the `env()`-outside-config rule bites: local development has no
+cached config, so the code works on the machine it was written on and reads null on the deploy that
+cached it.
+
+§10 had the layer split, the dependency-decision rule, the support-window date and the two package-specific
+overrides, and nothing on how a boundary is held. Added: the dependency direction is enforced by a tool
+rather than a paragraph (the `code-baseline` §8 argument applied to architecture); say whether the boundary
+is a folder convention or a Composer package, since treating the first as the second is how two domains
+grow a dependency nobody approved; a domain is entered through a stated surface, not by reaching into its
+internals; **the database is a boundary too — two domains writing one table are one domain with two
+names**; events decouple at the cost of traceability, so they belong where the producer genuinely must not
+know its consumers; a new abstraction is earned by the second real case; don't add a queue, cache or search
+engine for something the database still handles; keep the dependency set current continuously or the
+support-window rule becomes unreachable; and an architecture decision not written down gets re-litigated.
+
+§5 covered casing, typing and the strict-types override thoroughly. Added: a method that answers reads as a
+question and one that acts is named for its effect, the costly case being the middle ground that does both;
+a class named after a pattern has no subject, and the Laravel-specific instance is `*Repository`, since
+Eloquent is already the data-access layer so the wrapper forbids nothing and gets bypassed; **an enum every
+caller `match`es on is an enum missing a method**, and a `match` with a default arm makes the duplication
+silent; a migration's file name is the only place its intent is legible; route, ability and queue names are
+string contracts whose rename is a repository-wide search with nothing failing at compile time; a long
+collection pipeline gets named steps or a reviewer can only trust it; `array` and `mixed` are the absence of
+a type; and an exception is named for the condition rather than for the layer, which the stack trace already
+gives.
+
+Block now at 10,131 words for the router and the eleven sections, excluding this file — see the counting
+correction in `CATALOG.md` §2, which stopped counting provenance as depth.
