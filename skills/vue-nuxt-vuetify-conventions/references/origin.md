@@ -79,3 +79,29 @@ Two of these are corrections rather than additions, and worth naming as such: §
 point closes a real cross-account leak the block never mentioned (SSR shares a module across visitors,
 not across a visitor's requests), and §10's server-side-channel-authorisation point closes the case where
 a private channel is "authorised" by a name the client itself composes. Both were absent, not wrong.
+
+**Depth pass, §7 and §6, 2026-09-08 (same day, second pass).** Same method, next two thinnest sections.
+§7 goes from 172 to 899 words and 9 to 17 points; §6 from 199 to 877 and 6 to 15. Both were checklists —
+true, terse, and impossible to argue from in a review, because a reviewer who is told "every icon-only
+control gets an accessible name" cannot answer "why does it matter here" without the mechanism.
+
+§7's nine original points are kept and each now carries the failure it prevents; the eight added are the
+ones a template review actually keeps catching: a placeholder used as a label, an error message not
+programmatically attached to its field, required/invalid carried by colour or an asterisk alone (which
+generalises to status chips and chart series), a focus outline removed and not replaced, a row action
+that only exists on hover, an image alt left as the filename and a chart with no textual equivalent, a
+missing page language, and the closing point that automated checkers pass pages nobody can use — tab
+through it and zoom to 200% instead. Point 4 also gained the voice-control consequence: an accessible
+name that does not contain the visible text makes the control unusable by voice, which is the one
+accessible-name failure that is invisible to a screen-reader-only test. This section is where the RGAA
+expectation lands in practice, and it is stated as mechanism rather than as a criterion number, because
+the block has to hold on a project with no compliance target at all.
+
+§6's six original points are kept; the nine added are the internationalisation mistakes that are correct
+in the source language and wrong everywhere else — a `n > 1` ternary standing in for a plural rule
+(Russian and Polish have three forms, Arabic six, several treat zero separately), a sentence built by
+concatenation, a translation rendered as HTML (an injection surface fed by a file edited outside code
+review), dates and numbers formatted by hand, the ~30% expansion German applies to a button sized for
+French, a missing key falling back to an empty string instead of loudly, one key reused for two meanings
+because the English words coincide, text baked into an image, and the locale file being part of the same
+commit as the code since nothing builds to catch its absence.
