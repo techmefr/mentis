@@ -105,3 +105,36 @@ review), dates and numbers formatted by hand, the ~30% expansion German applies 
 French, a missing key falling back to an empty string instead of loudly, one key reused for two meanings
 because the English words coincide, text baked into an image, and the locale file being part of the same
 commit as the code since nothing builds to catch its absence.
+
+**Depth pass, §11, §12, §8, §1 and §5, 2026-09-08 (third pass, same day).** The five remaining thin
+sections, taken by ascending thickness as recorded in `CATALOG.md` §2. Same method throughout: originals
+kept, mechanism and consequence added, new points only where the section was silent rather than wrong.
+§11 9 → 16 points, §12 8 → 17, §8 7 → 14, §1 12 → 17, §5 6 → 15.
+
+What is genuinely new, as opposed to deepened. §11 gained the reactivity mechanics the linter-derived
+list had skipped — a `computed` must be pure, watching an object versus a getter (and what `deep: true`
+actually costs), a `v-for` key that is the array index reusing the wrong DOM node so a typed value moves
+to another row, `v-if` and `v-for` on one element — plus three server-side security points in the same
+family as the existing ones: never reading a user's identity from something the client can set
+(horizontal privilege escalation), never building a redirect target from user input (open redirect), and
+capping an unbounded collection at the boundary. §12 gained the field patterns that were observed but
+never written down: a pending flag not reset on the failing branch, an optimistic update that never
+reconciles, server-side pagination mixed with client-side sorting, a search index whose result count is
+a cap rather than a total, a watcher chain whose update order is emergent, a `catch` that logs and
+continues, and a component test asserting on CSS classes. It also gained the one that belongs beside a
+permission check: **hiding is not authorising**.
+
+§8 gained the wrapper discipline (don't wrap just in case; a wrapper that does exist forwards attrs and
+slots explicitly), theme tokens over a hex, the prohibition on `:deep()` into generated class names since
+those are not API, reading the docs for the *installed* version rather than the latest, not defeating the
+accessibility the component already carries, and the server-side/client-side data-table contract. §1
+gained the template-holds-shape-not-reasoning rule, no prop mutation in a child, `v-model` as a declared
+pair rather than a hand-rolled `value`/`input`, the props-explosion signal, and `defineExpose` as a
+deliberate act rather than a habit. §5 gained enforcement of the layer boundary by the toolchain rather
+than by prose, alias resolution verified in the linter *and* the type checker before migrating, the
+`shared/`-as-boundary-not-bucket threshold, circular imports, the server boundary kept physical rather
+than commented, environment variables read in one place, checking the platform before adding a dependency
+for one helper, and the lockfile as part of the change.
+
+**A defect fixed in passing**: §5 had two points numbered 6 and no 7, and the second one cited "point 5
+above" for a source that was actually point 6's. Renumbered and the citation corrected.
