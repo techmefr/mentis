@@ -27,3 +27,39 @@
    install reaches nothing package-specific, including the concrete layout point 5 depends on. Run it
    interactively: a non-interactive first install silently drops every third-party skill while still
    reporting success. [`laravel/boost`, github.com/laravel/boost, read 2026-08-11.]
+7. **The dependency direction *is* the architecture, so a tool enforces it, not a paragraph.** Point 1's
+   split holds for exactly as long as everyone remembers it; expressed as a static-analysis rule or a
+   package boundary, a wrong-direction import fails a build instead of waiting for a reviewer who happens
+   to know. This is the same argument `skills/code-baseline` §8 makes about guarantees generally: prefer
+   the mechanism the toolchain checks over the sentence someone has to recall under deadline.
+8. **Say which kind of boundary you actually have.** A folder convention is a convention — nothing stops an
+   import across it. A Composer package boundary is enforced by the autoloader and by the package's own
+   `composer.json`. Both are legitimate; what causes trouble is treating the first as though it were the
+   second, and then being surprised that two domains grew a direct dependency nobody approved.
+9. **A domain is entered through a stated surface, not by reaching into its internals.** When another
+   domain calls an action, a service or a documented facade, that surface can change deliberately; when it
+   news up an internal class or queries another domain's model directly, every module depends on every
+   other module's private structure and the split has become decorative.
+10. **The database is a boundary too.** Two domains writing the same table are one domain with two names,
+    whatever the folder layout says — and the failure arrives as two pieces of code with different ideas
+    about what a column means. Give the table one owner, and let the other side go through it.
+11. **Events decouple, and they cost traceability.** A cross-domain flow assembled from events does not
+    appear in a stack trace, so "what happens when an invoice is paid" stops being answerable by reading
+    one file. Use them where the producer genuinely must not know its consumers; call the action directly
+    where it must.
+12. **A new layer or abstraction is earned by the second real case.** Building the extension point first
+    means designing against an imagined second caller, and the real one, when it arrives, wants something
+    else — so the abstraction has to be rebuilt anyway, this time with a consumer attached to it.
+13. **Don't add infrastructure the database still handles.** A queue, a cache layer or a search engine each
+    bring an operational surface — a failure mode, a deployment step, a staleness question. Reach for one
+    when a measurement says the database cannot do it, not because the shape of the problem resembles a
+    tutorial.
+14. **Keep the dependency set current continuously, or point 3 becomes impossible.** A framework major is
+    only reachable when the packages around it are already close to their own latest; a set left to drift
+    for a year turns a routine upgrade into a project, which is how a branch ends up past its security
+    window in the first place.
+15. **An architecture decision that is not written down gets re-litigated.** Record it near the code, in a
+    few lines: what was decided, what it rules out, and what would reopen it. The point is not
+    documentation for its own sake — it is that the next person arguing the other side deserves to know the
+    argument has already happened, and on what grounds (`skills/documentation-adr`, which also says when
+    *not* to commit a file for it).
