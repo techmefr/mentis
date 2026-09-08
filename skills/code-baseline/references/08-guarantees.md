@@ -52,3 +52,31 @@ protection — it's a claim the next reader will trust. Wire it or delete it.
    once, not fixed unprompted — with one exception: copy that promises a user a protection they don't have
    is a defect now, not debt. A human can override any of this ("leave the interface, the second
    implementation lands next sprint"); say once what is unenforced until then, and move on.
+7. **Enforced on the happy path only is not enforced.** The same rule has to hold on every path that
+   reaches the thing it protects, and the paths multiply quietly: a validation on the form and not on the
+   API that the form posts to, a permission on the page and not on the export that renders the same data, a
+   check that runs on the first attempt and not on the retry, a guard in the handler and not in the queued
+   job that does the work later. The declaration is true of the route somebody tested, which is what makes
+   this the version of the gap that survives review.
+8. **A guarantee expressed twice will disagree.** Two copies of the same rule — validation in the client and
+   in the server, a limit in the config and in the code, a permission list in a seed and in a check — drift
+   the first time only one is updated, and then the system's behaviour depends on which one runs. That is
+   not an argument for having one: it is an argument for naming which one is **authoritative** and deriving
+   or testing the other against it, so the pair cannot silently diverge (§7.13 is the dependency-shaped case
+   of the same rule).
+9. **A guarantee that has to be opted into is the one that gets forgotten.** Where the platform lets you
+   choose, make the protection the default and the exception explicit: a base class or middleware that
+   denies unless something allows, a type that cannot be constructed in an invalid state (§5.5), a config
+   that fails to boot rather than falling back (`react-nextjs-conventions` §9.2 is the same rule about a
+   secret). Then the missing line is a failure instead of a silence, which is the property the whole
+   pipeline is built on.
+10. **A guarantee can expire.** A pinned dependency, a certificate, a token, a dated feature flag, a
+    suppression that was meant to be temporary — each is enforced on the day it is written and silently not
+    enforced later, which is point 1's asymmetry with a timer on it. The answer is an alarm the system
+    raises, not a date in prose that nobody re-reads.
+11. **Verify by reading the system's answer, not your own edit.** Every example in point 4 was found the
+    same way: by asking the tool what it now believes — the plugin inventory, the hook's own output, the
+    suite list it actually ran — rather than by re-reading the change and being satisfied. That is the
+    cheapest habit in this section, and the one that turns a declaration into an enforcement: run the path,
+    read what came back, and let the test hold it (§6.3), because a check with no red test is a check that
+    may already have stopped firing.

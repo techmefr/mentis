@@ -130,7 +130,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs; re-checked directly against the PSR-12 text on 2026-08-10 — almost all of it is formatting already covered by Pint/PHP-CS-Fixer, `declare(strict_types=1)` was the one real gap (the one PSR-12 rule with runtime effect); §1.1 corrected 2026-08-11 against the real, installed org catalogue's Laravel plugin (`no-strict-types`) — Laravel deliberately omits the declaration at its framework boundary (loose scalars in from routes/requests/config, Larastan does the static enforcement instead), a real, dogfooded, currently-installed reversal of the PSR-12 default that neither this block nor `laravel-conventions` named explicitly until now | 🟡 (sourced from the market, same uncertainty status as gimli (the operator is new to PHP)) |
 | go-conventions | 6 | golangci-lint (errcheck/govet/staticcheck/gosimple/ineffassign/unused) + uber-go/guide; re-checked directly against the Uber Go Style Guide on 2026-08-10, filtered for what a linter doesn't catch mechanically — 3 real gaps closed (no panic in library code, comma-ok type assertion, os.Exit/log.Fatal confined to main()) | 🟡 (no internal production experience) |
 | python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged | 🟡 (no internal production experience, same status as go-conventions) |
-| code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file | 🟡 |
+| code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file; **depth pass 2026-09-08 on all eight sections** (4,397 → 9,129 words of rules) — the block with least room, since it was already the deepest here, so the additions are the failure modes the sections were silent on: catch scope, cleanup on the failure path and cause preservation in §3; the primitive-obsession family (two ids of one primitive type, units, money as amount-plus-currency, a boolean pair encoding one state, a nullable field carrying two meanings) in §5; timeout, retry-with-backoff, idempotency on an outbound write, testing the client at the transport layer rather than mocking the client, and the webhook receiver's own three rules in §4; §6 reframed around the debt rather than the doctrine; and five more shapes in §8, including enforced-on-the-happy-path-only and verify-by-reading-the-system's-answer | 🟡 |
 | laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves | 🟡 |
 | flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned | 🟡 (no mobile production experience at all, `faramir`'s question register applies — the depth pass does not change that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
@@ -393,7 +393,7 @@ closing this costs nothing that made this repo cheaper to load.
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | ✔ — all 10 sections passed 2026-09-08, x2.0 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | ✔ — all 13 sections passed 2026-09-08 |
-| global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
+| global | 18 / 20,280 | 5 / 7,585 (stale) | −12,695 | 3 — `code-baseline` passed 2026-09-08 (4,397 → 9,129 on its own); the row is **not** re-measured, see below |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
 | design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
 | react | 36 / 9,302 | 1 / 10,476 | **+1,174** | ✔ — all 10 sections passed 2026-09-08, first block past its counterpart |
@@ -405,7 +405,8 @@ what a pass changed — and the catalogue being compared against has no equivale
 was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
 about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
 actually reach. The rows not yet re-measured (everything except nuxt, laravel, react and flutter) still include
-theirs and are therefore slightly flattering to us.
+theirs and are therefore slightly flattering to us — `global` included, which is one more reason it is
+marked stale rather than adjusted.
 
 Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
 per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
@@ -465,14 +466,34 @@ backgrounded, and a system permission prompt that can only be shown once per ins
 intra-block references re-checked; ten were pointing at the wrong rule after the renumbering, and one —
 §9's disposal citation pointing at §1's async-context rule — had been wrong since the section was written.
 
-**Next**: `code-baseline` (9 sections), the last sectioned block with no pass. Then the single-file blocks,
-starting with `python-conventions`, where the pass is a different kind of work: the sections have to be
-decided first.
+Then `code-baseline`, **all eight sections** and the last of the five sectioned blocks: §3 241 → 920,
+§5 249 → 932, §7 310 → 932, §1 348 → 979, §2 448 → 974, §4 509 → 1,085, §6 549 → 1,095, §8 805 → 1,274.
+Router plus sections: 4,397 → 9,129. This was the block with least room — already the deepest in the repo
+— so most of the pass was the failure modes the sections were silent on rather than reasons they already
+carried: §3's catch-scope, cleanup-on-failure and cause-preservation rules, §5's whole primitive-obsession
+family (ids, units, money, a boolean pair encoding one state), §4's timeout/retry/idempotency policy and
+the webhook receiver's three rules, and §6 reframed around the *debt* rather than the doctrine, which stays
+in `skills/tdd`. Twenty-four intra-block references re-checked, including a stale `§4.6–§4.9` range inside
+its own `origin.md`.
+
+**The `global` row is now stale on purpose, and this is the table's own §8 problem.** `code-baseline` is one
+of the five blocks that row aggregates, but the composition of the other four was never written down — the
+table was produced ad hoc, not by a script in the repo, despite the sentence below claiming progress is
+measurable with "the same script". Recomputing the aggregate from a remembered composition is exactly the
+mistake corrected twice already on this page, so the row keeps its old number and says it is stale. The
+next thing this table needs is not another pass: it is the composition of each row recorded next to it, so
+that a row can be re-measured rather than reconstructed.
+
+**Next**: the single-file blocks, starting with `python-conventions` (1,868 words), then
+`inertia-conventions` (1,743) and `php-patterns` (991). The pass there is a different kind of work — the
+sections have to be decided before they can be deepened — so it is a design decision per block rather than
+a writing pass, and it should not be started in the same breath as one.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.
-Progress is measurable with the same script that produced this table, which is the point of recording it
-here rather than in a commit message.
+Progress is recorded here rather than in a commit message so that it can be read as a whole. It is not,
+as an earlier version of this line claimed, reproducible from a script — there is none in the repo, and the
+`global` row above is where that caught up with us.
 
 **The order is by thinness, not by importance.** A 113-word section is not a short summary of a subject —
 it is a subject whose failure modes were never written down, so an agent reading it agrees with the rule
