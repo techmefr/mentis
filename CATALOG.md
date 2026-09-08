@@ -392,7 +392,7 @@ closing this costs nothing that made this repo cheaper to load.
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
-| nuxt | 21 / 19,869 | 1 / 9,479 | −10,390 | **2** — the other stack shipped daily |
+| nuxt | 21 / 19,869 | 1 / 12,507 | −7,362 | **2** — the other stack shipped daily |
 | global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
 | design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
@@ -408,11 +408,12 @@ incidents de-identified — which is also why a pass is slow.
 
 **Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 → 873/875/769) then §6 and §1 (292/589 →
 1,027/996) — five of eleven sections, 1,445 words → 4,700; then `vue-nuxt-vuetify-conventions` §10, §2
-and §3 (113/211/174 → 875/944/899) on 2026-09-08, then §7 and §6 the same day (172/199 → 899/877) —
-five of thirteen sections, 869 words → 4,494, which moves that block from x3.6 to **x2.1** of its
-counterpart and is the closest any stack has come to parity.
-**Next**: the rest of the Nuxt block by ascending thickness (§11 reactivity 241, §12 review patterns 251,
-§8 component library 284, §1 shape 363, §5 structure 404), then `laravel-conventions` §3 and §9.
+and §3 (113/211/174 → 875/944/899) on 2026-09-08, then §7 and §6 the same day (172/199 → 899/877), then
+§11, §12, §8, §1 and §5 (241/251/284/363/404 → 842/870/795/747/925) — **ten of thirteen sections**,
+2,617 words → 8,673, which moves that block from x3.6 to **x1.6** of its counterpart. §5's duplicated
+point number and its wrong source citation were fixed in the same pass.
+**Next**: the Nuxt block's last three sections, which are also its thickest (§4 naming 537, §9 hydration
+553, §13 data-access client 560), then `laravel-conventions` §3 and §9.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 
