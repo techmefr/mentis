@@ -66,6 +66,29 @@ exists to remove), and the module name shadowing a standard-library one. **§2**
 central rule exists at all: Python has no checked exception, so a raised failure is invisible to the
 caller, the checker and the reader, and the only way to learn it is to read every function the body calls.
 
+**Dogfooded once, 2026-09-08.** A small stdlib-only project was written by following this block and
+`data-pipeline-conventions` — a pipeline that measures this repo's own depth table and stores each run in
+SQLite, 44 tests green, run against the real repo. §4 (async), §6 (DI) and the mapper half of §7 never
+applied and the router correctly kept them unread, which is the first useful result: the
+read-only-what-you-touch table works. Three real gaps came out of it and are now closed:
+
+- **§8.17 and the checkpoint**: the block opened by saying every rule holds in a repo with nothing
+  installed, and its checkpoint required `ruff` and `mypy`, which §8.1 requires pinning. On a project
+  where installs are refused by design, that checkpoint is unsatisfiable on code that is in fact
+  compliant, and the block said nothing about the fallback. It now does, and the honest output is *no
+  type checker available* as a finding rather than a pass nobody observed.
+- **§8.18**: every rule in §8 was phrased in pytest's vocabulary — the plugin set, the test base, the
+  fixtures — so the section with the most portable content in the block reads as inapplicable to a
+  stdlib runner. The mapping is now stated.
+- **§7.17 to §7.19**: §7 was entirely mapper- and migration-tool-shaped and said nothing about the case
+  the project actually was, hand-written DDL. §7.8 to §7.11 (transactions) turned out to be fully
+  portable and are now said to be; and a create-if-not-absent script silently never migrating an
+  existing database, plus the engine defaults a mapper would have handled, were absent.
+
+The project lives outside this repo, with its findings beside it. It is one small project written by the
+same agent that wrote the block, so it does not make the row green — what it did is find three things
+reading could not.
+
 **What this block still is not.** The special status stands: no production experience behind it, so the
 depth comes from the language's documented behaviour, the PEPs, the tooling and the mechanisms shared with
 the blocks that *have* been dogfooded — not from real review feedback. Deepening it does not change its

@@ -122,6 +122,12 @@ can unlock this guard.
 - **A refactor that moves an assertion into a helper** (`expect(x).toBe(1)` becomes
   `assertFoo(x)`) looks like a removal to this heuristic, because the literal line is gone. This is
   the false-positive case `MENTIS_ALLOW_TEST_CHANGES` exists for.
+- **An over-specified assertion is a test defect, and widening it looks identical to bending it.** An
+  assertion pinning an exact list where the behaviour legitimately produces more entries fails on
+  correct code; the fix is on the test's side and the guard cannot tell it from the dishonest edit. The
+  discipline that keeps the two apart: **widen and pin** — narrow the original assertion to the fact it
+  was really about, and *add* the test that states the newly understood behaviour, so the suite grows
+  rather than loosens. Found by dogfooding 2026-09-08 (43 tests became 44).
 - **No AST, no real per-language parser.** A regex over lines, deliberately — the same tradeoff
   `verify-gate.sh` makes for the contract file, for the same reason: exhaustive parsing for five
   ecosystems isn't worth the maintenance for a guard whose job is catching the honest-mistake

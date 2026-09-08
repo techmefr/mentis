@@ -48,11 +48,15 @@ trigger the diff meets, not the whole table.
 
 ## Output / checkpoint
 Code compliant with the sections above, and `ruff check`/`mypy` (or `pyright`) with no new finding introduced
-by the diff. Checked by `gate` (7) and `review` (8).
+by the diff. Checked by `gate` (7) and `review` (8). **Where the project has no dependency manager and the
+tools cannot be installed** (rule A taken literally), the checkpoint is the stdlib's own — `unittest` green
+and `python -m compileall` clean — and it records *no type checker available* as a finding rather than
+reporting a pass it did not observe (§8.17).
 
 ## Guardrails
-No comments in the code produced. This block hasn't been confronted with a real production Python project
-yet: if a rule here diverges from a real observed need, fix this block rather than treating it as settled.
+No comments in the code produced. This block has been confronted with one small stdlib project
+(2026-09-08, see `references/origin.md`) and with no real production Python project: if a rule here
+diverges from a real observed need, fix this block rather than treating it as settled.
 These rules govern **new** code; existing untyped, sync or magic-string code stays until migrated
 deliberately. Never loosen a checker rule or a coverage threshold to get a diff through — that is a project
 decision, not a side effect of a change. Where an org catalogue is installed and disagrees, **it wins**.
