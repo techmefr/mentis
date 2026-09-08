@@ -7,7 +7,14 @@ description: Use when writing or reviewing a data pipeline (ETL/ELT), an analyti
 
 Step 6 of the pipeline (`WORKFLOW.md`), for code that moves/transforms data between systems (ETL/ELT,
 analytical warehouse): distinct from the transactional application code (business CRUD) covered by the
-Laravel/NestJS conventions.
+Laravel/NestJS conventions. Every rule below holds in a repo with **nothing installed**
+(`CONVENTIONS.md`, rule A).
+
+**Applying an override is silent.** Where a company's own data-engineering conventions or governance
+policy govern a rule here, write what they require and move on — never report "a conflict between
+mentis and the house rules" to whoever's watching. Surface it as a specific, named question only when
+no rule anywhere resolves the case. What the *landscape* itself looks like before a query is safe to
+trust belongs to `business/data-analytics`.
 
 ## When
 As soon as a data pipeline, an analytical transformation, or a data schema definition meant for
@@ -15,68 +22,34 @@ analysis is written or modified (not the app's own transactional database).
 
 ## Steps
 
-### 1. Idempotence and reproducibility: the non-negotiable base
-1. A pipeline replayed twice on the same source produces the same result (idempotent): never an
-   `INSERT` that duplicates on every run with no deduplication or `UPSERT`.
-2. Every run is traceable: source, version of the transformation code, timestamp: so you can trace
-   back "which version of the pipeline produced this row".
-3. Transformations tested on a sample before a full run on production data, especially for a
-   destructive transformation (full replacement of a table).
+**Read only the sections the task actually touches.** The rules live one file per section under
+`references/`; §1 applies to every run and to any ad-hoc job on somebody's file, §2 is the
+validations, §3 is the shape of the tables, §4 is what it costs to run.
 
-4. **A file someone handed you is never the working copy.** Read it, work on an in-memory or copied
-   representation, and write the result somewhere else — the original stays byte-identical, because it is
-   often the only copy and always the only evidence of what arrived. This is the ad-hoc counterpart of §3.1's
-   raw layer: the same rule, at the scale of one file and one request rather than a scheduled run.
-5. **A destructive transformation is confirmed before it is applied, not after.** Replacing values,
-   dropping rows, merging accounts or normalising identifiers on someone's data is not reversible from
-   their side. Say what the step will change and on how many rows, then apply it — one step at a time,
-   rather than a single pass whose result has to be trusted wholesale.
-
-### 2. Data quality: verified, not assumed
-1. Explicit validation of the expected constraints (non-null on required fields, key uniqueness,
-   plausible value ranges) at the pipeline's input and output: a validation failure blocks the
-   pipeline, it doesn't pass silently while producing wrong data.
-2. The four quality dimensions verified explicitly where relevant: completeness (nothing missing),
-   accuracy (correct value), consistency (same fact, same value across systems), timeliness (data up
-   to date at the moment of use).
-3. An external source (third-party API, partner file) is treated as unreliable by default: schema
-   checked on every ingestion, not assumed stable over time.
-
-### 3. Analytical schema modelling
-1. Clear separation between the raw layer (data as received, never modified) and the transformed layer
-   (cleaned/aggregated data): never a transformation that overwrites the original raw data without
-   keeping it.
-2. Consistent and documented column/table naming (explicit table grain: one row = what exactly); a
-   table with no defined grain invites wrong joins.
-3. Explicit historisation (SCD - slowly changing dimension) when a value changes over time and the
-   history matters for the analysis, rather than a plain `UPDATE` that loses the previous state.
-
-### 4. Performance and cost
-1. Incremental processing (only the new/modified data) rather than a full reprocessing by default,
-   unless the volume genuinely allows it at no significant cost.
-2. Table partitioning/clustering aligned with the real query patterns (the most frequent filter), not
-   chosen arbitrarily.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Idempotence and reproducibility | any run, and any ad-hoc job on a supplied file | [`01-idempotence.md`](./references/01-idempotence.md) |
+| 2 | Data quality: verified, not assumed | writing validations, or facing a source you don't control | [`02-data-quality.md`](./references/02-data-quality.md) |
+| 3 | Analytical schema modelling | shaping tables meant for analysis | [`03-modelling.md`](./references/03-modelling.md) |
+| 4 | Performance and cost | before a full reprocessing, or choosing a table's layout | [`04-performance-cost.md`](./references/04-performance-cost.md) |
 
 ## Output / checkpoint
 Pipeline compliant with the four sections above; the data quality validations run and are green before
-the result is considered usable downstream.
+the result is considered usable downstream, with the row counts in, out and rejected recorded (§2.7).
 
 ## Guardrails
-- **Never write back over a supplied source file**, and never apply a destructive transformation to
-  someone's data without saying first what it changes and on how many rows.
-Never run a destructive pipeline (full replacement of a production table) without explicit human
-confirmation. This block has no dedicated in-house production experience yet: to be confronted with the
-first real data pipeline, not to be treated as proven doctrine.
+- **Never write back over a supplied source file** (§1.4), and never apply a destructive
+  transformation to someone's data without saying first what it changes and on how many rows (§1.5).
+- Never run a destructive pipeline (full replacement of a production table) without explicit human
+  confirmation, and never treat a green sample as clearance for a full run (§1.12).
+- **Never let a validation failure pass silently** (§2.1); where blocking is genuinely unacceptable,
+  quarantine the rows and publish the count rather than skipping them (§2.4).
+- **Never overwrite the raw layer** (§3.1), and never lose a previous state with an in-place `UPDATE`
+  where the history matters (§3.3).
+- This block has no dedicated in-house production experience yet: to be confronted with the
+  first real data pipeline, not to be treated as proven doctrine.
 
 ## Origin
-Sourced from established dbt conventions (staging/intermediate/marts layers, schema tests), the DAMA-
-DMBOK data quality dimensions (completeness/accuracy/consistency/timeliness), and the classic SCD
-patterns in dimensional modelling (Kimball). Mechanisms rewritten, no copied text. Market research, no
-internal production feedback at this stage.
-
-**§1.4–§1.5 added 2026-09-07** from an org BI skill for handling supplied accounting files, read for its
-handling discipline rather than its format knowledge: never write back over the file someone handed you, and
-confirm a destructive transformation before applying it rather than reporting it afterwards. §3.1 already
-held the raw-layer version of the first at pipeline scale; what was missing was the ad-hoc case — one file,
-one request, no scheduled run — which is where an agent actually meets it. The regulatory file format itself,
-the ERP export specifics and the internal instance names stay out (rule C).
+Established dbt conventions, the DAMA-DMBOK quality dimensions and the classic SCD patterns, plus §1.4
+and §1.5 from an org BI skill read for its handling discipline. The full provenance and the refresh log
+are in [`references/origin.md`](./references/origin.md).
