@@ -129,7 +129,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | typescript-patterns | 6 | internal synthesis (real production experience from the operator on pure TS/JS) | 🟢 |
 | php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs; re-checked directly against the PSR-12 text on 2026-08-10 — almost all of it is formatting already covered by Pint/PHP-CS-Fixer, `declare(strict_types=1)` was the one real gap (the one PSR-12 rule with runtime effect); §1.1 corrected 2026-08-11 against the real, installed org catalogue's Laravel plugin (`no-strict-types`) — Laravel deliberately omits the declaration at its framework boundary (loose scalars in from routes/requests/config, Larastan does the static enforcement instead), a real, dogfooded, currently-installed reversal of the PSR-12 default that neither this block nor `laravel-conventions` named explicitly until now | 🟡 (sourced from the market, same uncertainty status as gimli (the operator is new to PHP)) |
 | go-conventions | 6 | golangci-lint (errcheck/govet/staticcheck/gosimple/ineffassign/unused) + uber-go/guide; re-checked directly against the Uber Go Style Guide on 2026-08-10, filtered for what a linter doesn't catch mechanically — 3 real gaps closed (no panic in library code, comma-ok type assertion, os.Exit/log.Fatal confined to main()) | 🟡 (no internal production experience) |
-| python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged | 🟡 (no internal production experience, same status as go-conventions) |
+| python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged; **sectioned and deepened 2026-09-08** — the eight sections that lived inline in `SKILL.md` moved to one file each under `references/`, the router became a table of triggers, and every section took the same depth pass as the five already-sectioned blocks (1,629 → 7,697 words of rules). The real absences were in the two sections that were thin out of proportion to what can go wrong in them: §4 async (110 words) had nothing on `gather`'s failure semantics, unbounded concurrency, cancellation-as-an-exception or the fact that `async` provides no lock — only the absence of pre-emption between awaits — and §6 DI (69 words) had nothing on a dependency's lifetime being unable to exceed the lifetime of what it holds. The PEP 8 re-check note moved out of §5, where it was provenance sitting among the rules, into `references/origin.md` | 🟡 (no internal production experience, same status as go-conventions — depth does not change that, and `samwise` keeps its question register) |
 | code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file; **depth pass 2026-09-08 on all eight sections** (4,397 → 9,129 words of rules) — the block with least room, since it was already the deepest here, so the additions are the failure modes the sections were silent on: catch scope, cleanup on the failure path and cause preservation in §3; the primitive-obsession family (two ids of one primitive type, units, money as amount-plus-currency, a boolean pair encoding one state, a nullable field carrying two meanings) in §5; timeout, retry-with-backoff, idempotency on an outbound write, testing the client at the transport layer rather than mocking the client, and the webhook receiver's own three rules in §4; §6 reframed around the debt rather than the doctrine; and five more shapes in §8, including enforced-on-the-happy-path-only and verify-by-reading-the-system's-answer | 🟡 |
 | laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves | 🟡 |
 | flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned | 🟡 (no mobile production experience at all, `faramir`'s question register applies — the depth pass does not change that) |
@@ -390,7 +390,7 @@ closing this costs nothing that made this repo cheaper to load.
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | **1** — the stack this repo ships on |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
-| python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
+| python | 20 / 22,097 | 2 / 8,414 (partly derived) | −13,683 | ✔ — `python-conventions` sectioned and passed 2026-09-08 (1,629 → 7,697 on its own) |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | ✔ — all 10 sections passed 2026-09-08, x2.0 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | ✔ — all 13 sections passed 2026-09-08 |
 | global | 18 / 20,280 | 5 / 7,585 (stale) | −12,695 | 3 — `code-baseline` passed 2026-09-08 (4,397 → 9,129 on its own); the row is **not** re-measured, see below |
@@ -484,10 +484,36 @@ mistake corrected twice already on this page, so the row keeps its old number an
 next thing this table needs is not another pass: it is the composition of each row recorded next to it, so
 that a row can be re-measured rather than reconstructed.
 
-**Next**: the single-file blocks, starting with `python-conventions` (1,868 words), then
-`inertia-conventions` (1,743) and `php-patterns` (991). The pass there is a different kind of work — the
-sections have to be decided before they can be deepened — so it is a design decision per block rather than
-a writing pass, and it should not be started in the same breath as one.
+Then `python-conventions`, the first of the single-file blocks — where the work is a different kind,
+because the sections have to be decided before they can be deepened. In this case the decision was already
+made and never acted on: the block held **eight numbered sections inline in `SKILL.md`**, the shape every
+other stack block had grown out of, so sectioning it was moving each one to `references/` and turning the
+router into a table of triggers. Then the same depth pass: §1 typing 207 → 902, §2 none/failures/exceptions
+188 → 902, §3 naming 162 → 846, §4 async 110 → 881, §5 structure and style 236 → 914, §6 DI and lifetimes
+69 → 824, §7 ORM and migrations 149 → 892, §8 toolchain and tests 162 → 866. Sections 1,283 → 7,027;
+router plus sections 1,629 → **7,697**.
+
+Two sections were thin out of proportion to what can go wrong in them, and those are where the real
+absences were. **§4 async** (110 words) had no line about a `gather` needing a decision about failure,
+about concurrency without a bound opening as many connections as the data says, about cancellation arriving
+as an exception that a broad `except` swallows into a hung shutdown, or about `async` not making shared
+state safe — there is no lock, only the absence of pre-emption between awaits, which makes check-then-act
+across an `await` a genuine race. **§6 DI** (69 words) had no line about the constraint that decides most
+container bugs: a dependency's lifetime cannot exceed the lifetime of what it holds, so a singleton handed
+a request-scoped session captures the first one and keeps using it after that request ended. §7 also gained
+the transaction and migration failures it had implied and never stated. One entry moved out of the rules
+entirely: the PEP 8 re-check note, which was provenance sitting inside §5 as a numbered rule, is now in
+`references/origin.md` where the other stamps live.
+
+**On this row's number.** `python-conventions` is one of the two blocks the row aggregates and the other is
+not identified anywhere, so the new figure is derived: the block's own measured 7,697 plus the 717 the
+previous total implies for the other one, which still includes its `origin.md`. That is the same gap the
+`global` row is marked stale for, and it is now the table's oldest outstanding defect.
+
+**Next**: `inertia-conventions` (1,743 words) and `php-patterns` (991), the two remaining single-file
+blocks. Before either, the cheaper and more useful piece of work is recording **each row's composition**
+next to it, so that a row can be re-measured instead of derived — two rows now carry an asterisk for
+exactly that reason.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.
