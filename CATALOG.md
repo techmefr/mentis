@@ -125,7 +125,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed; **depth pass 2026-09-08 on all ten sections** (3,002 → 10,476 words of rules), each original rule kept verbatim and given the mechanism plus what a reader sees when it breaks — the additions that were real absences rather than elaborations are a `NEXT_PUBLIC_` variable as published content, a Server Component's props being serialised into the HTML payload, a cookie-only `POST` route handler having no origin check where a Server Action does, changing the wrapper element unmounting the subtree it wraps, a cleanup running on every dependency change, browser-seeded state breaking hydration, a query key missing an input so two requests share a cache entry, and reading cookies opting a whole route tree out of static rendering | 🟡 (written, not dogfooded yet — depth is not dogfooding, and this block still has no React repo behind it) |
 | over-engineering-review | 9 | a market deletion-oriented review tool (deletion angle, tags, net line score) | 🟡 |
 | nestjs-node-conventions | 6 | a market NestJS skill catalogue + an advanced market TypeScript skill + a market React/Node skill catalogue (prisma/trpc/zod) | 🟡 (written, not dogfooded yet; first mentis block for the Node backend) |
-| inertia-conventions | 6 (new 2026-08-11) | official Inertia.js documentation (shared data via `HandleInertiaRequests`, `useForm`, partial/lazy/deferred reloads) + current Laravel+Inertia integration practice (typed props from the same DTO/resource, Laravel Precognition); §4 (the override against `laravel-conventions`/Nuxt-Next-specific sections) is ours, written after a real conflict: a Laravel+Inertia repo reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture, and neither this repo nor the installed org catalogue (its Laravel and Nuxt plugins) covered Inertia at all before this; §4.5/§4.6 went through two revisions the same day — a project-level "is the REST package a dependency" test was too coarse for a project running **both** Inertia (pages) and the REST package (a separate real API) at once, a real reported case; the fix checks the specific controller (what it returns, where it's routed) instead; §4 point 7 added 2026-08-11 — a CdP running the fixed version still had their own Claude session say "conflict between mentis and the house rules" and deleted their whole setup over a case that was already resolved, so every stack block's override paragraph now says explicitly to apply the resolution and move on, never report it as an open conflict | 🟡 (no in-house Inertia production experience yet; `laravel-conventions` §6 and `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`' intros now point here) |
+| inertia-conventions | 6 (new 2026-08-11) | official Inertia.js documentation (shared data via `HandleInertiaRequests`, `useForm`, partial/lazy/deferred reloads) + current Laravel+Inertia integration practice (typed props from the same DTO/resource, Laravel Precognition); §4 (the override against `laravel-conventions`/Nuxt-Next-specific sections) is ours, written after a real conflict: a Laravel+Inertia repo reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture, and neither this repo nor the installed org catalogue (its Laravel and Nuxt plugins) covered Inertia at all before this; §4.5/§4.6 went through two revisions the same day — a project-level "is the REST package a dependency" test was too coarse for a project running **both** Inertia (pages) and the REST package (a separate real API) at once, a real reported case; the fix checks the specific controller (what it returns, where it's routed) instead; §4 point 7 added 2026-08-11 — a CdP running the fixed version still had their own Claude session say "conflict between mentis and the house rules" and deleted their whole setup over a case that was already resolved, so every stack block's override paragraph now says explicitly to apply the resolution and move on, never report it as an open conflict; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers, and every section took the same depth pass as the sectioned blocks (1,705 → 6,679 words of rules, taking the `laravel` row from x5.82 to x4.27). §4 kept its number and every point number inside it, because three other blocks cite it and this block's own guardrails cite §4.5/§4.6; tests moved from §5 to §6, which nothing outside the block cited. The new §5 is the visit lifecycle, on which the block had said nothing: scroll and local state reset on every visit unless preserved, the cancelled-visit rule that makes a search box correct for free, an asset version that has to be wired to the build or a browser open across a deploy keeps running the old bundle, page data living in the browser's history entry and so surviving a logout on a shared machine, prefetch issuing real requests against `GET` routes with side effects, SSR being an optional second process. The other addition worth citing is what the reader can actually read: a page's props are in the HTML and in devtools whether a component renders them or not (§2.6), which is why authorization belongs in the controller before they are computed (§1.8) and why a negative assertion is the only test that catches a leak (§6.5) | 🟡 (no in-house Inertia production experience yet; `laravel-conventions` §6 and `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`' intros now point here) |
 | typescript-patterns | 6 | internal synthesis (real production experience from the operator on pure TS/JS) | 🟢 |
 | php-patterns | 6 | PHP-FIG (PSR-12) + official PHP docs; re-checked directly against the PSR-12 text on 2026-08-10 — almost all of it is formatting already covered by Pint/PHP-CS-Fixer, `declare(strict_types=1)` was the one real gap (the one PSR-12 rule with runtime effect); §1.1 corrected 2026-08-11 against the real, installed org catalogue's Laravel plugin (`no-strict-types`) — Laravel deliberately omits the declaration at its framework boundary (loose scalars in from routes/requests/config, Larastan does the static enforcement instead), a real, dogfooded, currently-installed reversal of the PSR-12 default that neither this block nor `laravel-conventions` named explicitly until now | 🟡 (sourced from the market, same uncertainty status as gimli (the operator is new to PHP)) |
 | go-conventions | 6 | golangci-lint (errcheck/govet/staticcheck/gosimple/ineffassign/unused) + uber-go/guide; re-checked directly against the Uber Go Style Guide on 2026-08-10, filtered for what a linter doesn't catch mechanically — 3 real gaps closed (no panic in library code, comma-ok type assertion, os.Exit/log.Fatal confined to main()) | 🟡 (no internal production experience) |
@@ -388,7 +388,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | x5.82 |
+| laravel | 65 / 79,825 | 3 / 18,692 | −61,133 | x4.27 |
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | x17.91 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
@@ -404,17 +404,18 @@ fails if this table stops matching what it measures. **Ratio** is theirs over ou
 lower is closer and below 1 is ahead.
 
 **Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
-single file first) and `code-baseline` (8) inside the `global` row — all on 2026-09-08, and `laravel` (11)
-the day before. Still to do: `dotnet-conventions` (worst ratio, and the stack nobody here writes, so it
-stays last on purpose), `design-patterns`, `inertia-conventions` and `php-patterns` — the last three being
-single-file blocks where the sections have to be decided first. The `bi, design, xefi` row stays ✕: it is
+single file first), `code-baseline` (8) inside the `global` row and `inertia-conventions` (6, likewise
+sectioned first) — all on 2026-09-08, and `laravel` (11) the day before. Still to do:
+`dotnet-conventions` (worst ratio, and the stack nobody here writes, so it stays last on purpose),
+`design-patterns` and `php-patterns` — both single-file blocks where the sections have to be decided
+first. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,053, php-patterns 960, inertia-conventions 1,705
+laravel: laravel-conventions 11,053, php-patterns 960, inertia-conventions 6,679
 csharp: dotnet-conventions 3,167
 python: python-conventions 7,697, data-pipeline-conventions 749
 flutter: flutter-conventions 10,321
@@ -553,8 +554,36 @@ The lesson is the repo's own §8 arriving on its own bookkeeping: a figure nobod
 and it had been sitting in the one document whose whole job is to say what is actually true. The check that
 closes it is not the script — it is the test that fails when the document and the script disagree.
 
-**Next**: `inertia-conventions` (1,705 words), `php-patterns` (960) and `design-patterns` (2,347), the
-remaining single-file blocks, where the sections have to be decided before they can be deepened.
+Then `inertia-conventions`, the second single-file block and the same two-step: decide the sections,
+then deepen them. Like python it already carried its sections inline — five of them — so they moved to
+`references/` under a router table, and one was added. §1 the controller and the page 150 → 958, §2
+shared data and page props 170 → 1,017, §3 forms, validation and errors 116 → 995, §4 the override
+boundary 601 → 1,030, §5 visits, navigation and the deployed app **new** → 1,082, §6 tests 77 → 760.
+Sections 1,114 → 5,842; router plus sections 1,705 → **6,679**, which takes the `laravel` row from x5.82
+to x4.27 — the widest deficit in the table, and the only row a single block can move by five thousand
+words.
+
+Two things constrained this pass. **§4 had to keep its number and every point number inside it**: it is
+cited from three other blocks (`laravel-conventions` §6, and the intros of
+`vue-nuxt-vuetify-conventions` and `react-nextjs-conventions`), and §4.5/§4.6 are cited from this block's
+own guardrails — so that section was deepened in place, point by point, rather than restructured. Tests
+could move from §5 to §6 because nothing outside the block cited it. And **§5 is the only genuinely new
+section**: the original block said nothing at all about the visit lifecycle, which is where most of an
+Inertia app's observable behaviour comes from — scroll and local state reset on every visit unless
+preserved, the cancelled-visit rule that makes a search box correct for free, an asset version that has
+to be wired to the build or a browser open across a deploy keeps running the old bundle, the page data
+that lives in the browser's history entry and so survives a logout on a shared machine, prefetching that
+issues real requests against `GET` routes with side effects, and SSR being an optional second process
+rather than a flag. The other load-bearing additions are the ones about what the reader can actually
+read: the props of a page are in the HTML document and in devtools whether a component renders them or
+not (§2.6), which makes authorization the controller's job before the props are computed (§1.8) and
+makes a negative assertion the only test that catches a leak (§6.5). Thirty intra-block references
+re-checked against the new numbering, none dangling.
+
+**Next**: `php-patterns` (960 words) and `design-patterns` (2,347), the last two single-file blocks,
+where the sections have to be decided before they can be deepened. `inertia-conventions` was the third
+and is done: 1,705 → 6,679, which moves the `laravel` row from x5.82 to x4.27 — the widest deficit in
+the table, and the only row where a single pass changes it by five thousand words.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.
