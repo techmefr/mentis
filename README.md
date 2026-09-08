@@ -143,7 +143,7 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `code-baseline` | 6 | The rules that don't change with the language: comments, size, exceptions, boundaries, tests owed |
 | `laravel-conventions` | 6 | Laravel: thin models, events over observers, permissions not roles, schema, queries, tests |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
-| `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI, the prohibitions, disposal, EF Core |
+| `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
 | `shell-scripting-conventions` | 6 | Shell fails silently by default: fail closed, quote everything, test the failure cases |

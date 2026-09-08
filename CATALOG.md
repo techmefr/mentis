@@ -32,7 +32,7 @@ crossed over (rule C).
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (13 sections) |
 | React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
-| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07) |
+| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added) |
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded** |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 23,118 | −56,707 | x3.45 |
-| csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | x17.91 |
+| csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,877 | −11,429 | x2.94 |
@@ -405,10 +405,10 @@ lower is closer and below 1 is ahead.
 
 **Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
 single file first), `code-baseline` (8) inside the `global` row, `inertia-conventions` (6),
-`php-patterns` (5) and `design-patterns` (6) — the last four sectioned out of a single file first, all on
-2026-09-08, and `laravel` (11) the day before. That completes the whole `laravel` row (13,718 → 23,118,
-x5.82 → x3.45) and every single-file block except one. Still to do: `dotnet-conventions` — the worst
-ratio in the table, and the stack nobody here writes, which is why it was left last. The `bi, design, xefi` row stays ✕: it is
+`php-patterns` (5), `design-patterns` (6) and `dotnet-conventions` (7) — the last five sectioned out of a
+single file first, all on 2026-09-08, and `laravel` (11) the day before. **Every block in the table has
+now had its pass**, and no row is above x8.2 where the worst was x17.9. What is left is not depth: it
+is the blocks still marked 🟡 for want of a real project, which no amount of writing changes. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -416,7 +416,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 11,053, php-patterns 5,386, inertia-conventions 6,679
-csharp: dotnet-conventions 3,167
+csharp: dotnet-conventions 6,976
 python: python-conventions 7,697, data-pipeline-conventions 749
 flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
@@ -657,11 +657,57 @@ resolving every reference rather than by reading — which makes four defects th
 that predated it, after flutter §9 citing §1's async-context rule for disposal and `code-baseline`'s own
 `origin.md` carrying a stale point range.
 
-**Next**: `dotnet-conventions` (3,167 words), the only block the programme has left and the one it
-deliberately kept for last.
-`dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
-purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
-thicker would not change that letter.
+Then `dotnet-conventions`, which closes the programme. Seven inline sections moved to `references/`
+and none was added — unlike the other single-file blocks, the seven already covered the subject; what
+they lacked was the mechanism and the consequence behind each rule. §1 async and cancellation 225 → 885,
+§2 dependencies and logging 469 → 1,010, §3 authorisation 95 → 784, §4 the prohibitions 715 → 1,139, §5
+disposal, nullability and enumeration 339 → 847, §6 data access and portability 238 → 835, §7 language
+idioms 285 → 705. Router plus sections 3,167 → **6,976**, x17.91 → **x8.13**. Every section number and
+every point number preserved.
+
+**§3 authorisation was the thinnest section relative to what can go wrong in it** (95 words) and gained
+the most: authentication answers only "who", so a bare authorise marker admits every authenticated user;
+an endpoint policy is never row-level authorisation, because the id in the route belongs to somebody; a
+**default-deny fallback policy** is what makes "an endpoint with no declaration is a bug" enforceable
+rather than aspirational, and the allow-anonymous marker overrides even that, which makes it the most
+consequential attribute in the codebase and the one most often added while debugging; claims are input
+whose trustworthiness is their issuer's; a queue consumer or webhook receiver is not reached by the HTTP
+middleware at all; and the negative test is the only one that proves a policy is wired, since the
+positive one passes just as happily with no policy.
+
+§1 gained the cancellation half the original stated only as signatures — cancellation arriving as an
+exception a broad catch turns into a false incident, cancellation being cooperative so a CPU loop has to
+check the token, the request's token dying with the request and therefore being wrong for work that must
+outlive it, `Task.WhenAll` reporting one exception and hiding the rest, an unbounded `WhenAll` over an
+uncontrolled collection, and a timeout cancelling the caller's waiting rather than the remote work, so a
+retry can duplicate the effect. §2 gained the container's own failure modes: a registration verified at
+resolve rather than at build (and the startup validation that fixes it), a disposable resolved from the
+root provider held until the process ends, last-registration-wins versus try-add, and the two logging
+rules that cost money when broken — interpolation destroying the structured fields that are the whole
+reason for a log aggregator, and a logged secret travelling to a system with different retention and a
+different access list. §5 gained disposing only what you own, `await using`, annotations being
+compile-time only so deserialised data ignores them, and `default(T)` bypassing a struct's constructor.
+§6 gained N+1 and the projection that fixes it, which half of a query runs on the server, reading a
+generated migration before committing it, `SaveChanges` as the transaction boundary, and storing an
+instant with its offset.
+
+**The row stays 🟡, and that was the reason it was left for last.** Depth is not dogfooding: nobody here
+writes C#, so a thicker block is still an unconfronted one. What the pass buys is that the rules now say
+*why*, which is what `theoden` needs to read them as questions rather than as assertions — and that is a
+different thing from the row's status, which only a real project can change.
+
+**The programme is complete.** Ten rows, ten passes, over 2026-09-07 and 2026-09-08. The table now
+stands at **98,968 words of rules against 272,884**, the worst ratio is **x8.13** where it was x17.91,
+and the median row is **x2.31**. `react` is the one row ahead of its counterpart, and that says less than
+the `laravel` row at x3.45 does — react's plugin is the thinnest of the four stacks the catalogue covers,
+so it was the cheapest crossing available. What the table cannot show is the part that matters next:
+several blocks are still 🟡 for want of a real project, and the way to move those is to use them, not to
+write more of them.
+`dotnet-conventions` had the worst ratio (x17.9) and is the stack nobody here writes, which is why it was
+kept for last — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making
+it thicker did not change that letter. It has now had its pass anyway (x8.13), because the mechanism
+behind each rule is what `theoden` needs in order to read the block as questions; the status is a separate
+question and only a real project answers it.
 Progress is recorded here rather than in a commit message so that it can be read as a whole, and the
 table itself is reproducible: `python3 bin/measure_depth.py`. That was claimed before it was true, denied
 when the claim caught up with us, and is now enforced by a test.
