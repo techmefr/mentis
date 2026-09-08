@@ -122,7 +122,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
 | code | 6 | native + internal; no-test-tampering guardrail added 2026-08-11, named directly by the operator | 🟡 |
 | vue-nuxt-vuetify-conventions | 6 | several market Vue/Nuxt/Vuetify skill catalogues (Vue patterns, Nuxt4, Nuxt composables, Vuetify) + a market Nuxt/Vue linter (correctness/security) + a market open source TypeScript project (a11y/bundle) + de-identified internal review feedback (recurring patterns); re-checked directly against the public vue.doctor/nuxt.doctor tools on 2026-08-10, which surfaced 2 real gaps (compiler-macro import, useAsyncData key default) now closed; §13 added and §4 deepened 2026-09-07 by a **bodies pass** over the same org catalogue (21 skills): the first pass had read descriptions only, the bodies carried four mechanisms it could not see — BEM's out-of-scheme shapes, the class/style split and its extract-to-computed threshold, opting a folder into the framework's import scan, and the typed-client layer whose real weight is the hydration-typing trap and the shared applied state between two handles on one record; **depth pass 2026-09-08** on the three thinnest sections (§10 realtime 113 → 875 words, §2 composables/stores 211 → 944, §3 typing 174 → 899), which stated rules without the failures they prevent — two of the additions are real absences rather than restatements: module-scope state shared *across SSR requests* (a cross-account leak the block never named) and a private channel "authorised" by a name the client itself composes; **second pass the same day** on §7 accessibility (172 → 899) and §6 i18n (199 → 877), both of which were true-but-terse checklists — §7 gained the placeholder-as-label, unattached-error, colour-as-sole-meaning, removed-focus-outline, hover-only-action and no-page-language failures plus the voice-control consequence of an accessible name that omits the visible text, and §6 the mistakes that are correct in the source language and wrong elsewhere (a `n > 1` ternary for plurals, concatenated sentences, a translation rendered as HTML, hand-formatted dates, German's ~30% expansion, one key reused for two meanings) | 🟡 |
-| react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed | 🟡 (written, not dogfooded yet) |
+| react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed; **depth pass 2026-09-08 on all ten sections** (3,002 → 10,476 words of rules), each original rule kept verbatim and given the mechanism plus what a reader sees when it breaks — the additions that were real absences rather than elaborations are a `NEXT_PUBLIC_` variable as published content, a Server Component's props being serialised into the HTML payload, a cookie-only `POST` route handler having no origin check where a Server Action does, changing the wrapper element unmounting the subtree it wraps, a cleanup running on every dependency change, browser-seeded state breaking hydration, a query key missing an input so two requests share a cache entry, and reading cookies opting a whole route tree out of static rendering | 🟡 (written, not dogfooded yet — depth is not dogfooding, and this block still has no React repo behind it) |
 | over-engineering-review | 9 | a market deletion-oriented review tool (deletion angle, tags, net line score) | 🟡 |
 | nestjs-node-conventions | 6 | a market NestJS skill catalogue + an advanced market TypeScript skill + a market React/Node skill catalogue (prisma/trpc/zod) | 🟡 (written, not dogfooded yet; first mentis block for the Node backend) |
 | inertia-conventions | 6 (new 2026-08-11) | official Inertia.js documentation (shared data via `HandleInertiaRequests`, `useForm`, partial/lazy/deferred reloads) + current Laravel+Inertia integration practice (typed props from the same DTO/resource, Laravel Precognition); §4 (the override against `laravel-conventions`/Nuxt-Next-specific sections) is ours, written after a real conflict: a Laravel+Inertia repo reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture, and neither this repo nor the installed org catalogue (its Laravel and Nuxt plugins) covered Inertia at all before this; §4.5/§4.6 went through two revisions the same day — a project-level "is the REST package a dependency" test was too coarse for a project running **both** Inertia (pages) and the REST package (a separate real API) at once, a real reported case; the fix checks the specific controller (what it returns, where it's routed) instead; §4 point 7 added 2026-08-11 — a CdP running the fixed version still had their own Claude session say "conflict between mentis and the house rules" and deleted their whole setup over a case that was already resolved, so every stack block's override paragraph now says explicitly to apply the resolution and move on, never report it as an open conflict | 🟡 (no in-house Inertia production experience yet; `laravel-conventions` §6 and `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`' intros now point here) |
@@ -396,7 +396,7 @@ closing this costs nothing that made this repo cheaper to load.
 | global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
 | design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
-| react | 36 / 9,302 | 1 / 3,279 | −6,023 | 5 |
+| react | 36 / 9,302 | 1 / 10,476 | **+1,174** | ✔ — all 10 sections passed 2026-09-08, first block past its counterpart |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,874 | −11,432 | ✕ — internal landscape, rule C keeps it out |
 
 **A counting correction, 2026-09-08.** The nuxt and laravel rows now exclude `references/origin.md`, and
@@ -404,8 +404,8 @@ so should every other row from its next pass on. `origin.md` is provenance — w
 what a pass changed — and the catalogue being compared against has no equivalent of it, so counting ours
 was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
 about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
-actually reach. The rows not yet re-measured (everything except nuxt) still include theirs and are
-therefore slightly flattering to us.
+actually reach. The rows not yet re-measured (everything except nuxt, laravel and react) still include theirs and
+are therefore slightly flattering to us.
 
 Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
 per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
@@ -433,11 +433,20 @@ which is the only reason the table exists.
 Then `laravel-conventions` §11 and §9 (515/655 → 1,019/1,073), which completes that block: **ten of its
 eleven sections have had a pass**, and the eleventh (§3) was already at 980 by the bodies pass, which is
 where these passes land. The laravel stack is at 13,718 against 79,825, x5.8.
+Then `react-nextjs-conventions`, **all ten sections in one pass**: §4 116 → 1,005, §9 124 → 1,010, §8
+145 → 944, §10 159 → 909, §7 193 → 922, §3 210 → 912, §2 275 → 940, §6 284 → 975, §1 300 → 952, §5
+496 → 1,207. Router plus sections: 3,002 → 10,476 words, against that plugin's 9,302 — **the first block
+in this table to pass its counterpart**, x3.1 → x0.89. It is also the cheapest crossing available: the
+react plugin is the thinnest of the four stacks the operator's catalogue covers, so this row moving to ✔
+says less about the pass than the laravel row still at x5.8 does. Twenty-eight intra-block references
+re-checked one by one; four had been left pointing at the wrong rule by the renumbering and were
+corrected, and the three point numbers cited by the block's own 2026-08-10 re-check stamp (§1.6,
+§5.12-13, §10.1) were deliberately preserved.
 
 **What the two completed blocks say about the rest of the table**, counted rather than assumed. Five
 blocks are *sectioned* and so can take the same pass — read the section, name the failure each rule
 prevents, keep the original: `vue-nuxt-vuetify-conventions` (14 files, done),
-`laravel-conventions` (12, done), `flutter-conventions` (11), `react-nextjs-conventions` (11) and
+`laravel-conventions` (12, done), `react-nextjs-conventions` (11, done), `flutter-conventions` (11) and
 `code-baseline` (9). The rest are single-file blocks with no `references/` at all —
 `dotnet-conventions` 3,195 words, `python-conventions` 1,868, `inertia-conventions` 1,743,
 `php-patterns` 991 — and deepening one of those means first deciding what its sections are, which is a
@@ -445,8 +454,9 @@ design decision per block rather than a writing pass. That distinction is where 
 words on laravel actually live, and it is why the two numbers in this table's last column are not
 interchangeable.
 
-**Next**: `react-nextjs-conventions` and `flutter-conventions`, because they are already sectioned and
-the pass is known to work on that shape. Then the single-file blocks, starting with `python-conventions`.
+**Next**: `flutter-conventions` (11 sections, the last sectioned block with no pass), then
+`code-baseline` (9). Then the single-file blocks, starting with `python-conventions`, where the pass is a
+different kind of work: the sections have to be decided first.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.
