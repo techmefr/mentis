@@ -33,7 +33,7 @@ crossed over (rule C).
 | React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
 | C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added) |
-| Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded** |
+| Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded**; sectioned into `references/` and deepened 2026-09-08, 2,041 → 5,938 words of rules, §0 marked read-every-time, no section added |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
 
@@ -135,7 +135,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned | 🟡 (no mobile production experience at all, `faramir`'s question register applies — the depth pass does not change that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
-| accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
+| accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience in house) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling | 🟡 (sourced from the market, no dedicated production experience in house) |
@@ -185,12 +185,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | legal-documents | legal | Anthropic's `claude-for-legal` suite (draft-for-attorney-review posture, jurisdiction assumptions surfaced) + a survey of community legal skills that *generate* the documents — the step we refuse; the input-pack framing and "every published promise is an unticketed requirement" are ours | 🟡 (no internal legal expertise; which documents are mandatory left as a question for counsel) |
 | regulatory-watch | legal | same suite (regulatory-change monitors, freshness gate, `[verify]` on unsourced claims) + a community GRC pack covering 30 frameworks with no update mechanism, which is the gap this fills; jurisdiction-first and "unverified rather than wrong" are ours | 🟡 (no internal legal expertise; produces dated questions, never a compliance verdict) |
 | licence-compliance | legal | licence texts + the published permissive/weak/strong-copyleft distinctions; lock file as the real inventory, generated notices and the rule-C symmetry are ours | 🟡 (no internal legal expertise) |
-| ux-writing | UI/UX | published content guidelines of the major design systems; the domain-modeling consistency link, the no-concatenation rule and the empty/no-match/failed-to-load split are ours | 🟡 (no internal UX-writing expertise, no tone-of-voice reference available) |
+| ux-writing | UI/UX | published content guidelines of the major design systems; the domain-modeling consistency link, the no-concatenation rule and the empty/no-match/failed-to-load split are ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,005 → 4,217 words of rules). No section added; §4.1 kept its number, cited from `business/release-communication` §2. Interface text has no test — a wrong string ships green and the only evidence is a behaviour — so the depth is that behaviour: a validation message naming the *rule* rather than the verdict, the message being the only thing that can say what happened to the reader's work after a failed save, "you cannot" versus "it did not work" where only one is retryable, a zero being a measurement and not an empty state, a permission-empty list as a third case where "add your first item" cannot be followed, sample content in an empty screen being reconciled against as real, the form of address propagating into every verb form, a half-translated screen failing silently because a missing key renders as its source text, a plural not being a conditional, and a hardcoded string bypassing the translation file, the review and the search at once | 🟡 (no internal UX-writing expertise, no tone-of-voice reference available) |
 | product-marketing | marketing | published positioning structure (audience / alternative / outcome / boundary); claim-needs-a-source as `default = failure` applied outside code, and technical claims read by a builder, are ours | 🟡 (no internal marketing expertise, no brand or campaign reference available) |
 | sales-support | sales | published discovery-before-solution practice and the estimate-versus-commitment distinction; the estimation rules mirror internal engineering practice (points, spikes, scope moves not the number) with nothing named | 🟡 (no internal sales expertise; pricing and contract terms deliberately out of scope under rule C) |
 | release-communication | communication | keep-a-changelog conventions + standard deprecation-notice practice; the three-bucket ordering by required action, and "anything fitting no bucket is internal noise", are ours | 🟡 (no internal technical-writing or comms expertise) |
 | incident-communication | communication | published status-page practice + blameless-postmortem culture; separating the communicator from the fixer, and "still investigating" counting as a real update, are the two rules we'd most want enforced | 🟡 (no internal incident-response expertise; escalation and on-call arrangements stay out under rule C) |
-| data-analytics | BI / data (new 2026-08-11) | the org catalogue's two BI landscape skills (§1–§4: the multi-instance landscape, the cross-instance-identifier trap, the crosswalk-table fix, usage-guide-vs-schema-dump, `UNION ALL`-as-named-tradeoff — real instance/host names, entity counts and the ERP's real French table/column names left out under rule C); §3.3 layered modeling (staging/intermediate/mart) from established `dbt`-ecosystem analytics-engineering practice; §2.4 six-dimension data-quality vocabulary from DAMA-DMBOK; §5 KPI/dashboard discipline (decision test vs vanity metrics, single source of truth, glanceable KPI count) from published dashboard-design practice | 🟡 (no internal data-engineering expertise) |
+| data-analytics | BI / data (new 2026-08-11) | the org catalogue's two BI landscape skills (§1–§4: the multi-instance landscape, the cross-instance-identifier trap, the crosswalk-table fix, usage-guide-vs-schema-dump, `UNION ALL`-as-named-tradeoff — real instance/host names, entity counts and the ERP's real French table/column names left out under rule C); §3.3 layered modeling (staging/intermediate/mart) from established `dbt`-ecosystem analytics-engineering practice; §2.4 six-dimension data-quality vocabulary from DAMA-DMBOK; §5 KPI/dashboard discipline (decision test vs vanity metrics, single source of truth, glanceable KPI count) from published dashboard-design practice; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,804 → 4,520 words of rules). No section added, and every section and point number preserved, which matters more here than in most blocks: `agents/oracle` walks §1 to §5 by number as its report structure and §2.4/§4.3/§5.2/§5.3 are cited by point from that agent and from three business blocks. None of this block's failures raise an error — every one returns a plausible number — which is what the depth adds: a name match failing in both directions with only one visible, "which system wins when two disagree" being a governance question with an owner, two sources holding two different populations, several refresh cadences making "today's figure" a mix of ages, a permission-scoped account returning a smaller entirely valid-looking answer, the data-quality dimension choosing the check, the **grain** deciding whether a join fans out, a consolidation having to carry its source instance as a real column, an unreachable instance returning successfully with its rows missing, a number without its filters not being traceable at all, zero being the worst default because zero is a legitimate value, and any figure someone is accountable for becoming a target | 🟡 (no internal data-engineering expertise) |
 
 | fintech-compliance | legal / finance (new 2026-08-11) | published PCI DSS/tokenisation guidance (never let card data reach a server we control if a hosted-field/token alternative exists), published KYC/AML/sanctions-screening practice (onboarding + risk-driven re-screening, OFAC/UN/EU lists), published ledger-engineering writing aimed at engineers (Modern Treasury, TigerBeetle: append-only, no silent update/delete, balance as a derived read, atomic multi-entry posting), published Stripe-style payment-integration practice (idempotency keys on both the outgoing call and the incoming webhook, signature verification before trust, dedup by event id) | 🟡 (no internal fintech/compliance expertise; routes the regulatory calls, owns the engineering invariants — same posture as `data-protection`) |
 | people-ops | HR (new 2026-08-11) | published structured-interview/hiring-bias-reduction guidance (defined competencies before the posting, identical questions per round, independent scoring against a rubric, documented job-related rationale); published 30/60/90-day onboarding research (manager engagement as the strongest predictor, phased context→contribute→execute goals); published offboarding/IT-security checklists (access revocation scheduled to departure type, privileged access revoked with general access, notice-period knowledge transfer, owner-and-deadline per step); §4 (ongoing performance) added same day from published continuous-feedback/recency-bias/calibration practice | 🟡 (no internal HR expertise; jurisdiction-specific employment law explicitly routed out, same posture as `data-protection`) |
@@ -391,13 +391,13 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 23,118 | −56,707 | x3.45 |
 | csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
-| bi, design, xefi | 16 / 17,306 | 4 / 5,877 | −11,429 | x2.94 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
 | global | 18 / 20,280 | 5 / 11,886 | −8,394 | x1.71 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
+| bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -409,7 +409,11 @@ single file first), `code-baseline` (8) inside the `global` row, `inertia-conven
 single file first, all on 2026-09-08, and `laravel` (11) the day before. Every **stack** block in the
 table has now had its pass. The programme was then extended to the other blocks a row aggregates, which
 were still single-file and were holding their rows back: `product-ownership` and `spec` first, which
-takes `project-management` from x4.7 to **x1.29**. The `bi, design, xefi` row stays ✕: it is
+takes `project-management` from x4.7 to **x1.29**, then `interface-design`, `data-analytics`,
+`ux-writing` and `accessibility`, which take `bi, design, xefi` from x2.94 to **x0.93**. Five blocks
+counted in the table are still single-file: `security-hardening`, `documentation-adr`,
+`api-design` and `observability-instrumentation` in the `global` row, and
+`data-pipeline-conventions` in the `python` row. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -425,7 +429,7 @@ global: code-baseline 9,129, security-hardening 1,030, api-design 375, documenta
 project-management: product-ownership 7,616, spec 3,689
 design-patterns: design-patterns 6,333
 react: react-nextjs-conventions 10,476
-bi, design, xefi: data-analytics 1,804, interface-design 2,041, ux-writing 1,005, accessibility 1,027
+bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
@@ -747,6 +751,49 @@ The pass also settled a boundary the two blocks had left ambiguous: both describ
 without saying which was authoritative. `product-ownership` §4 owns what makes a *business* criterion
 valid; `spec` §3 turns those into the technical contract `tdd` writes failing tests against, and now
 points at §4 rather than restating it.
+
+**Second row of the extension, 2026-09-08: `bi, design, xefi`.** Four single-file blocks, all of them
+holding the row back at x2.94: `business/interface-design` 2,041 → **5,938** in seven sections (§0 the
+producing-versus-auditing mode, then tokens, containers, states, buttons and chips, icon and text,
+gathering references), `business/data-analytics` 1,804 → **4,520** in five, `business/ux-writing` 1,005 →
+**4,217** in five, and `skills/accessibility` 1,027 → **3,896** in four. No section was added to any of
+them; the twenty-one already covered their subjects. The row goes from x2.94 to **x0.93** — the second
+row ahead of its counterpart — and the table to **119,875 against 272,884**, worst still **x8.13**,
+median **x1.81**.
+
+**These four are the blocks where a broken rule raises no error, and that is what the depth is.** A wrong
+string, a missing empty state, a plausible-looking total and an unnamed control all ship green: nothing
+fails, and the only evidence is a behaviour — a retype, a second click, a support ticket, a number that
+contradicts somebody's report. So each section kept its rules verbatim and gained what the reader does
+when the rule is not followed, which is the half a developer needs in order to prioritise and a reviewer
+needs in order to argue the point against someone who disagrees.
+
+Numbers were pinned everywhere they are cited from outside: §1 to §5 of `data-analytics`, which
+`agents/oracle` walks by number as its report structure, plus §2.4, §4.3, §5.2 and §5.3 cited by point
+from that agent and from `investor-relations`, `sustainability-esg` and `people-ops`; §4.1 of
+`ux-writing`, cited from `business/release-communication` §2; and §1.6 to §1.8 and §4.4 to §4.5 of
+`accessibility`, which are the five WCAG 2.2 criteria the 2026-08-10 re-check closed and which that
+block's own origin cites by number.
+
+**No threshold was added to `accessibility`, deliberately.** Its figures are the ones already sourced
+from WCAG; every point this pass added is a mechanism rather than a number, because a recalled threshold
+is exactly the failure `skills/source-freshness` exists for — and `interface-design` §0.7 now states the
+same rule from the design side, where it is the finding that gets a whole audit dismissed.
+
+The additions worth citing across the four: an audit's findings being mostly *absence*, which is
+invisible in a screenshot and therefore the part that reaches step 6 unresolved; two values both taken
+from the scale still being wrong together when the gap inside a group exceeds the gap between groups; the
+partial failure, the screen state nobody draws, where one region fails and the reader sees a
+complete-looking screen with a silently missing number; a permission-scoped account returning a smaller
+entirely valid-looking answer with nothing marking it as partial; the **grain** of a table deciding
+whether a join fans out and a sum double-counts, which is invisible in a column list; zero being the
+worst default for a missing value, because zero is a legitimate one; any figure someone is accountable
+for becoming a target; a zero on a dashboard being a measurement and not an empty state; a
+permission-empty list where "add your first item" is an instruction the reader cannot follow; a
+half-translated screen failing silently because a missing key renders as its source text; a `role`
+*replacing* semantics rather than adding to them; a state attribute set once at render asserting
+something wrong half the time; and a disabled control announced as available while being unreachable by
+keyboard.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
