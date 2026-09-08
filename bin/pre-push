@@ -18,6 +18,7 @@ suites=(
   bin/test_frontmatter.py
   bin/test_rule_c.py
   bin/test_git_hooks.py
+  bin/test_measure_depth.py
 )
 
 echo "pre-push: running ${suites[*]}"

@@ -386,27 +386,57 @@ is a different question and the honest answer is that this repo is thinner**, so
 stack rather than left as an impression. Bodies are not in the permanent index — only descriptions are — so
 closing this costs nothing that made this repo cheaper to load.
 
-| stack | their skills / words | our blocks / words | deficit | priority |
+| stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | **1** — the stack this repo ships on |
-| csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
-| python | 20 / 22,097 | 2 / 8,414 (partly derived) | −13,683 | ✔ — `python-conventions` sectioned and passed 2026-09-08 (1,629 → 7,697 on its own) |
-| flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | ✔ — all 10 sections passed 2026-09-08, x2.0 |
-| nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | ✔ — all 13 sections passed 2026-09-08 |
-| global | 18 / 20,280 | 5 / 7,585 (stale) | −12,695 | 3 — `code-baseline` passed 2026-09-08 (4,397 → 9,129 on its own); the row is **not** re-measured, see below |
-| project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
-| design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
-| react | 36 / 9,302 | 1 / 10,476 | **+1,174** | ✔ — all 10 sections passed 2026-09-08, first block past its counterpart |
-| bi, design, xefi | 16 / 17,306 | 4 / 5,874 | −11,432 | ✕ — internal landscape, rule C keeps it out |
+| laravel | 65 / 79,825 | 3 / 13,718 | −66,107 | x5.82 |
+| csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | x17.91 |
+| python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
+| project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
+| bi, design, xefi | 16 / 17,306 | 4 / 5,877 | −11,429 | x2.94 |
+| flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
+| design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | x5.19 |
+| global | 18 / 20,280 | 5 / 11,886 | −8,394 | x1.71 |
+| nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
+| react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
+
+Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
+fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
+lower is closer and below 1 is ahead.
+
+**Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
+single file first) and `code-baseline` (8) inside the `global` row — all on 2026-09-08, and `laravel` (11)
+the day before. Still to do: `dotnet-conventions` (worst ratio, and the stack nobody here writes, so it
+stays last on purpose), `design-patterns`, `inertia-conventions` and `php-patterns` — the last three being
+single-file blocks where the sections have to be decided first. The `bi, design, xefi` row stays ✕: it is
+the internal landscape, and rule C keeps it out.
+
+**Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
+remembered — the defect that produced two unreproducible rows before this script existed:
+
+```
+laravel: laravel-conventions 11,053, php-patterns 960, inertia-conventions 1,705
+csharp: dotnet-conventions 3,167
+python: python-conventions 7,697, data-pipeline-conventions 749
+flutter: flutter-conventions 10,321
+nuxt: vue-nuxt-vuetify-conventions 12,443
+global: code-baseline 9,129, security-hardening 1,030, api-design 375, documentation-adr 841, observability-instrumentation 511
+project-management: product-ownership 2,952, spec 140
+design-patterns: design-patterns 2,347
+react: react-nextjs-conventions 10,476
+bi, design, xefi: data-analytics 1,804, interface-design 2,041, ux-writing 1,005, accessibility 1,027
+```
+
+A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
+file under `references/` except `origin.md`.
 
 **A counting correction, 2026-09-08.** The nuxt and laravel rows now exclude `references/origin.md`, and
 so should every other row from its next pass on. `origin.md` is provenance — where a rule came from, what was re-checked,
 what a pass changed — and the catalogue being compared against has no equivalent of it, so counting ours
 was measuring our own bookkeeping and calling it depth. It mattered: the Nuxt pass grew `origin.md` by
 about 1,700 words, which on the old convention would have read as x1.34 rather than the x1.6 the rules
-actually reach. The rows not yet re-measured (everything except nuxt, laravel, react and flutter) still include
-theirs and are therefore slightly flattering to us — `global` included, which is one more reason it is
-marked stale rather than adjusted.
+actually reach. Every row now applies that convention, because every row is computed by `bin/measure_depth.py` rather
+than transcribed — so the caveat this paragraph carried for three days ("the rows not yet re-measured are
+slightly flattering to us") no longer applies to any of them.
 
 Two things this table is not. It is **not a word-count target**: a meaningful share of their depth is
 per-skill boilerplate (one skill per rule restates its own context) and another share is org specifics that
@@ -476,13 +506,12 @@ the webhook receiver's three rules, and §6 reframed around the *debt* rather th
 in `skills/tdd`. Twenty-four intra-block references re-checked, including a stale `§4.6–§4.9` range inside
 its own `origin.md`.
 
-**The `global` row is now stale on purpose, and this is the table's own §8 problem.** `code-baseline` is one
-of the five blocks that row aggregates, but the composition of the other four was never written down — the
-table was produced ad hoc, not by a script in the repo, despite the sentence below claiming progress is
-measurable with "the same script". Recomputing the aggregate from a remembered composition is exactly the
-mistake corrected twice already on this page, so the row keeps its old number and says it is stale. The
-next thing this table needs is not another pass: it is the composition of each row recorded next to it, so
-that a row can be re-measured rather than reconstructed.
+**The `global` row was marked stale here for a day, and that is now resolved.** `code-baseline` is one of
+the five blocks that row aggregates, and the composition of the other four had never been written down —
+the table was produced by hand, not by a script, despite a sentence further down claiming otherwise.
+Recomputing an aggregate from a remembered composition is exactly the mistake corrected twice already on
+this page, so rather than guess, the row was left with its old number and labelled. It was then fixed
+properly: see **the table is now measured, not typed** below.
 
 Then `python-conventions`, the first of the single-file blocks — where the work is a different kind,
 because the sections have to be decided before they can be deepened. In this case the decision was already
@@ -505,21 +534,33 @@ the transaction and migration failures it had implied and never stated. One entr
 entirely: the PEP 8 re-check note, which was provenance sitting inside §5 as a numbered rule, is now in
 `references/origin.md` where the other stamps live.
 
-**On this row's number.** `python-conventions` is one of the two blocks the row aggregates and the other is
-not identified anywhere, so the new figure is derived: the block's own measured 7,697 plus the 717 the
-previous total implies for the other one, which still includes its `origin.md`. That is the same gap the
-`global` row is marked stale for, and it is now the table's oldest outstanding defect.
+**On this row's number.** For a day it was derived rather than measured — `python-conventions` is one of
+the two blocks the row aggregates and the other was not identified anywhere — which is what prompted the
+work below.
 
-**Next**: `inertia-conventions` (1,743 words) and `php-patterns` (991), the two remaining single-file
-blocks. Before either, the cheaper and more useful piece of work is recording **each row's composition**
-next to it, so that a row can be re-measured instead of derived — two rows now carry an asterisk for
-exactly that reason.
+**The table is now measured, not typed.** `bin/measure_depth.py` holds the composition of every row and
+recomputes the whole table from the repo; `bin/test_measure_depth.py` (21 checks, in the pre-push suite)
+fails if the table in this file stops matching what the script measures. Seven rows' compositions were
+recovered rather than invented, because they reproduce their recorded totals exactly — laravel
+(13,718 across three blocks), nuxt, react, flutter, csharp, design-patterns and project-management (3,092 =
+`product-ownership` 2,952 + `spec` 140). `bi, design, xefi` reproduces to within three words, an edit since.
+Two could not be reproduced from any combination and are therefore **declared** rather than inherited: the
+`global` row's five blocks, and the second block of the `python` row, which the previous total implied at
+717 words and is `data-pipeline-conventions` at 749. Both moved as a result: `global` from a stale 7,585 to
+a measured 11,886, and `python` from a derived 8,414 to 8,446.
+
+The lesson is the repo's own §8 arriving on its own bookkeeping: a figure nobody can recompute is a claim,
+and it had been sitting in the one document whose whole job is to say what is actually true. The check that
+closes it is not the script — it is the test that fails when the document and the script disagree.
+
+**Next**: `inertia-conventions` (1,705 words), `php-patterns` (960) and `design-patterns` (2,347), the
+remaining single-file blocks, where the sections have to be decided before they can be deepened.
 `dotnet-conventions` has the worst ratio (x17.9) and is the stack nobody here writes, so it stays last on
 purpose — a deep block nobody can dogfood is exactly the 🟡 this catalogue exists to flag, and making it
 thicker would not change that letter.
-Progress is recorded here rather than in a commit message so that it can be read as a whole. It is not,
-as an earlier version of this line claimed, reproducible from a script — there is none in the repo, and the
-`global` row above is where that caught up with us.
+Progress is recorded here rather than in a commit message so that it can be read as a whole, and the
+table itself is reproducible: `python3 bin/measure_depth.py`. That was claimed before it was true, denied
+when the claim caught up with us, and is now enforced by a test.
 
 **The order is by thinness, not by importance.** A 113-word section is not a short summary of a subject —
 it is a subject whose failure modes were never written down, so an agent reading it agrees with the rule
