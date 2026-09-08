@@ -8,11 +8,24 @@ description: Use when writing or reviewing a Laravel + Inertia.js app (Vue, Reac
 Step 6 of the pipeline (`WORKFLOW.md`). Frames a Laravel + Inertia.js app: **one monolith, no separate
 API**. A Laravel controller returns a page component name and its props directly; Inertia hands them to
 a Vue/React/Svelte component and swaps it in without a full page reload. There is no JSON contract
-between two deployed apps, because there's only one app.
+between two deployed apps, because there's only one app. Every rule below holds in a repo with **nothing
+installed** (`CONVENTIONS.md`, rule A).
 
 **This is the one place laravel-conventions and the Vue/React frontend blocks genuinely disagree with
 Inertia, not just with each other** — see §4, read it before applying either block wholesale to an
 Inertia repo.
+
+**Relation to an org skill catalogue.** Where a company ships its own versioned catalogue for Laravel or
+for the frontend framework, it is the authority on **its** house style and overrides this block wherever
+the two differ. A catalogue written for a REST backend serving a separately deployed frontend usually has
+no rule about Inertia at all, though — §4 fills a gap rather than contradicting one, and §4.6 is about
+scoping one of its mandates to the right controller, not about outranking it.
+
+**Applying an override is silent.** Write the code the governing rule actually requires and move on —
+never report "a conflict between mentis and the house catalogue" to whoever's watching. That framing
+reads as broken to a non-technical stakeholder even when the case is a normal, resolved one, and has
+already caused a real project to get abandoned and restarted over nothing (§4.7). Surface it as a
+specific, named question only when no rule anywhere actually resolves the case.
 
 ## When
 As soon as an Inertia page component, a controller returning `Inertia::render(...)`, the
@@ -20,105 +33,25 @@ As soon as an Inertia page component, a controller returning `Inertia::render(..
 
 ## Steps
 
-### 1. The controller owns the page, not an API endpoint
-1. **A controller action returns `Inertia::render('Page/Name', [...])`**, not a JSON resource. The
-   second argument is exactly the page component's props — there is no separate serialisation layer to
-   design, and no REST resource class needed for a page's own data.
-2. **Never build a JSON API endpoint whose only consumer is the page itself.** If a component's data
-   comes from `Inertia::render`'s props, adding a `fetch`/`axios` call to a matching API route duplicates
-   the same data through two paths that can now disagree. An endpoint is only justified when something
-   genuinely needs to poll or be called from outside a full Inertia visit (e.g. a live search-as-you-type
-   suggestion list, a webhook).
-3. **Routing is Laravel's, entirely.** No client-side router (`vue-router`, `react-router`) — Inertia
-   intercepts `<Link>` clicks and `router.visit()` calls and asks Laravel's own router for the next
-   page. A route that exists on the frontend but not in `routes/web.php` doesn't exist.
+**Read only the sections the task actually touches.** The rules live one file per section under
+`references/`; loading all six for a change that adds one prop is waste, and a section read is a section
+that has to be applied. If you are reviewing a whole diff, pick the rows whose trigger the diff meets,
+not the whole table.
 
-### 2. Shared data and page props
-1. **Data every page needs (the authenticated user, flash messages, feature flags) goes through
-   `HandleInertiaRequests::share()`**, once, not repeated in every controller's props array. A prop
-   duplicated across twenty controllers because nobody centralised it is the tell that it belongs in
-   `share()`.
-2. **Props are the page's contract with its controller — type them.** Generate the frontend type from
-   the same Laravel Data DTO/resource the controller returns rather than hand-writing a parallel
-   interface that can drift from what the backend actually sends.
-3. **Partial reloads (`only`/`except`) for a page that re-visits itself with unchanged sections** (a
-   filtered table re-requesting only the table's data, not the whole page's props again) — cheaper than
-   a full prop payload, and the reason to reach for it is a measured or obvious cost, not a default on
-   every visit.
-4. **A prop that's expensive to compute and not needed for the first paint is `Inertia::lazy()`/deferred**
-   rather than computed eagerly on every request that touches the page, including ones that never scroll
-   to where it's used.
-
-### 3. Forms, validation and errors
-1. **`useForm` owns a form's state, submission and error display** — not a hand-rolled `ref`/`useState`
-   plus a manual `axios.post` plus manually reading a caught error's response body. `useForm` already
-   wires the request, the pending/processing flag, and the validation-errors bag together.
-2. **Validation stays server-side, in a FormRequest, the same as any other Laravel controller** — a
-   thrown `ValidationException` arrives back as the page's `errors` prop automatically; there's no
-   separate error-shape contract to invent for Inertia.
-3. **Real-time (as-you-type) validation feedback, where the UX genuinely needs it, uses Laravel's own
-   precognition mechanism** rather than a hand-rolled debounced validation endpoint — it reuses the same
-   FormRequest rules the real submission will run, so the two can't drift apart.
-
-### 4. Where this overrides laravel-conventions and the frontend blocks
-1. **`laravel-conventions` §6's REST/resource-routing and lomkit-filters guidance is written for an API
-   backend serving a separately deployed frontend.** An Inertia app has no such boundary: a page's data
-   is passed as props, not filtered through a REST resource collection, so there's no lomkit-vs-custom
-   endpoint decision to make for page data at all. `laravel-conventions`' other sections (thin models,
-   events over observers, action classes, config/env discipline, testing tiers) still apply unchanged —
-   only the HTTP-surface-as-a-REST-API assumption doesn't.
-2. **The Nuxt-specific parts of `vue-nuxt-vuetify-conventions`** (Nuxt's file-based routing, auto-imports,
-   `useFetch`/`useAsyncData`, the Nuxt directory layout, Nuxt's own SSR runtime) **don't apply**: there is
-   no Nuxt app, no Nuxt server, no Nuxt-owned routing. An Inertia+Vue page is a plain Vue 3 SFC wired by
-   Inertia, so that block's language- and component-level Vue guidance (SFC shape, composables that
-   aren't Nuxt-specific, typing, naming, accessibility in templates) still applies; its Nuxt-runtime
-   sections don't have an equivalent here.
-3. **The Next.js-App-Router-specific parts of `react-nextjs-conventions`** don't apply for the same
-   reason when the frontend is React: no Next.js server, no App Router, no Next data-fetching primitives
-   — Inertia is the data-fetching and routing layer instead. That block's plain React/component-level
-   guidance still applies.
-4. **When a reviewer (human or an agent) flags an Inertia app for "missing a REST API" or "not using
-   Nuxt/Next conventions," that's this conflict surfacing** — point them here rather than adding either
-   layer on top of Inertia; a Laravel+Inertia app doesn't need a REST API or a meta-framework runtime
-   to be conventional, it needs Inertia's own conventions applied consistently.
-5. **Inertia and a REST package (`lomkit/laravel-rest-api` or equivalent) are not mutually exclusive in
-   the same project — they can genuinely coexist**, because they serve different surfaces: Inertia
-   renders the app's own pages (`routes/web.php`, `Inertia::render(...)`), a REST package serves a real
-   JSON API for a consumer that isn't the Inertia frontend (a mobile app, a partner integration, a
-   versioned public API, usually under `routes/api.php`). Checking only "is the package a dependency" is
-   too coarse once both are in the same project — the package being installed says nothing about which
-   specific controller a mandate should apply to.
-6. **Before applying any "CRUD goes through the REST package" mandate — this repo's or an installed
-   house catalogue's — to a *specific* controller, check what that controller actually returns and where
-   it's routed**, not just whether the package is a project dependency:
-   - Returns `Inertia::render(...)`, routed under the app's own web routes → it's a page. The mandate
-     doesn't apply, regardless of whether the package is installed and used elsewhere in the same
-     project.
-   - Returns JSON for a consumer other than the Inertia frontend (mobile, a partner, a versioned public
-     API), typically under `routes/api.php` → a real REST endpoint. Where the package is installed, the
-     mandate applies normally.
-   - Genuinely ambiguous which of the two a given controller is → ask rather than guess; don't default
-     to forcing the mandate because the package happens to be present in the project.
-   This resolves the case a purely project-level dependency check gets wrong: a project using **both**
-   Inertia for its pages and a REST package for a separate, real API surface — the mandate still governs
-   that real API, it just never reaches the page controllers.
-7. **This whole section resolves the case, so apply it and keep going — don't tell a non-technical
-   stakeholder "there's a conflict between mentis and the house rules."** That framing reads as broken,
-   and a CdP with no way to judge it themselves has already responded to exactly that framing by
-   deleting the whole setup and starting over. There's a resolution stated above; use it silently.
-
-### 5. Tests
-1. **A feature test for an Inertia route asserts the page component name and its props**, not a JSON
-   body shape — Laravel's Inertia testing assertions (asserting the component and specific prop values)
-   are the equivalent of a JSON-shape assertion on an API endpoint, just aimed at what Inertia actually
-   returns.
-2. **The two-tier split from `laravel-conventions` §9 still applies**: an Inertia-returning controller
-   action is a feature test, the same as any other HTTP endpoint would be.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | The controller and the page | an action renders a page, or a page route is added | [`01-controller-and-page.md`](./references/01-controller-and-page.md) |
+| 2 | Shared data and page props | a prop is added, shared, deferred or made cheaper | [`02-props-and-shared-data.md`](./references/02-props-and-shared-data.md) |
+| 3 | Forms, validation and errors | a form is written, or a failure has to reach the reader | [`03-forms-validation-errors.md`](./references/03-forms-validation-errors.md) |
+| 4 | The override boundary | applying `laravel-conventions` §6 or a frontend block here, or answering a review that flags a missing REST/meta-framework layer | [`04-overrides.md`](./references/04-overrides.md) |
+| 5 | Visits, navigation and the deployed app | navigation is written, state has to survive a visit, or behaviour after a deploy is in question | [`05-visits-navigation-state.md`](./references/05-visits-navigation-state.md) |
+| 6 | Tests | a page, a form or a shared prop is covered | [`06-tests.md`](./references/06-tests.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above: controllers returning pages with typed props (no shadow JSON
-API for page-only data), shared data centralised in `HandleInertiaRequests`, forms on `useForm`, and no
-Nuxt/Next-runtime or REST/lomkit expectation applied where §4 says it doesn't hold.
+API for page-only data), shared data centralised in `HandleInertiaRequests`, forms on `useForm`, visits
+that keep what the reader would expect to keep, and no Nuxt/Next-runtime or REST/lomkit expectation
+applied where §4 says it doesn't hold. Checked by `gate` (7) and `review` (8).
 
 ## Guardrails
 - Never add a JSON API endpoint whose only purpose is feeding data a controller could pass directly as
@@ -130,23 +63,15 @@ Nuxt/Next-runtime or REST/lomkit expectation applied where §4 says it doesn't h
 - Never treat a missing Nuxt/Next-specific pattern (file routing, `useFetch`, the App Router) as a defect
   in an Inertia repo — there's no meta-framework runtime there to begin with.
 - Never hand-roll form submission/error-display state where `useForm` already does the job.
+- Never put in the props anything the person viewing the page isn't allowed to read; the payload is in
+  the HTML and in devtools whether a component renders it or not (§2.6).
 - Existing endpoints genuinely consumed by something other than the page itself (a public API, a mobile
   client, a webhook) are a real REST surface and `laravel-conventions` §6 applies to them normally — §4's
   override is scoped to page-only data, not to every endpoint in an Inertia repo.
 
 ## Origin
-Sourced from the official Inertia.js documentation (shared data via `HandleInertiaRequests`, `useForm`,
-partial reloads, lazy/deferred props) and current Laravel+Inertia integration practice (typed props
-generated from the same DTO/resource the backend returns, Laravel Precognition for real-time validation
-reusing the submission's own FormRequest rules). §4 (the override table against `laravel-conventions` and
-the Nuxt/Next-specific blocks) is ours: written after a real conflict surfaced where an Inertia repo was
-reviewed against REST/lomkit and Nuxt-runtime expectations that don't hold for that architecture — no
-existing skill named the boundary, in this repo or in the installed org catalogue
-(its Laravel and Nuxt plugins), which don't cover Inertia either. §4.5/§4.6 went through two revisions the
-same day: a first pass checked only whether the REST package was a project dependency at all — too
-coarse for a project using **both** Inertia (for its pages) and a REST package (for a genuinely separate
-API surface), which is a real, coherent architecture, not a contradiction. The current version checks
-the specific controller — what it returns, where it's routed — rather than the project as a whole,
-which is the only version of the test that gets the mixed case right. No dedicated in-house Inertia
-production experience yet: a solid base from the framework's own documentation, not proven doctrine.
-Stamped 2026-08-11.
+Sourced from the official Inertia.js documentation and current Laravel+Inertia integration practice; §4
+(the override against `laravel-conventions` and the Nuxt/Next-specific blocks) is ours, written after a
+real conflict. The full provenance, the source stamps and the refresh log are in
+[`references/origin.md`](./references/origin.md). Read it when checking whether a rule is still current,
+not when applying one.
