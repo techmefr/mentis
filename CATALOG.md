@@ -116,7 +116,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 |---|---|---|---|
 | start-feature | 0 (worktree) | a market worktree-management skill, rewritten | 🟡 (rewritten 2026-08-06: it called a local orchestrator's MCP tools directly, which broke rule B and made step 0 undistributable — plain git is now the default path, the orchestrator optional. Same correction in `using-mentis`, `plan`, `brainstorm`, `finish`) |
 | brainstorm | 1 | native `brainstorming` | 🟡 |
-| spec | 2 | a market skill catalogue (grill-with-docs) + internal | 🟡 |
+| spec | 2 | a market skill catalogue (grill-with-docs) + internal; **sectioned and deepened 2026-09-08** — the block was 140 rules words, five numbered steps and nothing else, the thinnest in the repo, and became five sections under `references/` in the same order with a router table in `SKILL.md` (140 → 3,689 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `product-ownership`). Written as a procedure, it named the five deliverables and never said what makes each one *correct*: recording an answer in the words that were used rather than a paraphrase that hides the misunderstanding, "not decided" versus "not said", naming the fixture each criterion needs so `tdd` does not discover the case cannot be built, saying where a result is observable since that is what picks the test's tier, a definition stating what a term *excludes*, an exclusion that is really a dependency being labelled as one, and a deliberate *non*-decision earning an ADR because the absence is invisible in the code. The pass also settled which block owns acceptance criteria: `business/product-ownership` §4 owns what makes a business criterion valid, §3 here turns it into the technical contract and now points there instead of restating it | 🟡 |
 | archi | 3 | internal graphify + a three-way dedup pass (name, shape, call site) with the negative result recorded | 🟡 (dedup mechanism written, not dogfooded yet) |
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
 | tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
@@ -164,7 +164,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers (2,347 → 6,333 words of rules, x5.19 → x1.92). §4 kept its number and every point inside it, since `business/fintech-compliance` cites §4.5 and `laravel-conventions` cites the transaction rule at §4.7 twice; §2's bullets became numbered points, text unchanged. The new §6 (when a pattern stops earning its place) closes a structural gap rather than an oversight: the source catalogue, and every section here, was about whether to *add* a pattern, and nothing said when to take one out — hence the deletion test, the interface whose second implementation was decommissioned, the pool justified by a measurement on a runtime since upgraded, the pattern grown to fit a case that does not share its axis, the suite with a test per implementation and none for the dispatch, and the ADR line that outlives the structure and gets the pattern reimplemented from the document. Two stale references into this block were fixed in the same pass: `laravel-conventions` §4 and §8 both cited a §7 this block has never had | 🟡 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the queue framing is native Claude Code (`/loop`/`/schedule`, proactive loops); the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
-| product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
+| product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives; **sectioned and deepened 2026-09-08** — the nine sections that lived inline in `SKILL.md` moved to one file each under `references/` and the router became a table of triggers (2,952 → 7,616 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `spec`). §6 to §8 kept their numbers, since `references/README.md` and this file both cite that range. No section was added: the nine already covered the subject, and what they lacked was the mechanism and what the reader actually sees — a request phrased as a solution smuggling in a decision nobody took, an ordering that optimises for whoever asked loudest, a refusal naming no alternative coming back unchanged next week, a criterion nobody can build a fixture for, a "done" resting on somebody's memory of the conversation, and an estimate given without the code being an estimate of the story's wording | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
 | community-management | communication | a marketplace community-management skill (moderation policy templates, engagement ladder, DAU/MAU + member-to-member replies + support deflection as metrics, "what you tolerate in the first hundred members becomes the culture") + a B2B SaaS social-media-manager skill for crisis response | 🟡 (no internal CM expertise; §4 — what a CM must never answer alone — is ours and is the failure we actually expect) |
 | content-creation | communication | an MIT marketing skill collection (34 skills), a LinkedIn growth set, a YouTube creator set and several repurposing skills — the repurposing insight taken, plus the observation that per-network work differs mainly in hook and length; none of them reviews or fact-checks a claim, and all start from a topic rather than from an artefact | 🟡 (no internal content expertise; §2's artefact→format table and the honest-hook line are ours) |
 | social-publishing | communication | a community social-media skill suite (`social-ai-team`, 10 skills) for its pause-and-approve gate at every handoff; its per-platform writers rejected as fragmentation, the volatile facts moved to `references/social-platforms.md` | 🟡 (no internal social-media expertise; the access table is the part with a six-month expiry) |
@@ -391,12 +391,12 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 23,118 | −56,707 | x3.45 |
 | csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
 | python | 20 / 22,097 | 2 / 8,446 | −13,651 | x2.62 |
-| project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | x4.7 |
 | bi, design, xefi | 16 / 17,306 | 4 / 5,877 | −11,429 | x2.94 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
 | global | 18 / 20,280 | 5 / 11,886 | −8,394 | x1.71 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
+| project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -406,9 +406,10 @@ lower is closer and below 1 is ahead.
 **Status.** Passed: `react` (all 10 sections), `nuxt` (13), `flutter` (10), `python` (8, sectioned out of a
 single file first), `code-baseline` (8) inside the `global` row, `inertia-conventions` (6),
 `php-patterns` (5), `design-patterns` (6) and `dotnet-conventions` (7) — the last five sectioned out of a
-single file first, all on 2026-09-08, and `laravel` (11) the day before. **Every block in the table has
-now had its pass**, and no row is above x8.2 where the worst was x17.9. What is left is not depth: it
-is the blocks still marked 🟡 for want of a real project, which no amount of writing changes. The `bi, design, xefi` row stays ✕: it is
+single file first, all on 2026-09-08, and `laravel` (11) the day before. Every **stack** block in the
+table has now had its pass. The programme was then extended to the other blocks a row aggregates, which
+were still single-file and were holding their rows back: `product-ownership` and `spec` first, which
+takes `project-management` from x4.7 to **x1.29**. The `bi, design, xefi` row stays ✕: it is
 the internal landscape, and rule C keeps it out.
 
 **Composition.** Each row names the blocks it aggregates, so that it can be re-measured rather than
@@ -421,7 +422,7 @@ python: python-conventions 7,697, data-pipeline-conventions 749
 flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 1,030, api-design 375, documentation-adr 841, observability-instrumentation 511
-project-management: product-ownership 2,952, spec 140
+project-management: product-ownership 7,616, spec 3,689
 design-patterns: design-patterns 6,333
 react: react-nextjs-conventions 10,476
 bi, design, xefi: data-analytics 1,804, interface-design 2,041, ux-writing 1,005, accessibility 1,027
@@ -696,9 +697,9 @@ writes C#, so a thicker block is still an unconfronted one. What the pass buys i
 *why*, which is what `theoden` needs to read them as questions rather than as assertions — and that is a
 different thing from the row's status, which only a real project can change.
 
-**The programme is complete.** Ten rows, ten passes, over 2026-09-07 and 2026-09-08. The table now
-stands at **98,968 words of rules against 272,884**, the worst ratio is **x8.13** where it was x17.91,
-and the median row is **x2.31**. `react` is the one row ahead of its counterpart, and that says less than
+**Every row had had a pass at that point.** Ten rows, ten passes, over 2026-09-07 and 2026-09-08. The
+table stood at **98,968 words of rules against 272,884**, the worst ratio at **x8.13** where it was
+x17.91, and the median row at **x2.31**. `react` is the one row ahead of its counterpart, and that says less than
 the `laravel` row at x3.45 does — react's plugin is the thinnest of the four stacks the catalogue covers,
 so it was the cheapest crossing available. What the table cannot show is the part that matters next:
 several blocks are still 🟡 for want of a real project, and the way to move those is to use them, not to
@@ -716,6 +717,36 @@ when the claim caught up with us, and is now enforced by a test.
 it is a subject whose failure modes were never written down, so an agent reading it agrees with the rule
 and cannot apply it under pressure. The thick sections were already written that way, which is why they
 are thick.
+
+**Extension, 2026-09-08: the blocks a row aggregates.** Ten passes covered every *stack* conventions
+block, and the table still carried rows held back by a block nobody had touched, because a row's figure
+is the sum of every block in it. Eleven blocks counted in the table were still one file with no
+`references/` at all. The first row taken this way is `project-management`, which was the worst remaining
+ratio after `csharp`: x4.7 over two blocks, `business/product-ownership` at 2,952 words and `skills/spec`
+at 140.
+
+`product-ownership` became nine sections — the request that is not yet a story (738), ordering by
+consequence (720), saying no (705), acceptance criteria (692), ready and done (648), the story document
+(976), reviewing a story (875), decomposition and estimation (744), the author-is-the-builder
+configuration (721) — 2,952 → **7,616**. §6 to §8 kept their numbers, since `references/README.md` and
+this file both cite that range. `spec` became five, in the order the step runs them: the interview (642),
+`CONTEXT.md` (659), the criteria (695), out of scope (642), ADRs (658) — 140 → **3,689**. The row goes
+from x4.7 to **x1.29**, and the table to **107,181 against 272,884**, worst **x8.13**, median **x1.97**.
+
+**`spec` was the thinnest block in the repo, and the reason is worth recording.** As a pipeline step it
+was written as a procedure — do these five things — which is enough for an agent that already knows what
+each deliverable is *for* and useless to one that does not. The five steps named the deliverables and
+never said what makes each one correct. The additions that were real absences: recording an answer in the
+words that were used, because a paraphrase makes a misunderstanding invisible; "not decided" versus "not
+said", which is the difference between a question and a decision that needs an owner; naming the fixture
+each criterion needs, since discovering at `tdd` that the case cannot be built is a blocked step whose
+usual workaround is a test of a simpler case wearing the criterion's name; and a definition stating what
+a term *excludes*, which is the half that settles arguments.
+
+The pass also settled a boundary the two blocks had left ambiguous: both described acceptance criteria
+without saying which was authoritative. `product-ownership` §4 owns what makes a *business* criterion
+valid; `spec` §3 turns those into the technical contract `tdd` writes failing tests against, and now
+points at §4 rather than restating it.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
