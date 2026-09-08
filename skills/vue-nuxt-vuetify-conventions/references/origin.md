@@ -56,3 +56,26 @@ the shared applied state between two handles on one record, and the foreign-ORM 
 client's own name, decorators and config stay out (rule C); `lomkit/laravel-rest-api` is named in §13.2
 under the same carve-out as elsewhere in the repo, as a public package. The 17 other skills were already
 covered by §1–§12 and are unchanged.
+
+**Depth pass, §10, §2 and §3, 2026-09-08.** Not a source refresh: no new source, no rule reversed. The
+three thinnest sections of the block (113, 211 and 174 words) were the ones stating a rule without the
+failure it prevents, which is what makes a rule unenforceable in review — an agent can agree with "no
+`any`" and still not know what it costs. Each is now written the way §9 and §13 already were: one
+numbered point per real failure mode, the mechanism named, and the consequence stated in terms of what
+the user or the next reader actually sees. §10 goes to 12 points (transport-to-event, one connection
+owner, the scoped subscription including `keepalive`, the untrusted payload, message-as-hint rather than
+snapshot, duplicates and out-of-order delivery, the missed-while-disconnected resync, no socket during
+SSR, server-side channel authorisation, channel-scoped rather than client-filtered subscriptions, not
+moving the UI under the user, and the don't-build-it test). §2 goes to 16 (shared-versus-per-caller state
+named deliberately, module-scope state leaking across SSR requests, the synchronous-`setup` requirement,
+in-flight deduplication, one reset, no async in a getter, watcher scope ownership, store cycles, and
+URL-owned state). §3 goes to 16 (type-only `defineProps`/`defineEmits`, the `undefined` inside an empty
+`ref`, deriving API types instead of copying them, boundary validation, discriminated unions over
+optional bags, ids that must not be swapped, `as const`, typed slot props, and the annotated store
+surface). The pre-existing points were kept verbatim and renumbered only where new material was
+interleaved.
+
+Two of these are corrections rather than additions, and worth naming as such: §2's module-scope-state
+point closes a real cross-account leak the block never mentioned (SSR shares a module across visitors,
+not across a visitor's requests), and §10's server-side-channel-authorisation point closes the case where
+a private channel is "authorised" by a name the client itself composes. Both were absent, not wrong.
