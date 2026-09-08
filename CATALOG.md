@@ -121,7 +121,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
 | tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
 | code | 6 | native + internal; no-test-tampering guardrail added 2026-08-11, named directly by the operator | 🟡 |
-| vue-nuxt-vuetify-conventions | 6 | several market Vue/Nuxt/Vuetify skill catalogues (Vue patterns, Nuxt4, Nuxt composables, Vuetify) + a market Nuxt/Vue linter (correctness/security) + a market open source TypeScript project (a11y/bundle) + de-identified internal review feedback (recurring patterns); re-checked directly against the public vue.doctor/nuxt.doctor tools on 2026-08-10, which surfaced 2 real gaps (compiler-macro import, useAsyncData key default) now closed; §13 added and §4 deepened 2026-09-07 by a **bodies pass** over the same org catalogue (21 skills): the first pass had read descriptions only, the bodies carried four mechanisms it could not see — BEM's out-of-scheme shapes, the class/style split and its extract-to-computed threshold, opting a folder into the framework's import scan, and the typed-client layer whose real weight is the hydration-typing trap and the shared applied state between two handles on one record; **depth pass 2026-09-08** on the three thinnest sections (§10 realtime 113 → 875 words, §2 composables/stores 211 → 944, §3 typing 174 → 899), which stated rules without the failures they prevent — two of the additions are real absences rather than restatements: module-scope state shared *across SSR requests* (a cross-account leak the block never named) and a private channel "authorised" by a name the client itself composes | 🟡 |
+| vue-nuxt-vuetify-conventions | 6 | several market Vue/Nuxt/Vuetify skill catalogues (Vue patterns, Nuxt4, Nuxt composables, Vuetify) + a market Nuxt/Vue linter (correctness/security) + a market open source TypeScript project (a11y/bundle) + de-identified internal review feedback (recurring patterns); re-checked directly against the public vue.doctor/nuxt.doctor tools on 2026-08-10, which surfaced 2 real gaps (compiler-macro import, useAsyncData key default) now closed; §13 added and §4 deepened 2026-09-07 by a **bodies pass** over the same org catalogue (21 skills): the first pass had read descriptions only, the bodies carried four mechanisms it could not see — BEM's out-of-scheme shapes, the class/style split and its extract-to-computed threshold, opting a folder into the framework's import scan, and the typed-client layer whose real weight is the hydration-typing trap and the shared applied state between two handles on one record; **depth pass 2026-09-08** on the three thinnest sections (§10 realtime 113 → 875 words, §2 composables/stores 211 → 944, §3 typing 174 → 899), which stated rules without the failures they prevent — two of the additions are real absences rather than restatements: module-scope state shared *across SSR requests* (a cross-account leak the block never named) and a private channel "authorised" by a name the client itself composes; **second pass the same day** on §7 accessibility (172 → 899) and §6 i18n (199 → 877), both of which were true-but-terse checklists — §7 gained the placeholder-as-label, unattached-error, colour-as-sole-meaning, removed-focus-outline, hover-only-action and no-page-language failures plus the voice-control consequence of an accessible name that omits the visible text, and §6 the mistakes that are correct in the source language and wrong elsewhere (a `n > 1` ternary for plurals, concatenated sentences, a translation rendered as HTML, hand-formatted dates, German's ~30% expansion, one key reused for two meanings) | 🟡 |
 | react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed | 🟡 (written, not dogfooded yet) |
 | over-engineering-review | 9 | a market deletion-oriented review tool (deletion angle, tags, net line score) | 🟡 |
 | nestjs-node-conventions | 6 | a market NestJS skill catalogue + an advanced market TypeScript skill + a market React/Node skill catalogue (prisma/trpc/zod) | 🟡 (written, not dogfooded yet; first mentis block for the Node backend) |
@@ -392,7 +392,7 @@ closing this costs nothing that made this repo cheaper to load.
 | csharp | 37 / 56,718 | 1 / 3,167 | −53,551 | 4 — worst ratio (x17.9), stack nobody here writes |
 | python | 20 / 22,097 | 2 / 2,585 | −19,512 | 3 |
 | flutter | 40 / 20,772 | 1 / 3,899 | −16,873 | 5 |
-| nuxt | 21 / 19,869 | 1 / 8,074 | −11,795 | **2** — the other stack shipped daily |
+| nuxt | 21 / 19,869 | 1 / 9,479 | −10,390 | **2** — the other stack shipped daily |
 | global | 18 / 20,280 | 5 / 7,585 | −12,695 | 3 |
 | project-management | 10 / 14,536 | 2 / 3,092 | −11,444 | 3 |
 | design-patterns | 7 / 12,179 | 1 / 2,347 | −9,832 | 3 |
@@ -408,10 +408,11 @@ incidents de-identified — which is also why a pass is slow.
 
 **Done so far**: `laravel-conventions` §2, §4, §8 (166/261/137 → 873/875/769) then §6 and §1 (292/589 →
 1,027/996) — five of eleven sections, 1,445 words → 4,700; then `vue-nuxt-vuetify-conventions` §10, §2
-and §3 (113/211/174 → 875/944/899) on 2026-09-08, three of thirteen sections, 498 words → 2,718, which
-moves that block from x3.6 to **x2.5** of its counterpart and is the closest any stack has come to parity.
-**Next**: the rest of the Nuxt block by ascending thickness (§7 accessibility 172, §6 i18n 199, §11
-reactivity 241, §12 review patterns 251, §8 component library 284), then `laravel-conventions` §3 and §9.
+and §3 (113/211/174 → 875/944/899) on 2026-09-08, then §7 and §6 the same day (172/199 → 899/877) —
+five of thirteen sections, 869 words → 4,494, which moves that block from x3.6 to **x2.1** of its
+counterpart and is the closest any stack has come to parity.
+**Next**: the rest of the Nuxt block by ascending thickness (§11 reactivity 241, §12 review patterns 251,
+§8 component library 284, §1 shape 363, §5 structure 404), then `laravel-conventions` §3 and §9.
 Progress is measurable with the same script that produced this table, which is the point of recording it
 here rather than in a commit message.
 
