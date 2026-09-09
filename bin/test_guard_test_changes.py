@@ -121,5 +121,65 @@ try:
 finally:
     os.unlink(real_test_file)
 
+# The formatted shape, found by wiring this hook into a real repo on 2026-09-09: prettier
+# puts the expected value on its own line, so the value can change without any line that
+# matches an assertion pattern changing with it. Comparing lines allowed exactly the edit
+# this guard exists to refuse, and the hunk alone does not even carry the assertion.
+FORMATTED = """describe('resolvePruneRule', () => {
+  it("resolves the project's configured default retention", () => {
+    expect(resolvePruneRule('BlogPost')).toEqual({
+      retentionDays: 30,
+      lock: false,
+    });
+  });
+});
+"""
+
+with tempfile.NamedTemporaryFile(suffix=".spec.ts", delete=False) as f:
+    f.write(FORMATTED.encode())
+    formatted_file = f.name
+try:
+    check(
+        "an expected value on its own line under a multi-line assertion",
+        2,
+        edit(formatted_file, "retentionDays: 30,", "retentionDays: 60,"),
+    )
+    check(
+        "the same value change written as a hunk carrying no assertion at all",
+        2,
+        edit(formatted_file, "      retentionDays: 30,\n      lock: false,",
+             "      retentionDays: 60,\n      lock: false,"),
+    )
+    check(
+        "inlining a multi-line assertion weakens nothing and is allowed",
+        0,
+        write(formatted_file, FORMATTED.replace(
+            """    expect(resolvePruneRule('BlogPost')).toEqual({
+      retentionDays: 30,
+      lock: false,
+    });""",
+            "    expect(resolvePruneRule('BlogPost')).toEqual({ retentionDays: 30, lock: false });",
+        )),
+    )
+    check(
+        "re-indenting an assertion is allowed",
+        0,
+        edit(formatted_file, "    expect(resolvePruneRule('BlogPost')).toEqual({",
+             "      expect(resolvePruneRule('BlogPost')).toEqual({"),
+    )
+    check(
+        "renaming the symbol under test blocks, deliberately",
+        2,
+        write(formatted_file, FORMATTED.replace("resolvePruneRule", "resolveRetentionRule")),
+    )
+    check(
+        "a replace_all edit is applied everywhere before comparing",
+        2,
+        json.dumps({"tool_input": {"file_path": formatted_file, "old_string": "30",
+                                   "new_string": "60", "replace_all": True}}),
+    )
+finally:
+    os.unlink(formatted_file)
+
 print(f"\n{ok} passed, {fail} failed")
 sys.exit(1 if fail else 0)

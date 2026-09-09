@@ -429,7 +429,7 @@ written for the forge transport works unchanged on a locally produced diff.
 If that ever fails, the two transports have drifted and every reader is
 affected.
 
-**Maintaining this repo.** Nine suites, 201 checks total, listed once in
+**Maintaining this repo.** Nine suites, 211 checks total, listed once in
 `bin/pre-push`: `test_scripts.py` + `test_local.py` + `test_hooks.py` +
 `test_guard_test_changes.py` cover the scripts, the local review transport,
 `hooks/block-installs.sh` and `hooks/guard-test-changes.sh`;
@@ -524,7 +524,7 @@ fresh context) is stable and applied. The honest breakdown:
 | Skills | 59 | 9 marked 🟢 real production use; the rest 🟡 |
 | Business blocks | 15 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | Agents | 21 | 4 with real production experience (`aragorn`, `gimli`, `gandalf`, `elrond`); the rest written, not dogfooded |
-| `hooks/` | 3 scripts | the gate pair passes its 6-case smoke test and is **wired into no repo yet**; `block-installs.sh` passes 68 cases and is the one worth wiring anywhere an agent has a shell |
+| `hooks/` | 3 scripts | wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (72 cases); the gate pair is inert outside the mentis pipeline, `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | `bin/` | 7 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has not run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 Written with **no internal production experience on the stack**, so their

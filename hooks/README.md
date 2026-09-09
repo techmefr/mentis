@@ -89,17 +89,36 @@ boundary is the permission layer of the tool that runs the agent; this hook make
 loudly and explain itself, and fails **closed** on a `Bash` call it cannot parse that mentions a package
 manager.
 
-Checked by `bin/test_hooks.py` — 68 cases, blocked and allowed both, because half the value is in what it
+Checked by `bin/test_hooks.py` — 72 cases, blocked and allowed both, because half the value is in what it
 does not break.
 
 ## `guard-test-changes.sh`: no pre-existing assertion disappears silently
 
 **What it refuses**, on every `Edit`/`Write` targeting a file that looks like a test
-(`*.test.*`, `*.spec.*`, `*_test.*`, `test_*.py`, `*Test.php`, `*Test.java`): an edit where a
-line that matched an assertion pattern (`expect(`, `assert*(`, `$this->assert*(`,
-`self.assert*(`, a bare `assert `, `Assert::`/`Assert.`, a Jest/Vitest matcher, `t.Error`/`t.Fatal`,
-`require.*`) existed **before** the edit and no longer appears, verbatim, **after** it — deleted,
-commented out, or its expected value changed.
+(`*.test.*`, `*.spec.*`, `*_test.*`, `test_*.py`, `*Test.php`, `*Test.java`): an edit where an
+assertion that existed **before** the edit is no longer there **after** it — deleted, commented
+out, or its expected value changed. An assertion is a line matching one of the patterns
+(`expect(`, `assert*(`, `$this->assert*(`, `self.assert*(`, a bare `assert `, `Assert::`/`Assert.`,
+a Jest/Vitest matcher, `t.Error`/`t.Fatal`, `require.*`) **plus every line it spans until its
+brackets balance**, compared with whitespace collapsed and a comma before a closing bracket
+dropped.
+
+**Why a statement and not a line, which is what it compared until 2026-09-09.** A formatter puts
+the expected value on its own line:
+
+```ts
+expect(resolvePruneRule('BlogPost')).toEqual({
+  retentionDays: 30,
+  lock: false,
+});
+```
+
+Changing `30` to `60` there touches no line matching an assertion pattern, so the line-level
+comparison allowed exactly the edit this hook exists to refuse — in the dominant formatting style
+of a TypeScript repo. Two consequences beyond the comparison itself: the whole file is
+reconstructed from disk and the replacement applied to it, because an `Edit` hunk that changes
+only the value carries no assertion at all; and collapsing whitespace is what keeps a reformat or
+a re-indent from reading as a removal. Found by wiring the hook into a real repo.
 
 **What it lets through**: extending a test file with a new case (the old assertion line is
 still there, a new one joins it), touching a non-test file, and creating a brand-new test file
@@ -122,6 +141,10 @@ can unlock this guard.
 - **A refactor that moves an assertion into a helper** (`expect(x).toBe(1)` becomes
   `assertFoo(x)`) looks like a removal to this heuristic, because the literal line is gone. This is
   the false-positive case `MENTIS_ALLOW_TEST_CHANGES` exists for.
+- **Renaming the symbol under test blocks too**, for the same reason: the assertion text changed,
+  and nothing here can tell a rename from a retargeting. It is the most common legitimate block,
+  and the escape hatch is task-scoped rather than edit-scoped — so an agent that learns to set it
+  for a rename has turned the guard off for the rest of the task. Wire it knowing that.
 - **An over-specified assertion is a test defect, and widening it looks identical to bending it.** An
   assertion pinning an exact list where the behaviour legitimately produces more entries fails on
   correct code; the fix is on the test's side and the guard cannot tell it from the dishonest edit. The
@@ -135,7 +158,8 @@ can unlock this guard.
 - **Only `Edit`/`Write`.** A test file changed through `Bash` (`sed -i`, a generated file) isn't
   seen by this hook.
 
-Checked by `bin/test_guard_test_changes.py` — 12 cases across five ecosystems.
+Checked by `bin/test_guard_test_changes.py` — 18 cases across five ecosystems, six of them the
+formatted shape above.
 
 ## Coexisting with the `test-casebook` gate
 
@@ -185,6 +209,15 @@ Copy the scripts into the target repo's `.claude/hooks/`, make them executable, 
 
 Then, in the repo: `mkdir -p .claude/evidence` and add `.claude/evidence/` to `.gitignore` —
 evidence is per-run, it isn't versioned.
+
+**Two things this wiring does not do, both measured on a real repo on 2026-09-09.** Most repos
+already ignore `.claude/` wholesale, so everything above lands untracked: the hooks protect the
+machine that wired them and nobody else's, and a colleague cloning the repo gets none of it. That
+is a decision to take deliberately — commit the wiring and it applies to the team, leave it
+ignored and it applies to you. And copying the scripts in forks them at copy time, which is the
+exact failure `bin/install-git-hooks.sh` was rewritten to avoid for this repo's own gate: a stale
+copy reports the safety of a script that has since changed. Either re-copy them when mentis moves,
+or point the command at a cloned mentis and accept the path dependency.
 
 **`block-installs.sh` is the one to wire first, and it is worth wiring alone.** The gate pair only makes
 sense inside the mentis pipeline; the install guard applies to any repo where an agent has a shell, and it
@@ -243,13 +276,26 @@ between "evidence was produced" and "someone looked at it".
 
 ## Status
 
-Written and **unit-tested against the six cases above**, but **not yet dogfooded**: not wired into a
-real repo at the time of writing. The mechanism is
+Written and **unit-tested against the six cases above**. Wired into a real repo on 2026-09-09 (a
+NestJS project, `.claude/hooks/` + `.claude/settings.json` per the section above) and found to be
+**inert there**: that repo runs no mentis pipeline, so it has no `test-results.json`, and the pair
+guards one file that does not exist. Which is what the wiring section already said — wire
+`block-installs.sh` first, and the gate pair only inside the pipeline. Still not dogfooded in the
+sense that matters: no session has been refused by it. The mechanism is
 rewritten from market long-running-agent patterns (a default-FAIL `PreToolUse` hook plus a
 fresh-context evaluator); the read-log half, the fail-closed choice and the single-file scope are
 ours.
 
-`guard-test-changes.sh`/`.py`: written and unit-tested against 12 cases (`bin/test_guard_test_changes.py`),
-not yet dogfooded — same status. Internal synthesis, named directly by the operator; no external
-source, the shape mirrors `verify-gate.sh`'s own fail-closed/single-purpose design rather than
-copying an existing mechanism.
+`guard-test-changes.sh`/`.py`: 18 cases (`bin/test_guard_test_changes.py`). **Dogfooded once,
+2026-09-09**, wired into a real NestJS repo and run against real edits to one of its spec files:
+seven edits an agent would actually make, which is where the line-versus-statement defect above
+came from — two of the seven were allowed and should have been blocked, and two were blocked and
+should have been allowed. Internal synthesis, named directly by the operator; no external source,
+the shape mirrors `verify-gate.sh`'s own fail-closed/single-purpose design rather than copying an
+existing mechanism.
+
+`block-installs.sh`: **dogfooded once, 2026-09-09** against every command that repo's own
+`package.json` declares plus the dozen an agent types by hand — 52 in all, five blocked. One false
+positive, since fixed: `pnpm exec`, which is how a single test file gets run, was refused as an
+install, while `pnpm prisma …` — the same thing spelled without `exec` — went through. The two
+verdicts contradicted each other, and the message named an install the agent had not attempted.
