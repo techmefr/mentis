@@ -61,3 +61,14 @@
     widen a parameter type and narrow a return type, never the reverse. The failure is a fatal error the
     first time the class is loaded — which is the first request that touches that code path, not the
     deploy, so a signature change that looks harmless can break one route and nothing else.
+13. **Asymmetric visibility (`public private(set)`) replaces the getter-plus-private-setter pair for the
+    common case: readable from outside, only writable from inside.** It is point 3's `readonly` generalised
+    — `readonly` says never after construction, asymmetric visibility says never from outside — and the two
+    solve different problems: a property a method legitimately mutates later (a counter, a status) still
+    needs the second form, where `readonly` would refuse the mutation outright.
+14. **A property hook (`get`/`set` on the declaration) replaces a manual accessor pair only where the logic
+    is a computation, not a side effect.** A `set` hook that validates or normalises on assignment moves
+    point 7's uninitialised-property class of bug earlier — invalid data never reaches the property at all
+    — but a hook that dispatches an event, writes to a log or touches another object turns an assignment
+    that looks free into one that is not, which is exactly the surprise a plain property was supposed to
+    rule out. The tell is whether reading the hook's body is necessary to know what `$obj->field = $x` does.
