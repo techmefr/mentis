@@ -147,6 +147,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `laravel-no-observers` | 6 | Trigger: a model lifecycle reaction — never an Observer or `boot()`, always an explicit listener |
 | `laravel-throw-dont-return-errors` | 6 | Trigger: a failable code path — throw, never build and return the error response by hand |
 | `laravel-no-queries-in-loops` | 6 | Trigger: a loop over Eloquent models or an accessor — no query/aggregate per iteration (N+1) |
+| `laravel-scope-dont-check-after-fetch` | 6 | Trigger: an id from the request resolved to a model — scope the query, never findOrFail then an ownership check |
+| `laravel-prefer-orfail-fetch` | 6 | Trigger: a single-record fetch — prefer findOrFail/firstOrFail over a fetch plus a manual null check |
+| `laravel-mail-via-notifications` | 6 | Trigger: a user-facing email or in-app message — always a notification, never hand-built Mail |
+| `laravel-no-fat-models` | 6 | Trigger: a model method beyond fillable/casts/relationships — business logic goes to an action/query class |
+| `laravel-no-magic-strings` | 6 | Trigger: a bare domain string/number (status, queue name, threshold) — give it an enum/constant/config entry |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
