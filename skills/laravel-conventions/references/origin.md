@@ -263,6 +263,12 @@ instead of `false` carries the reason for a 403, which is what makes the denial 
 identical to every other refusal — still a policy decision, not validation, so the message explains why
 this caller may not, never what is wrong with the payload.
 
+**Eighth pass same day: §7, `Isolatable`.** One point added: the `Isolatable` interface as point 11's
+overlap policy for a command triggered outside the scheduler — a manual rerun, a webhook, two deploys
+close together — where `withoutOverlapping` alone leaves it unprotected; the lock key defaults to the
+command's name, so `isolatableId()` has to fold the arguments in or two runs with different arguments
+serialise work that was actually safe to run in parallel.
+
 **Seventh pass same day: §11, `withExceptions()`.** One point added: `dontReport()`, `throttle()` and
 `stopIgnoring()` in `bootstrap/app.php` as where point 12's tracker-must-know-the-difference argument is
 actually enforced — naming a class as expected once rather than catching it at every throw site, sampling
