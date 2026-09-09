@@ -167,6 +167,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `laravel-api-breaking-changes` | 6 | Trigger: removing/renaming/narrowing an API field — additive-then-remove, never one commit |
 | `laravel-precognitive-request-scoping` | 6 | Trigger: a validation rule checking the request's own not-yet-created data — skip it during precognition |
 | `laravel-support-window-date` | 6 | Trigger: choosing a Laravel/PHP version — the published security end-of-life date settles it |
+| `laravel-permissions-not-roles` | 6 | Trigger: an authorisation check naming a role — never, check a permission (can()/policy/gate) |
+| `laravel-strict-types-default` | 6 | Trigger: a new Laravel file's strict_types — default to omitting, matching artisan make:*, never retrofit |
+| `laravel-date-via-localised-accessors` | 6 | Trigger: rendering a date as text — the date library's localised accessor, never a hand-rolled lookup array |
+| `laravel-recognise-state-machine-or-pipeline` | 6 | Trigger: "add a publish button"/"add a step that also..." — recognise the state machine or pipeline underneath |
+| `laravel-aggregate-in-database` | 6 | Trigger: counting/summing a relation or collection — in the database, never by hydrating in PHP |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `flutter-context-after-await` | 6 | Trigger: BuildContext used after an await — mounted check, capture before await, or never in a state holder |
 | `flutter-no-controller-in-build` | 6 | Trigger: a controller/future/stream built inside `build()` — hoist to initState or a late final field |

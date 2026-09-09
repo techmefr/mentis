@@ -162,6 +162,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | laravel-api-breaking-changes | 6 | `laravel-conventions` §6.14 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
 | laravel-precognitive-request-scoping | 6 | `laravel-conventions` §6.17 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
 | laravel-support-window-date | 6 | `laravel-conventions` §10.3 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
+| laravel-permissions-not-roles | 6 | `laravel-conventions` §2.1–§2.2 extracted to its own trigger, 2026-09-09, fifth pilot batch | 🟡 |
+| laravel-strict-types-default | 6 | `laravel-conventions` §5.12 extracted to its own trigger, 2026-09-09, fifth pilot batch | 🟡 |
+| laravel-date-via-localised-accessors | 6 | `laravel-conventions` §5.8 extracted to its own trigger, 2026-09-09, fifth pilot batch | 🟡 |
+| laravel-recognise-state-machine-or-pipeline | 6 | `laravel-conventions` §1.5 extracted to its own trigger, 2026-09-09, fifth pilot batch | 🟡 |
+| laravel-aggregate-in-database | 6 | `laravel-conventions` §4.5 extracted to its own trigger, 2026-09-09, fifth pilot batch | 🟡 |
 | flutter-context-after-await | 6 | `flutter-conventions` §1's opening rule and §1.2 extracted to its own trigger, 2026-09-09, narrow-trigger + pointer pilot | 🟡 |
 | flutter-no-controller-in-build | 6 | `flutter-conventions` §1.14 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | flutter-dispose-what-you-create | 6 | `flutter-conventions` §1.12–§1.13 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
@@ -1717,6 +1722,15 @@ now covered by standalone triggers. Considered `product-ownership` (the closest 
 (how to write a story, when to say no in a meeting) with no code-pattern trigger to fire on, unlike
 every stack covered so far — forcing the same shape there would fragment it without the benefit the
 pilot exists for, and business blocks are 🟡-capped by contract regardless.
+
+### Structural pilot, 2026-09-09: fifth `laravel-conventions` batch
+
+Five more: `laravel-permissions-not-roles` (`laravel-conventions` §2.1–§2.2),
+`laravel-strict-types-default` (`laravel-conventions` §5.12), `laravel-date-via-localised-accessors`
+(`laravel-conventions` §5.8), `laravel-recognise-state-machine-or-pipeline` (`laravel-conventions`
+§1.5, a recognition trigger rather than a "never do X" rule — exactly the shape this pilot targets)
+and `laravel-aggregate-in-database` (`laravel-conventions` §4.5). Twenty-five of `laravel`'s
+mechanical rules and recognition triggers are now covered by standalone skills.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
