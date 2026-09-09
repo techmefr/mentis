@@ -64,3 +64,14 @@
     dropped connection, the 500, the expired session (§3.13) all end the visit with the reader still on
     the old page and nothing changed on screen. Decide what that looks like once, at the app level,
     rather than in each form: silence is the default and it is indistinguishable from success.
+14. **`router.reload({ interval })` is point 11's interval reload as a first-class option, not a
+    hand-rolled `setInterval`.** It still needs the same decision point 11 already asks for — what a
+    section polls, and whether it's worth the request — but it stops automatically when the component
+    unmounts, which is exactly the leaked-poller failure a hand-rolled one risks. It composes with `only`
+    (§2.3): poll the one section, not the whole page, every interval.
+15. **`<Link prefetch>` is point 10's hover-prefetch made declarative, and it adds two triggers point 10
+    didn't have: mount and a stated cache duration.** `prefetch="mount"` issues the request as soon as the
+    link renders, which is right for a link the reader is virtually certain to follow next (a wizard's
+    "continue") and wrong for one of many in a list — the mount trigger does not wait for a hover signal
+    at all, so it multiplies point 10's request-count warning by every link on the page rather than only
+    the ones actually hovered.

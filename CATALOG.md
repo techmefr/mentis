@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 24,133 | −55,692 | x3.31 |
+| laravel | 65 / 79,825 | 3 / 24,488 | −55,337 | x3.26 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,480, php-patterns 5,974, inertia-conventions 6,679
+laravel: laravel-conventions 11,480, php-patterns 5,974, inertia-conventions 7,034
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1502,6 +1502,19 @@ refuse the mutation outright; and a property hook added as a fix for the section
 uninitialised-property-bug point, but only where the hook computes rather than causes a side effect.
 
 `php-patterns` 5,799 → **5,974 words**; the `laravel` row x3.33 → **x3.31**.
+
+### Widening, 2026-09-09: the `laravel` row, fourth pass — Inertia v2's async surface
+
+`inertia-conventions` §2 and §5 described `Inertia::lazy()` and hand-rolled polling/hover-prefetch as the
+state of the art; v2 shipped first-class async mechanisms on the same underlying decisions. §2 gained
+`Inertia::defer()` (fires on load, with grouping to batch several deferred props into one request) and
+`<WhenVisible>` (a third trigger, on scroll-into-view, for a section far enough down that neither the
+initial payload nor a deferred batch is the right cost). §5 gained `router.reload({ interval })` as the
+existing interval-reload point turned into an option that stops itself on unmount, and `<Link prefetch>`
+as the existing hover-prefetch point made declarative, with a `mount` trigger that multiplies the
+request-count warning across every link on the page.
+
+`inertia-conventions` 6,679 → **7,034 words**; the `laravel` row x3.31 → **x3.26**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
