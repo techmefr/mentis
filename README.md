@@ -137,6 +137,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `typescript-patterns` | 6 | Pure TS/JS patterns (typing, async, closures), real production experience |
 | `php-patterns` | 6 | Pure PHP patterns (typing, errors, OOP, comparison and array semantics, time/money/text), sourced from PSR/the market |
 | `vue-nuxt-vuetify-conventions` | 6 | Nuxt/Vue/Vuetify conventions, real production experience |
+| `nuxt-no-props-destructure` | 6 | Trigger: reading a prop — never `const { foo } = props`, it silently breaks reactivity |
+| `nuxt-child-never-mutates-prop` | 6 | Trigger: writing to a value received as a prop — never, emit or take a v-model instead |
+| `nuxt-define-store-once` | 6 | Trigger: a `defineStore()` call — once at module level, never inside a function body |
+| `nuxt-no-hydration-nondeterminism` | 6 | Trigger: Date.now/Math.random/window/document in setup or a computed — isolate client-side |
+| `nuxt-semantic-element-first` | 6 | Trigger: a clickable control — native semantic element or toolkit wrapper, never a clickable div |
 | `react-nextjs-conventions` | 6 | React/Next.js conventions, sourced from the market |
 | `nestjs-node-conventions` | 6 | NestJS/Node conventions (DI, DTO, Zod, Prisma) |
 | `go-conventions` | 6 | Go conventions: concurrency, errors, context (sourced from the market) |
