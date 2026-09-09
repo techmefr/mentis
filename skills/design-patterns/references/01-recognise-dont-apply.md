@@ -53,3 +53,13 @@
     two questions are separable: how the Strategy is wired in this house style is theirs, and whether
     there is a second real case is the one nobody else is asking. Apply both, and never turn the
     division into a reported conflict — write what the governing rule requires and move on.
+13. **The rule for a lifecycle you are extending is not the rule for one you are writing.** Everything
+    above is about introducing a pattern; most work arrives on code that already has the shape without
+    the name — a status column with a `switch` in four places, a constructor that grew, a sequence of
+    steps in one method. Two rules then, and they are the opposite of each other: do not introduce the
+    pattern in the same change as the behaviour, because a reviewer cannot see which of the two broke
+    the tests; and do not add the fifth branch to the `switch` either, on the grounds that refactoring
+    was out of scope. What fits in a normal change is the behaviour, plus a named place for the next
+    person to land in — and the refactor as its own change, with the tests written against the existing
+    behaviour first (`skills/tdd`), because a pattern extracted from code nobody pinned is a rewrite
+    wearing a refactor's name.

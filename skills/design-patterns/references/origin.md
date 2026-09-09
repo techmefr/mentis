@@ -73,3 +73,35 @@ those lines were written, and found by resolving every reference rather than by 
 **Status.** 🟡 — the GoF catalogue and the org catalogue's triggers are solid sources, and §1, §2, §3 and
 §6 are ours: written from what this repo's own review history keeps producing rather than from a source
 that could be re-checked. Depth does not change that.
+
+**Widened against the source catalogue's own stack-specific files, 2026-09-09.** The 2026-08-10 coverage
+pass checked every GoF pattern name against this file's verdicts; it did not check whether the org
+catalogue's per-pattern *implementation* skills (their `.md` files per stack, read directly from the
+installed clone) named a failure mode this file's entry conditions say nothing about. Seven did, and each
+is a mechanism, not a restatement of the pattern:
+
+- **§4.7 (transaction boundaries)** gained the three ways a first implementation breaks silently: a
+  flush is not a commit, so a same-connection test can pass on an operation that never committed; a
+  nested transaction is usually a savepoint whose inner rollback the outer commit ignores; and a model's
+  own lifecycle events fire *inside* the boundary, so a listener's side effect ships before the row is
+  ever guaranteed to exist.
+- **§4** gained seven points: an illegal state transition is an exception, never a boolean a caller can
+  ignore (§4.8); the state's name stays queryable data even once its behaviour moves into classes (§4.9);
+  a resolver needs three different answers for a missing key depending on where the key came from —
+  ours, a request, or a legitimately optional one (§4.10); a pipeline's halt needs two distinct signals,
+  because "nothing left to do" and "the run must fail" are not the same stop (§4.11); several
+  constructors are named constructors, not a class called a factory (§4.12); a boolean parameter that
+  changes behaviour is two methods wearing one signature (§4.13); and a value object never crosses the
+  wire directly, in either direction (§4.14).
+- **§1** gained the brownfield rule its twelve points had never stated: introducing a pattern and
+  changing behaviour in the same diff hides which one broke the tests, and refusing the fifth branch of
+  an existing `switch` on the grounds that refactoring is out of scope is its own kind of avoidable harm
+  (§1.13).
+
+Router plus sections: 6,333 → **7,369 words**, x1.92 → **x1.65**. Nothing here reproduces an installed
+catalogue's stack-specific code — each point states the failure and the mechanism, and leaves the shape
+to whichever house style is installed (§4's own guardrail on that division).
+
+**Status unchanged.** Wider is not dogfooded: §1, §2, §3 and §6 remain what this repo's own review
+history produced, and the new points are read from a source rather than from a real review — closer in
+kind to §4's original seven than to the rest of the file.

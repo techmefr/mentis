@@ -82,3 +82,56 @@
    never will. The same applies to a broadcast the frontend reacts to. And a transaction that wraps more
    than one operation because it was easier to put it higher up holds locks for the duration of everything
    inside it, which is how one slow report starts timing out unrelated writes.
+   Three more things a first implementation of this boundary gets wrong, each of them silent. **Writing
+   is not committing**: sending the statements to the database — a flush, a save, a persist — makes the
+   rows visible to *this* connection and to nobody else, so a test that asserts through the same
+   connection passes on an operation that never committed. **A transaction inside a transaction is
+   usually a savepoint, not a transaction**: the inner rollback undoes the inner part and the outer
+   commit keeps going, so an inner failure that was supposed to abort the operation leaves it half
+   applied — and where the driver has no savepoints, the inner commit ends the *outer* one early.
+   **The framework's own model events fire inside your boundary**: a listener on created or saved runs
+   before the commit, so anything it does — a mail, a dispatch, an external call — is the failure above
+   with no dispatch of yours anywhere near the transaction. Where an effect must happen exactly when the
+   commit happens, the only shape that survives a crash between the two is writing the intent as a row
+   in the same transaction and having something else deliver it afterwards; that is a real mechanism with
+   a real cost (a table, a worker, an ordering question), so it earns its place when losing the effect
+   is worse than building it — and not before (`skills/background-jobs-conventions`).
+
+8. **An illegal transition is an exception, not a boolean.** Once §4.2's states exist, the question
+   "may this move to that?" has two possible answers in code: a method returning false, which every
+   caller may ignore and one of them will, or a refusal that stops the operation. Only the second makes
+   the lifecycle a guarantee rather than a convention, and it is mapped to a response once, at the
+   boundary, rather than caught per call site — a domain refusal is not a 500 and not a validation error
+   on a field the caller did not send.
+9. **The status stays; the pattern is what happens next.** Introducing §4.2's states does not remove the
+   enum or the column: the name of the state is still data, still queryable, still what a report groups
+   by. What moves out is the behaviour behind each name. A first implementation that deletes the enum in
+   favour of a class hierarchy breaks every query and every filter, and then reintroduces the enum as a
+   mapping — with two sources of truth for the same name.
+10. **A resolver needs a verdict for a key it does not know, decided by where the key comes from.** §4.1's
+    lookup is total for the keys we ship and partial for everything else: a key from our own code that
+    misses is a bug and throws, a key from a request or a third-party payload that misses is input and
+    gets the boundary's ordinary rejection, and a key whose absence is legitimate — an optional
+    integration nobody configured — is where §4.3's Null Object earns its place rather than a null.
+    Deciding this once, in the resolver, is what stops each call site from inventing its own answer.
+11. **Halting a pipeline has two meanings and they need two signals.** §4.6's ordered sequence stops for
+    one of two reasons: there is nothing left to do, which is success, or the run must fail, which is
+    not. Collapsing them into one "stop" return makes a rejected payload indistinguishable from a
+    finished one, and the caller reports success. State both in the stage contract, and state which of
+    the two leaves the earlier stages' effects in place — because a pipeline that has already written
+    something is a transaction question (§4.7), not a control-flow one.
+12. **Several ways to build one thing are named constructors, not a factory class.** §4.4's answer to a
+    constructor with too many parameters is usually not another type: it is one honest constructor plus a
+    named entry point per way the thing is legitimately created — from a request, from a row, from a
+    default. The word *factory* is what turns this into a class, because the vocabulary suggests one; a
+    class earns its place only when construction needs a collaborator the object must not hold.
+13. **A boolean parameter that changes what a method does is two methods.** A flag threaded through a
+    constructor or a use case is a second implementation hidden inside the first, and it is the shape
+    §4.1's Strategy exists for once there are two of them — but the first move is not a pattern, it is
+    two named entry points with no flag. The tell is a body whose first statement is a branch on the
+    flag, and whose two halves share nothing but the signature.
+14. **A value object stays out of the wire format.** §4.5's type is the domain's shape, not the payload's:
+    serialising it directly makes the API's contract change every time the domain's does, in a way no
+    consumer asked for, and deserialising into it skips its own validation — the one thing it exists to
+    guarantee. The boundary translates in both directions, which is `skills/code-baseline` §4's typed
+    wrapper rule applied to something we own on both sides.
