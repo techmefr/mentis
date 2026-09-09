@@ -29,3 +29,18 @@
    a different code path from the published artefact: the tests are green and the binary throws. Where a
    trimmed or AOT publish is a real target, one smoke test runs the published thing and hits one endpoint
    that serialises — that single test is what turns every rule above from advice into a check.
+6. **A publish warning suppressed is the root cause left in place, not removed.** Silencing a trim or AOT
+   warning states that the code path is compatible when the analysis could not prove it — the warning was
+   the one signal that the throw hadn't been found yet, and suppressing it deletes the signal, not the bug.
+   Fix the code path or accept the limitation explicitly (a documented fallback, a feature disabled in this
+   publish mode); never silence the warning to make the count go down.
+7. **Native AOT cannot generate code at run time, which is a different failure from trimming.** Anything
+   building a new type, compiling an expression tree, or emitting IL at run time (a dynamic proxy, a
+   hand-rolled expression compiler, some serializers' fallback path) has nothing to fall back to under AOT —
+   it isn't trimmed away, it never worked to begin with. This is checked earlier than trimming: before
+   adopting a library for an AOT target, confirm it publishes an AOT-compatibility statement rather than
+   discovering the gap in the published binary.
+8. **A third-party package's own trim/AOT compatibility is not assumed, it's read.** A package with no
+   compatibility annotations can still build and pass tests locally while depending on reflection the
+   trimmer cannot see; the project's publish warnings are where that dependency's own gap surfaces, one
+   release behind whether the package's maintainers have caught up.
