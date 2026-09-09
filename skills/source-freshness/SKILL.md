@@ -30,6 +30,14 @@ when a regulatory change is announced; and as part of a `maintaining-blocks` aud
    and only the first one survives a disagreement.
 3. **`[verify]` is a debt, not a state to live in.** It's allowed while writing; a block shipped with
    one is an admission nobody checked.
+4. **Say which kind of event the stamp records.** A verification and an edit read identically in prose —
+   "re-checked directly against the PSR-12 text on 2026-08-10" and "sectioned and deepened 2026-09-08"
+   are both just a date on a line — so the newest date in a file is whichever happened last, and after
+   any editorial pass the verification date is no longer recoverable from it. Measured on this repo on
+   2026-09-09: all 21 blocks carrying an `origin.md` reported a newest stamp of 2026-09-08, the depth
+   pass, which is the question this block exists to answer being unanswerable from the files that are
+   supposed to answer it. Keep the verifying words next to the date — "re-checked against", "verified
+   against" — and never let an edit stamp stand in for one.
 
 ### 2. Give the fact an expiry
 1. **Version-pinned facts** (a convention block for a framework) expire when the pinned major changes.

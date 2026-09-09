@@ -43,7 +43,10 @@ meets, not the whole table.
 
 ## Output / checkpoint
 Code compliant with the five sections above, checked on top of the applicable Laravel conventions
-through `gate` (7) and `review` (8, `gimli`).
+through `gate` (7) and `review` (8, `gimli`). **On framework-free PHP those two steps have no framework layer
+to lean on**: the checkpoint is then the five sections above plus whatever test runner the project
+actually has, and "no static analyser installed" is a finding to report rather than a checkpoint to skip
+silently — §1.11 is the reason the analyser is worth asking for in the first place.
 
 ## Guardrails
 No comments in the code produced (team rule, all repos). This block has no deep internal
