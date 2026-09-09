@@ -220,6 +220,12 @@ Two name families, and the family tells you what the agent is allowed to do:
 So the name is a readable guarantee: a LotR name never decides anything about
 your code beyond a verdict, and it never touches it.
 
+**One deliberate exception**: the Laravel layer roster below (`laravel-architect` through
+`laravel-simplifier`) is named for its layer rather than for either family, on purpose — the whole point
+of splitting `morpheus`'s build role into eight was to make the mapping (this layer, that agent)
+readable at a glance, which a themed name would hide. They still hold the guarantee the family names
+exist to signal: `laravel-architect` never writes, the seven builders never review their own diff.
+
 | Agent | Role | Status |
 |---|---|---|
 | `galadriel` | Fresh-context GATE: PASS/NEEDS_WORK verdict, never edits, never gives the benefit of the doubt | Real production experience |
@@ -234,7 +240,15 @@ your code beyond a verdict, and it never touches it.
 | `samwise` | Python reviewer, uncertainty phrased as questions; reads `python-conventions` | Written, not dogfooded yet |
 | `faramir` | Flutter/Dart reviewer, question register by default; reads `flutter-conventions` | Written, not dogfooded yet |
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
-| `morpheus` | Implements Laravel/Eloquent code (never reviews its own code) | Written, not dogfooded yet |
+| `morpheus` | Implements Laravel/Eloquent code end-to-end for a small or mixed-layer change (never reviews its own code) | Real production experience |
+| `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Written, not dogfooded yet |
+| `laravel-eloquent-expert` | Implements the Laravel data layer: models, migrations, casts, relationships, factories, seeders | Written, not dogfooded yet |
+| `laravel-api-expert` | Implements the Laravel HTTP layer: routes, controllers, Form Requests, API Resources, lomkit endpoints | Written, not dogfooded yet |
+| `laravel-events-expert` | Implements Laravel events, listeners, queued jobs, notifications, mail | Written, not dogfooded yet |
+| `laravel-commands-expert` | Implements Artisan commands and their scheduling | Written, not dogfooded yet |
+| `laravel-testing-expert` | Chooses Feature vs Unit, writes and runs factory-driven Laravel tests | Written, not dogfooded yet |
+| `laravel-debugger` | Root-causes and fixes a failing test, a Larastan finding, an exception, a regression | Written, not dogfooded yet |
+| `laravel-simplifier` | Behaviour-preserving clarity pass on recently modified Laravel code, never a bug-hunt | Written, not dogfooded yet |
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Written, not dogfooded yet |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
 | `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
@@ -523,7 +537,7 @@ fresh context) is stable and applied. The honest breakdown:
 |---|---|---|
 | Skills | 59 | 9 marked 🟢 real production use; the rest 🟡 |
 | Business blocks | 15 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
-| Agents | 21 | 4 with real production experience (`aragorn`, `gimli`, `gandalf`, `elrond`); the rest written, not dogfooded |
+| Agents | 33 | 11 with real production or dogfooded experience (`aragorn`, `gimli`, `legolas`, `elrond`, `gandalf`, `tank`, `morpheus`, `dozer`, `seraph`, `architect`, `palantir` — full list in `CATALOG.md`); the rest written, not dogfooded |
 | `hooks/` | 3 scripts | wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August); the gate pair is inert outside the mentis pipeline, `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | `bin/` | 7 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has not run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
