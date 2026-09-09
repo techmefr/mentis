@@ -82,3 +82,17 @@
     metapackage does not bring in — so the honest failure is a compile error and the quiet one is a chain
     that reads as validated. Register a validator **and** validate on start, then break a key on purpose
     once and watch boot fail, because that is the only thing that distinguishes the two.
+17. **Two implementations of one interface are a keyed registration, not a factory of your own.** Where the
+    container supports keys, registering each implementation under a name and asking for the one you want
+    keeps the choice in the composition root, which is where §2.2 says it belongs. The alternatives are
+    both worse in a specific way: a hand-written factory resolving from the provider is the service locator
+    again, and injecting the whole collection of implementations to pick one by a property makes every
+    implementation a dependency of the caller. Two remain out of scope for a key: a choice that depends on
+    request data — that is a strategy the caller passes in — and a choice made once per environment, which
+    is configuration deciding a single registration.
+18. **The three ways to read options are three lifetimes, and mixing them is a captive dependency.** The
+    plain form is a value read once for the process; the snapshot form is per-request and recomputed; the
+    monitor form is a long-lived object that also reports changes. So a snapshot injected into a singleton
+    is a request-scoped value pinned for the lifetime of the process — the same bug as §2.11, with none of
+    the symptoms, because the value is merely stale rather than disposed. A singleton that has to see a
+    changed configuration takes the monitor; anything else takes the plain form and stops there.

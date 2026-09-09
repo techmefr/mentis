@@ -32,7 +32,7 @@ crossed over (rule C).
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (13 sections) |
 | React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
-| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated) |
+| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated; **widened against the current platform 2026-09-09**, two new sections — §8 resilience and throttling, §9 what only breaks at publish — plus nine points from the vendor's own current documentation, 7,490 → 9,727 words, x7.57 → **x5.83**) |
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded**; sectioned into `references/` and deepened 2026-09-08, 2,041 → 5,938 words of rules, §0 marked read-every-time, no section added |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 23,531 | −56,294 | x3.39 |
-| csharp | 37 / 56,718 | 1 / 7,490 | −49,228 | x7.57 |
+| csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
 | flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
@@ -422,7 +422,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 11,053, php-patterns 5,799, inertia-conventions 6,679
-csharp: dotnet-conventions 7,490
+csharp: dotnet-conventions 9,727
 python: python-conventions 8,203, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,195
 nuxt: vue-nuxt-vuetify-conventions 12,443
@@ -1218,6 +1218,56 @@ found this had dropped it on two more files by editing them.
 `bin/test_guard_test_changes.py` 12 → **18**, six of them the formatted shape. The gate is nine suites,
 **216 checks**. No row turns 🟢: these hooks have still never refused a live tool call, and that is the
 next real occasion to wait for rather than to manufacture.
+
+### Widening, 2026-09-09: the `csharp` row, against the platform rather than the catalogue
+
+The `csharp` row was the furthest behind in the table (x7.57) and the question it raised had already been
+answered once: coverage. All 37 of the source catalogue's skills were re-diffed on 2026-09-07 and 22 were
+already covered here, so the deficit was never a list of missing rules — it is a code example per rule on
+their side against a mechanism per rule on ours. Padding that gap would be writing their block.
+
+So this pass asked a different question: **what does the platform now do that this block says nothing
+about?** Checked against the vendor's own current documentation — HTTP resilience, native AOT and
+trimming, reflection versus source-generated serialisation, enumerator cancellation, the lock-object
+proposal, the time-abstraction testing page, EF Core split queries and the bulk update and delete
+statements. Two sections and nine points came out of it, none of them a version number:
+
+**§8, resilience and throttling at the boundary.** The standard resilience handler retries every HTTP
+method unless told otherwise, so a `POST` duplicates the first time an attempt times out after the server
+committed; the four nested timeouts have to be arithmetic, because a per-attempt budget larger than the
+total means the retry never happens; backoff without jitter synchronises the herd it exists to spread; a
+circuit breaker buys stability with silence, since once it is open the errors stop reaching the log;
+inbound limiting is middleware and not a client strategy, and its position decides whether the partition
+key can be anything but the address; the limiter answers 503 rather than 429 unless told, which makes our
+own limit unreadable to the client that caused it; and liveness against readiness, where the same check
+wired to the wrong one restarts the process instead of taking it out of the pool. The generic half stayed
+where it was — `code-baseline` §4 and `background-jobs-conventions` — and the new section cites both
+rather than restating them.
+
+**§9, what only breaks at publish.** Reflection-based serialisation is disabled in a trimmed or
+ahead-of-time publish, so the code that used it throws at the first request instead of failing the build;
+trimming keeps what it can see, so reflection over a computed name loses a member and the error names
+something you did not write; the publish warnings are the review surface and a baseline of them is a list
+of things that will throw; single-file publishing empties the assembly's own location, so a path resolved
+relative to it silently reads the working directory; and one smoke test against the published artefact is
+what turns the whole section from advice into a check. This is the section a block written from analysers
+could not have: every rule in it is invisible to the compiler.
+
+Seven more points landed in the existing sections, and the two worth naming here are both silent by
+construction: **a bulk update or delete bypasses the change tracker and with it the global query
+filters**, soft delete included, so it reaches rows the application considers deleted; and **an async
+iterator's cancellation token is not the consumer's** without the enumerator-cancellation annotation, so
+`await foreach` cancels nothing and the compiler's warning is the only sign. The others: two collection
+includes multiplying the rows and split queries paying for it in round trips with no transaction, raw
+SQL's two forms differing by one character and a vulnerability class, keyed registrations as the answer to
+two implementations of one interface, the three options interfaces being three lifetimes (a snapshot in a
+singleton is a captive dependency with no symptoms), a cross-origin policy not being authorisation, and
+the backing-field keyword and extension members with the traps each one carries.
+
+`dotnet-conventions` 7,490 → **9,727**, the row x7.57 → **x5.83**. **The status does not move.** Nobody
+here writes C# on a real project, `theoden` keeps its question register, and a thicker block read by
+nobody is still 🟡 — what the pass buys is that the block now covers the failures that appear after the
+build, which is where a stack with no production experience was least likely to be right.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

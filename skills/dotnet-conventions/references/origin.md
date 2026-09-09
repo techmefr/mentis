@@ -105,3 +105,42 @@ block is not the real .NET production project this file is waiting for, and `the
 register. What the exercise bought is five mechanical defects, four of which only a compiler with
 warnings-as-errors could have surfaced — and a check of this repo's own cross-references that had been
 prescribed by `maintaining-blocks` §1.3 and never run.
+
+**Widened against the current platform, 2026-09-09.** The volume gap against the org catalogue for this
+stack (x8.13 at the time, its 37 skills against this block's seven sections) had already been answered
+once on coverage — every one of the 37 was re-diffed on 2026-09-07 and 22 were found already covered — so
+this pass asked the other question instead: what does the *platform* now do that this block says nothing
+about? Checked against the vendor's own current documentation and release notes rather than against the
+catalogue: the HTTP resilience guidance and its standard handler, the native-AOT and trimming pages, the
+serialisation reflection-versus-source-generation page, the enumerator-cancellation reference, the
+lock-object language proposal, the time-abstraction testing page, and the EF Core pages on split queries
+and on the bulk update and delete statements. Two new sections and nine points came out of it, and every
+one names a mechanism a reader can check rather than a version number:
+
+- **§8, resilience and throttling** — the standard handler retries every method by default (so a `POST`
+  duplicates), the four nested timeouts and what a per-attempt budget larger than the total does, jitter,
+  a circuit breaker buying stability with silence, inbound limiting being middleware rather than a client
+  strategy, the 503-not-429 default, and liveness against readiness. The generic half stays where it was:
+  `skills/code-baseline` §4 and `skills/background-jobs-conventions`.
+- **§9, what only breaks at publish** — reflection-based serialisation disabled in a trimmed or AOT
+  publish (an exception at the first request, not a build failure), trimming removing what it cannot see,
+  the publish warnings as the review surface, the empty assembly location under single-file, and running
+  one smoke test against the published artefact.
+- **§1.17–§1.18** — an async iterator's token needing the enumerator-cancellation annotation or the
+  consumer's cancellation reaches nothing, and the dedicated lock type choosing its behaviour by the
+  static type, so assigning it to `object` silently reverts to monitor semantics.
+- **§2.17–§2.18** — keyed registrations as the answer to two implementations of one interface (the
+  alternatives being the service locator again, or injecting them all), and the three options interfaces
+  being three lifetimes, so a snapshot in a singleton is §2.11's captive dependency with no symptoms.
+- **§3.13** — a cross-origin policy is not authorisation; what it does decide is whether another site can
+  read an authenticated response, which is why any-origin with credentials is refused at run time.
+- **§6.14–§6.16** — two collection includes multiplying the rows and split queries paying for it with
+  round trips and no transaction, a bulk update or delete bypassing the change tracker *and the global
+  query filters* (soft delete included), and raw SQL's two forms differing by one character and by a
+  vulnerability class. §6.4 gained the platform's own time abstraction and its controllable fake.
+- **§7.11–§7.12** — the backing-field keyword and its two traps, and extension members belonging to
+  foreign types only, never as a hiding place for a dependency.
+
+Ratio x8.13 → **x5.83**, and the remaining distance is now mostly implementation shape: the source
+catalogue carries a code example per rule, this block carries the mechanism and the consequence. The
+status is unchanged and for the unchanged reason — nobody here writes C# on a real project.

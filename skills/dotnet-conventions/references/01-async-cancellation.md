@@ -60,3 +60,16 @@
     A `lock` is thread-affine and the continuation may resume on another thread. Where async work genuinely
     needs mutual exclusion, use the async-aware semaphore — and release it in a `finally`, because an
     exception between acquire and release deadlocks everything that comes after.
+17. **An async iterator's token is not the caller's until you say so.** A method returning an async sequence
+    takes its `CancellationToken` from *two* places — its own parameter and the one the `await foreach`
+    passes when it starts enumerating — and they are not the same token. Without the enumerator-cancellation
+    annotation on the parameter (and a `default` so it stays optional), the consumer's cancellation reaches
+    nothing: the loop keeps producing, the compiler says so in a warning nobody reads, and the symptom is a
+    stream that ignores a disconnected client. This is point 2's promise-you-don't-keep, in the one shape
+    where propagating the token by hand is not enough.
+18. **The dedicated lock type is a different primitive wearing the old syntax.** Where the language version
+    supports it, a field of the lock type used in a `lock` statement compiles to that type's own enter and
+    exit — cheaper on the uncontended path and scoped properly. The trap is that the behaviour is chosen by
+    the *static* type: assign it to an `object`, or pass it as one, and the statement silently goes back to
+    monitor semantics on a boxed reference, which is a second lock nobody meant to take. The compiler warns
+    on the cast; treat that warning as an error rather than a style note.

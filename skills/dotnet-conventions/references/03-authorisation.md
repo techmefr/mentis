@@ -51,3 +51,10 @@
     gets a 200 passes just as happily when the policy is missing entirely. One request per endpoint from a
     caller who should be refused is what makes the declaration real, and it is the test that catches the
     day someone widens a policy for an unrelated reason.
+13. **A cross-origin policy is not authorisation, and a wide one is not harmless either.** It decides which
+    *browser* pages may read our responses; it decides nothing about who may call the endpoint, so widening
+    it never fixes a 403 and closing it never protects an API a script can reach directly. What it does
+    change is whether another site can make an authenticated request on a logged-in user's behalf and read
+    the answer — which is why the platform refuses at run time to combine any-origin with credentials, and
+    why the deliberate version of that policy is an explicit list of origins. A test-time wildcard left in
+    the pipeline is the usual way it ships.
