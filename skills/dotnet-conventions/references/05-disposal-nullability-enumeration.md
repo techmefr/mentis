@@ -56,3 +56,15 @@
     zeroed — including a non-nullable reference field, which is then null despite its annotation, and
     including an enum that has no member with the value `0` (§4.15). Where a struct has an invariant, the
     invariant has to hold for the zero value too, or the type wants to be a `sealed record` instead.
+14. **`IAsyncDisposable.DisposeAsync` is one call, and a type owning several async resources still exposes
+    one.** The pattern is `DisposeAsyncCore` doing the actual async teardown, called from `DisposeAsync`
+    alongside disposing any synchronous fields — never two public dispose entry points on the same type,
+    which just moves the ownership question in point 9 onto the caller instead of answering it.
+15. **A double dispose has to be a no-op, not a second failure.** A `using` around code that already caught
+    and handled an earlier failure, or two code paths that both think they own the cleanup, both call
+    `Dispose` on an already-disposed object under real conditions — guard the body with a disposed flag
+    rather than assuming a single call site.
+16. **A nullable type parameter needs its own constraint, not an assumption from the call site.** A generic
+    method typed over `T` without `where T : notnull` (or the reverse, an explicit nullable annotation on
+    `T?`) inherits whatever nullability the caller's type argument happens to have — the method's own
+    contract about null says nothing until the constraint states it.
