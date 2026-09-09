@@ -121,6 +121,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
 | tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
 | code | 6 | native + internal; no-test-tampering guardrail added 2026-08-11, named directly by the operator | 🟡 |
+| nuxt-no-props-destructure | 6 | `vue-nuxt-vuetify-conventions` §1.9 extracted to its own trigger, 2026-09-09, narrow-trigger + pointer pilot | 🟡 |
+| nuxt-child-never-mutates-prop | 6 | `vue-nuxt-vuetify-conventions` §1.14 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
+| nuxt-define-store-once | 6 | `vue-nuxt-vuetify-conventions` §2.4 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
+| nuxt-no-hydration-nondeterminism | 6 | `vue-nuxt-vuetify-conventions` §9.1–§9.2 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
+| nuxt-semantic-element-first | 6 | `vue-nuxt-vuetify-conventions` §7.1 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | vue-nuxt-vuetify-conventions | 6 | several market Vue/Nuxt/Vuetify skill catalogues (Vue patterns, Nuxt4, Nuxt composables, Vuetify) + a market Nuxt/Vue linter (correctness/security) + a market open source TypeScript project (a11y/bundle) + de-identified internal review feedback (recurring patterns); re-checked directly against the public vue.doctor/nuxt.doctor tools on 2026-08-10, which surfaced 2 real gaps (compiler-macro import, useAsyncData key default) now closed; §13 added and §4 deepened 2026-09-07 by a **bodies pass** over the same org catalogue (21 skills): the first pass had read descriptions only, the bodies carried four mechanisms it could not see — BEM's out-of-scheme shapes, the class/style split and its extract-to-computed threshold, opting a folder into the framework's import scan, and the typed-client layer whose real weight is the hydration-typing trap and the shared applied state between two handles on one record; **depth pass 2026-09-08** on the three thinnest sections (§10 realtime 113 → 875 words, §2 composables/stores 211 → 944, §3 typing 174 → 899), which stated rules without the failures they prevent — two of the additions are real absences rather than restatements: module-scope state shared *across SSR requests* (a cross-account leak the block never named) and a private channel "authorised" by a name the client itself composes; **second pass the same day** on §7 accessibility (172 → 899) and §6 i18n (199 → 877), both of which were true-but-terse checklists — §7 gained the placeholder-as-label, unattached-error, colour-as-sole-meaning, removed-focus-outline, hover-only-action and no-page-language failures plus the voice-control consequence of an accessible name that omits the visible text, and §6 the mistakes that are correct in the source language and wrong elsewhere (a `n > 1` ternary for plurals, concatenated sentences, a translation rendered as HTML, hand-formatted dates, German's ~30% expansion, one key reused for two meanings) | 🟡 |
 | react-nextjs-conventions | 6 | a market React skill catalogue (best practices) + a market React/Node skill catalogue (redux-toolkit) + a market shadcn skill catalogue + a market React linter (correctness/security section) + a market open source TypeScript project (a11y/bundle); re-checked directly against the public React Doctor tool (react.doctor) on 2026-08-10, which surfaced 3 real gaps (prop drilling, setState-count/useTransition, missing alt) now closed; **depth pass 2026-09-08 on all ten sections** (3,002 → 10,476 words of rules), each original rule kept verbatim and given the mechanism plus what a reader sees when it breaks — the additions that were real absences rather than elaborations are a `NEXT_PUBLIC_` variable as published content, a Server Component's props being serialised into the HTML payload, a cookie-only `POST` route handler having no origin check where a Server Action does, changing the wrapper element unmounting the subtree it wraps, a cleanup running on every dependency change, browser-seeded state breaking hydration, a query key missing an input so two requests share a cache entry, and reading cookies opting a whole route tree out of static rendering | 🟡 (written, not dogfooded yet — depth is not dogfooding, and this block still has no React repo behind it) |
 | over-engineering-review | 9 | a market deletion-oriented review tool (deletion angle, tags, net line score) | 🟡 |
@@ -1669,6 +1674,17 @@ reason for staying out of `bin/measure_depth.py`. `flutter-context-after-await` 
 opening rule rather than a numbered point — that rule is the block's single most load-bearing one
 ("read it when always, before anything else on this stack"), and giving it its own trigger is exactly
 the case this pilot exists for.
+
+### Structural pilot, 2026-09-09: extended to `vue-nuxt-vuetify-conventions`
+
+Third stack: `nuxt-no-props-destructure` (`vue-nuxt-vuetify-conventions` §1.9),
+`nuxt-child-never-mutates-prop` (`vue-nuxt-vuetify-conventions` §1.14), `nuxt-define-store-once`
+(`vue-nuxt-vuetify-conventions` §2.4), `nuxt-no-hydration-nondeterminism`
+(`vue-nuxt-vuetify-conventions` §9.1–§9.2) and `nuxt-semantic-element-first`
+(`vue-nuxt-vuetify-conventions` §7.1). Same shape, same reason for staying out of
+`bin/measure_depth.py`. 20 standalone triggered skills now exist across four stacks
+(laravel/python/flutter/nuxt); `project-management` remains, along with the rest of
+`laravel-conventions`'s uncovered mechanical rules.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
