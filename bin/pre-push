@@ -19,6 +19,7 @@ suites=(
   bin/test_rule_c.py
   bin/test_git_hooks.py
   bin/test_measure_depth.py
+  bin/test_check_citations.py
 )
 
 echo "pre-push: running ${suites[*]}"
