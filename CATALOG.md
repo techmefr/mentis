@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 25,126 | −54,699 | x3.18 |
+| laravel | 65 / 79,825 | 3 / 25,225 | −54,600 | x3.16 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 12,034, php-patterns 5,974, inertia-conventions 7,118
+laravel: laravel-conventions 12,133, php-patterns 5,974, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1550,6 +1550,15 @@ answer when a computed value has to be filtered, sorted or indexed by the databa
 accessor, which covers the same computation for a value nothing ever queries by.
 
 `laravel-conventions` 11,834 → **12,034 words**; the `laravel` row x3.2 → **x3.18**.
+
+### Widening, 2026-09-09: the `laravel` row, eighth pass — `Response::deny()`
+
+`laravel-conventions` §2 gained one point: a policy returning `Response::deny($message)` instead of
+`false` carries the reason for a 403, which is what makes the denial actionable rather than identical to
+every other refusal — still a policy decision, not validation, so the message explains why this caller
+may not, never what is wrong with the payload.
+
+`laravel-conventions` 12,034 → **12,133 words**; the `laravel` row x3.18 → **x3.16**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

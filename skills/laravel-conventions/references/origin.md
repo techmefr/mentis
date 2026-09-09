@@ -257,3 +257,8 @@ attribute) — environment-specific by design, so running it in production as we
 caught bug for a 500 on every affected user. §3 gained the generated column (`virtualAs`/`storedAs`) as
 the answer when a computed value has to be filtered, sorted or indexed by the database, distinct from an
 accessor, which covers the same computation for a value nothing ever queries by.
+
+**Sixth pass same day: §2, `Response::deny()`.** One point added: a policy returning `Response::deny($message)`
+instead of `false` carries the reason for a 403, which is what makes the denial actionable rather than
+identical to every other refusal — still a policy decision, not validation, so the message explains why
+this caller may not, never what is wrong with the payload.

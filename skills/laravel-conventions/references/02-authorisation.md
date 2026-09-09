@@ -52,3 +52,9 @@
    authorisation is *who can deploy and run it*, which is an infrastructure question, so it must not grow
    a `Gate::forUser()` that pretends otherwise. And a first-party service-to-service call authenticates as
    a principal with its own narrow permission set, never by skipping the check because the caller is "ours".
+10. **A policy method can return `Response::deny($message)` instead of `false`, and the message is the
+    difference between a 403 the reader can act on and one they cannot.** "You may not edit this invoice"
+    and "invoices are locked once paid" are both denials, but only the second tells the reader what they
+    would need to be true instead — without it, every refusal reads the same and the support ticket asks
+    what they did wrong. It stays a policy decision, not validation (point 7): the message explains *why
+    this caller may not*, never *what is wrong with the payload*.
