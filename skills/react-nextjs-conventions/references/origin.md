@@ -61,3 +61,29 @@ Measured against the org catalogue's react plugin (36 skills, 9,302 words), this
 cross it: 10,476 words of rules against 9,302, where it stood at x3.1 before the pass. That is a
 same-subjects-same-depth statement about this stack only, and it is the cheapest of the remaining stacks to
 cross — the react catalogue is the thinnest of the four the operator's plugins carry.
+
+**Widened against the current React/TanStack Query surface, 2026-09-09.** The block already crossed the
+org catalogue's react plugin on volume (x0.89) before this pass, so the question was not coverage of that
+catalogue — it was whether the block still described the idiom the ecosystem actually uses, checked
+against React's own release notes and TanStack Query's v5 docs rather than against a source catalogue:
+
+- **§5.21–§5.23** — `useActionState` for a form submission, replacing a hand-rolled pending boolean around
+  a `try`/`catch` (point 12's several-`setState` problem, solved by the framework); `useFormStatus` for a
+  submit button that reads pending state without prop-drilling; `useOptimistic` for the update a user
+  should see immediately, with the rollback automatic rather than hand-written (point 6 still governs what
+  the real state is); and `use()` for reading a promise or context conditionally, where the rules-of-hooks
+  restriction in point 1 would otherwise force the read above a pointless check.
+- **§5.24** — a project with automatic memoisation enabled changes what point 4 recommends: a manual
+  `useMemo`/`useCallback` there is now redundant rather than merely unmeasured, and the point says so
+  rather than leaving point 4 to read as contradicted.
+- **§6.17** — `useSuspenseQuery` accepts a narrower option set than `useQuery` (no `enabled`, no
+  `placeholderData`), because it is a different contract, not a stricter version of the same one; reaching
+  for it and then trying to bolt `enabled` back on is the tell.
+- **§6.18** — prefetching in a Server Component and reading the same query in a Client Component are two
+  separate caches unless the dehydrated cache is passed down and rehydrated, which is the usual reason a
+  page fetches everything twice.
+
+Router plus sections: 10,476 → **10,999 words**. Against the org catalogue's react plugin, the ratio moves
+from x0.89 to **x0.85** — still the strongest ratio in the depth table, now by a wider margin, and this
+pass adds nothing the catalogue's 36 skills already covered: the questions asked were current-platform
+questions, the same method used for `csharp` and `design-patterns` the same week.

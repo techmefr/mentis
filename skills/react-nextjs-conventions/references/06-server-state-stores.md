@@ -64,3 +64,15 @@
     `useAppDispatch`/`useAppSelector` wrappers, never the raw hooks in components; `createAsyncThunk` with
     `rejectWithValue` so the slice can tell a business rejection from an exception; a memoised
     `createSelector` for anything derived; RTK Query rather than a homemade thunk for standard cached CRUD.
+17. **`useSuspenseQuery` throws to the nearest boundary instead of returning a status, and it accepts a
+    narrower option set than `useQuery`.** `enabled` and `placeholderData` are not available on it, because
+    a query that might not run and a query that always suspends are two different contracts — a
+    conditional fetch stays on `useQuery` with §5.6's rendered states, or the condition moves above the
+    component that suspends. Reaching for the suspense form to get the type-level guarantee that the data
+    is never `undefined` and then trying to bolt `enabled` back on is the tell the wrong hook was picked.
+18. **Prefetching in a Server Component and reading the same query in a Client Component are two different
+    caches unless connected.** A `useQuery` inside a Client Component refetches on mount regardless of what
+    the server already fetched, because the client's query cache starts empty — the connection is a
+    dehydrated cache passed down and rehydrated on the client, not the props themselves. Skipping that step
+    is the usual reason a page fetches everything twice, once on the server and once in the browser, with
+    the second one racing the first paint.
