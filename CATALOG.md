@@ -1207,9 +1207,17 @@ Both are now stated at the wiring instructions as decisions to take, not default
 log nobody reads. The README already said to wire `block-installs.sh` first and alone; it now says why
 from measurement.
 
-`bin/test_hooks.py` 68 → **72 cases**, `bin/test_guard_test_changes.py` 12 → **18**, six of them the
-formatted shape. The gate is nine suites, **211 checks**. No row turns 🟢: these hooks have still never
-refused a live tool call, and that is the next real occasion to wait for rather than to manufacture.
+**A fifth defect, found by the check written for the fourth.** `hooks/block-installs.sh` has been in
+this repo without its executable bit since it was added on 2026-08-07 — the one hook the README tells you
+to wire first, and the runtime runs a hook by executing its path. The dogfood did not catch it because
+the script that wired it ran `chmod +x` on the copies, which is exactly how a packaging defect stays
+invisible. `bin/test_hooks.py` now asserts the bit on every file in `hooks/`, and the same commit that
+found this had dropped it on two more files by editing them.
+
+`bin/test_hooks.py` 68 → **77 checks** (72 commands, plus one per hook for the executable bit),
+`bin/test_guard_test_changes.py` 12 → **18**, six of them the formatted shape. The gate is nine suites,
+**216 checks**. No row turns 🟢: these hooks have still never refused a live tool call, and that is the
+next real occasion to wait for rather than to manufacture.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

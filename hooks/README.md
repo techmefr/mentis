@@ -89,8 +89,9 @@ boundary is the permission layer of the tool that runs the agent; this hook make
 loudly and explain itself, and fails **closed** on a `Bash` call it cannot parse that mentions a package
 manager.
 
-Checked by `bin/test_hooks.py` — 72 cases, blocked and allowed both, because half the value is in what it
-does not break.
+Checked by `bin/test_hooks.py` — 77 checks: 72 commands, blocked and allowed both, because half the
+value is in what it does not break, plus the executable bit on every file in this directory, which this
+script had been missing since it was written.
 
 ## `guard-test-changes.sh`: no pre-existing assertion disappears silently
 
