@@ -235,3 +235,10 @@ once", rather than a hand-rolled lock reinventing point 1's ordering problem —
 releasing rather than dropping a job, which still needs point 2's idempotence; and `Bus::batch()` as
 coordination-for-reporting, not coordination-for-data, since its callbacks fire once for the whole batch
 and a job needing another job's *result* is still a chain. Word counts re-measured; see `CATALOG.md`.
+
+**Third pass same day: §6, Precognition and outbound concurrency.** Two points added: `HandlePrecognitiveRequests`
+runs the same FormRequest the real submission runs, which is what makes point 5's rules reusable for
+as-you-type validation without a second endpoint — with the trap that a rule only valid once the operation
+runs (a uniqueness check against a row about to be created) has to be scoped to skip during a precognitive
+request; and `Http::pool()` as the outbound-call equivalent of the async-gather rule other stacks in this
+repo state, with the same per-response failure decision a naive "the pool failed" treatment loses.

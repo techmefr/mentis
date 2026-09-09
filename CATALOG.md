@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 24,488 | −55,337 | x3.26 |
+| laravel | 65 / 79,825 | 3 / 24,741 | −55,084 | x3.23 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,480, php-patterns 5,974, inertia-conventions 7,034
+laravel: laravel-conventions 11,649, php-patterns 5,974, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1515,6 +1515,20 @@ as the existing hover-prefetch point made declarative, with a `mount` trigger th
 request-count warning across every link on the page.
 
 `inertia-conventions` 6,679 → **7,034 words**; the `laravel` row x3.31 → **x3.26**.
+
+### Widening, 2026-09-09: the `laravel` row, fifth pass — Precognition and outbound concurrency
+
+`laravel-conventions` §6 gained two points: `HandlePrecognitiveRequests` runs the same FormRequest the
+real submission runs, which is what makes the section's validation rules reusable for as-you-type feedback
+without a second endpoint — with the trap that a rule only valid once the operation runs has to be scoped
+to skip during a precognitive request; and `Http::pool()` as the outbound-call equivalent of the
+async-gather rule other stacks in this repo already state, with the same per-response failure decision.
+`inertia-conventions` §3 gained one point closing the same loop from the frontend side: the wiring is now
+the route's middleware, not a separate client-side integration, since Inertia v2.3 built Precognition into
+`useForm` directly.
+
+`laravel-conventions` 11,480 → **11,649 words**, `inertia-conventions` 7,034 → **7,118**; the `laravel` row
+x3.26 → **x3.23**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
