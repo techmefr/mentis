@@ -55,3 +55,12 @@
 15. **An async generator has to be closed.** Abandoned part-way, its `finally` runs whenever the collector
     gets to it, so the connection or transaction it held stays open past the request. Consume it fully, or
     wrap it in something that closes it deterministically (§2.14).
+16. **`TaskGroup` is the structured form of point 2's failure-handling decision, not an alternative to
+    `gather`.** `async with asyncio.TaskGroup() as tg` cancels every sibling task the moment one raises and
+    re-raises through an `ExceptionGroup`, so the group cannot leak a running task the way a bare `gather`
+    can — the cancel-the-siblings answer point 2 already recommends is what the construct does by default
+    instead of by discipline. It needs `except*`, not `except`, to catch what it raises.
+17. **A context manager is not automatically safe under cancellation.** `asyncio.CancelledError` can be
+    delivered at any `await`, including one inside a manager's `__aenter__`/`__aexit__`, so a resource
+    acquired but not yet recorded as acquired can leak on cancellation — the same shape as point 9's
+    swallowed-cancellation bug, arriving from a library's own internals rather than from the calling code.

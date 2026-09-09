@@ -93,3 +93,15 @@ reading could not.
 depth comes from the language's documented behaviour, the PEPs, the tooling and the mechanisms shared with
 the blocks that *have* been dogfooded — not from real review feedback. Deepening it does not change its
 status letter, and `samwise` keeps its question register for the same reason.
+
+**Widened against the current async/tooling surface, 2026-09-09.** Same method as `csharp`, `design-patterns`
+and `react` the same week: checked against the language and toolchain's current state rather than against
+the source catalogue, which the 2026-09-07 bodies pass already settled. §4 gained `TaskGroup` as the
+structured form of point 2's failure-handling decision — cancelling siblings and raising an `ExceptionGroup`
+by construction rather than by discipline, caught with `except*` — plus cancellation reaching a context
+manager's own `__aenter__`/`__aexit__`, the same leak shape as point 9 arriving from library internals. §8
+gained `pytest-asyncio`'s auto mode as a config-block decision rather than a per-test marker (a test missing
+the marker under strict mode collects silently as an unawaited coroutine and reports passed — point 7's bug
+through the suite itself), and named the faster type-checker options (Pyright, Pyrefly, ty) as a one-tool
+swap under point 1, not a personal substitution. Nothing here answers the catalogue comparison a second
+time.

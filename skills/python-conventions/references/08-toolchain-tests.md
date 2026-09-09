@@ -66,3 +66,13 @@
     this block gets skipped entirely.
 19. For the doctrine of *what* to test — plan first, exhaustive rather than happy-path, the persona/permission
     matrix, the coverage floor — see `skills/tdd`; this section is only about the tooling.
+20. **`pytest-asyncio`'s auto mode is a project-wide default, decided once, not a per-test marker habit.**
+    Set in the config block point 5 already asks for, every `async def test_*` is collected as a coroutine
+    without `@pytest.mark.asyncio` on each one — a test missing the marker under strict mode does not fail,
+    it silently collects as a function that returns an unawaited coroutine and reports as passed, which is
+    §4.7's never-awaited bug arriving through the suite itself rather than through application code.
+21. **A faster type checker is a tool swap, not a strictness change.** Pyright/Pyrefly/ty read the same
+    annotations mypy does and can replace it under point 1's one-tool rule, but the point of pinning is that
+    the swap is a deliberate project decision written down once — not a personal substitution one developer
+    makes locally because it is faster, which quietly means the CI job and the editor are checking the code
+    two different ways.

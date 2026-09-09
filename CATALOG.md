@@ -391,7 +391,7 @@ closing this costs nothing that made this repo cheaper to load.
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 23,795 | −56,030 | x3.35 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
-| python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
+| python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
@@ -424,7 +424,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 ```
 laravel: laravel-conventions 11,317, php-patterns 5,799, inertia-conventions 6,679
 csharp: dotnet-conventions 9,727
-python: python-conventions 8,203, data-pipeline-conventions 3,283
+python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,195
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
@@ -1426,6 +1426,22 @@ asserted" made automatic — a surviving mutant is a test that would not have ca
 `inertia-conventions`) 23,531 → **23,795**, x3.39 → **x3.35**. Still the worst ratio in the table and
 still tracked as a programme in §2, not a claim — nothing here answers the catalogue comparison a second
 time.
+
+### Widening, 2026-09-09: the `python` row, against the current async/tooling surface
+
+Same method as `csharp`/`design-patterns`/`react`/`laravel` the same week, checked against the language and
+toolchain's current state rather than the source catalogue (settled 2026-09-07). §4 gained `TaskGroup` as
+the structured form of the block's existing gather-failure-handling point — cancelling siblings and raising
+an `ExceptionGroup` by construction, caught with `except*` — plus cancellation reaching a context manager's
+own `__aenter__`/`__aexit__`, the same leak shape as the block's swallowed-cancellation point arriving from
+library internals. §8 gained `pytest-asyncio`'s auto mode as a config-block decision rather than a per-test
+marker (a test missing the marker under strict mode collects silently as an unawaited coroutine and reports
+passed), and named the faster type checkers (Pyright, Pyrefly, ty) as a one-tool swap under the existing
+one-tool-per-job rule, not a personal substitution.
+
+`python-conventions` 8,203 → **8,494 words**; the `python` row 22,097/11,486 (x1.92) → **22,097/11,777,
+x1.88**. Still no production experience behind this block — depth from documented behaviour and tooling,
+not review feedback, per the block's own stated caveat.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
