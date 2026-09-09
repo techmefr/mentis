@@ -68,3 +68,15 @@ section wholesale to that architecture.
     idempotency key the caller supplies — a check-then-insert in PHP loses the race it was written for.
 16. User-facing email or in-app messaging is not the controller's job: it goes through a notification, and
     §8 owns why.
+17. **`HandlePrecognitiveRequests` runs the same FormRequest the real submission runs, stopped before the
+    controller.** Adding it to a route is what makes point 5's rules reusable for as-you-type validation
+    without a second endpoint — the trap is a rule that only makes sense once the operation actually runs
+    (a uniqueness check against a row the precognitive request itself is about to create) reporting a false
+    positive on every keystroke; scope those rules to skip during a precognitive request rather than
+    disabling the check.
+18. **`Http::pool()` runs independent outbound calls concurrently from one place, not from several
+    sequential `Http::get()` calls inside a loop.** It is the outbound-call equivalent of
+    `skills/python-conventions` §4.1's `gather`: three sequential 300 ms calls are a near-second response
+    that profiles as "the third-party API is slow", and nothing on their side will move it. Failure still
+    needs a decision per response — the pool returns one response or exception per call, and treating the
+    whole pool as failed because one call did loses the ones that succeeded.

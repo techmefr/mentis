@@ -62,3 +62,9 @@
 14. **A long form deserves its state kept across an accidental navigation.** Inertia can remember a
     form's state in the history entry, so the back button returns the reader to what they had typed
     rather than to an empty form. Reach for it when losing the input would mean retyping minutes of work.
+15. **`useForm`'s Precognition support is built in — the wiring point 3 asks for is the route's
+    `HandlePrecognitiveRequests` middleware, not a client-side integration.** Nothing about the form's
+    submit changes: the same `useForm` instance validates a field on blur/change against the live
+    FormRequest and later submits for real, so point 1's single-owner-of-form-state rule holds without a
+    second helper or a separate as-you-type endpoint. Point 3 stands as the reason to reach for it; this
+    is that the reaching-for is one middleware line, not a package.

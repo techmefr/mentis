@@ -54,3 +54,9 @@ point turned into an option that stops itself on unmount, and `<Link prefetch>` 
 prefetch point made declarative, with a `mount` trigger that multiplies the request-count warning across
 every link on the page rather than only the hovered ones. Nothing here answers the catalogue comparison a
 second time — the block was never compared to the catalogue on this axis to begin with.
+
+**Second pass same day: §3, Precognition's native form integration.** §3 already named Precognition as the
+mechanism for as-you-type validation, written before Inertia v2.3 built it into `useForm` directly. One
+point added: the wiring is now the route's `HandlePrecognitiveRequests` middleware, not a separate
+client-side integration — nothing about the form's submit call changes, so the single-owner-of-form-state
+rule holds without a second helper.
