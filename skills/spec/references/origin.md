@@ -20,7 +20,7 @@ removed and no step was reordered.
 Where the boundary with the neighbouring blocks sits, stated explicitly for the first time in this pass:
 `business/product-ownership` owns whether the work should exist and what the story says (its §4 owns what
 makes a *business* criterion valid); this block turns a ready story into the technical contract; `tdd`
-writes failing tests from §3. §3 therefore points at `product-ownership` §4 rather than restating it, and
+writes failing tests from §3 here. §3 therefore points at `product-ownership` §4 rather than restating it, and
 says so — the previous version of both blocks each described acceptance criteria without saying which of
 them was authoritative.
 

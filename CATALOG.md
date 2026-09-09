@@ -657,8 +657,9 @@ god-method it replaced (§4.6); and a job dispatched inside a transaction can be
 commit, so it reads a row that does not exist yet (§4.7).
 
 **Two stale cross-references into this block were found and fixed in the same pass.**
-`laravel-conventions` §4 and §8 both cited `skills/design-patterns` §7 for transaction boundaries, and
-this block has never had a §7 — the rule is §4.7. Wrong since those lines were written, and found by
+`laravel-conventions` §4 and §8 both cited a seventh section of `skills/design-patterns` for
+transaction boundaries, and that block has never had one — the rule is §4.7 there. Wrong since those
+lines were written, and found by
 resolving every reference rather than by reading — which makes four defects this programme has turned up
 that predated it, after flutter §9 citing §1's async-context rule for disposal and `code-baseline`'s own
 `origin.md` carrying a stale point range.
@@ -751,7 +752,7 @@ a term *excludes*, which is the half that settles arguments.
 The pass also settled a boundary the two blocks had left ambiguous: both described acceptance criteria
 without saying which was authoritative. `product-ownership` §4 owns what makes a *business* criterion
 valid; `spec` §3 turns those into the technical contract `tdd` writes failing tests against, and now
-points at §4 rather than restating it.
+points at `product-ownership` §4 rather than restating it.
 
 **Second row of the extension, 2026-09-08: `bi, design, xefi`.** Four single-file blocks, all of them
 holding the row back at x2.94: `business/interface-design` 2,041 → **5,938** in seven sections (§0 the
@@ -1043,8 +1044,9 @@ number carries no block, so a reader takes the nearest block named before it on 
 places that name was not the intended target. The sharpest shape is an `Origin` section listing who cites
 what, where the natural phrasing (a backquoted block name followed by a number) states the reverse of
 what it means: `business/data-analytics` claimed a §5.3 in a block that has three sections, and
-`security-hardening` did the same. `api-design` named `deprecation-migration` and then cited its own §3.6
-and §3.8. `design-patterns` put three citations in one sentence, two of them local and none marked.
+`security-hardening` did the same. `api-design` named `deprecation-migration` and then cited two points
+of its own third section. `design-patterns` put three citations in one sentence, two of them local and
+none marked.
 
 Four of the eight were introduced by the depth programme itself, when sections moved and origin files
 started describing who cites what. All eight are fixed, plus the two sentences that described a citation
@@ -1125,6 +1127,32 @@ rather than asserting. `flutter-conventions` 10,321 → **11,195**, the `flutter
 real project each and twenty gaps between them, most of them surfaced by a compiler, a resolver or a
 failing test rather than by a reading. Not one row turned 🟢, which is the honest outcome: the exercise
 proves the rules are mechanically true, not that they have been through production.
+
+### Citations, 2026-09-09: the number nothing checked
+
+The `csharp` dogfood project above was a citation resolver, and it found ten wrong citations in this repo
+the first time it ran — which left the question that entry deliberately did not answer: a check living in
+a project outside the repo runs when somebody remembers it. It is now `bin/check_citations.py` (stdlib
+Python, `--json` and `--root`), and `bin/test_check_citations.py` puts it in the gate. Nine suites, **201
+checks**.
+
+**Re-implementing the same check found four more defects of the same shape.** The second version
+attributes more strictly and counts every `§` in the repo rather than only those inside a block: 1,828
+citations resolved, and all four it added were the class `skills/maintaining-blocks` §1.5 names — a number
+sitting after a backquoted block name, meaning the citing block's own section. Three were in this file and
+one in `spec`'s `Origin`, and all four are in paragraphs *about* citation defects. They are reworded
+rather than renumbered: the numbers were right, the attribution was not. Which is also the tool's one
+known limit — a sentence describing a wrong citation cannot state it in citation notation, so those
+sentences now say it in words.
+
+**The attribution rules are checked against fixtures, not against the repo.** A checker whose only test
+is "the repo is clean" passes just as happily once somebody loosens it into finding nothing, so the suite
+builds a two-block repo in a temporary directory and asserts each rule on its own: the `here` marker, a
+name inside a closed parenthetical, a sentence break handing the number back to the citing block, a
+document name rather than a block name, a bare name without backticks, both section-heading shapes, and a
+single-file block whose sections are inline. Two checks failed on the first run — one fixture of mine
+cited a point that legitimately existed, and the assertion that the gate runs this suite was true only
+after I wired it.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

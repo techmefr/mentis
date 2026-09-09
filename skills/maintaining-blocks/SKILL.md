@@ -25,6 +25,8 @@ pull (`distributing-blocks` §4); otherwise periodically, when nothing else is p
 2. **Check each target exists.** A block cited by thirty others and never written reads as authoritative
    precisely because so many things point at it.
 3. **Check section numbers still exist**, not just files — sections get renumbered when a block grows.
+   This one is mechanical, so it should be a script rather than a reading: `bin/check_citations.py` here,
+   stdlib only, in the pre-push suite since 2026-09-09.
 4. A reference to something intentionally absent (kept private, not written yet) must **say so at the
    reference**, not just in a catalogue.
 5. **Write a citation so that it can be attributed on its own.** A `§N.M` carries no block name, so a
@@ -34,7 +36,9 @@ pull (`distributing-blocks` §4); otherwise periodically, when nothing else is p
    after it, and be most careful in an `Origin` section listing who cites what — the natural phrasing
    there, a backquoted block name followed by a number, states the reverse of what it means. Measured on
    this repo on 2026-09-09: of 1,260 citations, ten did not resolve, and eight of those were this shape
-   rather than a genuinely missing section — which is also why point 3 had never actually been run.
+   rather than a genuinely missing section — which is also why point 3 had never actually been run. A
+   second implementation of the same check, stricter about attribution, found four more of this shape and
+   nothing else.
 
 ### 2. After a rename, check what else the name meant
 1. Rename by tracked file (`git mv`, then a substitution over `git ls-files`), never a blind

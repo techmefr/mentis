@@ -429,17 +429,19 @@ written for the forge transport works unchanged on a locally produced diff.
 If that ever fails, the two transports have drifted and every reader is
 affected.
 
-**Maintaining this repo.** Eight suites, 180 checks total, listed once in
+**Maintaining this repo.** Nine suites, 201 checks total, listed once in
 `bin/pre-push`: `test_scripts.py` + `test_local.py` + `test_hooks.py` +
 `test_guard_test_changes.py` cover the scripts, the local review transport,
 `hooks/block-installs.sh` and `hooks/guard-test-changes.sh`;
 `test_frontmatter.py` covers every block's frontmatter; `test_rule_c.py`
 scans every tracked file for anything rule C keeps out of a publishable repo;
-`test_git_hooks.py` covers the wiring of the gate itself; and
+`test_git_hooks.py` covers the wiring of the gate itself;
 `test_measure_depth.py` fails when `CATALOG.md`'s depth table stops matching
-what `bin/measure_depth.py` measures from the repo.
+what `bin/measure_depth.py` measures from the repo; and
+`test_check_citations.py` resolves every `§N` and `§N.M` in the repo against
+the section and the point it names.
 
-Three of them exist because of a specific failure, and all three are worth
+Four of them exist because of a specific failure, and all four are worth
 stating.
 `test_frontmatter.py`: on 2026-09-07, **63 of the 109 blocks here had
 frontmatter a real YAML parser refuses** — a `description` containing `: `
@@ -459,6 +461,15 @@ them while a sentence three paragraphs below claimed the table came from a
 script. The composition of each row now lives in `bin/measure_depth.py`, and
 this suite is what makes the document and the measurement disagree loudly
 rather than quietly.
+`test_check_citations.py`: this repo cross-references itself by number, in
+prose, across 84 blocks — and a number is the one kind of reference nothing
+read. `skills/maintaining-blocks` §1.3 had asked for this check since it was
+written; by hand it was never run, and when it finally ran **ten citations
+were wrong**, most of them pointing at the wrong block rather than at a
+missing section. `bin/check_citations.py` resolves 1,828 of them, and the
+suite checks its attribution rules against fixtures rather than against this
+repo — a checker whose only test is "the repo is clean" also passes once
+somebody loosens it into finding nothing.
 
 Run `bash bin/install-git-hooks.sh` once per clone to wire the gate as a
 `pre-push` git hook — a push with any suite red is refused locally, before it
@@ -514,7 +525,7 @@ fresh context) is stable and applied. The honest breakdown:
 | Business blocks | 15 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | Agents | 21 | 4 with real production experience (`aragorn`, `gimli`, `gandalf`, `elrond`); the rest written, not dogfooded |
 | `hooks/` | 3 scripts | the gate pair passes its 6-case smoke test and is **wired into no repo yet**; `block-installs.sh` passes 68 cases and is the one worth wiring anywhere an agent has a shell |
-| `bin/` | 5 scripts | 43 checks across the two transports; the local one is exercised, the forge one is ported and unit-tested but has not run against a live MR in this form |
+| `bin/` | 7 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has not run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 Written with **no internal production experience on the stack**, so their
 remarks are phrased as questions rather than statements: `boromir` (Go),
