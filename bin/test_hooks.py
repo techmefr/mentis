@@ -75,6 +75,7 @@ for c in [
     "cd /tmp && npm install",
     "echo hi; npm install",
     "make build && pnpm add -D typescript",
+    "npm exec cowsay hello",
 ]:
     blocked(c)
 
@@ -96,6 +97,12 @@ for c in [
     "npm test",
     "pnpm run build",
     "pnpm test -- --coverage",
+    # Running one test file, which is how a real repo's suite gets used. `pnpm exec` runs a
+    # binary already in node_modules and fetches nothing; blocking it as an install sent the
+    # agent looking for another spelling of the same command. Found on 2026-09-09.
+    "pnpm exec jest src/technical/prune",
+    "NODE_OPTIONS=--experimental-vm-modules pnpm exec jest --runTestsByPath src/app.spec.ts",
+    "yarn exec eslint src",
     "yarn build",
     "bun run dev",
     "python3 -m pytest",

@@ -245,9 +245,9 @@ linters, orchestration frameworks, etc. on the market).
 | **Claude Code's own documentation** (`code.claude.com/docs`, read 2026-09-07: skills, sub-agents, scheduled-tasks, agent-teams, model-config, the August weekly digests) | the platform surface itself: the full skill and agent frontmatter, effort levels as an axis distinct from the model, fork mode on by default, `isolation: worktree`, `SendMessage` resume, subagents vs teammates, the `/goal` vs `/loop` vs `Monitor` split, the seven-day `/loop` expiry and the jitter | `references/claude-code-platform.md` (new), `CONVENTIONS.md` (both templates + the enforcement rule), `choose-model`, `writing-agents`, `writing-skills`, `dispatch-parallel`, `WORKFLOW.md`, 20 agent files | ✅ (2026-09-07: the repo had been written against the platform as of ~2026-08-14 and every block asserting what is native was asserting what *was* native. The load-bearing find is ours, not the docs': 25 agents carried `name`/`description`/`model` only, so twelve prose-only *"never Write/Edit"* rules were guarantees the runtime never held — now `disallowedTools`. Stamped and expiring 2026-12-07, per `source-freshness`) |
 | **`claude plugin eval`** (native, scored eval cases with an automatic no-plugin baseline arm) | the RED/GREEN comparison `testing-blocks` describes by hand, mechanised: `evals/**/case.yaml` + `graders/*.md`, runnable against a plugin or a skills directory | `testing-blocks` | 🔜 **open** — the block now names the runner and says its own protocol predates it, which is honest but not done. What is owed: this repo's pressure scenarios expressed as eval cases, so promoting a block out of 🟡 is a command anyone can re-run rather than a session somebody remembers. **Blocked, measured 2026-09-07**: `claude plugin eval init` answers *"`plugin eval` is currently in early access"* on CLI 2.1.218 here, so the cases cannot be run yet — authoring them blind would be writing a test suite nobody can execute, which is the shape `code-baseline` §8 point 6 refuses. What is done instead is the prerequisite: `.claude-plugin/plugin.json` exists, so the day the gate opens this repo resolves as a target (`mentis@skills-dir`) with the no-plugin baseline arm, rather than needing a manifest written first |
 | market long-running agent patterns | `evaluator.md` (fresh-context evaluator pattern) → `galadriel` agent | gate | ✅ (agent written) |
-| the current wave of credential-stealing packages, and agents told to install them by text they read | `hooks/block-installs.sh` (PreToolUse on `Bash`): refuses every install, one-shot runner and `curl \| bash`, then resolves what a `package.json` script actually runs; names pnpm as the way to install and asks where the instruction came from | every agent, `CONVENTIONS.md`, `references/review-axes.md` §2 | ✅ (68 cases, blocked and allowed both; limits documented rather than oversold — it is an interlock, not a sandbox) |
-| market long-running agent patterns | `verify-gate.sh` (PreToolUse default-FAIL hook on read evidence) | gate | ✅ (rewritten as the `hooks/` pair; ours: fail-closed only on the guarded path so a repo without a parser still works, plus a read log so "produced" and "looked at" are distinguished; tested against 6 cases, per-repo wiring still to do) |
-| named directly by the operator (a build agent editing a failing test's expectation instead of the implementation) | `hooks/guard-test-changes.sh`+`.py` (PreToolUse on Edit/Write): a pre-existing assertion line disappearing without `MENTIS_ALLOW_TEST_CHANGES` set is blocked | `skills/debug` §3.4, `skills/code`, `skills/tdd`, `galadriel` | ✅ (internal synthesis, no external source; tested against 12 cases across 5 ecosystems, `bin/test_guard_test_changes.py`, per-repo wiring still to do) |
+| the current wave of credential-stealing packages, and agents told to install them by text they read | `hooks/block-installs.sh` (PreToolUse on `Bash`): refuses every install, one-shot runner and `curl \| bash`, then resolves what a `package.json` script actually runs; names pnpm as the way to install and asks where the instruction came from | every agent, `CONVENTIONS.md`, `references/review-axes.md` §2 | ✅ (72 cases, blocked and allowed both; limits documented rather than oversold — it is an interlock, not a sandbox; dogfooded 2026-09-09 against a real repo's own command list, which is where the `pnpm exec` false positive came from) |
+| market long-running agent patterns | `verify-gate.sh` (PreToolUse default-FAIL hook on read evidence) | gate | ✅ (rewritten as the `hooks/` pair; ours: fail-closed only on the guarded path so a repo without a parser still works, plus a read log so "produced" and "looked at" are distinguished; tested against 6 cases; wired into a real repo 2026-09-09 and inert there, since the pair guards a contract file only the mentis pipeline produces) |
+| named directly by the operator (a build agent editing a failing test's expectation instead of the implementation) | `hooks/guard-test-changes.sh`+`.py` (PreToolUse on Edit/Write): a pre-existing assertion line disappearing without `MENTIS_ALLOW_TEST_CHANGES` set is blocked | `skills/debug` §3.4, `skills/code`, `skills/tdd`, `galadriel` | ✅ (internal synthesis, no external source; 18 cases across 5 ecosystems, `bin/test_guard_test_changes.py`; dogfooded 2026-09-09 in a real NestJS repo, which found that a prettier-formatted assertion hid its expected value from a line-level comparison) |
 | **Anthropic's `claude-for-legal`** (13 vertical legal plugins, official) | freshness gate on bundled reference content, `[verify]` tag for unsourced claims, jurisdiction assumptions surfaced, "every output is a draft for attorney review — the attorney, not the plugin, owns the position" | `source-freshness`, `business/legal-documents`, `business/regulatory-watch` | ✅ (mechanisms taken and generalised; its practice-profile + research-connector architecture is aimed at law firms and stays out of scope) |
 | community legal skills for Claude (contract review, policy generators, a 30-framework GRC pack) | *generating* terms/NDAs/policies and scoring contracts; the GRC pack tracks versions and dates precisely | / | ✕ (they produce the legal document, which is exactly the step we refuse — a business block routes to counsel, it doesn't draft; the GRC pack also has no update mechanism, so its careful dates rot silently, which is the argument for `source-freshness`) |
 | `context7` MCP server | current library/framework documentation on demand, beyond any training cutoff | `source-freshness` §3, `references/README.md` | ✅ installed (user scope, verified connected 2026-08-06); authoring-time only, never a runtime dependency of a pipeline step — rule B |
@@ -272,7 +272,7 @@ linters, orchestration frameworks, etc. on the market).
 | market generalist dev skill catalogue | `security-and-hardening` → `security-hardening`, `webperf` → `webperf` | new blocks | ✅ (both written; security-hardening exists because seraph and /security-review both look at code that already exists, neither is consulted while the boundary is written) |
 | market generalist dev skill catalogue | `context-engineering` | / | ✕ (meta on writing prompts/CLAUDE.md, not a dev skill; the meta layer here is already `writing-skills`/`writing-agents`) |
 | market generalist dev skill catalogue | `browser-testing-with-devtools` | gate (already overlaps `mouse`/`verify-flow`) | ✕ (redundant) |
-| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (59 skills + 15 business blocks / 21 agents, as of 2026-08-06), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (partially mined: `meta/` done, `debugging/` + `testing/` + `problem-solving/` still to go) |
+| **the upstream this framework responds to** (14 skills, 0 agents) + its companion skills repo (31 skills) | full enumeration, done late: our own sourcing had never listed the contents of the project mentis takes its premise from. Numerically we're ahead (59 skills + 15 business blocks / 21 agents, as of 2026-08-06), but they cover a different axis: thinking techniques and meta, where we had nothing | see the rows below | 🟡 (mined: `meta/`, `debugging/`, `testing/` and `problem-solving/` are all treated in the rows below — six taken, three refused with a reason. 🟡 rather than ✅ because the enumeration is one pass over their repositories as of 2026-08-06, not a subscription) |
 | market skills repository (companion) | `meta/testing-skills-with-subagents` → `testing-blocks` | validating our own 🟡 blocks | ✅ |
 | market skills repository (companion) | `meta/pulling-updates-from-skills-repository` + `meta/sharing-skills` → `distributing-blocks` | README stages 3-4 | ✅ |
 | market skills repository (companion) | `debugging/root-cause-tracing` + `debugging/defense-in-depth` → folded into `debug` | debug | ✅ (extended rather than duplicated; the layering was bounded to boundaries, the source doesn't limit it) |
@@ -1153,6 +1153,63 @@ document name rather than a block name, a bare name without backticks, both sect
 single-file block whose sections are inline. Two checks failed on the first run — one fixture of mine
 cited a point that legitimately existed, and the assertion that the gate runs this suite was true only
 after I wired it.
+
+### Dogfooding, 2026-09-09: the `hooks/` pair, wired into a real repo
+
+`hooks/README.md` and two rows of the backlog above carried the same line for a month — *per-repo wiring
+still to do*. A hook nobody wired is a script, so the three scripts went into a real project: a NestJS
+repo of ours, `.claude/hooks/` plus the `.claude/settings.json` block the README prescribes, an evidence
+directory, nothing installed.
+
+**The limit first, because it bounds everything below.** The headless CLI in that environment could not
+authenticate (`OAuth session expired`), so no live session was refused by these hooks. What was exercised
+is the layer under that: the real `PreToolUse` payloads the runtime sends, on stdin, from that repo, over
+its own files — every command its `package.json` declares (39 scripts), the dozen an agent types by hand,
+and seven edits to one of its spec files. 52 commands and 7 edits. That is enough to find what a fixture
+cannot, and not enough to call the pair dogfooded in the sense a session is.
+
+**Four defects, all now fixed.**
+
+1. **`pnpm exec` was refused as "a node package manager install".** It is how a single test file gets run
+   in that repo, and it fetches nothing — `pnpm exec` runs a binary already in `node_modules`. Worse, the
+   same action spelled `pnpm prisma …` went straight through, so the guard contradicted itself between
+   two spellings of one command, and its message named an install the agent had not attempted, which
+   sends the agent looking for another wording rather than reading the refusal. `exec` is out of the
+   install verbs; `npm exec` stays blocked because it is `npx` under another name, and `dlx`/`npx`/`bunx`
+   are untouched — they do fetch.
+2. **A formatted assertion hid its expected value from the guard.** Prettier puts the value on its own
+   line, so changing `retentionDays: 30` to `60` touched no line matching an assertion pattern and the
+   edit was allowed — the exact move `skills/debug` §3.4 names, in the dominant formatting style of a
+   TypeScript repo. The guard now reads an assertion as the matching line *plus every line it spans until
+   its brackets balance*.
+3. **The hunk alone does not carry the assertion.** The smallest edit that changes an expected value
+   contains no `expect(` at all, so even statement-level comparison saw nothing in it. The file is now
+   read from disk and the replacement applied to it (`replace_all` included) before comparing.
+4. **A reformat read as a removal.** Inlining a multi-line assertion, or re-indenting one, changed its
+   text and was blocked although it weakened nothing. Comparison is now whitespace-collapsed, with a
+   comma before a closing bracket dropped — the one a formatter deletes when it inlines a call.
+
+**Renaming the symbol under test still blocks, and that is now written down with its cost.** The
+assertion text changed and no heuristic here can tell a rename from a retargeting. The escape hatch is an
+environment variable scoped to the *task*, not to the edit, so an agent that learns to set it for a
+legitimate rename has switched the guard off for everything after — a false positive on a routine
+refactor does not merely annoy, it teaches the bypass.
+
+**What the wiring itself taught, which no test could.** That repo ignores `.claude/` wholesale, like most
+repos: everything the README tells you to write lands untracked, so the hooks protect the machine that
+wired them and no colleague who clones. And the README says to *copy* the scripts in — which forks them
+at copy time, the precise failure `bin/install-git-hooks.sh` was rewritten to stop doing for this repo's
+own gate (`test_git_hooks.py` exists because a copied hook reported green while running an older suite).
+Both are now stated at the wiring instructions as decisions to take, not defaults to inherit.
+
+**The gate pair is inert outside the pipeline**, confirmed rather than assumed: that repo produces no
+`test-results.json`, so `verify-gate.sh` guards a file that does not exist and `record-read.sh` writes a
+log nobody reads. The README already said to wire `block-installs.sh` first and alone; it now says why
+from measurement.
+
+`bin/test_hooks.py` 68 → **72 cases**, `bin/test_guard_test_changes.py` 12 → **18**, six of them the
+formatted shape. The gate is nine suites, **211 checks**. No row turns 🟢: these hooks have still never
+refused a live tool call, and that is the next real occasion to wait for rather than to manufacture.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

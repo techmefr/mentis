@@ -66,10 +66,14 @@ text = sys.stdin.read()
 segments = re.split(r'&&|\|\||;|\n|\||\`|\\\$\(', text)
 
 INSTALL = [
-    # node ecosystem: install, add, create, and the one-shot runners that fetch a package
-    (r'\b(npm|pnpm|yarn|bun)\b.*\b(install|add|i|ci|create|init|link|update|upgrade|dlx|exec)\b',
+    # node ecosystem: install, add, create, and the one-shot runners that fetch a package.
+    # 'exec' is deliberately absent: pnpm/yarn/bun exec run a binary already in node_modules
+    # and fetch nothing, and running one test file that way is the normal move in a real
+    # repo. npm's exec is npx under another name, so it is listed with the runners below.
+    (r'\b(npm|pnpm|yarn|bun)\b.*\b(install|add|i|ci|create|init|link|update|upgrade|dlx)\b',
      'a node package manager install'),
-    (r'\b(npx|bunx|pnpx)\b', 'a one-shot package runner (it downloads and executes)'),
+    (r'\b(npx|bunx|pnpx)\b|\bnpm\b\s+exec\b',
+     'a one-shot package runner (it downloads and executes)'),
     # python
     (r'\b(pip|pip3|pipx)\b.*\binstall\b', 'a python package install'),
     (r'\buv\b.*\b(pip|add|tool)\b.*\b(install|add)?', 'a uv package install'),
