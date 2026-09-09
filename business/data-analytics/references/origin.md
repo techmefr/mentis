@@ -28,8 +28,8 @@ KPIs beats a wall of tiles." Stamped 2026-08-11.
 `references/` and the router became a table of triggers. No section was added. Every section number and
 every point number was preserved, which matters more here than in most blocks: `agents/oracle` walks
 §1 to §5 by number as its report structure, and §2.4, §4.3, §5.2 and §5.3 are cited by point from that
-agent, from this block's own guardrails and from three business blocks (`investor-relations` §5.3,
-`sustainability-esg` §4.3, `people-ops` §5).
+agent, from this block's own guardrails and from three business blocks — `investor-relations`,
+`sustainability-esg` and `people-ops`, each citing one of the four points above.
 
 **What the depth adds.** The original was a good set of defaults stated as rules, and it was almost
 silent on the part that makes them usable: what a wrong answer looks like. That gap matters more in this

@@ -27,6 +27,14 @@ pull (`distributing-blocks` §4); otherwise periodically, when nothing else is p
 3. **Check section numbers still exist**, not just files — sections get renumbered when a block grows.
 4. A reference to something intentionally absent (kept private, not written yet) must **say so at the
    reference**, not just in a catalogue.
+5. **Write a citation so that it can be attributed on its own.** A `§N.M` carries no block name, so a
+   reader — and any check — takes the nearest block named before it on the line: a bare number after
+   another block has been mentioned reads as *that* block's section, whether or not it was meant that
+   way. Name the block immediately before the citation, or mark the citation local by writing *here*
+   after it, and be most careful in an `Origin` section listing who cites what — the natural phrasing
+   there, a backquoted block name followed by a number, states the reverse of what it means. Measured on
+   this repo on 2026-09-09: of 1,260 citations, ten did not resolve, and eight of those were this shape
+   rather than a genuinely missing section — which is also why point 3 had never actually been run.
 
 ### 2. After a rename, check what else the name meant
 1. Rename by tracked file (`git mv`, then a substitution over `git ls-files`), never a blind

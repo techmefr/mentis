@@ -44,3 +44,9 @@
    its result all keep the type stated once on the line that declares it, which is what a diff review and
    a `git log -p` can actually see. An idiom that moves the type off the line — or off the screen — is the
    one to decline, however concise it is.
+10. **The fallback arm exists for the compiler, not only for the unlisted value.** An enum's underlying
+    type admits any integer, so a `switch` expression covering every named member is still not exhaustive:
+    the compiler reports it and names the zero value — which §4.15's explicit numbering usually leaves
+    unnamed — and that report is a build failure wherever warnings are errors. Point 8 holds with one
+    correction: the arm is written even for a value that is entirely internal, and what matters is that it
+    throws rather than returning a plausible default. §5.13 states the same fact for `default(T)`.

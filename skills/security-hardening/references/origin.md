@@ -22,7 +22,8 @@ covered it, the one item on this list this block actually owns and hadn't writte
 `references/` and the router became a table of triggers. No section was added: the five are the shape of
 a boundary — what comes in, where it goes, who is allowed, what the diff brings with it, and what you
 owe before calling it done. Every section and point number was preserved: `business/data-protection`
-cites §3 by number, §2.1 cites §1.3 for identifiers that cannot be parameterised, and the coverage check
+cites §3 by number; §2.1 cites §1.3 here for identifiers that cannot be parameterised, and the coverage
+check
 above cites §2.4 as the SSRF rule it added.
 
 **What the depth adds.** The original was a correct list of writing-time rules with one clause of reason

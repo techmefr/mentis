@@ -2,8 +2,8 @@
 
 > Section 4 of `skills/design-patterns`. Read it when one of these seven shapes is in front of you. The
 > trigger is mechanical enough to state, which is what makes them reviewable rather than a matter of
-> taste. Each still passes §1's second-real-case threshold first. §4.5 is cited from
-> `business/fintech-compliance`, §4.7 from `laravel-conventions` §4 and §8.
+> taste. Each still passes §1's second-real-case threshold first. `business/fintech-compliance`
+> cites §4.5 here; `laravel-conventions` §4 and §8 cite §4.7 here.
 
 1. **Strategy** — a `switch`/`match` on a `type`/`channel`/`provider`/`mode`/`kind` field with **3+ branches
    that keeps growing**, or sibling classes differing only in one method. The axis of variation must be

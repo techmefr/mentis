@@ -56,3 +56,10 @@
     two rows written either side of a DST change are no longer comparable. Store the instant — a
     `DateTimeOffset`, or UTC by an enforced convention — and keep the display conversion at the edge
     (point 4).
+13. **Invariant globalization is a project-wide switch, and it makes point 5's second half throw.**
+    Turning it on — commonly for container size, trimming or an AOT build, and often by whoever chose the
+    base image rather than by whoever wrote the code — makes naming any culture raise
+    `CultureNotFoundException` at run time. So the human-facing half of point 5 stops being a wrong
+    result and becomes an exception, and a test that checks culture-dependent formatting cannot be
+    written at all. Read the switch before assuming a locale is available; a project that has it on has
+    decided there is only one culture, which is a decision worth stating rather than discovering.

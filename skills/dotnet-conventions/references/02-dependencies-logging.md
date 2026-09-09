@@ -67,3 +67,18 @@
     a logged entity travels to a system with a different retention period, a different access list, and
     frequently a different jurisdiction from the database it came from. Log the id and the outcome; the
     row is still available to whoever is allowed to read it.
+15. **A collaborator with no state is not a service, and the analyser says so before you notice.** A class
+    written the way point 1 asks but holding no fields — a parser, a formatter, a pure check — trips
+    CA1822 on every method (*member does not access instance data and can be marked as static*), which is
+    a build failure wherever the guardrail's zero-new-warning rule is enforced. The three ways out are not
+    equivalent: injecting a logger it does not need so that it has a field, suppressing the rule, or
+    making it static and taking it out of the container. Prefer the last and keep the seam at the boundary
+    that does I/O, because the substitutability point 2 is protecting belongs to whatever talks to the
+    outside, not to a pure function.
+16. **Validating configuration at startup is opt-in twice, and one half alone is silent.** The
+    validate-on-start call only forces the *registered* validations to run early; with no validator
+    registered it runs nothing, and boot succeeds on an options object nobody checked. The
+    data-annotations validator is the other half and ships in its own package that the hosting
+    metapackage does not bring in — so the honest failure is a compile error and the quiet one is a chain
+    that reads as validated. Register a validator **and** validate on start, then break a key on purpose
+    once and watch boot fail, because that is the only thing that distinguishes the two.
