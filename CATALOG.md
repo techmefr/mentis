@@ -220,7 +220,8 @@ checklist doesn't need a reader, only an artefact (a query, a dashboard) does.
 | **galadriel** (GATE, formerly "evaluator") | judge with a clean context, **no Write/Edit**, returns PASS/NEEDS_WORK with cited evidence | ✅ (written; the hook pair now exists in `hooks/`, per-repo wiring not done yet, not dogfooded yet) |
 | neo | Vue3/Nuxt3 implementation (Composition API, reactivity, perf) in functional/ | ✅ (not dogfooded yet) |
 | tank | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | 🟢 (dogfooded 2026-08-07 on the Laravel API and the Nuxt front-end: found a real search-index mapping/filter-type mismatch across 7 files, distinct from the case already known, and said explicitly what it couldn't confirm without a live ES container) |
-| morpheus | Laravel/Eloquent implementation (API, queues, perf) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: turned dozer's 4 red tests green without touching the test file, ran the existing suite to confirm no regression, refused to self-certify beyond that and deferred to gimli/gandalf) |
+| morpheus | Laravel/Eloquent implementation, end-to-end for a small or mixed-layer change (API, queues, perf) | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: turned dozer's 4 red tests green without touching the test file, ran the existing suite to confirm no regression, refused to self-certify beyond that and deferred to gimli/gandalf) |
+| laravel-architect / laravel-eloquent-expert / laravel-api-expert / laravel-events-expert / laravel-commands-expert / laravel-testing-expert / laravel-debugger / laravel-simplifier | the Laravel build role split into one agent per layer — design, data, HTTP, async/events, console commands, test authoring, failure diagnosis, clarity pass | ✅ (written 2026-09-09; `morpheus` stays the generalist for a small or mixed-layer change, the eight are the specialists a per-stack Claude Code agent catalogue's layered roster showed was missing here; none dogfooded yet) |
 | trinity | NestJS/Node implementation (modules, DTOs, Zod/tRPC contracts, Prisma) | ✅ (not dogfooded yet; fills the builder gap opposite frodo; no NestJS project exists on disk yet to run it against) |
 | dozer | writes the test suite (default-FAIL contract), tests only, never implementation — **defers to `test-casebook`'s `test-writer` where that package is installed**, and is the fallback otherwise | 🟢 (dogfooded 2026-08-07 on `formation-laravel`: wrote a genuinely red test for a real missing rate-limit, caught and fixed a Laravel test-helper quirk without touching app code, correctly told apart from the vulnerability under test, flagged unrelated suite flakiness rather than hiding it) |
 | keymaker | technical SEO audit of a live page/site, never edits | ✅ (not dogfooded yet) |
@@ -1314,6 +1315,62 @@ prevent keep growing. The refactor is its own change, with the existing behaviou
 than three of the seven other stack rows in the table. **Status unchanged**: the new points are read from
 a source rather than confirmed by a real review, closer in kind to §4's original seven entries than to
 §1/§2/§3/§6, which this repo's own review history produced.
+
+### Splitting the roster, 2026-09-09: `morpheus` into eight Laravel layer agents
+
+The comparison against a per-stack Claude Code agent catalogue's own roster surfaced one structural gap
+this repo's mining passes had never asked about: they run eight agents on the same stack, one per layer
+(design, data, HTTP, async, console commands, tests, debugging, clarity), and `morpheus` did all of it in
+one. Padding `morpheus`'s prose would not close that gap — the value in their roster is the boundary
+between roles, not extra words inside one.
+
+**`design-patterns` §1.13's own rule governed whether to build this at all**: introduce a structure only
+at the second real case, never on the strength of "it might help". The second real case here is not
+speculative — it is the same failure `writing-agents`' step 1 exists to catch, just inverted: a single
+agent covering eight distinct failure surfaces (a migration, a controller, a queued job, a scheduled
+command, a test tier decision, a stack trace, a refactor, a design decision) is exactly the shape a
+reviewer cannot hold in their head at once, which is why the source roster split it in the first place.
+
+**Eight new agents**, each the single 7-pillar template (`writing-agents`), none copying the source
+roster's actual prompts — only the boundary and the name, credited the way `morpheus` already credits its
+own market inspiration:
+
+- **`laravel-architect`** — plans a feature before any code exists (schema, API surface, permission
+  model, the breakdown handed to the seven below); read-only, `opus`, `effort: xhigh` (a wrong design
+  decision is expensive to walk back after five builders have executed it).
+- **`laravel-eloquent-expert`** — models, migrations, casts, relationships, factories, seeders.
+- **`laravel-api-expert`** — routes, controllers, Form Requests, API Resources, lomkit endpoints.
+- **`laravel-events-expert`** — events, listeners, queued jobs, notifications, mail; states the
+  transaction-boundary rule explicitly (`design-patterns` §4.7 — a job dispatched inside a transaction
+  can be picked up before the commit).
+- **`laravel-commands-expert`** — Artisan commands and their scheduling, with the overlap guard a
+  scheduled command needs the moment it can run twice at once.
+- **`laravel-testing-expert`** — the Feature-vs-Unit tier decision and factory-driven PHPUnit tests,
+  explicitly deferring to `dozer`'s default-FAIL contract where both apply.
+- **`laravel-debugger`** — root-cause before fix (`skills/debug`), fixes the implementation, never
+  loosens an assertion without the human-decision path `skills/debug` §3.4 and
+  `hooks/guard-test-changes.sh` already state.
+- **`laravel-simplifier`** — a behaviour-preserving clarity pass, matching the altitude of the generic
+  `simplify` skill (reuse/simplification/efficiency, never a bug hunt) applied to this stack; a real
+  defect spotted mid-pass is named and handed off, never folded into the refactor.
+
+**`morpheus` did not disappear.** It stays the generalist for a change too small to justify picking a
+specialist, or one that genuinely spans several layers in one sitting — the same reasoning `elrond`
+already applies on the review side (one router, several specialists, plus a generalist path where
+splitting would cost more than it buys).
+
+**One naming exception, stated rather than hidden.** Every other build/audit agent in this repo carries
+either a Lord-of-the-Rings name (review, never edits) or a Matrix name (build/audit, takes part in the
+dev cycle) — the two-family convention `README.md` documents as a readable guarantee. The eight new
+agents are named for their layer instead, on purpose: the whole point of the split is a legible mapping
+from failure surface to agent, which a themed name would obscure. They still hold the guarantee the
+families exist to signal — `laravel-architect` never writes, the seven builders never review their own
+diff — the frontmatter enforces it (`disallowedTools` on `laravel-architect`), the name doesn't have to.
+
+Registry: 25 agents → **33**. `bin/test_frontmatter.py` and `bin/test_rule_c.py` both pass against the
+eight new files unchanged — no new suite, no new check, because nothing about an agent file's shape
+changed. None of the eight is dogfooded; that is next real work on this stack, not a status this pass can
+claim for itself.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
