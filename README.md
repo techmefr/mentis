@@ -157,6 +157,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `laravel-mail-via-notifications` | 6 | Trigger: a user-facing email or in-app message — always a notification, never hand-built Mail |
 | `laravel-no-fat-models` | 6 | Trigger: a model method beyond fillable/casts/relationships — business logic goes to an action/query class |
 | `laravel-no-magic-strings` | 6 | Trigger: a bare domain string/number (status, queue name, threshold) — give it an enum/constant/config entry |
+| `laravel-pruning-fires-delete-events` | 6 | Trigger: a retention/pruning sweep on a soft-deleted model — pruning is deleting, never bypass the per-row events |
+| `laravel-idempotent-data-commands` | 6 | Trigger: an artisan command that changes data — idempotent or refuses to run twice, reports counts |
+| `laravel-idempotent-seeders` | 6 | Trigger: a reference-data seeder — upsert by natural key, never insert |
+| `laravel-seed-new-features` | 6 | Trigger: a change introducing/changing persisted data — ship its seed data in the same change |
+| `laravel-idempotent-jobs` | 6 | Trigger: a queued job's handle() — assume it may run twice, assert the end state not a delta |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `flutter-context-after-await` | 6 | Trigger: BuildContext used after an await — mounted check, capture before await, or never in a state holder |
 | `flutter-no-controller-in-build` | 6 | Trigger: a controller/future/stream built inside `build()` — hoist to initState or a late final field |
