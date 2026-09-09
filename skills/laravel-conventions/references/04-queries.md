@@ -67,3 +67,10 @@
     into a full collection anyway; `lazy()` keeps chunking under the hood, so it accepts those methods
     without that trade and is the safer default when the code between fetch and use is not already known
     to be row-by-row.
+14. **`Model::shouldBeStrict()` turns point 1's N+1 rule into a thrown exception instead of a review
+    checkpoint.** It also refuses a silently-discarded mass-assignment field and a read of a missing
+    attribute — the same family of bug as point 1, all three failing loudly the moment they happen rather
+    than at the point a slow query or a wrong value is noticed later. The trade is environment-specific: on
+    in a local/CI environment so the violation is caught before merge, off in production so an edge case
+    the tests missed degrades instead of 500ing for every affected user — a project running it everywhere
+    has usually not thought about that half.
