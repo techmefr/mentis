@@ -152,6 +152,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | laravel-mail-via-notifications | 6 | `laravel-conventions` §6.16 and §8.7 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
 | laravel-no-fat-models | 6 | `laravel-conventions` §1.1 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
 | laravel-no-magic-strings | 6 | `laravel-conventions` §5.3 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
+| laravel-pruning-fires-delete-events | 6 | `laravel-conventions` §3.13–§3.14 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
+| laravel-idempotent-data-commands | 6 | `laravel-conventions` §7.7–§7.9 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
+| laravel-idempotent-seeders | 6 | `laravel-conventions` §7.12 and §9.10 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
+| laravel-seed-new-features | 6 | `laravel-conventions` §9.11 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
+| laravel-idempotent-jobs | 6 | `laravel-conventions` §8.2 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
 | flutter-context-after-await | 6 | `flutter-conventions` §1's opening rule and §1.2 extracted to its own trigger, 2026-09-09, narrow-trigger + pointer pilot | 🟡 |
 | flutter-no-controller-in-build | 6 | `flutter-conventions` §1.14 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | flutter-dispose-what-you-create | 6 | `flutter-conventions` §1.12–§1.13 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
@@ -1685,6 +1690,16 @@ Third stack: `nuxt-no-props-destructure` (`vue-nuxt-vuetify-conventions` §1.9),
 `bin/measure_depth.py`. 20 standalone triggered skills now exist across four stacks
 (laravel/python/flutter/nuxt); `project-management` remains, along with the rest of
 `laravel-conventions`'s uncovered mechanical rules.
+
+### Structural pilot, 2026-09-09: third `laravel-conventions` batch — idempotency and seed data
+
+Five more mechanical rules, this time clustered around idempotency and seed data:
+`laravel-pruning-fires-delete-events` (`laravel-conventions` §3.13–§3.14),
+`laravel-idempotent-data-commands` (`laravel-conventions` §7.7–§7.9), `laravel-idempotent-seeders`
+(`laravel-conventions` §7.12 and §9.10), `laravel-seed-new-features` (`laravel-conventions` §9.11) and
+`laravel-idempotent-jobs` (`laravel-conventions` §8.2). Fifteen of `laravel`'s mechanical rules are
+now covered; remaining candidates include no-html-in-php, the `strict_types` default (§5.12), and a
+few more across §6/§9/§10.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
