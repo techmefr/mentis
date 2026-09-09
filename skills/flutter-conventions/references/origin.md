@@ -136,3 +136,15 @@ a compiler or a test could have surfaced, and evidence for the rules that held: 
 switch made all four screen states reachable, §6.7's in-flight flag turned three triggers in one frame
 into one request, and §9.8's reduce-motion fallback is the only reason a settle on the loading screen
 returns at all.
+
+**Widened against Riverpod's current codegen surface, 2026-09-09.** Same method as `csharp`/`design-patterns`/
+`react`/`python` the same week: checked against the state-management library's current documented behaviour,
+not against the catalogue, since §7's Cubit-first guidance predates `@riverpod` code generation becoming the
+ecosystem default. Three points added: a generated provider disposes itself the instant nothing watches it
+unless `keepAlive: true` says otherwise, which is point 12's scope decision made *for* the author by default
+rather than by them; `ref.watch` (rebuild on change, inside `build` only) and `ref.read` (current value once,
+outside `build`) are different questions, and `read` inside `build` silently opts a widget out of the
+rebuild contract point 3 states; and a family provider's cache key uses the parameter's own equality, so a
+parameter without `==`/`hashCode` refetches on every call even for identical values — point 11's
+one-owner-per-data rule broken by the provider layer itself. Nothing added here answers the catalogue
+comparison a second time.
