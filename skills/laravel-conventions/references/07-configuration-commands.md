@@ -58,3 +58,10 @@
 15. **Run the command rather than writing it out** for the user to copy, when a runtime is available. A
     command described but never executed is an untested claim (`WORKFLOW.md`, the default-is-failure
     guarantee).
+16. **`Isolatable` is point 11's overlap policy for a command triggered outside the scheduler** — a manual
+    rerun, a webhook-fired command, two deploys landing close together. `withoutOverlapping` only guards
+    the scheduled entry; a command that can also start some other way is unprotected unless it carries the
+    lock itself. The lock key defaults to the command's name, so two runs of the same command with
+    different arguments block each other unless `isolatableId()` folds the argument into the key — the
+    trap is a command isolated by name alone silently serialising work that was actually safe to run in
+    parallel per tenant or per record.

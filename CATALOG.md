@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 25,338 | −54,487 | x3.15 |
+| laravel | 65 / 79,825 | 3 / 25,442 | −54,383 | x3.14 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 12,246, php-patterns 5,974, inertia-conventions 7,118
+laravel: laravel-conventions 12,350, php-patterns 5,974, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1569,6 +1569,16 @@ legitimately at volume instead of either silence or flooding the tracker, and re
 default ignore list where a spike in an otherwise-routine status is itself the signal.
 
 `laravel-conventions` 12,133 → **12,246 words**; the `laravel` row x3.16 → **x3.15**.
+
+### Widening, 2026-09-09: the `laravel` row, tenth pass — `Isolatable`
+
+`laravel-conventions` §7 gained one point: the `Isolatable` interface as the section's overlap policy for
+a command triggered outside the scheduler — a manual rerun, a webhook, two deploys close together — where
+`withoutOverlapping` alone leaves it unprotected. The lock key defaults to the command's name, so
+`isolatableId()` has to fold the arguments in or two runs with different arguments serialise work that was
+actually safe to run in parallel.
+
+`laravel-conventions` 12,246 → **12,350 words**; the `laravel` row x3.15 → **x3.14**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
