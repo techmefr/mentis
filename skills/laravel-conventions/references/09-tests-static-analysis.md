@@ -70,3 +70,20 @@
 19. **A slow suite gets skipped, so its speed is part of its design.** Seed only what the assertion needs
     — a feature test that builds the world to check one response spends its cost on every run forever, and
     the first thing a team under pressure does with a twenty-minute suite is stop running it locally.
+20. **Pest's closures are a syntax choice, not a second tier.** `it('...', fn () => ...)` still produces
+    exactly one feature or one unit test per point 1 — the expectation API changes how the assertion reads,
+    not what it's allowed to assert. A file mixing `it()` with a PHPUnit test class is point 7's
+    half-migration problem wearing a different name.
+21. **A dataset replaces N near-identical tests, not N different behaviours.** `->with([...])` is for one
+    assertion repeated over many inputs — every invalid shape for the same validation rule, every locale for
+    the same formatter — never for cases that actually diverge in what they assert, which belongs in
+    separate tests where the name still states the behaviour (point 4).
+22. **An architecture test enforces a structural rule this block already states, so it doesn't restate the
+    rule — it makes violating it fail the suite instead of the review.** `arch()->expects(...)` checking
+    that models don't reach into HTTP, or that a `*Service`/`*Repository` name never lands (§1, §5), turns a
+    convention a reviewer has to remember into one CI catches; it still needs the convention decided first,
+    the same way a linter needs a style decided first.
+23. **Mutation testing answers what coverage cannot: whether the assertions would catch a real regression.**
+    A surviving mutant — the source changed and no test went red — is point 18's "line executed, not line
+    asserted" made concrete and automatic. Run it on the code that changed, not the whole suite on every
+    push; it is too slow for that and the signal is about the diff.
