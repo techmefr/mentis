@@ -396,9 +396,9 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
-| react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
 | global | 18 / 20,280 | 5 / 21,624 | +1,344 | x0.94 |
+| react | 36 / 9,302 | 1 / 10,999 | +1,697 | x0.85 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -430,7 +430,7 @@ nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
 design-patterns: design-patterns 7,369
-react: react-nextjs-conventions 10,476
+react: react-nextjs-conventions 10,999
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
 ```
 
@@ -1371,6 +1371,39 @@ Registry: 25 agents → **33**. `bin/test_frontmatter.py` and `bin/test_rule_c.p
 eight new files unchanged — no new suite, no new check, because nothing about an agent file's shape
 changed. None of the eight is dogfooded; that is next real work on this stack, not a status this pass can
 claim for itself.
+
+### Widening, 2026-09-09: the `react` row, against the current React/TanStack Query surface
+
+`react` was already the first row in the table to cross its counterpart on volume (x0.89, 2026-09-08).
+Crossing a source catalogue on word count answers one question and not the other — the source catalogue
+was mined at a point in time, and the ecosystem it describes keeps moving. So this pass, run the same
+week as the `csharp` and `design-patterns` widenings, asked the same question of this stack: what does
+the *platform* now do that this block says nothing about? Checked against React's own release notes and
+TanStack Query's v5 documentation, not against the catalogue — the catalogue comparison stays settled.
+
+**§5 gained four points on React's Actions model**, which the block predates: `useActionState` for a
+form submission, collapsing the pending/result/error state §5.12 already warns against splitting across
+several `setState` calls into the one shape the framework tracks together; `useFormStatus` for a submit
+button that reads pending state from inside the `<form>` without prop-drilling; `useOptimistic` for the
+update a user should see immediately, with §6.6's invalidate-don't-hand-write rule still governing what
+the real state is once the response lands; and `use()` for reading a promise or a context conditionally,
+which is exactly the case §5.1's rules-of-hooks restriction otherwise pushes above a pointless early
+check. A fifth point states what changes, not what's new: a project with automatic memoisation enabled
+turns §5.4's "just in case" `useMemo` from unmeasured into genuinely redundant, without repealing the
+correctness exception the point already carves out.
+
+**§6 gained two points from TanStack Query v5's own contract.** `useSuspenseQuery` accepts a narrower
+option set than `useQuery` — no `enabled`, no `placeholderData` — because it is a different contract
+about how the query behaves, not a stricter version of the same one; reaching for it and then trying to
+bolt `enabled` back on is the tell the wrong hook was picked. And prefetching in a Server Component
+buys nothing on its own: a `useQuery` in the Client Component below it refetches on mount unless the
+prefetched cache is explicitly dehydrated and rehydrated, which is the usual reason a page fetches
+everything twice — once on the server, once in the browser, racing the first paint.
+
+`react-nextjs-conventions` 10,476 → **10,999 words**, the row x0.89 → **x0.85** — still the strongest
+ratio in the table, now by a wider margin. Nothing added here answers the catalogue comparison a second
+time; every point is dated to a current release rather than to a source that could have been checked in
+2026-08.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

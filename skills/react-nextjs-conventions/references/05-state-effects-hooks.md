@@ -80,3 +80,27 @@
     effect shows the unpositioned frame first, which is the visible jump users report as flicker; the layout
     variant runs before paint. It has no server equivalent, so it warns during SSR — which is the signal
     that the work belongs behind a mount check rather than in the initial render.
+21. **A form submission is `useActionState`, not a hand-rolled `isSubmitting` boolean around a `try`/
+    `catch`.** It returns `[state, formAction, isPending]` from an `(previousState, formData) => newState`
+    function, which is point 12's several-`setState`-for-one-update collapsed into the shape the framework
+    already tracks — pending state, the last result and the error all move together, so there is no window
+    where they can disagree. A submit button reading that pending state through `useFormStatus` — from a
+    child of the `<form>`, not the component holding the state — stays reusable across every form without
+    prop-drilling a boolean into it.
+22. **`useOptimistic` is for the update the user should see immediately, never for the response you have
+    not received yet.** It renders a pending value on top of the real state and reverts to whatever the
+    real state settles to — success or failure — so the rollback is automatic and exactly point 6's
+    invalidate-don't-hand-write rule applies to it: an optimistic entry is not the source of truth, the
+    server's answer still is.
+23. **`use()` reads a promise or a context conditionally, which the other hooks cannot.** It is not a
+    replacement for `useEffect`+`useState` on a fetch a component owns (§6.1 already answers that); its
+    place is reading a promise a Server Component started and passed down, or reading a context after an
+    early return — where the rules-of-hooks restriction in point 1 would otherwise force the read above
+    a check that makes it pointless.
+24. **A compiler that auto-memoises does not repeal point 4, it changes the default answer.** Where the
+    project's build has automatic memoisation enabled, a `useMemo`/`useCallback` added "just in case" is
+    now genuinely redundant rather than merely unmeasured — the compiler already produces the equivalent
+    fewer renders, and hand-written memoisation next to it is dead code that looks load-bearing. Check
+    the project's own configuration before assuming either way; the correctness exception in point 4 (a
+    dependency that must be referentially stable) still needs a human decision either the compiler or a
+    manual memo can express.
