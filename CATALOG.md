@@ -137,6 +137,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | laravel-no-observers | 6 | `laravel-conventions` §1.2 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | laravel-throw-dont-return-errors | 6 | `laravel-conventions` §11.1–§11.5 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | laravel-no-queries-in-loops | 6 | `laravel-conventions` §4.1–§4.2 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
+| laravel-scope-dont-check-after-fetch | 6 | `laravel-conventions` §2.4 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
+| laravel-prefer-orfail-fetch | 6 | `laravel-conventions` §4.3 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
+| laravel-mail-via-notifications | 6 | `laravel-conventions` §6.16 and §8.7 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
+| laravel-no-fat-models | 6 | `laravel-conventions` §1.1 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
+| laravel-no-magic-strings | 6 | `laravel-conventions` §5.3 extracted to its own trigger, 2026-09-09, second pilot batch | 🟡 |
 | flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned; **dogfooded once 2026-09-09** on a small Flutter app in the SDK container, 63 tests green and the analyser clean, which closed seven gaps — five of them surfaced by a failing test or a failed resolve rather than by reading: `on Exception` missing the half of the framework's failures that are `Error`s (§7.18), an awaited call into the holder saying nothing about whether it worked so a screen leaves on a failed save (§7.19), a status enum plus a nullable payload keeping the impossible combination representable (§7.20), a parse moved off the main isolate hanging a widget test rather than failing it (§8.18), the localisation generator being both a required generation step and an exact dependency pin (§9.16), an unconditional settle failing in under a second rather than never returning (§10.13 corrected) with `find.byType` matching the framework's own widgets (§10.17), and the composition root having nowhere to live in the two-layer split (§10.18) | 🟡 (no mobile production experience at all, `faramir`'s question register applies — neither the depth pass nor one dogfood app changes that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
@@ -1617,6 +1622,21 @@ whole block), not word volume; if it holds up under real use, the remaining mech
 `laravel-conventions` (no-model-scopes, no-fat-models, no-magic-strings, no-html-in-php,
 mail-via-notifications, prefer-find-or-fail, and more) are candidates for the same treatment, and
 other stacks after that.
+
+### Structural pilot, 2026-09-09: second batch — five more standalone triggered skills
+
+Confirmed the pattern holds and scaled it to five more `laravel-conventions` mechanical rules:
+`laravel-scope-dont-check-after-fetch` (`laravel-conventions` §2.4 — scope the query rather than
+checking after the fetch), `laravel-prefer-orfail-fetch` (`laravel-conventions` §4.3),
+`laravel-mail-via-notifications` (`laravel-conventions` §6.16 and §8.7), `laravel-no-fat-models`
+(`laravel-conventions` §1.1) and `laravel-no-magic-strings` (`laravel-conventions` §5.3). Same shape
+as the first batch:
+a precise trigger, a compressed restatement, a pointer back to the parent section — not folded into
+`bin/measure_depth.py`'s `laravel` row for the same reason as the first five. Ten of `laravel`'s
+mechanical rules are now covered this way; the remaining candidates (no-html-in-php,
+seed-new-features, the `strict_types` default, and others across §3/§7/§9/§10) and the same treatment
+for other stacks (python, flutter, nuxt) are next, on the user's confirmation to keep going in both
+directions.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
