@@ -392,7 +392,7 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 23,795 | −56,030 | x3.35 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
-| flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
+| flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
@@ -425,7 +425,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 laravel: laravel-conventions 11,317, php-patterns 5,799, inertia-conventions 6,679
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
-flutter: flutter-conventions 11,195
+flutter: flutter-conventions 11,412
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
@@ -1442,6 +1442,20 @@ one-tool-per-job rule, not a personal substitution.
 `python-conventions` 8,203 → **8,494 words**; the `python` row 22,097/11,486 (x1.92) → **22,097/11,777,
 x1.88**. Still no production experience behind this block — depth from documented behaviour and tooling,
 not review feedback, per the block's own stated caveat.
+
+### Widening, 2026-09-09: the `flutter` row, against Riverpod's current codegen surface
+
+Same method as the other widenings this week, checked against the state-management library's current
+documented behaviour rather than the catalogue: §7's Cubit-first guidance predates `@riverpod` code
+generation becoming the ecosystem default. Three points added: a generated provider disposes itself the
+instant nothing watches it unless `keepAlive: true` overrides it, which is the block's own scope-is-a-decision
+point made *for* the author by default; `ref.watch` (rebuild on change, inside `build`) and `ref.read`
+(current value once, outside `build`) are different questions, and `read` inside `build` silently opts a
+widget out of the rebuild contract; and a family provider's cache key uses the parameter's own equality, so
+a parameter without `==`/`hashCode` refetches on every call for identical values.
+
+`flutter-conventions` 11,195 → **11,412 words**; the `flutter` row 20,772/11,195 (x1.86) → **20,772/11,412,
+x1.82**. Status stays 🟡 — this pass is documentation depth, not new dogfooding.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

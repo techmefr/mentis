@@ -88,3 +88,17 @@
     to prevent. Where the language has sealed types and exhaustive matching, one class per state carrying
     exactly its own payload removes the combination instead of documenting it, and the widget's `switch`
     has nothing left to assert.
+21. **A generated provider disposes itself the moment nothing watches it, unless told otherwise.** Point 12's
+    scope decision is made for you by default: leaving the screen that was the only watcher tears the
+    provider and its state down immediately, which is right for a form (nothing to remember not to leak) and
+    wrong for a session the next screen still needs — `@Riverpod(keepAlive: true)` is that decision made
+    explicit, not the framework's opinion about what should persist.
+22. **`ref.watch` and `ref.read` are two different questions, not two spellings of the same read.** `watch`
+    inside `build` says "rebuild me when this changes" and belongs nowhere else; `read` says "give me the
+    current value once" and belongs in a callback or an initializer. `read` inside `build` silently opts the
+    widget out of point 3's rebuild-on-new-state contract — it renders the value that was current when the
+    widget was first built and never again.
+23. **A family provider's parameter is a cache key, and the equality it uses is the class's own, not
+    identity.** A parameter object without `==`/`hashCode` defined creates a fresh cache entry — and a fresh
+    fetch — on every call even when the values are the same, which is point 11's one-owner-per-data rule
+    broken by the provider layer itself rather than by a second holder.
