@@ -65,3 +65,15 @@
     clock — so a token, a password-reset link, a filename that must not be enumerable or an invitation
     code built from them is guessable by anyone who watches a few of them. The cryptographic functions
     cost nothing extra here.
+15. **`createFromFormat` normalises an impossible day, and reports it as a warning rather than an
+    error.** `'!Y-m-d'` against `2026-02-30` does not return `false`: it returns a valid object holding
+    2026-03-02, and `getLastErrors()` gives `warning_count: 1` with `error_count: 0` — so the `=== false`
+    check §2.9 teaches passes it, and so does a guard on the error count. Point 4 states this
+    normalisation for arithmetic; parsing is where it bites first, because an invalid day almost always
+    arrives from outside. Round-trip the result — `$parsed->format('Y-m-d') !== $input` — or `checkdate`
+    before parsing.
+16. **A `DateInterval`'s `days` is unsigned; the direction is in `invert`.** `$from->diff($to)->days` is
+    the same number whether `$to` is three days ahead of `$from` or three days behind it, so a "days
+    remaining" reads correctly on every fixture built in the expected order and becomes "days overdue"
+    with the same figure on the screen for the rows in the other one. Use `format('%r%a')` where the
+    sign matters, or read `invert` explicitly.

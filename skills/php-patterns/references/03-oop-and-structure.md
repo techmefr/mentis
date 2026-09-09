@@ -63,3 +63,16 @@
     `Report::draft()` say at the call site which object is being built; `new Report($m, true, false)`
     makes the reader open the constructor to find out, and makes the two arguments swappable without any
     error. Keep the constructor as the single place that assigns, and let the factories name the cases.
+15. **A `final` class cannot be doubled, and the fix is §3.2 rather than dropping `final`.** The test
+    framework refuses it outright — PHPUnit raises a `ClassIsFinalException` naming the class and
+    saying it cannot be doubled — and the obvious response, deleting the keyword so the mock can be
+    built, trades a real guarantee for a test convenience. The intended pair is §3.5 plus §3.2: the
+    concrete class stays final, the seam is an interface defined where it is consumed, and the test
+    passes its own implementation of that interface. Reach for the interface when the exception fires,
+    not for the keyword.
+16. **On a `readonly` property, the deep-copy fix in point 9 needs PHP 8.3 or later.** Reassigning a
+    readonly property inside `__clone` is `Error: Cannot modify readonly property` up to PHP 8.2 and
+    legal from 8.3 — so on a project pinned below that version the fix point 9 prescribes fatals the
+    first time a clone runs, and the two options left are dropping `readonly` or being immutable all the
+    way down (§1.3). Measured both ways on 2026-09-09, same file: fatal on 8.2, an independent copy on
+    8.4.

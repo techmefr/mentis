@@ -65,3 +65,23 @@ depth table from x4.27 to x3.45.
 **Status unchanged.** Still 🟡, and for the same reason as before the pass: sourced from the specification,
 the documentation and market practice, with no deep in-house PHP production experience behind it. Depth is
 not dogfooding — `gimli` keeps reading this block in a question register.
+
+**Dogfooded once, 2026-09-09.** A small framework-free PHP CLI was written against this block as its only
+reference — it reports how old the dated source stamps behind each block in this repo are, PHPUnit as the
+only dev dependency, 52 tests green, run against the real clone. It lives outside this repo, with its
+findings beside it. Four gaps came back, all closed here, and none of them was findable by re-reading:
+`createFromFormat` normalising an impossible day into the next month and reporting it as a *warning* with
+`error_count: 0`, so both plausible guards pass it (§5.15); a `DateInterval`'s `days` being unsigned, with
+the direction only in `invert`, so a "days remaining" becomes "days overdue" with the same figure on the
+screen (§5.16); `final` making a class undoubleable by the test framework, where the fix is §3.2's
+interface and the tempting one is deleting the keyword (§3.15); and the deep-copy fix in §3.9 being a
+fatal error on a `readonly` property up to PHP 8.2 and legal only from 8.3, measured both ways (§3.16).
+The checkpoint also gained a clause: it routed to `gate` and `gimli`, both of which assume the framework
+layer above, and said nothing about how framework-free PHP gets verified.
+
+**The status still does not change.** One small CLI written by the same agent that wrote the block is not
+in-house production experience, and the operator is still new to PHP. What the exercise bought is four
+mechanical defects and a checkpoint that no longer assumes Laravel. Two things the pass also showed and
+did not change: the router discriminates almost nothing here, because a language-level block has no
+section a real PHP project can avoid — only the money and randomness points of §5 never applied — and
+that is a property of the subject rather than a defect in the table.
