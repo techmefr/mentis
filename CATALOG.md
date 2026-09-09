@@ -132,7 +132,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | python-conventions | 6 | PEP 484/526/604/695/8 + ruff + mypy/pyright + an org catalogue (20 skills), mined and de-identified; re-checked against PEP 8/ruff on 2026-08-10, re-verified unchanged; **sectioned and deepened 2026-09-08** — the eight sections that lived inline in `SKILL.md` moved to one file each under `references/`, the router became a table of triggers, and every section took the same depth pass as the five already-sectioned blocks (1,629 → 7,697 words of rules). The real absences were in the two sections that were thin out of proportion to what can go wrong in them: §4 async (110 words) had nothing on `gather`'s failure semantics, unbounded concurrency, cancellation-as-an-exception or the fact that `async` provides no lock — only the absence of pre-emption between awaits — and §6 DI (69 words) had nothing on a dependency's lifetime being unable to exceed the lifetime of what it holds. The PEP 8 re-check note moved out of §5, where it was provenance sitting among the rules, into `references/origin.md`; **dogfooded once 2026-09-08** on a small stdlib-only project (a pipeline measuring this repo's own depth table into SQLite, 44 tests green), which found three real gaps now closed: the checkpoint required `ruff`/`mypy` while the block opened by claiming every rule holds with nothing installed, so on a project where installs are refused the checkpoint was unsatisfiable on compliant code and no fallback was stated (§8.17); §8 was phrased entirely in pytest's vocabulary so its most portable content read as inapplicable to a stdlib runner (§8.18); and §7 was mapper- and migration-tool-shaped with nothing for a database with no ORM — §7.8–§7.11 turned out fully portable and §7.18–§7.19 add the create-if-not-absent script that silently never migrates an existing database and the engine defaults a mapper would have handled. §4, §6 and the mapper half of §7 correctly stayed unread, which is the routing mechanism exercised once rather than asserted | 🟡 (no internal *production* experience, same status as go-conventions — one small dogfood project does not change that, and `samwise` keeps its question register) |
 | code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file; **depth pass 2026-09-08 on all eight sections** (4,397 → 9,129 words of rules) — the block with least room, since it was already the deepest here, so the additions are the failure modes the sections were silent on: catch scope, cleanup on the failure path and cause preservation in §3; the primitive-obsession family (two ids of one primitive type, units, money as amount-plus-currency, a boolean pair encoding one state, a nullable field carrying two meanings) in §5; timeout, retry-with-backoff, idempotency on an outbound write, testing the client at the transport layer rather than mocking the client, and the webhook receiver's own three rules in §4; §6 reframed around the debt rather than the doctrine; and five more shapes in §8, including enforced-on-the-happy-path-only and verify-by-reading-the-system's-answer | 🟡 |
 | laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves | 🟡 |
-| flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned | 🟡 (no mobile production experience at all, `faramir`'s question register applies — the depth pass does not change that) |
+| flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned; **dogfooded once 2026-09-09** on a small Flutter app in the SDK container, 63 tests green and the analyser clean, which closed seven gaps — five of them surfaced by a failing test or a failed resolve rather than by reading: `on Exception` missing the half of the framework's failures that are `Error`s (§7.18), an awaited call into the holder saying nothing about whether it worked so a screen leaves on a failed save (§7.19), a status enum plus a nullable payload keeping the impossible combination representable (§7.20), a parse moved off the main isolate hanging a widget test rather than failing it (§8.18), the localisation generator being both a required generation step and an exact dependency pin (§9.16), an unconditional settle failing in under a second rather than never returning (§10.13 corrected) with `find.byType` matching the framework's own widgets (§10.17), and the composition root having nowhere to live in the two-layer split (§10.18) | 🟡 (no mobile production experience at all, `faramir`'s question register applies — neither the depth pass nor one dogfood app changes that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
@@ -391,7 +391,7 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 23,531 | −56,294 | x3.39 |
 | csharp | 37 / 56,718 | 1 / 7,490 | −49,228 | x7.57 |
 | python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
-| flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
+| flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
 | design-patterns | 7 / 12,179 | 1 / 6,334 | −5,845 | x1.92 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
@@ -424,7 +424,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 laravel: laravel-conventions 11,053, php-patterns 5,799, inertia-conventions 6,679
 csharp: dotnet-conventions 7,490
 python: python-conventions 8,203, data-pipeline-conventions 3,283
-flutter: flutter-conventions 10,321
+flutter: flutter-conventions 11,195
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
@@ -1056,6 +1056,75 @@ it mechanisable, which is what the ten failures were really about.
 the real .NET production project this file is waiting for, and `theoden` keeps its question register.
 What the exercise bought is five mechanical defects a compiler found, and a cross-reference check the
 repo had been prescribing to itself and never running.
+
+### Dogfooding, 2026-09-09: the `flutter` row
+
+Last of the four 🟡 stacks, container again rather than install: the `ghcr.io/cirruslabs/flutter:stable`
+image (Flutter 3.44, Dart 3.12), nothing on the machine.
+
+A small Flutter app was written against `skills/flutter-conventions` as its only reference. It reads a
+bundled JSON catalogue of this repo's own blocks and shows each one's source stamp as a freshness, with a
+filter, a paged list, a detail screen reached by identifier, a first-run threshold behind a route guard,
+and one setting. 45 Dart files, 3,419 lines, **63 tests green**, `flutter analyze` clean under
+`flutter_lints` — which is what the block's guardrail means by no new lint. It lives outside this repo,
+with its findings beside it.
+
+**The router held up, with one honest exception.** §8's permissions half never applied — the app asks the
+platform for nothing. §1's *first* half never applied either, and that turned out to be a finding rather
+than an omission: a screen that follows §7.8 and §7.15 has no widget-side `await` at all, so §1.2's three
+shapes are advice about the code the rest of the block tells you not to write.
+
+**Seven gaps in `flutter-conventions`, all now closed, and five of the seven were found by a failing test
+or a failed resolve rather than by reading:**
+
+1. **`on Exception` misses half of what the framework throws.** The boundary that maps a load failure
+   onto §4's states, written the disciplined narrow way, let a `FlutterError` for a missing asset
+   straight through: `Error` is not `Exception`, and neither is a failed assertion, a bad cast or an
+   unassigned `late` read. Found by a test that expected the mapped state and got the raw framework
+   error (§7.18).
+2. **An awaited call into the holder does not say whether it worked.** Once §7.5 puts the failure in the
+   state, the method completes normally either way — so a screen that awaited a save and then left, left
+   on a failed save too, with the error message rendering for one frame behind the transition. Fixed by
+   moving the reaction to §7.15's listener, which also removed the widget's only `await` (§7.19).
+3. **A status enum plus a nullable payload keeps the impossible combination representable**, so the
+   widget asserts on the payload or invents a rendering for a state that cannot happen — the fabricated
+   state §4.15 exists to prevent. The enum is still right for the flags; sealed types are what remove the
+   combination rather than documenting it (§7.20).
+4. **A parse moved off the main isolate is invisible to a widget test.** §8.9's advice is right and it
+   moves the work outside the harness's zone: the result never reaches the awaiting future, so the test
+   hangs to its timeout naming nothing. Confirmed both ways — it passes in a plain test, and inside the
+   harness only with the real-async escape hatch. The seam a widget test fakes has to sit above the hop
+   (§8.18).
+5. **The localisation layer is generated code and it pins its own dependency.** §9.1's typed keys come
+   from the framework's generator, which is the step §9.15 says not to introduce; and the SDK's
+   localisation package pins one exact version of the formatting library, so adding it the ordinary way
+   makes the project unresolvable while the message blames the SDK. Found by the resolver (§9.16).
+6. **An unconditional settle does not hang in a widget test, it fails in under a second.** The settle
+   advances a *fake* clock and gives up after ten minutes of it, and the message names the settle rather
+   than the animation — so the obvious move is to allow it more time, which cannot work. §10.13's
+   mechanism was right and its symptom was wrong. In the same pass: `find.byType` matches the framework's
+   own copies of a widget (a page transition contributed four extra fades), and a screen with one text
+   field has two scrollables, so a scroll helper cannot tell which to drive (§10.17).
+7. **The composition root has nowhere to live in §10.3's two layers.** A centralised route table imports
+   every feature's screens, so it is not technical; it belongs to no feature, so it is not functional.
+   Met by construction on the first route, and answered with a third top-level folder that imports both
+   layers and is imported by neither (§10.18).
+
+**And the rules that held, which is the other half of the exercise.** §4.13's forced-failure switch made
+all four screen states reachable from the command line, so the loading and error screens were looked at
+rather than assumed; §6.7's in-flight flag turned three next-page triggers in one frame into one request;
+§4.10's stale marker was the one place the obvious code would have silently gone on showing old data; and
+§9.8's reduce-motion fallback, written for accessibility, is the only reason a settle on the loading
+screen returns at all.
+
+**The row does not turn 🟢.** One small app written by the same agent that wrote the block is not the
+production mobile experience this block has always said it lacks, and `faramir` keeps asking questions
+rather than asserting. `flutter-conventions` 10,321 → **11,195**, the `flutter` row x2.01 → **x1.86**.
+
+**That closes the dogfooding pass over the four 🟡 stacks** — python, php, csharp, flutter — one small
+real project each and twenty gaps between them, most of them surfaced by a compiler, a resolver or a
+failing test rather than by a reading. Not one row turned 🟢, which is the honest outcome: the exercise
+proves the rules are mechanically true, not that they have been through production.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

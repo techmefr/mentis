@@ -47,8 +47,11 @@
     finds the old frame, or finds the new one by luck depending on the machine. Advance the clock by the
     animation's own duration rather than by a number that happened to work.
 13. A test that awaits a frame settles deliberately: an unconditional settle on a screen with a repeating
-    animation never returns. That is the test-side symptom of §9.9 — an animation nothing stops — so the
-    hanging test is usually pointing at a real defect rather than at itself.
+    animation cannot succeed. In a widget test it fails in under a second — the settle advances a *fake*
+    clock and gives up after ten minutes of it — and the message names the settle rather than the
+    animation, so the obvious move is to allow it more time, which cannot work; on a device, in an
+    integration test, the clock is real and it hangs instead. Either way it is the test-side symptom of
+    §9.9 — an animation nothing stops — so it is usually pointing at a real defect rather than at itself.
 14. **Golden tests need their inputs pinned.** A screenshot comparison depends on the font, the device size
     and the platform's text rendering, so an unpinned golden fails on the next machine and gets regenerated
     until it asserts nothing. Use them deliberately, for the few layouts where a pixel difference is the
@@ -60,3 +63,16 @@
     floor — see `skills/tdd`. Coverage there is a smoke detector and not a target: a line executed is not a
     line asserted, and a high number produced by tests that call code without checking outcomes is more
     dangerous than an honest lower one, because it retires the question.
+17. **Locate by key, not by type, for anything the framework also builds.** A finder for a widget type
+    matches the framework's own copies of it as well as yours — a page transition contributes its own fade
+    to every screen, so a count of four comes back as eight — and a screen with a single text field has
+    two scrollables in it, so a scroll-until-visible helper cannot tell which one to drive and fails with
+    a framework error naming neither the test nor the widget. Scoping the finder to a key, or to a
+    descendant of one, is what makes it mean what it reads as.
+18. **The composition root is a third place, and neither layer of point 3 can hold it.** The centralised
+    route table of §5.1 imports every feature's screens by construction, so it cannot live in the
+    technical layer that point 3 forbids from importing a feature; and it belongs to no single feature, so
+    it is not a functional one either. The same goes for the dependency wiring, the crash reporter, the
+    localisation delegates and the application widget itself: assembled once at startup, importing both
+    layers, imported by neither. Give them their own top-level folder, or the direction point 3 exists to
+    protect is broken by the first route added.
