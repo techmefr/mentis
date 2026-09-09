@@ -155,6 +155,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
+| `python-no-implicit-truthiness` | 6 | Trigger: a value that could be None/0/empty — never bare `if x`, always `is None`/`is not None` |
+| `python-no-bare-except` | 6 | Trigger: a try/except — never a bare except or a silent swallow with no rethrow/log |
+| `python-async-no-blocking-calls` | 6 | Trigger: an async function — never blocking I/O or CPU work without isolating it |
+| `python-no-db-cascade-delete` | 6 | Trigger: an ORM foreign key — never a DB-side cascade delete, cascade in the ORM layer |
+| `python-no-magic-strings` | 6 | Trigger: a bare domain string/number — give it an Enum/StrEnum or a named constant |
 | `java-conventions` | 6 | Java conventions: immutability, errors, concurrency, Spring (sourced from the market) |
 | `shell-scripting-conventions` | 6 | Shell fails silently by default: fail closed, quote everything, test the failure cases |
 | `design-patterns` | 3 / 6 | Recognise a pattern the code already has; most of the catalogue is already in the framework; and when one already in the code has stopped earning its place |
