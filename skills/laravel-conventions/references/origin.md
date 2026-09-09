@@ -227,3 +227,11 @@ detector" argument becomes automatic and actionable (point 23). Nothing here ans
 comparison a second time — every point is dated to Pest's current feature set rather than to the source
 catalogue mined in 2026-08. Word counts re-measured with `bin/measure_depth.py` after the edit; see
 `CATALOG.md` for the updated row.
+
+**Second pass same day: §8, job middleware and batches.** The section covered ordering, idempotence and
+failure but had nothing on the framework's own coordination mechanisms. Two points added: job middleware
+(`WithoutOverlapping`, `RateLimited`, `ThrottlesExceptions`) as the declared answer to "not two of these at
+once", rather than a hand-rolled lock reinventing point 1's ordering problem — and `WithoutOverlapping`
+releasing rather than dropping a job, which still needs point 2's idempotence; and `Bus::batch()` as
+coordination-for-reporting, not coordination-for-data, since its callbacks fire once for the whole batch
+and a job needing another job's *result* is still a chain. Word counts re-measured; see `CATALOG.md`.
