@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 25,225 | −54,600 | x3.16 |
+| laravel | 65 / 79,825 | 3 / 25,338 | −54,487 | x3.15 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 12,133, php-patterns 5,974, inertia-conventions 7,118
+laravel: laravel-conventions 12,246, php-patterns 5,974, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1559,6 +1559,16 @@ every other refusal — still a policy decision, not validation, so the message 
 may not, never what is wrong with the payload.
 
 `laravel-conventions` 12,034 → **12,133 words**; the `laravel` row x3.18 → **x3.16**.
+
+### Widening, 2026-09-09: the `laravel` row, ninth pass — `withExceptions()`
+
+`laravel-conventions` §11 gained one point: `dontReport()`, `throttle()` and `stopIgnoring()` in
+`bootstrap/app.php` as where the section's tracker-must-know-the-difference argument is actually enforced
+— naming a class as expected once rather than catching it at every throw site, sampling a class that fires
+legitimately at volume instead of either silence or flooding the tracker, and reversing the framework's
+default ignore list where a spike in an otherwise-routine status is itself the signal.
+
+`laravel-conventions` 12,133 → **12,246 words**; the `laravel` row x3.16 → **x3.15**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

@@ -262,3 +262,9 @@ accessor, which covers the same computation for a value nothing ever queries by.
 instead of `false` carries the reason for a 403, which is what makes the denial actionable rather than
 identical to every other refusal — still a policy decision, not validation, so the message explains why
 this caller may not, never what is wrong with the payload.
+
+**Seventh pass same day: §11, `withExceptions()`.** One point added: `dontReport()`, `throttle()` and
+`stopIgnoring()` in `bootstrap/app.php` as where point 12's tracker-must-know-the-difference argument is
+actually enforced — naming a class as expected once rather than catching it at every throw site, sampling
+a class that fires legitimately at volume instead of either silence or flooding the tracker, and reversing
+the framework's default ignore list where a spike in an otherwise-routine status is itself the signal.
