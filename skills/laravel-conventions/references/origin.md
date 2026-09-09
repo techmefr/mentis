@@ -242,3 +242,10 @@ as-you-type validation without a second endpoint — with the trap that a rule o
 runs (a uniqueness check against a row about to be created) has to be scoped to skip during a precognitive
 request; and `Http::pool()` as the outbound-call equivalent of the async-gather rule other stacks in this
 repo state, with the same per-response failure decision a naive "the pool failed" treatment loses.
+
+**Fourth pass same day: §4, `chaperone()` and the `lazy()`/`cursor()` distinction.** Two points added:
+`chaperone()` as the framework's fix for the specific N+1 point 2 already names — a child reaching back
+for its own parent — hydrating the parent from the eager load rather than issuing a query per child; and
+`lazy()` versus `cursor()` as two different answers to point 8's chunking need, not interchangeable —
+`cursor()` is cheaper on memory but drops back to a full collection the moment a Collection-only method is
+called on it, `lazy()` keeps chunking under the hood through the same call.
