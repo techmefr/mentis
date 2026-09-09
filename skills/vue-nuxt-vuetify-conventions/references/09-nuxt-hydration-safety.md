@@ -70,3 +70,14 @@
     module-level state; nothing in the SSR payload the template does not render; `routeRules` set if the
     page needs a non-default rendering mode; a fetch's `error` state read and handled, not just its
     `data`; and the dev console clean of hydration warnings on the page you touched.
+16. **Two calls sharing a key share one `data`/`error`/`status`, so the second call's options do not apply
+    to the first's in-flight request.** Point 4's explicit key stops the collision the auto-derived key
+    causes by accident; the same sharing now happens on purpose when two components genuinely want the same
+    resource, and the trap is assuming a `transform` or `default` passed at the second call site somehow
+    reruns for a fetch the first call already resolved — it does not, because there is one shared entry, not
+    two independent requests that happen to agree on a name.
+17. **A shared `useFetch` factory is the fix for options repeated at every call site, not a new primitive.**
+    Wrapping `useFetch` with the project's base URL, error handling and auth header once and exporting the
+    wrapped function keeps point 8's error-handling and point 13's context-forwarding rules in one place
+    instead of copy-pasted into every page that fetches — a call site that reaches for raw `useFetch` next
+    to a codebase that already has the wrapped version is the tell one of the two paths is unreviewed.
