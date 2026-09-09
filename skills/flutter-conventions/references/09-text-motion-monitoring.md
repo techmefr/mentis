@@ -57,3 +57,11 @@
     The cost is not local: every contributor and the CI pipeline now needs that step, generated files fill
     every review, and a stale artefact produces a compile error that names a file nobody wrote. It is a
     project-level decision, and one model is not the moment to take it.
+16. **The localisation layer is generated code, and it pins a dependency of its own.** Point 1's typed
+    keys are produced by the framework's own generator from the translation files, which is exactly the
+    generation step point 15 says not to introduce — so it is the exception, and it is not optional:
+    naming it is cheaper than leaving a reader to reconcile two rules that contradict. The pin is the
+    other half. The framework's localisation package ships inside the SDK and depends on one exact version
+    of the date and number formatting library, so adding that library the ordinary way — newest version,
+    as every package manager defaults to — makes the project unresolvable, and the message blames the SDK
+    package rather than the constraint just added. Let the SDK decide that one.

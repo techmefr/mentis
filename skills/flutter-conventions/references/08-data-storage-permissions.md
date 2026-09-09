@@ -65,3 +65,10 @@
 17. **Never log a credential, and never attach one to a report.** A token in a debug print reaches the
     device log, which other tooling can read, and a header captured into a crash report leaves the device
     entirely (§9.14). This is the one that gets added while debugging and stays.
+18. **A parse moved off the main isolate becomes invisible to a widget test.** Point 9 is right and it
+    moves the work outside the test's clock: a result coming back from another isolate is delivered
+    outside the zone the widget-test harness runs in, so the future the widget is awaiting never completes
+    and the test sits there until the suite's timeout — a hang rather than a failure, naming nothing. The
+    seam a widget test fakes therefore has to sit *above* the hop, at the repository rather than at the
+    file or the asset bundle; where the hop itself is what needs exercising, that is a plain unit test's
+    job, or it needs the harness's real-async escape hatch for that one await (§10.7).

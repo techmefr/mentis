@@ -83,3 +83,56 @@ wrong since the section was written. All thirty-six intra-block `§N.M` referenc
 by one against the current numbering; ten had been left pointing at the wrong rule and were corrected.
 §1 was also restructured so its two halves are 1-7 (async context) and 8-17 (disposal) rather than 1-4 and
 5-10, which is what moved most of those.
+
+**Dogfooded once, 2026-09-09.** A small Flutter app was written against this block as its only reference:
+it reads a bundled JSON catalogue of this repo's own blocks and shows each one's source stamp as a
+freshness, with a filter, a paged list, a detail screen reached by identifier, a first-run threshold
+behind a route guard, and one setting. Cubits for state, declarative routing, the framework's own
+localisation generator, platform preferences for the setting. 45 Dart files, 3,419 lines, **63 tests
+green**, `flutter analyze` clean under `flutter_lints`, on the `ghcr.io/cirruslabs/flutter:stable` image
+(Flutter 3.44, Dart 3.12) with nothing installed on the host. It lives outside this repo, with its
+findings beside it.
+
+**The router held up, with one honest exception.** §8's permissions half never applied — the app asks the
+platform for nothing — and §1's *first* half never applied either, which turned out to be a finding rather
+than an omission (see §7.19). The other eight sections were all touched.
+
+Seven gaps came back, all closed here, and five of the seven were found by a failing test or a failed
+build rather than by reading:
+
+- **`on Exception` misses half of what the framework throws.** The boundary that maps a load failure onto
+  §4's states, written the disciplined narrow way, let a `FlutterError` for a missing asset straight
+  through — `Error` is not `Exception`, and neither are a failed assertion, a bad cast or an unassigned
+  `late` read. Found by a test that expected the mapped state and got the raw framework error (§7.18).
+- **An awaited call into the holder does not say whether it worked.** Once §7.5 puts the failure in the
+  state, the method completes normally either way, so a screen that awaited a save and then left, left on
+  a failed save too. Found by a failing test; fixed by moving the reaction to §7.15's listener — which
+  also removed the only `await` the widget had, and with it the need for §1's guard (§7.19).
+- **A status enum plus a nullable payload keeps the impossible combination representable**, so the widget
+  asserts on the payload or invents a rendering for a state that cannot happen. Sealed types remove it;
+  the enum was still the right answer for the flags (§7.20).
+- **A parse moved off the main isolate (§8.9) is invisible to a widget test.** The result comes back
+  outside the harness's zone, so the future never completes and the test hangs to its timeout naming
+  nothing. Confirmed both ways: it passes in a plain test, and inside the harness only with the real-async
+  escape hatch. The seam a widget test fakes has to sit above the hop (§8.18).
+- **The localisation layer is generated code and it pins its own dependency.** §9.1's typed keys come from
+  the framework's generator, which is the step §9.15 says not to introduce; and the SDK's localisation
+  package pins one exact version of the formatting library, so adding it the ordinary way makes the
+  project unresolvable while blaming the SDK. Found by the resolver (§9.16).
+- **An unconditional settle does not hang in a widget test, it fails in under a second** — the settle
+  advances a fake clock and gives up after ten minutes of it, with a message naming the settle rather than
+  the animation. §10.13's mechanism was right and its symptom was wrong, which sends the reader looking
+  for the wrong thing; on a device it does hang. Also: `find.byType` matches the framework's own copies of
+  a widget (a page transition contributed four extra fades), and a screen with a text field has two
+  scrollables, so a scroll helper cannot tell which to drive (§10.13 corrected, §10.17).
+- **The composition root has nowhere to live in §10.3's two layers.** A centralised route table imports
+  every feature's screens, so it is not technical; it belongs to no feature, so it is not functional. Met
+  by construction on the first route (§10.18).
+
+**The status still does not change.** 🟡 — one small app written by the same agent that wrote the block is
+not the production mobile experience this file has always said it lacks, and `faramir` keeps asking
+questions rather than asserting. What the exercise bought is seven mechanical defects, five of which only
+a compiler or a test could have surfaced, and evidence for the rules that held: §4.13's forced-failure
+switch made all four screen states reachable, §6.7's in-flight flag turned three triggers in one frame
+into one request, and §9.8's reduce-motion fallback is the only reason a settle on the loading screen
+returns at all.

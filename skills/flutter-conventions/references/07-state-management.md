@@ -68,3 +68,23 @@
     loading state was ever emitted, so the spinner that never appears — or the error state skipped on the
     way to a stale success — is invisible to the suite. Assert the ordered emissions, which is the one thing
     a holder is uniquely able to prove about itself.
+18. **Point 5's catch is `on Object`, not `on Exception`.** Half of what the framework throws is an
+    `Error` rather than an `Exception` — a missing asset, a failed assertion, a bad cast, a
+    `late` field read before it was assigned — so the narrow catch that reads as the careful one lets the
+    platform's own failures straight past the layer whose whole job is turning them into a state, and the
+    user gets the framework's error screen where point 5's failure state was meant to be. That boundary is
+    the one place the broad catch is right; everywhere else it hides a bug.
+19. **An awaited call into the holder does not tell the widget whether it worked.** Once point 5 is
+    followed the failure lives in the state and the method completes normally either way, so a widget that
+    writes `await holder.save()` and then leaves the screen leaves it on a failed save too — with the error
+    message the holder emitted rendering for one frame behind the transition. The success is a state as
+    well, reacted to by point 15's listener on the transition into it. And once the reaction lives there
+    the widget has no `await` of its own left at all, which is why a screen built this way never needs
+    §1's context guard rather than merely getting away without it.
+20. **A status enum is the right answer for flags and the wrong shape for payloads.** Point 3's single
+    enum removes the contradiction between two booleans, and then a status of *failed* carrying no failure
+    — or of *ready* carrying no data — is still a value the class allows, so the widget either asserts on
+    the payload or invents a rendering for the impossible case, which is the fabricated state §4.15 exists
+    to prevent. Where the language has sealed types and exhaustive matching, one class per state carrying
+    exactly its own payload removes the combination instead of documenting it, and the widget's `switch`
+    has nothing left to assert.
