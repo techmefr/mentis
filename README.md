@@ -179,6 +179,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `flutter-four-async-states` | 6 | Trigger: a screen rendering async data — loading/success/empty/error, all four, per data source |
 | `flutter-no-future-in-state` | 6 | Trigger: a Future/Stream held in state — store the resolved result, never the awaitable |
 | `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
+| `dotnet-dispose-what-you-own` | 6 | Trigger: a disposable from DI or a factory — dispose what this code created, never an injected dependency |
+| `dotnet-no-swallow-exceptions` | 6 | Trigger: a catch block — never empty or log-only-then-continue on a path that should fail |
+| `dotnet-null-pattern-matching` | 6 | Trigger: a null check — `is null`/`is not null`, never `==` inside an equality operator's own body |
+| `dotnet-no-ambient-static-state` | 6 | Trigger: a static mutable field or DateTime.Now — inject it instead, for testability |
+| `dotnet-options-lifetime-mismatch` | 6 | Trigger: injecting IOptions*/Snapshot/Monitor — match the lifetime, never a snapshot in a singleton |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `python-no-implicit-truthiness` | 6 | Trigger: a value that could be None/0/empty — never bare `if x`, always `is None`/`is not None` |
 | `python-no-bare-except` | 6 | Trigger: a try/except — never a bare except or a silent swallow with no rethrow/log |
