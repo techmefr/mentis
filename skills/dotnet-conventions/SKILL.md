@@ -60,8 +60,12 @@ claim is exactly what the pipeline's default-is-failure guarantee exists to catc
 No comments in the code produced. This block hasn't been confronted with a real production .NET project yet;
 if a rule here diverges from a real observed need, fix this block rather than treating it as settled. The
 Framework Design Guidelines (public API naming) only apply to shared library code, not to internal
-application code. Existing threading, existing `var`, existing nested classes stay until migrated — these
-rules govern **new** code, and a mass rewrite is its own decision (`skills/simplify`, not this block). Where
+application code — **and the analyser set is scoped to say so**, in the project's editor configuration
+rather than file by file: those naming rules fire hardest on the test project, where nothing is a public
+API and where underscored test names are the readable convention, so a solution that has not scoped them
+starts by rewriting every test name. Existing threading, existing `var`, existing nested classes stay
+until migrated — these rules govern **new** code, and a mass rewrite is its own decision
+(`skills/simplify`, not this block). Where
 an org catalogue is installed and disagrees, **it wins**.
 
 ## Origin

@@ -70,3 +70,38 @@ wrong for one that arrives from outside.
 
 Router plus sections: 3,167 → 6,976, x17.91 → x8.13 — still the worst ratio in the table, and still
 the row whose 🟡 depth cannot move.
+
+**Dogfooded once, 2026-09-09.** A small .NET 9 solution was written against this block as its only
+reference — one console project and one xunit project, `EnableNETAnalyzers` on, `AnalysisLevel` at
+`latest-recommended`, `TreatWarningsAsErrors` on, which is what the guardrail's zero-new-warning rule
+actually means in practice. It checks that every `§N.M` citation in a `mentis` clone resolves to a section
+and to a point inside it: 1,260 citations across 84 blocks. 36 tests green, run on the
+`mcr.microsoft.com/dotnet/sdk:9.0` image with nothing installed on the host. It lives outside this repo,
+with its findings beside it.
+
+Five gaps came back, all closed here, and four of the five were found by the *build* rather than by
+reading:
+
+- **CA1822 turns a stateless collaborator into a static class** and the block had no position on it. A
+  class written the way §2.1 asks but holding no fields trips *can be marked as static* on every method,
+  which is a build failure under the guardrail — and the three ways out are not equivalent, since making
+  it static takes it out of the container and un-substitutes it (§2.15).
+- **`ValidateOnStart` alone validates nothing.** §2.8 asks for configuration validated once at the root;
+  the validate-on-start call only runs the *registered* validations, and the data-annotations validator
+  ships in a package the hosting metapackage does not bring in. A chain that reads as validated can be
+  running no validation at all (§2.16).
+- **§4.15 and §7.8 together did not compile.** Numbering every enum member explicitly (§4.15) leaves no
+  member holding zero, and a `switch` expression over the named members is then reported as non-exhaustive
+  naming `(T)0` — a build failure where warnings are errors, on exactly the arm §7.8 said was
+  unnecessary for an internal value. §5.13 already stated the same fact for `default(T)` (§7.10).
+- **CA1707 made 36 test names a build error**, which is the analyser-scoping decision the guardrail
+  implied and never stated (guardrails).
+- **`InvariantGlobalization` makes §6.5's human-facing half throw** rather than merely return a wrong
+  result, and it is usually the container's decision rather than the code's. Found by a failing test
+  (§6.13).
+
+**The status still does not change.** One small console solution written by the same agent that wrote the
+block is not the real .NET production project this file is waiting for, and `theoden` keeps its question
+register. What the exercise bought is five mechanical defects, four of which only a compiler with
+warnings-as-errors could have surfaced — and a check of this repo's own cross-references that had been
+prescribed by `maintaining-blocks` §1.3 and never run.

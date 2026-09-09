@@ -32,7 +32,7 @@ crossed over (rule C).
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (13 sections) |
 | React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
-| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added) |
+| C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated) |
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded**; sectioned into `references/` and deepened 2026-09-08, 2,041 → 5,938 words of rules, §0 marked read-every-time, no section added |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
@@ -389,15 +389,15 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 23,531 | −56,294 | x3.39 |
-| csharp | 37 / 56,718 | 1 / 6,976 | −49,742 | x8.13 |
+| csharp | 37 / 56,718 | 1 / 7,490 | −49,228 | x7.57 |
 | python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
 | flutter | 40 / 20,772 | 1 / 10,321 | −10,451 | x2.01 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
-| design-patterns | 7 / 12,179 | 1 / 6,333 | −5,846 | x1.92 |
+| design-patterns | 7 / 12,179 | 1 / 6,334 | −5,845 | x1.92 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
-| global | 18 / 20,280 | 5 / 21,622 | +1,342 | x0.94 |
+| global | 18 / 20,280 | 5 / 21,624 | +1,344 | x0.94 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -422,13 +422,13 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 11,053, php-patterns 5,799, inertia-conventions 6,679
-csharp: dotnet-conventions 6,976
+csharp: dotnet-conventions 7,490
 python: python-conventions 8,203, data-pipeline-conventions 3,283
 flutter: flutter-conventions 10,321
 nuxt: vue-nuxt-vuetify-conventions 12,443
-global: code-baseline 9,129, security-hardening 4,144, api-design 2,392, documentation-adr 2,909, observability-instrumentation 3,048
+global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
-design-patterns: design-patterns 6,333
+design-patterns: design-patterns 6,334
 react: react-nextjs-conventions 10,476
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
 ```
@@ -994,6 +994,68 @@ the money and randomness points of §5 never applied — that is a property of t
 the table. And **the row does not turn 🟢**: one small CLI written by the same agent that wrote the block
 is not in-house production experience, the operator is still new to PHP, and `gimli` keeps its question
 register.
+
+### Dogfooding, 2026-09-09: the `csharp` row
+
+Third of the four 🟡 stacks, container again rather than install: the `mcr.microsoft.com/dotnet/sdk:9.0`
+image, nothing on the machine.
+
+A small .NET 9 solution was written against `skills/dotnet-conventions` as its only reference — one
+console project, one xunit project, `EnableNETAnalyzers` on, `AnalysisLevel` at `latest-recommended` and
+`TreatWarningsAsErrors` on, which is what the block's guardrail actually means by iterating to zero new
+warnings. It checks that every `§N.M` citation in a clone of this repo resolves to a section and to a
+point inside it. 36 tests green. It lives outside this repo, with its findings beside it.
+
+**The router worked again.** §3 (authorisation) never applied and stayed unread — no endpoint, no hub, no
+consumer in a file-reading console app. The other six sections were all touched.
+
+**Five gaps in `dotnet-conventions`, all now closed, and four of the five were found by the build rather
+than by reading:**
+
+1. **CA1822 turns a stateless collaborator into a static class, and the block had no position on it.** A
+   class written the way §2.1 asks but holding no fields — a parser, a checker — trips *member does not
+   access instance data and can be marked as static* on every method, which is a build failure under the
+   guardrail. The three ways out are not equivalent, and the one the analyser wants takes the class out
+   of the container, which is exactly the substitutability §2.2 argues for (§2.15).
+2. **`ValidateOnStart` on its own validates nothing.** §2.8 asks for configuration bound and validated
+   once at the composition root; the validate-on-start call only forces the *registered* validations to
+   run early, and the data-annotations validator ships in a package the hosting metapackage does not
+   bring in. So a chain that reads as validated can be running no validation at all, and the misspelled
+   key still arrives as a default (§2.16).
+3. **§4.15 and §7.8 together did not compile.** Numbering every enum member explicitly leaves no member
+   holding zero, and the compiler then reports a `switch` expression over every named member as
+   non-exhaustive, naming `(T)0` — a build failure where warnings are errors, on precisely the arm §7.8
+   said an internal value did not need. §5.13 already stated the same fact for `default(T)`; the switch
+   case was missing (§7.10).
+4. **CA1707 made all 36 test names a build error.** The guardrail already said the public-API naming
+   guidelines apply to shared library code only; it did not say that the analyser set is therefore
+   *scoped*, and the place those rules bite hardest is the test project, where underscored names are the
+   readable convention (guardrails).
+5. **`InvariantGlobalization` makes §6.5's human-facing half throw.** The switch — commonly set for
+   container size, trimming or AOT, and usually by whoever chose the base image — makes naming any
+   culture raise `CultureNotFoundException`, so the current-culture half of §6.5 stops being a wrong
+   result and becomes an exception, and a test for culture-dependent formatting cannot be written at all.
+   Found by a failing test (§6.13).
+
+**What the tool then found in this repo is the bigger half.** 1,270 citations across 84 blocks. Ten did
+not resolve, and eight of them were one defect repeated: **a `§N.M` is not attributable on its own**. The
+number carries no block, so a reader takes the nearest block named before it on the line — and in eight
+places that name was not the intended target. The sharpest shape is an `Origin` section listing who cites
+what, where the natural phrasing (a backquoted block name followed by a number) states the reverse of
+what it means: `business/data-analytics` claimed a §5.3 in a block that has three sections, and
+`security-hardening` did the same. `api-design` named `deprecation-migration` and then cited its own §3.6
+and §3.8. `design-patterns` put three citations in one sentence, two of them local and none marked.
+
+Four of the eight were introduced by the depth programme itself, when sections moved and origin files
+started describing who cites what. All eight are fixed, plus the two sentences that described a citation
+defect *in* citation notation — the repo now resolves **1,270 of 1,270**. `maintaining-blocks` §1.3 has
+asked for this check since it was written and it had never been run; §1.5 now states the rule that makes
+it mechanisable, which is what the ten failures were really about.
+
+**The row does not turn 🟢.** One console solution written by the same agent that wrote the block is not
+the real .NET production project this file is waiting for, and `theoden` keeps its question register.
+What the exercise bought is five mechanical defects a compiler found, and a cross-reference check the
+repo had been prescribing to itself and never running.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

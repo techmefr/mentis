@@ -66,9 +66,9 @@ a row that does not exist yet (§4.7). Router plus sections: 2,347 → 6,333, wh
 x5.19 to x1.92.
 
 **Two stale cross-references into this block were found and fixed in the same pass**:
-`laravel-conventions` §4 and §8 both cited `skills/design-patterns` §7 for the transaction-boundaries
-rule, and this block has never had a §7 — the rule is §4.7. Wrong since those lines were written, and
-found by resolving every reference rather than by reading.
+`laravel-conventions` §4 and §8 both cited a seventh section of this block for the
+transaction-boundaries rule, and this block has never had one — the rule is §4.7 here. Wrong since
+those lines were written, and found by resolving every reference rather than by reading.
 
 **Status.** 🟡 — the GoF catalogue and the org catalogue's triggers are solid sources, and §1, §2, §3 and
 §6 are ours: written from what this repo's own review history keeps producing rather than from a source

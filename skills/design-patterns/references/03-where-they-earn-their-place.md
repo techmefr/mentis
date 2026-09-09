@@ -50,5 +50,5 @@
    explicitly rather than pretending the count improved.
 10. **What this section owes at review time is one sentence per named pattern.** Which boundary it
     contains, and where the second real case is. If that sentence cannot be written, the diff is a
-    `simplify` candidate — and if it can, it belongs in the ADR (§5.2) rather than being rediscovered by
+    `simplify` candidate — and if it can, it belongs in the ADR (§5.2 here) rather than being rediscovered by
     the next reader.

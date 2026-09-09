@@ -40,10 +40,10 @@ reason.
 ## Guardrails
 No over-engineering of the contract for a hypothetical need nobody asked for (§1.11): the contract
 covers the real need, extensible later if required, not pre-generalised. An incompatible change never
-slips quietly into a "minor" evolution: go explicitly through `deprecation-migration` (§3.2), and note
-that a rename (§3.6) and a change of a field's *meaning* (§3.8) are both incompatible even though
-neither looks it. **Never expose an internal field because it's handy** (§2.2) — it is permanent from
-the first integration.
+slips quietly into a "minor" evolution: a rename (§3.6 here) and a change of a field's *meaning*
+(§3.8 here) are both incompatible even though neither looks it, and both go explicitly through
+`deprecation-migration` (its §3.2). **Never expose an internal field because it's handy** (§2.2) — it is
+permanent from the first integration.
 
 ## Origin
 A rewrite of a market generalist catalogue's `api-and-interface-design` skill. The full provenance and
