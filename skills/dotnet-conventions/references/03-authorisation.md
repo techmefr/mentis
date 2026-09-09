@@ -58,3 +58,13 @@
     the answer — which is why the platform refuses at run time to combine any-origin with credentials, and
     why the deliberate version of that policy is an explicit list of origins. A test-time wildcard left in
     the pipeline is the usual way it ships.
+14. **A custom `IAuthorizationHandler` that calls `Succeed` unconditionally on any match short-circuits
+    every other handler for that requirement**, so a second, stricter handler registered for the same
+    requirement never runs once the first one succeeds. Requirements are additive by design — a handler
+    that wants to *deny* has to call `Fail`, not simply decline to `Succeed`, or a later handler can still
+    override a rejection nobody intended to be overridable.
+15. **A real-time connection's authorisation is checked once, at the handshake, not on every message it
+    later sends.** A hub connection authorised at connect time keeps whatever claims it started with even
+    if the underlying token expires or the caller's permissions change mid-connection — a long-lived
+    connection needs its own re-validation strategy (a periodic claims refresh, a forced reconnect on
+    permission change) or it is authorisation frozen at the moment nobody is watching for it to go stale.

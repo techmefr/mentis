@@ -167,3 +167,13 @@ needs its own strategy distinct from inbound throttling, with a token-bucket-sty
 a natural burst where a fixed-window one either starves it or lets one straddle the window boundary
 (§8.9). §8 591 → 763 words.
 
+**Widening, 2026-09-09 — §5 and §3 each gained points.** Still worst ratio, continuing down the
+thinnest-section list. §5 gained the `DisposeAsyncCore` split for a type owning several async
+resources rather than exposing two dispose entry points (§5.14), a double dispose needing to be a
+guarded no-op rather than a second failure (§5.15), and a generic type parameter's nullability
+needing its own constraint rather than inheriting the caller's (§5.16). §3 gained a custom
+`IAuthorizationHandler` that calls `Succeed` unconditionally short-circuiting every other handler for
+the same requirement, so denial has to be an explicit `Fail` (§3.14), and a real-time connection's
+authorisation being checked once at the handshake, not re-validated as claims or permissions change
+mid-connection (§3.15). §5 847 → 1,145 words; §3 900 → 1,090 words.
+

@@ -35,7 +35,10 @@ crossed over (rule C).
 | C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated; **widened against the current platform 2026-09-09**, two new sections — §8 resilience and throttling, §9 what only breaks at publish — plus nine points from the vendor's own current documentation, 7,490 → 9,727 words, x7.57 → **x5.83**); **widened 2026-09-09**, §9 gained three points against current public Native AOT/trimming guidance (suppressed warnings, AOT's inability to generate code at run time, reading a package's own compatibility from publish warnings rather than assuming it), 9,727 → 9,957 words, x5.83 → **x5.7**); **widened again 2026-09-09**, §8 gained two points against
 current public HTTP-resilience/rate-limiting guidance (never stack more than one resilience handler
 per client; outbound rate limiting needs its own token-bucket-style strategy, distinct from inbound
-throttling), 9,957 → 10,104 words, x5.7 → **x5.61**) |
+throttling), 9,957 → 10,104 words, x5.7 → **x5.61**); **widened again 2026-09-09**, §5 and §3 each gained points
+(async-dispose ownership, guarded double-dispose, generic nullability constraints; authorization-
+handler short-circuit, real-time connection re-validation), 10,104 → 10,432 words, x5.61 → **x5.44**)
+|
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded**; sectioned into `references/` and deepened 2026-09-08, 2,041 → 5,938 words of rules, §0 marked read-every-time, no section added |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
 | Patterns | `design-patterns` (4 at audit time, 7 as of 2026-08-11) | `skills/design-patterns` §4: the concrete entry condition per pattern (strategy, state, null object, object construction, value object, pipeline, transaction boundaries), on top of the whether-to-reach-for-one decision that remains ours |
@@ -438,7 +441,7 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 25,536 | −54,289 | x3.13 |
-| csharp | 37 / 56,718 | 1 / 10,104 | −46,614 | x5.61 |
+| csharp | 37 / 56,718 | 1 / 10,432 | −46,286 | x5.44 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
 | nuxt | 21 / 19,869 | 1 / 12,625 | −7,244 | x1.57 |
@@ -471,7 +474,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 12,350, php-patterns 6,068, inertia-conventions 7,118
-csharp: dotnet-conventions 10,104
+csharp: dotnet-conventions 10,432
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
 nuxt: vue-nuxt-vuetify-conventions 12,625
