@@ -209,5 +209,19 @@ else:
     fail += 1
     print("FAIL  refusal message lost the injection warning")
 
+# A hook is wired by path and run by the runtime, so a lost executable bit is a hook that
+# does not fire — and an editor that rewrites the file is enough to lose it. Found on
+# 2026-09-09, in a commit of this repo's own that dropped two of them.
+HOOKS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "hooks")
+for name in sorted(os.listdir(HOOKS_DIR)):
+    if not name.endswith((".sh", ".py")):
+        continue
+    if os.access(os.path.join(HOOKS_DIR, name), os.X_OK):
+        ok += 1
+        print(f"PASS  hooks/{name} is executable")
+    else:
+        fail += 1
+        print(f"FAIL  hooks/{name} lost its executable bit")
+
 print(f"\n{ok} passed, {fail} failed")
 sys.exit(1 if fail else 0)
