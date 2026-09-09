@@ -153,6 +153,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `laravel-no-fat-models` | 6 | Trigger: a model method beyond fillable/casts/relationships — business logic goes to an action/query class |
 | `laravel-no-magic-strings` | 6 | Trigger: a bare domain string/number (status, queue name, threshold) — give it an enum/constant/config entry |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
+| `flutter-context-after-await` | 6 | Trigger: BuildContext used after an await — mounted check, capture before await, or never in a state holder |
+| `flutter-no-controller-in-build` | 6 | Trigger: a controller/future/stream built inside `build()` — hoist to initState or a late final field |
+| `flutter-dispose-what-you-create` | 6 | Trigger: a widget's dispose() — never dispose a controller you didn't create |
+| `flutter-four-async-states` | 6 | Trigger: a screen rendering async data — loading/success/empty/error, all four, per data source |
+| `flutter-no-future-in-state` | 6 | Trigger: a Future/Stream held in state — store the resolved result, never the awaitable |
 | `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
 | `python-no-implicit-truthiness` | 6 | Trigger: a value that could be None/0/empty — never bare `if x`, always `is None`/`is not None` |
