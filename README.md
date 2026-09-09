@@ -162,6 +162,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `laravel-idempotent-seeders` | 6 | Trigger: a reference-data seeder — upsert by natural key, never insert |
 | `laravel-seed-new-features` | 6 | Trigger: a change introducing/changing persisted data — ship its seed data in the same change |
 | `laravel-idempotent-jobs` | 6 | Trigger: a queued job's handle() — assume it may run twice, assert the end state not a delta |
+| `laravel-post-may-run-twice` | 6 | Trigger: a row-creating POST endpoint — a DB uniqueness constraint or an idempotency key, never a check-then-insert |
+| `laravel-no-hand-rolled-content-negotiation` | 6 | Trigger: a controller branching on JSON vs rendered — never, let the framework decide |
+| `laravel-api-breaking-changes` | 6 | Trigger: removing/renaming/narrowing an API field — additive-then-remove, never one commit |
+| `laravel-precognitive-request-scoping` | 6 | Trigger: a validation rule checking the request's own not-yet-created data — skip it during precognition |
+| `laravel-support-window-date` | 6 | Trigger: choosing a Laravel/PHP version — the published security end-of-life date settles it |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `flutter-context-after-await` | 6 | Trigger: BuildContext used after an await — mounted check, capture before await, or never in a state holder |
 | `flutter-no-controller-in-build` | 6 | Trigger: a controller/future/stream built inside `build()` — hoist to initState or a late final field |
