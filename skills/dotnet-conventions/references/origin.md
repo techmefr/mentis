@@ -144,3 +144,16 @@ one names a mechanism a reader can check rather than a version number:
 Ratio x8.13 → **x5.83**, and the remaining distance is now mostly implementation shape: the source
 catalogue carries a code example per rule, this block carries the mechanism and the consequence. The
 status is unchanged and for the unchanged reason — nobody here writes C# on a real project.
+
+**Widening, 2026-09-09 — §9 gained three points.** csharp had the worst measured ratio in the table
+(x5.83), so the thinnest section (§9, 441 words) was checked against current public Native AOT and
+trimming guidance (Microsoft Learn's Native AOT deployment overview, the .NET Blog's AOT-compatible-
+libraries guidance, and community documentation of common AOT/trimming pitfalls) for gaps the existing
+five points did not cover: a suppressed publish warning removing the only signal a bug hadn't been
+found yet rather than removing the bug (§9.6); Native AOT's inability to generate code at run time
+being a categorically different failure from trimming, since a dynamic proxy or a runtime expression
+compiler has nothing to fall back to and never worked to begin with, checked before adoption rather
+than discovered in the published binary (§9.7); and a third-party package's trim/AOT compatibility
+being read from the publish warnings, not assumed from its passing local tests (§9.8). §9 441 → 812
+words.
+
