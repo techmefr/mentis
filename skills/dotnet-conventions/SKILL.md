@@ -31,7 +31,7 @@ As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
 ## Steps
 
 **Read only the sections the task actually touches.** The rules live one file per section under
-`references/`; loading all seven for a change that renames a field is waste, and a section read is a
+`references/`; loading all nine for a change that renames a field is waste, and a section read is a
 section that has to be applied. If you are reviewing a whole diff, pick the rows whose trigger the diff
 meets, not the whole table.
 
@@ -44,6 +44,8 @@ meets, not the whole table.
 | 5 | Disposal, nullability, enumeration | a disposable is created, a null is silenced, or a sequence is enumerated or counted | [`05-disposal-nullability-enumeration.md`](./references/05-disposal-nullability-enumeration.md) |
 | 6 | Data access and portability | an EF Core query or migration, the middleware order, a path, a clock or a culture | [`06-data-access-portability.md`](./references/06-data-access-portability.md) |
 | 7 | Language idioms | new code has a choice of form (preferences, not prohibitions) | [`07-language-idioms.md`](./references/07-language-idioms.md) |
+| 8 | Resilience and throttling | an outbound client, a retry, a timeout, or a limit on our own API | [`08-resilience-throttling.md`](./references/08-resilience-throttling.md) |
+| 9 | What only breaks at publish | the project targets a trimmed, single-file or AOT publish, or reflection is written in one that might | [`09-publish-time-failures.md`](./references/09-publish-time-failures.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, and a build with no new

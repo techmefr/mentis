@@ -50,3 +50,17 @@
     unnamed — and that report is a build failure wherever warnings are errors. Point 8 holds with one
     correction: the arm is written even for a value that is entirely internal, and what matters is that it
     throws rather than returning a plausible default. §5.13 states the same fact for `default(T)`.
+11. **The backing-field keyword removes a declaration, not a decision.** Where the language version
+    supports it, a property whose accessor needs the stored value can name it directly instead of declaring
+    a private field beside it — which is the right form, because the field existed only to be paired with
+    the property and nothing else could see it. Two cautions, both mechanical: in a type that already has a
+    member of that name the keyword wins, silently changing what the accessor reads; and the keyword makes
+    a validating setter cheap to write, which is not a licence to put behaviour in a property that the
+    caller cannot see failing (§4.12's data-carrying types stay data).
+12. **An extension member is a call-site convenience, not a place for a dependency.** Where the language
+    version supports extension properties, operators and static members, they belong to the same judgement
+    as the extension method they generalise: they read as if the type declared them, so the reader looks in
+    the type first and does not find them. Use them to make a *foreign* type read naturally — a type from a
+    package, a generated client — and never for a type we own, where the member simply goes on the type. An
+    extension that reaches a service, a clock or a database is the worst case of both: an invisible
+    dependency behind a member that looks like data (§2.1, §6.4).

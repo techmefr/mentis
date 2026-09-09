@@ -19,7 +19,10 @@
    host machine's timezone and DST state, so the same code gives one result on a developer's box and another
    in a UTC container — a correctness bug, not a style point. A class built by the container takes the
    platform's time abstraction as a dependency; that is also what makes "expires in 30 days" testable
-   without waiting.
+   without waiting. The platform ships that abstraction and a controllable fake for tests, so this rule
+   costs one constructor parameter rather than an interface of your own — and the fake is what makes the
+   cases nobody reaches by waiting (a month boundary, a DST hour, a leap day) into ordinary tests. A timer
+   created through it is disposed like any other resource (§5.9).
 5. **State the culture and the comparison instead of inheriting the ambient one.** Two halves of one
    boundary, not a rule with a footnote: machine-facing text — identifiers, keys, wire and file formats —
    parses and formats with the invariant culture and compares **ordinally**; human-facing text parses,
@@ -63,3 +66,20 @@
     result and becomes an exception, and a test that checks culture-dependent formatting cannot be
     written at all. Read the switch before assuming a locale is available; a project that has it on has
     decided there is only one culture, which is a decision worth stating rather than discovering.
+14. **Two collection includes in one query multiply the rows, and the fix has its own cost.** Loading a
+    parent with two child collections in a single statement returns every combination of the two — ten and
+    ten come back as a hundred rows carrying the parent's columns a hundred times, which is bandwidth and
+    materialisation rather than a slow query plan. Splitting the query is the answer for two or more
+    collections and stays wrong for one; and splitting means several round trips with no transaction
+    between them, so the halves can disagree, and any paging has to be ordered deterministically or the
+    pages are drawn from different orderings of the same rows.
+15. **A bulk update or delete statement bypasses everything the rest of the code relies on.** Translating
+    the change into one SQL statement instead of loading the entities is the right call for a large set, and
+    it skips the change tracker — and with it the interceptors, the domain events, the audit columns and the
+    **global query filters**, soft delete included. So a bulk delete reaches rows the application considers
+    already deleted, and nothing in the code near it says so. Use it deliberately, on a query whose filter
+    restates by hand whatever the global filter was doing.
+16. **Raw SQL has two forms and only one of them is a query.** The interpolated form turns every hole into a
+    parameter; the plain-string form concatenates, so a value that came from a request is now part of the
+    statement. They differ by one character at the call site and by a vulnerability class in production —
+    and the plain form is what an example on the internet uses, because it is shorter.
