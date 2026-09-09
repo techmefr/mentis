@@ -67,3 +67,11 @@
 14. **The failure path is asserted.** A throw is behaviour, so a test names it and proves it (§9);
     otherwise the first refactor quietly turns it back into the returned error response point 1 forbids,
     and nothing anywhere goes red.
+15. **All of this is configured in one place, `withExceptions()` in `bootstrap/app.php`**, which is where
+    point 12's "the tracker has to know the difference" is actually enforced: `dontReport()` names an
+    exception class as expected rather than catching it at every throw site to suppress it locally, and
+    `throttle()` samples a class that fires legitimately at volume (a flaky upstream, a bot hammering a
+    404) so the tracker keeps a representative slice instead of either silence or being flooded into
+    unreadability. `stopIgnoring()` is the other direction: a status the framework ignores by default
+    (404, a CSRF failure) that this application specifically wants reported, because a spike in one of
+    those is itself the signal.
