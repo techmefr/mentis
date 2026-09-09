@@ -157,3 +157,13 @@ than discovered in the published binary (§9.7); and a third-party package's tri
 being read from the publish warnings, not assumed from its passing local tests (§9.8). §9 441 → 812
 words.
 
+**Widening, 2026-09-09 — §8 gained two points.** Still the worst ratio (x5.7 at the start of this
+pass), so the next-thinnest section (§8, 591 words) was checked against current public guidance on
+`Microsoft.Extensions.Http.Resilience` and ASP.NET Core rate limiting (Microsoft Learn's HTTP
+resilience patterns page and rate-limiting middleware page): stacking more than one resilience
+handler on the same client makes the total retry/timeout behaviour unreadable from the registration,
+since it lives in whichever handler ran last (§8.8); and outbound rate limiting against a dependency
+needs its own strategy distinct from inbound throttling, with a token-bucket-style limiter tolerating
+a natural burst where a fixed-window one either starves it or lets one straddle the window boundary
+(§8.9). §8 591 → 763 words.
+
