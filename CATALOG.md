@@ -157,6 +157,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | laravel-idempotent-seeders | 6 | `laravel-conventions` §7.12 and §9.10 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
 | laravel-seed-new-features | 6 | `laravel-conventions` §9.11 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
 | laravel-idempotent-jobs | 6 | `laravel-conventions` §8.2 extracted to its own trigger, 2026-09-09, third pilot batch | 🟡 |
+| laravel-post-may-run-twice | 6 | `laravel-conventions` §6.15 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
+| laravel-no-hand-rolled-content-negotiation | 6 | `laravel-conventions` §6.13 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
+| laravel-api-breaking-changes | 6 | `laravel-conventions` §6.14 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
+| laravel-precognitive-request-scoping | 6 | `laravel-conventions` §6.17 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
+| laravel-support-window-date | 6 | `laravel-conventions` §10.3 extracted to its own trigger, 2026-09-09, fourth pilot batch | 🟡 |
 | flutter-context-after-await | 6 | `flutter-conventions` §1's opening rule and §1.2 extracted to its own trigger, 2026-09-09, narrow-trigger + pointer pilot | 🟡 |
 | flutter-no-controller-in-build | 6 | `flutter-conventions` §1.14 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | flutter-dispose-what-you-create | 6 | `flutter-conventions` §1.12–§1.13 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
@@ -1700,6 +1705,18 @@ Five more mechanical rules, this time clustered around idempotency and seed data
 `laravel-idempotent-jobs` (`laravel-conventions` §8.2). Fifteen of `laravel`'s mechanical rules are
 now covered; remaining candidates include no-html-in-php, the `strict_types` default (§5.12), and a
 few more across §6/§9/§10.
+
+### Structural pilot, 2026-09-09: fourth `laravel-conventions` batch — HTTP contract and versioning
+
+Five more: `laravel-post-may-run-twice` (`laravel-conventions` §6.15),
+`laravel-no-hand-rolled-content-negotiation` (`laravel-conventions` §6.13), `laravel-api-breaking-changes`
+(`laravel-conventions` §6.14), `laravel-precognitive-request-scoping` (`laravel-conventions` §6.17) and
+`laravel-support-window-date` (`laravel-conventions` §10.3). Twenty of `laravel`'s mechanical rules are
+now covered by standalone triggers. Considered `product-ownership` (the closest business block to
+"project management") for the same treatment and declined it: its rules are human-process guidance
+(how to write a story, when to say no in a meeting) with no code-pattern trigger to fire on, unlike
+every stack covered so far — forcing the same shape there would fragment it without the benefit the
+pilot exists for, and business blocks are 🟡-capped by contract regardless.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
