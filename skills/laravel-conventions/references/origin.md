@@ -249,3 +249,11 @@ for its own parent — hydrating the parent from the eager load rather than issu
 `lazy()` versus `cursor()` as two different answers to point 8's chunking need, not interchangeable —
 `cursor()` is cheaper on memory but drops back to a full collection the moment a Collection-only method is
 called on it, `lazy()` keeps chunking under the hood through the same call.
+
+**Fifth pass same day: §4 and §3, `shouldBeStrict()` and generated columns.** §4 gained
+`Model::shouldBeStrict()` as point 1's N+1 rule turned into a thrown exception rather than a review
+checkpoint, bundled with two sibling checks (silent mass-assignment discard, a read of a missing
+attribute) — environment-specific by design, so running it in production as well as locally trades a
+caught bug for a 500 on every affected user. §3 gained the generated column (`virtualAs`/`storedAs`) as
+the answer when a computed value has to be filtered, sorted or indexed by the database, distinct from an
+accessor, which covers the same computation for a value nothing ever queries by.

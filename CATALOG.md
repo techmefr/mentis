@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 24,926 | −54,899 | x3.2 |
+| laravel | 65 / 79,825 | 3 / 25,126 | −54,699 | x3.18 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,834, php-patterns 5,974, inertia-conventions 7,118
+laravel: laravel-conventions 12,034, php-patterns 5,974, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1539,6 +1539,17 @@ chunking point, not interchangeable, since `cursor()` drops back to a full colle
 Collection-only method is called on it and `lazy()` does not.
 
 `laravel-conventions` 11,649 → **11,834 words**; the `laravel` row x3.23 → **x3.2**.
+
+### Widening, 2026-09-09: the `laravel` row, seventh pass — `shouldBeStrict()` and generated columns
+
+`laravel-conventions` §4 gained `Model::shouldBeStrict()` as the section's N+1 rule turned into a thrown
+exception rather than a review checkpoint, bundled with two sibling checks (silent mass-assignment discard,
+a read of a missing attribute) — environment-specific by design, so running it in production too trades a
+caught bug for a 500 on every affected user. §3 gained the generated column (`virtualAs`/`storedAs`) as the
+answer when a computed value has to be filtered, sorted or indexed by the database, distinct from an
+accessor, which covers the same computation for a value nothing ever queries by.
+
+`laravel-conventions` 11,834 → **12,034 words**; the `laravel` row x3.2 → **x3.18**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

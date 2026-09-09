@@ -59,3 +59,9 @@
    with the lost listeners named, not a trait chosen to keep the log quiet.
 15. Column defaults: prefer the application-side default, visible at the call site and testable without a
     database.
+16. **A generated column (`virtualAs`/`storedAs`) is for a value that has to be filtered, sorted or
+    indexed by the database, never for one only PHP ever reads.** An accessor already covers the second
+    case, computed on read and free to change without a migration; the generated column exists specifically
+    because an accessor's result cannot appear in a `WHERE`, an `ORDER BY` or an index, so reaching for one
+    on a value nothing ever queries by adds a schema-migration cost point 1 already warns about, for a
+    feature the code never uses.
