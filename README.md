@@ -142,6 +142,11 @@ each responsibility split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `go-conventions` | 6 | Go conventions: concurrency, errors, context (sourced from the market) |
 | `code-baseline` | 6 | The rules that don't change with the language: comments, size, exceptions, boundaries, tests owed |
 | `laravel-conventions` | 6 | Laravel: thin models, events over observers, permissions not roles, schema, queries, tests |
+| `laravel-no-db-enums` | 6 | Trigger: a fixed-set column — never a DB-level ENUM, always a PHP backed enum |
+| `laravel-no-cascade-delete` | 6 | Trigger: a foreign key or a delete path — never a database-level cascade delete |
+| `laravel-no-observers` | 6 | Trigger: a model lifecycle reaction — never an Observer or `boot()`, always an explicit listener |
+| `laravel-throw-dont-return-errors` | 6 | Trigger: a failable code path — throw, never build and return the error response by hand |
+| `laravel-no-queries-in-loops` | 6 | Trigger: a loop over Eloquent models or an accessor — no query/aggregate per iteration (N+1) |
 | `flutter-conventions` | 6 | Flutter: context across async gaps, disposal, the four async states, routing, storage |
 | `dotnet-conventions` | 6 | C#/.NET conventions: async and cancellation, DI and lifetimes, authorisation, the prohibitions, disposal and nullability, EF Core and portability |
 | `python-conventions` | 6 | Python conventions: typing, errors, async (sourced from the market) |
