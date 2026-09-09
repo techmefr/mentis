@@ -86,3 +86,15 @@ Router plus sections: 2,952 → 7,616.
 remains the authority on the artefact. The 🟡 that matters here is that §1–§5 are public practice plus this
 repo's own experience, not a source that can be re-checked — which is stated so that a reader knows which
 half of the block has a citation behind it.
+
+**Widened against the current AI-assisted-triage trend, 2026-09-09.** Same method as the other widenings
+this week — checked against how the practice is actually being done now rather than against the catalogue
+— applied to the one genuinely new thing in this domain since the block was written: AI drafting stories
+and scoring backlog priority is now common tooling, and the block said nothing about where it fits. Two
+points added rather than a new section, because both are the existing argument meeting a faster way to
+skip it: §1.13 states that a tool-drafted story is still a draft, not a finding — it answers from the
+wording of the request rather than from the person who has the problem, so it cannot stand in for the
+interview §1 already requires; §2.13 states that a tool's priority score is an input to the impact half of
+the ranking, not the ranking itself, since publishing the score as the order lets §2's loudest-request bias
+back in looking objective because a number produced it. Nothing here answers the catalogue comparison a
+second time.

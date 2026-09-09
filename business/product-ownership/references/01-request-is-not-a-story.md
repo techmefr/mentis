@@ -47,3 +47,10 @@
     person asking will find it: what was asked, what the underlying problem was, and why the answer was
     no. Without that, the same discovery is redone every six months, and the second time it is done by
     someone who doesn't know it was done before.
+13. **A story drafted by a tool is still a draft, not a finding.** A triage assistant that turns a raw
+    request into acceptance-criteria-shaped text has skipped every question in this section — the problem
+    behind the request, who has it, how often, what an existing workaround already measures — because it
+    answers from the wording of the ask, not from the person who has the problem. The draft can save the
+    typing; it cannot stand in for the interview, and a story that reached the tracker without one is
+    exactly the "looks decided" failure §8.3's writing-only-after-a-go rule already exists to prevent,
+    arriving from a faster source.

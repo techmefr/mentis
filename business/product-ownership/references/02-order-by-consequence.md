@@ -49,3 +49,9 @@
     already taken — close it, with the reason, and let it be re-raised if the need is still real. A list
     long enough to need a search box has stopped being a priority list and become an archive with
     aspirations.
+13. **A tool's priority score is an input to point 1's ranking, not the ranking.** A triage assistant that
+    scores every item against usage and staleness signals can surface what nobody read this quarter — that
+    is a real gap it closes — but the impact half of the pair is a judgment about value, and a score is a
+    proxy for it built from whatever the tool could measure, which is never the whole of "impact". Publishing
+    the score as the order lets point 2's loudest-request bias back in through a side door that looks
+    objective because a number produced it.

@@ -395,7 +395,7 @@ closing this costs nothing that made this repo cheaper to load.
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
 | nuxt | 21 / 19,869 | 1 / 12,625 | −7,244 | x1.57 |
 | design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
-| project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
+| project-management | 10 / 14,536 | 2 / 11,514 | −3,022 | x1.26 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
 | global | 18 / 20,280 | 5 / 21,624 | +1,344 | x0.94 |
 | react | 36 / 9,302 | 1 / 10,999 | +1,697 | x0.85 |
@@ -428,7 +428,7 @@ python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
 nuxt: vue-nuxt-vuetify-conventions 12,625
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
-project-management: product-ownership 7,616, spec 3,689
+project-management: product-ownership 7,825, spec 3,689
 design-patterns: design-patterns 7,369
 react: react-nextjs-conventions 10,999
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
@@ -1468,6 +1468,18 @@ auth header once is the fix for options repeated at every call site, keeping the
 context-forwarding rules centralised rather than copy-pasted per page.
 
 `vue-nuxt-vuetify-conventions` 12,443 → **12,625 words**; the `nuxt` row x1.6 → **x1.57**.
+
+### Widening, 2026-09-09: the `project-management` row, against the current AI-assisted-triage trend
+
+Same method as the other widenings this week, applied to the one genuinely new thing since the block was
+written: AI drafting stories and scoring backlog priority is now common tooling. Two points added rather
+than a new section, because both are the block's existing argument meeting a faster way to skip it: a
+tool-drafted story is still a draft, not a finding — it answers from the wording of the request rather
+than from the person who has the problem, so it cannot stand in for the interview; and a tool's priority
+score is an input to the impact half of the ranking, not the ranking itself, since publishing it as the
+order lets the loudest-request bias back in looking objective because a number produced it.
+
+`product-ownership` 7,616 → **7,825 words**; the `project-management` row x1.29 → **x1.26**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
