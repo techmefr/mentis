@@ -85,3 +85,12 @@ mechanical defects and a checkpoint that no longer assumes Laravel. Two things t
 did not change: the router discriminates almost nothing here, because a language-level block has no
 section a real PHP project can avoid — only the money and randomness points of §5 never applied — and
 that is a property of the subject rather than a defect in the table.
+
+**Widened against PHP 8.4's current type-system surface, 2026-09-09.** Same method as the other widenings
+this week: checked against the language's own release notes, since §1 predates PHP 8.4's property hooks
+and asymmetric visibility. Two points added: asymmetric visibility (`public private(set)`) as point 3's
+`readonly` generalised for the property a method legitimately mutates later, where `readonly` would refuse
+the mutation outright; and a property hook as a fix for point 7's uninitialised-property class of bug only
+where the hook computes rather than causes a side effect — a `set` hook that dispatches an event or writes
+to a log turns an assignment that looks free into one that is not. Nothing here answers the catalogue
+comparison a second time.

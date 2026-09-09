@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 23,958 | −55,867 | x3.33 |
+| laravel | 65 / 79,825 | 3 / 24,133 | −55,692 | x3.31 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,480, php-patterns 5,799, inertia-conventions 6,679
+laravel: laravel-conventions 11,480, php-patterns 5,974, inertia-conventions 6,679
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1492,6 +1492,16 @@ since its callbacks fire once for the whole batch and a job needing another job'
 
 `laravel-conventions` 11,317 → **11,480 words**; the `laravel` row x3.35 → **x3.33**. Still the worst ratio
 in the table, still tracked as a programme.
+
+### Widening, 2026-09-09: the `laravel` row, third pass — PHP 8.4's property hooks and asymmetric visibility
+
+`php-patterns` §1 predates PHP 8.4's property hooks and asymmetric visibility. Checked against the
+language's own release notes: asymmetric visibility (`public private(set)`) added as the section's
+`readonly` point generalised for a property a method legitimately mutates later, where `readonly` would
+refuse the mutation outright; and a property hook added as a fix for the section's
+uninitialised-property-bug point, but only where the hook computes rather than causes a side effect.
+
+`php-patterns` 5,799 → **5,974 words**; the `laravel` row x3.33 → **x3.31**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
