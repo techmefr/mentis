@@ -42,3 +42,15 @@ outside the block cited that number.
 documentation, not proven doctrine — which is why the block's status in `CATALOG.md` stays 🟡 regardless
 of its depth. Depth is not dogfooding: the sections now state the failure modes the documentation and the
 framework's own mechanics imply, and a real project is what would confirm which of them actually bite.
+
+**Widened against Inertia v2's current async surface, 2026-09-09.** Same method as the other widenings
+this week: checked against Inertia's own current documentation, since §2 and §5 described `Inertia::lazy()`
+and hand-rolled polling/hover-prefetch as the state of the art, and v2 shipped first-class async
+mechanisms on top of the same underlying decisions. §2 gained `Inertia::defer()` (fires on load rather than
+on request, with grouping to batch several deferred props into one request) and `<WhenVisible>` (a third
+trigger, on scroll-into-view, for a section far enough down the page that neither the initial payload nor
+a deferred batch is the right cost). §5 gained `router.reload({ interval })` as the existing interval-reload
+point turned into an option that stops itself on unmount, and `<Link prefetch>` as the existing hover-
+prefetch point made declarative, with a `mount` trigger that multiplies the request-count warning across
+every link on the page rather than only the hovered ones. Nothing here answers the catalogue comparison a
+second time — the block was never compared to the catalogue on this axis to begin with.

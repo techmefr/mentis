@@ -63,3 +63,15 @@
     see the new value.** This is the same mechanism as any props-to-state copy in the underlying
     framework, but it fires on navigation rather than on a parent re-render, which makes it look like
     Inertia lost the update. Derive from the prop, or key the component so it is recreated.
+15. **`Inertia::defer()` fires its own request after the initial page load, without waiting for anything to
+    ask for it — `Inertia::lazy()`/point 4's on-demand form fires only when a later partial reload
+    requests it.** Reaching for `defer` on a prop nothing above the fold needs is still the right instinct
+    of point 4, made automatic instead of requiring a second visit; grouping several deferred props under
+    the same name makes them arrive as one request instead of one each, which matters as soon as there is
+    more than one below-the-fold section.
+16. **`<WhenVisible>` requests a prop when its placeholder scrolls into view, which is a third trigger
+    next to point 15's on-load and point 3's on-visit.** It is the honest answer to a long page with
+    several independently expensive sections — a comment thread twelve screens down should not be part of
+    either the first payload or the deferred-on-load batch — but each one is still a real request, so a
+    page of twenty `<WhenVisible>` sections a fast scroll passes over fires twenty requests in a row,
+    which is point 11's payload-cost argument arriving through request count instead of size.
