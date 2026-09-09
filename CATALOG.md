@@ -393,7 +393,7 @@ closing this costs nothing that made this repo cheaper to load.
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
-| nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
+| nuxt | 21 / 19,869 | 1 / 12,625 | −7,244 | x1.57 |
 | design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
@@ -426,7 +426,7 @@ laravel: laravel-conventions 11,317, php-patterns 5,799, inertia-conventions 6,6
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
-nuxt: vue-nuxt-vuetify-conventions 12,443
+nuxt: vue-nuxt-vuetify-conventions 12,625
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
 design-patterns: design-patterns 7,369
@@ -1456,6 +1456,18 @@ a parameter without `==`/`hashCode` refetches on every call for identical values
 
 `flutter-conventions` 11,195 → **11,412 words**; the `flutter` row 20,772/11,195 (x1.86) → **20,772/11,412,
 x1.82**. Status stays 🟡 — this pass is documentation depth, not new dogfooding.
+
+### Widening, 2026-09-09: the `nuxt` row, against Nuxt 4.4's current data-fetching surface
+
+Same method as the other widenings this week, checked against Nuxt's own current release notes rather than
+the catalogue. §9 gained two points: two `useFetch`/`useAsyncData` calls sharing a key now share one
+`data`/`error`/`status` outright, so a `transform`/`default` at the second call site does not rerun for a
+fetch the first already resolved — the block's explicit-key rule stops an accidental collision, this is the
+same sharing invoked on purpose; and a shared `useFetch` factory wrapping the base URL, error handling and
+auth header once is the fix for options repeated at every call site, keeping the block's error-handling and
+context-forwarding rules centralised rather than copy-pasted per page.
+
+`vue-nuxt-vuetify-conventions` 12,443 → **12,625 words**; the `nuxt` row x1.6 → **x1.57**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

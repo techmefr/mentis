@@ -179,3 +179,12 @@ moved to point 10 — corrected here and in the 2026-08-10 stamp above that cite
 flattened §9's point 3 sub-list into a paragraph and inserted a space inside its error-handling URL; both
 restored. Every intra-block `§N.M` reference was then re-checked against the current numbering, one by
 one: fifteen of them, all resolving.
+
+**Widened against Nuxt 4.4's current data-fetching surface, 2026-09-09.** Same method as the other
+widenings this week: checked against Nuxt's own current release notes, not the catalogue. §9 gained two
+points: two `useFetch`/`useAsyncData` calls sharing a key now share one `data`/`error`/`status` outright, so
+a `transform`/`default` passed at the second call site does not rerun for a fetch the first call already
+resolved — point 4's explicit-key rule stops an accidental collision, and this is the same sharing invoked
+on purpose; and a shared `useFetch` factory wrapping the base URL, error handling and auth header once is
+the fix for options repeated at every call site, keeping points 8 and 13 centralised rather than
+copy-pasted per page. Nothing here answers the catalogue comparison a second time.
