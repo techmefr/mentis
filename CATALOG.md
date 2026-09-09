@@ -161,7 +161,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | testing-blocks | cross-cutting (meta) | a market skills repository (`testing-skills-with-subagents`: RED/GREEN/REFACTOR on behaviour, pressure taxonomy, record the rationalisation verbatim) | 🟡 (written; the obvious next move is to run it on itself) |
 | distributing-blocks | cross-cutting | a market skills repository (`pulling-updates-from-skills-repository` + `sharing-skills`) | 🟡 (written; answers README stages 3-4, no consumer yet) |
 | maintaining-blocks | cross-cutting (meta) | a market skills repository (`meta/gardening-skills-wiki`); the checks themselves are this repo's own past bugs | 🟡 (written; the first real run is the reference audit before a tagged release) |
-| design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers (2,347 → 6,333 words of rules, x5.19 → x1.92). §4 kept its number and every point inside it, since `business/fintech-compliance` cites §4.5 and `laravel-conventions` cites the transaction rule at §4.7 twice; §2's bullets became numbered points, text unchanged. The new §6 (when a pattern stops earning its place) closes a structural gap rather than an oversight: the source catalogue, and every section here, was about whether to *add* a pattern, and nothing said when to take one out — hence the deletion test, the interface whose second implementation was decommissioned, the pool justified by a measurement on a runtime since upgraded, the pattern grown to fit a case that does not share its axis, the suite with a test per implementation and none for the dispatch, and the ADR line that outlives the structure and gets the pattern reimplemented from the document. Two stale references into this block were fixed in the same pass: `laravel-conventions` §4 and §8 both cited a §7 this block has never had | 🟡 |
+| design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers (2,347 → 6,333 words of rules, x5.19 → x1.92); **widened against the org catalogue's own stack-specific implementation files 2026-09-09** — three points in §4.7 (flush-not-commit, savepoints, model events firing inside the boundary), seven more points in §4, and a brownfield rule in §1, 6,333 → 7,369 words, x1.92 → **x1.65**. §4 kept its number and every point inside it, since `business/fintech-compliance` cites §4.5 and `laravel-conventions` cites the transaction rule at §4.7 twice; §2's bullets became numbered points, text unchanged. The new §6 (when a pattern stops earning its place) closes a structural gap rather than an oversight: the source catalogue, and every section here, was about whether to *add* a pattern, and nothing said when to take one out — hence the deletion test, the interface whose second implementation was decommissioned, the pool justified by a measurement on a runtime since upgraded, the pattern grown to fit a case that does not share its axis, the suite with a test per implementation and none for the dispatch, and the ADR line that outlives the structure and gets the pattern reimplemented from the document. Two stale references into this block were fixed in the same pass: `laravel-conventions` §4 and §8 both cited a §7 this block has never had | 🟡 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the queue framing is native Claude Code (`/loop`/`/schedule`, proactive loops); the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
 | product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives; **sectioned and deepened 2026-09-08** — the nine sections that lived inline in `SKILL.md` moved to one file each under `references/` and the router became a table of triggers (2,952 → 7,616 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `spec`). §6 to §8 kept their numbers, since `references/README.md` and this file both cite that range. No section was added: the nine already covered the subject, and what they lacked was the mechanism and what the reader actually sees — a request phrased as a solution smuggling in a decision nobody took, an ordering that optimises for whoever asked loudest, a refusal naming no alternative coming back unchanged next week, a criterion nobody can build a fixture for, a "done" resting on somebody's memory of the conversation, and an estimate given without the code being an estimate of the story's wording | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
@@ -393,7 +393,7 @@ closing this costs nothing that made this repo cheaper to load.
 | python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
 | flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
 | nuxt | 21 / 19,869 | 1 / 12,443 | −7,426 | x1.6 |
-| design-patterns | 7 / 12,179 | 1 / 6,334 | −5,845 | x1.92 |
+| design-patterns | 7 / 12,179 | 1 / 7,369 | −4,810 | x1.65 |
 | project-management | 10 / 14,536 | 2 / 11,305 | −3,231 | x1.29 |
 | react | 36 / 9,302 | 1 / 10,476 | +1,174 | x0.89 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
@@ -428,7 +428,7 @@ flutter: flutter-conventions 11,195
 nuxt: vue-nuxt-vuetify-conventions 12,443
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 7,616, spec 3,689
-design-patterns: design-patterns 6,334
+design-patterns: design-patterns 7,369
 react: react-nextjs-conventions 10,476
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
 ```
@@ -1268,6 +1268,52 @@ the backing-field keyword and extension members with the traps each one carries.
 here writes C# on a real project, `theoden` keeps its question register, and a thicker block read by
 nobody is still 🟡 — what the pass buys is that the block now covers the failures that appear after the
 build, which is where a stack with no production experience was least likely to be right.
+
+### Widening, 2026-09-09: the `design-patterns` row, against the source catalogue's own examples
+
+The 2026-08-10 coverage pass checked every one of the classic 22 patterns against this file's verdicts and
+found all 22 already resolved — subtracted, dismissed, entry-conditioned or named an escape valve. That
+pass never asked the other question: whether the org catalogue's per-pattern *implementation* skills, read
+directly from the installed clone, named a failure mode this file's seven entry conditions say nothing
+about. They did, seven times, and none of the seven restates the pattern — each is a mechanism a first
+implementation gets wrong.
+
+**§4.7, transaction boundaries, gained the three ways the boundary breaks silently once it exists.** A
+flush is not a commit — sending statements to the database makes rows visible to *that* connection only,
+so a test asserting through the same connection can pass on an operation that never committed. A
+transaction opened inside a transaction is usually a savepoint, not a second transaction: its rollback
+undoes only the inner part, and the outer commit keeps going regardless, which is the opposite of what
+"nested transaction" suggests to someone who has not read the driver's behaviour. And a model's own
+lifecycle events fire *inside* the boundary that wraps the operation touching that model, so a listener
+reacting to created or saved runs before the row is guaranteed to survive — the same failure §4.7 already
+named for a job dispatched inside the transaction, just triggered by the framework itself instead of by
+application code.
+
+**§4 gained seven more points**, one per pattern shape the source catalogue's implementation files
+decide and this file had left implicit: an illegal state transition has to be an exception, because a
+boolean return is a promise every caller is free to ignore; the enum name stays queryable data once its
+behaviour moves into classes — replacing rather than shadowing it breaks every report that groups by it;
+a resolver needs three different answers for a key it cannot find, and which one applies depends on
+where the key came from — our own code (a bug), a request or payload (input, rejected at the boundary),
+or a legitimately optional integration (§4.3's Null Object); a pipeline's halt needs two distinct
+signals, because "nothing left to do" and "the run must fail" read as the same return type and are not
+the same outcome; several ways to construct one thing are named constructors, and the word *factory* is
+what turns that into an unnecessary class; a boolean parameter that changes what a method does is two
+methods sharing one signature, which is Strategy's precondition rather than a case for one; and a value
+object never crosses the wire in either direction, because serialising it couples the API's contract to
+the domain's and deserialising into it skips the validation it exists to guarantee.
+
+**§1 gained the rule its twelve points had never stated: how to introduce a pattern into code that
+already has the shape without the name.** Most work arrives on a status column with a `switch` in four
+places, not on a blank file, and the two failure directions are opposite each other — introducing the
+pattern in the same change as new behaviour hides which one broke a test, and refusing the fifth branch
+of an existing `switch` on the grounds that refactoring is out of scope lets the thing this file exists to
+prevent keep growing. The refactor is its own change, with the existing behaviour pinned by tests first.
+
+`design-patterns` 6,333 → **7,369 words**, the row x1.92 → **x1.65** — the closest it has been, and closer
+than three of the seven other stack rows in the table. **Status unchanged**: the new points are read from
+a source rather than confirmed by a real review, closer in kind to §4's original seven entries than to
+§1/§2/§3/§6, which this repo's own review history produced.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
