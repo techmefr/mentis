@@ -214,3 +214,16 @@ comparison and array semantics and for time/money/text). Two boundary rules of t
 name from there and both still hold: §6's REST-resource guidance is scoped by `inertia-conventions` §4 to
 controllers that actually return JSON for a non-Inertia consumer, and §5.12's no-`strict_types` default
 is the override of `php-patterns` §1.1 — which kept its number for exactly that reason.
+
+**Widened against the current Pest testing surface, 2026-09-09.** All eleven prior passes closed the
+catalogue-comparison gap or added failure modes the block was silent on; none checked whether §9 still
+described how tests are actually written today, since the block predates Pest becoming the ecosystem's
+default runner. Checked against Pest's own current documentation, not against the catalogue: §9 gained
+four points — Pest's `it()`/expectation-API closures are a syntax choice on top of the same two-tier rule
+(point 20), a dataset replaces repeated inputs to one assertion and never diverging behaviours (point 21),
+an architecture test (`arch()`) makes an existing structural rule from §1/§5 fail in CI instead of relying
+on a reviewer to remember it (point 22), and mutation testing is what point 18's "coverage is a smoke
+detector" argument becomes automatic and actionable (point 23). Nothing here answers the catalogue
+comparison a second time — every point is dated to Pest's current feature set rather than to the source
+catalogue mined in 2026-08. Word counts re-measured with `bin/measure_depth.py` after the edit; see
+`CATALOG.md` for the updated row.

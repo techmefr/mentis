@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 23,531 | −56,294 | x3.39 |
+| laravel | 65 / 79,825 | 3 / 23,795 | −56,030 | x3.35 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,486 | −10,611 | x1.92 |
 | flutter | 40 / 20,772 | 1 / 11,195 | −9,577 | x1.86 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,053, php-patterns 5,799, inertia-conventions 6,679
+laravel: laravel-conventions 11,317, php-patterns 5,799, inertia-conventions 6,679
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,203, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,195
@@ -1404,6 +1404,28 @@ everything twice — once on the server, once in the browser, racing the first p
 ratio in the table, now by a wider margin. Nothing added here answers the catalogue comparison a second
 time; every point is dated to a current release rather than to a source that could have been checked in
 2026-08.
+
+### Widening, 2026-09-09: the `laravel` row, against the current Pest testing surface
+
+`laravel` is the worst ratio in the table by a wide margin (x3.39) and the eleven prior passes on
+`laravel-conventions` already exhausted the catalogue-comparison method — closing the remaining gap needs
+many more such passes than one turn can carry, and this pass does not claim to close it. What it checked
+instead, same method as `csharp`/`design-patterns`/`react` the same week, is whether §9 still describes how
+Laravel tests are actually written today: the section's two-tier/routing/anti-pattern argument predates
+Pest becoming the ecosystem's default runner, and said nothing about it.
+
+Four points added to `09-tests-static-analysis.md`: Pest's `it()`/expectation-API closures are a syntax
+choice on the same two-tier rule (point 1), not a third tier, and mixing them with a PHPUnit class in one
+file is point 7's half-migration problem under a different name; a dataset (`->with([...])`) replaces one
+assertion repeated over many inputs, never cases that diverge in what they assert; an architecture test
+(`arch()->expects(...)`) makes a structural rule this block already states in §1/§5 fail in CI instead of
+depending on a reviewer remembering it; and mutation testing is point 18's "a line executed is not a line
+asserted" made automatic — a surviving mutant is a test that would not have caught the regression.
+
+`laravel-conventions` 11,053 → **11,317 words**; the `laravel` row (with `php-patterns` and
+`inertia-conventions`) 23,531 → **23,795**, x3.39 → **x3.35**. Still the worst ratio in the table and
+still tracked as a programme in §2, not a claim — nothing here answers the catalogue comparison a second
+time.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
