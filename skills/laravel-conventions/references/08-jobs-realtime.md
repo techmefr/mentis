@@ -48,3 +48,14 @@
 11. **Scheduled work is a queued job with a clock, and it inherits every rule above** plus one of its own:
     it must not assume it ran last time. A task that processes "since the last run" needs the last run
     persisted, because a missed window is normal — a deploy, a stopped worker, a host reboot.
+12. **Job middleware (`WithoutOverlapping`, `RateLimited`, `ThrottlesExceptions`) is the framework's answer
+    to point 1's ordering problem for the specific case of "not two of these at once" or "not too many of
+    these per minute"** — declared on the job's `middleware()` method rather than reinvented as a database
+    lock or a cache flag read at the top of `handle()`. `WithoutOverlapping` releases a job back onto the
+    queue rather than dropping it, which still needs point 2's idempotence if the release happens after
+    partial work.
+13. **`Bus::batch()` coordinates jobs that must be reported on together, not jobs that must run together.**
+    Its `then`/`catch`/`finally` callbacks fire once for the whole batch, so a batch is the answer to "tell
+    me when all forty exports are done" — point 4's dispatch-after-commit rule still applies to the batch
+    itself, and a job inside it that needs another job's *result*, not just its completion, is a chain
+    (point 1), because a batch does not pass data between its members.

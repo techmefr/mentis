@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 23,795 | −56,030 | x3.35 |
+| laravel | 65 / 79,825 | 3 / 23,958 | −55,867 | x3.33 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 11,317, php-patterns 5,799, inertia-conventions 6,679
+laravel: laravel-conventions 11,480, php-patterns 5,799, inertia-conventions 6,679
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1480,6 +1480,18 @@ score is an input to the impact half of the ranking, not the ranking itself, sin
 order lets the loudest-request bias back in looking objective because a number produced it.
 
 `product-ownership` 7,616 → **7,825 words**; the `project-management` row x1.29 → **x1.26**.
+
+### Widening, 2026-09-09: the `laravel` row, second pass — job middleware and batches
+
+§8 covered job ordering, idempotence and failure but nothing on the framework's own coordination
+mechanisms. Two points added: job middleware (`WithoutOverlapping`, `RateLimited`, `ThrottlesExceptions`)
+as the declared answer to "not two of these at once" rather than a hand-rolled lock reinventing the
+section's ordering point — `WithoutOverlapping` releases rather than drops a job, which still needs the
+section's idempotence point; and `Bus::batch()` as coordination-for-reporting, not coordination-for-data,
+since its callbacks fire once for the whole batch and a job needing another job's result is still a chain.
+
+`laravel-conventions` 11,317 → **11,480 words**; the `laravel` row x3.35 → **x3.33**. Still the worst ratio
+in the table, still tracked as a programme.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
