@@ -94,3 +94,9 @@ the mutation outright; and a property hook as a fix for point 7's uninitialised-
 where the hook computes rather than causes a side effect — a `set` hook that dispatches an event or writes
 to a log turns an assignment that looks free into one that is not. Nothing here answers the catalogue
 comparison a second time.
+
+**Second pass same day: §4, `array_first()`/`array_last()` (PHP 8.5).** One point added: the new functions
+read the first/last element without `reset()`/`end()`'s internal-pointer mutation, without the destructive
+side effect of `array_shift()`/`array_pop()`, and without the key-vs-value confusion of
+`array_key_first()`/`array_key_last()` — returning `null` on an empty array, so point 3's falsy-collapse
+still applies to the result.
