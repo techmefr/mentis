@@ -55,3 +55,15 @@
 11. **Two writes that must both land are a transaction, not a sequence** — and where that gets decided is
     `skills/design-patterns` §4.7, including the part people skip: a queued job or a notification dispatched
     inside the transaction fires against state that may roll back, so it is dispatched after commit.
+12. **`chaperone()` on a `hasMany` fixes the specific N+1 point 2 already names — a child reaching back for
+    its own parent — without a query for each child.** Declared on the relationship (or opted into at the
+    call site), the parent already loaded by the eager load is hydrated onto every child directly; the
+    child's own inverse `belongsTo` accessor then finds it there instead of issuing point 1's per-row query.
+    It only helps the reverse direction — a child that needs a *sibling*, not its own parent, is a different
+    relation and a different fix.
+13. **`lazy()`/`cursor()` stream one row at a time and both answer point 8's chunking need, but they are not
+    interchangeable.** `cursor()` reads a single unbuffered database cursor and is the cheaper of the two on
+    memory, but a query that visits a Collection-only method (`groupBy`, a collection macro) forces it back
+    into a full collection anyway; `lazy()` keeps chunking under the hood, so it accepts those methods
+    without that trade and is the safer default when the code between fetch and use is not already known
+    to be row-by-row.
