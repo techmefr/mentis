@@ -62,3 +62,10 @@
     pattern that works on every test fixture returns "no match" on the one real document that is long
     enough. Check for `false` explicitly, and prefer a pattern that cannot backtrack catastrophically
     over one that is merely correct.
+15. **`array_first()`/`array_last()` (PHP 8.5) read the first/last element without the mutation risk of
+    `reset()`/`end()`.** Both of the older functions move the array's internal pointer as a side effect,
+    so calling one mid-`foreach`-by-reference or before a `current()`/`next()` elsewhere in the same
+    request reads a different element than the caller expects — a bug that only shows up when two pieces
+    of code touch the same array's pointer, which is rare enough to survive review. The new functions
+    return `null` on an empty array rather than `false`, so point 3's falsy-collapse still applies to the
+    result.

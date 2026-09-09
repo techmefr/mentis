@@ -389,7 +389,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 25,442 | −54,383 | x3.14 |
+| laravel | 65 / 79,825 | 3 / 25,536 | −54,289 | x3.13 |
 | csharp | 37 / 56,718 | 1 / 9,727 | −46,991 | x5.83 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
@@ -422,7 +422,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 12,350, php-patterns 5,974, inertia-conventions 7,118
+laravel: laravel-conventions 12,350, php-patterns 6,068, inertia-conventions 7,118
 csharp: dotnet-conventions 9,727
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
@@ -1579,6 +1579,16 @@ a command triggered outside the scheduler — a manual rerun, a webhook, two dep
 actually safe to run in parallel.
 
 `laravel-conventions` 12,246 → **12,350 words**; the `laravel` row x3.15 → **x3.14**.
+
+### Widening, 2026-09-09: the `laravel` row, eleventh pass — `array_first()`/`array_last()` (PHP 8.5)
+
+`php-patterns` §4 gained one point: the new functions read the first/last element without
+`reset()`/`end()`'s internal-pointer mutation, without the destructive side effect of
+`array_shift()`/`array_pop()`, and without the key-vs-value confusion of
+`array_key_first()`/`array_key_last()` — returning `null` on an empty array, so the section's
+falsy-collapse point still applies to the result.
+
+`php-patterns` 5,974 → **6,068 words**; the `laravel` row x3.14 → **x3.13**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
