@@ -39,3 +39,13 @@
    readiness answer different questions: readiness failing on a degraded dependency takes the instance out
    of the pool, while the same check wired as liveness restarts the process instead — losing the in-flight
    requests and fixing nothing, since the dependency was the problem.
+8. **One resilience pipeline per client, not several stacked.** Attaching more than one resilience handler
+   to the same outbound call multiplies retries against retries and timeouts against timeouts in a way
+   nobody reading the registration can add up from the call site — the total behaviour lives in whichever
+   handler ran last, invisibly. One named pipeline, read top to bottom, is what point 2's arithmetic
+   actually describes.
+9. **Rate-limiting a call you make is a different problem from rate-limiting a call you receive**, and it
+   needs its own strategy, not a repurposed inbound limiter. A token-bucket style limiter in front of an
+   outbound client tolerates a natural burst while still capping the average rate against a dependency that
+   has its own ceiling — a fixed-window limiter on the same traffic either starves a legitimate burst or
+   lets one straddle the window boundary and double the instantaneous rate.
