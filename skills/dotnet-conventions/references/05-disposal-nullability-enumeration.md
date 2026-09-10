@@ -228,3 +228,47 @@
     value type has whether or not its declared constructor ever ran; an invariant expressed only in a
     parameterised constructor still has to hold for the value nobody constructed that way, which is the same
     trap point 13 names, now reached through a property modifier that looks like it should have closed it.
+41. **A `ref struct` that implements `IDisposable` (point 36) is disposed through pattern-based resolution
+    first, not through the interface method, when both are present.** Since C# 13 a `ref struct` can carry
+    both a duck-typed `public void Dispose()` and an explicit `IDisposable.Dispose()` implementation; `foreach`
+    and `using` resolve the pattern-based method in preference to the interface one, falling back to the
+    interface only when no matching pattern method exists — so a type with both, written expecting the
+    interface method to run, silently executes the other one, which matters the moment either override
+    behaves differently (a diagnostic counter incremented only in one of them, for instance).
+42. **`Span<T>`/`ReadOnlySpan<T>` cannot be written as `Span<T>?`, because a `ref struct`'s nullability cannot
+    be expressed the way point 3's reference-type annotations express it for anything else.** An API that
+    needs "no span" as a distinct state from "an empty span" — the difference point 21 draws between "ran and
+    produced nothing" and "didn't run" — has no nullable-annotation route to say so for a span-typed parameter
+    or return value; the two working alternatives are `Span<T>.Empty` carrying that meaning by convention (and
+    documented as such, since nothing enforces it) or a separate `bool` alongside the span, neither of which
+    the compiler checks the way it checks an ordinary nullable reference.
+43. **A `Dispose` method that throws leaves the object in a state nothing can safely retry, and thrown during
+    unwinding from another exception, it replaces the original with itself.** An exception escaping `Dispose`
+    while a `using` block is already propagating a different exception discards the first one — the caller
+    sees only the disposal failure and never learns what actually went wrong inside the block, which is a
+    worse version of point 5's swallowed catch because here the original exception did fire, it just never
+    reaches anyone. `Dispose` catches what it can handle internally and treats an unrecoverable failure inside
+    it as a logged fact, not a throw.
+44. **A finalizer runs on a thread with no guaranteed ordering relative to other finalizers, and calling a
+    method on another managed object from inside one risks calling into an object that has already been
+    finalized itself.** The full `Dispose(bool disposing)` pattern point 2 asks for exists specifically to keep
+    the finalizer path (`disposing == false`) from touching anything but this object's own unmanaged handles —
+    a finalizer that walks into a referenced object's method under the assumption "the reference is still not
+    null, so it's still usable" is wrong about what "still not null" guarantees once finalization has started,
+    which is the concrete reason the pattern splits managed and unmanaged cleanup into two branches instead of
+    running the same body from both entry points.
+45. **`IAsyncDisposable`'s `DisposeAsync` returns a `ValueTask`, and a `ValueTask` is single-consumption the
+    same way point 1 (async, cancellation, threading) states for any other use of the type — awaiting it
+    twice, or awaiting it after checking `IsCompleted`, is undefined for the same reason.** A double-dispose
+    guard written as `if (!_disposed) { await DisposeAsync(); }` on a resource whose `DisposeAsyncCore` (point
+    14) returns a pooled `ValueTask` is safe only if the guard actually prevents the second call from
+    happening — reasoning about the awaited result afterwards, or re-awaiting the same stored task in a retry
+    path, revisits a `ValueTask` the first await may have already invalidated.
+46. **A `using` declaration or statement disposes exactly what its own expression evaluates to, and a method
+    that returns a *new* wrapper around an existing disposable each call defeats point 9's "dispose only what
+    you own" by making ownership look local when it isn't.** `using var reader = GetReader();` disposes the
+    `reader` variable's value — if `GetReader()` handed back a wrapper over a connection the caller doesn't
+    own (a pooled connection, a shared stream sliced into a view), the `using` block disposes the wrapper as
+    intended but can also cascade into disposing the shared resource underneath it if the wrapper's own
+    `Dispose` was written to propagate, which is a design decision on the wrapper's side that the call site
+    has no way to see from the `using` alone.

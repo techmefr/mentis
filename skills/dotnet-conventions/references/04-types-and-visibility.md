@@ -230,3 +230,47 @@
     a class kept unsealed "just in case" costs more than an open design question — every call through it, in
     every assembly that references it, pays the virtual-dispatch cost point 11's inheritance argument alone
     would not have made visible.
+41. **A record's positional equality is anchored on a compiler-generated `EqualityContract` property, not on
+    the fields alone, and a derived record that fails to override it inherits the base's contract instead of
+    getting its own.** Two records with identical field values compare unequal across different types
+    precisely because `EqualityContract` differs by design — the guard against one type's instance silently
+    equalling another's — but a derived record that doesn't participate correctly in that override (a rare
+    hand-written `Equals`, or a base declared unintentionally without the usual record machinery) can end up
+    comparing equal to a sibling type sharing the same fields, which no generic constraint catches because
+    there is no `where T : record` to enforce it (point 12's default gets this right automatically; only a
+    hand-rolled override can lose it).
+42. **Sealing only the `ToString()` override on an otherwise-unsealed record locks the format contract for
+    every derived type without sealing the type itself, which is a narrower and different decision from point
+    11's "seal the class by default."** A base record meant to be extended (point 11's carve-out, applied to a
+    record) can still guarantee that `ToString()`'s output shape — the property list a derived type inherits —
+    isn't silently reshaped by a subclass overriding it for its own purposes; the modifier applies member by
+    member here, the same way point 32 already states for a `readonly` member on an otherwise-mutable struct.
+43. **There is no generic constraint for "must be a record"** — a `record class` satisfies an ordinary `class`
+    constraint and a `record struct` satisfies an ordinary `struct` constraint, and nothing distinguishes
+    either from a hand-written type at the constraint level. A generic algorithm written assuming point 12's
+    value semantics (structural equality, immutability) because its type parameter is *usually* instantiated
+    with a record has no compiler-enforced guarantee of that — a caller can supply an ordinary mutable class
+    satisfying the same `class` constraint, and the algorithm's assumption about equality or immutability
+    silently stops holding for that instantiation with no error anywhere.
+44. **A static abstract interface member (point 20) cannot carry a default body the way an ordinary default
+    interface member (point 30) can — the two mechanisms look like the same feature applied to statics but
+    answer different questions about who is required to implement what.** An instance default implementation
+    exists precisely so an existing implementer compiles unchanged (point 30); a static abstract member has no
+    instance to fall back on and no implementer predates it in the way point 30 addresses, so every type that
+    declares it satisfies the constraint has to supply its own implementation — reaching for a static abstract
+    member expecting point 30's "safe to add without breaking anyone" property gets a compile error instead,
+    for every type that already implements the interface.
+45. **`UnsafeAccessorAttribute` (§4.37) targeting a closed generic type resolves differently from targeting the
+    open generic definition, and a version upgrade can change which one a given declaration actually means.**
+    Accessing a private member on `Repository<Order>` specifically is not the same request as accessing it on
+    `Repository<T>` in the abstract — the runtime's rules for matching a closed-generic target changed between
+    .NET releases without the attribute's own syntax changing, so code written against one release's resolution
+    behaviour is worth re-verifying after an SDK upgrade rather than assumed still correct, the same
+    read-the-current-behaviour discipline §9.38 states for the same attribute from the publish side.
+46. **`in`/`out` variance declared on a generic interface (point 27) is invariant by default and has to be
+    requested on each type parameter individually, not inherited from a base interface that already declared
+    it.** An interface extending a covariant `IReadOnly<out T>` with its own additional generic parameter of
+    its own does not automatically make that new parameter variant — each parameter's own usage inside the
+    interface is what point 27 checks, so a derived interface adding an invariant-shaped member reintroduces
+    exactly the "can no longer be handed something that writes into it" trade point 27 describes, scoped to
+    the parameter that was never declared variant in the first place.

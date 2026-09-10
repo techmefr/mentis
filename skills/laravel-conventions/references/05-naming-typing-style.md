@@ -156,3 +156,46 @@
     construction entirely — and a fully public property: reach for it on a property that legitimately changes
     after construction but only through the class's own methods, such as a status field with a dedicated
     `transitionTo()` rather than a bare public setter.
+38. **A PHP 8.4 property hook (`public string $status { get => ...; set => ...; }`) replaces a
+    get/set-Attribute pair for a plain object the way point 18's `Attribute::make` does for an Eloquent model,
+    and the two are not interchangeable.** `Attribute::make` exists specifically for Eloquent's own attribute
+    pipeline — it runs through `$casts` and the model's dirty-tracking; a property hook is a language feature
+    that works on any class, including a value object or a DTO that has no model machinery underneath it at
+    all. Reaching for one where the other applies means fighting a framework mechanism that already does the
+    job: a hook on an Eloquent attribute bypasses the cast pipeline point 17 already asks a custom cast class
+    to own, while `Attribute::make` on a plain PHP class does nothing because there is no model to wire it
+    into. [PHP 8.4 property hooks RFC, wiki.php.net/rfc/property-hooks, read 2026-09-10.]
+39. **A property hook's `set` clause validates or normalises on assignment, which moves a guard out of the
+    constructor and out of every place the property is later reassigned.** A value object that today validates
+    only in its constructor (point 21's `readonly` case) still lets a mutable sibling property drift into an
+    invalid state after construction if nothing re-checks it on write; a `set` hook enforces the same invariant
+    on every assignment, not just the first one, which is the actual gap a constructor-only guard leaves open
+    on any property that is not `readonly`.
+40. **PHP 8.4's lazy objects (`ReflectionClass::newLazyGhost()`) initialise a property only the first time it
+    is read, which is a different mechanism from `once()` (§1 point 24) even though both defer work.** `once()`
+    memoises the *result of a callback* for the life of the request; a lazy object defers *constructing the
+    object itself* until something actually touches it — the framework's own container already does this for
+    a deferred provider's binding (§10 point 17), and reaching for a hand-rolled "build it on first access"
+    property on a plain class duplicates a mechanism the language now ships natively, with none of the manual
+    null-check-then-assign boilerplate that pattern used to need. [PHP 8.4 lazy objects RFC,
+    wiki.php.net/rfc/lazy-objects, read 2026-09-10.]
+41. **`UnitEnum::cases()` is the source of truth for "every value this enum has," and a parallel array
+    maintained beside it is the same two-sources-of-truth failure §3 point 1 already names for a DB-level
+    enum, written in PHP instead of SQL this time.** A validation rule, a seeder, or a test data provider that
+    lists `['draft', 'published', 'archived']` by hand instead of mapping over `Status::cases()` silently stops
+    covering a case the day someone adds one to the enum and forgets the parallel list — the enum itself never
+    tells them, because nothing reads from it. [PHP enumerations documentation, php.net/manual/en/language.
+    enumerations.backed.php, read 2026-09-10.]
+42. **The short nullable notation (`?Type`) states the same contract as `Type|null` in fewer characters, and
+    mixing the two styles across a codebase is the inconsistency point 32's typed-constant rule already warns
+    against for a different construct.** Reach for the full union form only where the nullable case is one
+    among several genuinely unrelated shapes already covered by point 29's union-type guidance — `?int` for
+    "an int or absent," `int|string|null` only where the value really can arrive as either scalar and also be
+    missing, never as a habit carried over from a codebase that wrote every nullable type as a two-member
+    union.
+43. **A codebase's baseline coding standard is a PSR, not a house invention, and PSR-12 is the one to default
+    to for new code.** Larastan and PHP-CS-Fixer both assume it unless configured otherwise, so declaring "we
+    follow PSR-12" is a one-line decision that resolves most bracket-placement and import-ordering arguments
+    before they start — the alternative, an unstated in-house style enforced only by review comments, is
+    §10 point 7's "a tool enforces it, not a paragraph" applied to formatting instead of architecture.
+    [PSR-12: Extended Coding Style, php-fig.org/psr/psr-12, read 2026-09-10.]

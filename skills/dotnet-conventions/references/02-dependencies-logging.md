@@ -213,3 +213,42 @@
     and having it take effect without a restart works out of the box for logging specifically — it is not a
     general property of options bound through point 8, where point 18's monitor form is what a class has to
     ask for explicitly to see the same kind of change.
+37. **`IHostedLifecycleService` splits `IHostedService`'s two methods into eight, and the ordering across
+    several hosted services is the reason to reach for it instead of cramming everything into `StartAsync`.**
+    `StartingAsync` runs for every registered hosted service before any of their `StartAsync` runs, then every
+    `StartAsync` runs, then every `StartedAsync` — and the same fan-out in reverse on shutdown — which is what
+    lets one hosted service depend on another having finished a specific phase without both being merged into
+    one class; point 22's "a `BackgroundService`'s unhandled exception takes the host down" still applies to
+    every one of these hooks, not only to `ExecuteAsync`.
+38. **`TryAddEnumerable` registers a service into the collection an `IEnumerable<TInterface>` resolves, without
+    the last-registration-wins replacement point 12 describes for a single-instance registration.** A library
+    and the application can both add their own `IValidateOptions<T>` or health check to the same interface
+    without either silently displacing the other's entry — which is the multi-implementation case point 17's
+    keyed registration deliberately does not cover, because here every registered instance is meant to run, not
+    exactly one of them to be chosen.
+39. **A health check that captures a scoped dependency (a `DbContext`, a repository) in its constructor is
+    registered as a singleton by the health-check framework by default, which reproduces point 3's captive
+    dependency one layer away from where it's usually looked for.** The health check itself is long-lived so
+    the periodic probe doesn't pay a fresh construction cost, but a scoped collaborator resolved once at that
+    construction is pinned for the app's lifetime the same as any other captive dependency — a health check
+    needing a scoped service creates its own scope per check (point 4) rather than taking one through the
+    constructor.
+40. **`GetRequiredKeyedService<T>` resolved inside a factory that itself is the thing composed at the root is
+    not the service locator point 2 forbids, because the factory's own dependency graph — including the
+    provider it holds — was still assembled once, at the root, and is itself injected wherever it's needed.**
+    The distinction is where the call lives: a working class reaching into `IServiceProvider` to pick a keyed
+    implementation by a value it computes internally is point 2's anti-pattern; a small, purpose-built factory
+    whose only job is that one keyed resolution, itself registered and injected like anything else, keeps the
+    choice visible at the boundary instead of buried in business logic.
+41. **A `[LoggerMessage]`-generated method's parameter names become the structured field names on every log
+    entry it produces, which makes renaming that parameter a logging-schema change, not a cosmetic edit.**
+    Point 9 already covers the generator's performance case; the naming half is separate and easy to miss in
+    review — a parameter renamed from `orderId` to `id` for readability silently renames the field a saved
+    query or an alert was filtering on, where the interpolated form point 13 warns about would at least have
+    kept the same words in the message text.
+42. **Configuration validated through `ValidateOnStart` runs its registered validators in registration order,
+    and the first one to throw stops the rest from running at all.** Where point 16 already asks for a
+    validator registered alongside the binding, several options types each validated at startup fail one at a
+    time rather than all at once — the second misconfigured section's error never appears in that boot's logs,
+    so fixing the first failure and redeploying is what surfaces the second, one avoidable round trip at a
+    time unless every validator is checked by hand before the first fix ships.

@@ -216,3 +216,45 @@
     the subset hybrid mode omits fails the same way point 15 describes for invariant mode, just for a smaller
     and less obviously-invariant-shaped set of operations, which makes the gap easier to miss in testing
     precisely because most culture-aware code keeps working under it.
+34. **`[DllImport]` depends on the runtime's own marshalling engine to build the interop stub at load time,
+    which Native AOT does not carry — `[LibraryImport]` generates that same stub at compile time instead, the
+    same list-as-build-artefact trade point 1 makes for serialisation.** A `[DllImport]` method that worked
+    under the ordinary JIT throws at the call site under AOT with no build-time signal that it would, because
+    nothing about the attribute declares which marshalling shapes it needs ahead of time; the source-generated
+    partial method surfaces an unsupported parameter or return shape as a compiler error on the method
+    declaration itself, before publish, which is the difference point 3's "publish warnings are the review
+    surface" is arguing for one layer earlier.
+35. **`IsAotCompatible` (.NET 10) is an assembly-level claim a package makes about itself, and reading it as
+    proof rather than as a starting point repeats point 8's mistake with a metadata flag instead of a missing
+    one.** The attribute exists to cut warning noise from a dependency that has actually been checked, which
+    only helps once something checked it — a package that sets the flag without exercising every code path
+    under a real trimmed/AOT publish produces the same silent gap point 8 describes for a package with no
+    annotation at all, just with a marker now actively suppressing the one signal (the publish warning) that
+    would have caught it.
+36. **`EnableAotAnalyzer`/`EnableTrimAnalyzer` run as ordinary build-time diagnostics, not only at publish, and
+    turning them on in every build is what makes point 3's "CI has to run the publish" affordable rather than
+    the only line of defence.** A warning from either analyser appears on `dotnet build` the same as any other
+    compiler diagnostic — under `TreatWarningsAsErrors` (this block's guardrail) it fails the ordinary CI build
+    a pull request already runs, well before a dedicated trimmed/AOT publish job exists to catch it, which
+    catches the regression on the commit that introduced it instead of on the next scheduled publish.
+37. **The framework annotating its own APIs for trim/AOT compatibility narrows where the next warning comes
+    from without narrowing whose job it is to read it.** .NET 10 removed a large share of the IL2xxx/IL3xxx
+    warnings that used to originate inside ASP.NET Core's own minimal-API and serialisation code paths — which
+    means a warning that still appears after upgrading is now overwhelmingly likely to trace back to
+    application code or a third-party dependency rather than to the framework, not that the application has
+    become AOT-safe by association; point 8's "read, don't assume" applies to the framework's own compatibility
+    exactly as much as to any package's.
+38. **A generic method reached through `UnsafeAccessorAttribute` (§4.37) behaves differently for a closed
+    generic than for an open one, and that difference changed between .NET versions without changing the
+    attribute's syntax.** A private member accessed this way on a specific closed instantiation (`Repository
+    <Order>` rather than `Repository<T>`) resolves against that exact closed type, so code written and tested
+    against one .NET version's resolution rules for the generic case is a compatibility check worth rerunning
+    after an SDK upgrade — the same "read the publish warnings, don't assume the last release's behaviour still
+    holds" discipline point 3 already asks for, now triggered by a runtime version bump instead of a publish.
+39. **A trimmed build's IL2xxx warning and an AOT build's IL3xxx warning name different failure classes even
+    when they point at the same line, and fixing the code path for one does not necessarily fix it for the
+    other.** Points 1–6 and 17 are the trimming class — a member removed because nothing visible referenced it;
+    points 7, 9 and 16 are the codegen class — an operation Native AOT cannot perform at all, present or absent
+    from the trimmed output. A warning suppressed or "fixed" by keeping the member alive (point 11's rooting,
+    for instance) answers the first class and leaves the second exactly as broken, which is point 28's
+    twenty-plus-point list read as two separate checklists rather than one.

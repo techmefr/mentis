@@ -178,3 +178,43 @@
    that flattens `orders` and `subscriptions` into one `SELECT` for a dashboard — the query now silently
    depends on both domains' schemas at once, and a migration changing either table's shape breaks a report
    nobody thought to check because it lives outside both domains' own directories.
+35. **A module's own routing is registered from that module's own `RouteServiceProvider`, booted from the
+   module's main provider, rather than the app's `bootstrap/app.php` collecting every module's routes by
+   hand.** This is point 5's structural enforcement applied to routing specifically: `bootstrap/providers.php`
+   lists one provider per module, and that provider owns everything about how its routes are wired
+   (prefix, middleware group, route file) — an app-wide routing file listing every module's routes side by
+   side is the same "folder convention instead of an enforced boundary" gap point 8 already warns against,
+   this time for the entry point every request actually goes through first.
+36. **A cross-module dependency is bound to an interface, not to the other module's concrete class, and the
+   binding lives in a service provider — never a `new OtherModule\SomeAction()` inside this module's code.**
+   Point 9 already says a domain is entered through a stated surface; the container is what makes that
+   surface swappable rather than aspirational — a consuming module type-hints `BillingLookup`, the providing
+   module's service provider binds the concrete implementation, and a later refactor of the providing side
+   changes one binding instead of every import across every module that reached for the concrete class
+   directly.
+37. **A local module package is installed through a Composer path repository, not copied into `vendor/` by
+   hand or published to a registry before it is ready.** `{"type": "path", "url": "packages/billing"}` in the
+   root `composer.json` lets each OSDD package (point 5) be developed and required exactly like a real
+   dependency — versioned, autoloaded, with its own `composer.json` — while still living inside the same
+   repository checkout; skipping this and requiring the package from a registry too early adds a
+   publish-and-tag step to every local change, and skipping it the other way by hand-editing `vendor/`
+   silently drops the next `composer install` on the floor.
+38. **A shared kernel package — the one technical layer every functional module is allowed to depend on — is
+   still a dependency direction to declare, not an exemption from point 1's rule.** A `shared`/`core` package
+   holding cross-cutting concerns (a base model trait, a common value object) is legitimate exactly because
+   every functional module may depend on it and it depends on none of them back; the failure mode is a
+   "shared" package that quietly grows a dependency on one functional module's own class, at which point
+   every other module importing "shared" now transitively imports that one module too, and nobody chose that.
+39. **Horizon's queue configuration groups workers by connection and queue name, and a module's job classes are
+   only isolated from another module's if their queue names actually differ.** Two OSDD packages (point 5)
+   both dispatching to the implicit `default` queue share one worker pool and one set of Horizon metrics —
+   a slow or failing job in one module then starves or masks failures in the other's, which reads as "the
+   queue is slow" rather than "one module's jobs are colliding with another's," because nothing about the
+   job classes themselves shows they share a lane. [Laravel Horizon documentation,
+   laravel.com/docs/12.x/horizon, read 2026-09-10.]
+40. **A closure bound with `App::bind()` inside one module's service provider can still resolve a class from
+   another module if the container is asked to — the container itself enforces no module boundary at all.**
+   Point 36's interface binding is a discipline the codebase's own conventions choose to keep, not something
+   Laravel's service container refuses on its behalf; the boundary is only as real as the static-analysis
+   rule point 7 already asks for, because nothing at runtime stops a provider from binding a concrete class
+   straight out of another module's namespace and every caller resolving it none the wiser.

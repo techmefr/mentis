@@ -170,3 +170,45 @@
     around the same closure duplicates what the parameter already does, and unlike the built-in version it
     has to get idempotency and the retry count right on its own, the same distinction `skills/laravel-conventions`
     §11 point 10 draws for a retried job.
+35. **`foreignIdFor(Model::class)` picks the column type from the referenced model's own key type, which a
+    hand-written `foreignId()` call has to get right by hand instead.** A model using `HasUlids` or a
+    non-default key type produces a `CHAR(26)`/`CHAR(36)` column through `foreignIdFor()`; the same relation
+    written as a plain `$table->foreignId('parent_id')` always emits `UNSIGNED BIGINT` regardless of what the
+    parent's primary key actually is, which is silently wrong the moment point 29's ULID choice is made on
+    the parent after the child migration was already written from a copy-pasted `foreignId()` line.
+    [Laravel migrations documentation, laravel.com/docs/12.x/migrations, read 2026-09-10.]
+36. **A unique index that includes a soft-deleted row is enforcing uniqueness against rows the application
+    already treats as gone.** `SoftDeletes` leaves the row in the table with `deleted_at` set, so a plain
+    unique constraint on `email` still blocks a new signup from reusing an address that belongs to a
+    soft-deleted account — the fix is a composite unique index including `deleted_at` (or a partial/filtered
+    unique index where the engine supports one), scoped to "unique among the live rows," which is the same
+    "the DB enforces what the app actually means" reasoning point 19 already applies to a composite index's
+    column order, applied here to what counts as a duplicate in the first place.
+37. **SQLite does not enforce foreign key constraints unless a pragma turns them on for the connection, which
+    makes a constraint violation that fails loudly in MySQL or Postgres pass silently in a SQLite test
+    suite.** `PRAGMA foreign_keys = ON` has to be set per connection — Laravel's own SQLite driver config
+    exposes a `foreign_key_constraints` option for exactly this — and a project that runs its test suite
+    against SQLite without it is verifying point 22's `constrained()` chain compiles, never that it actually
+    rejects an orphaned insert, which is the one thing the constraint exists to do. [Laravel database
+    configuration documentation, laravel.com/docs/12.x/database, read 2026-09-10.]
+38. **`php artisan schema:dump` squashes a project's full migration history into one SQL file, and a
+    project that adopts it stops running the squashed migrations' `up()` methods on a fresh install.** The
+    dump plus any migration created after it is what actually runs from then on; a data-only backfill written
+    as a step inside an old migration's `up()` — rather than a dedicated seeder or a one-off command — is
+    silently skipped for every environment provisioned after the squash, which is a second reason (beside
+    point 27's ordering rule) a schema change and a data backfill are kept as separate, explicitly-run steps
+    rather than bundled into one migration file. [Laravel migrations documentation,
+    laravel.com/docs/12.x/migrations, read 2026-09-10.]
+39. **`Model::chunkById()`/`lazyById()` page through a table by its primary key rather than by `OFFSET`, which
+    is the version of point 7's "stream, don't load into memory" that stays correct while the table is being
+    written to during the same backfill.** An `OFFSET`-based `chunk()` re-reads a shifting window if a row
+    already visited is deleted mid-run — the next page's offset now points past a row it never saw — silently
+    skipping or double-processing rows on a large table under concurrent writes; `chunkById()` anchors each
+    page to "the last id seen," which is unaffected by rows being removed behind it.
+40. **A check constraint (`$table->check(...)`) enforces a row-level invariant the database itself refuses to
+    violate, which is a stronger guarantee than the same rule written only as a Laravel validation rule.**
+    Point 1 already bans a DB-level enum for a value that changes with a deploy; a check constraint is the
+    different case — a rule that is not a value set but a relationship between columns on the same row (an
+    end date after a start date, a discount that cannot exceed the price) — where validation alone only
+    protects rows written through this one application, and a second writer (a script, another service
+    sharing the database) can still insert a row that breaks the rule unless the database itself refuses it.

@@ -161,3 +161,47 @@
     `Gate::authorize()` and `@can` correctly allow anonymous access to a public listing — a policy method
     that doesn't accept null and is never resolved for a guest falls through to a blanket denial that looks
     identical to the ability existing but being restricted, not absent.
+28. **Implicit route-model binding does not scope a nested resource to its parent on its own — `scopeBindings()`
+    is the mechanism, not a side effect of nesting the routes.** `Route::resource('teams.projects', ...)`
+    resolves `{project}` by its own primary key regardless of which `{team}` is in the URL, so a caller who
+    swaps the team segment for one they don't belong to still resolves a real project unless the group is
+    wrapped in `->scopeBindings()`, which constrains the child's resolution to a relationship on the parent.
+    Without it, this is point 4's IDOR-by-fetch-then-check problem again, this time hiding inside routing
+    configuration rather than a controller. [Laravel routing documentation, laravel.com/docs/12.x/routing,
+    read 2026-09-10.]
+29. **`Gate::authorize()` — the standalone facade call, not `$this->authorize()` on a controller — throws the
+    same `AuthorizationException` from anywhere the container can be reached, which is what point 26 needs
+    for a console command or a job that has no controller to inherit the helper from.** Reaching for a bare
+    `cannot()` check and a hand-rolled `throw` in those contexts duplicates a mechanism the framework already
+    exposes; `Gate::authorize()` gives a queued job or an Artisan command the exact same fail-loud contract a
+    controller gets for free. [Laravel authorization documentation, laravel.com/docs/12.x/authorization, read
+    2026-09-10.]
+30. **`Gate::inspect()` returns the full `Response` object instead of a boolean, which is the only way to
+    surface point 10's denial message outside a controller's automatic exception handling.** A Blade
+    component, an API resource deciding whether to include a field, or a notification building its own payload
+    each need the *reason* a check failed, not just whether it did; `can()`/`cannot()` collapse that reason
+    away, so a UI that wants to show "invoices are locked once paid" next to a disabled button has to call
+    `inspect()` for it, not `can()`. [Laravel authorization documentation, laravel.com/docs/12.x/authorization,
+    read 2026-09-10.]
+31. **A password-confirmation requirement is a separate authorisation-adjacent gate from the permission
+    check itself, and it belongs on the route, not folded into the policy.** The `password.confirm` middleware
+    re-verifies the caller is still who they claim to be before a sensitive action (changing an email, revoking
+    every session) runs — a policy answering "may this user do this" has no way to also answer "did this
+    session prove it recently," and stuffing a session-freshness check into a policy method conflates two
+    different questions the same way point 7 already forbids for validation. [Laravel authentication
+    documentation, laravel.com/docs/12.x/authentication, read 2026-09-10.]
+32. **Batch-checking several abilities at once (`Gate::any()`/`Gate::none()`, or `@canany` in a Blade view)
+    is a single decision about "may this caller do at least one of these," not a shortcut for looping over
+    `can()` and stopping at the first pass.** Reaching for a hand-rolled loop instead reintroduces the same
+    risk point 18 already names for an inline ternary permission check: nothing forces the loop to enumerate
+    every ability the feature actually depends on, where the batch helper's argument list is the enumeration
+    itself and a missing ability is visible in the call site, not buried in a condition. [Laravel authorization
+    documentation, laravel.com/docs/12.x/authorization, read 2026-09-10.]
+33. **A Sanctum token's `currentAccessToken()` returns `null` for a request authenticated through the web
+    guard (a normal logged-in session), not only for an unauthenticated one — code that calls `tokenCan()`
+    unconditionally on it assumes every authenticated request carries a token.** Point 12 already treats a
+    token's abilities as a narrower layer under the user's own; a policy or middleware written only against
+    the API guard and later reused for a route also reachable through the session guard has to check for a
+    null token before asking what it can do, or it throws on the exact request shape point 12's whole
+    narrowing exists to protect — a first-party browser session that was never issued a scoped token at all.
+    [Laravel Sanctum documentation, laravel.com/docs/12.x/sanctum, read 2026-09-10.]
