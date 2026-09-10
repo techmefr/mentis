@@ -107,3 +107,10 @@ stakeholder communication norms for a refusal, given/when/then and boundary-valu
 definition-of-ready/definition-of-done maturity and anti-pattern literature) synthesised into this block's
 own voice, plus this repo's own pipeline experience for the points tying done to a rollback path, to a
 shared multi-team bar, and to a named owner of the definition itself.
+
+**Widening, 2026-09-10 — second pass, closing the `project-management` gap.** §9 (author is the builder)
+widened with three points added after the existing numbering: rereading the story as a stranger before
+merge as the substitute for §7's missing second reader, scope creep during implementation getting the
+same one-line justification a real scope change would get, and a slipping estimate being written down the
+moment it is known rather than absorbed silently. Sourced from this repo's own single-role pipeline
+experience, no external catalogue involved — this section was always ours, not the mined catalogue's.
