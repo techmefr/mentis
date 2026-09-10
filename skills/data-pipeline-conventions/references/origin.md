@@ -77,3 +77,30 @@ Router plus sections: 749 → 3,212.
 change that. What it changes is that a reviewer can now say what each rule costs when it is skipped,
 which is what the rules need in order to survive a schedule. `business/data-analytics` continues to own
 the landscape the pipeline runs against.
+
+**Widening, 2026-09-10 — 4ème passe.** First widening pass this block has had since the 2026-09-08
+sectioning — all four sections were still at their original inline-body word count and were the
+thinnest files in the combined `python-conventions` + `data-pipeline-conventions` stack, well under the
+marketplace-parity target `bin/measure_depth.py` reports. Each of §1 idempotence, §2 data quality, §3
+modelling and §4 performance/cost gained 6-8 new numbered points (roughly 530-570 words each) appended
+after its existing ones, nothing renumbered, nothing already stated repeated. Sourced from current dbt
+incremental-model documentation (`unique_key` as the real merge contract, lookback windows,
+`on_schema_change`), the dbt/Great Expectations/dbt-expectations data-quality and data-contract material
+(unit tests vs post-materialisation tests, ODCS-style contracts), the Kimball Group's own technique notes
+on Type 4 mini-dimensions and multivalued bridge tables, and current Snowflake/BigQuery clustering and
+partition-pruning guidance — never from the org catalogue this block was already mined from, and never
+by reading the XEFI marketplace files (rule C). §1 gained the `unique_key`-as-grain contract, lookback
+windows against clock skew, `on_schema_change` as a stated policy, scheduled full-refresh as
+incremental's self-healing companion, row-count trend versus a point-in-time count, idempotency proved by
+a double-run diff rather than asserted, and a merge's blind spot on source-side deletes. §2 gained
+uniqueness as its own dimension distinct from completeness, unit tests versus post-materialisation schema
+tests, a schema contract checked before data lands rather than after, validity versus accuracy as
+deliberately separate checks, a quality tool's own freshness, and a quarantine needing an owner and a way
+back in. §3 gained Type 4 mini-dimensions for rapidly changing attributes, bridge tables for
+many-to-many fact/dimension relationships, explicit no-history columns, generated surrogate keys over
+composite natural ones, late-arriving dimension placeholders, conformed dimensions across marts, grain
+consistency for every column, and snapshot tables as a coarser complement to point 3's historisation. §4
+gained clustering and partitioning as solving different pruning problems together, a stale clustering key
+as its own failure mode, a wrapped column defeating pruning invisibly, autoscaled compute never scaling
+back down, mistyped join keys defeating pruning silently, a materialised aggregate's staleness budget, and
+a cost regression reviewed like a correctness one.

@@ -125,3 +125,28 @@ References-block total: 6,567 → 8,590 words.
 **Status unchanged.** §1, §2, §3 and §6 are still this repo's own review history plus synthesis from
 public sources, not from any installed catalogue's own text — the widening pass adds volume in the same
 voice, not a new kind of source.
+
+**Widening, 2026-09-10 — 2ème passe.** §3, §5 and §6 were the three least-enriched files after the
+pass above (§1, §2 and §4 already carried more depth per point); each gained six new numbered points,
+appended after the existing ones without renumbering anything already cited elsewhere in the repo. §3
+gained four newly earned patterns synthesised from the classic Gang of Four definitions as commonly
+explained in public references (refactoring.guru-style catalogues, standard GoF summaries) — Iterator
+(§3.15), Factory Method distinguished from named constructors already covered at §4.12 (§3.16),
+Specification (§3.17), Proxy at a real access boundary distinct from the memoization already covered at
+§2.13 (§3.18) — plus Observer earned beyond the framework event bus already covered at §2.2 (§3.19) and a
+point on two earned patterns commonly co-occurring (§3.20). §6 gained six points on failure modes this
+repo's own review history keeps producing but had not yet written down: eroded institutional knowledge as
+its own deletion trigger, cosmetic renames used to dodge the deletion test, test setup cost exceeding the
+isolation a pattern was meant to buy, observability tooling as a hidden dependency on a pattern's own
+names, public/cross-repo interfaces needing a deprecation cycle rather than a same-diff deletion, and a
+stack migration carrying a stale abstraction across by default (§6.17–22). §5 gained six points on naming
+hygiene not yet covered: pattern names inside error messages and user-facing strings, IDE renames that
+silently invalidate an ADR, one class wearing two pattern roles, blame-history stability across cosmetic
+renames, and a borrowed-glossary synonym being as misleading as no name at all (§5.16–21). Nothing here
+reproduces the marketplace catalogue: every point is either restated from this file's own existing
+vocabulary (§1–§2's terms cited, not copied) or synthesised from the public GoF/refactoring-literature
+sources named above, in this file's own mechanism-plus-consequence voice. References-block total (six
+sections, origin.md excluded): 8,590 → 9,531 words.
+
+**Status unchanged.** §3, §5 and §6 remain this repo's own review history plus public-source synthesis,
+not text read from any installed catalogue.

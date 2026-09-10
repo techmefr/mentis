@@ -44,3 +44,39 @@
     a rewritten query all make the code harder to reason about, and doing that to a pipeline whose
     output is not yet verified means debugging two things at once. Correct, measured, then faster — and
     the measurement is what says whether the last step is needed at all.
+11. **Clustering and partitioning solve different problems and a table often needs both.** Partitioning
+    on a coarse, frequently-filtered column (a date) lets the engine skip whole physical segments before
+    it even starts scanning; clustering orders the data within what is left so a second, finer filter (an
+    id, a status) still prunes rather than reading every row in the partition — choosing one without the
+    other leaves the query pruning on only one axis of its actual filter.
+12. **A clustering or partition key chosen for today's query is stale the day the dominant query
+    changes.** The layout is expensive to rewrite, so the choice is revisited against the query patterns
+    that actually run — measured, per point 4 — rather than assumed still correct because nobody
+    complained.
+13. **A function wrapped around the partition or clustering column defeats pruning even when the filter
+    value would have matched.** `WHERE DATE(created_at) = ...` on a column partitioned by `created_at`
+    forces a full scan the same way an unindexed predicate would in a transactional database — the
+    filter has to be written on the raw column for the engine to prune on it.
+14. **Compute is usually the majority of the bill, and it hides in what a warehouse's autoscaling
+    quietly grants.** A warehouse or cluster left to scale up during a spike and never scale back down
+    accumulates cost nobody attributes to a specific pipeline; the fix is measuring per-job cost, not
+    only per-day cost, so the expensive job is the one that gets optimised rather than whichever ran
+    most recently before the bill arrived.
+15. **A join between differently-typed keys is invisible in the query's result and expensive in its
+    plan.** An implicit cast on one side of a join defeats both the index and the clustering key on that
+    column, and the query still returns the right rows — which is exactly why point 6 calls this class of
+    mistake invisible: nothing about the output signals that the engine scanned far more than it needed
+    to.
+16. **A materialised, pre-aggregated table is a cache, and a cache has a staleness budget.** Refreshing
+    it on the same schedule as the tables it summarises is not automatic — the moment its refresh lags,
+    it silently answers yesterday's question with today's confidence, and nothing about querying it
+    signals that the number is stale.
+17. **Autoscaling compute up is cheap to trigger and easy to forget to scale back down.** A cluster or
+    warehouse resized for a one-off backfill and left at that size runs every routine job afterwards at
+    the inflated cost, and because nothing failed, nothing draws attention to it — the fix is a scheduled
+    check on the running size against the workload actually queued, not a one-time resize decision assumed
+    to still be correct.
+18. **A cost regression is a diff worth reviewing like a correctness one.** A query rewritten for a new
+    feature that adds an unfiltered join or a wider scan passes every test in point 10's "correct first"
+    ordering while quietly changing what the run costs — the measurement recorded in point 4 is what turns
+    that into a reviewable number instead of a surprise on next month's invoice.

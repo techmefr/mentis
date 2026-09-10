@@ -54,3 +54,40 @@
     can never be true is worse than none: it reports green forever and the dashboard says the data is
     verified. Force it to fail once, the same way an alert is forced
     (`skills/observability-instrumentation` §4.2).
+13. **Uniqueness is its own dimension, not a corollary of completeness.** A row can be fully populated,
+    accurate and current and still be a duplicate, and a duplicate silently inflates every sum built on
+    top of it — a count check that only looks at nulls and ranges never catches it, which is why it needs
+    its own explicit assertion rather than riding along with point 2's four dimensions.
+14. **A schema test and a unit test check different failures, and neither substitutes for the other.** A
+    post-materialisation check (point 1) catches what the data actually is; a test against the
+    transformation's logic on fixed input catches what the SQL or the code *would* produce before it runs
+    against anything real — a logic bug that happens to produce plausible output on today's data passes
+    the first and fails the second.
+15. **A published contract on a table's schema is a promise checked before the data lands, not after.**
+    Declaring the expected columns, types and nullability up front and failing the build when the model
+    would violate it catches a breaking rename or a dropped column at merge time, before a consumer's
+    dashboard breaks on the next refresh — which is strictly earlier than the input check in point 1 can
+    fire.
+16. **Validity is not accuracy, and conflating them hides the harder problem.** A value can be
+    well-formed, in range and pass every schema check while still being wrong — a plausible but incorrect
+    account number, a rounded amount that no longer matches its source. Point 2's four dimensions
+    deliberately keep these separate because the cheap, mechanical check for one gives no signal at all
+    about the other.
+17. **An old data-quality framework choice is a freshness question in itself.** A validation library or a
+    contract format adopted once and never revisited accumulates the gap between what it can express and
+    what the pipeline actually needs — the check to make periodically is not only whether the rules still
+    hold, but whether the tool enforcing them is still the currently maintained one.
+18. **A quarantine needs a way back in, or it is just a second silent failure.** Point 4's quarantine
+    stops bad rows from reaching the destination, but a quarantine nobody reviews and nothing ever
+    reprocesses out of is equivalent to deleting the rows — the quarantine is a queue with an owner, not
+    a place data goes to be forgotten.
+19. **A unit test on a transformation runs before the model touches a warehouse, and that ordering is
+    the value.** Feeding fixed rows straight into the SQL or the transformation function and asserting the
+    output catches a logic error at the speed of a function call, whereas point 1's post-materialisation
+    check only fires after a full build — the two are complementary, not redundant, precisely because one
+    is cheap to run on every commit and the other needs real infrastructure.
+20. **A data contract is a promise checked at the boundary between producer and consumer, not a shared
+    understanding kept in someone's head.** Whichever format states it — a schema file, a YAML contract, a
+    registry entry — the discipline is the same as the destination-side migration rule in §1.11: the
+    producer cannot silently change what it emits, because a consumer is depending on the current shape
+    without being asked each time.
