@@ -72,3 +72,31 @@
     seam a widget test fakes therefore has to sit *above* the hop, at the repository rather than at the
     file or the asset bundle; where the hop itself is what needs exercising, that is a plain unit test's
     job, or it needs the harness's real-async escape hatch for that one await (§10.7).
+19. **A platform channel failure arrives as an exception with a machine-readable code, not as a string to
+    parse.** A failed permission plugin call, a missing platform implementation or a rejected native
+    operation throws a typed platform exception carrying a code and a message; matching on the message text
+    breaks the first time it is reworded upstream, while the code is the part the plugin actually promises
+    to keep stable. Catching the generic exception type and logging its text is how a distinguishable
+    "permission permanently denied" and an unrelated native crash end up rendered as the same generic error
+    to the user.
+20. **Not every on-device directory survives the same events, and picking the wrong one is a silent data
+    loss.** A temporary directory can be cleared by the OS whenever it wants the space back; an
+    application-support or documents directory persists until the app is uninstalled but is still included
+    in a device backup unless excluded, which for a large cache or a re-derivable file is backup quota spent
+    on something that was never meant to survive a restore. Choosing the directory is choosing the
+    guarantee, not just a path.
+21. **A write attempted with no network is not the same failure as a write the server rejected**, and
+    collapsing both into one error message sends the user to retry a request that cannot succeed without
+    connectivity while hiding the case that actually needs a different action (fix the input, sign in
+    again). Check reachability, or read the specific failure the HTTP layer already distinguishes, before
+    choosing the message point 10 is asking for.
+22. **A file exported or shared leaves the app's own cache and is handed to another app entirely.** The
+    share sheet and a saved-to-downloads flow both copy the file into a location this app no longer
+    controls, so point 4's cache-lifetime bookkeeping has to happen before the hand-off, not after — cleaning
+    up "later" cleans up a copy that is no longer the only one, while the promise that deleting the record
+    deletes the data was already broken the moment the export completed.
+23. **A permission that unlocks something under a legal consent regime is asked for in the wrong order if
+    consent comes second.** Where a feature (analytics, precise location, tracking) is gated by a user
+    consent choice as well as by the OS permission, requesting the OS permission before the consent screen
+    has been answered is the one-time chance of point 12 spent on a dialog the user has not yet agreed to
+    see the purpose of — the consent question comes first, and the permission prompt follows only a yes.

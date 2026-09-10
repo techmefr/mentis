@@ -434,3 +434,63 @@ file was read for this pass.
 References total (excluding this file): ~26,970 → ~30,665 words (measured: `wc -w` over the nine
 `0N-*.md` files, excluding this one).
 
+**Widening, 2026-09-10 — septième pass.** csharp still carried the worst measured ratio in the table, so
+this pass took the five thinnest reference files by raw word count (§1, §2, §5, §3, §9) — each checked
+against a gap not already covered, not against the org catalogue (already re-diffed 2026-09-07) but
+against current Microsoft Learn and the .NET Blog for that file's own topic, favouring .NET 9/10 and
+C# 13/14 material specifically:
+
+- **§1** (async, cancellation, threading) gained `Task.WhenEach` streaming completions instead of
+  collecting them (the as-completed alternative to `WhenAll`/`WhenAny`), `Task.WaitAsync` timing out the
+  wait without cancelling the underlying work, `ConfigureAwaitOptions`' `SuppressThrowing` flag as a
+  narrow, explicit alternative to a swallowed fire-and-forget, LINQ over `IAsyncEnumerable<T>` (.NET 10)
+  taking its cancellation on the operator chain rather than the source, `Lock.TryEnter`'s timeout staying
+  a synchronous-only answer to the semaphore's async wait problem, and a `CancellationToken` captured in a
+  closure freezing at closure-creation time rather than re-reading a field (§1.34–§1.39).
+- **§2** (dependencies and logging) gained keyed `AddHttpClient` registration (.NET 9) as point 19's
+  disposal rule extended to more than one client configuration, `[FromKeyedServices]` on a constructor
+  parameter as the keyed-resolution path that still never touches `IServiceProvider` directly, the
+  `[AllowedValues]`/`[DeniedValues]`/`[Base64String]` data-annotation attributes covering a class of
+  options-validation rule that used to need a hand-written validator, `TimeProvider` as an injectable
+  service making the clock substitutable in tests the same way a repository is, a `Meter`'s counters and
+  histograms as the aggregation-shaped signal a log line isn't, and a logging provider's own reload-token
+  subscription making a configured log level change take effect without a restart (§2.31–§2.36).
+- **§5** (disposal, nullability, enumeration) gained `[MemberNotNull]`/`[MemberNotNullWhen]` letting a
+  guard method narrow nullability for its caller instead of resetting flow analysis at the call site,
+  `[NotNullIfNotNull]` for a pass-through method's linked nullability, C# 13's `allows ref struct`
+  constraint letting a `ref struct` implement `IDisposable` and be disposed through generic code, a
+  collection expression's spread element enumerating (and not disposing) its source, a `using`
+  declaration's block-length scope holding a resource open longer than an equivalent nested `using`
+  statement would, the `ArgumentOutOfRangeException` numeric guard family read the same way as a null
+  guard, and an `init`-only property not exempting a struct from point 13's zeroed-`default` trap
+  (§5.34–§5.40).
+- **§3** (authorisation) gained ASP.NET Core's built-in authentication/authorisation metrics as the
+  production-visible version of the negative test, cookie authentication's heuristic 401-vs-redirect split
+  for API-shaped requests, a WebAuthn/passkey credential changing what "a second factor" means for a
+  step-up policy, `RequireAuthorization()` chained on a group and an endpoint adding requirements rather
+  than replacing them, minimal API's built-in validation filter running after authorisation rather than
+  before it, and rate-limiter placement relative to authentication deciding whether it partitions by
+  identity or by a shared anonymous key (§3.32–§3.37).
+- **§9** (publish-time failures) gained a file-based app (.NET 10) publishing Native AOT by default so a
+  script inherits this section's rules the moment it's published, packing a .NET tool as trimmed/AOT
+  (.NET 10) surfacing the same failures at the packaging step rather than the code-change step, the AOT/
+  trim analyzers catching more at build time without replacing the CI-must-publish rule, the .NET 9
+  feature-switch attribute model stating a switch's trim behaviour next to its name, and hybrid
+  globalization mode as a third point on the ICU-versus-invariant axis rather than a safer version of
+  either (§9.29–§9.33).
+
+Sourced from current Microsoft Learn and the .NET Blog only, per this file's rule C: the `Task.WhenEach`
+and `Task.WaitAsync` API docs, the `ConfigureAwaitOptions` reference, the .NET 10 `System.Linq.
+AsyncEnumerable` and IAsyncEnumerable-interface-change documentation, the `System.Threading.Lock`
+reference, the .NET 9 keyed-`IHttpClientFactory` and `[FromKeyedServices]` documentation, the options-
+validation data-annotations reference, the `TimeProvider` and `System.Diagnostics.Metrics` API docs, the
+C# 13 `allows ref struct` and collection-expression language reference, the `using`-declaration scoping
+and `ArgumentOutOfRangeException` guard-clause reference, the ASP.NET Core authentication/authorisation
+metrics and cookie-authentication-for-APIs release notes, the ASP.NET Core Identity passkey/WebAuthn
+documentation, the minimal-API validation-filter ordering page, the file-based-apps and .NET-tool-
+packaging (.NET 10) publish documentation, the .NET 9 feature-switch attribute model reference, and the
+hybrid-globalization-mode documentation. No org catalogue file was read for this pass.
+References total (excluding this file): measured before/after via `wc -w` on the five touched files only
+— §1 2,687 → 3,311, §2 2,696 → 3,320, §3 2,743 → 3,383, §5 2,741 → 3,538, §9 2,794 → 3,348 (+3,239 words
+across the five). Full nine-file total (excluding this file): 29,087 words.
+

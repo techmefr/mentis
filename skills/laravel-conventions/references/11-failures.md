@@ -143,3 +143,39 @@
     the only audience left for that exception is the tracker. Code with a side effect that must still be
     visible to the caller belongs in the request cycle proper, not in `terminate()`, precisely because a
     `terminate()` failure is invisible to whoever made the request.
+29. **`rescue()` wraps a call, reports the failure, and returns a fallback value — the same "committed
+    degraded default" point 3 already allows a `catch` to be, never a shortcut around one.** Reaching for it
+    on a call whose failure the caller genuinely needs to react to swaps a thrown error nobody can miss for
+    a fallback value indistinguishable from a real result, which is exactly the silent swallow point 3 warns
+    a null/false return becomes; `rescue()` earns its place only where the fallback is a correct answer, not
+    merely a convenient one.
+30. **`Http::retry($times, $sleep, $when)` retries automatically, and without the `$when` closure it retries
+    every non-2xx response — including a 404 or a 422 that will never succeed no matter how many times it's
+    asked.** Point 11's "an external call fails in five ways" is what the `$when` closure has to encode:
+    retry the timeout, the connection failure, the 5xx and the rate limit, and let the client fail fast on
+    anything shaped like "this request itself was wrong," or the retry loop spends its budget hammering an
+    endpoint that already answered.
+31. **A job's `$backoff` property (or `backoff()` method) declares the delay before each retry without the
+    worker blocking for it**, which is the difference between a job that releases itself back to the queue
+    for another worker to pick up later and one that calls `sleep()` inside `handle()` before failing,
+    holding that worker idle for the whole delay. An array of increasing values (`[10, 30, 60]`) is
+    exponential backoff declared once, read by the framework, rather than a manual counter reimplementing
+    the same schedule inside the job body.
+32. **`Sleep::fake()` makes a retry loop's delay fakeable in a test, the same way `Http::fake()` (point 18)
+    fakes the network call it's waiting on.** A retry helper written around PHP's own `sleep()`/`usleep()`
+    forces its test to either wait out the real delay (slow) or have the sleep stripped out for the test and
+    reintroduced for production (untested) — calling `Sleep::for(...)->seconds()` instead keeps the same
+    production code path fast under `Sleep::fake()` and asserts on the number of times and how long it slept,
+    the delay equivalent of point 21's "assert what the failure carries," applied to timing.
+33. **Rethrowing with only a new message and no previous-exception argument discards the original stack
+    trace**, which is the detail a tracker needs to find where the failure actually happened. Point 3's
+    "adding context and rethrowing" as a legitimate reason for a `catch` only holds if the new exception is
+    constructed with the caught one passed as `$previous` (`throw new DomainException($msg, previous: $e)`);
+    without it, `getPrevious()` returns null and the report shows the rethrow site as the origin, one layer
+    removed from where the code actually failed.
+34. **`report_if()`/`report_unless()` guard a report call inline with the exact condition point 12's
+    "expected failure, not a defect" already asks for**, and using them instead of a bare `if (...) {
+    report($e); }` keeps that condition searchable as one of the tracker's own entry points — a search for
+    every `report_if(` call surfaces every place the app decided a failure was conditionally worth flagging,
+    where the same logic spelled out as a plain `if` around `report()` blends into ordinary application
+    branching and stops being an inventory anyone can run.

@@ -127,3 +127,37 @@
     pivot rows attached to the old name detaches every holder from it at once. Both are the schema-migration
     problem `skills/laravel-conventions` §3 point 1 describes for an enum value, applied to the permission
     table instead of a status column.
+22. **A broadcast channel's authorisation lives in `routes/channels.php`, and it is its own surface — not
+    inherited from the HTTP route that happens to render the page listening on it.** `Broadcast::channel('orders.{order}', ...)`
+    runs its own closure against the connecting user, so a private channel left unauthorised (or
+    authorised by presence alone, ignoring the model) leaks every event broadcast on it to anyone who can
+    guess the channel name, regardless of how tightly the HTTP endpoints around the same data are scoped.
+    Point 8's "read authorisation is authorisation" applies here in real time instead of per request.
+23. **A `FormRequest::authorize()` left returning `true` is not a placeholder, it is the one authorisation
+    hook the framework calls before validation runs, disabled.** Laravel's request-class scaffolding
+    generates it that way, and it is easy to leave in place because the endpoint still works for every
+    legitimate caller — the gap only shows up when someone who should have been refused isn't. Point 7's
+    "a policy is not a validation layer" cuts the other way here too: `authorize()` is the policy check that
+    belongs on the request, and a permanently-true return value is the same as never having asked.
+24. **A policy method's extra parameters compare against a second model, not just the acting user and the
+    target resource.** `update(User $user, Invoice $invoice, LineItem $lineItem)` lets the check confirm
+    the line item actually belongs to that invoice before allowing the edit — omitting the extra parameter
+    and checking only `$user`/`$invoice` passes a caller who owns the invoice but is editing a line item
+    borrowed from someone else's, which is point 4's IDOR-by-relationship-scoping problem one join deeper.
+25. **A notification's `via()` channel does not carry its own authorisation — the notifiable resolved for
+    it has to be the same one the caller was already checked against.** Queuing a notification onto a user
+    id read from the request, rather than the model already scoped and authorised earlier in the same
+    request (point 4), reopens the same gap in a background job where nothing renders a 403 for anyone to
+    notice: the job just quietly notifies the wrong account.
+26. **`$request->user()->cannot()` outside a controller does not throw on its own — it returns a boolean,
+    and the caller has to act on it.** Inside a controller, `$this->authorize()` throws an
+    `AuthorizationException` the handler turns into a 403; the same check run from a command, a job or a
+    console script has no HTTP response to fall back on, so skipping the explicit `throw_unless()` /
+    manual throw around a bare `cannot()` call is how an unauthorised action inside a queued job silently
+    proceeds instead of stopping, the async equivalent of §11 point 1's "throw, never return."
+27. **A policy method written only for an authenticated user silently denies every guest, which reads as a
+    strict app rather than as the intended behaviour for a genuinely public ability.** Typing the user
+    parameter as nullable (`viewAny(?User $user)`) and returning `true` for the guest case is how
+    `Gate::authorize()` and `@can` correctly allow anonymous access to a public listing — a policy method
+    that doesn't accept null and is never resolved for a guest falls through to a blanket denial that looks
+    identical to the ability existing but being restricted, not absent.

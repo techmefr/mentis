@@ -127,3 +127,40 @@
    relationship's cost visible next to the query that needs it; `load()` called later on an
    already-fetched collection is the accepted fallback only when the need for the relation depends on data
    not known until after the first fetch (a policy check on the result, a conditional branch).
+22. **A single-action controller (`__invoke()`) is for a route that isn't one of a resource's seven
+   verbs**, not a stylistic default applied everywhere. `ImportInvoiceBatch` or `RecalculateTenantUsage`
+   name the endpoint the way `authorizeResource()` (§2 point 16) expects a resource controller to be named
+   after a model — a project reaching for `__invoke` on every controller loses that convention without
+   gaining anything, because a one-method class named after an HTTP verb pair (`show`/`update`) is no
+   clearer than a one-method class named after the action it performs.
+23. **A value object gains from PHP 8.4's asymmetric visibility what it used to fake with a private
+   property and a getter.** `public private(set) Money $total` is readable from outside the class and
+   writable only from inside it, in one declaration — the boilerplate this replaces (`private $total;
+   public function total(): Money { return $this->total; }`) was never protecting an invariant, it was
+   working around the language not having the shape yet. This is for the DTOs and value objects point 1
+   already asks actions to return, not for an Eloquent model's own attributes, which the framework's
+   `$fillable`/casts machinery already governs.
+24. **`once()` memoises a callback for the life of the current request**, which is the correct home for an
+   expensive computation a query class or action calls more than once per request and does not want cached
+   across requests (that belongs in the cache store instead). A static property used as an informal memo
+   cache does the same thing but survives past the request on a long-lived worker (Octane, a queue process)
+   the way point 16 describes for a wrongly-scoped singleton — `once()` is scoped correctly by construction.
+25. **`Conditionable`'s `when()`/`unless()` on a query builder keeps a conditional filter inside the query
+   it modifies**, instead of the caller building the query in an `if`/`else` that duplicates every line
+   that doesn't change between branches. `Model::query()->when($filter, fn ($q) => $q->where(...))` reads
+   as "this query, conditionally narrowed" at the point the query is assembled; an external `if` around two
+   near-identical query blocks is the same defect point 6 already names for factoring out what protects
+   nothing, arriving from the query-building side instead.
+26. **A queued job's `handle()` method is where behaviour lives for the asynchronous case, and it takes its
+   collaborators the same way an action does: through method injection, resolved from the container per
+   run**, not through a constructor argument serialised alongside the job's own data. A dependency
+   constructor-injected into a job gets serialised with the job (or fails to serialise at all) and is
+   stale by the time a queue worker picks it up hours later; one resolved inside `handle()`'s parameters is
+   fetched fresh at execution time, which is the job equivalent of point 1's "an action's inputs are typed
+   parameters."
+27. **A PHP enum implementing an interface guarantees every case answers a method, which a `match`
+   scattered across callers cannot.** Point 4 of §3 already puts per-case data as a method on the enum
+   itself; the interface is what makes a caller able to type-hint against "any status with a `label()`"
+   without knowing which enum, and it is what makes the compiler (via Larastan) refuse a new enum that
+   forgets to implement it — a `match` with no `default` arm silently returns null for a case nobody
+   remembered to add, where an unimplemented interface method fails at analysis time instead.

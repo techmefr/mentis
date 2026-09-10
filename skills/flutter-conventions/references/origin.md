@@ -169,3 +169,29 @@ documentation (flutter.dev, api.flutter.dev, dart.dev) for every mechanism cited
 -written references sections for continuity of voice and cross-references — never from the marketplace XEFI
 catalogue, whose file contents were not read for this pass. Five files, 2,651 words added; references directory
 total 12,895 → 15,546 words.
+
+**Widening, 2026-09-10 — deuxième pass.** The five thinnest sections remaining after the first widening pass
+got 5-7 new points each, appended after the existing numbering (nothing renumbered): §3 layout (993 → 1,545
+words: `Wrap` versus a horizontal scroll for overflow content, `Spacer`/`Expanded` versus a fixed `SizedBox`
+gap, `OrientationBuilder` scoped to a widget versus a window-level breakpoint, the three-way split between
+`MediaQuery`'s padding/viewInsets/viewPadding, `LayoutBuilder` re-measurement cost nested in a scrolling
+list, and `Table`/`DataTable` measuring every row at once versus a paged per-row layout), §9 text/motion/
+monitoring (1,026 → 1,454: `TextScaler` replacing the linear `textScaleFactor` multiplier, `AnimatedSwitcher`
+requiring a key to detect a child change, `Hero` tag collisions across two routes on the same stack,
+`AnimatedOpacity`/`FadeTransition` versus a plain `Opacity` repaint, and semantic labels or a live region for
+information an animation only conveys visually), §8 data/storage/permissions (1,169 → 1,607: platform-exception
+codes versus parsing exception text, temporary versus application-support/documents directories and backup
+inclusion, distinguishing an offline write from a server-rejected one, cache cleanup ahead of a file export/
+share hand-off, and consent-before-permission ordering under a legal consent regime), §10 naming/structure/
+tests (1,236 → 1,705: `verifyNever`-style negative assertions, a test tree mirroring the source tree file-for-
+file, a golden file's name and location as part of its contract, a separate entrypoint/driver for integration
+tests, `tester.view`/`tester.viewOf` replacing the deprecated window-level test properties, and arrange-act-
+assert ordering), and §7 state management (1,652 → 2,034: `AsyncValue.guard` as the per-mutation form of
+point 5's boundary catch, `ref.select` narrowing a provider subscription the way point 3's `Selector`/
+`context.select` narrows a `Provider`-based one, batching `ChangeNotifier.notifyListeners` outside a loop
+rather than once per iteration, and `ValueNotifier`'s correct scope being one primitive value rather than a
+whole screen's state). Sourced from the framework's own current documentation (flutter.dev, api.flutter.dev,
+docs.flutter.dev breaking-changes pages, riverpod.dev, dart.dev) for every mechanism cited, plus this block's
+own already-written references sections for continuity of voice and cross-references — never from the
+marketplace XEFI catalogue, whose file contents were not read for this pass either. Five files, 2,269 words
+added; references directory total 15,546 → 17,815 words (origin.md itself excluded from both counts).

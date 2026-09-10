@@ -182,3 +182,37 @@
     class of failure without the "cannot generate code at all" class, and full AOT brings both — treating
     "trimmed" and "AOT" as one setting when reasoning about which of this section's twenty-plus points
     actually applies is how a team fixes the wrong half of the list.
+29. **A file-based app (`dotnet run app.cs`, .NET 10) publishes Native AOT by default, which means a script
+    nobody meant to harden against this section inherits every one of its rules the day it's published rather
+    than merely run.** The single-file entry point that felt like a throwaway script during `dotnet run`
+    reflects, serialises or reads a culture the same as any other code, and `dotnet publish` on it turns on
+    `PublishAot` without being asked — so the first sign of points 1, 7 or 15 applying at all is the publish
+    step itself, for a file that was never reviewed as an AOT target because it never looked like one.
+30. **Packing a .NET tool as self-contained, trimmed or Native AOT (.NET 10) exposes the same failures this
+    section already describes, the day the packaging choice changes rather than the day the code does.** A
+    global tool authored against the ordinary framework-dependent build can be packed several different ways
+    without a source change; switching the pack target to trimmed or AOT surfaces points 1, 2 and 7 for code
+    that compiled and ran identically under every previous packaging choice — the failure is entirely in the
+    publish configuration, which is exactly why point 3's rule to run the actual publish in CI has to cover
+    every packaging variant that ships, not just the default one.
+31. **The AOT and trim analyzers catch more of this section at build time than they used to, and that
+    coverage is still opt-in per project, per warning wave — point 3's rule about running the publish is not
+    superseded by better tooling.** A newer SDK's diagnostics flag a wider slice of points 1, 2 and 7 during
+    an ordinary build without a publish step at all, which narrows the gap between "compiles" and "publishes
+    safely" but does not close it — a warning wave introduced after a project's `TreatWarningsAsErrors`
+    baseline was set can sit unenforced, silently, the same way point 6 already warns a suppressed individual
+    warning does.
+32. **The feature-switch attribute model (.NET 9) declares a switch's trim behaviour in the same place as its
+    name, which point 20's bare `AppContext` switch left to be documented separately or not at all.** A
+    library author states, next to the switch itself, both the friendly configuration name an app sets in its
+    project file and what the trimmer should assume when it's off — so a consumer reading the switch's own
+    declaration knows whether flipping it actually removes code (point 20's condition for the trimmer to act
+    on it) without cross-referencing separate documentation that can drift from what the linker configuration
+    actually says.
+33. **Hybrid globalization mode is a third point on the axis points 14 and 15 already describe as two, not a
+    safer version of either.** Full ICU keeps every culture-aware behaviour; invariant mode (point 14) flattens
+    all of it to ordinal; hybrid keeps culture-aware casing and comparison but still throws or falls back for
+    the operations that need the full ICU data files it deliberately doesn't ship — so code exercising exactly
+    the subset hybrid mode omits fails the same way point 15 describes for invariant mode, just for a smaller
+    and less obviously-invariant-shaped set of operations, which makes the gap easier to miss in testing
+    precisely because most culture-aware code keeps working under it.

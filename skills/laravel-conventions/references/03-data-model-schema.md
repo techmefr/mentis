@@ -134,3 +134,39 @@
     column instead removes the one property that makes cross-timezone comparison and DST correctness possible
     at the database level, and the bug it produces — an hour off, once or twice a year — is exactly the kind
     that a project without stored UTC discovers on the day clocks change rather than in review.
+29. **`HasUuids`/`HasUlids` change the primary key's *generation strategy*, and that choice has an index-locality
+    consequence an autoincrementing id never raised.** A UUID v4 is random, so each insert lands at an
+    arbitrary point in the primary key's index rather than at the end, fragmenting it on a large,
+    high-write table; a ULID is time-ordered like the id it replaces, keeping inserts append-like — the
+    same "ordered for the queries that use it" reasoning point 19 applies to a composite index applies here
+    to the primary key itself, and it is the reason to default to ULIDs unless the id must be
+    unguessable *and* unordered.
+30. **A polymorphic relation's `*_type` column should store a short alias from an explicit morph map, not
+    the model's fully-qualified class name.** `Relation::enforceMorphMap([...])` in a service provider is
+    what makes a later namespace move — a model relocated into an OSDD package per `skills/laravel-conventions`
+    §10 point 5 — safe: every row already written keeps resolving through the map, where a stored FQCN
+    silently orphans every polymorphic row the moment the class it names no longer exists at that path.
+31. **A model's date attributes default to *mutable* Carbon instances, which a caller can change in place
+    without meaning to.** Casting to `immutable_datetime` (or enabling immutable dates application-wide)
+    means a method that receives `$invoice->due_at` and calls `->addDays(3)` on it for a local calculation
+    gets a new instance back instead of silently mutating the one every other reader of that model still
+    holds a reference to in the same request — the object-identity twin of the UTC-storage discipline point
+    28 already asks for on the way the value is read.
+32. **A spatial or geography column type depends on a database extension that has to be enabled per
+    environment, and the migration itself does not enable it.** A `point`/`geometry` column created against
+    a database where PostGIS (or the engine's equivalent) is already on succeeds locally and in any
+    long-lived environment that was set up once by hand, then fails the first time it runs against a fresh
+    one — a new CI database, a new developer's machine — because nothing in the migration file itself
+    provisioned the extension it depends on.
+33. **`Model::preventLazyLoading()` and `preventSilentlyDiscardingAttributes()`, turned on outside
+    production, convert two silent defects into loud exceptions during development.** The first throws the
+    moment an unloaded relationship is lazy-loaded, catching the N+1 point 21 of §1 asks to be eager-loaded
+    at the query site before a profiler ever has to find it; the second throws when a mass-assigned value
+    lands on a column absent from `$fillable`, catching the over-broad request point 6 of §2 warns about at
+    write time instead of it silently being dropped and the caller never told.
+34. **`DB::transaction(callback, $attempts)`'s second argument retries the whole closure on a deadlock**,
+    which is the framework's own answer to a deadlock a high-concurrency write path will eventually hit —
+    reaching for a hand-written `try { ... } catch (QueryException $e) { if (deadlock) retry(); }` loop
+    around the same closure duplicates what the parameter already does, and unlike the built-in version it
+    has to get idempotency and the retry count right on its own, the same distinction `skills/laravel-conventions`
+    §11 point 10 draws for a retried job.

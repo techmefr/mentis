@@ -178,3 +178,53 @@
     ascribes to `with` only holds while every property stays `init`-only; a settable one turns the record
     into a class with generated equality members riding on top of state that no longer matches what those
     members compare.
+34. **`[MemberNotNull]` and `[MemberNotNullWhen]` tell the compiler what a guard method already proves, and
+    without them a validation helper resets the flow analysis point 3 depends on at every call site.** A
+    method that throws when a field is null, or returns `false` precisely when one is, doesn't communicate
+    that to a caller unless annotated — so the same check written inline (`if (x is null) throw`) narrows the
+    field for the rest of the method while the identical check moved into a helper leaves the compiler back
+    at "might be null" the instant the helper returns, and the codebase accumulates redundant `!` (point 17)
+    purely because the guard lives one call away from where its result is used.
+35. **`[NotNullIfNotNull]` states a pass-through contract a return-type annotation alone can't express, and
+    skipping it silently reverts to point 12's "annotation as documentation only."** A method that returns
+    its own input unchanged when that input is non-null, and null only when the input was — a normaliser, an
+    optional mapper — has a return type that has to be nullable to cover the second case, which then forces a
+    null-check on every caller even for the branch that provably never produces one; naming the parameter the
+    nullability is linked to is what lets the compiler narrow the *result* the same way it already narrows
+    the input, instead of every caller re-deriving the guarantee by eye.
+36. **A `ref struct` implementing an interface (C# 13's `allows ref struct` constraint) can now be disposed
+    through generic code, and the disposal discipline this section builds around `IDisposable` (points 1, 9)
+    finally reaches types that couldn't opt into it before.** `Lock`'s scope, a pooled buffer wrapper, or any
+    stack-only type previously had to be disposed by a caller that knew its concrete type, because a `ref
+    struct` could not implement `IDisposable` in a way a generic `using`-over-`T` could call; a generic method
+    declared `where T : IDisposable, allows ref struct` can now own that disposal the same way it would for a
+    heap type, which is new surface for point 9's "dispose what you own" to apply to rather than a new rule
+    in itself.
+37. **A collection expression's spread element enumerates its source once to build the target and disposes
+    nothing it walked through.** `[.. source]` calls `GetEnumerator()`/`MoveNext()` on `source` the way a
+    `foreach` would, but the compiler-generated code has no `using` around that enumeration — for a spread
+    source that is itself an `IEnumerable<T>` backed by a disposable enumerator (a database cursor wrapped to
+    look like a sequence, a custom iterator holding a handle), the collection expression finishes the copy
+    and leaves that handle open, which is point 1's leak arriving through syntax that doesn't look like
+    enumeration at the call site at all.
+38. **A `using` declaration's scope is the rest of the enclosing block, not the statement it sits on, and two
+    declared back-to-back stay open together for longer than the equivalent nested `using` statements would.**
+    `using var a = ...; using var b = ...;` disposes both at the end of the method (or block) they're
+    declared in, in reverse order (point 28) — which is usually what's wanted, but a resource that should
+    close well before the method returns (a short-lived transaction opened partway through a longer method)
+    silently outlives its useful scope if written as a declaration instead of a braced `using` statement,
+    holding a connection or a lock for everything that runs afterward in the same block.
+39. **`ArgumentOutOfRangeException.ThrowIfZero`/`ThrowIfNegative` and their siblings are point 17's guard
+    clause for a numeric range instead of a null check, and the same rule about what comes after applies.**
+    The framework's static throw-helpers for a parameter that must be positive, non-zero, or within a range
+    read the same way `ArgumentNullException.ThrowIfNull` does — one line, no `if` block — and a reviewer
+    should see the same thing after them that point 17 asks for after a null guard: nothing that re-checks
+    what the throw-helper already established, because a defensive re-test right after says the check wasn't
+    trusted the first time either.
+40. **A `struct` with an `init`-only auto-property still has a parameterless constructor the runtime can call
+    through `default` or array allocation, and point 13's zeroed-struct warning applies to `init` members the
+    same as to a mutable one.** `init` changes when a property can be *set from outside the type* — after
+    construction, only from an object initializer — it does not remove the all-fields-zeroed value every
+    value type has whether or not its declared constructor ever ran; an invariant expressed only in a
+    parameterised constructor still has to hold for the value nobody constructed that way, which is the same
+    trap point 13 names, now reached through a property modifier that looks like it should have closed it.

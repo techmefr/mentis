@@ -63,3 +63,37 @@
     an extra time per frame, and nested inside a list it multiplies. It is occasionally the right tool and
     never the default; where it appears in a scrolling context, the honest answer is usually a fixed extent
     or a bounded slot.
+17. **`Wrap` is the honest answer to a row that sometimes has too many children.** A `Row` of chips or tags
+    overflows the moment the content or the translation (§9.5) is one item longer than what fit at design
+    time; a `Wrap` moves the excess to a new line instead of past the edge of the screen, which is the
+    difference between a layout that degrades and one that clips. Reach for it before reaching for a
+    horizontal scrollable, which hides the extra items rather than showing them.
+18. **`Spacer` and an empty `Expanded` are for space inside a flex, not a gap between two fixed widgets.**
+    A `SizedBox` with a width or height is the right tool for a fixed gap; a `Spacer` claims a share of
+    whatever room is left over, which only means something inside a `Row` or `Column` that itself has
+    room to give. Using a `Spacer` where the parent is already tight collapses to zero rather than erroring,
+    which reads as "the gap silently disappeared" rather than as a mistake to fix.
+19. **`OrientationBuilder` answers a narrower question than a width breakpoint does.** It reports portrait
+    or landscape for the widget's own render box, not for the whole window, so it is the right tool inside
+    a split view or a side-by-side layout where the window's own orientation (point 8) does not describe
+    the widget's slice of it — and the wrong one for a top-level page layout, where a width breakpoint
+    (point 7) already gives a more direct answer and degrades better on a foldable's continuum of widths.
+20. **`MediaQuery.paddingOf`, `.viewInsetsOf` and `.viewPaddingOf` answer three different questions**, and
+    reading the aggregate `MediaQueryData` where one of the three would do is what makes point 12's safe-area
+    reasoning and point 13's keyboard reasoning look like the same number. `padding` is the fixed system
+    chrome (status bar, home indicator) that a `SafeArea` consumes; `viewInsets` is what an on-screen
+    element like the keyboard currently occupies and changes over the widget's lifetime; `viewPadding` is the
+    padding that would apply with the keyboard ignored. Reading the wrong one is why a bottom-anchored bar
+    sometimes double-pads itself: it added its own inset on top of a `SafeArea` that already consumed the
+    same value.
+21. **`LayoutBuilder`'s constraints and `MediaQuery`'s size are two different coordinate systems**, and point 8
+    already states that the local one is the correct one inside a dialog or a sheet; the additional trap is
+    that a `LayoutBuilder` placed as its own child re-runs its builder on every constraint change from its
+    parent, which is cheap for one instance and is point 16's intrinsic-sizing cost again once several are
+    nested inside a scrolling list, each re-measuring its own subtree per frame.
+22. **A `Table` or a `DataTable` sizes its columns from every row it is given at once**, not from the visible
+    ones — handing either widget an unbounded or a very large dataset repeats point 16's intrinsic-measurement
+    cost across the whole set before the first frame paints. Where the data is paged or scrolls, a
+    per-row layout (a `ListView` of custom rows, or a sliver-backed data grid) measures only what is on
+    screen, which is the same shape as point 16's "fixed extent inside a scrolling context" resolved one
+    level up, at the widget-choice stage rather than the sizing-mode stage.
