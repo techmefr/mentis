@@ -76,3 +76,33 @@
     the swap is a deliberate project decision written down once — not a personal substitution one developer
     makes locally because it is faster, which quietly means the CI job and the editor are checking the code
     two different ways.
+22. **A fixture's scope is a claim about what it is safe to share, and the wrong scope leaks state between
+    tests.** A `session`- or `module`-scoped fixture that returns a mutable object (a client, a list, a
+    fake collaborator) hands the same instance to every test that requests it, so a test that mutates it
+    quietly changes what the next test receives — the fixture-level version of point 12's ordering bug,
+    caused by a scope chosen for speed rather than for what the object actually holds.
+23. **Parametrized fixtures multiply, they do not add.** A test depending on two fixtures that each carry
+    `params=[...]` runs once per combination, not once per fixture, so a matrix that looks like a handful of
+    cases is the product of every axis — worth doing deliberately for a permission/persona matrix (§8.19's
+    doctrine), and worth noticing before a small parametrize turns the suite an order of magnitude slower.
+24. **A parametrize id worth reading beats a parametrize id the runner invented.** Unnamed tuples report as
+    `test_foo[0]`, `test_foo[1]`; an explicit `ids=` (or a dict of cases) makes a failing case nameable in
+    the CI log without opening the file to count which row zero was.
+25. **A property the code should hold for every input is a property-based test, not another hand-picked
+    example.** Hypothesis generates the input space the developer would otherwise have to enumerate by
+    hand and shrinks a failure to its minimal reproducing case; it complements the example-based tests §8.15
+    already asks for rather than replacing them, since a property test proves an invariant, not that a
+    specific input produces a specific output.
+26. **A dependency used only by the tests still belongs in a declared group, not a bare `pip install` in a
+    CI step.** A test-only dependency (Hypothesis, a fixture library, a coverage plugin) installed outside
+    the manifest is invisible to point 3's lockfile, so the suite can pass locally with a version nobody
+    recorded and fail in CI the day that unpinned package changes.
+27. **A fixture that talks to a real resource is scoped to the resource's actual lifetime, not copy-pasted
+    at function scope out of caution.** A database container or an HTTP server started at `function` scope
+    when it only needs to exist once per module or session is point 16's slow-suite tax paid on every single
+    test, for a setup cost that a coarser scope would only pay once.
+28. **A `conftest.py` fixture is discovered by directory, not by import.** A fixture defined in a
+    `conftest.py` is available to every test file below it without an import statement, which is exactly
+    why an unused one is easy to leave behind and why the same fixture name defined at two directory levels
+    silently shadows the outer one for tests below the inner file — worth knowing before assuming a fixture
+    change is local to the file it was edited in.

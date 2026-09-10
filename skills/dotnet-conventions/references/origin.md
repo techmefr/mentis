@@ -382,3 +382,55 @@ language reference on interpolated string handlers, `checked`/`unchecked`, `Stri
 property patterns and `in` parameters. No org catalogue file was read for this pass.
 References total (excluding this file): ~22,456 → ~26,970 words (measured below).
 
+**Widening, 2026-09-10 — sixième pass.** csharp still carried the worst measured ratio in the table, so
+this pass took the five thinnest reference files by raw word count (§3, §4, §9, §6, §8) — each checked
+against a gap not already covered, not against the org catalogue (already re-diffed 2026-09-07) but
+against current Microsoft Learn, the .NET Blog and the Polly documentation site for that file's own
+topic:
+
+- **§3** (authorisation) gained `IAuthorizationService.AuthorizeAsync`'s resource-taking overload as the
+  declared alternative to a hand-rolled comparison after the row is loaded, a custom
+  `IAuthorizationMiddlewareResultHandler` replacing the default failure handling for every endpoint rather
+  than only the one it was written for, a dynamic `IAuthorizationPolicyProvider` resolving a policy name at
+  evaluation time rather than at startup (so a typo fails open or allow-nothing depending on the provider),
+  the `required` modifier removing the "was this ever set" question a resource-based check silently depended
+  on, a step-up/MFA requirement as a second decision layered on the first rather than a stronger version of
+  the same policy, and a permission claim replacing a role-name comparison so a new title is administration
+  rather than a redeploy (§3.26–§3.31). 2,101 → 2,743 words.
+- **§4** (types and visibility) gained the `required` modifier from the constructor side (why it can't be
+  `private`), `SetsRequiredMembersAttribute` as an unverified promise, a default interface implementation
+  changing behaviour for every existing implementer versus the pre-DIM breaking change it replaces, a
+  `static` (non-abstract) interface member as a non-polymorphic mechanism distinct from the numeric
+  static-abstract case, a `readonly` member on an otherwise-mutable struct as a per-member promise, `params`
+  accepting a span under C# 13 and what that costs the parameter's own contract, and a type alias trading
+  searchability for a local nickname (§4.28–§4.34). 2,146 → 2,925 words.
+- **§9** (publish-time failures) gained MVC controllers being outside Native AOT's support surface entirely
+  rather than a trim-warning source, the Request Delegate Generator compiling minimal-API handlers to
+  source-generated code only once AOT/trimming is on, a pre-compiled EF Core query needing the same
+  regenerate-on-model-change discipline as the compiled model, a size-optimised "chiseled" container image
+  missing native libraries an AOT binary still calls into, and trimming-without-AOT as a third distinct
+  failure profile from the trimmed+AOT and R2R cases already covered (§9.24–§9.28). 2,216 → 2,794 words.
+- **§6** (data access and portability) gained a compiled query (`EF.CompileQuery`) as a narrower, hand-kept-
+  in-sync optimisation distinct from the compiled model, table splitting's optional-load trade, a shadow
+  property invisible to direct object access, a global query filter applying through a navigation the
+  calling code never named, the command timeout versus the connection timeout as two different ceilings,
+  a provider-specific relational feature (a JSON or computed column) as a portability decision spent without
+  being chosen, and `SaveChanges` batching as a real round-trip-versus-blast-radius trade rather than a free
+  default (§6.28–§6.34). 2,345 → 3,120 words.
+- **§8** (resilience and throttling) gained the standard handler's default `Retry-After` honouring on a 429
+  or 503, a hand-rolled retry loop needing its own delay generator to get the same behaviour, a health-check
+  publisher as its own unthrottled outbound call one layer above the endpoint §8.7 already covers, a streamed
+  response's idle timeout as a separate knob from the request timeout the arithmetic in §8.2 governs, and a
+  hedge or retry against a non-idempotent stream duplicating an indeterminate prefix rather than a whole
+  response (§8.28–§8.32). 2,677 → 3,273 words.
+
+Sourced from current Microsoft Learn, the .NET Blog and the Polly/`Microsoft.Extensions.Http.Resilience`
+documentation only, per this file's rule C: the resource-based and policy-provider authorization reference
+pages, the `required`/`SetsRequiredMembers` and default-interface-member language reference, the C# 13
+`params`-collections and `readonly` struct-member pages, the Native AOT MVC-compatibility and Request
+Delegate Generator pages, the EF Core compiled-queries, table-splitting, shadow-properties and query-filter
+documentation, and the `HttpStandardResilienceOptions`/`Retry-After` handling guidance. No org catalogue
+file was read for this pass.
+References total (excluding this file): ~26,970 → ~30,665 words (measured: `wc -w` over the nine
+`0N-*.md` files, excluding this one).
+

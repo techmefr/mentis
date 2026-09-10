@@ -64,3 +64,33 @@
     delivered at any `await`, including one inside a manager's `__aenter__`/`__aexit__`, so a resource
     acquired but not yet recorded as acquired can leak on cancellation — the same shape as point 9's
     swallowed-cancellation bug, arriving from a library's own internals rather than from the calling code.
+18. **`asyncio.timeout()` scopes a deadline over a block, not over a single call.** `async with
+    asyncio.timeout(seconds):` around several awaits cancels whichever one is running when the clock runs
+    out and raises `TimeoutError` at the `with` statement, which is often the more honest place to put
+    point 10's obligation than threading a timeout argument through every individual call — and it
+    composes: an outer timeout still fires even if an inner one hasn't expired yet.
+19. **A producer that outruns its consumer needs backpressure, not a growing list.** `asyncio.Queue(maxsize=n)`
+    makes `put` await once the queue is full, so a fast producer is slowed to the consumer's pace instead of
+    accumulating an unbounded backlog in memory — the same failure as point 3's unbounded gather, but for a
+    long-lived pipeline rather than a single batch of calls.
+20. **CPU-bound work still blocks the loop from inside a thread.** `asyncio.to_thread` (the modern spelling
+    of point 4's executor call) moves a blocking I/O call off the event loop, but a genuinely CPU-bound
+    computation blocks whichever thread runs it — including that one — so it stalls every coroutine
+    scheduled on that thread's loop just the same; real parallelism for CPU-bound work needs a process, not
+    a thread.
+21. **`asyncio.shield` protects the waiter, not the shielded work's own lifetime.** Shielding an awaited
+    coroutine stops the *awaiting* task's cancellation from reaching it, but the shielded task can still be
+    cancelled directly, and the caller that shielded it still has to decide what happens if its own wait is
+    cancelled while the shielded work keeps running unobserved in the background.
+22. **A signal handler cannot `await`.** `loop.add_signal_handler` runs its callback synchronously on the
+    loop, so a graceful shutdown on `SIGTERM`/`SIGINT` means setting an `asyncio.Event` (or a flag checked
+    elsewhere) from the handler and awaiting that event in a coroutine — not running cleanup directly inside
+    the handler itself.
+23. **A subprocess launched from async code is one more thing to time out and reap.**
+    `asyncio.create_subprocess_exec` returns as soon as the process starts; forgetting to await its
+    completion after `communicate()` fails, or never applying point 10's timeout to a hung child process,
+    leaves a zombie process the same way an unawaited coroutine (point 7) leaves silent work undone.
+24. **A retry loop around an awaited call needs its own bound, or it is an unbounded wait with extra steps.**
+    Retrying without a cap on attempts or elapsed time turns a slow dependency into a request that never
+    completes, which is point 10's timeout rule failing one level up — each individual await can time out
+    correctly while the loop around it still runs forever.

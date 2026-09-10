@@ -113,3 +113,35 @@
     default — a single failed job cancels the rest — is usually wrong for independent work items (forty
     unrelated exports) and usually right for a pipeline where a later step depends on an earlier one's
     output. Naming the choice explicitly is cheaper than discovering it from which jobs quietly never ran.
+24. **`toOthers()` excludes the socket that triggered the broadcast from receiving it back.** Without it, the
+    client that just made the change gets a second copy of its own update over the socket connection, on top
+    of whatever its own request/response already told it — the interface either double-applies the change or
+    has to de-duplicate an event against a response it already has, which is point 10's "the client refreshes
+    from the API" made harder for no reason.
+25. **`ShouldBroadcastNow` sends the event synchronously, skipping the queue `ShouldBroadcast` uses.** That is
+    the right choice for a broadcast whose entire value is the immediacy — a typing indicator, a cursor
+    position — where the round trip through a queue worker would make the event visibly stale by the time it
+    arrives; it is the wrong choice for anything point 6 already says belongs on a queue; a broadcast carrying
+    real work (a recalculation, a large payload) synchronously ties up the request that triggered it.
+26. **A queued model relationship loaded before dispatch is serialised into the payload unless
+    `withoutRelations()` strips it.** `SerializesModels` re-fetches the model by key (point 3) but keeps any
+    relation already loaded in memory at dispatch time, so a job built from a model with `->load('items')`
+    still called on it carries every one of those rows into the queue's storage a second time — for a payload
+    meant to be a lean reference, that is the accidental snapshot point 3 warns about, arriving through a
+    side door.
+27. **A job is routed to a queue by priority with `->onQueue()`, and the priority only means something if a
+    worker actually listens to that queue name first.** `php artisan queue:work --queue=high,default` drains
+    `high` before `default`; a job dispatched `->onQueue('high')` against a worker started with no
+    `--queue` flag (the implicit `default` only) never gets the priority it was given — the routing and the
+    worker's listen order are one decision split across two places in the deploy config, and only one of them
+    failing to match is silent.
+28. **A batch can grow after it starts: `$batch->add(...)` from inside a job already in that batch appends
+    more jobs to the same batch rather than starting a second one.** That is what makes a batch usable for
+    work whose full size isn't known up front — a paginated export that discovers page two only after
+    reading page one — but it also means `finally` can fire before a job that just added itself has actually
+    run, unless the added jobs are counted before the batch is allowed to consider itself finished.
+29. **`Concurrency::run()` runs independent closures in parallel without a queue, for work that must finish
+    before the request continues** — several unrelated API calls whose results the response needs right now.
+    It is not a substitute for a queue: nothing survives a worker restart, there is no retry, and point 5's
+    failure design does not apply, because there is no `failed()` to define. Reach for it only when point 6's
+    "does the user need to wait" answer is genuinely yes and the wait is for parallel I/O, not serial work.

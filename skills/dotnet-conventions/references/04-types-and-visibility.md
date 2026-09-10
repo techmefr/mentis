@@ -139,3 +139,52 @@
     compile hides a subtler cost: `IEnumerable<Derived>` assigned to `IEnumerable<Base>` (covariance) means
     the consumer can no longer be handed something that writes into it, which is the actual trade being
     made, not a free upcast.
+28. **The `required` modifier (C# 11) states which properties a caller must set, and is the boundary check
+    a constructor parameter used to be the only way to express on an object-initializer-built type.** A
+    positional record's constructor already enforces this (§4.12); a class or a record built through object
+    initializers instead relied on every caller remembering to set the field, with nothing catching the one
+    that forgot until the missing value surfaced downstream as a null or a default. Marking the property
+    `required` moves that check to the construction site and to the compiler, at the cost that a `required`
+    member cannot be `private` — it exists specifically to be seen by whoever constructs the type, not to
+    replace a constructor for members nobody outside the type should set at all.
+29. **`SetsRequiredMembersAttribute` on a constructor is a promise the compiler cannot verify, only trust.**
+    Applying it tells the compiler that this particular constructor already assigns every `required` member,
+    so callers going through it are exempt from setting them again in an object initializer — which is
+    correct for a constructor that genuinely does the assignment and a silent hole in point 28's guarantee
+    for one that doesn't, because nothing re-checks the body against the claim once the attribute is present.
+30. **An interface default implementation changes behaviour for every existing implementer the moment it's
+    added, which is the opposite of what adding a member to an interface used to mean.** Before default
+    interface members, adding a method to an interface was a breaking change every implementer had to
+    handle explicitly; a default implementation instead makes it compile silently for types that don't
+    override it, which is the intended migration path for a published interface's evolution — but reaching
+    for a default body as a shortcut to avoid touching implementers on an interface owned entirely within
+    this codebase hides a decision (what should the untouched implementers actually do) behind a fallback
+    nobody chose per type.
+31. **A `static` member on an interface, reachable through a generic constraint, is a different mechanism
+    from a default implementation and answers a different question.** Point 20 already covers static
+    abstract members for numeric-style generic algorithms; a plain `static` (non-abstract) interface member
+    is instead shared code called through the interface type itself, not through an instance — useful for a
+    factory method or a constant genuinely common to every implementer, and a source of confusion the moment
+    a reader expects `IFoo.Create()` to dispatch polymorphically the way an instance call would, when it
+    resolves to exactly one implementation chosen at the call site.
+32. **A `readonly` member on a mutable struct is a promise about that one member, not about the struct.**
+    Marking an individual method or property accessor `readonly` inside a struct that is not itself
+    `readonly` (point 19) states that this specific member doesn't mutate the instance, which lets the
+    compiler skip the defensive copy for that member alone when called on an `in` parameter or a `readonly`
+    field — the rest of the struct's members can still mutate, so the type-level guarantee point 19
+    describes and this member-level one are not interchangeable, and marking every member `readonly`
+    individually is not the same declaration as marking the struct itself `readonly`.
+33. **`params` accepting any collection type or span (C# 13), not only an array, changes what a caller can
+    pass without changing what the method promises.** A `params ReadOnlySpan<T>` parameter accepts a stack-
+    allocated buffer at the call site with no heap array allocated to hold the arguments, which is a real
+    allocation win for a hot path — but a span parameter cannot be stored past the call (it's a `ref struct`,
+    point 22's restrictions apply), so a `params` method that used to let its array argument be captured or
+    returned changes its own contract the moment its parameter type moves from array to span, and every
+    caller relying on the old array's identity has to be checked, not just recompiled.
+34. **A type alias (`using Alias = Namespace.Type;`, or a global one project-wide) renames a type for the
+    file or project that declares it, and a reader who only ever sees the alias has no path back to the real
+    type without knowing to look for the `using` line.** It earns its place for a generic instantiation
+    reused often enough that spelling it out every time hides the code around it, or for disambiguating two
+    same-named types from different namespaces in one file — reached for instead as a shorthand for an
+    ordinary type with an inconvenient name, it trades the type's own searchable identity (point 17's
+    reasoning) for a local nickname that greps for the real name will never find.

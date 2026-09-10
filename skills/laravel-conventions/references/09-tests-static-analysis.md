@@ -119,3 +119,36 @@
     for its model, a middleware ordering that lets the request past validation first. Point 6's controller
     anti-pattern generalises here: the unit-level check is a useful addition to the feature test that
     exercises the endpoint, never a replacement for it.
+30. **`Bus::fake()->assertChained([...])` proves the jobs run in the declared order, which
+    `Bus::assertDispatched()` on each job separately cannot.** Asserting each link individually passes even
+    if the chain was built in the wrong order or one link was dispatched standalone instead of chained —
+    point 5's "assert the observable outcome" here is the order itself, not merely that every job eventually
+    ran once.
+31. **`Notification::fake()` and actually rendering a channel are two different questions, and a suite that
+    only ever does the first never proves the message reads correctly.** `assertSentTo` proves the
+    notification was triggered for the right recipient and channels; a snapshot or a direct
+    `toMail()`/`toArray()` assertion on one notification (point 28) is what proves the content is not broken,
+    and a suite that fakes every notification everywhere never notices a broken `toMail()` until it ships.
+32. **`Event::fake()` without `except()` silences every listener in the test, including ones the test never
+    meant to touch** — a model's own lifecycle listener that maintains a computed column, faked away by a
+    blanket `Event::fake()` further up the same test class, quietly stops updating it, and the assertion
+    passes for a row the real listener would have changed. `Event::fake(except: [...])` keeps the listeners
+    the test is not actually exercising switched on.
+33. **`Http::fake()` accepts a sequence of responses for the same URL, and that is how a suite proves point
+    11's five outcomes are handled rather than only the happy path.**
+    `Http::fake(['api.example.com/*' => Http::sequence()->push($ok)->push($rateLimited)->pushStatus(500)])`
+    exercises a retry path end to end in one test, which is what point 26 asks a fake to model — a fake
+    returning the same success on every call cannot tell the suite whether a retry loop exists at all.
+34. **`Queue::fake()->assertPushedWithChain()` checks the chain attached to one job, and
+    `assertPushedWithoutChain()` checks the opposite** — a job that used to chain a follow-up step and lost
+    the chain in a refactor still passes `assertPushed()` alone, because the job itself was still dispatched;
+    only the chain-specific assertion notices the follow-up step silently stopped happening.
+35. **`Mail::fake()` proves a mailable was queued or sent; it does not prove the recipient received the
+    right locale or the right attachment** — `assertSent(Invoice::class, fn ($mail) => $mail->hasTo($user->email) && $mail->locale === $user->locale)`
+    is the version that actually checks the content point 5 asks for, rather than merely that some mailable
+    of the right class went out.
+36. **`Storage::fake()` gives each test an isolated in-memory-backed disk, and the assertion still has to
+    name the path, not just the byte count.** `assertExists()`/`assertMissing()` on the exact path the code
+    is supposed to write — a generated report keyed by the record's id, an upload stored under its owner's
+    folder — catches the class of bug where a file is written successfully but to the wrong key, which
+    `UploadedFile::fake()->create()` alone proves nothing about because the fake upload always succeeds.

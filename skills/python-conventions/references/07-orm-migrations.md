@@ -74,3 +74,33 @@
     upsert that needs its conflict target named explicitly: each is a property of the specific engine,
     each is invisible in code that looks correct, and each is what a mapper would have handled. Found by
     dogfooding 2026-09-08 against a hand-written `sqlite3` layer.
+20. **A pool without a liveness check hands out dead connections.** `pool_pre_ping` pings a connection on
+    checkout and transparently reconnects if it was dropped by the database side or a middlebox — but it
+    does not cover a connection that dies mid-transaction, so a long-running unit of work still needs its
+    own retry or a bounded transaction lifetime (point 10) rather than relying on the pool alone.
+21. **Autogenerate proposes a migration, it does not write one.** A diff-based tool compares the model
+    metadata against a reflected schema and is explicit about what it cannot see: a check constraint's own
+    expression is never diffed once it exists, so an edited constraint with an unchanged name is silently
+    treated as unchanged, and the same is true of some server-side computed defaults and of most
+    data-only changes. The generated file is a draft to read, not a commit to trust.
+22. **Every constraint the migration tool manages needs a naming convention, or it manages some of them
+    silently by accident.** A check constraint or index left to the database's own default name is a
+    naming convention of one, invisible until two databases pick different defaults, or until autogenerate
+    treats an unnamed constraint as absent from the model side entirely and proposes to drop it.
+23. **A migration that reorders on top of another developer's unmerged one produces two branch heads.**
+    A linear migration history is an assumption, not a guarantee, once two people add a revision from the
+    same parent; the merge step is explicit (a merge revision, not silently picking one), because applying
+    either branch alone on top of the other leaves a database that matches neither model.
+24. **A bulk write and an ORM write are a deliberate choice, not an implementation detail.** A single
+    bulk `UPDATE`/`INSERT` skips the ORM's per-row identity map, event hooks and cascade rules for every
+    row it touches — correct for a genuine bulk operation where those hooks would not fire anyway (point 1
+    already assumes cascades run through them), wrong the moment the code silently expects row-level hooks
+    that a bulk statement never invokes.
+25. **A mutable value inside a JSON/JSONB column does not notify the session by being mutated in place.**
+    Appending to a list or setting a key on a dict loaded from such a column changes the Python object
+    without marking the attribute dirty, so the change is silently absent from the next flush unless the
+    column is wrapped in a change-tracking type or the attribute is reassigned wholesale.
+26. **An index proposed by autogenerate on a large existing table is still a locking operation (point 14)
+    even though the tool wrote it.** Autogenerate does not know which of its proposed operations are cheap
+    on the target engine and which one locks a production table for the duration of the build; that
+    judgment stays with whoever applies the migration, not with whoever generated it.

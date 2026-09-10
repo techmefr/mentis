@@ -119,3 +119,36 @@
     code.** The branch duplicates what the config layer already exists to centralise (point 1), and it is
     the one form of environment-awareness that survives being forgotten in a diff, because nothing fails
     locally to catch it — the code path for production only runs in production.
+28. **Laravel Prompts replaces `$this->ask()`/`$this->choice()` for anything richer than a single line** —
+    `search()` for a list too long to display, `suggest()` for an autocomplete over known values, `spin()` to
+    show progress around a call that blocks. Point 26's non-interactive requirement still applies: every
+    prompt has a `required`/`validate` option and falls back to a sane default or a hard failure under
+    `--no-interaction`, rather than hanging a CI pipeline waiting for a terminal that isn't there.
+29. **`Config::string()`, `Config::integer()` and `Config::boolean()` read a value with the type asserted at
+    the point of use, instead of `config()` returning `mixed` for the caller to trust.** A boolean read from
+    `.env` is a string (`"false"` is truthy) until something casts it — point 1 already routes that value
+    through `config/*.php`, but the config file itself often just returns `env('FEATURE_X')` unchanged, and
+    the typed accessor is what catches the value arriving as `"0"` instead of `false` before it reaches a
+    conditional.
+30. **`Schedule::job(...)` dispatches straight onto the queue; `Schedule::command(...)` spawns a whole new
+    PHP process to run an artisan command.** For frequent, lightweight scheduled work the difference is real
+    process overhead multiplied by how often the schedule fires — a job scheduled every minute costs one
+    queue push; the equivalent command costs booting the framework every minute. Reach for `command()` when
+    the work must run as a specific artisan command with its own signature and exit code (point 24), and
+    `job()` when the schedule is just another way to dispatch the same job the rest of the app already uses.
+31. **`php artisan about` reports the effective configuration Laravel is actually running with** — cached or
+    not, which drivers are active, which environment file loaded — which is the fast way to confirm point
+    17's `config:cache` actually ran in this environment instead of guessing from behaviour. `--only=environment`
+    or `--json` narrows it to one section for a deploy script to assert against, rather than a human reading
+    the full table over SSH.
+32. **A command's output goes through `$this->components->info()/error()/task()/warn()`, not raw `echo` or
+    `$this->line()` styled by hand.** These helpers (from `Illuminate\Console\Concerns\InteractsWithIO`) are
+    what make one command's output look like every other artisan command's output — a `task()` block that
+    reports its own success or failure without the caller writing the checkmark logic, and a consistent
+    look across every command in the project rather than one bespoke formatting scheme per author.
+33. **`route:cache` and `event:cache` are `config:cache`'s siblings, and they carry the same trap as point
+    17: a closure-based route or a route depending on a controller callable that cannot be serialised breaks
+    only once the cache is built**, which in most projects is the deploy pipeline, not a local machine. A
+    project that runs `optimize` (which chains `config:cache`, `route:cache`, `event:cache` and the view
+    cache) as one deploy step catches all three traps together instead of discovering them one deploy at a
+    time as each cache is added later.
