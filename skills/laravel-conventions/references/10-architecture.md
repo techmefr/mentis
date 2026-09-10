@@ -142,3 +142,39 @@
     for a trait because "several models need this" without also asking whether callers need to depend on the
     *capability* rather than the *models* is how a `HasSlug`-style trait ends up duck-typed against
     everywhere it's used instead of declared once as `Sluggable` and checked with `instanceof`.
+29. **Laravel 12's default skeleton centralises what used to be spread across several kernel classes into
+   `bootstrap/app.php`.** There is no `app/Console/Kernel.php` and no `app/Http/Middleware/*` array to
+   maintain by default; middleware groups (point 18), exception handling (`skills/laravel-conventions` §11
+   point 15) and console scheduling are all configured through the same file's fluent builder. An existing
+   project upgraded from an older skeleton keeps its kernel classes working, but a new one reads its entire
+   cross-cutting wiring in one place instead of three — which is exactly point 15's "write the decision down
+   near the code" with the framework itself choosing where "near" is.
+30. **Multiple database connections declared in `config/database.php` are a routing decision that belongs on
+   the model, not on the call site.** A model's `protected $connection = 'reporting';` states once which
+   store owns it, the way point 10 already asks a table to have one owner; a `DB::connection('reporting')`
+   call scattered through query classes each time that data is needed makes the same fact undiscoverable
+   from the model itself, and a later migration to a different connection means finding every call site
+   instead of editing one property.
+31. **The `/up` health-check route, configured via `->withRouting(health: '/up')`, is infrastructure for the
+   load balancer, not an endpoint to protect with the application's own auth middleware.** Requiring a
+   session or a token on it defeats the load balancer's ability to probe it, which is the one caller it
+   exists for; where it must not be publicly reachable, restrict it at the network layer (an internal-only
+   route, a firewall rule) rather than folding it into the app's authorisation model alongside real
+   endpoints.
+32. **Enabling `sticky` on a read-replica connection trades replica lag for read-your-own-write correctness,
+   and turning it on globally applies that trade to every request, not only the one that just wrote.** With
+   `sticky` on, a request that has performed a write reads back from the primary for the remainder of that
+   same request, avoiding the classic "save then reload and the change isn't there yet" replica-lag bug; the
+   cost is every other read in that request also skipping the replica, which is the deliberate exception, not
+   a free correctness upgrade to leave on everywhere without measuring the load it shifts back to the primary.
+33. **Anything cached in-process — a static property, an array, an OPcache-backed APCu entry — is invisible
+   to every other worker or container the load balancer sends the next request to.** A horizontally scaled
+   app has no single process to hold that state in, so a design that "works" against one `php artisan serve`
+   process or one local container is verifying a topology production does not have; state that must be seen
+   by every worker belongs in the cache store or the database, the same boundary point 13 already draws
+   between what the database still handles and what needs real infrastructure.
+34. **A read model built by joining across two domains' tables in raw SQL is a dependency the folder
+   structure doesn't show.** Point 9's "entered through a stated surface" still applies to a reporting query
+   that flattens `orders` and `subscriptions` into one `SELECT` for a dashboard — the query now silently
+   depends on both domains' schemas at once, and a migration changing either table's shape breaks a report
+   nobody thought to check because it lives outside both domains' own directories.

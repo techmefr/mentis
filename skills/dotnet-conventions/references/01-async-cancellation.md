@@ -177,3 +177,45 @@
     `Dispose` on it keeps that timer (and the source's own resources) alive for as long as whatever holds the
     reference does. It is point 24's disposal rule applied to a source with a timer attached rather than a
     plain linked one.
+34. **`Task.WhenEach` streams completions instead of collecting them, and that changes what point 7's
+    "compose, don't loop" advice recommends.** `WhenAll` (point 13) and a manual loop both wait for the
+    slowest item before the caller sees anything; `await foreach (var task in Task.WhenEach(tasks))` yields
+    each task the moment it finishes, in completion order, so a caller that wants to act on the fastest
+    results first — cancel the rest once one succeeds, stream partial progress to a client — no longer needs
+    the `WhenAny`-in-a-loop pattern that used to require manually removing the finished task from the list on
+    every iteration. It is still a collection of already-created tasks, not a bound on how many run at once —
+    point 14's unbounded-parallelism warning applies exactly as much to what you hand it.
+35. **`Task.WaitAsync(TimeSpan)` or `Task.WaitAsync(CancellationToken)` times out the *wait*, not the
+    operation, which is point 15's warning with less code around it.** Wrapping an arbitrary awaitable in a
+    timeout used to mean a linked token source (point 19) built by hand at every call site; `WaitAsync`
+    throws `TimeoutException` (or `OperationCanceledException` for the token overload) without cancelling
+    the underlying task, so the same duplicate-effect risk point 15 describes still applies — the remote
+    work keeps running and the retry-after-timeout question still needs an idempotency answer, just with a
+    shorter call site to write it next to.
+36. **`ConfigureAwaitOptions` replaces the bare boolean with independent flags, and `SuppressThrowing` is the
+    one that changes behaviour rather than just readability.** `ConfigureAwait(ConfigureAwaitOptions.None)`
+    and its siblings compose `ContinueOnCapturedContext`, `ForceYielding` and `SuppressThrowing` instead of
+    the single true/false point 8 discusses; `SuppressThrowing` awaits a task and observes a faulted or
+    cancelled result without raising, which is a narrow, explicit alternative to point 5's silent
+    fire-and-forget — narrow because it still has to be paired with actually inspecting the task's status,
+    or it is exactly the swallowed failure point 5 warns about, just spelled differently.
+37. **LINQ over `IAsyncEnumerable<T>` takes its cancellation on the operator chain, not on the source that
+    produced it.** The `System.Linq.AsyncEnumerable` operators (.NET 10) accept a token through
+    `WithCancellation` applied to the chain the same way `await foreach` always has (point 17) — a token
+    passed only to the method that built the sequence, with none applied to the `Where`/`Select` pipeline
+    consuming it, stops nothing partway through the pipeline, because the enumerator-cancellation wiring
+    point 17 describes is a property of where `WithCancellation` sits, not of who eventually iterates.
+38. **A synchronous `lock` and an async wait are not interchangeable substitutes just because both eventually
+    block, and `System.Threading.Lock`'s `TryEnter` with a timeout is still the synchronous half of point
+    30's problem.** `Lock.EnterScope()` (point 18) is thread-affine like the `lock` statement it replaces —
+    correct for guarding a short, synchronous critical section, wrong for anything that awaits inside it;
+    reaching for its timeout-bearing `TryEnter` overload to avoid an indefinite wait solves point 30's
+    problem only for callers that were never going to await in the first place, and does nothing for the
+    async-aware case the semaphore exists for.
+39. **A `CancellationToken` captured in a closure passed to `Task.Run` is frozen at the point the closure was
+    built, not re-read from whatever field held it afterwards.** A method that stores its token in a field
+    for convenience and later starts background work reading that field through a lambda closes over the
+    field access itself only if the lambda reads it fresh each time; assigning the token to a local first and
+    capturing the local captures the value as it stood at that line, so a token replaced or linked (point 19)
+    after the closure was created cancels a copy nothing downstream still holds — the same category of bug
+    as point 12's token-outlives-the-request mismatch, arrived at through capture semantics instead of scope.

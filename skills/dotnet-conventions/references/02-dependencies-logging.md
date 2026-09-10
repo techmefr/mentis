@@ -173,3 +173,43 @@
     replace-on-reregister behaviour, so a module that registers a keyed service the composition root already
     registered under that key silently replaces the root's choice — the failure mode point 12 already
     describes, now one layer further from the registration a reader would think to check first.
+31. **`AddHttpClient` and keyed registration compose (.NET 9+), and that changes what point 19's "never `new`
+    it up" rule looks like for more than one configuration of the same client type.** `AddKeyedTransient` and
+    `AddHttpClient` sharing a key let a typed or named client be requested with `[FromKeyedServices]` the same
+    way point 17 resolves any other keyed interface, instead of a named client resolved by string through
+    `IHttpClientFactory.CreateClient("name")` at every call site. The factory still owns the handler pool
+    either way — the key changes how the caller asks for the client, not who owns its lifetime.
+32. **A constructor parameter can request its own keyed dependency without the class ever touching
+    `IServiceProvider`, and that is what keeps point 17's keyed registration from becoming point 2's service
+    locator by another name.** `[FromKeyedServices("name")]` on a constructor parameter resolves that one
+    argument from the keyed registration while the rest of the constructor still resolves normally — the
+    class still declares every dependency in its constructor signature, still fails at composition time if
+    the key is missing, and still substitutes cleanly in a test, which a hand-written resolve from inside the
+    class body never could.
+33. **The data-annotations validator (point 16) has more to enforce with the platform's own attributes than a
+    hand-written `IValidateOptions<T>` used to need for the common cases.** `[AllowedValues]`, `[DeniedValues]`
+    and `[Base64String]` cover a class of options-validation rule — this field is one of a fixed set, this
+    string must decode — that previously meant a custom validator or point 23's `IValidateOptions<T>` for
+    something no more complex than a whitelist; reaching for the built-in attribute first is what keeps a
+    trivial rule from growing its own validator class only to enforce a check the framework already ships.
+34. **`TimeProvider` is a service like any other in this section, and injecting it is what makes point 5's
+    testability argument apply to time the same way it applies to a database or an HTTP call.** Code that
+    reads `DateTime.UtcNow` or schedules through `Task.Delay` reaches a different, untestable dependency
+    every time it runs; a `TimeProvider` taken through the constructor (point 1) is substituted with a fake
+    clock in a test exactly the way a fake repository substitutes for a real one, and the ordinary DI
+    container already registers `TimeProvider.System` as the default — nothing about wiring it up asks the
+    class to know it's a special case.
+35. **A `Meter`'s counters and histograms are a different signal from a log line on the same hot path, and
+    reaching for point 9's declared log call where a metric was wanted answers a question nobody asked.** A
+    per-request or per-item event that needs to be *counted or aggregated* — requests per second, latency
+    percentiles — belongs on a `Counter<T>`/`Histogram<T>` registered once per category the same way point 5
+    registers a logger per type, because a log aggregator answering "how many" by counting log lines is
+    slower and costs more than a metric built to answer exactly that; the log line still exists for "what
+    happened to this one," the metric for "how is the system doing across all of them."
+36. **A logging level changed in configuration at runtime only reaches already-running code if something is
+    actually listening for the change, and the plain `IConfiguration` binding in point 8 is not that
+    listener.** The logging provider registered through the hosting metapackage subscribes to configuration
+    reload tokens itself, so lowering a category from `Warning` to `Debug` in the backing configuration source
+    and having it take effect without a restart works out of the box for logging specifically — it is not a
+    general property of options bound through point 8, where point 18's monitor form is what a class has to
+    ask for explicitly to see the same kind of change.

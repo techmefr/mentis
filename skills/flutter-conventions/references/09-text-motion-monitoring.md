@@ -65,3 +65,29 @@
     of the date and number formatting library, so adding that library the ordinary way — newest version,
     as every package manager defaults to — makes the project unresolvable, and the message blames the SDK
     package rather than the constraint just added. Let the SDK decide that one.
+17. **A raw scale factor is already the wrong shape to read.** The framework replaced the plain multiplier
+    with a scaler object precisely because scaling stops being linear at the accessibility extremes — doubling
+    a factor does not double every glyph the same way once the platform's largest settings are in play. Read
+    the scaler from the context (`MediaQuery.textScalerOf`) rather than a bare number, and never do arithmetic
+    on it as if it were still a `double`; a call site still multiplying a stored factor is quietly wrong at
+    exactly the settings point 10 exists to protect.
+18. **An implicit switch between two widgets needs a key, or nothing switches.** `AnimatedSwitcher` decides
+    whether its child changed by comparing widget keys, not by comparing the text or the state inside it — two
+    different states rendered by the same widget type and no explicit key look identical to it, so the
+    "transition" never plays and the content changes in place. The key is not decoration on the animation;
+    it is the only signal the switcher has.
+19. **A `Hero` tag collision is invisible until two are on screen together.** Two routes that each give their
+    hero the same default tag work in isolation and break the moment both appear in the same navigation stack
+    — the second occurrence throws or silently picks one, and the failure mode depends on which screen was
+    pushed first. A tag built from the record's own identifier rather than a literal string is what keeps a
+    list-to-detail transition working once the list has more than one hero-decorated item.
+20. **`Opacity` repaints its child every frame it is faked through; the transition widgets do not.** Wrapping
+    a static subtree in `Opacity` for a fade forces a full composite of that subtree at the given alpha on
+    every frame it is visible, which is point 9's off-screen-cost problem arriving on-screen instead —
+    `AnimatedOpacity` or a `FadeTransition` push the same effect to the compositor without repainting the
+    child underneath, and are the correct default anywhere the fade is more than a one-off.
+21. **A screen reader needs to be told what an animation only shows.** A value that changes by moving a bar,
+    fading a label or sliding a chip in has no equivalent for someone not looking at the screen; a
+    `Semantics` label carrying the same information as text (or a live region for content that updates after
+    the initial render, per §4's live-region point) is what makes the transition itself optional to have
+    perceived, and its absence a content gap rather than a missed animation.

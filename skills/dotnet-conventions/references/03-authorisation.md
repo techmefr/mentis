@@ -175,3 +175,45 @@
     needs the same access, or an existing one needs less, the fix is a code change and a redeploy rather than
     a data change. A policy built from a permission claim the role grants keeps the redeploy for when the
     *rule* changes and turns "who has this role" into administration instead of engineering.
+32. **ASP.NET Core's built-in authentication and authorisation metrics (`System.Diagnostics.Metrics`) surface
+    a failing policy without a hand-written log line, and reaching for a custom counter first duplicates
+    what's already emitted.** The framework instruments the authentication and authorisation middleware
+    itself, so a spike in refused requests for one policy is visible to whatever reads the `Meter` — the same
+    signal point 12's negative test only proves once, at build time — the counter shows it happening in
+    production, continuously, without a bespoke log-then-count pipeline built around point 27's rule about
+    logging at the boundary.
+33. **A cookie-authenticated endpoint answers a browser and an API caller differently, and which one it
+    thinks it's talking to changes point 6's fallback failure mode.** Cookie authentication historically
+    redirected an unauthenticated request to a login page regardless of caller, which is correct for a
+    browser navigation and wrong for a fetch from a script — the platform now distinguishes the two and
+    returns a bare 401/403 to a request that looks like an API call instead of a redirect it can't follow
+    usefully, but the detection is heuristic (an `Accept` header, a same-site check), so a caller wired to
+    expect a status code and receiving a redirect page instead — or the reverse — is this distinction guessing
+    wrong, not the fallback itself failing.
+34. **A passkey (WebAuthn) credential registered through ASP.NET Core Identity changes what "the same
+    factor, twice" means for point 30's step-up requirement.** A resident key backed by platform
+    authentication already asserts user presence and, depending on the authenticator, user verification at
+    the moment it's used — so a policy written assuming every session needs a separate second factor on top of
+    a password has to ask what a passkey's own assertion already proves, or it demands a redundant challenge
+    for a credential whose entire design point was replacing that challenge with the sign-in step itself.
+35. **`RequireAuthorization()` chained on a route group and again on one endpoint inside it does not replace
+    the group's policy with the endpoint's — it adds a second requirement to satisfy, which is a different
+    failure shape from point 12's "missing entirely."** Calling it a second time layers requirements the same
+    way multiple `[Authorize]` attributes on one action do; an endpoint meant to *loosen* the group's policy
+    for one route needs `AllowAnonymous` (point 7) or a differently-scoped group, not a second, narrower
+    `RequireAuthorization` call that a reader might expect to override rather than accumulate.
+36. **Minimal API's built-in request validation runs as an endpoint filter, which places it after the
+    authorisation decision in the pipeline, not before it.** Validation attributes on a route's parameters
+    are checked by a filter (point 19) that executes once binding and authorisation have already run — so a
+    payload that fails validation was still authorised to reach the handler, and a policy that depends on a
+    validated shape of the request (a tenant id that must already be well-formed before a resource-based
+    check reads it) cannot rely on validation having happened first; the resource-based check in point 16
+    still has to defend against a value that passed authorisation but hasn't been validated yet.
+37. **Rate limiting placed after authentication and authorisation in the middleware pipeline limits the wrong
+    thing, and placed before it limits by an identity nothing has verified yet.** The rate limiter middleware
+    reads whatever it's configured to partition on — often the caller's identity — so registering it after
+    authentication lets it key correctly per authenticated user, matching the ordering point 11 already
+    insists on for authentication and authorisation themselves; registered before authentication instead, it
+    can only partition by IP or an anonymous key, which throttles a shared NAT or proxy as one caller and
+    never distinguishes the users behind it — a decision made once, at the same composition root point 11
+    already points to, not discovered per endpoint.

@@ -102,3 +102,27 @@
     identity.** A parameter object without `==`/`hashCode` defined creates a fresh cache entry — and a fresh
     fetch — on every call even when the values are the same, which is point 11's one-owner-per-data rule
     broken by the provider layer itself rather than by a second holder.
+24. **`AsyncValue.guard` is point 5's boundary catch, written once instead of at every mutation.** Wrapping an
+    async body in it turns whatever it throws into the failure branch of the same three-state value a
+    provider's `build` already returns, so a screen has one shape (`when`/`whenOrNull` over data, loading,
+    error) to render regardless of whether the failure came from the initial fetch or from a later mutation —
+    the alternative, a bare `try`/`catch` around each mutation that hand-assigns a loading and an error state,
+    is the per-call-site `try` point 5 already warns is easy to forget written out as boilerplate instead.
+25. **`ref.watch` in a `build` method and `ref.select` in the same spot are answering different-sized
+    questions, and skipping `select` rebuilds more than the change warrants.** Watching a provider that
+    exposes a whole record or a whole list rebuilds the widget on any field's change; `select` on the same
+    provider narrows the subscription to the one derived value the widget actually reads, so a change to an
+    unrelated field never reaches it — the same rebuild-scoping question point 3's `Selector`/`context.select`
+    equivalent answers in a `Provider`-based tree, asked one layer up, at the provider-consumption site rather
+    than at the state-equality site.
+26. **A synchronous `notifyListeners` inside a loop calls every listener once per iteration, not once for the
+    whole batch.** A `ChangeNotifier`-based holder that mutates and notifies inside a loop over several
+    updates triggers a full rebuild of everything that watches it at each iteration; batching the mutations
+    and notifying once after the loop is the direct fix, and is the same shape as point 3's equality
+    concern — the point being that the *number* of emissions matters as much as their *content*, or a
+    screen redraws several times for what the user experiences as a single change.
+27. **A `ValueNotifier` is the right granularity for one primitive value, not a substitute for the state
+    class of point 3.** Reaching for it to hold a whole screen's state reintroduces the independent-booleans
+    problem point 3 already rules out, one `ValueNotifier` per flag, each rebuilding its own listener on its
+    own schedule with no shared notion of a coherent state — it is the correct tool for a single slider
+    position or a single toggle a widget owns locally, and the wrong one past that scope.

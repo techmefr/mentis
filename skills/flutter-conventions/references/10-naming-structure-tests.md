@@ -76,3 +76,32 @@
     localisation delegates and the application widget itself: assembled once at startup, importing both
     layers, imported by neither. Give them their own top-level folder, or the direction point 3 exists to
     protect is broken by the first route added.
+19. **A negative assertion is a separate claim from a positive one, and skipping it is how a stub silently
+    becomes the behaviour.** Verifying that a call happened is not evidence that it happened *once*, or that
+    a related call did not also happen — a mock double that never asserts `verifyNever` on the branch that
+    must not fire lets a duplicate write or a duplicate network call through, since nothing in the suite
+    would fail if it did.
+20. **The test tree mirrors the source tree, one file per file, or a moved source file orphans its test.**
+    A test suite organised by kind of test rather than by mirrored path (one flat `widget_tests` folder,
+    say) means renaming or relocating a source file leaves its test behind with no build error to catch it
+    — coverage tooling still reports the number as if the test were exercising the current file, when it is
+    quietly exercising nothing.
+21. **A golden file's name and location are part of the contract, not an implementation detail of the
+    comparison.** Point 14's golden tests are pinned by rendering inputs; they are also pinned by where the
+    reference image lives and what it is called, since a renamed test silently starts comparing against
+    nothing and regenerates a fresh "reference" that never questioned the regression it was meant to catch.
+    Keep goldens beside the test that owns them and treat a rename of either as a rename of both.
+22. **An integration test needs its own entrypoint and driver, and skipping either runs nothing.** Point
+    15's device-level journeys are driven through a harness separate from the widget-test one — a runner
+    invoked without the integration driver configured reports green having executed zero of the journeys it
+    was meant to guard, which is a worse failure than red because nothing about the report says so.
+23. **`tester.view` (or `tester.viewOf` for a specific view) is the current seat for what used to be read off
+    a single implicit window.** A test that stubs a device size or a text-scale factor through the older
+    binding-level window property is pinning a value the multi-view-capable framework no longer reads from
+    there by default in the same way; the per-view test properties are what a size- or scale-dependent
+    widget test (points 12, 14) actually needs to control, and reaching for the deprecated seat is how such a
+    test passes locally and stops controlling anything after an SDK upgrade.
+24. **Arrange, act, assert, in that order and visibly separated**, is what makes a failing test's diff
+    readable without re-deriving the setup: a test that interleaves stubbing calls between actions makes it
+    unclear which piece of the arrangement was in effect when the assertion ran, and unwinding that at the
+    moment a test is red is the worst time to be doing it.

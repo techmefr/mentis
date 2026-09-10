@@ -517,3 +517,74 @@ Prompts, typed config accessors, the scheduler, `artisan about`, cache-clearing 
 plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. The XEFI marketplace — referred to here only
 as "the marketplace XEFI" — was never opened for this pass: no file under it was read, only the fact that a
 content gap existed was known going in.
+
+**Widening, 2026-09-10 — sixième pass.** The five thinnest files by a fresh `wc -w` measurement —
+`01-where-behaviour-lives.md` (1,907), `02-authorisation.md` (2,040), `10-architecture.md` (2,111),
+`03-data-model-schema.md` (2,166) and `11-failures.md` (2,180) — each gain 6 new points, same
+extend-don't-renumber method as every prior same-day pass: nothing already numbered moved, everything new
+appended after the last existing point, because the standalone `skills/laravel-*` files' `§N.M` citations
+(`bin/check_citations.py`) depend on the numbering holding still.
+
+§1 (where behaviour lives) adds points 22–27: a single-action `__invoke()` controller reserved for a route
+that isn't one of a resource's seven verbs; PHP 8.4 asymmetric visibility (`private(set)`) for a value
+object's own property instead of a private field plus a getter; `once()` for request-scoped memoisation,
+correctly bounded where a static property would leak past the request on a long-lived worker; `Conditionable`'s
+`when()`/`unless()` keeping a query's own conditional narrowing inside the query builder instead of an
+external `if`/`else` around near-duplicate query blocks; a queued job's `handle()` resolving its
+collaborators through method injection rather than the constructor, so they are fetched fresh at execution
+time instead of serialised stale alongside the job; and a PHP enum implementing an interface so every case
+is guaranteed a method, which a `match` scattered across callers cannot enforce at analysis time.
+
+§2 (authorisation) adds points 22–27: a broadcast channel's authorisation in `routes/channels.php` as its
+own real-time surface, not inherited from the HTTP route rendering the page; a `FormRequest::authorize()`
+left returning `true` as the framework's one authorisation hook silently disabled rather than a harmless
+placeholder; a policy method's extra parameters comparing a second model, not only the user and the primary
+resource; a notification's `via()` channel needing the same already-scoped notifiable the caller was
+checked against, not a fresh lookup by id; `$request->user()->cannot()` outside a controller returning a
+boolean that has to be turned into an explicit throw, since nothing renders a 403 for it on its own; and a
+policy method typed to require a non-null user silently denying every guest instead of deliberately
+allowing one.
+
+§10 (architecture) adds points 26–31: Laravel 12's `bootstrap/app.php` centralising what used to be spread
+across kernel classes; a model's `$connection` property as the one place a multi-database app states which
+store owns it, instead of a `DB::connection()` call repeated at every call site; the `/up` health-check
+route as load-balancer infrastructure, not an endpoint to gate behind the app's own auth; `sticky` read-replica
+routing as a deliberate global trade of replica lag for read-your-own-write correctness, not a free upgrade;
+anything cached in-process being invisible to every other worker behind a load balancer; and a raw
+cross-domain join for a reporting query as an undeclared dependency between two domains' schemas.
+
+§3 (data model and schema) adds points 29–34: `HasUuids`/`HasUlids` as a primary-key generation choice with
+an index-locality consequence (random UUID inserts fragmenting the index versus a time-ordered ULID
+staying append-like); an explicit morph map surviving a model's later namespace move where a stored FQCN
+would not; `immutable_datetime` protecting a shared model instance from being mutated in place by one
+caller and read differently by another; a spatial/geography column depending on a database extension the
+migration itself does not provision; `Model::preventLazyLoading()`/`preventSilentlyDiscardingAttributes()`
+turning two silent defects (an N+1, a dropped mass-assigned field) into loud exceptions in development; and
+`DB::transaction()`'s attempts argument as the framework's own deadlock retry, in place of a hand-written
+retry loop around the same closure.
+
+§11 (failures) adds points 29–34: `rescue()`'s fallback-and-report contract as legitimate only where point
+3's "committed degraded default" already applies, never as a shortcut around a `catch` a caller needs to
+react to; `Http::retry()`'s `$when` closure as what keeps it from retrying a request that will never
+succeed (a 404, a 422) alongside the ones that should be retried; a job's `$backoff` releasing it back to
+the queue instead of blocking the worker with an in-process sleep; `Sleep::fake()` making a retry loop's
+delay testable the way `Http::fake()` already makes the network call testable; rethrowing with the caught
+exception passed as `$previous`, or the tracker loses the original stack trace; and `report_if()`/`report_unless()`
+keeping point 12's expected-failure condition searchable as its own tracker entry point instead of buried
+inside a plain `if`.
+
+Word counts re-measured with `wc -w` after the edits: `01-where-behaviour-lives.md` 1,907 → 2,462 (+555),
+`02-authorisation.md` 2,040 → 2,578 (+538), `10-architecture.md` 2,111 → 2,662 (+551),
+`03-data-model-schema.md` 2,166 → 2,703 (+537), `11-failures.md` 2,180 → 2,724 (+544).
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/`php-patterns`/
+`inertia-conventions` at a different angle (idempotent retries, the prefer-the-framework's-own-mechanism
+argument, the tested-refusal argument, the UTC-storage discipline) or is synthesised fresh from Laravel's
+own current public documentation and PHP 8.4's release notes for the mechanism named — broadcasting channel
+authorisation, form-request authorisation, policy method parameters, notification routing, the service
+container and `bootstrap/app.php`, database connections and read replicas, primary-key generation
+(`HasUuids`/`HasUlids`), polymorphic morph maps, immutable dates, generated/spatial columns, model strict
+mode, transaction retries, `rescue()`, HTTP client retries, job backoff, `Sleep::fake()`, exception chaining,
+and conditional reporting helpers — `laravel.com/docs/12.x/{broadcasting,validation,authorization,container,
+database,eloquent,queues,http-client,errors}` and PHP 8.4's own asymmetric-visibility/property-hooks RFC
+notes, all read 2026-09-10. The marketplace XEFI was never opened for this pass.
