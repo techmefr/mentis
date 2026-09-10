@@ -113,3 +113,35 @@
     precompiled native code the setting promised — the artefact still runs, just with the JIT cold-start
     cost R2R exists to remove, and nothing in the build log calls this out as a failure because, by the
     letter of the setting, it isn't one.
+19. **Blazor WebAssembly's default trimmer granularity is partial, and a library counted on to shrink only
+    trims if it opted in.** Only framework libraries and packages that explicitly declare trimming support
+    are trimmed by default; a third-party package with no trim annotations ships whole into the WASM payload
+    regardless of how much of it the app actually calls, which is a silent size regression rather than a
+    build failure — nothing reports "this package could have been smaller," the published bundle is just
+    bigger than the code that uses it would suggest.
+20. **A feature switch read through `AppContext.GetSwitch`/`AppContext.SetSwitch` is how the trimmer removes
+    an entire code path at publish time, and setting the switch anywhere but the project file arrives too
+    late to help.** The runtime libraries gate optional subsystems (globalization variants, diagnostics,
+    some serializer fallbacks) behind switches the linker can evaluate at trim time when they're declared as
+    `RuntimeHostConfigurationOption` MSBuild items — a switch instead flipped in `Main` at startup still
+    changes behaviour, but the trimmer already made its keep/remove decision before that line ran, so it
+    cannot shrink a path the switch turns off dynamically.
+21. **A satellite resource assembly for a culture nobody publishes for is still built unless
+    `SatelliteResourceLanguages` says otherwise.** Every culture a referenced package ships localised
+    strings for gets its own resource DLL copied into the output by default, which is dead weight for an app
+    that only ever runs in one language — restating the languages actually shipped is the same trade as
+    point 14's invariant-globalization switch, one config line instead of a dozen unused assemblies riding
+    along in every publish.
+22. **A source generator that reads a project file, an embedded resource or another source file at compile
+    time works from the compiler's snapshot, not from the file on disk when the published binary runs.** A
+    generator that reads a `.json` or `.resx` sibling to bake its content into generated code has already
+    finished by the time the application starts, so a config file edited after publishing without a rebuild
+    changes nothing the generator produced — that is expected for a compile-time artefact, but it looks
+    exactly like point 4's "reads from the wrong place" failure to whoever expected editing the deployed file
+    to take effect, so a generator built this way needs the boundary stated once, near the generator.
+23. **`DynamicDependencyAttribute` names exactly the member a trimmer-invisible call site needs kept, and is
+    the narrower alternative to point 11's whole-assembly root.** Where a single method is reached through a
+    string-built name — `Activator.CreateInstance` on a type name from configuration, a reflection call the
+    trimmer genuinely cannot follow — the attribute states which member has to survive trimming without
+    exempting the rest of the assembly from it, which keeps the warning point 10 describes scoped to the one
+    place that actually needs the escape hatch instead of hiding an entire library behind it.

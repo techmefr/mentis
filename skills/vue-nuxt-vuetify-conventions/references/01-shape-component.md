@@ -52,3 +52,33 @@
 17. **Don't `defineExpose` out of habit.** Exposing internals makes them API, so the next refactor inside
     the component is a breaking change for a parent you did not know existed — and it does not survive a
     client-only wrapper anyway (§12.5). Expose deliberately, or emit a ready payload.
+18. **`defineModel` for a two-way bound prop, never a hand-rolled `modelValue` prop plus an
+    `update:modelValue` emit.** The macro declares both halves in one line and stays type-safe across the
+    boundary; the hand-rolled version is the same contract spelled out twice, and the two copies drift the
+    first time only one side is edited. A named model (`defineModel('search')`) is how a component exposes
+    more than one bound value without inventing a second convention for the second one.
+19. **A `defineModel` can carry its own default and its own local `set` transform**
+    (`defineModel({ default: '', set: (v) => v.trim() })`), which is where a value gets normalised on the
+    way in without the parent's copy and the child's copy ever disagreeing about which one is
+    authoritative. Doing the same normalisation in a `watch` on the prop is one frame late: the child
+    already rendered the untrimmed value once.
+20. **A generic component declares its type parameter with `generic="T"` on `<script setup>`**, not by
+    casting props to `any` and hoping the caller passes the right shape. A list component typed
+    `generic="T"` keeps `items: T[]` and the `item` slot's payload in the same type all the way to the
+    call site — the caller gets real autocomplete on the row, and a mismatched slot usage is a compile
+    error instead of a runtime `undefined`.
+21. **`useTemplateRef` reads a template ref by the string name in the `ref="..."` attribute, and it is
+    what makes the ref creation visible at the top of `<script setup>`** instead of buried wherever the
+    template happens to declare it. A plain `ref()` meant to bind to the DOM but never referenced by name
+    in the template stays `null` forever, and nothing about the component signals which of its refs are
+    template refs versus internal state — `useTemplateRef` closes that ambiguity by tying the two
+    together explicitly.
+22. **A component with more than a couple of tightly related `ref`s benefits from being expressed through
+    one composable call rather than a dozen loose declarations at the top of `<script setup>`.** The
+    loose form still works, but every future feature that touches "this state" has to touch the whole
+    list one by one, and nothing stops two of those refs from drifting out of sync with each other —
+    which is the same shared-state risk a composable's own internal consistency check exists to prevent.
+23. **`<script setup>`'s top-level bindings are all implicitly exposed to the template**, including a
+    helper imported only to be called once during setup. That is convenient, not free: an import used
+    purely for a side effect at the top of the script still shows up as if it were template-usable state,
+    which is a small but real readability cost when scanning the script for what actually renders.

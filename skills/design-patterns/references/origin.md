@@ -105,3 +105,23 @@ to whichever house style is installed (§4's own guardrail on that division).
 **Status unchanged.** Wider is not dogfooded: §1, §2, §3 and §6 remain what this repo's own review
 history produced, and the new points are read from a source rather than from a real review — closer in
 kind to §4's original seven than to the rest of the file.
+
+**Widening, 2026-09-10 — pass élargie.** §1, §2, §3, §5 and §6 each gained new numbered points, appended
+after the existing ones without renumbering anything already cited elsewhere in the repo. Sourcing: the
+rule-of-three/smell-vs-pattern distinction (§1.14–18) and the unused-abstraction/shotgun-surgery entries
+(§6.13–16) are synthesised from the public code-smell literature that follows Kent Beck's and Martin
+Fowler's *Refactoring* vocabulary (code smell vs anti-pattern, dead/unused abstraction, rule of three); the
+new framework subtractions (§2.13–17 — memoization, language-native decorators, DI vs domain mediator,
+Chain of Responsibility as a middleware variant, queue-level circuit breaking) and the newly earned
+patterns (§3.11–14 — Chain of Responsibility, Bridge, Visitor, Composite) are synthesised from the
+classic Gang of Four definitions as commonly explained in public references (refactoring.guru-style
+catalogues, standard GoF summaries), restated in this file's own mechanism-plus-consequence voice rather
+than paraphrased from any single source. §5's naming entries (§5.11–15) are original to this repo's own
+review conventions (suffix-as-promise, naming drift, test-name-for-behaviour, one-term-per-shape,
+no-pattern-word-in-variable-names). Nothing here reproduces the marketplace catalogue read at
+2026-08-11/09-09 — that pass is cited above for §4 only, and this pass touches every section except §4.
+References-block total: 6,567 → 8,590 words.
+
+**Status unchanged.** §1, §2, §3 and §6 are still this repo's own review history plus synthesis from
+public sources, not from any installed catalogue's own text — the widening pass adds volume in the same
+voice, not a new kind of source.

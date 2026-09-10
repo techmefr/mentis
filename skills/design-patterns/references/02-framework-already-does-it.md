@@ -65,3 +65,30 @@
     plan", not "write a smaller pattern": two thirds of the classic catalogue is already present in a
     modern framework, so the honest answer to most pattern proposals is the name of the framework
     feature that already does it. That answer is also the most useful thing to write in the review.
+13. **Memoization is Flyweight and Proxy's caching half, and the runtime usually already offers it.**
+    A hand-rolled cache map keyed by arguments reimplements what a framework's cache facade, a request-
+    scoped memo or the language's own `lru_cache`/`WeakMap` already does, with eviction and size limits
+    the hand-rolled version rarely gets around to adding. The same measurement rule as point 8 applies: cache
+    what a profiler showed was expensive, not what looked expensive.
+14. **A language's own decorator or attribute syntax is Decorator without the wrapper class.** Python's
+    `@decorator`, a C#/Java annotation processed by the framework, a Nuxt/Vue composable wrapping another
+    composable — all add behaviour around a call the same way a hand-written wrapper object would, and
+    the language's version composes with the rest of the toolchain (static analysis, IDE navigation) in a
+    way a bespoke wrapper class does not.
+15. **A framework's own dependency graph resolution replaces a hand-rolled Mediator for wiring, not for
+    domain events.** Two different problems share a name here: passing configured instances around is the
+    container's job (§1), while decoupling two features from each other's domain events is what a real
+    Mediator or event bus does — conflating them produces a "mediator" that is really just DI misapplied to
+    business logic, and the fix is to ask which of the two problems is actually being solved.
+16. **Chain of Responsibility is worth naming as a variant of middleware even where the framework's word
+    is "middleware" or "guard", because the short-circuit is the detail that gets lost otherwise.** A
+    request-processing pipeline where each layer may claim the request and stop the rest (an auth guard
+    rejecting before a handler runs, a cache hit skipping the real lookup) behaves differently from one
+    where every layer always runs — mixing the two in one stack without documenting which layers can
+    short-circuit is how a later layer's assumption ("this always executes") becomes a bug that only shows
+    up for one particular request shape.
+17. **A queue's own dead-letter and retry policy replaces a hand-rolled Circuit Breaker in most of our
+    stacks.** Wrapping a flaky call in a counter that trips after N failures duplicates what the job
+    queue's backoff and dead-letter handling already does at the infrastructure layer, with monitoring
+    already wired to alert on it — the hand-rolled version adds a second place failures are tracked, and
+    the two drift.

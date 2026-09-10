@@ -54,3 +54,30 @@
 14. **One icon set, resolved through the toolkit's icon configuration.** Three ad-hoc import styles
     across a codebase means three ways an icon can be missing, and it is also the usual reason a whole
     icon library ends up in the bundle (§12.7).
+15. **`density` is the toolkit's own answer to "make this more compact"**, not a smaller font size hand-set
+    per component. It is a documented scale (`default`/`comfortable`/`compact`) applied consistently across
+    inputs, lists and tables, so a form built at `compact` density reads as one deliberate register instead
+    of a collection of components each shrunk by a different amount because someone eyeballed the padding.
+16. **A data table's dynamic header/item slots (`header.<key>`, `item.<key>`) target one column**, and
+    reaching for `hide-default-header`/`hide-default-footer` to hand-roll the whole chrome is the sign the
+    project needed a different, more specific component (§8.2) rather than a fight with this one. Rebuilding
+    the header from scratch also rebuilds — or drops — the sort affordance the default header already
+    wired in.
+17. **Read the item payload the slot actually received before assuming it matches the row you passed in.**
+    A table, autocomplete or select slot can carry derived fields the toolkit computed for its own display
+    logic alongside the raw record; treating the slot payload as if it were exactly the array element
+    handed to `items` is the same wrapper-object trap as §8.5, one layer further into the component's own
+    slot API rather than at the top-level `item`.
+18. **A checkbox rendered inside a table or list slot uses the toolkit's own selection primitive**, not a
+    freestanding input wired to local state by hand. The toolkit's version is already synchronised with the
+    table's `v-model` for selected rows; a hand-wired one drifts the moment the table's own selection state
+    changes for a reason the slot didn't cause — a filter, a page change, a `select-all`.
+19. **A component library upgrade is read against that version's own migration notes before the props and
+    slots are touched**, not discovered prop-by-prop when something silently stops working. A prop renamed
+    or a slot payload reshaped between majors is exactly the failure mode of §8.4 (a prop that does nothing)
+    happening to the whole team at once on the day of the bump, rather than to one author reading stale
+    docs.
+20. **A custom theme is declared once, at the toolkit's own configuration point, and consumed by name
+    everywhere else** (a semantic colour, a spacing token) rather than re-declared per component. The
+    project that skips this ends up with the dark-mode flash of §12.6 for a different reason: two components
+    each holding their own idea of what "primary" means, updated on two different days.

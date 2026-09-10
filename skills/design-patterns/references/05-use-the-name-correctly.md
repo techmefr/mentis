@@ -47,3 +47,29 @@
     codebase do not need one: they need a domain name, one obvious place to live, and a test. Reserve the
     catalogue's vocabulary for the cases where it genuinely saves a paragraph of explanation — that is
     what it is for, and it stops working when it is used for everything.
+11. **A file or class suffix is a promise about behaviour, and the suffix has to be true on day one.**
+    `*Factory` promises the class builds and returns instances of something else, not that it also
+    validates, persists or notifies as a side effect; `*Strategy` promises the class is one of several
+    interchangeable implementations behind a shared interface, not the only one that will ever exist. A
+    suffix chosen for how official it sounds rather than for what it commits to is the seed of the next
+    misnamed-pattern complaint (§1).
+12. **Naming drift is the failure mode of a correctly-named pattern left alone.** A `PaymentGateway`
+    interface named for the Adapter it started as slowly grows methods that only one implementation needs,
+    until the interface is Adapter in name and god-interface in shape — nothing renamed it, the behaviour
+    just moved. Catching this is a review question, not a one-time check: does every method on the
+    interface still make sense for every implementation, today, not at the point the name was chosen.
+13. **A test file's name should say what breaks, not which pattern it covers.** `StrategyTest` tells a
+    reader nothing about which branch failed; `RefundStrategySelectionTest` or a test named for the
+    behaviour under test — "falls back to the default channel when the requested one is unknown" — tells
+    them exactly what regressed. The pattern name belongs on the production class; the test name belongs to
+    the behaviour, because that is what a failing test report actually needs to communicate at 2am.
+14. **Two names for the same shape in the same codebase is worse than either name alone.** If one module
+    calls its provider abstraction a "Strategy" and a neighbouring module calls the identical shape a
+    "Handler" or a "Driver", a reader has to learn the codebase's synonyms before they can even search it.
+    Pick one term per shape and keep a one-line note of the choice where naming conventions already live,
+    rather than let each author's preferred vocabulary win locally.
+15. **A pattern name in a variable or parameter, as opposed to a type name, is almost always noise.**
+    `strategyInstance`, `factoryResult`, `theObserver` tell the reader nothing the type annotation or the
+    IDE's inline type hint doesn't already say, and they add a word to every call site that has to be read
+    past. Reserve the vocabulary for the type; name the variable for the domain value it holds —
+    `provider`, `refund`, `handler` for the one actually resolved this call.

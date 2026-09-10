@@ -102,3 +102,40 @@
     generated storage without either side needing to know the other's file. The rule is the same as any
     other generated pairing: the hand-written half never reaches into what the generator owns, and the
     generated half is never hand-edited, because the next build silently discards the edit.
+22. **A `ref struct` that will implement an interface or flow through a generic method says so on purpose.**
+    Since C# 13, a `ref struct` can implement an interface and be used as a type argument for a generic
+    parameter constrained with `allows ref struct` — but the ordinary restrictions still apply everywhere
+    else: it cannot be boxed, cannot sit in a field of a class or of a non-`ref` struct, and cannot be
+    captured by a lambda or a local function. Reach for it when the type genuinely wraps a stack-only buffer
+    (a `Span<T>`-backed parser, a pooled accumulator) — not as a general performance switch, because the
+    moment the type needs to outlive the call or be stored anywhere, the restrictions turn into rewrites.
+23. **A discriminated union of a fixed, closed set of shapes is a `sealed` base with a private constructor
+    and a `sealed` record per case, matched with `switch` — never an `enum` carrying an "extra data" field
+    on the side.** The enum-plus-payload version has one field meaning something different depending on
+    another field's value, which nothing enforces; the sealed hierarchy makes the compiler's exhaustiveness
+    check (§7.10) mean something, because each case is its own type instead of a discriminator column a
+    reader has to cross-reference by hand.
+24. **`protected internal` and `private protected` are two different intersections, not two spellings of the
+    same idea, and the wrong one silently widens the member.** `protected internal` means "protected OR
+    internal" — reachable from any derived class in any assembly, and from anywhere in this assembly even
+    without inheriting. `private protected` means "protected AND internal" — a derived class only gets in if
+    it also lives in this assembly. Reaching for the first when the second was meant hands the member to
+    every internal caller in the project, not only to the subclasses it was scoped for.
+25. **A conversion operator (`implicit`/`explicit`) is declared only where the conversion cannot lose
+    information or throw, and is `explicit` the moment it can.** An `implicit` operator runs at every
+    assignment and every call site with no syntax marking that a conversion happened at all, so a lossy or
+    throwing one surfaces as a bug with no visible cause in the calling code. A value object wrapping a
+    primitive (§4.12) is the common case tempted into this — prefer a named factory or accessor over an
+    implicit conversion back to the wrapped primitive, so unwrapping stays visible at the call site.
+26. **An operator overload changes what `+`, `==` or `<` mean for the type, and is reserved for a type where
+    that operation already has one unambiguous mathematical or domain meaning** — a `Money` addition, a
+    `Vector` sum, a value object's equality. Overloading `+` to mean "merge" or "combine" on a type with no
+    single obvious meaning for it trades a named method a reader can grep and hover over for a symbol that
+    silently means something different than it does on every built-in type.
+27. **Generic variance (`in`/`out` on a generic interface's type parameter) is declared only when every
+    member of the interface actually respects it** — `out T` only where `T` appears solely in return
+    position, `in T` only where it appears solely in parameter position. Forcing variance onto an interface
+    that also exposes `T` the other way doesn't compile, but forcing it onto one that merely happens to
+    compile hides a subtler cost: `IEnumerable<Derived>` assigned to `IEnumerable<Base>` (covariance) means
+    the consumer can no longer be handed something that writes into it, which is the actual trade being
+    made, not a free upcast.

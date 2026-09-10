@@ -188,3 +188,25 @@ resolved — point 4's explicit-key rule stops an accidental collision, and this
 on purpose; and a shared `useFetch` factory wrapping the base URL, error handling and auth header once is
 the fix for options repeated at every call site, keeping points 8 and 13 centralised rather than
 copy-pasted per page. Nothing here answers the catalogue comparison a second time.
+
+**Widening, 2026-09-10 — pass élargie.** The five thinnest sections by word count (§1, §8, §11, §12, §10)
+each gained 5–7 further points, mechanism-plus-consequence in the same voice as the rest of the block.
+Sourcing: §1 (defineModel, its `set` transform, generic `<script setup>` components, `useTemplateRef`, the
+cost of loose top-level `ref`s, implicit template exposure) against the official Vue.js docs
+(vuejs.org/api/sfc-script-setup, vuejs.org/guide/typescript/composition-api,
+vuejs.org/guide/essentials/template-refs, vuejs.org/api/composition-api-helpers) — nothing from the
+marketplace XEFI. §8 (density scale, dynamic header/item slots vs hand-rolled chrome, slot payload shape,
+the toolkit's own selection primitive in table slots, reading migration notes on a major bump, one
+declared theme) against the official Vuetify docs (vuetifyjs.com/en/components/data-tables,
+vuetifyjs.com/en/concepts/density-and-sizing, vuetifyjs.com/api/VDataTable). §11 (CSRF cookie flags,
+conditional composable calls, `markRaw` on foreign instances, dead reactive state) against Vue's reactivity
+docs and current Nuxt CSRF/cookie practice (httpOnly/Secure/SameSite, the double-submit pattern). §12
+(prop drilling as a state-placement bug, watch-instead-of-computed as the same defect as §11.6, client/server
+validation gap mirroring §11.9, a loading flag that doesn't wrap its own transform step, an over-broad
+`try`/`catch`) synthesised from the field patterns already generalised in this section plus current
+community writing on Composition API anti-patterns (prop drilling, watcher overuse) — no marketplace
+content, mechanisms rewritten in this block's own voice. §10 (transport choice by traffic direction, SSE as
+still a connection subject to points 1–3 and 8, fan-out cost of a socket per idle viewer, calendar-time
+backoff with a visible reconnecting state) against current public writing on WebSockets vs Server-Sent
+Events for 2026 real-time architecture. Content word count for the thirteen numbered sections (excluding
+this file): 12,625 before this pass, 13,683 after.

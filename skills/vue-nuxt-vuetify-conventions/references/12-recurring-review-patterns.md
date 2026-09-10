@@ -57,3 +57,26 @@
 17. **A component test asserting on a CSS class or on DOM structure breaks on the next restyle** without
     the behaviour having changed. Assert through stable test attributes and visible text, so a red test
     means a real regression rather than a design decision.
+18. **Prop drilling past two levels is a state-placement bug, not a component-boundary one.** Threading a
+    value through a component that only forwards it couples every intermediate component to a shape it
+    does not use, so adding a field to the payload means editing components that have nothing to do with
+    it. A provide/inject pair, a shared composable or a store answers "who needs this" once instead of at
+    every hop.
+19. **Overusing `watch` where a `computed` would do is the same defect as §11.6 wearing a different name**:
+    a value that could be derived is instead pushed by hand into another `ref`, which means there are now
+    two places that can disagree about what the value is, and the watcher is one more link in the chain
+    of §12.15.
+20. **A form's validation state duplicated between the client and a naive assumption about the server**
+    produces a submit button that looks enabled while the request is guaranteed to 422, or a client check
+    the server does not actually enforce — the same gap as §11.9's "hiding is not authorising" applied to
+    validation rather than authorisation: a client-side rule is for feedback speed, never the source of
+    truth.
+21. **A loading state that only wraps the request and not the transformation after it** flips back to
+    "ready" while the response is still being mapped into what the template renders, so the user sees an
+    empty or half-built list for one frame between the spinner disappearing and the data arriving — the
+    same class of bug as §12.10, one step later in the same flow.
+22. **A `try`/`catch` around a whole handler that was written to catch one specific failure** also
+    swallows every other exception the same block can throw, so a typo three lines away from the intended
+    failure point reports as the original, already-handled error instead of surfacing as a new one — narrow
+    the catch to the call that can actually fail, or check the error's identity before deciding it is the
+    one you expected.

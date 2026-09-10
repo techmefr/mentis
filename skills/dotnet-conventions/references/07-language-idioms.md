@@ -97,3 +97,34 @@
     `ReadOnlySpan<T>` overload skips the array allocation entirely for the common case. Overload resolution
     then has to pick between candidates that differ only in the `params` collection type, so keep at most
     one `params` overload per call shape rather than several competing on element type.
+18. **The index and range operators (`array[^1]`, `items[1..^1]`) over hand-computed offsets.** `^1` states
+    "last element" directly instead of `array.Length - 1`, and a range slices without a manual `Skip`/`Take`
+    pair or a `Substring(start, length)` where `length` has to be recomputed from two ends by hand. What it
+    removes is the usual off-by-one: `Length - 1` transcribed as `Length` or `Length + 1` compiles and throws
+    or silently truncates, where `^1` has no arithmetic left to get wrong.
+19. **A `using` declaration (`using var resource = ...;`) over the braced form, unless the disposal has to
+    happen before other code in the same block runs.** It disposes at the end of the enclosing scope, same
+    guarantee as §5.1, with one less indentation level and one less place for the closing brace to end up in
+    the wrong spot after an edit. Reach for the braced form only when the resource must be released partway
+    through the method, before later statements run.
+20. **A target-typed conditional expression (`cond ? new Foo() : new Bar()` inferring a common type, or both
+    branches converting to the target the assignment already states) over repeating the type on each arm.**
+    The idiom this section keeps returning to — state the type once — applies here too: when the surrounding
+    context already states the target type, letting both arms convert to it removes a second, redundant
+    statement of a type already visible one token to the left.
+21. **A primary constructor's parameters used directly in the body, not copied into a field the class already
+    has room for.** Where a type takes a primary constructor (§4.12's carve-out), reading the parameter
+    directly in a method body is the point of the feature; re-declaring `private readonly Foo _foo` and
+    assigning it in a manually written constructor right next to a primary one is the anti-pattern — pick
+    one, because a type with both a primary constructor and a hand-written one that also sets fields is two
+    competing explanations for how the object gets built.
+22. **`ArgumentOutOfRangeException.ThrowIfNegative`/`ThrowIfZeroOrNegative`/`ThrowIfGreaterThan` and the rest
+    of the numeric guard family, for the same reason §4's argument-exception rule exists.** They read as the
+    condition they check rather than as an `if` a reader has to evaluate, and they throw the exact exception
+    type analyzers and callers expect for a range violation — a hand-written `if (value < 0) throw new
+    ArgumentException(...)` gets both the condition-reading cost and the wrong exception type at once.
+23. **A collection-initializing target-typed `new()` (`Dictionary<string, int> counts = new();`) over
+    repeating the generic argument list on the right-hand side.** Same principle as point 9 and §4.6 stated
+    from the other direction: when the left-hand side already names the full closed generic type, restating
+    it on the right adds a second place that has to change together if the type ever does, for a form the
+    compiler already resolves unambiguously from the declaration.
