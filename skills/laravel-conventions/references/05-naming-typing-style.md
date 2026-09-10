@@ -122,3 +122,37 @@
     is a symptom the enum modeled a row, not a category.** An enum's cases are meant to be exhaustive and
     fixed at compile time; a category that a future admin screen must extend belongs in a database table
     with a foreign key, not in a `match` arm waiting for the next deploy to add a case.
+32. **A typed class constant (`const string STATUS = 'active';`) states the type the same way a typed
+    property does, and PHP enforces it at declaration** — a mismatched value fails immediately rather than
+    surfacing three files away where the constant is finally read as the wrong shape. Type every new class
+    constant that carries a scalar or object value the same way point 4 already asks for properties and
+    signatures; an untyped constant next to a typed property is the inconsistency a reader has to explain to
+    themselves.
+33. **A whole-class `readonly` declaration (`final readonly class Money`) says every property is immutable
+    without repeating the keyword on each one** — the class-level form point 21 already recommends for a
+    value object, applied where every property qualifies rather than most of them. Reach for the per-property
+    form only where one property in the class genuinely needs to stay mutable; a value object with a single
+    mutable field is usually a sign the field belongs on a different class.
+34. **A method that never returns — it always throws or exits the request — is typed `never`, not `void`.**
+    `void` still permits an implicit return and tells a caller nothing about reachability; `never` on an
+    `abort()`-only helper or a guard clause's terminal branch lets the analyser see that the code after the
+    call is unreachable, which is exactly the guarantee a guard clause (point 10) is trying to give the
+    reader by its shape alone.
+35. **An enum implementing an interface makes every case commit to the interface's methods, which is a
+    stronger promise than a trait mixed into the enum.** Where point 15 already asks for the label, the
+    colour and the transitions to live on the enum rather than in a `match` scattered across callers, an
+    interface (`HasColour`, `HasLabel`) shared by several unrelated enums is what lets a Blade component or a
+    resource accept "any enum that has a colour" instead of one named enum class, without losing the
+    compile-time check that a new enum actually implements it.
+36. **The nullsafe operator (`$user?->address?->city`) replaces a chain of `isset()` or `?? null` checks for
+    reading through a possibly-null relationship**, but it only answers "is this null", not "should this be
+    null here" — a nullsafe chain silently swallowing a relationship that was actually supposed to be loaded
+    (a missing `with()`) hides the same N+1-shaped bug (§4) that a loud failure would have surfaced during
+    development. Reserve it for a relationship that is legitimately optional, not as a blanket guard around
+    one that should always be present.
+37. **Asymmetric visibility (`public private(set) string $status`) states that every caller may read a
+    property while only the class itself may write it, in the property declaration instead of a getter with
+    no setter.** It is the middle ground between `readonly` (points 21, 33) — which forbids writing after
+    construction entirely — and a fully public property: reach for it on a property that legitimately changes
+    after construction but only through the class's own methods, such as a status field with a dedicated
+    `transitionTo()` rather than a bare public setter.

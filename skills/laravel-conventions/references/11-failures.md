@@ -108,3 +108,38 @@
     still pass — pairing it with `expectExceptionMessage()` or reading the exception's own data (point 7) is
     what proves the failure carries what point 7 requires, not merely that *something* was thrown from
     somewhere in the method under test.
+22. **An exception can carry its own `report()` and `render()` methods instead of routing every case through
+    `bootstrap/app.php`.** The framework calls them automatically when they exist, which is the right place
+    for handling that belongs to one specific exception class and nowhere else — a `withExceptions()` closure
+    stays for the handling that spans several exception types (a shared log channel, a shared status mapping)
+    and would otherwise be copied onto every class that needs it.
+23. **`report()`'s closure can call `stop()` to suppress the default logging without suppressing the custom
+    handling.** Point 2 says a `catch` that reports and continues is not handling; the same trap exists one
+    layer up if a custom `report()` closure both sends the exception somewhere of its own choosing and lets
+    the framework log it a second time. `stop()` names which one happened — the exception was reported, just
+    not by the default channel — instead of leaving two log lines for one failure.
+24. **`respond()` customises the whole response the handler produces, which is a different job from
+    `render()` on one exception.** `render()` answers "what does *this* exception look like"; `respond()`
+    answers "what does *every* response coming out of this handler look like" — adding a header, wrapping
+    every error body in one envelope. Reaching for `render()` on every exception class to add the same
+    wrapper is point 18's per-caller duplication wearing a different shape.
+25. **`dontReportDuplicates()` collapses one exception reported twice in the same request into one entry.**
+    A validation failure re-thrown after being caught and re-raised with context (point 3), or a job that
+    reports a failure and then rethrows it for `failed()` to see, doubles the tracker volume for a single
+    real event — the same signal-versus-noise concern as point 12 and point 20, but caused by the
+    application's own code path rather than by an expected outcome.
+26. **`Context` added before a throw travels with the exception into the report,** because the report payload
+    is built from whatever `Context` held at the moment the exception was reported, not at the moment it was
+    constructed. Point 13's "attach identifiers, not payloads" is what to put there — a request id, a tenant,
+    a job id — set once near the entry point rather than threaded as a constructor argument through every
+    exception class that might need it.
+27. **A `Fiber`-based concurrent call (the `Concurrency` facade, or several `Http::pool()` requests) fails
+    per-branch, not for the whole call** — one slow or erroring branch does not by itself abort the others,
+    so a failure has to be checked per result rather than assumed to have stopped everything else. Point 11's
+    "an external call fails in five ways" multiplies by the number of concurrent branches, and a single
+    `try/catch` wrapped around the whole `Concurrency::run()` call only ever reports the first one it meets.
+28. **A middleware that throws during termination (`terminate()`) fails after the response has already been
+    sent to the client**, so point 1's "throw, don't hand-build a response" has nothing left to render —
+    the only audience left for that exception is the tracker. Code with a side effect that must still be
+    visible to the caller belongs in the request cycle proper, not in `terminate()`, precisely because a
+    `terminate()` failure is invisible to whoever made the request.

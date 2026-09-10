@@ -135,3 +135,43 @@
     server-side check would refuse, which is harmless as long as every action is still checked at the
     endpoint (point 8) — the failure mode this point actually guards against is trusting that cached state
     for the decision instead of just for what the UI shows.
+26. **`IAuthorizationService.AuthorizeAsync` has an overload that takes the resource itself, and reaching for
+    the resource-less one is how point 5's "scope the query" advice gets skipped by accident.** Passing the
+    loaded entity alongside the policy name lets a requirement handler read fields only available on that
+    row — an owner id, an approval state — inside the same evaluation the policy already runs, instead of a
+    second bespoke `if` written next to the call. The overload exists specifically so "check this policy
+    against this row" stays one declared check rather than a policy check plus a hand-rolled comparison
+    living beside it.
+27. **A custom `IAuthorizationMiddlewareResultHandler` replaces the framework's default failure handling for
+    every endpoint, not just the one it was written for.** The default handler is what turns a failed
+    requirement into the 403 or 401 point 6's fallback relies on; a custom one registered to add a header or
+    a logging line on failure has to also reproduce that behaviour for the general case, or every endpoint's
+    failure response silently changes shape (a redirect where a 403 was expected, a 200 with an error body)
+    the moment the custom handler is wired in, whether or not it was meant to touch that endpoint.
+28. **A permission checked through a custom `IAuthorizationPolicyProvider` is resolved by name at
+    evaluation time, not enumerated at startup — which moves the typo from a compile error to a silent
+    allow-nothing policy.** A dynamic provider that builds a policy per requested permission string (rather
+    than registering each one up front) makes `[Authorize(Policy = "orders:approve")]` valid syntax for any
+    string at all; a policy name that doesn't match what the provider expects resolves to a policy with no
+    requirements or fails open depending on how the provider's fallback is written; a test for the exact
+    string, not just for "some policy is attached," is what point 12 still asks for here.
+29. **A `required` init-only property on a command or DTO removes the "was this ever set" question the
+    authorisation code below it silently depended on.** Before `required` (C# 11), an `OwnerId` or
+    `TenantId` left as its type's default on a payload that skipped validation could sail through a
+    resource-based check that trusted the field was populated by the model binder — the check ran, just
+    against a zero or a null it never questioned. Marking the identity-bearing property `required` turns a
+    missing value into a construction-time failure before the authorisation code is reached at all, rather
+    than a value the authorisation logic has to defensively re-validate on every path that builds the type.
+30. **A step-up or re-authentication requirement is a second authorisation decision layered on the first,
+    not a stronger version of the same policy.** An action sensitive enough to need a fresh MFA
+    challenge — changing a payment destination, elevating another user's role — needs its own requirement
+    that inspects how recently the current session actually re-proved the second factor (an `amr` or `auth_time`
+    claim), because the ordinary policy only proves the session is still valid, not that it was recently
+    re-confirmed; treating "authenticated an hour ago" as equivalent to "just re-entered a code" collapses
+    two different guarantees into one check that only ever validates the weaker one.
+31. **A permission model built on named roles hard-codes the org chart into the authorisation code, and the
+    fix is a permission the role is assigned rather than a role name compared directly.** `[Authorize(Roles =
+    "Manager")]` reads as a policy but is really string comparison against a job title; the day a new title
+    needs the same access, or an existing one needs less, the fix is a code change and a redeploy rather than
+    a data change. A policy built from a permission claim the role grants keeps the redeploy for when the
+    *rule* changes and turns "who has this role" into administration instead of engineering.

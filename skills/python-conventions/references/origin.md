@@ -126,3 +126,23 @@ next to an explicit `is None` check, generator cleanup under cancellation, and a
 its base `__init__`. §5 gained `pyproject.toml` as single-source project metadata, `src/`-layout catching
 accidental local imports, `__init__.py` side effects as module-body work, `itertools`-composed lazy
 pipelines, `@dataclass(slots=True)`, and `logging` over `print`.
+
+**Widening, 2026-09-10 — deuxième pass.** Same word-count method as the previous day's pass, aimed at the
+three sections that pass had not reached — §4 async, §7 ORM/migrations, §8 toolchain/tests, the thinnest
+remaining files in the block — each gaining 500-700 words as 6-9 new numbered points appended after their
+existing ones, nothing renumbered. Sourced from the `asyncio` stdlib docs (`asyncio.timeout`, `Queue`,
+`to_thread`, `shield`, signal handlers, subprocess), the SQLAlchemy 2.0 and Alembic documentation (connection
+pooling, autogenerate's documented limitations, naming conventions, branched migration heads), and the
+pytest and Hypothesis documentation (fixture scope, parametrize composition, property-based testing,
+`conftest.py` discovery rules) — never from the org catalogue this block was already mined from, and never
+by reading the XEFI marketplace files. §4 gained `asyncio.timeout()` as a block-scoped deadline, backpressure
+via a bounded `asyncio.Queue`, `to_thread` versus a process for genuinely CPU-bound work, `shield`'s narrower
+guarantee, signal handlers unable to `await`, subprocess reaping, and an unbounded retry loop as timeout
+point 10 failing one level up. §7 gained `pool_pre_ping`'s mid-transaction blind spot, autogenerate as a
+draft rather than a commit (including its check-constraint expression blind spot), constraint naming
+conventions, branched migration heads needing an explicit merge, bulk writes bypassing ORM hooks, JSON/JSONB
+mutation-tracking, and autogenerate-proposed indexes still being a locking operation on a large table. §8
+gained fixture scope as a state-sharing claim, parametrized-fixture combinatorial multiplication, readable
+parametrize ids, Hypothesis for properties rather than examples, test-only dependencies still needing a
+declared group, matching a fixture's scope to its resource's real lifetime, and `conftest.py`'s
+directory-based discovery and shadowing.

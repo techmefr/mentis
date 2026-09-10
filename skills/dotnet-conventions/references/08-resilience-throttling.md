@@ -174,3 +174,41 @@
     `CancellationToken.None` because "the operation itself doesn't need cancelling" has also disabled the
     caller's own ability to give up on the whole sequence of retries, which is a different promise than the
     one point 9 makes about a token with no cancellable meaning.
+28. **A downstream `429` carries its own `Retry-After` header, and a retry strategy that ignores it in
+    favour of its own backoff schedule is guessing at a number the response already gave it.** The standard
+    resilience handler's retry strategy honours `Retry-After` on a 429 or 503 by default, waiting the
+    duration the server named instead of computing one from the attempt count; a hand-rolled retry loop that
+    only implements exponential backoff (point 3) has to read the header explicitly through a delay
+    generator, or it keeps retrying on a schedule the far side already told it was too aggressive — which is
+    the same failure point 6 describes, just self-inflicted on the calling side instead of the receiving one.
+29. **A resilience pipeline built once per named client (point 25) is still built without a Retry-After-aware
+    delay generator unless one was added on purpose.** `HttpStandardResilienceOptions` gives every registered
+    client a working retry, circuit breaker and timeout out of the box, and it is tempting to treat that
+    default as the finished configuration — the default delay for a retry without a `Retry-After` header
+    is fine on its own, but a client calling a dependency known to return 429 with that header needs the
+    generator from point 28 added explicitly, because the standard options don't infer which downstream APIs
+    actually send one.
+30. **A `HealthCheckPublisher` pushing status somewhere is a different failure surface from the endpoint
+    point 7 already covers, and it inherits the same "runs on a schedule forever" problem one layer up.** A
+    publisher that calls an external monitoring system on every health-check interval is itself an outbound
+    call with no retry, timeout or backoff of its own by default — a monitoring endpoint having a bad moment
+    now generates a retry storm or an unbounded queue of publish attempts from every instance in the fleet,
+    exactly the load pattern the rest of this section spends its points preventing on ordinary outbound
+    calls, applied to a call nobody thought of as "outbound" because its purpose is reporting health rather
+    than serving a request.
+31. **A streamed response (Server-Sent Events, a long-poll, a chunked download) is not covered by the
+    request timeout that bounds an ordinary call, and configuring one the same way either cuts a legitimate
+    stream short or leaves a stuck one open forever.** The platform's own idle-timeout and keep-alive settings
+    for a long-lived response are a separate knob from the per-attempt and total timeouts point 2 does the
+    arithmetic for — a resilience pipeline wrapping a streaming call with the same total timeout used for a
+    request-response call either aborts a stream still legitimately sending data or, left unset because "the
+    ordinary timeout didn't seem to fit," leaves a stalled stream with a dead peer on the other end open
+    indefinitely, holding the connection point 19's bulkhead was meant to protect.
+32. **A hedged or retried call against a non-idempotent streaming endpoint duplicates whatever the stream
+    already delivered, and point 1's "retry is a duplication decision" applies with no way to detect it after
+    the fact.** An ordinary retry replays a request that either fully succeeded or fully failed; a stream
+    aborted partway through has already delivered some indeterminate prefix of its data to the first caller,
+    so a hedge or a retry issued because the stream looked slow can produce a second stream that duplicates,
+    diverges from, or interleaves with data the first one already emitted — which is a corruption mode
+    point 1's ordinary "receiver deduplicates on a key" answer does not cover, because there is no single
+    response to deduplicate.

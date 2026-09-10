@@ -145,3 +145,40 @@
     trimmer genuinely cannot follow — the attribute states which member has to survive trimming without
     exempting the rest of the assembly from it, which keeps the warning point 10 describes scoped to the one
     place that actually needs the escape hatch instead of hiding an entire library behind it.
+24. **MVC controllers are not a Native AOT target at all, which is a different failure from anything
+    trimming produces on its own code that does run.** `AddControllers`, view compilation and the classic
+    model-binding pipeline lean on reflection and runtime code generation deeply enough that the framework
+    doesn't attempt to make them AOT-safe — the AOT project template ships minimal APIs only, and a project
+    that adds MVC to an AOT-published host isn't looking at a warning list to work through, it's outside what
+    the platform supports. The decision to target Native AOT is a decision to build on minimal APIs, made
+    before the first controller is written, not discovered at the first publish.
+25. **The Request Delegate Generator turns a minimal API's route handlers into source-generated code at
+    compile time, and it only runs once trimming or AOT is actually turned on for the project.** A handler
+    that works under the ordinary JIT build is compiled through the generator's own code path the moment
+    `PublishAot` (or trimming) is enabled — which means a handler shape the generator can't express (one
+    built from a runtime-computed delegate, for instance) surfaces as a build-time diagnostic from the
+    generator rather than a run-time trim warning, the same shift from run time to build time this whole
+    section keeps describing, just for routing instead of serialisation.
+26. **A pre-compiled EF Core query (point 21's compiled model taken one step further) needs the same
+    "regenerate when the model changes" discipline, and skipping it produces a stale artefact that still
+    builds.** Pre-compiled queries generate the SQL and materialisation code for a specific LINQ expression
+    at build time so nothing about executing it depends on reflecting over the model at run time — which is
+    exactly what makes it viable under trimming and AOT, and exactly why a query changed without
+    regenerating the artefact keeps compiling against the old generated code instead of failing, silently
+    running the previous version of the query against the current model.
+27. **A container base image chosen for size (a "chiseled" or distroless variant) can be missing pieces an
+    AOT-published binary still calls into, and the gap is invisible until the container actually starts.**
+    Native AOT removes the managed runtime's own dependency on globalization and TLS libraries being present
+    as .NET components, but the published binary still links against native ICU, OpenSSL or equivalent
+    platform libraries at the OS level — a minimal image trimmed of those shared libraries builds and starts
+    the ordinary framework-dependent image fine while the AOT one crashes at startup with a missing native
+    library, because the two publish modes depend on the host image differently and a size optimisation
+    tuned for one silently breaks the other.
+28. **`PublishTrimmed` without `PublishAot` still runs the IL trimmer alone, and every failure mode in this
+    section that comes from trimming (points 1, 2, 8, 10, 11, 17, 19, 23) applies to it independently of
+    Native AOT's no-codegen restriction (points 7, 9, 16).** A project can be trimmed and still keep the JIT
+    and reflection-based code generation available, which means point 12's distinction cuts a third way, not
+    two: R2R changes nothing this section warns about, trimming alone brings the "invisible member removed"
+    class of failure without the "cannot generate code at all" class, and full AOT brings both — treating
+    "trimmed" and "AOT" as one setting when reasoning about which of this section's twenty-plus points
+    actually applies is how a team fixes the wrong half of the list.

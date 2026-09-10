@@ -150,3 +150,51 @@
     to track — reaching for it on a table that does have a key just to skip defining one removes the ability
     to update that entity through EF Core at all, which is a permanent limitation on that mapping, not a
     shortcut around modeling the key.
+28. **A compiled query (`EF.CompileQuery`/`EF.CompileAsyncQuery`) is a different optimisation from the
+    compiled model in point 21, and confusing the two means reaching for the wrong one.** The compiled model
+    skips reflecting over the *schema* at startup; a compiled query instead caches the translation of one
+    specific LINQ expression to SQL so that exact shape of query skips re-translation on every call — worth
+    it for a query executed often enough that repeated translation shows up in a profile, and a second thing
+    to keep in sync by hand: the compiled delegate captures the expression tree as written, so a query
+    changed at the call site without touching the compiled declaration keeps running the old translation.
+29. **Table splitting maps two or more entity types onto the same table, and loading one without the other
+    is a decision the mapping makes for you, not a decision the query makes.** A large, rarely-read column
+    group (a document's full text, a blob) split into its own entity sharing the parent's primary key lets a
+    query for the parent skip that column by simply not including the split entity — but only if the split
+    entity is genuinely optional to load, which means every read path has to know whether it needs the
+    second half or is silently paying for a second round trip to get it when it turns out to.
+30. **A shadow property tracked by EF Core but absent from the CLR type is invisible to any code that reads
+    the entity directly, including a debugger inspecting the instance.** A foreign key EF Core infers from a
+    navigation, or a column deliberately excluded from the class and configured through the fluent API only,
+    still participates in queries, migrations and change tracking — but `object.Property` access doesn't see
+    it, so a shadow property is the right tool for a column the domain genuinely has no business exposing and
+    a source of "where did this column come from" the day someone reads the entity class expecting the
+    schema to be fully described there.
+31. **A global query filter applies to every query against that entity type, including one reached through
+    a navigation the calling code never mentions.** Point 15 already covers a bulk statement bypassing the
+    filter entirely; the filter's opposite failure is a query that includes it when the caller didn't expect
+    to — an owned or table-split type sharing the parent's filter, or a self-referencing navigation that
+    silently drops soft-deleted children out of a parent's own collection with no `Where` clause anywhere
+    naming that behaviour. `IgnoreQueryFilters()` exists for the one query that legitimately needs the full
+    set, and reaching for it has the same review weight as any other bypass of a rule the rest of the
+    codebase assumes is always on.
+32. **The command timeout and the connection timeout answer different questions, and a slow query fails
+    against whichever one was actually configured.** The connection timeout bounds how long establishing a
+    connection to the server may take; the command timeout bounds how long one executed command may run once
+    connected — a provider's default command timeout (30 seconds for the SQL Server provider) is a
+    per-command ceiling that a legitimately long report query hits regardless of how fast the connection
+    itself opened, and raising the wrong one of the two leaves the real limit exactly where it was.
+33. **A relational database's own feature (a JSON column, a computed column, an ignore-case collation) is
+    provider-specific, and treating it as the default mapping is what makes a second provider a rewrite
+    instead of a config change.** Mapping a property `ToJson()` in the relational sense, or relying on a
+    server-computed column's exact type, ties the model to whichever provider actually implements that
+    mapping; a codebase that has only ever run against one provider and mixes provider-specific mapping in
+    with the ordinary model has already spent point 3's portability budget without a decision anyone made
+    on purpose to spend it.
+34. **`SaveChanges` batches multiple pending inserts, updates and deletes into as few round trips as the
+    provider allows, and disabling batching is a real trade, not a free safety switch.** Turning batching off
+    (or a provider defaulting to a small batch size) trades round trips for a smaller blast radius per
+    statement sent, which matters where a very large single statement risks a timeout or a lock held longer
+    than the equivalent set of smaller ones — reached for as a default rather than a response to a measured
+    problem, it pays point 6's per-round-trip cost on every `SaveChanges` call for a save that was already
+    one transaction (point 10) regardless of how many statements make it up.

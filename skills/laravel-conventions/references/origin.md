@@ -455,3 +455,65 @@ keys), the query builder (`upsert`, `chunkById`, `joinSub`, `withExists`), and c
 (`apiResource`, resource action filtering, route model binding by column) — `laravel.com/docs/12.x/
 {authorization,providers,migrations,queries,controllers}`, read 2026-09-10. The XEFI marketplace's file
 contents were never opened for this pass.
+
+**Widening, 2026-09-10 — cinquième pass.** The five thinnest files by an actual `wc -w` measurement at the
+start of this pass — `11-failures.md` (1,634), `08-jobs-realtime.md` (1,773), `05-naming-typing-style.md`
+(1,812), `09-tests-static-analysis.md` (1,815) and `07-configuration-commands.md` (1,834) — each gain
+another 5–8 points, same extend-don't-renumber method as every prior same-day pass: nothing already
+numbered moved, everything new appended after the last existing point, because the standalone
+`skills/laravel-*` files' `§N.M` citations (`bin/check_citations.py`) depend on the numbering holding still.
+
+§11 (failures) adds points 22–28: an exception's own `report()`/`render()` methods, called automatically
+when present, for handling that belongs to one exception class rather than to `bootstrap/app.php`;
+`report()`'s `stop()` to suppress the framework's default logging without losing the custom handling;
+`respond()` customising the whole response shape versus `render()` customising one exception; the framework's
+`dontReportDuplicates()` collapsing one failure reported twice in a single request; `Context` set before a
+throw travelling into the report automatically; a `Fiber`-based concurrent call (`Concurrency`, `Http::pool()`)
+failing per branch rather than as a whole; and a `terminate()` failure having no request left to answer, only
+a tracker.
+
+§8 (jobs/realtime) adds points 24–29: `toOthers()` excluding the triggering socket from its own broadcast;
+`ShouldBroadcastNow` for the immediacy cases where a queued broadcast would already be stale; `withoutRelations()`
+stripping an eagerly-loaded relation from a queued model's payload before it is serialised twice; job-priority
+routing via `->onQueue()` only mattering if a worker's `--queue` flag actually lists that name; `$batch->add()`
+growing a batch from inside one of its own jobs; and `Concurrency::run()` as parallel I/O with no retry and no
+`failed()`, not a queue substitute.
+
+§5 (naming/typing) adds points 32–37: PHP 8.3 typed class constants; a whole-class `readonly` declaration
+versus repeating the keyword per property; the `never` return type for a method that always throws or aborts;
+an enum implementing a shared interface (`HasColour`, `HasLabel`) instead of a `match` copied across callers;
+the nullsafe operator's actual scope (a legitimately optional relationship, not a loud bug hidden quiet); and
+PHP 8.4 asymmetric visibility (`private(set)`) as the middle ground between `readonly` and a public setter.
+
+§9 (tests/static analysis) adds points 30–36: `Bus::fake()->assertChained()` proving job order, not just
+dispatch; `Notification::fake()` proving the trigger while a direct `toMail()`/`toArray()` assertion proves
+the content; `Event::fake(except: [...])` keeping a model's own maintained-column listener switched on while
+faking the rest; `Http::fake()`'s response sequencing for exercising a retry path end to end; `Queue::fake()`'s
+chain-specific assertions (`assertPushedWithChain`/`assertPushedWithoutChain`); `Mail::fake()`'s content
+assertions (recipient, locale) versus proving only that some mailable of the right class went out; and
+`Storage::fake()` assertions naming the exact path, not just existence.
+
+§7 (configuration/commands) adds points 28–33: Laravel Prompts (`search()`, `suggest()`, `spin()`) replacing
+`ask()`/`choice()` for anything richer than one line, still bound by the non-interactive rule already stated;
+`Config::string()`/`integer()`/`boolean()` as typed reads over `config()`'s `mixed`; `Schedule::job()`'s queue
+dispatch versus `Schedule::command()`'s full process spawn, and the cost difference at high frequency;
+`php artisan about` for confirming the effective cached configuration instead of guessing; the
+`InteractsWithIO` output helpers (`$this->components->info()/task()`) for consistent command output across a
+project; and `route:cache`/`event:cache` as `config:cache`'s siblings carrying the same closure-breaks-the-cache
+trap.
+
+Word counts re-measured with `wc -w` after the edits: `11-failures.md` 1,634 → 2,180 (+546),
+`08-jobs-realtime.md` 1,773 → 2,292 (+519), `05-naming-typing-style.md` 1,812 → 2,328 (+516),
+`09-tests-static-analysis.md` 1,815 → 2,284 (+469), `07-configuration-commands.md` 1,834 → 2,316 (+482).
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/`php-patterns`
+at a different angle, or is synthesised fresh from Laravel's own current public documentation for the
+mechanism named — error handling (`report()`/`render()` on the exception, `stop()`, `respond()`,
+`dontReportDuplicates()`), broadcasting (`toOthers()`, `ShouldBroadcastNow`), queues (`withoutRelations()`,
+batch `add()`, `Concurrency`), PHP 8.3/8.4 language features (typed class constants, asymmetric visibility),
+Pest/PHPUnit fakes (`Bus`, `Event`, `Http`, `Queue`, `Mail`, `Storage`), and console/config tooling (Laravel
+Prompts, typed config accessors, the scheduler, `artisan about`, cache-clearing commands) —
+`laravel.com/docs/12.x/{errors,broadcasting,queues,console-tests,http-tests,mocking,artisan,prompts,configuration,scheduling}`
+plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. The XEFI marketplace — referred to here only
+as "the marketplace XEFI" — was never opened for this pass: no file under it was read, only the fact that a
+content gap existed was known going in.
