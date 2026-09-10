@@ -443,7 +443,7 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 47,210 | −32,615 | x1.69 |
 | csharp | 37 / 56,718 | 1 / 36,768 | −19,950 | x1.54 |
 | nuxt | 21 / 19,869 | 1 / 16,848 | −3,021 | x1.18 |
-| flutter | 40 / 20,772 | 1 / 18,733 | −2,039 | x1.11 |
+| flutter | 40 / 20,772 | 1 / 19,124 | −1,648 | x1.09 |
 | design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
 | python | 20 / 22,097 | 2 / 21,086 | −1,011 | x1.05 |
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
@@ -476,7 +476,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 laravel: laravel-conventions 34,024, php-patterns 6,068, inertia-conventions 7,118
 csharp: dotnet-conventions 36,768
 python: python-conventions 15,618, data-pipeline-conventions 5,468
-flutter: flutter-conventions 18,733
+flutter: flutter-conventions 19,124
 nuxt: vue-nuxt-vuetify-conventions 16,848
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 9,343, spec 5,109
@@ -1916,6 +1916,18 @@ rule never connected; closed with a new point (§4.31). `flutter` dogfood is blo
 `unzip`/`xz-utils` system dependency for the SDK, pending. Neither pass touched the depth ratio in any
 meaningful way (csharp x1.55 → x1.54, python x1.05 unchanged at the ratio's rounding) — that is
 expected: a dogfood finds real gaps, it doesn't add volume.
+
+**`flutter` dogfood completed once the SDK dependency landed.** A small paginated/searchable list app
+(`ChangeNotifier`/`ListenableBuilder`, pull-to-refresh, a validated form, a `Timer`-driven countdown
+badge), `flutter analyze` clean, 15 widget/unit tests green. Two real gaps found by the build/tests, not
+by reading: §4's "failed refresh keeps stale content" and §6's "filter change resets the cursor" were
+implemented off one shared boolean, so a rejected new filter typed during a reload inherited the
+refresh's stale-content branch instead of the error state — fixed with a new point (§4.29) and by
+threading the two flags separately in the dogfood app. §10's "`pumpAndSettle` fails in under a second"
+turned out true only for a driven `AnimationController`; a widget-owned `Timer.periodic` either settled
+by coincidence or hung for real seconds depending on timing — nondeterministic, not just slow — fixed
+with a new point (§10.25) recommending explicit `tester.pump(duration)` for timer-driven widgets.
+flutter x1.11 → **x1.09**.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
