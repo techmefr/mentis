@@ -80,3 +80,36 @@
     configuration-binding source generator (`EnableConfigurationBindingGenerator`) produces a binding method
     per options type at build time, which puts the same list problem point 1 describes for serialisation
     under the compiler's eye instead of the trimmer's guess.
+14. **Globalization-invariant mode is a separate switch from trimming, and it silently changes what a string
+    comparison means rather than throwing.** With `InvariantGlobalization` enabled, every culture-aware
+    comparison and case conversion falls back to ordinal behaviour regardless of the `CultureInfo` or
+    `StringComparison` the caller actually asked for — a sort order or an uppercasing rule that depended on
+    a specific culture (a Turkish `i`, an accent-insensitive sort) quietly changes shape in the published
+    binary while the same code produced the expected order in every local run against the full ICU data.
+    It shrinks the published size meaningfully (tens of megabytes in a container image), which is exactly
+    why it gets turned on for the wrong reason on a service that does, in fact, localise something.
+15. **Constructing any culture other than the invariant one throws once invariant mode is on, and it throws
+    at the call site, not at startup.** `CultureInfo.GetCultureInfo("fr-FR")` or setting
+    `CurrentCulture` to a named culture raises an exception the moment that line runs, which in practice
+    means the first request that needs it, in production, after the switch was flipped for an unrelated
+    size or startup-time win described in point 14 — the two failures travel together and are diagnosed
+    separately unless whoever enabled the mode also grepped for named-culture use first.
+16. **Native AOT does not support runtime marshalling for COM or Windows Runtime interop, which is a third
+    kind of "invisible until publish" alongside reflection and codegen.** `[ComImport]` types, apartment-
+    threaded COM objects and WinRT activation all depend on infrastructure Native AOT does not carry, so
+    code exercising them builds and runs under the ordinary JIT and fails only in the trimmed, ahead-of-time
+    compiled artefact — the same shape of gap as point 7's dynamic codegen, but for a dependency most
+    projects only discover through a transitive package that happened to lean on COM for one code path.
+17. **A source generator that emits attributes read by the trimmer only helps if it runs before the
+    trimmer sees the code, and a generator disabled or misconfigured for one build configuration fails
+    silently.** The JSON, configuration-binding, regex and logging source generators this section already
+    relies on (points 1, 9, 13) are opt-in per project and can be quietly absent from a `Release` or
+    publish-specific build configuration that never got the same `<PropertyGroup>` as `Debug` — the
+    compile-time list they were meant to provide reverts to the reflection path they exist to replace, with
+    no error, because reflection still compiles.
+18. **`PublishReadyToRun` is restricted to publishing for the runtime identifier of the machine doing the
+    publishing, unless cross-OS/architecture R2R is explicitly supported for that pair.** A CI machine that
+    publishes R2R for a different target RID than its own silently produces IL-only output instead of the
+    precompiled native code the setting promised — the artefact still runs, just with the JIT cold-start
+    cost R2R exists to remove, and nothing in the build log calls this out as a failure because, by the
+    letter of the setting, it isn't one.

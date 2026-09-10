@@ -99,3 +99,39 @@
     runs — nothing re-validated that the id still refers to someone with the right permissions, or that
     those permissions haven't been revoked between enqueue and execution. Re-check authorisation at
     execution time for anything that acts on a stored identity rather than one just established.
+21. **`IClaimsTransformation` runs after authentication and before authorisation, which makes it the one
+    place a claim can be added but the wrong place for anything that should have been rejected instead.**
+    Mapping an external identity provider's group into an internal permission, or attaching a volatile fact
+    (a subscription tier looked up per request) belongs here so it stays current without being baked into
+    the token — but the method runs on every authorisation check for the lifetime of the principal, so a
+    database call inside it runs once per request whether or not the endpoint being checked needed the
+    claim at all, and a transformation that throws turns an unrelated endpoint's authorisation into an
+    unhandled exception.
+22. **A scope and a role answer different questions, and a policy that treats a scope claim like a role
+    grants more than it means to.** A role asserts what the caller (a user, typically) is; a scope asserts
+    what the *token* was issued to do on that caller's behalf, which for a delegated or client-credentials
+    flow can be narrower than everything that identity is normally allowed. Checking `scope` where the
+    policy actually means `role` — or the reverse — either refuses a legitimately scoped-down token or
+    accepts one that never should have reached that endpoint, and the two claim types are easy to conflate
+    because both end up as strings on the same principal.
+23. **A downstream call made on behalf of the caller needs its own token, acquired for that specific
+    audience — forwarding the inbound token to a second API is not the same thing.** The On-Behalf-Of flow
+    exchanges the incoming token for one scoped to the API being called next, so each hop in a chain gets a
+    token whose audience and scopes match only what that hop needs; passing the original token straight
+    through instead means every downstream service now accepts a credential minted for a different
+    audience, and any one of them compromised can replay it against the others. This is point 9's "claims
+    are input" applied one hop further down the chain, where the hop itself is the attacker's easiest
+    target.
+24. **A GraphQL resolver is an entry point the same as a controller action, and schema-level type
+    permissions don't authorise the field a specific query actually walks into.** A field returning a
+    related entity (an order's customer, a customer's other orders) can be reached through more than one
+    path in the graph, and a check placed on the root query alone leaves every field resolver it can reach
+    unauthorised on its own — the same "per-action, not inherited" reasoning as point 1, applied to a schema
+    where the reader can't see every path in the diff that adds one field.
+25. **Real-time authorisation state in a stateful UI (a Blazor Server circuit, a long-lived SPA session) is
+    cached in the client's own memory, and it goes stale the moment the source of truth changes without the
+    client knowing.** An `AuthenticationStateProvider` read once at circuit start reflects permissions as
+    of that moment; a permission revoked server-side mid-session leaves the UI showing options the next
+    server-side check would refuse, which is harmless as long as every action is still checked at the
+    endpoint (point 8) — the failure mode this point actually guards against is trusting that cached state
+    for the decision instead of just for what the UI shows.

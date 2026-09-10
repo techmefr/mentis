@@ -98,3 +98,38 @@
     `Progress<T>` was constructed on the thread that should receive the callback. Constructing it inside the
     background work itself silently loses that guarantee and the callback runs wherever `Report` happened to
     be called.
+23. **Thread-pool starvation looks like a slow dependency and is actually a thread shortage,** and it
+    arrives in the shape point 3 and point 6 both describe: enough blocked or CPU-bound work queued at once
+    that the pool's injection rate — one new thread every couple of hundred milliseconds once the minimum
+    is exhausted — cannot keep up with demand, so requests that don't block at all queue up behind ones
+    that do. Raising `ThreadPool.SetMinThreads` masks the symptom for a while; removing the blocking calls
+    that caused the queue in the first place is the actual fix, and the metric that shows the problem
+    honestly is the queue length, not CPU.
+24. **`Parallel.ForEachAsync` is point 14's explicit bound, built into the API instead of hand-rolled with a
+    semaphore.** It takes a `CancellationToken` and a `ParallelOptions.MaxDegreeOfParallelism` directly,
+    running at most that many bodies concurrently and observing cancellation between iterations without the
+    caller wiring either by hand — which is also its limit: it is the right tool for "run this bounded
+    number of async bodies over a sequence," and the wrong one to reach for when what's actually needed is
+    collecting per-item results, which point 13's `WhenAll` critique applies to just as much here.
+25. **A `TaskCompletionSource` without `RunContinuationsAsynchronously` runs the continuation on the thread
+    that calls `SetResult`, not on a thread pool thread of its own.** Bridging a callback-based API to
+    `Task` with the default constructor means whatever code calls `SetResult` — often deep inside a driver
+    or a socket callback with its own constraints — now also runs the awaiter's continuation inline, on that
+    thread, which can reenter the caller or violate a threading assumption the callback API depended on.
+    Passing `TaskCreationOptions.RunContinuationsAsynchronously` posts the continuation to the thread pool
+    instead, which is the safe default for a bridge that doesn't control what continuations get attached.
+26. **A `PeriodicTimer` is awaited, and that is the entire reason it replaces `System.Timers.Timer` in new
+    async code.** The older timer fires its callback on a thread-pool thread with no relationship to
+    whatever `async` method scheduled it, so overlapping ticks under load run concurrently unless the
+    handler guards itself; `PeriodicTimer.WaitForNextTickAsync` is called in a loop from the method that
+    owns the cadence, so the next tick genuinely waits for the previous iteration to finish and the token
+    passed to `WaitForNextTickAsync` stops the loop the same way any other cancellation point does (point
+    11).
+27. **A synchronisation context is what makes `.Result` deadlock in one host and merely block a thread pool
+    thread in another, and the two failures are diagnosed differently.** Point 3 states the rule; the
+    reason it's absent from an ASP.NET Core server (no context to resume on, so blocking merely wastes a
+    thread) but present in WPF, WinForms and the older ASP.NET pipeline (a context that only lets one thread
+    run continuations at a time, so the blocking call and the continuation that would unblock it queue for
+    the same thread) is why "it worked in the console app and the tests" in point 3 is not a coincidence —
+    those hosts have no synchronisation context either, so only the least representative environment
+    catches the bug before it ships.

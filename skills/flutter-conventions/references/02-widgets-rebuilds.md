@@ -58,3 +58,41 @@
     snack bar or creating a controller (§1.9) inside it happens once per frame rather than once per
     intention, and the symptom scales with how often the screen happens to rebuild — a loop that looks like
     a backend problem.
+17. **`MediaQuery.of(context)` subscribes to the whole object**, so a widget that only reads the padding
+    rebuilds on every keyboard appearance, orientation change and text-scale adjustment too — anything else
+    the window reports. The framework's granular accessors (`MediaQuery.sizeOf`, `.paddingOf`,
+    `.viewInsetsOf`, `.textScalerOf`) subscribe to that one field only; reaching for the aggregate object out
+    of habit is an invisible tax on every unrelated window change, paid by a widget that never asked for it.
+18. **A `RepaintBoundary` isolates the expensive layer, not the whole tree.** Point 7's blur or shadow still
+    costs what it costs, but wrapping the widget that needs it in its own boundary means the surrounding
+    tree — the parts that did not change — is composited from its own cached layer instead of being
+    repainted alongside it. Placed too high, above content that changes every frame anyway, it adds a layer
+    with nothing to save; placed around the one static decoration next to an animating widget, it is the
+    difference between repainting a screen and repainting a corner of it.
+19. **A widget in a `PageView` or `TabBarView` is disposed when it scrolls off-screen**, losing scroll
+    position, form input and animation state the moment the user swipes away and back. `AutomaticKeepAliveClientMixin`
+    with `wantKeepAlive => true` keeps the element alive off-screen instead — at the cost of holding that
+    state in memory for every kept tab, which is why it is a per-widget decision and not a default to apply
+    everywhere the list is long (§6.1 already pays that cost once with the lazy builder; keeping every tab
+    alive undoes it).
+20. **Key type is part of the identity contract, not decoration.** A `ValueKey` compares by value, so two
+    widgets for the same record id are recognised as the same element even after the list is rebuilt from a
+    fresh fetch; an `ObjectKey` compares by identity, so a re-parsed object with equal fields but a new
+    instance is treated as a different element and loses its state anyway; a `UniqueKey` never matches
+    anything, including itself across a rebuild, which forces a full teardown every time and is usually a
+    key added to silence a warning rather than to solve the identity problem in point 9.
+21. **An `InheritedWidget` only rebuilds a dependent that changed what it depends on**, which is the
+    mechanism the granular `MediaQuery` accessors and a scoped provider both lean on: `updateShouldNotify`
+    decides whether the new value is different enough to matter. A subclass that always returns `true` turns
+    every descendant that reads it into a full-screen rebuilder regardless of what actually changed,
+    silently reintroducing the failure point 5 describes from the other direction.
+22. **`==` on the data a `const` or a key depends on decides whether the shortcut fires at all.** A model
+    class without a value-based `==`/`hashCode` compares by identity, so two instances built from the same
+    server payload are never equal, a `const` constructor never canonicalises them the same way, and a
+    `ValueKey` built from one never matches its predecessor — the optimisations in points 2 and 20 are
+    silently defeated by a missing override rather than by anything visibly wrong in the widget code.
+23. **DevTools' "Highlight Repaints" and "Track Widget Builds" overlays answer two different questions.**
+    The repaint overlay flags the layer cost of point 7 and 18; the rebuild track answers whether point 5's
+    narrowing actually worked. Reaching for one to diagnose the other's problem is why a fix that clearly
+    reduced rebuilds is sometimes reported as having done nothing — it fixed a cost that was never the one
+    showing on screen.

@@ -62,3 +62,35 @@
 18. **A long form is worth a draft.** The app is terminated in the background as a matter of course (§5.14),
     and coming back to an empty form after ten minutes of typing is the failure users describe as losing
     their work — because they did.
+19. **A sticky section header belongs to a `CustomScrollView`'s slivers, not a rebuilt widget above the
+    list.** `SliverPersistentHeader` pins the current section's label while the rest scrolls underneath it;
+    combining several independently-scrolled pieces — a header, a grid, a footer — into one `CustomScrollView`
+    keeps them in a single scroll physics and a single lazy-build pass, instead of nesting scrollables that
+    each need the bounded-height treatment of point 2.
+20. **A reorderable list's key has to survive the reorder, not just the initial build.** `ReorderableListView`
+    moves the element identified by a widget's key to its new index; a key derived from the item's current
+    position rather than its stable identity moves the wrong element's state along with it — the same
+    failure as point 4, but triggered by the drag gesture instead of a filter or a fetch.
+21. **A multi-step form keeps every step's data in one place for the whole flow**, not scoped to the widget
+    for the step currently visible. A `Stepper` or a paged form whose fields live in each step's own local
+    state loses page one's answers the moment page one is disposed for page two — the state holder outlives
+    the step widgets exactly the way point 15 says the controller does not need to.
+22. **On a failed submit, move focus to the first invalid field.** A screen that shows inline errors
+    (point 10) but leaves focus wherever it was makes a screen-reader user hunt through the whole form for
+    what changed, and a sighted user scroll for it manually; moving focus and scrolling that field into view
+    together turns the error summary into something the user lands on rather than something they have to
+    find.
+23. **A search field the user types into is a debounced trigger, not a request source.** The screen-state
+    concern in §4.17 has a form-side cause: a `TextField.onChanged` wired straight to a query fires once per
+    keystroke, and even where the state holder discards the stale answers (§4.16), the backend still does the
+    work for every intermediate value the user was going to overwrite a moment later.
+24. **A number or date entered by the user is parsed and formatted for the device's locale, not a fixed
+    format.** A decimal separator, a date order or a digit grouping that differs from the user's own settings
+    turns a correctly-typed value into a rejected one, or worse, a silently different number — 1,234 read as
+    one thousand two hundred thirty-four in one locale and one point two three four in another is not a
+    display detail, it changes what gets submitted.
+25. **Autofill and paste apply to more than the password and one-time-code fields of point 17.** An address,
+    a name or a phone number field that isn't tagged with the right autofill hint forces a re-type of data
+    the platform already has on file for every other app the user has filled it into once — the six-digit
+    code is the visible case, but the same defeat happens quietly on every field a form author didn't think
+    of as "sensitive enough" to tag.

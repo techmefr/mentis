@@ -83,3 +83,33 @@
     whatever store backs the connection (a database row, a Redis key), readable by anything with access to
     that store. Encrypting the payload is the same reasoning as point 3 pushed one step further: a
     reference is safer than a snapshot, and a snapshot that must exist is safer encrypted than in the clear.
+18. **`ThrottlesExceptions`' two constructor arguments answer two different questions, and confusing them
+    produces a job that either never throttles or throttles forever.** The first is how many exceptions the
+    job may throw before it is considered failing; the second is how many minutes the throttle then holds
+    before the job is tried again. Pair it with `backoff()` on the middleware itself, not a `sleep()` inside
+    `handle()` — the delay belongs to the queue's retry mechanism, which can release the job without tying
+    up a worker process for the wait.
+19. **A released job (`WithoutOverlapping`, a rate limiter, a manual `$this->release()`) still counts
+    against `tries` and `maxExceptions`,** so a job released every time it runs eventually exhausts its
+    attempts and lands in `failed()` even though it never actually failed — a release loop needs either a
+    generous `tries` or its own escape hatch (a `retryUntil()` far enough out, or an explicit check that
+    stops releasing past a point and reports instead).
+20. **`retryUntil()` bounds a job by wall-clock time instead of by attempt count**, which is the right
+    limit for a job whose usefulness expires — a price-check email, a session-bound export — where trying
+    a twentieth time an hour later serves nobody even though the attempt count alone would allow it.
+    `tries` and `retryUntil()` combine as whichever limit is hit first, not as alternatives to choose
+    between.
+21. **A queue connection's `retry_after` must exceed the job's own real runtime, or the queue schedules a
+    second worker onto the same job before the first one finishes** — the symptom is a job that appears to
+    run twice concurrently, which then needs point 2's idempotence to survive but shouldn't have happened
+    in the first place. This is a config value (§7), tuned per queue rather than left at the framework's
+    default when a job's workload is known to run long.
+22. **A private channel's authorisation callback answers exactly one question — may this authenticated
+    user see this channel — and nothing else belongs in it.** Loading unrelated data, dispatching a side
+    effect, or writing to the database inside `Broadcast::channel()` turns an authorisation check that runs
+    on every subscribe attempt into a place with effects nobody expects a permission check to have; keep it
+    to the same yes/no §2 already asks of a policy.
+23. **Job batching's `allowFailures()` changes whether one job's failure cancels the batch**, and the
+    default — a single failed job cancels the rest — is usually wrong for independent work items (forty
+    unrelated exports) and usually right for a pipeline where a later step depends on an earlier one's
+    output. Naming the choice explicitly is cheaper than discovering it from which jobs quietly never ran.

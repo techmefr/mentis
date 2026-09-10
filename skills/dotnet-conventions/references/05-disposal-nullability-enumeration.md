@@ -68,3 +68,40 @@
     method typed over `T` without `where T : notnull` (or the reverse, an explicit nullable annotation on
     `T?`) inherits whatever nullability the caller's type argument happens to have — the method's own
     contract about null says nothing until the constraint states it.
+17. **`ArgumentNullException.ThrowIfNull` is the guard clause, and the null-forgiving operator afterwards is
+    what a reviewer should never see next to it.** Checking a parameter and then writing `param!` two lines
+    later is not a mistake in isolation — each half is fine — but together they say the check exists purely
+    to satisfy an analyser and nobody trusted its own result. Let the throw be the whole story: the
+    compiler narrows the type after a `ThrowIfNull` the same way it narrows after an `is null` check, so the
+    `!` that follows is either redundant or a sign the check was copied in without reading what it does.
+18. **An `IAsyncEnumerable<T>` disposes its enumerator through `await foreach`, and breaking out of the loop
+    early still has to run that disposal.** A `break` or a `return` inside the loop triggers the compiler's
+    implicit `finally` calling `DisposeAsync` on the enumerator the same as a normal `foreach` would for a
+    synchronous one — the trap is code that stores the enumerator itself (`GetAsyncEnumerator()` called by
+    hand, outside a `foreach`) and then exits without a matching `DisposeAsync`, which leaves whatever
+    connection or cursor backs the sequence open for as long as the process runs.
+19. **A `SafeHandle` wraps the OS resource so a `Dispose` running during finalization can still release it
+    correctly; a raw `IntPtr` field cannot.** A type that stores a native handle as `IntPtr` and closes it
+    in a hand-written finalizer is exposed to the handle being reused by another allocation between the
+    object becoming garbage and the finalizer running, so the wrong resource gets closed under load. Wrap
+    the handle in a `SafeHandle` derivative instead — its release path is already interlocked against
+    exactly that race, which is the reason to prefer it over rolling a finalizer by hand at all (point 2).
+20. **A struct with a nullable value-type field defaults that field to `null` the same as any other default,
+    and equality then depends on whether both sides agree on that.** `Nullable<T>` inside a `default`
+    struct or a zero-initialized array element compares equal to another unset instance, which is normally
+    invisible — until the struct is used as a dictionary key or a record's equality member, where two
+    "empty" instances now silently collapse to one bucket or one duplicate-looking entry, matching point 13's
+    warning about the zero value carrying real meaning whether or not anyone designed it to.
+21. **Re-enumerating a sequence twice does not always mean two identical results, and the risky case is not
+    always visible at the call site.** Point 4 covers the deferred-and-expensive case; the sharper version
+    is a source that mutates between enumerations — a queue drained by a background reader, a stream whose
+    position advanced by the first pass — where the second enumeration doesn't repeat the work, it silently
+    sees less of it. `.ToList()` at the boundary where a sequence stops being "just produced" and starts
+    being "read more than once" turns that silent gap into a value that can't move under the caller.
+22. **`ConditionalWeakTable<TKey, TValue>` attaches data to an object's lifetime without extending it,** and
+    reaching for a normal `Dictionary` keyed by the same object instead is how "extra state associated with
+    this instance" turns into a leak: every entry keyed by reference in an ordinary dictionary keeps that
+    key alive as long as the dictionary exists, which for anything long-lived is effectively forever. Where
+    the requirement is genuinely "clean up when the object is collected, and not before," the conditional
+    table is the one collection in the framework that gives you that instead of a `Dispose` you have to
+    remember to call.

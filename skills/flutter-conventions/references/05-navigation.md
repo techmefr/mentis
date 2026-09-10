@@ -60,3 +60,41 @@
     pushing the home screen after a logout leaves the authenticated screens underneath it, reachable by
     going back. A transition that ends a flow replaces or resets, and choosing between the three is part of
     declaring the route rather than a detail of the call site.
+17. **`PopScope` replaces `WillPopScope`, and it changes what "intercepting back" means.** `canPop: false`
+    stops the pop before it happens, and `onPopInvokedWithResult` runs *after* the framework has already
+    decided whether the pop occurred — code written for the old callback that assumed it could still prevent
+    the pop from inside the handler silently stops working on the current framework version, which is why
+    point 9's "confirm before leaving" needs `canPop` set to false and the confirmation dialog itself
+    triggering the real pop, rather than a handler that tries to cancel one already in flight.
+18. **On the web, the platform back button is not optional to support.** A router that does not integrate
+    with browser history either does nothing on back or leaves the address bar showing a URL the app is not
+    actually on, and a path-based URL strategy (rather than the default hash) is what makes a deep link,
+    a bookmark and a shared link resolve to the same route point 1 already centralises — without it, every
+    link into the app has to go through the home screen first regardless of what point 6 says about entry
+    points.
+19. **A redirect guard can loop against another guard's redirect.** An auth check that sends an
+    unauthenticated user to sign-in, from a sign-in screen that itself redirects somewhere else under some
+    condition, bounces the user between two routes with no frame in between to interact with — the app
+    appears to hang on launch. The guard has to know it is already on the redirect target and stop, which is
+    a condition worth testing directly rather than trusting each guard in isolation.
+20. **Each tab in a bottom navigation owns its own navigator when point 13's preserved state includes a
+    pushed stack.** A single shared navigator means a push from one tab is still on the stack when the user
+    switches tabs and back, and the system back gesture pops whatever is on top regardless of which tab is
+    showing — nested navigators keep a tab's back stack local to that tab, so leaving and returning to a tab
+    shows exactly what was pushed there.
+21. **A dialog meant to survive a tab switch, or one opened from inside a nested navigator, needs the root
+    navigator explicitly.** `Navigator.of(context, rootNavigator: true)` reaches past whatever nested
+    navigator point 20 introduced; the default lookup finds the nearest one, which for a dialog opened from
+    deep in a tab is the tab's own navigator — and a dialog living there disappears when the user switches
+    tabs, rather than staying on top of the whole app the way a global confirmation or an error overlay is
+    expected to.
+22. **A transition duration ignoring the platform's reduce-motion setting is a motion-sensitivity problem
+    dressed as a style choice.** The same accessibility signal that governs whether an animation should
+    play at all (§9.8) applies to route transitions: a user who has asked the system for less motion still
+    gets a full slide or fade on every navigation unless the router checks the same flag and either shortens
+    the transition or removes it.
+23. **State restoration is a stronger promise than the route table rebuilding from a path.** Point 14 gets
+    the user back to the right screen after a process kill; `RestorationMixin` and a `RestorationBucket` get
+    them back to the right scroll offset, the right selected tab and the right half-filled field within that
+    screen — the difference between reopening the app to the list and reopening it exactly where the user's
+    thumb was.

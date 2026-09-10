@@ -91,3 +91,39 @@
    job is registering bindings nothing else depends on at boot. A provider that also needs to register a route,
    a listener, or anything the framework must see during boot regardless of whether the binding is ever resolved
    cannot be deferred and still do that; deferring it silently drops the part that was supposed to run eagerly.
+16. **`singleton()` and `scoped()` answer different questions about a binding's lifetime, and the wrong
+   choice survives unnoticed until the process that exposed it.** A singleton lives for the whole worker
+   process — correct for a stateless client wrapper, wrong for anything holding per-request state, because
+   the second request on a long-lived Octane worker or queue process then reads the first request's leftover
+   state. `scoped()` gives the same one-instance-per-resolution guarantee but flushes it at the boundary of
+   each request or job, which is the binding a request-scoped cache or an accumulating collector actually
+   needs — a distinction invisible on `php artisan serve`, where every process handles exactly one request
+   anyway.
+17. **A repository is banned by point 1 as a wrapper *in front of* Eloquent, not as a name for the query
+   class point 1.2 already asks for.** The difference is what the class does: a query class named
+   `ActiveSubscriptionsForTenant` answers one question over one aggregate and is free to use the query
+   builder or Scout underneath; a class named `SubscriptionRepository` promising a general-purpose
+   `find`/`all`/`save` surface duck-typing Eloquent's own contract is the pattern the rule actually
+   targets, because Eloquent already is that surface.
+18. **A trait's abstract method or expected property is declared in a `@property`/`@method` docblock at
+   the top of the trait, not left implicit for the consuming class to discover at runtime.** A concern
+   trait (point 4) that calls `$this->status` or expects a `scopeActive` sibling method fails silently at
+   analysis time and loudly at runtime on the first class that opts in without the expected shape — naming
+   the requirement in the trait's own docblock is what lets static analysis, and the next developer, verify
+   a class actually satisfies it before running anything.
+19. **A pipeline built from Laravel's `Pipeline` facade names each stage as its own invokable class**, not
+   as a closure defined inline in the pipeline's construction — the same reasoning as point 1's action
+   class: a stage with a name survives being tested alone, reordered, and reused in a second pipeline that
+   needs six of the same eight steps, where an inline closure has to be copied.
+20. **A global scope applied via `addGlobalScope` is invisible at every call site that benefits from it**,
+   which is the tenant-isolation case where that invisibility is the entire point — every query is
+   automatically scoped, with no call site able to forget it. The same invisibility is a liability the
+   moment the scope encodes business rules that legitimately vary by call site (only sometimes exclude
+   archived records); there, an explicit local scope the caller opts into (point 4) keeps the decision
+   visible where it is made, rather than requiring `withoutGlobalScope()` to opt back out of a default
+   nobody chose at the call site.
+21. **Eager-load in the query that produces the collection, not as an afterthought once the N+1 shows up
+   in a profiler.** `with()` declared alongside the query a controller or query class builds keeps the
+   relationship's cost visible next to the query that needs it; `load()` called later on an
+   already-fetched collection is the accepted fallback only when the need for the relation depends on data
+   not known until after the first fetch (a policy check on the result, a conditional branch).

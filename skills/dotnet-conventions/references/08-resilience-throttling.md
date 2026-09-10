@@ -81,3 +81,47 @@
     outcome: the caller actually times out where the sum says it should, the breaker actually opens after
     the configured count, and the fallback in point 13 actually fires when everything above it has failed.
     Run it against a lower environment behind a flag, never against production traffic by accident.
+15. **The built-in rate limiter tracks its counters in the process's own memory, and scaling out is exactly
+    what breaks that assumption.** Three replicas behind a load balancer each enforce the configured limit
+    independently, so a caller throttled at "100 requests per minute" actually gets up to 300 across the
+    fleet before anything rejects it — the policy reads correctly and the behaviour it produces is a
+    multiple of what was written down. A limit that has to hold across instances needs a shared store (a
+    Redis-backed limiter implementing the same partitioned abstraction) rather than the in-memory default
+    scaled up and hoped about.
+16. **The partition key decides who shares a bucket, and reading it from unvalidated input turns the
+    limiter into the load problem it exists to prevent.** Each distinct partition key allocates and caches
+    its own limiter state; partitioning on a caller-supplied value with no bound on its cardinality (a raw
+    query string, an arbitrary header) lets an attacker manufacture unbounded partitions and exhaust memory
+    with requests that individually look throttled and compliant. Partition on the authenticated identity
+    (point 11's "who" answer) or another bounded, server-controlled value — never on a client-chosen string
+    taken at face value.
+17. **`SocketsHttpHandler.PooledConnectionLifetime` is what makes a long-lived pooled connection notice a
+    DNS change, and its absence is invisible until the endpoint it points to moves.** A connection is
+    reused for as long as it stays healthy, and neither `HttpClient` nor the factory re-resolves the name
+    behind it while the connection lives — after a failover or a DNS cutover the pool keeps talking to the
+    old address until something closes the connection first. Setting a pooled connection lifetime (a few
+    minutes, not tuned to zero) bounds how stale that resolution can get; `HttpClientFactory`'s named and
+    typed clients set this by default from .NET 9 on, which is a reason to know whether the client in
+    question actually goes through the factory or was constructed by hand.
+18. **A hedging strategy sends a second request before the first has failed, which trades load for tail
+    latency and is not the same trade as a retry.** Where a retry waits for a definite failure and then
+    tries again, a hedging strategy fires a second attempt after a delay if the first is merely slow,
+    keeping whichever answer comes back first — the same duplication hazard as point 1 applies with a
+    shorter fuse, since the first attempt may still complete server-side after the second one already did.
+    It belongs on calls that are cheap to duplicate and where tail latency matters more than the extra
+    load, never layered onto the same call as an ordinary retry without doing the arithmetic in point 2
+    for both together.
+19. **A concurrency limiter (bulkhead) caps how many calls are in flight to one dependency at once,
+    independent of how fast or slow each one is.** Where a rate limiter bounds calls per unit of time, a
+    concurrency limiter bounds calls happening simultaneously — the distinction matters because a slow
+    dependency can stay under any reasonable per-second rate while still holding every available connection
+    or thread open, starving every other caller of that same dependency. Isolating each downstream
+    dependency behind its own concurrency limit keeps one degraded dependency from consuming the capacity
+    that a healthy one needs, which a shared, undifferentiated pool cannot do.
+20. **Graceful shutdown is resilience from the server's own side of the boundary, and skipping it turns
+    every in-flight request into the failure this section spends nineteen points preventing on the client
+    side.** `IHostApplicationLifetime`'s stopping notification, honoured by the host's shutdown timeout,
+    gives in-flight requests a window to finish and lets a load balancer stop sending new ones before the
+    process actually exits — a container orchestrator that sends `SIGKILL` on its own schedule, with no
+    drain period the application requested, turns a routine deploy into exactly the abrupt failure a client
+    retry or circuit breaker further up is left to absorb.

@@ -63,3 +63,32 @@ itself.
 17. When you add a resource to an existing widget, **wire its teardown in the same edit** — never "for later".
     And if you're already editing a `dispose()` and spot a created-but-unreleased resource, fix it there:
     that's bundled cleanup, not a drive-by.
+18. **`WidgetsBindingObserver` is a subscription like any other.** A widget that overrides
+    `didChangeAppLifecycleState` or `didChangeMetrics` must call `addObserver` in `initState` and
+    `removeObserver` in `dispose` — omitted, the binding keeps calling back into a widget that no longer
+    exists, and because the callback runs on an app lifecycle event rather than a rebuild, the crash surfaces
+    on backgrounding a screen that was closed minutes earlier, far from the code that forgot the removal.
+19. **A resource owned through a constructor parameter that can change needs `didUpdateWidget`, not just
+    `initState`.** A widget that builds something from `widget.someId` and only does so once, in `initState`,
+    keeps the old resource alive under the new identifier when the parent passes a different id — the same
+    stale-copy failure as §2.10, but for a disposable rather than a plain value. `didUpdateWidget` is where
+    the old one is disposed and the new one created, in that order.
+20. **A `ChangeNotifier` asserts, in debug builds, if it is disposed while listeners remain attached.**
+    `removeListener` has to run before the notifier's own `dispose`, in the reverse order of point 12 —
+    otherwise the assertion fires from the notifier's teardown, naming it as the culprit, when the real bug is
+    a widget that never detached.
+21. **A broadcast `StreamController` still needs `close()` even with several listeners.** Each `listen` call
+    needs its own cancellation (point 10), and the controller itself is a separate resource on top: closing
+    it without cancelling every subscription first still leaves stale listener callbacks queued if the
+    controller had buffered events, and a controller never closed keeps its underlying sink — and whatever it
+    was writing into — reachable for the life of the isolate.
+22. **A network call has a lifetime independent of the widget that started it**, and `mounted` only guards
+    what happens with the result — it does not stop the request. Where the client supports it (a cancellation
+    token, an abortable request), cancelling on `dispose` frees the connection and, for anything that
+    mutates server state, avoids a write completing after the user believed they had left the screen; this is
+    the concrete version of point 5's "cancel rather than only discard."
+23. **Cleanup that must run regardless of how the method exits belongs in `finally`, not after the last
+    line.** An early return from a caught exception, or an exception the method doesn't catch at all,
+    skips whatever teardown was written after the code that could throw — a lock never released, a temporary
+    file never deleted, a loading flag never cleared. `try`/`finally` runs the release on every exit path,
+    including the one nobody was thinking about when the method was first written.

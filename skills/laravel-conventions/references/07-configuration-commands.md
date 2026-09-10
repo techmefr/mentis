@@ -88,3 +88,34 @@
     signature, the confirmation prompt handling and `handle()` together, which is the only way a broken argument
     binding or a confirmation the CI runner can't answer gets caught before it does in production — point 5
     already put the actual work in an action class precisely so this test can stay thin.
+22. **`config()` cascades in the order files are loaded, and a key repeated across files silently keeps the
+    last one loaded**, so two packages (or a package and the app) publishing the same top-level config key
+    resolve to whichever loaded last rather than merging — the fix is a package-specific top-level key
+    (`services.stripe`, not a bare `stripe`), never a shared namespace two independent config sources both
+    write into.
+23. **`Context` carries request-scoped or job-scoped data across the async boundary a plain variable
+    cannot cross** — a request id that should appear in every log line for that request and then in the
+    log lines of every job that request dispatched, without threading it through every function signature
+    in between. It is not a substitute for an explicit parameter where the data is actually part of the
+    method's contract; it earns its place specifically for cross-cutting metadata nothing in the call chain
+    otherwise needs to know about.
+24. **A command's exit code is part of its contract, not a detail of how it happened to end.** Returning
+    `self::FAILURE` (or a non-zero int) from `handle()` on a condition an operator or a CI pipeline needs to
+    react to is what makes `&&`-chaining the command in a deploy script or a cron wrapper mean something —
+    a command that always returns `0` and instead prints an error string is a failure indistinguishable
+    from success to anything that only checks the exit code, which is every scheduler and every shell.
+25. **`artisan schedule:list` and `schedule:test` are how a scheduled entry gets verified before waiting
+    for its actual cron minute** — `schedule:test` runs a named task on demand, `schedule:list` prints the
+    resolved next-run time for every entry including its timezone and overlap policy (points 11, 19).
+    Reading the source to mentally evaluate a cron expression is the slower and less reliable version of
+    running the command that already does it.
+26. **A command meant to run unattended in CI or a cron job never blocks on an interactive prompt** —
+    `confirm()` without `--no-interaction` support, or a `ConfirmableTrait` check that can't be satisfied by
+    a flag, hangs a pipeline until it times out. `$this->confirmToProceed()` already respects
+    `--force` and the `APP_ENV` check point 9 asks for; a custom prompt built without checking
+    `$this->option('no-interaction')` reinvents that check and usually forgets the non-interactive case.
+27. **Environment-specific service configuration (mail driver, queue connection, cache store) is chosen by
+    which `.env` value is set, never by an `if (app()->environment('production'))` branch inside application
+    code.** The branch duplicates what the config layer already exists to centralise (point 1), and it is
+    the one form of environment-awareness that survives being forgotten in a diff, because nothing fails
+    locally to catch it — the code path for production only runs in production.

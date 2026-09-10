@@ -58,3 +58,35 @@
     to stand for loading, empty and failed at once, so one of the three ends up unrepresented — which is why
     §7.3's single status enum exists. A widget's job here is to map an explicit state to a layout, and if it
     cannot do that with a `switch`, the state class is the thing to fix.
+16. **A superseded request must lose, even if it answers last.** Typing into a search field fires one
+    request per keystroke; if the third one resolves before the first, and the state holder just overwrites
+    on every response, the screen can show results for a query the user already changed away from. The state
+    holder needs to know which request is current and discard an answer that isn't — a sequence number or
+    the request itself compared against the latest one sent, not just "a response arrived."
+17. **Debounce the trigger, not just the request.** A search-as-you-type field wired straight to the state
+    holder fires a request per keystroke regardless of point 16's discard logic, so the network and the
+    backend pay for every intermediate value the user never meant to search for. Waiting for a short pause
+    in typing before firing cuts the request count without changing what the user experiences as instant.
+18. **A batch of independent items can partially fail**, and collapsing that into a single success/error
+    verdict either hides the ones that failed behind a green screen or discards the ones that succeeded
+    behind a red one. Point 2's "one set of states per data source" generalises here: a bulk action reports
+    per-item outcome, so the user can see which three of ten uploads actually went through and retry only
+    those.
+19. **An error announced only visually is not announced to a screen reader user.** A red banner or an icon
+    change carries nothing through the semantics tree unless the error text sits in a live region, so the
+    same failure that a sighted user notices instantly passes silently for someone using assistive tech —
+    the accessibility half of point 12's loading announcement applies just as much to the state it leads to.
+20. **The last known-good data outlives the request that fetched it.** Persisting the previous successful
+    response (even briefly, even just in memory across a screen re-entry) means a cold start with no
+    connectivity yet can show that data marked as possibly stale (point 10) instead of the loading state of
+    point 1 with nothing behind it — the difference between "reopening the app shows something" and
+    "reopening the app on a train shows a spinner forever."
+21. **The end of a paginated list and a failure mid-scroll are not the same footer.** Point 6's loading
+    footer, the end-of-list marker and the error state need to be three distinguishable things: a marker
+    that reads "no more results" when the real cause was a failed page load sends the user away thinking the
+    data is complete, and a retry control that only appears on the very first page's failure leaves every
+    later page silently stuck.
+22. **A confirmed empty result and a filter that matched nothing look the same on screen and need to say so
+    differently in the state.** Extending point 4: the state holder distinguishes "loaded zero rows" from
+    "still loading page one," since a screen that renders both as the same empty illustration briefly shows
+    "nothing here, try creating one" to a user whose first page just hasn't arrived yet.

@@ -89,3 +89,36 @@
     drifts from the first the next time the parent changes. Where extension is the actual design (a shared
     base for a family of report exporters), that base is the one class allowed to skip `final`, and it says
     so by existing as an abstract class rather than a concrete one nobody expected to be extended.
+25. **A native `readonly` property (point 21) and PHPStan's own strictness are two different guarantees,
+    and levelling up the analyser is a project-wide ratchet, not a per-file preference.** A codebase
+    declares the level it targets once — commonly the level that catches type-juggling and dead branches
+    without drowning in false positives on framework magic — and every new file is written to satisfy it
+    rather than adding to a baseline meant to shrink. A baseline entry from six months ago is not a
+    precedent for the next one.
+26. **Larastan's own model of Eloquent — magic `find`, relation methods, query-builder macros — is taught
+    to the analyser through its bundled extension, not through a docblock repeated on every model.** A
+    project that still hand-writes `@property` blocks for every column duplicates what the extension
+    already infers from `$casts` and the migrations; reach for an explicit `@property` only where a model
+    genuinely adds a computed accessor the extension cannot see, never for the raw columns.
+27. **A named argument beats a comment explaining a positional one.** `retry(times: 3, sleep: 100)` reads
+    on its own; `retry(3, 100)` next to `// 3 attempts, 100ms apart` duplicates in prose what the call site
+    could have said for free, and the prose is the copy that goes stale first. Reserve this for calls whose
+    parameters are not already obvious from a single well-named argument.
+28. **First-class callable syntax (`strtoupper(...)`, `$this->publish(...)`) replaces the
+    `Closure::fromCallable`/string-callback indirection** wherever a method reference is passed as a
+    value — to `array_map`, a collection pipeline (point 18), an event listener registration — because it
+    is checked by the parser at the call site instead of resolved by name at call time, catching a typo'd
+    method name before the code ever runs.
+29. **A union type in a signature states every shape the caller may pass, not just the common one** —
+    `int|string $id` on a lookup that genuinely accepts either is a contract; `mixed` covering the same two
+    cases is point 19's absence of a type wearing a shorter name. Where the union grows past two or three
+    unrelated shapes, that is usually the signal the parameter should have been split into two methods
+    instead of documented with a longer union.
+30. **An intersection type (`Countable&ArrayAccess`) declares a parameter needs both capabilities**, not
+    one class that happens to implement both today; where only one capability is actually used inside the
+    method, requiring the intersection ties every future caller to a coincidence the method body doesn't
+    need. Prefer the single interface that names the one capability actually called.
+31. **A named enum case that stands for one specific record ("the default warehouse", "the admin role")
+    is a symptom the enum modeled a row, not a category.** An enum's cases are meant to be exhaustive and
+    fixed at compile time; a category that a future admin screen must extend belongs in a database table
+    with a foreign key, not in a `match` arm waiting for the next deploy to add a case.
