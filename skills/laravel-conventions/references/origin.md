@@ -660,3 +660,72 @@ tooling (`emailOutputTo`, `vendor:publish --tag`, `env()` coercion, signal trapp
 `db:seed --class`, `make:command --command`) — `laravel.com/docs/12.x/{urls,sanctum,validation,pagination,
 eloquent-resources,http-client,routing,queues,notifications,broadcasting,eloquent,artisan}`, all read
 2026-09-10. The marketplace XEFI was never opened for this pass.
+
+**Widening, 2026-09-10 — huitième passe.** The five thinnest files by a fresh `wc -w` measurement —
+`05-naming-typing-style.md` (2,328), `01-where-behaviour-lives.md` (2,462), `02-authorisation.md` (2,578),
+`10-architecture.md` (2,662) and `03-data-model-schema.md` (2,703) — each gain 6 new points, same
+extend-don't-renumber method as every prior same-day pass: nothing already numbered moved, everything new
+appended after the last existing point, because the standalone `skills/laravel-*` files' `§N.M` citations
+(`bin/check_citations.py`) depend on the numbering holding still.
+
+§5 (naming/typing) adds points 38–43: PHP 8.4 property hooks as the plain-PHP-class counterpart to
+`Attribute::make`, and why the two are not interchangeable (one runs through Eloquent's cast pipeline, the
+other works on any class); a property hook's `set` clause enforcing an invariant on every reassignment, not
+only at construction; PHP 8.4 lazy objects (`newLazyGhost()`) as the language-native version of "build it on
+first access," distinct from `once()`'s per-request memoisation of a callback's result; `UnitEnum::cases()`
+as the single source of truth an enum's own value list, so a parallel hard-coded array drifts the moment a
+case is added; the short nullable notation (`?Type`) over a two-member union for the common case; and PSR-12
+as the named baseline a house style otherwise re-litigates one bracket-placement comment at a time.
+
+§1 (where behaviour lives) adds points 28–33: a module's own routes registered from that module's own
+`RouteServiceProvider` rather than appended to the app-wide routing file; a cross-module dependency bound to
+an interface in a service provider instead of a concrete class from another domain; job middleware
+(`WithoutOverlapping`, `RateLimited`, `ThrottlesExceptions`) as where a job's cross-cutting concerns belong,
+not an `if` inside `handle()`; route middleware declared through `HasMiddleware`'s static method now that
+Laravel 11 removed the controller constructor's `$this->middleware()`; `Model::unguard()` called globally
+lifting mass-assignment protection for the whole request, not just the call site that needed it; and a
+collection chain naming its intermediate value once a side-effecting `each()` and a transforming `map()`
+would otherwise read alike in a diff.
+
+§2 (authorisation) adds points 28–33: `scopeBindings()` as the mechanism that actually scopes a nested
+resource's implicit binding to its parent, since nesting the routes alone does not; `Gate::authorize()` as
+the same throw-on-denial contract a controller's `$this->authorize()` gets, usable from a command or a job
+with no controller to inherit it from; `Gate::inspect()` returning the full `Response` (and its denial
+message) where `can()`/`cannot()` collapse it to a boolean; password confirmation as a session-freshness gate
+distinct from the permission check itself; `Gate::any()`/`Gate::none()`/`@canany` as a named batch check
+instead of a hand-rolled loop that can silently under-enumerate; and a Sanctum token's `currentAccessToken()`
+returning null for a session-authenticated request, which a `tokenCan()` call has to guard against.
+
+§10 (architecture) adds points 35–40: a module's `RouteServiceProvider` as point 5's structural enforcement
+applied to routing, not the app's `bootstrap/app.php` collecting every module's routes; a cross-module
+dependency bound to an interface in a provider rather than instantiated as another module's concrete class;
+a local module package installed through a Composer path repository instead of copied into `vendor/` or
+published to a registry too early; a shared-kernel package still being a dependency direction to declare, not
+an exemption from point 1; Horizon's queue-name grouping as the only thing that actually isolates one
+module's jobs from another's; and the container itself enforcing none of point 36's interface-boundary
+discipline at runtime — it is a static-analysis rule to keep, not a guarantee Laravel provides for free.
+
+§3 (data model and schema) adds points 35–40: `foreignIdFor(Model::class)` picking the referenced model's
+own key type instead of always assuming `UNSIGNED BIGINT`; a unique index needing `deleted_at` folded in (or
+a partial index) so a soft-deleted row stops blocking reuse of its unique value; SQLite's foreign-key pragma
+needing to be turned on per connection, or a constraint violation that fails loudly elsewhere passes silently
+in a SQLite test suite; `schema:dump` squashing migration history, after which a data backfill left inside an
+old migration's `up()` never runs again on a fresh install; `chunkById()`/`lazyById()` anchoring pagination to
+the primary key instead of `OFFSET`, which stays correct while rows are deleted mid-backfill; and a database
+check constraint enforcing a cross-column invariant no second writer sharing the database can bypass, unlike
+a validation rule that only protects rows written through this one application.
+
+Word counts re-measured with `wc -w` after the edits: `05-naming-typing-style.md` 2,328 → 2,978 (+650),
+`01-where-behaviour-lives.md` 2,462 → 3,056 (+594), `02-authorisation.md` 2,578 → 3,199 (+621),
+`10-architecture.md` 2,662 → 3,265 (+603), `03-data-model-schema.md` 2,703 → 3,352 (+649).
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/`php-patterns`
+at a different angle (the prefer-the-framework's-own-mechanism argument, the stream-don't-load-into-memory
+rule, the account-for-mass-operations argument) or is synthesised fresh from Laravel's own current public
+documentation and PHP 8.4's release notes for the mechanism named — service providers and routing, the
+service container, queue job middleware, Sanctum, authorization (`scopeBindings`, `Gate::authorize`,
+`Gate::inspect`, `Gate::any`/`none`), migrations (`foreignIdFor`), database configuration (SQLite foreign
+keys), migration squashing, Eloquent chunking, Horizon queue grouping, and PHP 8.4 property hooks and lazy
+objects — `laravel.com/docs/12.x/{providers,routing,queues,sanctum,authorization,migrations,database,
+eloquent,horizon}`, PHP 8.4's property-hooks and lazy-objects RFCs, and PSR-12, all read 2026-09-10. The
+marketplace XEFI was never opened for this pass.

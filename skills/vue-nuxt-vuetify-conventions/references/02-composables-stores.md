@@ -61,3 +61,36 @@
     subject diverge — one gets a fix, the other keeps the bug, and a reviewer cannot tell which the next
     component should call. This is the `SKILL.md` guardrail; the reason it is a guardrail is that
     duplication here is cheap to create and expensive to notice.
+17. **A setup store is the default once a store needs anything an options store can't express** (a watcher
+    inside the store, a composable called from it, a private ref that isn't part of the public surface).
+    An options store's `state`/`getters`/`actions` split is easier to read for a plain data bag, but it has
+    no room for private state or lifecycle — picking setup-style only once the store outgrows options is
+    how a project ends up with both shapes and no reason a reader can find for which store uses which.
+    [pinia.vuejs.org/core-concepts]
+18. **`storeToRefs`, never destructuring the store object directly, when a component needs individual
+    properties.** Destructuring a Pinia store's state or getters copies the current value out and detaches
+    it from reactivity — the component keeps whatever the value was at that instant and never sees the
+    store change again, silently, with no warning at build or run time. `storeToRefs` produces refs that
+    stay wired to the store, which is the whole reason the helper exists rather than just documenting the
+    pitfall. [pinia.vuejs.org]
+19. **`$subscribe` for anything reacting to *how* the state changed, not a `watch` on the whole store.** A
+    plain `watch(() => store.$state, ...)` fires on every mutation and hands back only the new value; the
+    store's own subscription fires once per patch (not once per field inside it) and hands back the
+    mutation's type and payload, which is what a persistence layer or an audit log actually needs to know
+    — whether the change was a direct assignment, a `$patch` object, or a `$patch` function.
+    [pinia.vuejs.org/core-concepts/state.html]
+20. **`$patch` for a mutation that touches several fields together**, rather than assigning them one at a
+    time. Several separate assignments are several separate reactivity triggers and several separate
+    devtools entries for what is conceptually one state transition; `$patch` (an object or a function)
+    applies the whole group as one, which is also what makes a subscriber's `mutation.type` of `"patch
+    object"` meaningful in the first place.
+21. **A cross-cutting concern shared by every store — persistence, undo, analytics — is a Pinia plugin, not
+    logic pasted into each store's actions.** A plugin receives every store as it's created and can extend
+    it uniformly (add a property, wrap `$subscribe`, wrap `$onAction`); copying the same `localStorage`
+    sync or the same logging call into ten stores means ten places to fix the day the behavior changes,
+    and the tenth one is the one somebody forgets. [pinia.vuejs.org/core-concepts/plugins.html]
+22. **`$onAction` for observing an action's lifecycle (before it runs, after it resolves, if it throws)
+    without editing the action itself.** Wrapping every action's body in a manual try/catch to log or to
+    time it duplicates the same boilerplate per action and is easy to skip on the next one added; a single
+    `$onAction` subscriber (typically inside the plugin from the previous point) sees every action already,
+    including ones added later, with nothing added at each call site.

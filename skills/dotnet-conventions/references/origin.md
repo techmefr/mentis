@@ -514,3 +514,59 @@ References total (excluding this file): measured before/after via `wc -w` on the
 — §1 2,687 → 3,311, §2 2,696 → 3,320, §3 2,743 → 3,383, §5 2,741 → 3,538, §9 2,794 → 3,348 (+3,239 words
 across the five). Full nine-file total (excluding this file): 29,087 words.
 
+**Widening, 2026-09-10 — 9ème passe.** csharp still carried the worst measured ratio in the table, so this
+pass took the five thinnest reference files by raw word count (§2, §9, §3, §5, §4) — each checked against
+a gap not already covered, not against the org catalogue for this stack (already re-diffed 2026-09-07,
+never read this pass either) but against current Microsoft Learn, the .NET Blog and vendor documentation
+for that file's own topic:
+
+- **§2** (dependencies and logging) gained `IHostedLifecycleService`'s eight-hook ordering across several
+  hosted services versus `IHostedService`'s two, `TryAddEnumerable` as the multi-registration alternative
+  to point 12's last-registration-wins, a health check capturing a scoped dependency as point 3's captive
+  dependency arriving through the health-check framework's own default singleton lifetime, a small
+  purpose-built factory as the one legitimate place for `GetRequiredKeyedService` without becoming point
+  2's service locator, `[LoggerMessage]`'s generated parameter names being the structured field names (so
+  renaming one is a logging-schema change), and `ValidateOnStart` running its registered validators in
+  registration order, stopping at the first failure (§2.37–§2.42). 3,320 → 3,901 words.
+- **§9** (publish-time failures) gained `[LibraryImport]` as the source-generated, AOT-safe replacement for
+  `[DllImport]`'s runtime marshalling, `IsAotCompatible` (.NET 10) as a package's own claim that still needs
+  checking rather than trusting, `EnableAotAnalyzer`/`EnableTrimAnalyzer` as ordinary build-time diagnostics
+  distinct from the publish step, the framework's own newly-annotated APIs narrowing where the next warning
+  comes from without narrowing whose job it is to read it, `UnsafeAccessorAttribute`'s closed-generic
+  resolution changing between .NET versions, and the trimming-class versus codegen-class distinction read
+  as two separate checklists rather than one (§9.34–§9.39). 3,348 → 4,011 words.
+- **§3** (authorisation) gained the fallback policy versus the default policy as two different settings
+  closing two different gaps, a fallback policy reaching the app's own OpenAPI/Scalar endpoints because
+  they too carry no explicit policy, `AddAuthorizationBuilder` centralising every policy declaration without
+  supplying a fallback on its own, `IAuthorizationRequirementData` collapsing an attribute and its
+  requirement into one declaration, a dynamic policy provider's per-request combination cost for several
+  attributes stacked on one action, and nested `MapGroup` calls accumulating `RequireAuthorization` the same
+  way one group and one endpoint already do (§3.38–§3.43). 3,383 → 4,055 words.
+- **§5** (disposal, nullability, enumeration) gained a `ref struct`'s pattern-based `Dispose` resolving
+  before its explicit `IDisposable.Dispose` when both exist, `Span<T>`/`ReadOnlySpan<T>` having no nullable
+  form to express "no span" distinct from "an empty span," a `Dispose` that throws during unwinding
+  replacing the exception it was cleaning up after, a finalizer's unordered execution making a reference to
+  another managed object unsafe from inside one, `ValueTask`'s single-consumption rule applied specifically
+  to `DisposeAsync`, and a `using` disposing exactly the wrapper its expression evaluates to, which can
+  cascade into a shared resource the call site never meant to own (§5.41–§5.46). 3,538 → 4,218 words.
+- **§4** (types and visibility) gained a record's `EqualityContract` as the actual anchor for positional
+  equality (with no generic constraint enforcing a derived type overrides it correctly), sealing only a
+  record's `ToString()` override as independent from sealing the type, the absence of any "must be a
+  record" generic constraint, a static abstract interface member's inability to carry a default body versus
+  an ordinary default interface member's, `UnsafeAccessorAttribute`'s closed-generic resolution changing
+  across .NET releases (the type-declaration side of §9.38), and generic variance not inheriting across an
+  extended interface's own additional type parameter (§4.41–§4.46). 3,601 → 4,273 words.
+
+Sourced from current Microsoft Learn, the .NET Blog and vendor documentation only, per this file's rule C:
+the `IHostedLifecycleService` and `TryAddEnumerable` reference pages, the health-checks and keyed-services
+DI documentation, the `LoggerMessage` source-generator and options-validation (`ValidateOnStart`) reference
+pages, the Native AOT `LibraryImport`/`DllImport` interop guidance, the `IsAotCompatible` and
+`EnableAotAnalyzer`/`EnableTrimAnalyzer` documentation, ASP.NET Core's fallback/default authorization-policy
+and `AddAuthorizationBuilder`/`IAuthorizationRequirementData` reference pages, the C# 13 ref-struct
+`IDisposable` and `Span<T>` nullability discussion, `ValueTask` usage guidance, and the C# records/generic-
+variance and `UnsafeAccessorAttribute` generics documentation. No org catalogue file was read for this
+pass — the marketplace XEFI stays out of scope per rule C. References total (excluding this file):
+measured via `wc -w` on the five touched files: §2 3,320 → 3,901, §9 3,348 → 4,011, §3 3,383 → 4,055, §5
+3,538 → 4,218, §4 3,601 → 4,273 (+3,248 words across the five). Ratio measured by `bin/measure_depth.py`:
+x1.70 → x1.55. `bin/check_citations.py`: 0 unresolved.
+

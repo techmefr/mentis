@@ -210,3 +210,36 @@ still a connection subject to points 1–3 and 8, fan-out cost of a socket per i
 backoff with a visible reconnecting state) against current public writing on WebSockets vs Server-Sent
 Events for 2026 real-time architecture. Content word count for the thirteen numbered sections (excluding
 this file): 12,625 before this pass, 13,683 after.
+
+**Widening, 2026-09-10 — 2ème passe.** Next five thinnest sections by word count, none of them touched by
+the pass above (§1, §8, §10, §11, §12 were): §6, §7, §3, §5, §2. Same method, 5–7 further points per
+section, mechanism-plus-consequence, originals kept and unrenumbered. Sourcing, none of it the marketplace
+XEFI: §6 (lazy-loaded locale files by weight rather than one bundle, named `datetimeFormats`/
+`numberFormats` over ad-hoc `Intl` calls, a route localization strategy and its `hreflang`/canonical
+metadata, a locale-sensitive server fetch re-keyed on locale switch, RTL as a layout property via logical
+CSS rather than a mirrored stylesheet, the fallback chain as distinct from a missing key, remembering a
+user's chosen locale) against the official Nuxt i18n and Vue I18n docs (i18n.nuxtjs.org,
+i18n.nuxtjs.org/docs/guide/lazy-load-translations, vue-i18n.intlify.dev/guide/essentials/datetime,
+vue-i18n.intlify.dev/guide/advanced/lazy). §7 (focus not obscured by sticky chrome, minimum target size,
+a single-pointer alternative to any drag interaction, help placed consistently across pages, no redundant
+re-entry of the same information, authentication not gated solely on a memorised cognitive test) against
+WCAG 2.2's six criteria added since the block's last accessibility pass (w3.org/TR/WCAG22 — 2.4.11, 2.5.7,
+2.5.8, 3.2.6, 3.3.7, 3.3.8). §3 (`satisfies` against a plain annotation for a config/lookup object and how
+it composes with `as const`, a `const` type parameter preserving a generic call's literal, a template
+literal type for a name family instead of a hand-listed union, `never` as the compile-time-enforced
+`switch` default, `Pick`/`Omit`/`Partial` deriving a narrower shape instead of retyping it, overloads for
+call shapes that a parameter union would otherwise force every caller to re-narrow) against current
+TypeScript guidance on the `satisfies` operator, const type parameters and discriminated unions — no
+marketplace content, mechanisms rewritten in this block's own voice. §5 (fixed layer precedence and the
+deep-merge behind it, a remote layer as an audited dependency rather than a free template, a layer owning
+its own dependency tree instead of assuming the host's, one lockfile at a monorepo's workspace root, a
+naming discipline for auto-scanned components/composables to survive cross-layer collision, deleting an
+unused layer rather than just unwiring it) against the official Nuxt layers guide
+(nuxt.com/docs/4.x/guide/going-further/layers). §2 (setup stores once a store needs private state or a
+watcher an options store can't express, `storeToRefs` against destructuring a store directly, `$subscribe`
+over a blanket `watch` for reacting to *how* the state changed, `$patch` for a grouped mutation, a Pinia
+plugin for a concern shared by every store instead of pasted per-store logic, `$onAction` for observing an
+action's lifecycle without editing the action) against the official Pinia docs
+(pinia.vuejs.org/core-concepts, pinia.vuejs.org/core-concepts/state.html,
+pinia.vuejs.org/core-concepts/plugins.html). Content word count for the thirteen numbered sections
+(excluding this file): 13,683 before this pass, ~15,918 after.

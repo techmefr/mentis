@@ -61,3 +61,34 @@
     exports whatever its body currently produces, so a refactor inside it changes the contract of every
     consumer without touching a single consumer's file. Stating the return type turns that into a compile
     error where it belongs — in the store.
+17. **`satisfies` over a plain annotation for a config or lookup object.** `const x: T = {...}` widens each
+    property to its declared type, so a lookup table typed `Record<string, Options>` loses the literal keys
+    the moment it's declared and every read comes back as `Options | undefined`. `satisfies` checks the
+    object against `T` without widening it, so the compiler still knows exactly which keys exist. Combine
+    with `as const` (already point 14) when the values themselves must stay literal too — the two solve
+    different halves of the same problem and are often needed together.
+18. **A `const` type parameter preserves the literal a generic call was given.** A generic function typed
+    `<T>(x: T)` widens a literal argument to its base type (`"save"` becomes `string`) unless the call site
+    adds its own `as const`; declaring the parameter `<const T>` keeps the literal without asking every
+    caller to remember the workaround, which matters for anything building a discriminated union or a
+    tuple from its arguments (an event bus, a route builder).
+19. **A template literal type for a family of names that follow one pattern**, rather than a union
+    hand-listed and re-listed at every new addition. A set of event names, translation keys or route
+    segments that share a prefix (`"user:created"`, `"user:updated"`) is one pattern away from the
+    compiler generating and checking the whole family, instead of a union that silently stops growing the
+    day someone forgets to add the new literal to it.
+20. **`never` as the default branch of an exhaustive `switch`**, assigned to a variable typed `never`
+    rather than left as a bare `default: break`. Adding a new case to the union without updating the switch
+    then fails at compile time on that assignment, instead of silently falling through to whatever the
+    default branch happens to do — this is the compiler enforcement half of the discriminated-union
+    guidance in point 12.
+21. **Derive a narrower shape from an existing type with `Pick`/`Omit`/`Partial` rather than retyping it.**
+    A form's editable subset of a resource, or an update payload missing its generated fields, drifts from
+    the source type the moment it's hand-copied — the same failure as point 10, one level down: the
+    duplicate has no structural link back to the type it was meant to mirror, so a renamed field passes
+    the build on the copy and fails only where the real object is used.
+22. **Overload distinguishable call shapes instead of unioning the parameters.** A function callable either
+    as `(id: string)` or as `(filter: Filter)` typed with one parameter `string | Filter` forces every
+    caller to narrow inside the body regardless of which shape they actually passed; declared as two
+    overload signatures, the return type and the internal narrowing are resolved at the call site instead
+    of pushed onto every consumer.
