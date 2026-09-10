@@ -32,13 +32,21 @@ done" for hours. **Not** for a wrong behaviour with a findable cause: that is `d
 When you have four things doing almost the same job:
 1. **Inventory the variations** honestly, all of them.
 2. **Find the sentence that unifies them** — the "if this is true, we don't need X, Y and Z". That
-   sentence is the whole technique; without it you're just planning a refactor.
+   sentence is the whole technique; without it you're just planning a refactor. Treat it as a
+   hypothesis, not a result: it's easy to sound right before anything is written down, and step 4 is
+   what actually tests it.
 3. **Check every existing case fits** the unified model, including the awkward one. The awkward one is
-   usually why there were four.
+   usually why there were four. If making it fit means fixing something that was independently wrong
+   (a check in the wrong place, a guard applied per-item when it isn't per-item), separate that fix
+   from the unification — don't credit the abstraction with a fit it only reached because a bug got
+   fixed along the way, and don't let that fix's line count hide inside step 4's comparison.
 4. **Count the lines it deletes against the lines it adds.** A cascade that unifies four things into
    one abstraction and removes nothing is over-abstraction wearing the costume of simplification.
    That's the `over-engineering-review` test, and it applies here in full: if the complexity moved
-   rather than disappeared, don't do it.
+   rather than disappeared, don't do it. Do this by actually writing the unified version, not by
+   estimating: a unifying sentence that felt obviously right at step 2 can still net-add lines once the
+   shared machinery (a config object, optional-callback plumbing) is written out, and when it does the
+   verdict is to keep the duplication, not to unify.
 
 ### 2. Invert the assumptions
 When you feel boxed into the only possible approach:
@@ -97,3 +105,23 @@ material rather than too little. Also added: the three-occurrence threshold befo
 the requirement that §1 and §4 pass the `over-engineering-review` line count — the source presents
 unification as straightforwardly good, which collides with our standing preference for less logic to
 maintain.
+
+**Dogfooded, 2026-09-10.** Real stuck scenario, not a pre-known answer: in `/tmp/dogfood-nestjs`
+(scratch files, isolated from the rest of that project), wrote four near-identical notification
+dispatch functions (welcome, password-reset, invite, digest) that had grown one at a time, matching
+the table's first row ("special cases multiplying"). Applied §1 step by step. Step 2 produced a
+unifying sentence that sounded right — a `dispatch(recipient, config)` core with per-type guard and
+subject-builder callbacks. Step 3 surfaced a real, independent bug in the awkward case (the digest
+function's "nothing to digest" check was written per-recipient even though it depends on a
+call-level count, not on the recipient) — genuinely matching "the awkward one is usually why there
+were four." Step 4, done by actually writing the unified version rather than estimating, gave 59
+lines before and 70 after: the abstraction net-added lines. Per the method's own rule, the correct
+call was **not to unify** — keep the four functions, fix the digest bug on its own.
+
+The method worked: step 4's guardrail caught exactly the trap step 2's optimism walked into, which is
+the scenario the guardrail describes in the abstract but this is the first time it was checked against
+real written-out code instead of asserted. One real gap found and fixed above: step 3 didn't say what
+to do when the awkward case's "fit" comes from fixing an unrelated bug rather than from the
+abstraction itself — without separating the two, the bugfix's line savings get silently absorbed into
+step 4's count, making a non-viable unification look better than it is. No other step needed
+correction; §2/§3/§4 were not exercised in this pass.

@@ -47,6 +47,13 @@ through code that had coverage: one of these is usually why.
    it gets a comment saying so — otherwise the next person deletes it or, worse, copies it.
 5. Never "fix" a flaky test by increasing the sleep. That converts an intermittent failure into a slow
    suite that still fails, occasionally, for the same reason.
+6. **Don't flag a virtual-clock advance as a duration wait.** `tester.pump(Duration(...))` /
+   `FakeAsync` (Flutter), `vi.advanceTimersByTime` / `jest.advanceTimersByTime` (JS), and similar
+   fake-timer APIs move a simulated clock inside a deterministic test zone — they don't sleep on the
+   wall clock and can't flake under CI load. The anti-pattern is a *real* wall-clock wait
+   (`Future.delayed`, `sleep`, `setTimeout` with no fake timer installed) used to outguess a timer or
+   debounce in production code; that one still gets rewritten as a poll on observable state (e.g.
+   listening for the next `notifyListeners`/state-change event) with a timeout, per point 2 above.
 
 ### 4. Test-shaped code in production
 1. **A method that exists only for tests doesn't belong in the production class.** Reset helpers,
@@ -73,3 +80,31 @@ because they're one responsibility: tests that report safety they don't have. Th
 and the wait-on-a-condition rule are theirs. The incomplete-mock item is reinforced by our own
 experience of a mocked search engine missing a method, which presented as a database bug; the
 "never increase the sleep" and "a flaky test is a bug report" formulations are ours.
+
+**Dogfooded, 2026-09-10.** Applied as a review lens (no new code written) over six real test suites
+from earlier this session — xUnit (`/tmp/dogfood-csharp`), pytest (`/tmp/dogfood-python`), Flutter
+widget/unit tests (`/tmp/dogfood-flutter`), `go test` (`/tmp/dogfood-go`), vitest/RTL
+(`/tmp/dogfood-react`), and vitest for NestJS (`/tmp/dogfood-nestjs`). Five of the six suites were
+clean against every pattern in this block: no mock-existence assertions, mocks built from real shapes
+(the C# `FakeOptionsMonitor`, the Python `InMemorySource`), no test-only production methods, and the
+Python/Go suites in particular already do condition-based waiting with an explicit timeout
+(`asyncio.wait_for`/`TaskGroup` timeouts, `context.WithTimeout`) rather than sleeping.
+
+One real instance of §3 was found and fixed: `item_list_controller_test.dart` in the Flutter project
+waited on the 300ms debounce in `ItemListController.onQueryChanged` with hardcoded
+`Future<void>.delayed(Duration(milliseconds: 400))` margins — a real wall-clock duration guess, not a
+virtual-clock advance, so it was exactly the pattern this block warns about (margin above a timer,
+liable to flake under CI load). Rewrote it to poll the controller's own `notifyListeners` stream for
+the expected state via a small `waitUntil` helper with a timeout, per §3.2-3.3. The one legitimate
+`Future.delayed` left in that file (racing two `onQueryChanged` calls to prove the later one wins) was
+already commented as deliberate, satisfying §3.4.
+
+Gap found in the block itself, now fixed as §3.6: nothing distinguished a real wall-clock
+`sleep`/`Future.delayed` from a fake-timer/virtual-clock advance (`tester.pump(Duration(...))` in
+Flutter, `vi.advanceTimersByTime` in JS). The Flutter widget tests in `item_list_screen_test.dart` and
+`countdown_badge_test.dart` use `tester.pump(const Duration(...))` repeatedly and, read against the
+original wording ("never wait for a duration; wait for the condition"), look like the same
+anti-pattern — they are not: `tester.pump` runs inside Flutter's deterministic fake-async test zone
+and cannot flake on machine speed. Applying the rule literally there would have produced a false
+positive against idiomatic, correct code. §3.6 names the exemption explicitly so the lens doesn't
+misfire on this widely-used idiom.

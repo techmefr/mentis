@@ -202,9 +202,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | wayfinder | cross-cutting | a recognised market skill author (parent ticket with 5 sections + typed children) | 🟢 (direct rewrite, adapted to Jira) |
 | handoff | cross-cutting | a recognised market skill author (reference by path, never duplicate) | 🟢 (direct rewrite) |
 | debug | support 6 | native `systematic-debugging` + a market skills repository (`root-cause-tracing`: backwards call-chain walk + stack capture; `defense-in-depth`: layered validation); the no-test-tampering rule (§3.4/Guardrails) added 2026-08-11, named directly by the operator — a coding agent editing a failing test's expectation instead of the implementation, which reports a regression as a passing suite | 🟡 (extended: our version named the goal but gave no technique to reach it) |
-| when-stuck | cross-cutting | a market skills repository (`problem-solving/*`, merged; collision-zone-thinking dropped) | 🟡 (written, not dogfooded yet; first block here that isn't a convention) |
-| testing-anti-patterns | 5 / review lens | a market skills repository (`testing-anti-patterns` + `condition-based-waiting`, merged: tests that report safety they don't have) | 🟡 (written, not dogfooded yet) |
-| extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (generates the references from the real code) |
+| when-stuck | cross-cutting | a market skills repository (`problem-solving/*`, merged; collision-zone-thinking dropped) | 🟡 (dogfooded once 2026-09-10 on a real "special cases multiplying" scenario written blind in `/tmp/dogfood-nestjs`; §1's steps 2-4 corrected — an awkward case fitting the unified model only because a bug fix rode along with the rewrite made the abstraction look net-positive when a real line count said it wasn't; §2-§4 still unexercised) |
+| testing-anti-patterns | 5 / review lens | a market skills repository (`testing-anti-patterns` + `condition-based-waiting`, merged: tests that report safety they don't have) | 🟡 (dogfooded once 2026-09-10 as a review lens over six real test suites this session's dogfood produced — csharp/python/go/react/nestjs clean, one real §3 violation found and fixed in the flutter suite (a guessed-duration wait instead of polling), and one real blind spot in the skill itself closed with §3.6: a virtual-clock advance in a test framework's fake-async zone (`tester.pump(duration)`, `vi.advanceTimersByTime`) is the correct deterministic idiom, not the wall-clock-wait antipattern §3.1 reads as banning) |
+| extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (dogfooded once 2026-09-10 against the real `/tmp/dogfood-nestjs` codebase; extracted conventions matched `nestjs-node-conventions` §1-2/§1.6 with nothing evident missed; steps 1-2 corrected — direct reading is the main path on a small unindexed project, not a fallback to apologise for, and a single-occurrence pattern needs an explicit "unconfirmed" marker since most patterns in a small codebase appear only once) |
 | choose-model | cross-cutting | internal synthesis (no external source taken as-is) | ✅ (2026-09-10: applied retroactively — 6 non-default agents (architect, elrond, galadriel, gandalf, seraph, smith) already carried a justification note; `laravel-architect` (opus/xhigh) was the one gap, fixed) |
 | dispatch-parallel | cross-cutting | a market skill/agent framework (dispatching-parallel-agents + subagent-driven-development, merged) | 🟡 (written, partial experience via elrond→aragorn/gimli/legolas) |
 | writing-skills | cross-cutting (meta) | a market skill/agent framework; step 7 (order by frequency, re-sort past ~10 points) added 2026-08-10 from the context-engineering lost-in-middle framing, distinct from the packaged `context-engineering` skill already ruled out below | 🟡 (written, applies the single template + rule B checklist) |
@@ -1963,6 +1963,41 @@ None of these three touch the tracked depth table's worst-ratio programme — `g
 tracked rows at all, and `react` was already ahead of parity (x0.85 → x0.83, still comfortably under 1).
 The value here is entirely the dogfood: three more blocks moved from "written against public docs,
 never run" to "run against a real build once, with the gaps a build finds and a reading doesn't."
+
+### Dogfood, 2026-09-10: the cross-cutting method skills — `when-stuck`, `testing-anti-patterns`, `extract-conventions`
+
+Same real-practice method, applied to the three process/method skills still marked "written, never run"
+— these aren't language stacks, so the dogfood is using the method on something real rather than
+building an app. All three ran against the six `/tmp/dogfood-*` projects this session's stack dogfood
+round already produced, in parallel background passes.
+
+`testing-anti-patterns`: read as a review lens over all six real test suites (xUnit, pytest, Flutter
+widget tests, `go test`, vitest/RTL, NestJS vitest). Five were clean. Found one real §3 violation in
+the Flutter suite — a guessed 400ms wait for a 300ms debounce instead of polling the controller's own
+notification — fixed in the demo test. Found one real blind spot in the skill itself: nothing
+distinguished a genuine wall-clock wait from a test framework's virtual-clock advance
+(`tester.pump(duration)`, `vi.advanceTimersByTime`), so §3.1's "never wait for a duration" read as
+banning the correct, deterministic fake-async idiom — closed with a new point (§3.6).
+
+`extract-conventions`: run against `/tmp/dogfood-nestjs`'s real source, comparing the extracted result
+to `nestjs-node-conventions`'s own already-dogfooded content. Matched §1-2 and §1.6 exactly, nothing
+evident missed. Two method steps corrected: step 1 treated direct file reading as a fallback to
+apologise for when no code index exists, when on a small project it's simply the main path; step 2 had
+no way to flag a pattern seen only once as unconfirmed, which matters on a small codebase where most
+patterns *are* single-occurrence.
+
+`when-stuck`: the one skill here that isn't reviewable against existing artefacts, so a real blocked
+scenario was manufactured blind — four near-duplicate notification-dispatch functions written without
+knowing in advance whether unifying them would net out ahead. Following §1 (unify, or delete) step by
+step, step 3's "does the awkward case fit" verdict looked positive only because an independent bug fix
+rode along with the rewrite — step 4's real line count (59 → 70) caught what step 3's optimism missed,
+confirming the Guardrails' existing warning against exactly this dynamic for the first time against
+actual written code rather than asserted in the abstract. Steps 2-4 corrected to separate "the case fits
+the model" from "the case fits because a bug got fixed along the way" before the line count is trusted.
+§2-§4 of the skill remain unexercised — no scenario in this pass needed them.
+
+None of these three are stack-level blocks and none appear in the tracked depth table — the value is
+entirely method-validated-once, same status class as the six language stacks above.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
