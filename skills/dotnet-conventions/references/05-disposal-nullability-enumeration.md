@@ -134,3 +134,47 @@
     `!`-suppression or a local `#pragma warning disable CS86xx` on that one line with a comment naming which
     package's annotation is wrong, because disabling nullable checking for the surrounding code silences
     every real warning in that block along with the one false one.
+28. **Several `IDisposable` resources acquired in one method are disposed in the reverse of the order they
+    were acquired, and the compiler enforces that automatically only when they're nested `using` statements
+    or declarations, never when they're fields disposed by hand in a written-out order.** A resource that
+    depends on another one still being open — a transaction wrapping a connection, a stream wrapping a
+    file handle — has to close before the resource it depends on, so a hand-rolled `Dispose` that tears down
+    fields in declaration order rather than dependency order can close the connection while the transaction
+    built on it is still trying to flush. Nested `using` declarations get this for free; a type owning
+    several disposables by hand has to state the order deliberately, because nothing checks it for you.
+29. **A `WeakReference<T>` and `TryGetTarget` exist for a cache entry that should not itself be the reason
+    an object stays alive, and using them for anything else trades a `Dispose` you forgot to call for a
+    value that vanishes on its own schedule.** The pattern is right for a genuinely optional cache — a
+    second lookup recomputes what a collected entry lost — and wrong for a resource that must be released
+    deterministically, because `TryGetTarget` returning `false` is "the GC already ran," not "explicitly
+    released," and code that treats a weakly-held handle as if closing it were still meaningful has
+    reinvented point 22's `ConditionalWeakTable` case without its actual guarantee.
+30. **A boxed value-type enumerator loses the mutation a `foreach` over a `struct`-based collection depends
+    on, and the boxing happens exactly where the code looks generic.** `List<T>.Enumerator` and similar are
+    structs so that a `foreach` compiled against the concrete type avoids an allocation per iteration; the
+    same loop written against the `IEnumerable<T>` interface instead — a generic helper, a LINQ operator —
+    boxes that struct to satisfy the interface, which is invisible in the source and shows up only as an
+    allocation profile difference between "the same loop" written two ways. It matters for a hot path
+    (point 8's territory) and is not worth chasing anywhere else.
+31. **`GC.SuppressFinalize` in a hand-written `Dispose(bool)` (point 2) has to be called from the public
+    `Dispose()` overload specifically, not from the protected one both paths share.** Calling it from inside
+    `Dispose(bool disposing)` regardless of which branch invoked it suppresses finalization even when the
+    object was actually being finalized — which is backwards, since the point of the call is to tell the GC
+    "the object already cleaned up through `Dispose`, skip the finalizer," and a finalizer thread calling
+    it on itself does not need that promise and shouldn't be making it look redundant.
+32. **`IMemoryOwner<T>`'s `Memory<T>` stays valid only until `Dispose` runs, and a slice or a copy of the
+    reference taken before disposal does not extend that.** Renting a buffer through `MemoryPool<T>.Rent`
+    and disposing the owner returns the underlying array to the pool for the next renter to receive — the
+    same `ArrayPool<T>` state-leak point 26 warns about — so a `Memory<T>` handed to another component and
+    read after the owner's `Dispose` call reads whatever the next renter has since written into the same
+    backing array. Whoever calls `Dispose` on the owner has to be the last reader of the memory it produced,
+    and that ordering has to be explicit at the API boundary, not assumed from how long the reference happens
+    to live in practice.
+33. **A record's positional `with` expression and a manually written property setter disagree about whether a
+    change is visible to `Equals`, and `init`-only properties are what keeps that from happening silently.**
+    A record property declared with a plain `set` instead of `init` can be mutated after construction outside
+    a `with` expression entirely, which means two records considered equal at one point in the program can
+    drift apart from each other with no copy ever having been made — the value semantics point 7 already
+    ascribes to `with` only holds while every property stays `init`-only; a settable one turns the record
+    into a class with generated equality members riding on top of state that no longer matches what those
+    members compare.

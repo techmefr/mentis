@@ -128,3 +128,55 @@
     from the other direction: when the left-hand side already names the full closed generic type, restating
     it on the right adds a second place that has to change together if the type ever does, for a form the
     compiler already resolves unambiguously from the declaration.
+24. **A custom interpolated string handler for an interpolation that only sometimes needs to run.** A
+    logging call already gets this for free from the framework's own handler (§2.9); the same shape applies
+    to any API that accepts a formatted string behind a condition it controls — a debug-only assertion
+    message, a diagnostic appended only past a verbosity threshold — where the handler's `AppendFormatted`
+    calls are only invoked at all once the condition is checked, so an expensive `ToString()` or a boxed
+    value never gets produced on the path where the message is discarded unread. Reach for a hand-written
+    handler only where the call site is hot enough for that to matter; an ordinary string interpolation is
+    the right default everywhere else.
+25. **A `checked` block or a `checked` operator for arithmetic where an overflow means the calculation is
+    wrong, not where wraparound is the intended behaviour.** The project-wide default is unchecked, so
+    `int.MaxValue + 1` silently wraps to a negative number with no exception and no compiler warning at
+    either the addition or the point the wrong value is later used — wrapping a specific expression (an
+    array index computed from user-supplied lengths, a checksum accumulator) in `checked` turns that class
+    of bug into an `OverflowException` at the moment it happens instead of a wrong answer discovered several
+    calls downstream. A hash or a bitmask that relies on wraparound as its actual algorithm stays unchecked
+    on purpose, and that choice is worth a comment precisely because it looks like the bug the checked form
+    exists to catch.
+26. **`StringSyntaxAttribute` on a parameter that is going to hold a regex, a JSON fragment, or a route
+    template gives the editor syntax highlighting and inline diagnostics on a plain `string`, without
+    changing what the parameter accepts.** It is a documentation mechanism, not a validation one — annotating
+    a method's `pattern` parameter with `[StringSyntax(StringSyntaxAttribute.Regex)]` does nothing at run
+    time and nothing the compiler enforces, but it is what turns an editor's generic string literal into one
+    that is coloured, linted and completed as the embedded language it actually is, which is the same
+    reviewer-legibility goal raw string literals (point 6) serve for the escaping problem rather than the
+    syntax-awareness one.
+27. **Extended property patterns nest a member access inside the pattern instead of a chain of `&&`
+    conditions each re-reading the same path.** `{ Address.City: "Paris" }` states the nested check as one
+    pattern the same way point 1 already prefers for a single level, and it composes with a `null` guard for
+    free: the nested member is only read if the outer one is non-null, where a hand-written
+    `x.Address != null && x.Address.City == "Paris"` needs the guard spelled out explicitly and drifts the
+    moment someone edits one side without the other.
+28. **A tuple deconstructed directly in a `foreach` header removes the `.Item1`/`.Item2` or `.Key`/`.Value`
+    access that would otherwise repeat inside the loop body.** `foreach (var (id, name) in pairs)` over a
+    sequence of tuples or `KeyValuePair<TKey, TValue>` binds both names once at the loop's own declaration,
+    which is the same test-and-bind principle point 1 states for a single value applied to the two halves of
+    a pair — the alternative, indexing into `.Key` and `.Value` on every line that needs them, is not wrong,
+    it is simply the chain of repeated member access point 1 already argues against, one collection type
+    later.
+29. **`in` parameters pass a large `readonly struct` by reference without letting the callee mutate it, and
+    passing anything else by `in` buys nothing but the annotation.** The parameter modifier only avoids a
+    copy for a struct large enough that copying it costs more than passing a reference — for a small struct
+    or a reference type, `in` adds a defensive-copy risk of its own (the compiler copies on any call that
+    might mutate through the reference, silently, to preserve the readonly guarantee) with no size benefit
+    to offset it. Reserve it for a struct genuinely too large to pass by value on a hot path, the same
+    circumstance §4's `readonly struct` point exists for, not as a blanket default on every struct parameter.
+30. **A discard (`_`) in a pattern or a deconstruction states "this position exists and is deliberately
+    unused," which is a different claim from naming it and never reading the name.** `if (dict.TryGetValue(k,
+    out _))` or `var (_, count) = Summarize(items)` tells a reader the second value was considered and
+    rejected on purpose, where a named-but-unused variable leaves the same question open that an unused
+    private field does — was this forgotten, or intentional — with a compiler warning as the only way to
+    find out, and only if the warning is enabled. The discard makes the answer part of the code itself
+    instead of something a linter has to notice on your behalf.

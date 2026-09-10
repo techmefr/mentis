@@ -45,3 +45,28 @@
 12. **A refusal that keeps being overridden is a signal about the ordering, not about your resolve.** If
     the same class of request keeps coming back and keeps being forced in, the ranking is wrong or the
     intake is broken (§2.11) — and the fix is upstream, not a firmer no.
+13. **Answer the problem, not the feature request that arrived wearing it.** A stakeholder who asks for a
+    specific field, button or export is proposing one solution to a need they haven't stated; refusing the
+    feature without asking about the need loses the one piece of information that might make the actual
+    answer a yes, on different terms than what was asked.
+14. **A ranking nobody outside the team can see invites a no to be read as arbitrary.** A refusal measured
+    against a visible framework — cost against value, effort against reach, whichever the team already
+    uses — is a decision the requester can inspect and argue with on its logic; a refusal with no visible
+    yardstick is heard as a preference, and preferences get re-litigated forever.
+15. **A parking lot is a real answer only if someone looks at it again.** Naming a deferred request and
+    filing it feels like "not now" from point 1, but if the list is never revisited it is a slower version
+    of point 2's silent burial — the requester eventually notices the list is where ideas go to stop being
+    discussed, and stops trusting it.
+16. **Saying no in a room with the requester's manager present is not the same conversation as saying no
+    to the requester alone.** The audience changes what a refusal is heard as — a professional boundary
+    in private, a public loss of standing in front of a manager — so the private version should happen
+    first whenever the choice is available, and the public version should never be the first time either
+    side hears the reasoning.
+17. **A commitment made to placate the room costs more than the meeting it saved.** Point 3 already
+    covers accepting scope live; the same applies to a soft "we'll probably manage to fit that in" said to
+    end an uncomfortable exchange — it is heard as a yes by the person who leaves the room, and unwinding
+    it later costs the credibility of every future estimate.
+18. **A refusal owed to capacity is not the same refusal as one owed to value, and mixing them teaches the
+    wrong lesson.** "We don't have the people this quarter" invites more headcount arguments; "this doesn't
+    move what we're optimising for" invites a different kind of pushback. Naming which one it actually is
+    keeps the next negotiation aimed at the real constraint instead of the wrong lever.

@@ -59,3 +59,12 @@ Router plus sections: 140 → 3,689.
 **Status.** The two sources behind the original five steps are unchanged and still stand. The depth is
 ours: written from this repo's own pipeline experience — what goes wrong at step 2 and shows up at `tdd`
 or at the gate — rather than from a source that can be re-checked.
+
+**Widening, 2026-09-10 — pass élargie.** Two sections widened with points added after the existing
+numbering, none renumbered: §1 (the interview) and §4 (out of scope). Sourcing: public requirements-
+elicitation practice (structured versus open interview technique, cognitive bias in elicitation —
+anchoring, confirmation bias — and the "five whys" method for reaching the underlying constraint) for §1;
+public scope-management practice (the won't-have versus deferred distinction, scope-creep prevention
+through explicit boundary documentation) for §4; both synthesised into this block's own voice, with the
+cross-references back into this file's existing points and into `business/product-ownership` written for
+this pass rather than carried over from any source.

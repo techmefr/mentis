@@ -44,3 +44,27 @@
 12. **A spec with no exclusions is not a small spec, it is an unfinished one.** Every real feature has a
     neighbour somebody would reasonably expect it to cover. If none can be named, the interview stopped
     before the scope was sharp (§1.9 is about redundant questions, not about skipping this one).
+13. **Sort what's out into won't-build and not-yet, and keep the two visibly apart.** A won't-have is a
+    boundary this story owns; a not-yet is a future decision parked somewhere else. Filing both under the
+    same "out of scope" heading lets a not-yet quietly harden into a won't-have that nobody actually chose,
+    just because it sat in the same list long enough.
+14. **The out-of-scope list is where a change request gets triaged, not where it dies.** When something
+    excluded here later turns out to matter, it re-enters through the same ranking every other request
+    goes through (`business/product-ownership` §2) rather than being folded into the current story because
+    it is already written down nearby — an exclusion is not a queue-jump for its own reversal.
+15. **State the boundary in the unit the reader decides in, not the unit the writer typed in.** "Not
+    scaling past 10,000 rows this quarter" tells the next planner something they can act on; "performance
+    is out of scope" tells them nothing they can size against, and it gets re-litigated the day the row
+    count actually becomes a problem.
+16. **An exclusion protects the design only if it is read before the design is chosen, not after.** Written
+    into the spec but noticed for the first time during code review, it either forces a rework of a design
+    that already assumed the excluded case, or gets quietly ignored because reworking is more expensive
+    than the exclusion was worth — either way the document did not do the job it was written for.
+17. **The out-of-scope section is a two-way boundary: it also protects the excluded thing from being
+    half-built by accident.** A validation rule added "just in case" for a case the story explicitly
+    excludes creates a code path nobody asked for, nobody tested, and nobody will remember exists the day
+    the excluded feature is actually built properly.
+18. **Reviewing the exclusions takes less time than reviewing the criteria, which is exactly why it gets
+    skipped.** A five-line list that costs two minutes to check against the criteria is the cheapest review
+    step available and the one most often waved through unread — the two minutes are what point 10's
+    single-pass check is actually for.

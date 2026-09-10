@@ -100,3 +100,45 @@
     that swaps the binding (`$this->app->bind(...)`, a fake) has to happen before the facade is first
     resolved in that request; resolving it once caches the instance and a later rebind is silently ignored
     for the rest of that request/test.
+22. **`register()` binds, `boot()` uses other bindings — and mixing the two breaks on load order, not on
+    logic.** Resolving a second provider's service from inside `register()` assumes that provider has already
+    registered, which is exactly the thing Laravel does not guarantee: providers register in whatever order
+    they're listed, then every provider's `boot()` runs only after every provider's `register()` has. Reaching
+    across providers belongs in `boot()`, the one place the whole container is known to be wired.
+23. **A published config file is a fork, not a copy the package keeps updating for you.** `vendor:publish`
+    writes the package's config into the app's own `config/`, and from that point a new option the package
+    ships in a later release never appears there on its own — the app's copy simply falls behind until
+    someone diffs the two by hand. Publishing everything by default multiplies this across every dependency;
+    publish the file only once a value in it actually needs overriding, and note the fork where point 15's
+    architecture record would look for it.
+24. **A test that swaps a container binding has to unbind it, or the next test inherits today's fake.** The
+    container is a singleton across a test run unless the framework's own test traits reset it between
+    cases; a `$this->app->bind(...)` left in place after one test's assertions is silent for every later test
+    that happens not to check the thing that changed, and the failure that eventually surfaces points at the
+    wrong test. `swap()` and the framework's own container-reset traits exist precisely so a rebind is scoped
+    to the test that made it.
+25. **A closure passed to `$this->app->singleton()` runs once, and a value captured in it stays captured for
+    the life of the container.** Binding a request-scoped value — the current tenant, the caller's locale —
+    as a singleton at boot time freezes whatever that value was at the first resolution, then serves it to
+    every later request in the same worker; the fix is either resolving it fresh per request (a plain `bind`)
+    or reading it from something that is itself request-scoped, never baking a per-request fact into a
+    process-lifetime singleton.
+26. **A queued job serialises the model, not the query that produced it — and a job dispatched from a
+    request that hasn't committed yet races its own data.** `SerializesModels` stores an id and re-fetches the
+    model when the job runs, which is exactly why point 11's "dispatch after commit" matters doubly for a
+    job: dispatched before commit, the worker can pick it up and re-fetch before the transaction lands,
+    finding either a stale row or none at all — a race that reads as intermittent because it depends on
+    worker speed, not on the code.
+27. **A config value read through `env()` outside `config/*.php` is invisible to `config:cache`.** Caching
+    the config compiles every `config/*.php` file into one file and stops reading `.env` on every subsequent
+    request — a direct `env()` call anywhere else (a controller, a service, a provider's `boot()`) freezes at
+    whatever it read the moment the cache was built, which is why a value changed in `.env` after deploy
+    looks ignored until someone remembers to `config:clear`. `env()` belongs in `config/*.php` only; the rest
+    of the app reads `config()`.
+28. **A trait shared across models to add a behaviour is not the same decision as an interface those models
+    implement, and conflating them hides which one a caller can rely on.** A trait supplies an implementation
+    (real code, silently overridable by whichever class declares it last if two traits collide); an interface
+    supplies a contract a caller can type-hint against without knowing which trait, if any, backs it. Reaching
+    for a trait because "several models need this" without also asking whether callers need to depend on the
+    *capability* rather than the *models* is how a `HasSlug`-style trait ends up duck-typed against
+    everywhere it's used instead of declared once as `Sluggable` and checked with `instanceof`.

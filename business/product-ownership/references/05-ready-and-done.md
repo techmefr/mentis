@@ -42,3 +42,35 @@
 12. **A story cancelled after being started is a normal outcome and gets the same write-up as a refusal**
     (§3.11): what was learned, and what would make it worth restarting. That record is the only value
     the abandoned work still has, and it is lost by default.
+13. **A ready checklist that only ever grows is solving the wrong problem.** Every incident adds one more
+    line, and a year in, applying the bar takes longer than the story it gates — at which point people
+    stop applying it and check it retrospectively instead, which is exactly the failure point 5 describes.
+    An experienced team's list shrinks as members learn to recognise the missing piece without a line item
+    for it; a list that only accumulates is a sign nobody is allowed to remove a check that stopped
+    earning its place.
+14. **One shared bar across teams needs a floor everyone can meet, not a ceiling everyone negotiates.**
+    A board that mixes several teams either drags the strictest team's bar down to what the loosest team
+    can hit, or asks the loosest team to defend criteria written for someone else's stack. The fix is a
+    short common floor plus whatever each team adds on top, named as theirs — not one list pretending to
+    fit all of them.
+15. **Vague completion criteria is a leading cause of sprint failure, not a cosmetic complaint.** When
+    "done" and "ready" are read differently by the person who wrote the story and the person building it,
+    the gap surfaces mid-sprint as a scope argument neither side saw coming, and the sprint slips for a
+    reason that was decidable a week earlier at zero cost.
+16. **A spike's ready bar is not the story's ready bar.** A spike is ready when the question and the
+    timebox are both written down (point 6); demanding testable criteria or a target implementation before
+    a spike starts defeats the reason it exists, which is that nobody yet knows enough to write those
+    criteria. Applying the wrong bar to a spike is how investigation work quietly turns into unplanned
+    delivery work.
+17. **Done without a rollback path is done for the version that never needs to be undone.** A migration
+    with no down-path, a flag with no kill switch, a release nobody can revert without a full redeploy:
+    each converts the next incident into a longer outage than the feature warranted. The rollback question
+    belongs in the same bar as the feature, decided before merge, not improvised during the incident.
+18. **A story sitting "in progress" with nobody touching it is not blocked, it is abandoned quietly.**
+    Blocked has a named blocker and a next check-in; a story that simply stalled has neither, and it stays
+    on the board making the team's throughput look worse than it is while teaching nobody anything. Either
+    name the blocker or move the story back — a silent stall serves no one.
+19. **The definition itself needs an owner, or every dispute becomes a renegotiation.** When ready and
+    done are nobody's document, each contested story reopens the definition from scratch, and the person
+    with the most time in the room wins. One named owner, and a way to propose a change outside the heat
+    of a specific story, is what makes point 11's "written once" durable rather than aspirational.

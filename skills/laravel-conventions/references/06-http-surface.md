@@ -103,3 +103,48 @@ section wholesale to that architecture.
     an endpoint built for one and later exposed through the other either loses the session it was relying on, or
     gains CSRF verification a token-authenticated client was never going to send. The group a route sits in is
     part of its contract, not an artifact of which file it was defined in.
+24. **`apiResource` and `apiResources` exclude `create`/`edit` by default, and adding them back on an API
+    controller is the tell that a form-rendering route leaked into a JSON surface.** Those two actions exist
+    to serve HTML for a browser form; a controller registered through `apiResource` never needs them, so a
+    project that finds itself declaring `create`/`edit` on an `apiResource` controller has usually mixed
+    point 1's Inertia-page caveat into what was meant to be a pure API resource. Registering several resource
+    controllers in one call (`Route::apiResources([...])`) is the same convention applied to a whole set at
+    once, rather than repeating the call per model. [Laravel controllers docs, laravel.com/docs/12.x/controllers,
+    read 2026-09-10.]
+25. **`only()`/`except()` on a resource route narrow which of the seven conventional actions get registered,
+    and that list is the authorisation surface too.** A resource that only ever supports read (`only(['index',
+    'show'])`) should not register `store`/`update`/`destroy` routes at all — leaving them in and relying on
+    the policy alone to reject every write is an extra layer of defence around routes that never needed to
+    exist, and a route that exists but always 403s still shows up in a route list as something the API
+    supports. [Laravel controllers docs, laravel.com/docs/12.x/controllers, read 2026-09-10.]
+26. **A single-action controller (`__invoke()`) is for one route that is genuinely not a CRUD action on a
+    resource, and giving it a resource-shaped URI (point 1's closing clause) still applies to it.** It is the
+    class-per-operation answer to the same shape point 22 of `skills/laravel-conventions` §4 already resolves
+    for a custom validation rule: reached for once, not promoted by default, and it should not quietly become
+    the place five unrelated one-off routes accumulate — at that point they are five actions on a resource,
+    which is point 2's case, not five reasons to invoke a controller.
+27. **A route model binding's resolution can be scoped to a specific column without a separate lookup
+    endpoint.** `Route::get('/posts/{post:slug}', ...)` resolves the bound model by its `slug` column instead
+    of its key, which is the framework's own mechanism (point 4 of `skills/laravel-conventions` §10 — prefer
+    it over a custom one) for a public-facing URL that should never expose a numeric id; it still resolves
+    only, so point 4's authorisation caveat and its parent-scoping requirement for a nested route apply
+    exactly as before.
+28. **A route's `withoutMiddleware()` is a narrower tool than removing the route from a group, and using it
+    to strip authentication is a decision that deserves the same visibility as adding a public carve-out
+    (§2 point 9).** It removes a named middleware from one route inside a group that otherwise applies it
+    everywhere — legitimate for a genuinely different requirement on one endpoint, and a place a reviewer
+    should always ask "why does this one route opt out," because the same call silently defeats a CSRF check,
+    a rate limiter, or the ability check point 19 relies on being present by default.
+29. **A resource's `toArray()` returning a plain array is the common case; returning `array_merge(parent::toArray($request),
+    [...])` from a child resource is how a payload shape is composed instead of duplicated across near-identical
+    resources.** Two resources that differ by one or two fields are a sign one should extend the other rather
+    than repeat the whole field list — the same "factor by shared meaning, not shared shape" test
+    `skills/laravel-conventions` §3 point 12 applies to a table applies here to a resource class, in the
+    other direction: two resources sharing most of their fields today are worth merging only once they also
+    share the reason those fields exist.
+30. **A route's explicit HTTP verb and its resource-registered sibling can silently diverge once both exist
+    for the same URI.** Declaring a hand-written `Route::post('/orders/{order}/cancel', ...)` alongside a
+    resource route for the same model is fine per point 2's "reach for a hand-written route when the
+    operation is genuinely not CRUD" — the trap is letting that hand-written route drift out of the naming,
+    middleware, or throttling convention (point 19) the resource routes around it all share, because nothing
+    forces it to look like its siblings the way `Route::resource()` forces its five.

@@ -395,3 +395,63 @@ service container (`singleton`/`scoped` lifetimes), configuration and the schedu
 Larastan's own documented level/extension model for the PHPStan-facing points, all read 2026-09-10; the
 rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. The XEFI
 marketplace's file contents were never opened for this pass.
+
+**Widening, 2026-09-10 — quatrième pass.** The five thinnest files remaining after the first three same-day
+passes — `02-authorisation.md` (2,040 words after its own earlier pass this same day), `10-architecture.md`
+(2,111), `03-data-model-schema.md` (2,166), `04-queries.md` (2,296) and `06-http-surface.md` (2,251) — each
+gain another 5–7 points, same extend-don't-renumber method: nothing already numbered moved, everything new
+appended after the last existing point, because the standalone `skills/laravel-*` files' `§N.M` citations
+(`bin/check_citations.py`) depend on the numbering holding still.
+
+§2 (authorisation) adds points 15–21: `Gate::after()` only widening a `null` result, never overruling one a
+policy already settled; `authorizeResource()`'s seven-action mapping and the silent gap it leaves for a
+custom controller action; a policy's own `before()` as point 11's bypass shape scoped to one model instead
+of every ability; a ternary permission check still needing a named ability instead of an inline fallback; a
+middleware `can:` check and a controller `$this->authorize()` drifting once both exist for the same route; a
+frontend's conditional rendering never substituting for the server-side check; and a permission's removal or
+rename as a data migration on the pivot rows, not just a code change.
+
+§10 (architecture) adds points 22–28: `register()`/`boot()` load order as the reason cross-provider
+resolution belongs in `boot()`; a published config file forking from the package's own and falling behind
+silently; a swapped container binding needing to be unbound so it doesn't leak into the next test; a
+request-scoped value frozen into a `singleton()` closure at boot time; a queued job dispatched before commit
+racing its own not-yet-committed data; `env()` outside `config/*.php` going invisible under `config:cache`;
+and a shared trait versus an interface as different guarantees for callers, not interchangeable ways to say
+"several models need this."
+
+§3 (data model and schema) adds points 22–28: `foreignId()->constrained()` as the two-part shorthand where
+the constraint is not implied by the column alone; an unnamed foreign key silently detaching from a table
+rename; `upsert()` needing a real unique key behind the columns it checks, or every call re-inserts; a
+composite primary key requiring `$primaryKey`/`$incrementing` set explicitly on the model; a foreign key not
+being, by itself, a good index for every filter on that table; the add-nullable/backfill/tighten-to-`NOT
+NULL` migration ordering a populated environment enforces that an empty CI database never catches; and
+storing timestamps in UTC rather than local time for cross-timezone and DST correctness.
+
+§4 (queries) adds points 20–26: `upsert()`'s collision columns needing a real unique constraint behind
+them, the query-layer half of §3's new point 24; `chunkById` as point 8's ordering trap solved by
+construction rather than a faster `chunk()`; `joinSub`/`leftJoinSub` for a value pulled alongside a list
+versus `whereHas`'s "which parents" question; `withExists()` avoiding a discarded `COUNT` for a plain
+existence check; a sortable/filterable column needing an allow-list beyond the binding that already
+protects the value; a soft-deleted row still occupying a unique index unless the index itself excludes it;
+and a query-builder bulk update or delete skipping model events the same way point 9 already covers casts
+and scopes.
+
+§6 (HTTP surface) adds points 24–30: `apiResource`/`apiResources` excluding `create`/`edit` by default and
+what it means when a controller adds them back; `only()`/`except()` narrowing which conventional actions
+exist as an authorisation surface, not just a route list; a single-action controller's `__invoke()` as the
+one-off answer that stops being one-off past a second unrelated route; route model binding scoped to a
+column (`{post:slug}`) as the framework's own mechanism for a non-numeric public URL; `withoutMiddleware()`
+stripping protection from one route inside a group, deserving the same visibility as a stated public
+carve-out; a child resource composing its payload via `parent::toArray()` instead of duplicating near-
+identical field lists; and a hand-written route beside its resource siblings drifting from their shared
+naming/middleware/throttling convention because nothing forces it to match.
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/
+`php-patterns` at a different angle (idempotent upserts, the account-for-mass-operations argument, prefer-
+the-framework's-own-mechanism, the tested-refusal argument) or is synthesised fresh from Laravel's current
+public documentation for the mechanism named — authorization (`Gate::after`, `authorizeResource`, policy
+`before()`), the service container and providers, migrations (`foreignId`/`constrained`, named foreign
+keys), the query builder (`upsert`, `chunkById`, `joinSub`, `withExists`), and controllers/routing
+(`apiResource`, resource action filtering, route model binding by column) — `laravel.com/docs/12.x/
+{authorization,providers,migrations,queries,controllers}`, read 2026-09-10. The XEFI marketplace's file
+contents were never opened for this pass.

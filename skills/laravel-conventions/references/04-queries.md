@@ -99,3 +99,51 @@
     the caller. Retrying is only safe because point 11 already requires the callback to be the transaction's own
     unit of work with no side effect dispatched before commit — a callback that emails on every attempt would
     email once per retry.
+20. **`upsert()` replaces a manual "find, then create-or-update" round trip, but the columns it checks for a
+    collision have to be a real unique key, not just the columns that happen to be equal.** Its second
+    argument names which columns identify an existing row and its third names which columns to overwrite when
+    one matches — without a unique or primary constraint backing those columns at the database level, nothing
+    stops two concurrent calls both deciding "no match" and both inserting, the same race point 11's
+    transaction guidance exists to close. [Laravel query builder docs, laravel.com/docs/12.x/queries, read
+    2026-09-10.]
+21. **`chunkById` is point 8's ordering trap solved by construction, not merely a faster `chunk`.** Plain
+    `chunk()` re-runs the query with an offset for every page, so a row updated (or deleted) between pages
+    shifts every later page by one and skips a row; `chunkById` instead re-runs the query filtered on "id
+    greater than the last one seen," which stays correct as long as the id itself is never reassigned to a
+    different row mid-run. Reach for it by default on any chunked update, and reserve plain `chunk()` for a
+    read-only pass. [Laravel query builder docs, laravel.com/docs/12.x/queries, read 2026-09-10.]
+22. **`joinSub`/`leftJoinSub` and a `whereHas` subquery (point 18) solve different shapes of the same
+    problem, and reaching for a join when the real need is an aggregate produces duplicate rows instead of a
+    slow query.** A subquery join is for pulling a *value* alongside each parent row — a per-tenant running
+    total, a latest related timestamp — computed once and joined in; it is point 17's `addSelect`/`selectSub`
+    with an explicit alias instead of a scalar subquery, useful once the subquery itself needs its own
+    filtering or grouping that a scalar subquery can't express. It answers "what value", not "which parents",
+    which stays `whereHas`'s question. [Laravel query builder docs, laravel.com/docs/12.x/queries, read
+    2026-09-10.]
+23. **`withExists()` answers "does at least one match" without the `COUNT` a naïve `withCount() > 0` computes
+    and discards.** A relation existence check compiled through `COUNT` counts every matching row before the
+    call site throws the number away for a boolean; `withExists()` compiles a boolean-shaped subquery instead,
+    which is the difference that shows up once the child table is large enough for the count itself to be the
+    expensive part of the query.
+24. **A `WHERE` clause built from a value the caller controls needs a column allow-list, not just a bound
+    parameter.** Bindings (point 10) stop a value from being interpreted as SQL; they do nothing to stop a
+    caller naming an arbitrary *column* to sort or filter by when the column name itself is taken from input
+    and interpolated into the query — a sort parameter passed straight to `orderBy($request->sort)` lets the
+    caller order by a column that was never meant to be exposed, or trigger an error probing for one that
+    doesn't exist. The column name is validated against a known list before it ever reaches the query builder,
+    the same validation point 9 of `skills/laravel-conventions` §6 already requires for query parameters
+    generally.
+25. **A soft-deleted row still counts toward a unique constraint unless the index itself is scoped to
+    exclude it.** `SoftDeletes` filters a soft-deleted row out of ordinary queries, but a `UNIQUE` index at
+    the database level has no concept of the deleted flag — re-creating a record with the same unique value
+    after "deleting" the old one fails at the database, not in application code, because the old row is still
+    physically present. The fix is a partial/conditional unique index (or a unique constraint over
+    `(value, deleted_at)`) declared at the schema level, not a uniqueness check in PHP that loses the race
+    `skills/laravel-conventions` §3 point 19 already warns about.
+26. **A model event fired inside a query executed via `insert()`/`update()`/`delete()` on the query builder
+    does not fire at all, and this is the same gap point 9 already names from a different angle.** Point 9
+    covers casts, accessors and global scopes silently skipped by the query builder; lifecycle events are the
+    same list — a bulk `Model::query()->where(...)->update([...])` changes rows without a single `updated`
+    event firing for any of them, so a listener relying on that event to invalidate a cache or reindex a
+    search document simply never runs for a bulk operation, which is exactly the kind of change that looks
+    identical to a per-model `->update()` at the call site and behaves nothing like it.
