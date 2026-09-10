@@ -74,3 +74,28 @@
     in a local/CI environment so the violation is caught before merge, off in production so an edge case
     the tests missed degrades instead of 500ing for every affected user — a project running it everywhere
     has usually not thought about that half.
+15. **A constrained eager load (`with(['relation' => fn ($query) => ...])`) filters or orders the *loaded*
+    relation, and that is a different question from filtering the *parent* rows.** `whereHas` (point 6) decides
+    which parents come back; the constrained closure decides which children come back for a parent that's
+    already in the result. Using one to answer the other's question either drops parents that have no matching
+    child at all, or loads every child and expects the parent list to have narrowed.
+16. **A polymorphic `morphTo` needs `morphWith()` to eager-load type-specific relations, because a plain
+    `with('commentable')` cannot know in advance which concrete model each row will resolve to.** Without it,
+    loading the commentable's own relations falls back to point 1's per-row query once per polymorphic type
+    encountered — the fix is declaring, per morph type, which of *that* type's relations to load alongside it.
+17. **A correlated value pulled alongside a list (a child's latest row, a running count) is a subquery select
+    (`addSelect`/`selectSub`, or the `latestOfMany`/`oldestOfMany` relation shortcut), not a loop reaching back
+    per row.** The database computes it once per row inside the same query plan; the loop version is point 1's
+    N+1 wearing the clothes of "just one more field," and it is the version that survives review because the
+    field looks like a plain column at the call site.
+18. **`whereHas` and a direct join both answer "parents with a matching child," and they are not interchangeable
+    at scale.** `whereHas` compiles to a correlated subquery re-executed conceptually per parent row and composes
+    safely with further `orWhereHas`/nested conditions; a join can be faster on a large table but silently
+    duplicates the parent once per matching child unless the query is made distinct or the join is constrained
+    to at most one row. Reach for the join once `whereHas`'s cost shows up in a slow-query log, not by default.
+19. **A transaction that can deadlock needs a retry count, because `DB::transaction($callback, $attempts)`'s
+    third argument is exactly for that** — a deadlock is a database-detected condition, not a bug in the
+    callback, and MySQL/Postgres both expect the losing transaction to retry rather than surface the error to
+    the caller. Retrying is only safe because point 11 already requires the callback to be the transaction's own
+    unit of work with no side effect dispatched before commit — a callback that emails on every attempt would
+    email once per retry.

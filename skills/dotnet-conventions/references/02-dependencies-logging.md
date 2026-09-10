@@ -96,3 +96,33 @@
     is a request-scoped value pinned for the lifetime of the process — the same bug as §2.11, with none of
     the symptoms, because the value is merely stale rather than disposed. A singleton that has to see a
     changed configuration takes the monitor; anything else takes the plain form and stops there.
+19. **A named or typed `HttpClient` is registered, never constructed with `new`.** The factory owns the
+    handler pool behind the client it hands out, so §5.10's rule (take it from the factory, never dispose
+    it) starts at registration: `AddHttpClient<TClient>()` gives the typed client its own configuration —
+    base address, default headers, the resilience pipeline from §8 — declared once at the composition root
+    instead of copied into every constructor that needs to talk to that dependency.
+20. **Decorating a registered service is still composition-root work, not a wrapper the consuming class
+    builds for itself.** Re-registering an interface with a class that takes the previously-registered
+    implementation as a constructor dependency (a logging wrapper, a caching wrapper) keeps the decision
+    of which behaviour gets added in the one place point 7 already puts every other registration — a class
+    that instead `new`s up its own wrapper around an injected dependency has quietly reintroduced the
+    service locator's problem: the real implementation is chosen inside the class instead of at the root.
+21. **A logging scope carries a value across every log call inside it, without threading a parameter
+    through each one.** `ILogger.BeginScope` attached once at the start of a unit of work — a correlation
+    id, a tenant, a batch number — appears on every structured log entry written while the scope is active,
+    including ones written by code several calls deeper that never received that value as an argument. It
+    is the mechanism that makes point 13's structured fields queryable *across* a request rather than only
+    within one log call, and it costs nothing where point 5's per-type category already exists.
+22. **A `BackgroundService` whose `ExecuteAsync` throws takes the whole host down with it by default**, not
+    just the one worker. An unhandled exception escaping the loop stops that hosted service and, unless the
+    host is configured otherwise, triggers the entire application to shut down — which is rarely what was
+    intended for a background job whose failure should be logged and retried, not treated as the process
+    itself being unhealthy. The loop body needs its own try/catch around each unit of work, distinct from
+    the swallowed-catch anti-pattern in §5.5 because here the goal is explicitly to keep the host alive
+    across one iteration's failure, logged rather than silent.
+23. **Cross-field validation that data annotations can't express is an `IValidateOptions<T>`, not a check
+    bolted onto the constructor that consumes the options.** A rule spanning two properties — an end date
+    after a start date, a maximum only meaningful relative to a minimum on the same object — belongs in a
+    validator registered alongside the options binding from point 8, so it runs at the same startup
+    validation point 16 already established, and fails boot with the same section-named error instead of
+    surfacing as a runtime check the first time both fields happen to be read together.

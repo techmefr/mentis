@@ -291,3 +291,71 @@ versus stopping two queued copies from running at once — presence channels as 
 roster rather than a separate authorisation model, on-demand notification routing for a recipient with no
 `User` record, and `ShouldBeEncrypted` for a job payload carrying something sensitive, extending point 3's
 reference-not-snapshot reasoning to the case where the snapshot must exist anyway.
+
+**Widening, 2026-09-10 — pass élargie.** Five more files widened with the same extend-don't-renumber method,
+this time against Laravel's own current official documentation (laravel.com/docs) rather than the org
+catalogue — the ~25 standalone `skills/laravel-*` files citing exact `§N.M` positions (`check_citations.py`)
+are why nothing existing was renumbered:
+
+- **§1 (where behaviour lives), 996 → ~1,750 words**, points 11–15: contextual binding declared once in a
+  provider instead of scattered per-consumer; a bound interface earned by a genuine second implementation, not
+  for testability alone; `Macroable` kept to framework classes built for it rather than a project's own
+  classes; a service provider grouped by domain, not by framework primitive; a deferred provider's boot-time
+  work has to survive being deferred.
+- **§7 (configuration and commands), 1,011 → ~1,750 words**, points 17–21: `config:cache` as the deploy step
+  that actually surfaces point 1's `env()` trap; the signature string's optionality/array/flag syntax; a
+  scheduled entry's own timezone against server drift; `->after()`/`->before()` chaining over one command
+  calling another; testing a command by invoking it (`assertExitCode`) rather than extracting its logic to
+  unit-test around it.
+- **§3 (data model and schema), 1,071 → ~1,850 words**, points 17–21: a custom cast class earned by a
+  transformation no built-in cast covers; `Attribute::make` replacing the accessor/mutator pair; composite
+  index column order following the leftmost-prefix rule; a foreign key's `onDelete` action as a decision about
+  the child's fate (cascade/restrict/set null); a JSON column's path filters not indexed unless promoted to a
+  generated column (§3.16).
+- **§4 (queries), 1,169 → ~1,950 words**, points 15–19: constrained eager loading versus `whereHas` answering
+  different questions; `morphWith()` for polymorphic type-specific eager loads; a correlated subquery select
+  over a per-row loop for a value like "latest child"; `whereHas` versus a direct join at scale; a transaction
+  retry count for a deadlock, safe only because §4.11 already keeps side effects out of the callback.
+- **§6 (HTTP surface), 1,196 → ~2,000 words**, points 19–23: a named rate limiter instead of an inline
+  `throttle:N,1`; a resource's conditional attributes (`whenLoaded`/`when`/`mergeWhen`) keeping the payload
+  honest about what was fetched; a resource collection's pagination metadata generated from the paginator
+  rather than hand-built; a custom validation rule earned by reuse, not by a single use; the `api`/`web`
+  middleware groups' differing session/CSRF defaults as part of a route's contract.
+
+Sourcing: every new point is either a mechanism already present in `laravel-conventions`/`php-patterns`/
+`inertia-conventions` restated at a different angle (composite indexes, transaction retries, resource
+serialisation) or synthesised fresh from Laravel's public documentation for the mechanism named (contextual
+binding, `Macroable`, deferred providers, config caching, command signatures, scheduling, `Attribute::make`,
+custom casts, `morphWith`, rate limiters, conditional resource attributes) — never read, copied or paraphrased
+from the XEFI marketplace, whose file contents were not opened for this pass. `02-authorisation.md`, `05-naming-typing-style.md`,
+`08-jobs-realtime.md` and `09-tests-static-analysis.md` were left untouched, already widened in the prior
+passes above.
+
+**Widening, 2026-09-10 — second pass, §10 and §11 gain 6 points each.** The two files the prior same-day pass
+left out — `10-architecture.md` (915 words, the single thinnest file in the block) and `11-failures.md`
+(1,132 words) — go through the same extend-don't-renumber method against Laravel's own current
+documentation. §10 (architecture) gains points 16–21: contextual binding (`when()->needs()->give()`) as the
+container-level answer to point 4's "prefer the framework's own mechanism"; a deferred service provider's
+cost trade-off, and why one with a side effect in `boot()` cannot be deferred without silently losing it; a
+middleware group's declared order as part of the architecture, not an artifact of file layout — a
+rate-limiter registered before `auth` throttles every guest under one shared bucket; a feature toggle as a
+config value with an environment default rather than a conditional shipped then reverted; package
+auto-discovery as a Composer convenience that still counts against point 2's "check what's already
+standardised on"; and a facade's binding as swappable per-request until the facade is first resolved, which
+caches the instance for the rest of that request. §11 (failures) gains points 16–21: a queued job's
+`failed()` as the place for the side effect retries cannot cause, not a second attempt at the job itself; a
+retried job re-dispatching from `handle()` rather than resuming, which makes point 10's idempotency
+non-optional; `Http::fake()`'s silent generic response for a route nobody stubbed, and `assertSent()` as what
+actually proves the request shape; `ValidationException` versus a bespoke domain exception for a 422-shaped
+failure; a rate-limit exception and its `Retry-After` header as an expected outcome rather than an incident,
+the queue-and-HTTP-layer sibling of point 12's tracker-noise argument; and asserting an exception's message or
+data, not only its class, so a refactor that swaps in a same-class exception with the wrong payload still
+fails the test.
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/
+`php-patterns` at a different angle (idempotent retries, tracker-noise for expected failures, the
+prefer-the-framework's-own-mechanism argument) or is synthesised fresh from Laravel's public documentation
+for the mechanism named (service container contextual binding, deferred providers, middleware group
+ordering, package auto-discovery, facade resolution, queued-job `failed()`, `Http::fake()`,
+`ValidationException`, rate limiting) — `laravel.com/docs/12.x/{container,rate-limiting,http-client}`, read
+2026-09-10 — never the XEFI marketplace, whose file contents were not opened for this pass.

@@ -66,3 +66,28 @@
 10. **The application owns its domain.** When integrating an external system (payment provider, CRM, ERP), the
    app remains the central source of functional knowledge — it doesn't become a thin proxy whose rules live in
    someone else's product and whose behaviour changes without a deploy.
+11. **Contextual binding resolves an interface differently per consumer, declared once in a service provider.**
+   `when(X)->needs(Interface)->give(Y)` puts the decision in one place read alongside every other binding; the
+   alternative — a constructor argument threaded down from config, or a class checking which implementation it
+   should reach for — scatters the same decision across every call site that needed the other implementation,
+   and adding a third consumer means finding all of them.
+12. **Bind an interface for a genuine second implementation, not for testability alone.** Mocking or faking a
+   concrete class works without an interface standing in front of it; a bound contract that has exactly one
+   implementation, kept "for testing" or "in case it changes", is point 7's extension-point rule wearing
+   dependency-injection clothes — nobody swaps it, and the binding is a second file to open to see what actually
+   runs.
+13. **`Macroable` extends a class from outside it, and it stays on framework classes built that way.** `Str::macro()`
+   or `Response::macro()` bolts a method onto a class the framework already designed for it, discoverable from
+   the class itself. Using the same trait to let a project's own class grow methods from arbitrary call sites
+   turns "where is this method defined" into a repo-wide search — a subclass or a trait the class opts into says
+   the same thing without opening the class to injection from anywhere.
+14. **A service provider groups registration by domain, not by framework primitive.** A `BillingServiceProvider`
+   registering billing's bindings, listeners and config survives every one of those changing shape; a
+   `BindingsServiceProvider` or a `ListenersServiceProvider` organised around the mechanism instead of the
+   feature becomes the file every unrelated feature's registration lands in, because the mechanism it's named
+   after is shared by everything.
+15. **A deferred provider trades eager registration for load-on-demand, and that trade has a condition.** It only
+   boots when one of its declared `provides()` bindings is actually resolved — correct for a provider whose only
+   job is registering bindings nothing else depends on at boot. A provider that also needs to register a route,
+   a listener, or anything the framework must see during boot regardless of whether the binding is ever resolved
+   cannot be deferred and still do that; deferring it silently drops the part that was supposed to run eagerly.

@@ -56,3 +56,37 @@
 15. **The name and the docstring say different things or one of them is wrong.** Where a function needs a
     docstring to explain what its name should have said, the rename is the fix — the same reasoning as
     `code-baseline` §1.4, arriving through the one comment form this repo does allow.
+16. **A type parameter is named for its role once there is more than one.** `T` alone says "the type this
+    generic holds" and reads fine as long as it is the only one in scope; a mapping with a key and a value
+    parameter named `T` and `U` forces the reader to check the definition to know which is which, where
+    `K` and `V` — or, with PEP 695's `class Cache[KeyT, ValueT]`, a spelled-out name — say it at the call
+    site. The single-letter convention is a default for the single-parameter case, not a habit to keep once
+    the signature grows.
+17. **`__all__` is the module's stated public surface, and it has to agree with what §3.6's underscore
+    already implies.** A name missing from `__all__` that a consumer imports anyway works today and is a
+    published contract nobody wrote down; a name present in `__all__` that was meant to stay internal
+    undoes the leading underscore's whole purpose. Where a module defines it, every public name belongs in
+    it and every name in it is meant to be imported.
+18. **A keyword-only parameter is named for what the caller is choosing, not restating the function.**
+    `configure(*, retry=True)` reads at the call site as `configure(retry=True)`, which is the point of
+    forcing it keyword-only — a name that only makes sense next to the function's own name defeats that,
+    because the call site is exactly where the parameter now has to stand alone.
+19. **A test name states the scenario and the expected outcome, not the method under test restated.**
+    `test_apply_discount` says nothing a reader does not already know from the file it is in;
+    `test_apply_discount_rejects_negative_amount` says what breaks if the next diff regresses it, which is
+    the only reason the failing test's name gets read before its body does.
+20. **An abbreviation saves the writer keystrokes and costs the reader a lookup.** `cfg`, `ctx`, `mgr`, `req`
+    read as filler once the domain has more than one kind of context or manager in play, and a newcomer
+    grepping the codebase for the concept will not find it under an abbreviation nobody agreed on. The
+    handful the standard library itself popularised (`args`, `kwargs`, `self`) are the exception because
+    they are already universal, not a licence to mint new ones.
+21. **A positional-only parameter (`def f(x, /, y)`) is named for the reader of the definition, since the
+    caller never writes the name at all.** That makes it safe to shorten purely for the implementation's
+    own reading — it will never appear in a call site to be misread there — but it also means a name that
+    only makes sense with the call site in view, like a keyword-only parameter's, is the wrong instinct
+    here: choose it for the body that uses it.
+22. **A boolean parameter named for its type rather than its effect forces the reader to the definition to
+    know what `True` does.** `process(data, True)` says nothing at the call site; `process(data,
+    skip_validation=True)` says it without opening the function, which is also why such a parameter is
+    almost always worth making keyword-only (§3.18) — the name is the only thing standing between the
+    reader and a guess.

@@ -55,3 +55,38 @@
     misconfiguration is silent: the wrong lifetime, the shadowed binding, the module never registered all
     produce a working application that is subtly wrong. Where the container can print its graph, printing it
     once after a change is cheaper than diagnosing point 3 in production.
+16. **Per-request state belongs in a `contextvars.ContextVar`, not a thread-local.** A thread-local is keyed
+    to the OS thread, and an async application serves many requests on the same thread, interleaved at every
+    `await` — so a thread-local set for one request is read by whichever request runs next on that thread,
+    the same captive-dependency shape as point 2 without a container in sight. A `ContextVar` is copied into
+    each task at creation, so one request's value cannot leak into a sibling's.
+17. **A factory is the honest answer to "this needs a runtime argument".** A binding built once at
+    application start cannot take a tenant id, a request path or a user supplied at call time — reaching for
+    the container mid-request to get a fresh one is point 6's global lookup again. Register a callable that
+    builds the object from its argument, and inject the factory itself, which keeps the dependency visible
+    in the constructor while deferring the one value that cannot be known yet.
+18. **Lazy initialisation of a singleton needs a lock or a double-checked read, or two requests race to build
+    it.** Under concurrency, the interpreter can switch threads between the "is it built" check and the
+    assignment, and both requests observe "not built" and construct their own instance — one of which is
+    then silently discarded, along with whatever it opened. The container's own lazy-singleton support has
+    usually solved this once; a hand-rolled `if not self._instance:` next to a resource open has not.
+19. **A cache or connection pool with a lifetime the container does not own should hold weak references to
+    what it caches**, or the cache itself becomes the reason an object nobody else references is never
+    collected. A `weakref.WeakValueDictionary` lets an entry disappear once its last real owner does, so the
+    cache reflects what is actually alive instead of pinning every value it has ever seen for the life of
+    the process.
+20. **A readiness or liveness check is a consumer of the graph, not a parallel one.** A health endpoint that
+    opens its own connection to "check the database" rather than resolving the same pooled client the
+    application uses can report healthy while the pool it did not check is exhausted, or unhealthy while a
+    transient blip on its private connection has nothing to do with the real one. Wire it through the
+    container so it observes what requests actually observe.
+21. **A binding overridden for a test should be overridden through the container's own seam, not by
+    reassigning the module attribute it was read from.** Patching the attribute directly works until two
+    tests import it under different names, or until the container already cached the pre-patch value in a
+    singleton — at which point the override is invisible to the object that matters and point 13's
+    order-dependent failure returns wearing a different cause.
+22. **A per-request scope is not automatically torn down at the end of the request unless the framework
+    integration says so.** A scoped session or connection left open past its request because the scope's
+    exit hook was never wired leaks exactly like point 3's captive dependency, except the leak is in the
+    container's own bookkeeping rather than in application code, which is why it tends to be found as a
+    slow file-descriptor or connection-count climb rather than as a wrong answer.

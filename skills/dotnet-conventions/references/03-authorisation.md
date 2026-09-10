@@ -68,3 +68,34 @@
     if the underlying token expires or the caller's permissions change mid-connection — a long-lived
     connection needs its own re-validation strategy (a periodic claims refresh, a forced reconnect on
     permission change) or it is authorisation frozen at the moment nobody is watching for it to go stale.
+16. **A policy answers a yes/no question about the endpoint; a resource-based check answers the same
+    question about the specific row already loaded.** Calling the authorisation service a second time
+    against the loaded entity — after it is fetched, before it is acted on — is what point 5's "scope the
+    query" advice becomes when scoping the query isn't enough on its own, typically because the rule needs
+    data only available once the row is in hand (an approval state, a owner field set after creation). The
+    two aren't alternatives: the endpoint policy still answers who may call the action at all, and the
+    resource check answers whether this caller may touch this row.
+17. **A custom `IAuthorizationRequirement` is where a rule that doesn't reduce to a role or a claim lives**,
+    and it is still a requirement rather than an inline `if` scattered across every action that needs it.
+    Business rules expressed as requirements are declared once, tested once (point 12's negative test
+    applies to each one), and reused by name in every policy that needs them — an inline check copied into
+    three controllers is the same rule with three chances to drift out of sync when it changes.
+18. **Output caching a response makes the cached bytes outlive the request that authorised them**, unless
+    the cache key includes whatever the policy depended on. A response cached by URL alone and served to
+    the next caller regardless of identity hands a personalised or restricted answer to whoever asks next —
+    caching has to vary by the same dimension the authorisation decision varied by (the user, the tenant,
+    the role), or caching becomes a second, unintended authorisation bypass sitting in front of the real
+    one.
+19. **A minimal-API endpoint filter runs inside the routing pipeline, after model binding and before the
+    handler — which is a different position from middleware and matters for what it can check.** A filter
+    is the right place for a cross-cutting rule that needs the bound arguments (validating a route
+    parameter against a claim, for instance), where middleware only sees the raw request. It is still not
+    a substitute for the policy declaration in point 1: a filter registered on a group is exactly as
+    invisible to a reader of one action as an inherited controller attribute, for the same reason given
+    there.
+20. **A background job or a scheduled task acting "as" a user carries that user's identity as data, not as
+    an ambient claim it can trust by default.** Queuing work on behalf of a caller and later executing it
+    with the caller's id read back from the job payload re-opens point 9's question at the point the job
+    runs — nothing re-validated that the id still refers to someone with the right permissions, or that
+    those permissions haven't been revoked between enqueue and execution. Re-check authorisation at
+    execution time for anything that acts on a stored identity rather than one just established.

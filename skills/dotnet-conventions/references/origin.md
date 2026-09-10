@@ -177,6 +177,51 @@ the same requirement, so denial has to be an explicit `Fail` (§3.14), and a rea
 authorisation being checked once at the handshake, not re-validated as claims or permissions change
 mid-connection (§3.15). §5 847 → 1,145 words; §3 900 → 1,090 words.
 
+**Widening, 2026-09-10 — pass élargie.** csharp kept the worst measured ratio in the table, so this pass
+widened five sections at once instead of the usual two or three — the thinnest remaining (§9, §8) plus
+the two untouched since the sectioning pass (§2, §6) plus §3, checked each against a distinct gap in
+current public .NET/ASP.NET Core/EF Core documentation rather than against the org catalogue (already
+re-diffed 2026-09-07):
+
+- **§9** gained the source-generated regex as the AOT-safe replacement for `RegexOptions.Compiled`'s
+  runtime codegen, `RequiresUnreferencedCode`/`DynamicallyAccessedMembers` for a method's own reflection
+  surfacing at its call site instead of at publish, `TrimmerRootAssembly` as an escape hatch that cancels
+  trimming for the assembly it roots, Native AOT and ReadyToRun solving different problems (so enabling
+  one for the other's guarantees is how this whole section arrives as a surprise), and the
+  configuration-binding source generator as point 1's list-as-build-artefact trade applied to options
+  binding (§9.9–§9.13). 671 → 1,233 words.
+- **§8** gained wiring the standard handler's retry/break/timeout events to telemetry, inbound vs outbound
+  limiters answering to different partition keys, load-shedding vs queueing limiters failing overload two
+  different ways, a fallback strategy as the last layer rather than a replacement for fixing the call
+  underneath it, and fault injection (a chaos strategy through the same pipeline abstraction) as the only
+  way to observe that the timeout arithmetic in §8.2 actually holds (§8.10–§8.14). 738 → 1,244 words.
+- **§2**, untouched since the sectioning pass, gained registering a named/typed `HttpClient` instead of
+  constructing one (where §5.10's disposal rule actually starts), decorating a registered service at the
+  composition root instead of a class wrapping its own dependency, a logging scope carrying a value across
+  every log call in a unit of work without threading a parameter through each one, a `BackgroundService`
+  whose unhandled exception takes the whole host down rather than just that worker, and cross-field
+  validation as an `IValidateOptions<T>` run at the same startup point §2.16 already established
+  (§2.19–§2.23). 1,488 → 1,962 words.
+- **§3** gained resource-based authorisation as the second check after the endpoint policy once the row is
+  loaded, a custom `IAuthorizationRequirement` for a rule that doesn't reduce to a role or claim, output
+  caching a personalised response unless the cache key varies by whatever the policy depended on, a
+  minimal-API endpoint filter's position in the pipeline versus middleware, and a background job carrying a
+  stored identity needing re-validation at execution time rather than trusting the payload (§3.16–§3.20).
+  1,048 → 1,539 words.
+- **§6**, also untouched since the sectioning pass, gained a pooled `DbContext`'s own state surviving the
+  pool's reset and leaking across requests, `AsSplitQuery`/`AsSingleQuery` as a per-query override of the
+  global split-query default, a `SaveChangesInterceptor` as the one place a cross-cutting write concern
+  belongs instead of copied into every call site, a filtered/ordered `Include` doing in the query what §6.6
+  already argues for doing there, and a compiled EF Core model trading a startup cost for a per-request one
+  (relevant to §9's Native AOT case). 1,296 → 1,787 words.
+
+Sourced from current Microsoft Learn and vendor documentation only, per this file's rule C: the .NET
+`GeneratedRegex`/trimmer-annotation and Native-AOT-vs-ReadyToRun pages, the configuration-binding
+source-generator docs, `Microsoft.Extensions.Http.Resilience`'s telemetry and chaos-engineering pages, the
+rate-limiting middleware's partition-key guidance, ASP.NET Core's minimal-API filters and output-caching
+pages, and the EF Core pages on context pooling, split queries, `SaveChangesInterceptor`, filtered includes
+and compiled models. No org catalogue file was read for this pass.
+
 **Widening, 2026-09-10 — §7, §1 and §4 gained points.** csharp still carries the worst measured
 ratio, so this pass took the three thinnest sections (§7, §1, §4) rather than one, and checked each
 against a gap the existing points didn't already name — not against the org catalogue (already

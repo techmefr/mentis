@@ -58,3 +58,38 @@
     reporting nothing. Decide per failure class whether it is monitored or merely logged.
 17. **The failure path is asserted** (`skills/tdd`), or the first refactor turns the returned result back
     into a raise — exactly the thing point 3 forbids — and nothing anywhere goes red.
+18. **A sentinel is not `None` wearing a different name, and reaching for one usually means the signature
+    already lied.** A dedicated `_MISSING = object()` default distinguishes "the caller passed nothing" from
+    "the caller passed `None` on purpose" in a function where both are meaningful — but where that
+    distinction does not matter, a sentinel is a second spelling of point 7's `T | None`, harder to discover
+    and with no checker support telling a reader it exists.
+19. **`contextlib.suppress` names the exceptions it swallows where a bare `try`/`except: pass` does not.**
+    `with suppress(FileNotFoundError):` reads as a decision — this specific, expected condition is not an
+    error here — while an empty `except:` block reads as point 10's silent swallow with better formatting;
+    the tool does not change the rule, it only removes the excuse that the boilerplate was in the way.
+20. **`except*` and `ExceptionGroup` exist because structured concurrency can fail more than once at a
+    time**, and a single `try`/`except` can only ever catch one exception per attempt. A `TaskGroup` (§4)
+    that fails two children in the same window raises one `ExceptionGroup` wrapping both; `except*
+    ValueError:` pulls out every `ValueError` in the group while leaving the rest to propagate, which a
+    plain `except ValueError:` cannot express — it would see only whichever exception the group presents
+    first.
+21. **A retry is a decision about which failures are worth repeating, not a loop around the call.** Retrying
+    on every exception retries a `TypeError` from a bug in the retried code itself, which just delays the
+    same crash a fixed number of times; retrying without a backoff turns a struggling dependency into one
+    hammered by every caller's immediate next attempt. The exception type list and the delay between
+    attempts are both part of the design, not incidental to wrapping the call.
+22. **The walrus operator moves the `is None` check next to the value it guards, without changing what point
+    1 requires.** `if (row := fetch(id)) is not None:` reads as one condition instead of a fetch followed by
+    a separate check on a variable declared above it, but it is still an explicit `is None`/`is not None`
+    comparison underneath — `if (row := fetch(id)):` reintroduces the exact truthiness bug point 1 exists to
+    forbid, now harder to spot because the assignment draws the eye.
+23. **A resource opened inside a generator is not closed by returning early — it is closed when the generator
+    is garbage-collected or explicitly closed**, which under `asyncio` cancellation may not happen
+    promptly. An async generator holding a connection open across a `yield` should be wrapped so
+    cancellation while suspended still runs its cleanup, rather than trusting that the caller will always
+    exhaust or explicitly close it (§4 covers the same gap from the cancellation side).
+24. **A custom exception's `__init__` should still accept the base class's arguments, or `raise ... from`
+    loses the message.** An exception subclass that overrides `__init__` to take only its own typed fields
+    and never calls `super().__init__()` prints as a blank line in a traceback and nothing in a log that
+    formats exceptions by their string form — the fields are there on the object, but nothing standard
+    reads them without knowing the specific class first.

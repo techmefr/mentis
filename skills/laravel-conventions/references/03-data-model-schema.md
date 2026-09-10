@@ -65,3 +65,30 @@
     because an accessor's result cannot appear in a `WHERE`, an `ORDER BY` or an index, so reaching for one
     on a value nothing ever queries by adds a schema-migration cost point 1 already warns about, for a
     feature the code never uses.
+17. **A custom cast class (`implements CastsAttributes`) is for a transformation the built-in casts don't cover**
+    — a money value stored as an integer of cents and read as a value object, a JSON blob decoded into a typed
+    DTO, an encrypted field decoded on read. Reaching for one to wrap a value the built-in `decimal`, `boolean`
+    or `array` cast already produces is an indirection with nothing behind it: the reader has to open the cast
+    class to learn what a native cast name would already have told them.
+18. **`Attribute::make(get: ..., set: ...)` replaces the accessor/mutator pair, and it's one declaration instead
+    of two methods that drift.** A `getNameAttribute()`/`setNameAttribute()` pair can be edited on one side and
+    not the other — the combined `Attribute` return value keeps get and set next to each other, and marking it
+    `->shouldCache()` is the explicit opt-in for an accessor expensive enough to need it, rather than every
+    accessor silently re-running on every access.
+19. **A composite index is ordered for the queries that use it, not for the column order in the migration.** An
+    index on `(tenant_id, status)` serves a filter on `tenant_id` alone and on both columns together, but not a
+    filter on `status` alone — the leftmost-prefix rule, not intuition about which columns "belong together",
+    decides the order. A unique constraint spanning several columns is the same index doing double duty as a
+    business rule, and it belongs in the schema precisely because a uniqueness check in PHP loses the race
+    point 4.11 already describes for two writes that must both land.
+20. **A foreign key's `onDelete` action is a decision about the child's fate, not a default to leave alone.**
+    `cascade` is point 5's forbidden default; `restrict` (the safer default) blocks the parent's delete until the
+    child is handled explicitly; `set null` silently detaches the child from a parent that no longer exists,
+    which is only correct when "orphaned" is a valid, expected state for that child — picking one without asking
+    which state the child should be in after the parent is gone is the same decision skipped that point 11
+    already flags for cascade itself.
+21. **A JSON column is queryable through `->` path operators, but it is not indexed like a real column unless a
+    generated column is built on top of it (point 16).** A `WHERE json_col->'$.status' = ?` filter table-scans
+    every row past a small table, silently, because nothing about the query looks unindexed at the code level —
+    a value filtered or sorted often enough to matter belongs promoted to its own column, and the JSON column
+    stays for data that is genuinely read as a document and never filtered on individually.

@@ -83,3 +83,35 @@
     parameter; the plain-string form concatenates, so a value that came from a request is now part of the
     statement. They differ by one character at the call site and by a vulnerability class in production —
     and the plain form is what an example on the internet uses, because it is shorter.
+17. **A pooled `DbContext` factory reuses the instance, and anything the context accumulated on the last
+    request is still there on the next one.** `AddDbContextPool` exists to cut construction cost under
+    load, but it works by resetting the context's own state, not any state a class built on top of it added
+    — a field cached on a custom context subclass, a static-feeling value captured at construction, survives
+    the reset and leaks from one caller's request into the next caller's. A pooled context stays a thin
+    wrapper over the generated one, or the pooling that was meant to save allocation cost becomes a
+    cross-request data bug instead.
+18. **Split-query behaviour is a per-query decision as often as it is a global default.** Setting
+    `UseQueryTrackingBehavior`-style split queries globally treats every query with more than one included
+    collection the same way, but point 14's trade — several round trips with no shared transaction — is
+    only worth paying where the row multiplication is actually large. `AsSplitQuery()` and
+    `AsSingleQuery()` at the call site override the global default for the one query that needs it, which
+    is the difference between a blanket policy and a decision made where the shape of the data is actually
+    known.
+19. **A `SaveChangesInterceptor` is the one place a cross-cutting write concern belongs, instead of copied
+    into every place that calls `SaveChanges`.** Stamping an audit column, rejecting a save that violates an
+    invariant no single entity can express, or turning a soft-delete flag into the update it actually is —
+    each done once in an interceptor runs for every write path including the ones added after the
+    interceptor was written, where the same logic pasted at each call site is a rule that's already out of
+    sync the day a new call site forgets to paste it.
+20. **A filtered or ordered include changes what a collection navigation returns, and doing it in the query
+    is why it exists.** `Include(x => x.Children.Where(...).OrderBy(...))` (via the filtered-include syntax)
+    applies the filter and the order in the generated SQL, which is one query producing exactly the rows
+    the caller needs — loading the full collection and filtering it in memory after the fact defeats
+    point 6's whole point, paying for every row the filter was about to discard.
+21. **A compiled model trades a startup cost for a per-request one, and only pays off once the model is
+    genuinely large.** EF Core builds the model that maps entities to the schema once, at startup, by
+    reflecting over every entity type; a compiled model (generated ahead of time via
+    `dotnet ef dbcontext optimize`) skips that reflection and can also work where dynamic model building
+    can't, as under trimming or Native AOT (§9). It is generated code that has to be regenerated whenever
+    the mapped model changes, which is a real cost of its own — worth carrying for a model large enough
+    that startup time matters, not a default reached for on every project.

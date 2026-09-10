@@ -49,3 +49,35 @@
    outbound client tolerates a natural burst while still capping the average rate against a dependency that
    has its own ceiling — a fixed-window limiter on the same traffic either starves a legitimate burst or
    lets one straddle the window boundary and double the instantaneous rate.
+10. **A retry that succeeds on the second attempt still tells no one it needed a second attempt**, unless
+    the pipeline is told to. The standard resilience handler raises an event on every retry, break and
+    timeout; wiring it to the same telemetry as the rest of the request (§8's own guardrail is
+    `skills/observability-instrumentation`) is what turns "the dependency is fine, we retried once" into a
+    visible signal instead of a number that only shows up once the retries stop working and requests start
+    failing outright.
+11. **An inbound limit and an outbound one answer to different partitions, and using the wrong partition
+    key makes either one meaningless.** Partitioning by the caller's identity protects one tenant from
+    starving another on a shared dependency; partitioning by the remote endpoint instead caps total load
+    on that endpoint regardless of who asked. A single limiter configured with one partition key is quietly
+    solving only one of those two problems, and the symptom is a limit that "isn't working" for the case it
+    was never built to cover.
+12. **A load-shedding limiter and a queueing one fail two different ways under the same overload**, and the
+    choice is not neutral. A queue-processing limiter holds excess requests up to a bound and serves them
+    once capacity frees up, trading latency for throughput; a limiter with no queue rejects immediately,
+    trading a fast, clear failure for one that a client can retry (point 6) rather than one that waits and
+    times out anyway further up the stack. Which one is correct depends on whether a late answer is still
+    useful to the caller — for a synchronous user-facing request it usually is not, and a queue only adds
+    the wait before the same rejection.
+13. **A fallback strategy is the last resilience layer, not a replacement for fixing the call underneath
+    it.** Returning a cached or default value when every retry, timeout and circuit-breaker layer has
+    already failed keeps the caller from seeing an exception, at the cost of an answer that is stale or
+    empty and looks the same as a correct one in the response. It belongs where a degraded answer is
+    genuinely acceptable to the caller — and it needs its own signal (point 4's logging point again) so a
+    fallback silently masking a dead dependency isn't mistaken for the dependency being healthy.
+14. **A resilience pipeline that has never seen the failure it's meant to survive is a configuration, not a
+    tested behaviour.** Fault injection — a chaos strategy that deliberately delays, fails or aborts a
+    fraction of calls through the same pipeline abstraction the retry and circuit-breaker strategies use —
+    is what turns "the timeout budget in point 2 adds up" from arithmetic on paper into an observed
+    outcome: the caller actually times out where the sum says it should, the breaker actually opens after
+    the configured count, and the fallback in point 13 actually fires when everything above it has failed.
+    Run it against a lower environment behind a flag, never against production traffic by accident.

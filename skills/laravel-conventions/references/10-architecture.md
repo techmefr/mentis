@@ -63,3 +63,40 @@
     documentation for its own sake — it is that the next person arguing the other side deserves to know the
     argument has already happened, and on what grounds (`skills/documentation-adr`, which also says when
     *not* to commit a file for it).
+16. **Contextual binding is point 4's "prefer the framework's own mechanism" applied to the container**: when
+    two classes need a different implementation of the same interface — a different disk, a different
+    driver, a config value — `$this->app->when(A::class)->needs(Interface::class)->give(...)` resolves the
+    branch once, in the provider, instead of an `if` inside every constructor that would otherwise ask "who
+    is calling me" to pick the right implementation. `giveConfig()` and `giveTagged()` cover the two common
+    shapes (an injected config value, an injected set of same-tagged bindings) without a hand-written
+    closure for either. [Laravel container docs, laravel.com/docs/12.x/container, read 2026-09-10.]
+17. **A binding that is never resolved should never be booted.** A service provider deferred via `$defer =
+    true` (or, on newer providers, declared through `provides()`) is only instantiated the first time one of
+    its bindings is actually requested — a provider wiring a rarely-used integration stops costing a boot-time
+    class load and a container lookup on every request that never touches it. The trade only pays off for a
+    provider with no side effect outside its own `register()`; one that also listens for events or registers
+    routes in `boot()` cannot be deferred without silently losing that wiring on the requests where nothing
+    triggered the resolution.
+18. **A middleware group is a named ordering, and the order is the part that breaks silently.** Registering
+    `auth` after a rate-limiter that keys its bucket on the authenticated user throttles every guest request
+    under one shared bucket, because the middleware that would have identified the user has not run yet. The
+    fix is not a smarter limiter, it is reading the group's declared order in `bootstrap/app.php` before
+    adding to it — inserting a new entry without checking what runs before and after it is how this
+    regresses on an otherwise unrelated change.
+19. **A feature toggle is a config value with an environment default, not a hard-coded conditional shipped
+    then reverted.** Point 13's "don't add infrastructure the database still handles" cuts the other way
+    here too: a boolean in `config/features.php`, read through the config layer per point 1 of
+    `skills/laravel-conventions` §7, lets the same deploy run dark in staging and live in production without
+    a second branch — reverting a toggle is changing one value, reverting a conditional is a second
+    pull request.
+20. **Package auto-discovery is a convenience, not a boundary.** Composer wires a package's service provider
+    and facades automatically from its `extra.laravel` block, which is why point 2's "check what's already
+    standardised on" has to include packages that never appear in a manually maintained providers array —
+    they are active anyway. A package that must not run in a given environment (a debug bar, a seeder
+    package) is excluded in `composer.json`'s `dont-discover`, not by hoping nothing calls it.
+21. **A facade and its underlying binding are two separate things to keep in sync.** A facade is a static
+    proxy resolved from the container at call time, so swapping the bound implementation in a provider
+    changes what every facade call does without touching a single call site — which is exactly why a test
+    that swaps the binding (`$this->app->bind(...)`, a fake) has to happen before the facade is first
+    resolved in that request; resolving it once caches the instance and a later rebind is silently ignored
+    for the rest of that request/test.
