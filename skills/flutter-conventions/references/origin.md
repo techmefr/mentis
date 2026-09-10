@@ -148,3 +148,24 @@ rebuild contract point 3 states; and a family provider's cache key uses the para
 parameter without `==`/`hashCode` refetches on every call even for identical values — point 11's
 one-owner-per-data rule broken by the provider layer itself. Nothing added here answers the catalogue
 comparison a second time.
+
+**Widening, 2026-09-10 — pass élargie.** The five thinnest sections got 5-7 new points each, appended after
+the existing numbering (nothing renumbered): §2 widgets/rebuilds (892 → 1,485 words: `MediaQuery`'s granular
+accessors versus the aggregate object, `RepaintBoundary` scope, `AutomaticKeepAliveClientMixin` in a
+`PageView`/`TabBarView`, key-type semantics, `InheritedWidget.updateShouldNotify`, `==`/`hashCode` on the data
+behind a `const` or a key, and telling DevTools' repaint overlay from its rebuild tracker), §1 the two crashing
+mistakes (921 → 1,361: `WidgetsBindingObserver` removal, `didUpdateWidget` for a resource tied to a changed
+parameter, `ChangeNotifier`'s dispose-after-listeners-removed assertion, closing a broadcast `StreamController`
+on top of cancelling its subscriptions, cancelling the network call itself rather than only discarding its
+result, `try`/`finally` for guaranteed cleanup), §5 navigation (949 → 1,535: `PopScope` replacing
+`WillPopScope`, browser back/URL strategy on web, redirect-loop guards, per-tab nested navigators, `rootNavigator: true`,
+reduced-motion transitions, `RestorationMixin`), §4 screen states (951 → 1,469: discarding a superseded
+response, debouncing the trigger, partial batch failure, live-region error announcements, persisting
+last-known-good data, telling end-of-list from a failed page, and loaded-zero versus still-loading), and §6
+lists/forms (965 → 1,479: sliver-based sticky headers, `ReorderableListView` key stability, one state holder
+across a multi-step form, focus-to-first-invalid-field on failed submit, debounced search input, locale-aware
+number/date parsing, and autofill hints beyond password/OTP fields). Sourced from the framework's own current
+documentation (flutter.dev, api.flutter.dev, dart.dev) for every mechanism cited, plus this block's own already
+-written references sections for continuity of voice and cross-references — never from the marketplace XEFI
+catalogue, whose file contents were not read for this pass. Five files, 2,651 words added; references directory
+total 12,895 → 15,546 words.

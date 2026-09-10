@@ -87,3 +87,35 @@
     A surviving mutant — the source changed and no test went red — is point 18's "line executed, not line
     asserted" made concrete and automatic. Run it on the code that changed, not the whole suite on every
     push; it is too slow for that and the signal is about the diff.
+24. **`RefreshDatabase` chooses its own strategy per driver, and knowing which one is running explains the
+    speed and the failure modes.** Against SQLite in memory it wraps each test in a transaction and rolls
+    it back; against a real MySQL or PostgreSQL connection it migrates fresh and still wraps in a
+    transaction, which is why a test that commits inside a nested transaction of its own (a job that
+    catches and swallows a `DB::commit()`, a raw `DB::unprepared('COMMIT')`) breaks the rollback the trait
+    depends on — the failure looks like leaked state between tests and is actually the isolation mechanism
+    itself being defeated.
+25. **Parallel testing (`--parallel`) gives each worker process its own database, appended with the
+    process token**, so a test that hardcodes a database name, reads a fixed file path shared across
+    workers, or asserts on a global auto-increment id starting at 1 passes alone and fails only under
+    `--parallel` — the `ParallelTesting` facade's `setUpProcess`/`setUpTestCase` hooks are where per-worker
+    setup belongs, not a shared beforeEach that assumes a single database.
+26. **A test double for an external boundary should model the contract, not the happy path alone.** Point
+    13 says fake the boundary; the point here is what the fake returns — a payment gateway fake that never
+    produces a decline, a timeout, or a malformed response teaches the suite that failure cannot happen,
+    which is exactly the class of bug that reaches production first. `Http::fake()`'s response sequencing
+    exists so the same test file can assert both paths.
+27. **`assertDatabaseHas` and `assertDatabaseCount` verify the row exists; they do not verify which
+    operation put it there.** A test asserting the count went up by one after an action that was supposed
+    to update an existing row instead of inserting a duplicate needs the id checked, or the assertion
+    passes for the wrong reason — this is point 5's "assert the outcome" pushed one level deeper, because
+    the outcome itself has more than one shape that satisfies a loose assertion.
+28. **A snapshot or golden-file assertion is a substitute for naming what changed, not an upgrade on it.**
+    Approving a diff without reading it defeats point 14's red-first guarantee just as completely as never
+    running the test — a snapshot test earns its keep on output too large or too structural to assert
+    field-by-field (a rendered PDF, a large JSON export), not as a shortcut around writing real assertions
+    on a small response.
+29. **Testing a form request or a policy directly, outside an HTTP call, tests the rule in isolation but
+    not the wiring that invokes it** — a `FormRequest` bound to the wrong route, a policy never registered
+    for its model, a middleware ordering that lets the request past validation first. Point 6's controller
+    anti-pattern generalises here: the unit-level check is a useful addition to the feature test that
+    exercises the endpoint, never a replacement for it.

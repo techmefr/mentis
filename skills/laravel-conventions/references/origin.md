@@ -359,3 +359,39 @@ for the mechanism named (service container contextual binding, deferred provider
 ordering, package auto-discovery, facade resolution, queued-job `failed()`, `Http::fake()`,
 `ValidationException`, rate limiting) — `laravel.com/docs/12.x/{container,rate-limiting,http-client}`, read
 2026-09-10 — never the XEFI marketplace, whose file contents were not opened for this pass.
+
+**Widening, 2026-09-10 — troisième pass.** The five thinnest remaining files after the first two same-day
+passes — `05-naming-typing-style.md`, `08-jobs-realtime.md`, `09-tests-static-analysis.md`,
+`01-where-behaviour-lives.md` and `07-configuration-commands.md` — each gain 5–7 new points appended after
+the existing numbering (never renumbering what was already there). §5 (naming/typing) adds PHPStan/Larastan
+level discipline as a project-wide ratchet rather than a per-file choice, Larastan's own Eloquent model
+making hand-written `@property` blocks redundant, named arguments over a comment explaining a positional
+one, first-class callable syntax for method references, union vs. intersection types as honest contracts
+instead of `mixed`, and a named enum case standing for one record as a sign the enum modeled a row instead
+of a category. §8 (jobs/realtime) adds `ThrottlesExceptions`' two arguments (exception budget vs. cooldown
+minutes), a released job still counting against `tries`/`maxExceptions`, `retryUntil()` as a wall-clock bound
+distinct from attempt count, a queue connection's `retry_after` needing to exceed the job's real runtime, a
+private channel's authorisation callback staying a pure yes/no, and batching's `allowFailures()` as an
+explicit choice rather than a silent default. §9 (tests/static analysis) adds `RefreshDatabase`'s per-driver
+strategy (SQLite transaction vs. migrate-fresh) and what defeats it, parallel testing's per-worker database
+and the `ParallelTesting` facade, a boundary fake needing to model failure paths and not only the happy one,
+`assertDatabaseHas`/`assertDatabaseCount` not proving which operation produced the row, snapshot tests as a
+narrow exception rather than a shortcut, and testing a form request or policy in isolation as an addition to
+the feature test, never a replacement. §1 (where behaviour lives) adds `singleton()` vs. `scoped()` container
+lifetimes, the actual boundary between a banned repository wrapper and an allowed query class, a concern
+trait documenting the shape it expects from its host class, named pipeline stages over inline closures, a
+global scope's invisibility as a feature for tenant isolation and a liability for conditional business rules,
+and eager-loading declared with the producing query rather than patched on afterward. §7
+(configuration/commands) adds config-key collision across cascading files, `Context` for request/job-scoped
+cross-cutting data, a command's exit code as a contract for `&&`-chaining and CI, `schedule:list`/
+`schedule:test` for verifying a scheduled entry without waiting for its cron minute, a non-interactive
+command never blocking on an unguarded prompt, and environment branching done through config rather than an
+`environment()` conditional in application code.
+
+Sourcing: every new point is synthesised from Laravel's own public documentation for the mechanism named —
+queues (job middleware, batching, unique/overlapping jobs), database testing and parallel testing, the
+service container (`singleton`/`scoped` lifetimes), configuration and the scheduler
+(`laravel.com/docs/{12.x,13.x}/{queues,database-testing,container,configuration,scheduling}`) — plus
+Larastan's own documented level/extension model for the PHPStan-facing points, all read 2026-09-10; the
+rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. The XEFI
+marketplace's file contents were never opened for this pass.

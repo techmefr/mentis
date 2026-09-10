@@ -241,3 +241,46 @@ pays for silently, static abstract interface members for a numeric algorithm sha
 no boxing, and partial properties pairing a generated backing implementation with a hand-written
 declaration (§4.18–§4.21). §7 1,041 → ~1,760 words; §1 1,102 → ~1,780 words; §4 1,139 → ~1,850 words.
 
+**Widening, 2026-09-10 — troisième pass.** csharp still had the worst measured ratio in the table, so
+this pass took the five thinnest reference files by raw word count (§5, §9, §8, §1, §3) rather than the
+usual two or three, each checked against a gap not already covered — not against the org catalogue
+(already re-diffed 2026-09-07) but against current Microsoft Learn / .NET Blog / dotnet-runtime
+documentation for that section's own topic:
+
+- **§5** (disposal, nullability, enumeration) gained `ArgumentNullException.ThrowIfNull` next to a
+  null-forgiving operator as a contradiction rather than belt-and-braces, `await foreach`'s implicit
+  `DisposeAsync` on an early `break`/`return`, `SafeHandle` versus a raw `IntPtr` finalizer race,
+  `Nullable<T>` inside a zero-initialised struct colliding as dictionary keys, a mutating source making
+  re-enumeration silently see less rather than repeat the same work, and `ConditionalWeakTable<TKey,
+  TValue>` versus a plain dictionary keyed by reference (§5.17–§5.22). 1,027 → 1,629 words.
+- **§9** (publish-time failures) gained `InvariantGlobalization` silently changing comparison/casing
+  behaviour instead of throwing, constructing a named culture throwing only once that mode is on and
+  only at the call site, Native AOT's lack of COM/WinRT interop support as a third invisible-until-publish
+  gap, a source generator quietly absent from one build configuration reverting silently to reflection,
+  and `PublishReadyToRun`'s same-RID restriction producing IL-only output with no build error
+  (§9.14–§9.18). 1,233 → 1,734 words.
+- **§8** (resilience and throttling) gained the in-memory rate limiter's counters not surviving a scale-out
+  (needing a shared/Redis-backed store), an unbounded caller-supplied partition key as its own DoS surface,
+  `SocketsHttpHandler.PooledConnectionLifetime` for DNS/failover staleness on pooled connections, a hedging
+  strategy's duplication risk versus a retry's, and a concurrency (bulkhead) limiter versus a rate limiter
+  versus graceful shutdown as server-side resilience (§8.15–§8.20). 1,244 → 1,903 words.
+- **§1** (async, cancellation, threading) gained thread-pool starvation as a queue-length problem
+  masquerading as a slow dependency, `Parallel.ForEachAsync` as the built-in bounded-parallelism API,
+  `TaskCompletionSource` without `RunContinuationsAsynchronously` running continuations inline on the
+  setting thread, `PeriodicTimer` awaited in a loop versus the older timer's overlapping-tick risk, and
+  why a synchronisation context turns `.Result` into a deadlock in some hosts and a mere wasted thread in
+  others (§1.23–§1.27). 1,472 → 2,000 words.
+- **§3** (authorisation) gained `IClaimsTransformation`'s execution point and per-request cost, a scope
+  claim answering a different question than a role claim, the On-Behalf-Of flow versus forwarding the
+  inbound token to a downstream API, a GraphQL field resolver as its own entry point independent of the
+  root query, and a Blazor/SPA `AuthenticationStateProvider`'s cached state going stale independently of
+  the server-side check (§3.21–§3.25). 1,539 → 2,101 words.
+
+Sourced from current Microsoft Learn and the .NET Blog only, per this file's rule C: the
+globalization-invariant-mode and ICU documentation, the Native AOT interop-limitations and
+`PublishReadyToRun` restrictions pages, the .NET 9 networking blog post on
+`SocketsHttpHandler`/`HttpClientFactory` pooled-connection defaults, the ASP.NET Core rate-limiting
+middleware and partitioning guidance, the thread pool and `Parallel.ForEachAsync`/`PeriodicTimer` API
+docs, and the ASP.NET Core claims-transformation and resource-based-authorisation pages. No org
+catalogue file was read for this pass. References total (excluding this file): 16,571 → ~19,423 words.
+
