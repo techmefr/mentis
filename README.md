@@ -282,8 +282,8 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `boromir` | Go reviewer, uncertainty phrased as questions | Sourced from the market |
 | `theoden` | C#/.NET reviewer, uncertainty phrased as questions | Sourced from the market |
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
-| `samwise` | Python reviewer, uncertainty phrased as questions; reads `python-conventions` | Written, not dogfooded yet |
-| `faramir` | Flutter/Dart reviewer, question register by default; reads `flutter-conventions` | Written, not dogfooded yet |
+| `samwise` | Python reviewer, uncertainty phrased as questions; reads `python-conventions` | Real production experience (real review, 2026-09-10) |
+| `faramir` | Flutter/Dart reviewer, question register by default; reads `flutter-conventions` | Real production experience (real review, 2026-09-10) |
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
 | `morpheus` | Implements Laravel/Eloquent code end-to-end for a small or mixed-layer change (never reviews its own code) | Real production experience |
 | `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Written, not dogfooded yet |
@@ -294,7 +294,7 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `laravel-testing-expert` | Chooses Feature vs Unit, writes and runs factory-driven Laravel tests | Written, not dogfooded yet |
 | `laravel-debugger` | Root-causes and fixes a failing test, a Larastan finding, an exception, a regression | Written, not dogfooded yet |
 | `laravel-simplifier` | Behaviour-preserving clarity pass on recently modified Laravel code, never a bug-hunt | Written, not dogfooded yet |
-| `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Written, not dogfooded yet |
+| `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Real production experience (real build, 2026-09-10) |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
 | `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
 | `keymaker` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |

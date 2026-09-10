@@ -44,7 +44,11 @@ repository is written or modified, during `code` (6) or `tdd` (5).
    (`@IsString()`, `@IsEmail()`, `@IsOptional()`...). Never an `any` or an untyped object as a controller
    parameter.
 2. A global `ValidationPipe` (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
-   forbidNonWhitelisted: true }))`) rather than a pipe placed route by route.
+   forbidNonWhitelisted: true }))`) rather than a pipe placed route by route. Add `transform: true` as
+   soon as any DTO validates query params (a paginated list's `page`/`limit`, for instance): Express
+   delivers query values as strings, so a `@IsInt()` field paired with `@Type(() => Number)` only
+   converts before validation when `transform` is on — without it, every such route fails validation
+   permanently, not just on bad input.
 3. Typed HTTP exceptions (`NotFoundException`, `ConflictException`, `BadRequestException`...) are thrown
    on the service side, never on the controller side; the service knows the business rule that justifies
    the status, the controller doesn't.
@@ -107,3 +111,9 @@ extensions on relative imports, and `isolatedModules` + `emitDecoratorMetadata` 
 any interface/type-alias used in a decorated signature (else `TS1272`). §3 (Zod/tRPC) and §4 (Prisma)
 were not dogfooded here (no tRPC router, no Prisma schema in this small project) and still need a real
 pass.
+
+Dogfooded again, 2026-09-10 (agent `trinity`, its first real dispatch): built a `NotificationsModule`
+(paginated query DTO, service, controller, in-memory repository, unit tests) on the same standalone
+project. Build/lint/test all passed. One real gap found and folded into §2.2 above: a paginated query
+DTO needs `ValidationPipe({ transform: true })` globally, not just `whitelist`/`forbidNonWhitelisted`,
+or `@IsInt()` on a query param never passes since Express hands it in as a string.
