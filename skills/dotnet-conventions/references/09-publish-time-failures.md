@@ -44,3 +44,39 @@
    compatibility annotations can still build and pass tests locally while depending on reflection the
    trimmer cannot see; the project's publish warnings are where that dependency's own gap surfaces, one
    release behind whether the package's maintainers have caught up.
+9. **`RegexOptions.Compiled` asks the runtime to emit IL for the pattern, which Native AOT cannot do** — the
+   same failure as point 7, wearing a different name. It does not throw: the regex still runs, silently
+   falling back to the interpreted engine, so the only symptom is a slower match nobody flagged as a
+   regression because nothing failed. The source-generated regex (`[GeneratedRegex]` on a partial method)
+   compiles the pattern at build time instead, which is the same trade this section keeps making — turn a
+   run-time capability into a build-time artefact so the trimmer and the AOT compiler can both see it.
+10. **A method that reflects on its own account has to say so, or its caller finds out at publish instead
+    of at the call site.** `RequiresUnreferencedCodeAttribute` on a method that walks a type's members, and
+    `DynamicallyAccessedMembersAttribute` on a parameter or generic type whose members that walk depends on,
+    move the warning from "somewhere in the published output" to "at the line that calls this method" —
+    which is the difference between a warning the author of the reflection sees and one the author of a
+    call three layers away sees, if they ever publish trimmed at all. Framework and library code carries
+    these annotations for exactly this reason; application code that reflects across a public boundary
+    needs the same discipline or it has exported point 2's problem to whoever depends on it.
+11. **Explicitly rooting an assembly cancels trimming for it, and that trade is not free.** A
+    `TrimmerRootAssembly` (or an ILLink descriptor doing the same by hand) tells the trimmer to keep
+    everything in that assembly reachable or not — which silences the warnings from a library with no
+    trim annotations, but also keeps every unused type and method the trimmer would otherwise have removed,
+    for that one assembly. It is the right escape hatch for a dependency you cannot fix and cannot avoid;
+    it is the wrong first response to a warning, because it hides the specific member that was actually a
+    problem behind "keep all of it."
+12. **ReadyToRun and Native AOT solve different problems, and enabling one while expecting the other's
+    guarantees is how this section's failures arrive as a surprise.** R2R precompiles IL to native code for
+    faster startup while keeping the JIT, reflection and the full framework available — none of points 1–11
+    apply to an R2R publish, because nothing was trimmed and nothing lost the ability to generate code.
+    `PublishAot` removes the JIT entirely and pulls trimming in as a consequence; choosing it for "faster
+    startup" without meaning to take on the trimming and no-codegen contract is the usual way a team
+    discovers this whole section in production instead of in the release notes.
+13. **Configuration binding reflects over the options type's properties, the same as any other
+    reflection-based serialisation.** `IConfiguration.Bind` or `services.Configure<T>` populating a POCO
+    walks its properties by name at run time; under trimming, a property the trimmer could not prove was
+    read stays unset rather than throwing — the options object binds to defaults for exactly the members
+    nobody explicitly kept, and the failure looks like a wrong value rather than a missing one. The
+    configuration-binding source generator (`EnableConfigurationBindingGenerator`) produces a binding method
+    per options type at build time, which puts the same list problem point 1 describes for serialisation
+    under the compiler's eye instead of the trimmer's guess.

@@ -75,3 +75,36 @@
     unreadability. `stopIgnoring()` is the other direction: a status the framework ignores by default
     (404, a CSRF failure) that this application specifically wants reported, because a spike in one of
     those is itself the signal.
+16. **A queued job's `failed()` method runs after every retry is exhausted, and it is for the side effect
+    the retries themselves cannot cause** — notifying an operator, marking the parent record as needing
+    attention, releasing a lock the job was holding. It is not a second chance to fix the job's error: by the
+    time it runs, `$attempts` is spent and the exception is already what it is. A job with no `failed()`
+    fails silently into the `failed_jobs` table (or the configured failed-job store), where nothing short of
+    someone querying it will ever notice — point 12's "the tracker has to know the difference" has a queue
+    equivalent, and it is this table.
+17. **A retried job re-dispatches the whole job, not a resumed continuation** — `$job->release()` and an
+    automatic retry both put the job back on the queue from its `handle()` entry point, so point 10's
+    idempotency requirement is not optional for anything that retries more than zero times. A job that
+    charges a card, then fails on the email that follows, retries the charge too unless the charge step
+    itself checks whether it already ran.
+18. **`Http::fake()` intercepts every outbound call in the test process, and a test that forgets a stub for
+    one route doesn't skip it — it gets a generic empty response** that can pass a test which never
+    asserted on the actual response body, and only fails once the code starts reading a field the fake never
+    provided. Asserting the request was sent (`Http::assertSent(...)`) is what makes the fake prove point 11
+    was implemented, rather than merely prove the code compiles.
+19. **A `ValidationException` and a bespoke domain "field is wrong" exception are not interchangeable**, even
+    though both eventually render as a 422. The framework's own class already carries the per-field
+    structure point 7 requires and is what a FormRequest throws automatically — reaching for a generic
+    exception to report a validation-shaped failure from inside a service class means re-implementing that
+    structure by hand, and a caller expecting the standard error-bag shape gets something else instead.
+20. **A rate-limit failure (`ThrottleRequestsException`) is an expected outcome, not an incident** — the same
+    distinction point 12 draws for a 422 or a stale-link 404, and reporting it at the same volume as a real
+    defect drowns the signal for the same reason. It is also where `Retry-After` matters: a client that
+    retries an HTTP 429 without reading that header is fighting the limiter with the same request that
+    tripped it, and a `catch` that swallows the exception and retries immediately just does the same thing
+    server-side.
+21. **A test that expects a throw asserts it, and asserting the exception type is not enough on its own.**
+    `expectException(DomainException::class)` alone lets a refactor swap in any exception of that class and
+    still pass — pairing it with `expectExceptionMessage()` or reading the exception's own data (point 7) is
+    what proves the failure carries what point 7 requires, not merely that *something* was thrown from
+    somewhere in the method under test.

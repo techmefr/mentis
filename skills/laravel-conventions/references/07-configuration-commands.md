@@ -65,3 +65,26 @@
     different arguments block each other unless `isolatableId()` folds the argument into the key — the
     trap is a command isolated by name alone silently serialising work that was actually safe to run in
     parallel per tenant or per record.
+17. **`config:cache` freezes every config file into one array, and that is when point 1's `env()`-outside-config
+    trap actually fires in production.** Running it in local development would surface the bug immediately;
+    skipping it locally and running it only in the deploy pipeline is exactly how the bug ships unnoticed — the
+    fix is to run `config:cache` (and `config:clear` before it, so stale keys don't survive a removed file) as a
+    standard deploy step, not as an optional performance tweak reached for later.
+18. **A command's signature encodes optionality and shape, not just a name.** `{name?}` is optional, `{name=default}`
+    carries a default, `{name*}` collects every remaining argument into an array, and `{--option=}` versus
+    `{--option}` is a value flag versus a boolean one — getting this wrong reads as a bug in argument parsing
+    that is actually a bug in the signature string, and it fails at the point the command is *called*, not at
+    the point it's defined, so it survives until someone hits the untested combination.
+19. **A scheduled task's timezone follows the server unless the schedule states one.** `->timezone('...')` on the
+    entry itself is the only way a task meant to run "at 9am for the business" survives a server in UTC or a DST
+    change — the default silently drifts twice a year in a region that observes it, and nothing in the schedule
+    definition says so unless it's stated per entry.
+20. **Chain scheduled tasks with `->after()`/`->before()` rather than cramming both into one command's `handle()`.**
+    A report that must run after an import finishes is two schedule entries with a declared dependency, not one
+    command calling the other directly — the chain stays visible in `schedule:list`, and either step can still be
+    run alone for a manual backfill.
+21. **A command is tested by invoking it, not by extracting its logic into something else to unit-test.**
+    `$this->artisan('command:name', [...])->assertExitCode(0)` (or `assertSuccessful()`/`assertFailed()`) runs the
+    signature, the confirmation prompt handling and `handle()` together, which is the only way a broken argument
+    binding or a confirmation the CI runner can't answer gets caught before it does in production — point 5
+    already put the actual work in an action class precisely so this test can stay thin.

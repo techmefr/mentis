@@ -56,3 +56,39 @@
 17. **A dependency is code running with your privileges.** Adding a package for one helper adds its
     transitive tree, its install-time code and whoever now maintains it, so the platform is worth checking
     first — and an unexplained dependency in a diff is a question rather than a detail.
+18. **`pyproject.toml` is the one place project metadata, dependencies and tool configuration are declared —
+    not a `setup.py` alongside a `setup.cfg` alongside a tool's own ini file.** Three files each owning part
+    of the same configuration drift the moment one is edited and the others are not, and a build backend
+    reading `pyproject.toml` while a linter still reads a `.flake8` next to it is exactly the "second way to
+    do a solved thing" point 16 already names — the fix is one file per project, not one file per tool.
+19. **A `src/` layout catches an import that only works by accident.** With the package importable straight
+    from the repository root, a test can pass by importing the working-directory copy of the module while
+    the installed package — the one that will actually ship — has a different bug or is missing a file the
+    editable install papered over. Nesting the package under `src/` means the test only imports the package
+    that was actually installed, so packaging mistakes surface locally instead of in production.
+20. **An `__init__.py` that does anything beyond re-exporting is a module body with a worse name for the
+    problem in point 3.** It runs on the first import of anything in the package, so a database call, a
+    plugin registry built by scanning submodules, or a side-effecting decorator placed there makes *touching
+    the package at all* — including from a tool that only wants to introspect it — trigger work the caller
+    never asked for.
+21. **`itertools` composes a pipeline without materialising the intermediate steps, which is point 7's
+    generator preference applied more than once in a row.** Chaining `filter`, then a comprehension, then
+    `list()` to feed another comprehension builds and discards a full list at each stage; `itertools.chain`,
+    `islice` and `groupby` (on already-sorted input — it groups consecutive runs, not the whole key space)
+    compose lazily, so a pipeline over a large or unbounded source still runs in the memory of one item at a
+    time.
+22. **`@dataclass(slots=True)` trades a per-instance `__dict__` for a fixed set of attribute slots**, which
+    is worth taking on a class instantiated many times over a request or a batch — it lowers the per-instance
+    memory and rejects an attribute assigned by typo instead of silently creating it. It costs the ability to
+    monkeypatch an arbitrary new attribute onto an instance later, which is rarely a loss for a data-carrying
+    class and is exactly why it is the discipline this section already asks for on such a class.
+23. **A `print()` in application code is a log line with no level, no destination and no structure**, and it
+    is also point 3's module-level work if it runs at import time. The standard library's `logging`, or a
+    structured logger built on it, gives every line a level that a handler can filter on and fields that a
+    log aggregator can query on — which a string concatenated for `print` cannot offer no matter how
+    carefully it is formatted.
+24. **A module importing a submodule only to re-export it should say so with an explicit `as`, or a checker
+    in strict mode flags the import as unused.** `from .models import User as User` is the accepted way to
+    tell both the reader and the linter that the import is the public surface, not a leftover — the
+    alternative of suppressing the warning wholesale hides the next genuinely unused import behind the same
+    silenced rule.

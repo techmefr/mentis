@@ -57,3 +57,38 @@
     answer unambiguous, and which now have to assert what the signature already knew.
 16. Tests are the relaxed zone: annotations optional, loose types acceptable in expressions. Holding test code
     to production typing rules buys nothing and costs momentum.
+17. **A `Protocol` describes a shape; `@runtime_checkable` lets `isinstance` ask about it, and the two answer
+    different questions.** A checker verifies structural conformance at every call site without the
+    decorator, which is the static guarantee that matters; `runtime_checkable` only checks that the named
+    methods exist, not that their signatures match, so an `isinstance` check that passes can still fail on
+    the first call with a wrong argument count. Reach for it only where the check genuinely happens at
+    runtime — a plugin loaded dynamically, a duck-typed value arriving from outside the type system — not as
+    a substitute for the static check that already ran.
+18. **A `TypedDict` key is required by default; mark the exceptions, not the rule.** `total=False` on the
+    whole mapping makes every key optional, including the ones the boundary always sends, which is §1.10's
+    `KeyError`-waiting-to-happen one level up. `Required`/`NotRequired` per key says exactly which fields a
+    partial payload is allowed to omit and leaves the rest checked.
+19. **`ParamSpec` types a decorator that forwards its wrapped function's exact signature, where a bare
+    `Callable[..., T]` erases it.** A decorator typed with `...` accepts a call with the wrong arguments and
+    only fails at the call the decorator wraps, far from the decoration site; `Callable[P, T]` with
+    `*args: P.args, **kwargs: P.kwargs` keeps the checker validating the original signature through the
+    wrapper, which is the whole reason to decorate rather than duplicate.
+20. **`Self` types a method that returns the calling class, including a subclass, without hand-writing a
+    `TypeVar` bound to it.** A builder or fluent-interface method returning the base class by name breaks
+    the chain the moment it is called on a subclass — the checker sees the base type back and every further
+    chained call resolves against the wrong class's methods. `-> Self` keeps the return type tied to
+    whatever was actually called.
+21. **`@overload` signatures are read top to bottom, and the first match wins.** A narrower overload placed
+    after a broader one that would also match is dead: the checker picks the first one whose parameter
+    types accept the call, so a `str`-specific overload following a general `object` one is never selected
+    and the general branch's return type is what every caller sees, silently.
+22. **A dataclass and a validation model answer different questions, and picking the wrong one shows up at
+    the boundary.** A dataclass is a typed container that trusts its caller — nothing rejects a value built
+    directly with the constructor — while a validation model checks its input as it is built and is what
+    §2.11 means by deriving the type from the validator. Internal, already-trusted data is a dataclass;
+    anything arriving from outside the process is validated first and only then handed around as one.
+23. **`Literal` types a value to its exact allowed members, not merely to `str`.** A parameter typed
+    `Literal["asc", "desc"]` rejects `"ascending"` at the call site, before the function runs, where a
+    parameter typed `str` accepts anything spellable and only fails — if it fails at all — the first time
+    the value is compared against one of the two it actually understands. It is the typed alternative to
+    §3.7's magic string for a set of values too small or too call-site-local to warrant a full `Enum`.

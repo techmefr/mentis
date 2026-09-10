@@ -80,3 +80,26 @@ section wholesale to that architecture.
     that profiles as "the third-party API is slow", and nothing on their side will move it. Failure still
     needs a decision per response — the pool returns one response or exception per call, and treating the
     whole pool as failed because one call did loses the ones that succeeded.
+19. **A rate limit is declared per named limiter, not read inline in the route.** `RateLimiter::for('api', ...)`
+    in a service provider centralises the policy (per-user, per-IP, tiered by plan) so every route naming that
+    limiter shares one definition; a `throttle:60,1` scattered across routes with different numbers per endpoint
+    is the same limit reimplemented slightly differently each time, and nobody can answer "what's our API rate
+    limit" without grepping every route file.
+20. **A resource's conditional attribute (`whenLoaded`, `when`, `mergeWhen`) keeps a payload honest about what was
+    actually fetched, instead of forcing every relation to load so the resource can serialise it.** `whenLoaded`
+    only emits the field if the relation was eager-loaded, so an endpoint that didn't ask for it doesn't pay for
+    it and doesn't return a subtly-null field that looks like missing data instead of a field the caller never
+    requested. `when($condition, ...)` does the same for a field gated on the caller's own permissions.
+21. **A resource collection's pagination metadata is the contract for "how many more," and hand-rolling it drifts
+    from what the paginator actually did.** Wrapping a paginator in a `ResourceCollection` carries `links` and
+    `meta` (current page, total, per-page) generated from the paginator itself; a controller that manually builds
+    `{data, total}` has to keep that shape in sync by hand every time the pagination strategy changes.
+22. **A custom validation rule (`implements ValidationRule`) is for a check that recurs across FormRequests, not
+    for one used once.** A single-use business check inline as a closure rule is fine and reads at the point it
+    applies; promoting every closure to its own class is over-factoring past point 5's rule from `§1` — the
+    class earns its place once a second FormRequest needs the same check and would otherwise copy the closure.
+23. **The `api` and `web` middleware groups apply different defaults, and moving a route between them changes
+    behaviour nobody asked for.** `web` carries session state and CSRF verification; `api` typically doesn't —
+    an endpoint built for one and later exposed through the other either loses the session it was relying on, or
+    gains CSRF verification a token-authenticated client was never going to send. The group a route sits in is
+    part of its contract, not an artifact of which file it was defined in.

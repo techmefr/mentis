@@ -105,3 +105,24 @@ the marker under strict mode collects silently as an unawaited coroutine and rep
 through the suite itself), and named the faster type-checker options (Pyright, Pyrefly, ty) as a one-tool
 swap under point 1, not a personal substitution. Nothing here answers the catalogue comparison a second
 time.
+
+**Widening, 2026-09-10 — pass élargie.** A word-count pass against the stack's parity target, not another
+catalogue comparison: the five thinnest sections (§6 DI/lifetimes, §3 naming, §1 typing, §2
+none/failures/exceptions, §5 structure/style) each gained 500-700 words as 6-7 new numbered points appended
+after their existing ones — nothing renumbered, nothing already stated repeated. Sourced from PEP 484/526/604
+/695/612 (`ParamSpec`), the `contextvars`, `weakref`, `contextlib`, `itertools`, `dataclasses` and `logging`
+stdlib docs, and the CPython exception-group / `except*` documentation — never from the org catalogue this
+block was already mined from, and never by reading the XEFI marketplace files. §6 gained `contextvars` over
+thread-locals for per-request state, runtime-parameterised factories, lazy-singleton race conditions, weak
+references for unowned caches, health checks resolving the real pooled binding, container-seam test overrides,
+and per-request scope teardown. §3 gained multi-parameter generic naming under PEP 695, `__all__` as the
+stated public surface, keyword-only parameter naming, scenario-based test names, abbreviation cost, positional
+-only parameter naming, and boolean-parameter naming. §1 gained `Protocol` vs `@runtime_checkable`,
+`TypedDict`'s `Required`/`NotRequired`, `ParamSpec` for signature-preserving decorators, `Self` return types,
+`@overload` resolution order, dataclass-vs-validation-model boundaries, and `Literal` as the typed alternative
+to a small magic string. §2 gained sentinel values distinct from `None`, `contextlib.suppress` naming its
+exceptions, `ExceptionGroup`/`except*` for concurrent failures, retry-policy design, the walrus operator
+next to an explicit `is None` check, generator cleanup under cancellation, and a custom exception forwarding
+its base `__init__`. §5 gained `pyproject.toml` as single-source project metadata, `src/`-layout catching
+accidental local imports, `__init__.py` side effects as module-body work, `itertools`-composed lazy
+pipelines, `@dataclass(slots=True)`, and `logging` over `print`.
