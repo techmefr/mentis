@@ -331,3 +331,54 @@ reference, the enumerator-cancellation and `CancellationTokenSource` API docs, `
 types, value conversions, and keyless entity types. No org catalogue file was read for this pass.
 References total (excluding this file): ~19,423 → ~22,456 words.
 
+**Widening, 2026-09-10 — cinquième pass.** csharp still carried the worst measured ratio in the table, so
+this pass took the five thinnest reference files by raw word count (§8, §2, §1, §5, §7) — the same five
+touched across the earlier passes above, now a further round — each checked against a gap not already
+covered, not against the org catalogue (already re-diffed 2026-09-07) but against current Microsoft Learn
+and vendor documentation for that file's own topic:
+
+- **§8** (resilience and throttling) gained strategy-registration order deciding which one wraps which in a
+  resilience pipeline builder, the pooled execution context's borrowed-for-one-call lifetime, a gRPC
+  channel's own retry policy compounding with the pipeline's when both apply to the same call, a chained
+  rate limiter's rejection coming from whichever limiter in the chain ran first, a pipeline built once per
+  client versus rebuilt per call losing the circuit breaker's memory between calls, an unnamed pipeline's
+  telemetry being indistinguishable from another one, and a cancellation token forwarded into pipeline
+  execution stopping the whole retry loop rather than only the in-flight attempt (§8.21–§8.27).
+- **§2** (dependencies and logging) gained `PostConfigure` running after every `Configure`/binding call
+  regardless of registration order, `ServiceProviderOptions.ValidateOnBuild` defaulting on only in
+  Development, `ActivatorUtilities.CreateInstance` as constructor injection that still bypasses the
+  composition root, log-then-rethrow producing two records of one failure, `IServiceProviderIsService` as
+  the registration check that doesn't resolve, a distributed trace's own identifiers replacing a
+  hand-rolled correlation id, and last-registration-wins applying to a keyed registration the same as an
+  unkeyed one (§2.24–§2.30).
+- **§1** (async, cancellation, threading) gained a bounded `Channel<T>`'s backpressure versus an unbounded
+  one deferring the same failure to memory, `Task.Yield` forcing a scheduler hop a completed-task await
+  would not, `SemaphoreSlim.WaitAsync`'s timeout overload as the way out of an indefinite wait,
+  `IHostedService.StartAsync` blocking the whole host's readiness when long-running work belongs in
+  `ExecuteAsync` instead, an unawaited task racing whatever the caller does next regardless of how properly
+  it was logged, and `CancelAfter`'s timer living as long as the token source that scheduled it
+  (§1.28–§1.33).
+- **§5** (disposal, nullability, enumeration) gained dependency-ordered disposal for hand-torn-down fields
+  where nested `using` gives that for free, `WeakReference<T>`/`TryGetTarget` as a cache mechanism rather
+  than a substitute for deterministic release, a boxed struct enumerator behind an interface-typed `foreach`,
+  `GC.SuppressFinalize` called from the public `Dispose()` rather than from the shared protected method,
+  `IMemoryOwner<T>`'s rented buffer being reused by the next renter the instant it's disposed, and a settable
+  record property breaking the value-semantics guarantee `with` depends on (§5.28–§5.33).
+- **§7** (language idioms) gained a custom interpolated string handler for a conditionally-run formatted
+  string, `checked` arithmetic for a calculation where overflow is a bug rather than the algorithm,
+  `StringSyntaxAttribute` for editor awareness of an embedded language with no run-time effect, extended
+  property patterns nesting a member access with its null guard built in, tuple deconstruction in a `foreach`
+  header, `in` parameters reserved for a struct actually too large to pass by value, and a discard stating a
+  position was considered and deliberately ignored (§7.24–§7.30).
+
+Sourced from current Microsoft Learn, the .NET Blog, the Polly documentation site and dotnet/runtime API
+references only, per this file's rule C: the Polly v8 resilience-pipeline ordering and execution-context
+pages, `System.Threading.Channels`'s bounded-channel and backpressure documentation, the options-pattern
+`PostConfigure`/binding-order and `ServiceProviderOptions.ValidateOnBuild` reference pages,
+`ActivatorUtilities` and `IServiceProviderIsService` API docs, the `IHostedService`/`BackgroundService`
+lifecycle reference, `SemaphoreSlim.WaitAsync` and `CancellationTokenSource.CancelAfter` API docs,
+`WeakReference<T>`/`ConditionalWeakTable` and `IMemoryOwner<T>`/`MemoryPool<T>` reference pages, and the C#
+language reference on interpolated string handlers, `checked`/`unchecked`, `StringSyntaxAttribute`, extended
+property patterns and `in` parameters. No org catalogue file was read for this pass.
+References total (excluding this file): ~22,456 → ~26,970 words (measured below).
+

@@ -98,3 +98,12 @@ interview §1 already requires; §2.13 states that a tool's priority score is an
 the ranking, not the ranking itself, since publishing the score as the order lets §2's loudest-request bias
 back in looking objective because a number produced it. Nothing here answers the catalogue comparison a
 second time.
+
+**Widening, 2026-09-10 — pass élargie.** Three of the thinnest sections in this block widened with points
+added after the existing numbering, none renumbered: §3 (saying no), §4 (acceptance criteria) and §5 (ready
+and done). No catalogue material involved — the catalogue owns §6–§9 and stayed untouched. Sourcing: public
+product-management practice (prioritisation frameworks, the problem-versus-feature-request distinction,
+stakeholder communication norms for a refusal, given/when/then and boundary-value testing conventions,
+definition-of-ready/definition-of-done maturity and anti-pattern literature) synthesised into this block's
+own voice, plus this repo's own pipeline experience for the points tying done to a rollback path, to a
+shared multi-team bar, and to a named owner of the definition itself.

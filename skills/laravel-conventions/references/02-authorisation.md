@@ -83,3 +83,47 @@
     the framework never finds it. The failure mode is a denial that looks like the check works — `can()`
     returns false for everyone, including the caller who should pass — so it reads as a strict app rather
     than a wiring bug, and it takes a deliberately-permitted test case failing to surface it (point 13).
+15. **`Gate::after()` can only widen a result the check itself left open, never overrule one already
+    settled.** A closure registered with `after` runs once every ability check has run, but its return value
+    is only used when the check resolved to `null` — a policy method that already returned `true` or `false`
+    keeps that result no matter what `after` says. The pattern this suits is auditing every decision in one
+    place after the fact; using it to bolt on a late veto is the bug, because the veto silently never fires
+    once a single policy method starts returning an explicit boolean instead of abstaining. [Laravel
+    authorization docs, laravel.com/docs/12.x/authorization, read 2026-09-10.]
+16. **`authorizeResource()` wires a whole resource controller to its policy in one line, and the mapping it
+    assumes is exactly point 1's action-to-permission list.** `index`/`show`/`store`/`update`/`destroy` each
+    resolve to the policy method of the same name, with the model resolved from the route for every method
+    except `index`/`store`, which check the policy's class-level ability instead of an instance. Adding a
+    custom action to the controller does not fail loudly here: the extra method simply runs unauthorised,
+    because `authorizeResource()` only ever wires the conventional seven. [Laravel authorization docs,
+    laravel.com/docs/12.x/authorization, read 2026-09-10.]
+17. **A policy's own `before()` method is point 11's bypass shape, scoped to one model instead of every
+    ability.** Defined *on the policy itself* — distinct from `Gate::before()` in point 11 — it runs ahead of
+    every method on that one policy and can short-circuit it the same way. The two exist for different blast
+    radii: `Gate::before()` for a principal who passes everything, a policy's own `before()` for a rule that
+    applies to every action on one model (an archived record nobody may mutate, regardless of which
+    mutation). Neither should duplicate the other; a policy `before()` re-checking "is this the super-admin"
+    is point 11's mistake moved one file over. [Laravel authorization docs, laravel.com/docs/12.x/authorization,
+    read 2026-09-10.]
+18. **A ternary permission check still has to name the record, or the "fallback" branch quietly becomes the
+    loosest rule in the app.** Guest access, a public preview, a degraded mode for a suspended account — each
+    is a real authorisation state, not the absence of one, and it belongs as its own named ability
+    (`view-preview`, `view-limited`) with its own policy method rather than an inline `$user ? $user->can(...)
+    : true` at the call site. The inline version is invisible to point 13's test suite, because nothing
+    forces a test to enumerate every caller state the ternary silently handles.
+19. **A middleware-level `can:` check and a controller-level `$this->authorize()` are the same rule expressed
+    twice only for as long as someone remembers to keep them in sync.** `Route::get(...)->middleware('can:update,post')`
+    checks the same ability the controller would otherwise call — pick one place per route and delete the
+    other, so a refactor that loosens the middleware doesn't leave a controller check nobody re-verifies as
+    still being the real gate.
+20. **A form's own conditional rendering is not authorisation, and cannot substitute for the server check.**
+    A button hidden from a caller who lacks the permission is a UX courtesy; the endpoint behind it still
+    needs the same `can()` or policy check point 3 already requires, because a caller can reach the route
+    without ever seeing the button. Treating the frontend gate as sufficient is how an endpoint ships with no
+    server-side check at all — nobody who only tested through the UI could have hit the gap.
+21. **A permission's own removal or rename is a data migration, not a code change alone.** Deleting a
+    permission that a role still references leaves that role — and every user holding it — silently able to
+    do less the next time that role's cached abilities are rebuilt, and renaming one without migrating the
+    pivot rows attached to the old name detaches every holder from it at once. Both are the schema-migration
+    problem `skills/laravel-conventions` §3 point 1 describes for an enum value, applied to the permission
+    table instead of a status column.

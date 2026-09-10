@@ -92,3 +92,45 @@
     every row past a small table, silently, because nothing about the query looks unindexed at the code level —
     a value filtered or sorted often enough to matter belongs promoted to its own column, and the JSON column
     stays for data that is genuinely read as a document and never filtered on individually.
+22. **`foreignId()->constrained()` is the shorthand and the constraint is not implied by the column alone.**
+    `foreignId('user_id')` only creates an unsigned big-integer column shaped like a foreign key; without the
+    chained `constrained()` (or an explicit `foreign()`) nothing at the database level stops it pointing at a
+    row that no longer exists, and the column reads as a relationship in the migration while behaving as a
+    plain integer in the schema. Point 20's `onDelete` decision only exists once this chain is complete.
+    [Laravel migrations docs, laravel.com/docs/12.x/migrations, read 2026-09-10.]
+23. **Renaming a table needs its foreign keys named first, or the rename detaches them.** Laravel names a
+    constraint from the table and column at creation time by convention; renaming the table does not rename
+    the constraint to match, so a later migration hunting for "the foreign key on this table" by the old
+    convention finds nothing, and a rollback that drops constraints by their expected name silently no-ops.
+    Give a foreign key an explicit name in the migration that creates it, and a rename stays a rename instead
+    of an accidental un-linking. [Laravel migrations docs, laravel.com/docs/12.x/migrations, read 2026-09-10.]
+24. **`upsert()` is one round trip for "insert the new ones, update the changed ones," and it still needs a
+    real unique or primary key to decide which rows collide.** Its second argument names the columns Laravel
+    checks for an existing match, and its third names which columns to update on a match — passed a column
+    with no unique constraint behind it, the database has no way to detect the collision and every call
+    inserts again, which reads as `upsert()` "not updating" when the real fault is the missing constraint
+    point 19 already covers. [Laravel query builder docs, laravel.com/docs/12.x/queries, read 2026-09-10.]
+25. **A composite primary key needs `$primaryKey` and `$incrementing` set explicitly on the model, because
+    Eloquent's default assumes a single auto-incrementing `id`.** A pivot-shaped table promoted to a real
+    model with a `(parent_id, child_id)` primary key still saves through `save()`/`update()` looking up by
+    the model's *assumed* `id` column unless both are overridden — the model appears to work until the first
+    update targets the wrong row, or every row, because the `WHERE` clause it builds silently used the wrong
+    key.
+26. **A column that is a foreign key is not automatically a good index for every filter on that table.** The
+    constraint guarantees referential integrity; it does not by itself make `(tenant_id, status)` — point
+    19's example — exist unless that composite is declared separately. A schema with foreign keys everywhere
+    and no composite indexes reads as "indexed" at a glance and still table-scans every filtered list query
+    that touches more than the key column alone.
+27. **A migration that back-fills existing rows before adding a `NOT NULL` constraint has an ordering
+    dependency the migration file itself has to enforce, not the deploy pipeline.** Adding the column
+    nullable, populating every existing row, then a second migration tightening it to `NOT NULL` is three
+    steps that must run in that order on every environment including one already carrying production data —
+    collapsing them into one migration that adds a `NOT NULL` column with no default fails outright on a
+    populated table, which is the difference between this working in CI (empty database) and failing in
+    staging (real one).
+28. **A `timestamp` column that must survive a server timezone change is stored as UTC and converted at the
+    edges, not stored in local time because that's what the reads use.** Casting a datetime column through
+    Carbon already normalises reads to the application's configured timezone; storing local time in the
+    column instead removes the one property that makes cross-timezone comparison and DST correctness possible
+    at the database level, and the bug it produces — an hour off, once or twice a year — is exactly the kind
+    that a project without stored UTC discovers on the day clocks change rather than in review.

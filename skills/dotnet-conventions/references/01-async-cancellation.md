@@ -133,3 +133,47 @@
     the same thread) is why "it worked in the console app and the tests" in point 3 is not a coincidence —
     those hosts have no synchronisation context either, so only the least representative environment
     catches the bug before it ships.
+28. **A bounded `Channel<T>` is backpressure with the writer as the one who waits, and an unbounded one is
+    point 14's unbounded-parallelism failure moved into a queue instead of a fan-out.** `WriteAsync` on a
+    bounded channel with `BoundedChannelFullMode.Wait` suspends the producer once the channel is full,
+    which is what keeps a fast producer from outpacing a slow consumer without either side polling; an
+    unbounded channel accepts every write immediately and defers the cost to memory, so a producer faster
+    than its consumer for any sustained period grows the queue until the process runs out of it rather than
+    failing at the point the mismatch started. Choose the full mode deliberately too — `Wait` for a
+    producer that can tolerate slowing down, `DropOldest`/`DropNewest` only where losing an item is
+    genuinely acceptable — because the default silently picked is not obviously either.
+29. **`Task.Yield` forces a hop through the scheduler where an `await` on an already-completed task would
+    not, and that difference is the entire reason to reach for it.** A CPU-bound loop that never awaits
+    anything holds its thread until it returns, which starves everything else queued on that thread pool the
+    same way point 23 describes; inserting `await Task.Yield()` periodically gives other queued work a
+    chance to run between chunks without introducing an actual asynchronous operation to wait for. It is not
+    a substitute for point 6's rule — genuinely CPU-bound work still belongs on `Task.Run` — it is what keeps
+    a long synchronous loop that already runs on a shared thread from monopolising it.
+30. **`SemaphoreSlim.WaitAsync` takes a timeout overload, and skipping it turns point 16's mutual-exclusion
+    primitive into an indefinite wait with no way out.** A caller that never provides a `TimeSpan` or a
+    token to `WaitAsync` blocks for as long as the semaphore stays held — which is exactly the deadlock
+    shape point 16 already warns about if the holder throws between acquire and release, except now visible
+    only as a hang with no exception raised anywhere. Passing a timeout and treating the `false` return as a
+    genuine "could not acquire in time" case, distinct from cancellation, gives the caller a path out that a
+    bare `await WaitAsync(token)` does not.
+31. **`IHostedService.StartAsync` runs before the host reports itself ready, and a long-running body placed
+    there instead of in `BackgroundService.ExecuteAsync` blocks startup itself.** The host awaits every
+    registered service's `StartAsync` before accepting traffic, so code that belongs in the ongoing loop —
+    a subscription that runs for the app's lifetime, a poll that never returns — placed in `StartAsync`
+    instead of kicked off and left running makes every deploy wait for that first iteration to finish, which
+    for a job whose first run happens to be slow reads as the whole application failing to come up rather
+    than as one background task being slow.
+32. **A `Task` returned from an event handler or a fire-and-forget dispatch that the framework does not await
+    completes on its own schedule, independent of whatever triggered it — and code downstream that assumes
+    it already ran has assumed wrong.** This is point 5's fire-and-forget hazard from the caller's side
+    rather than the callee's: even a properly logged, intentionally unawaited task still races whatever runs
+    next in the calling method, so a value the task was supposed to have set is read before it's guaranteed
+    to be set. Where the caller needs the result, it needs the await; a comment justifying why it doesn't is
+    not a substitute for the ordering guarantee only `await` provides.
+33. **A `CancellationTokenSource.CancelAfter` timer is disposed with the source it belongs to, and forgetting
+    it leaks the same way point 19's linked source does — with one extra trap.** `CancelAfter` schedules an
+    internal timer against the token source it was called on; disposing the source before the timer fires
+    cancels the pending callback, but a source that outlives its useful life because nothing ever calls
+    `Dispose` on it keeps that timer (and the source's own resources) alive for as long as whatever holds the
+    reference does. It is point 24's disposal rule applied to a source with a timer attached rather than a
+    plain linked one.

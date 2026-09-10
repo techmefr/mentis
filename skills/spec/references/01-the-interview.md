@@ -44,3 +44,29 @@
     epic's owner, with whoever holds the business rule, or in writing with yourself
     (`business/product-ownership` §9). What disappears in that configuration is the person who would have
     asked the awkward question, so it has to be asked deliberately.
+13. **The first answer confirms what the interviewer already expected far more often than it should.**
+    Anchoring and confirmation bias are the two that most reliably distort a requirements interview: a
+    question framed around the interviewer's working guess pulls the answer toward that guess, and a
+    surprising answer gets quietly rounded down to the expected one. Ask the version of the question that
+    could disprove the guess, not the version that confirms it.
+14. **A structured question list and an open one answer different failures.** A predefined list surfaces
+    what was anticipated and misses what wasn't; an open conversation surfaces the unanticipated case but
+    drifts past the ones that needed a precise answer. Start open on a new area, switch to specific
+    questions the moment a case worth pinning down appears — running only one mode for the whole interview
+    loses whichever failure the other mode would have caught.
+15. **"Why" only reaches the real constraint after several rounds, not after one.** A single "why do you
+    need this" usually returns the same request restated more politely; the underlying rule — a
+    regulation, a downstream system, a habit nobody has questioned in years — tends to surface two or
+    three "why"s in, which is also where the requester's own answer sometimes surprises them.
+16. **The interviewer's domain knowledge cuts the other way past a point.** Enough context to ask a sharp
+    question is what point 2 asks for; too much, and the interviewer starts filling silences with their
+    own assumption of what the requester means, skipping the confirmation that would have caught the case
+    where this requester's version of the domain differs from the textbook one.
+17. **Rapport is a prerequisite for an honest answer, not a nicety around the questions.** An interviewee
+    who feels rushed or judged gives the answer that ends the conversation fastest, not the one that is
+    most accurate — which shows up later as a spec built on a boundary case nobody was actually sure about
+    but nobody wanted to say so.
+18. **The same ambiguity asked of two stakeholders can return two different answers, and that split is a
+    finding, not noise to average away.** Whichever answer looks more convenient is the wrong one to keep
+    by default; the disagreement itself is the signal that a decision has never actually been made and
+    needs an owner (point 6), not two people quietly assuming they agree.

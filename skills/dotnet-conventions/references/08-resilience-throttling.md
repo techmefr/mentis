@@ -125,3 +125,52 @@
     process actually exits — a container orchestrator that sends `SIGKILL` on its own schedule, with no
     drain period the application requested, turns a routine deploy into exactly the abrupt failure a client
     retry or circuit breaker further up is left to absorb.
+21. **The order strategies are added to a pipeline builder is the order they wrap the call, not a hint the
+    runtime reorders for you.** The outermost strategy registered runs first and everything after it runs
+    inside it, so `AddTimeout` before `AddRetry` gives one total timeout around every attempt, while the
+    same two calls reversed gives a fresh per-attempt timeout that a slow retry loop can restart indefinitely
+    — the two registrations read almost identically and produce opposite budgets, which is exactly the
+    arithmetic point 2 asks for stated the other way round: read the pipeline top to bottom, in the order it
+    was built, not in the order that seems logical.
+22. **A pipeline's execution context is pooled, and holding onto it past the call it served corrupts the next
+    caller's run.** The standard library rents a context object per execution to avoid an allocation on every
+    retry and every attempt, and returns it to the pool once the callback completes; code that captures the
+    context reference for later — logging it after the call returns, stashing it on a field — reads or
+    mutates a context another execution has since been handed, which surfaces as telemetry correlated to the
+    wrong operation rather than as a crash. Read what you need from the context inside the callback, and treat
+    it as borrowed for the duration of that one call.
+23. **A gRPC channel's own retry policy and this platform's resilience pipeline are two independent retry
+    loops, not one layered on the other by default.** Configuring a service-config retry policy on the
+    channel and wrapping the same call in a resilience pipeline both believe they own the decision to retry —
+    each one sees only its own attempts, so the effective retry count is the product of the two, and the
+    total-timeout arithmetic in point 2 is wrong by exactly that factor unless one of the two layers is
+    switched off. Pick the layer that has visibility into the failure that actually matters (deadline
+    exceeded and unavailable are gRPC-level signals the channel already understands) and leave the other one
+    out of the path.
+24. **Chaining two rate limiters composes their effects, and which one runs first decides which rejection the
+    caller actually sees.** A global limiter placed ahead of a per-partition one caps total throughput before
+    a single caller is ever identified, so a shared-capacity rejection and a per-tenant rejection can both
+    apply to the same request for different reasons — inspecting only the per-partition limiter's counters
+    during an incident misses the case where the global one rejected first and the per-partition one never
+    even saw the request. Log which limiter in the chain produced the rejection, not just that one did.
+25. **A resilience pipeline built once and reused is the point of the abstraction; building one per call
+    defeats the pooling in point 22 and loses the circuit breaker's memory between calls.** A circuit
+    breaker's open/closed state lives on the pipeline instance, not on the call — a pipeline constructed
+    fresh for every request starts every request in the closed state, so the breaker point 4 describes never
+    actually opens no matter how many consecutive failures happen, because each failure is the first (and
+    only) one its own short-lived pipeline instance ever sees. Build the pipeline once per named client at
+    the composition root, the same place point 19 already registers the `HttpClient` it wraps, and reuse it.
+26. **Telemetry from a resilience pipeline reports the strategy's own name, and an unnamed pipeline reports
+    nothing useful across more than one of them.** Two independent pipelines built without an explicit name
+    emit indistinguishable events under a generic default, so a dashboard aggregating "retry count" across
+    the service cannot tell which dependency is the one retrying — point 10's visible signal is only as
+    useful as the name attached to it, and the name is a registration-time decision, not something telemetry
+    can recover afterwards.
+27. **A cancellation token passed into a resilience pipeline cancels the whole pipeline, not just the attempt
+    in flight — and a pipeline built without forwarding one silently cannot be cancelled at all.** The
+    execution APIs take a `CancellationToken` alongside the callback specifically so an external cancellation
+    (the caller's own deadline, a shutdown per point 20) stops the retry loop between attempts instead of
+    only stopping whichever attempt happens to be running; code that calls the pipeline with
+    `CancellationToken.None` because "the operation itself doesn't need cancelling" has also disabled the
+    caller's own ability to give up on the whole sequence of retries, which is a different promise than the
+    one point 9 makes about a token with no cancellable meaning.

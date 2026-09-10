@@ -48,3 +48,30 @@
     wanting, and not against what the demo revealed would have been nicer. A criterion that turns out to
     be wrong is fixed as a new item with its own decision — changing it during acceptance destroys the
     only fixed reference the work had.
+13. **A criterion is a single given/when/then, not a paragraph with "and" in it.** Two conditions joined
+    by "and" fail independently, at different times, for different reasons — and a criterion that fails
+    for reason B while everyone is checking reason A reads as passing. Splitting it costs a line and
+    buys back the ability to say exactly which behaviour broke.
+14. **Boundary values are named, not implied by "handles edge cases".** Zero, one, the maximum, one past
+    the maximum, empty, null: each is a different code path, and a criterion that gestures at "edge cases"
+    leaves the developer to guess which boundary was meant — which is another way of writing the criterion
+    for whichever boundary is cheapest to handle.
+15. **Criteria are drafted with whoever will build and whoever will test them, not authored solo and handed
+    over.** A criterion that reads as complete alone often turns out, in that conversation, to hide an
+    assumption the writer didn't know they'd made — the conversation is where that surfaces, at the cost
+    of ten minutes instead of a rejected review.
+16. **A criterion is falsifiable before it is written down**: state the input that would make it fail, not
+    only the one that makes it pass. A criterion nobody can imagine failing is usually restating the
+    happy path in different words, and it will pass regardless of what was built.
+17. **Order the criteria by what breaks the story if wrong**, not by the order they were dictated. The
+    criterion that decides whether the whole approach is viable belongs first, where it gets checked
+    before the ten minor ones — checking the minor ones first and finding the first one broken at the end
+    wastes the review on the part that mattered least.
+18. **A criterion that only a specialist can verify is a criterion the team can't self-check.** If reading
+    it requires the security engineer, the DBA or the one person who knows the legacy system, say so next
+    to the criterion — otherwise review either waits on that person or proceeds without the check that
+    mattered, and nobody notices which one happened.
+19. **Silence on a non-functional expectation is not neutral — it is read as "not required" by whoever
+    builds and "obviously required" by whoever asked.** Latency, accessibility, localisation, audit: each
+    needs its own criterion with a number or its own explicit exclusion (`skills/spec` §4.8), because the
+    absence of a line is read as a decision by both sides, and they read it in opposite directions.
