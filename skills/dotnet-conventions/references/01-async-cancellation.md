@@ -219,3 +219,42 @@
     capturing the local captures the value as it stood at that line, so a token replaced or linked (point 19)
     after the closure was created cancels a copy nothing downstream still holds — the same category of bug
     as point 12's token-outlives-the-request mismatch, arrived at through capture semantics instead of scope.
+40. **A delay, a timeout wait or a timed cancellation read against the wall clock directly is exactly the
+    kind of ambient read point 06.4 already forbids for business logic, and `Task.Delay`, `Task.WaitAsync`
+    and `CancellationTokenSource` now all have a `TimeProvider` overload that removes the excuse.** Passing
+    the injected time abstraction into `Task.Delay(delay, timeProvider, token)`, `Task.WaitAsync(timeout,
+    timeProvider)` or the `CancellationTokenSource(TimeSpan, TimeProvider)` constructor means a test can
+    advance a fake clock and observe the delay, the timeout or the cancellation firing instantly and
+    deterministically — the same testability point 06.4 buys for `DateTime.Now`, extended to the handful of
+    async primitives whose "now" used to be unavoidably the real clock. Code that still calls the
+    two-argument overloads on a path a test needs to control is choosing to sleep for real in that test.
+41. **A synchronisation primitive read for scheduling, not for mutual exclusion, is a different question from
+    point 18's — and `System.Threading.Lock` answers only the second one.** `Lock.EnterScope()` (point 18)
+    replaces a `Monitor`-based `lock` for a short synchronous critical section and is measurably cheaper on
+    the uncontended path because it skips the object-header sync block a plain `object` needs — but reaching
+    for it to "make this faster" in code that spends its time waiting on I/O rather than contending for the
+    critical section optimises a cost that was never the bottleneck; the two questions this section keeps
+    apart — is this CPU-bound synchronisation or I/O-bound waiting (point 6) — decide whether a faster lock or
+    an `async`-aware wait is the actual fix.
+42. **`Task.Factory.StartNew` does not unwrap a delegate that itself returns a `Task`, and an async lambda
+    passed to it produces a `Task<Task>` that silently stops representing the work anyone thinks it does.**
+    Awaiting the outer task only waits for the delegate's synchronous prefix — everything up to its first
+    `await` — and observes none of the exceptions or the completion the inner task represents, unless the
+    caller remembers to `Unwrap()` it explicitly; `Task.Run` does this unwrapping automatically, which is one
+    more reason point 6's "wrap CPU-bound work in `Task.Run`, not `StartNew`" is the safer default rather
+    than a stylistic preference between two equivalent APIs.
+43. **`TaskCreationOptions.LongRunning` only affects the delegate's synchronous prefix, and applying it to an
+    async delegate hints the scheduler about a portion of the work that is typically the shortest part of
+    it.** The flag asks the scheduler to give the callback a dedicated thread instead of a pool thread —
+    appropriate for work that would otherwise occupy a pool thread for minutes — but for an `async` delegate
+    that dedicated thread runs only until the first `await`, after which the continuation resumes on an
+    ordinary pool thread exactly like any other `async` continuation, making `LongRunning` a hint about code
+    that already finished before the actual long-running part (the awaited I/O) even started.
+44. **A type implementing `IAsyncDisposable` on a class hierarchy meant to be extended needs a protected
+    `DisposeAsyncCore` alongside the public `DisposeAsync`, the same split `Dispose`/`Dispose(bool)` already
+    has for the synchronous pattern.** A derived class overriding disposal without that seam either hides the
+    base's public `DisposeAsync` entirely (so a caller holding a base reference skips the derived cleanup) or
+    has nowhere correct to add its own async cleanup at all; and a type offering only `IAsyncDisposable` forces
+    every synchronous-context caller — one that cannot `await using` — to block on `DisposeAsync().AsTask()`
+    to dispose it at all, which is the sync-over-async hazard point 3 already warns about, arrived at through
+    a missing `Dispose()` overload rather than a `.Result` call.

@@ -152,3 +152,46 @@
     project that runs `optimize` (which chains `config:cache`, `route:cache`, `event:cache` and the view
     cache) as one deploy step catches all three traps together instead of discovering them one deploy at a
     time as each cache is added later.
+34. **A scheduled command's output can be captured without redirecting it by hand** — `->appendOutputTo($path)`
+    or `->emailOutputTo($address)` on the schedule entry is where point 11's "somewhere for a failure to
+    surface" becomes a concrete destination for a task that has no other logging of its own; `->emailOutputTo()`
+    only sends when there is output at all by default, so a silent success and a silent failure both need
+    `->emailOutputTo($address, andSendIfSuccessful: true)` if the goal is to hear from the task on every run,
+    not only when it has something to say.
+35. **`vendor:publish --tag=` publishes one package's config or migration files without also overwriting
+    every other file that package could publish.** Running `vendor:publish` for a package bare re-publishes
+    everything it offers, including files already customised locally, unless `--force` is withheld; `--tag`
+    scopes the operation to exactly the group the task needs (`config`, `migrations`, `views`), which is the
+    difference between "give me this package's config file to edit" and "silently overwrite the migration I
+    already modified."
+36. **`env()`'s boolean and null coercion only recognises specific string forms, and a value outside that set
+    reaches the caller as the literal string.** `"true"`, `"(true)"`, `"false"`, `"(false)"`, `"null"` and
+    `"(null)"` are coerced; `"1"` and `"0"` are not converted to booleans by `env()` itself, they arrive as
+    strings — point 29's typed `Config::boolean()` accessor exists precisely because the config file often
+    just forwards `env('FEATURE_X')` unchanged, and a `.env` value written as `1` instead of `true` silently
+    stays truthy-as-a-non-empty-string rather than becoming an actual boolean anywhere before that accessor
+    is reached.
+37. **A long-running artisan command (a queue-like worker loop, a daemon reading from an external source)
+    needs to react to `SIGTERM` deliberately, the same way point 10's batching already asks it to survive an
+    interruption.** `$this->trap(SIGTERM, fn () => $this->shouldExit = true);` lets the loop finish its current
+    unit of work and exit cleanly instead of being killed mid-write when the process manager restarts it on
+    deploy — without it, the command dies at an arbitrary point in its loop, which is the same corrupted-state
+    risk point 10 already names for a crash, just triggered by a deploy instead of an outage.
+38. **`php artisan config:show <key>` inspects one resolved config key without dumping the whole tree**, which
+    is the fast way to confirm a value actually resolved the way point 1 and point 22's cascade rules predict
+    — `config:show database.connections.mysql` shows the merged result across every file and package that
+    contributed to it, rather than reading each source file and mentally merging them, and it works whether
+    or not the config is currently cached.
+39. **`artisan db:seed --class=` runs one seeder in isolation, without re-running the `DatabaseSeeder`'s full
+    chain** — the tool for populating just the reference data a single feature needs during development,
+    separate from point 12's rule that the seeder itself stays idempotent regardless of how it's invoked. It
+    is also what makes point 11's "ship the seed data in the same change" checkable on its own: running the
+    new feature's seeder in isolation against a fresh database proves that seeder works without needing the
+    whole `DatabaseSeeder` chain to succeed first.
+40. **A command's class name and its artisan signature name are two different identifiers, and
+    `make:command --command=` sets the second without touching the first.** `php artisan make:command
+    SyncInventory --command=inventory:sync` produces a `SyncInventory` class whose `$signature` is
+    `inventory:sync` — the class name follows point 5 of `skills/laravel-conventions` §1's naming rules for
+    PHP classes, while the command name follows the project's own namespacing convention for artisan commands
+    (a colon-separated domain prefix); conflating the two by naming the class after the desired CLI invocation
+    produces a class name that reads like a terminal command instead of a PHP type.

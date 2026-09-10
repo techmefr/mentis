@@ -147,3 +147,47 @@
     event firing for any of them, so a listener relying on that event to invalidate a cache or reindex a
     search document simply never runs for a bulk operation, which is exactly the kind of change that looks
     identical to a per-model `->update()` at the call site and behaves nothing like it.
+27. **`doesntHave`/`whereDoesntHave` is `whereHas`'s negative, and it carries the same correlated-subquery
+    cost point 18 already names for its positive form — it is not a cheaper query just because the answer is
+    "none."** Reaching for a `leftJoin ... whereNull` instead is the join-based alternative point 18 describes,
+    with the same duplicate-row risk once the join itself is one-to-many; the choice between the two is the
+    same trade-off, only evaluated for "no match" instead of "at least one."
+28. **`firstOr(fn () => ...)` is a third option between point 3's `firstOrFail` and a fetch-then-null-check,
+    for the case where "not found" isn't an error at all but a different value to compute.** A lookup that
+    falls back to a default object, a freshly-built (but not persisted) model, or a cached value when no row
+    matches reads cleaner as `firstOr(...)` than as a fetch, a null check, and a branch — point 3's rule
+    still holds when the missing case genuinely is a 404; this is for when it isn't one.
+29. **A global scope applied automatically to every query on a model needs an explicit `withoutGlobalScope()`
+    (or `withoutGlobalScopes()`) at the one call site that legitimately needs to see past it, not a model-wide
+    toggle.** A soft-delete scope, a tenant scope, a "published only" scope all filter silently by design; the
+    trap is either forgetting a scope exists (a query that should see soft-deleted rows for an audit report
+    quietly excludes them) or removing it too broadly (a single report query disabling the tenant scope for the
+    whole request instead of for its own query) — the removal is scoped to the query, the same way the
+    filtering was.
+30. **`whereBelongsTo($model)` replaces a hand-written `where('model_id', $model->id)` with the foreign key
+    read from the relationship definition itself, and that is more than a shorthand once the relation's key
+    name diverges from the table's default.** A `belongsTo` declared with a custom foreign key or owner key
+    means the hand-written version has to know and repeat that customisation at every call site; `whereBelongsTo`
+    reads it from the relationship once, so a later rename of the foreign key column only has to change the
+    relationship definition instead of every place that filtered on it directly.
+31. **`simplePaginate()` and `cursorPaginate()` both skip the `COUNT` query `paginate()` runs to compute a
+    total, and that is a real cost difference on a large table, not just a smaller response payload.**
+    `paginate()`'s total is what a numbered page control needs to render "page 3 of 40"; a "load more" or
+    infinite-scroll UI never shows that number, so paying for the count query on every page request buys
+    nothing for it — `simplePaginate()` drops the total but keeps offset-based paging (and point 34 of
+    `skills/laravel-conventions` §6's ordering trap with it), while `cursorPaginate()` drops both the total
+    and the offset instability at once.
+32. **`when($condition, fn ($query) => ...)` and `unless()` build a query's optional clauses inline, without a
+    chain of `if` statements duplicating the query object being reassigned in each branch.** A filter that
+    only applies when a request parameter is present reads as `$query->when($request->filled('status'), fn
+    ($q) => $q->where('status', $request->string('status')))` rather than an `if` around a `$query =
+    $query->where(...)` reassignment — the same query builder point 9 of `skills/laravel-conventions` §6
+    already asks to validate the parameter against an allow-list before it reaches this point, `when()` is
+    just where the validated value gets applied conditionally.
+33. **`Model::withoutTimestamps()` and a mass `update()` that bypasses `updated_at` are two different ways a
+    bulk write can leave the timestamp lying about when it last changed, and only one of them is deliberate.**
+    Wrapping a backfill in `withoutTimestamps()` is an explicit statement that this write shouldn't disturb the
+    column a cache-invalidation or a "recently modified" query relies on; a bulk `update()` via the query
+    builder (point 26) skips it implicitly and silently, which reads identically at the call site but for the
+    opposite reason — one is a decision, the other is the same gap point 26 already names, just visible through
+    the timestamp instead of a missing event.

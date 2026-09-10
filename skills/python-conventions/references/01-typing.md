@@ -92,3 +92,37 @@
     parameter typed `str` accepts anything spellable and only fails — if it fails at all — the first time
     the value is compared against one of the two it actually understands. It is the typed alternative to
     §3.7's magic string for a set of values too small or too call-site-local to warrant a full `Enum`.
+24. **`@override` states that a method is meant to replace one from a superclass, and the checker verifies
+    it.** Without it, renaming or removing the base method silently turns the subclass's method into a new,
+    unrelated one that nothing calls the way the author intended — the checker has no way to tell "this was
+    supposed to override something" from "this is a new method that happens to share a name". `@override`
+    makes that intent checkable instead of assumed.
+25. **`TypeIs` narrows both branches; `TypeGuard` narrows only the positive one.** A function returning
+    `TypeIs[int]` lets the checker treat the value as `int` after a true check and as the original type minus
+    `int` after a false one, matching how `isinstance` already behaves — `TypeGuard` narrows only the `if`
+    branch and leaves the `else` branch at the original, wider type, which is right only for the rarer case
+    where the predicate does not partition the input cleanly. Reach for `TypeGuard` deliberately, not as the
+    default because it came first.
+26. **A closed `TypedDict` (`closed=True`, or a per-field `extra_items` type) says no other key can appear**,
+    where a plain `TypedDict` only constrains the keys it names and silently accepts anything else a caller
+    adds. A payload validated against an open `TypedDict` can carry a typo'd key alongside the correct one and
+    the checker will not flag it, because nothing said the shape was exhaustive.
+27. **A stub-only detail — `.pyi` files, third-party stubs, `typeshed` overrides — is still part of the
+    contract your code type-checks against**, even though it never runs. A local stub that lags the library's
+    actual signature passes the checker while calling code breaks at runtime, which is a more confusing
+    failure than no stub at all: the checker vouched for a shape the library stopped providing.
+28. **A generic bound (`class Repo[T: HasId]`) is a promise the checker enforces, not documentation.**
+    `class Repo[T]` alone says nothing about what `T` supports, so any method needing `.id` on the stored
+    value has to fall back to `Any`-shaped access or an `# type: ignore`; the bound lets the checker verify
+    every instantiation actually satisfies it and lets the repository's own methods use `.id` without
+    narrowing first.
+29. **`NewType` distinguishes two values with the same runtime type but different meaning**, at zero runtime
+    cost. `UserId = NewType("UserId", int)` stops a plain `int` — a page number, a quantity, another entity's
+    id — from being passed where a user id is expected, a mistake `int` alone cannot catch because both sides
+    of the call are "just an int" to the runtime; the checker is the only place the distinction exists, which
+    is exactly where the bug would otherwise go unnoticed.
+30. **A `Callable` protocol is more than one method wearing a function's shape.** `Protocol` with a
+    `__call__` signature types "anything callable this way" — a plain function, a bound method, a class with
+    `__call__` — without forcing a caller into a base class, which is what makes it the right shape for a
+    pluggable strategy or hook where a lambda is often the natural first implementation and a `Protocol`
+    inheritance requirement would rule it out.

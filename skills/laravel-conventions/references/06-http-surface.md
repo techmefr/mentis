@@ -148,3 +148,51 @@ section wholesale to that architecture.
     operation is genuinely not CRUD" — the trap is letting that hand-written route drift out of the naming,
     middleware, or throttling convention (point 19) the resource routes around it all share, because nothing
     forces it to look like its siblings the way `Route::resource()` forces its five.
+31. **A signed URL is the framework's answer to "this link must not be forgeable", and it is a different
+    guarantee from the token-authenticated request point 19's rate limiter already assumes.** `URL::temporarySignedRoute()`
+    embeds an expiry and a signature the route's own `signed` middleware verifies, which is what an
+    unsubscribe link, an invoice download, or an email-verification link needs — none of them carry a
+    session or a bearer token, so without a signature the URL itself is the only credential and anyone who
+    guesses or forwards it gets in. Reach for it instead of a hand-rolled hash-in-the-query-string check,
+    which reimplements the expiry and the tamper-detection worse. [Laravel URL generation docs,
+    laravel.com/docs/12.x/urls, read 2026-09-10.]
+32. **A Sanctum token's abilities scope what that specific token may do, and checking them is a separate
+    step from checking the user is authenticated.** `$request->user()->tokenCan('orders:write')` answers "did
+    the caller present a token narrow enough for this action," which point 8's policy check does not cover
+    on its own — a personal-access token issued for read-only reporting must still fail a write endpoint even
+    though the underlying user could otherwise perform it, and forgetting `tokenCan()` on a token-issued route
+    means every token minted for that user carries every permission the user has, regardless of what it was
+    actually created for.
+33. **A FormRequest's `prepareForValidation()` runs before the rules, and `passedValidation()` runs only once
+    they pass — using the wrong one turns normalisation into a second validation pass.** `prepareForValidation()`
+    is where a slug gets lowercased or a phone number stripped of formatting *before* a rule checks it;
+    putting that same normalisation in `passedValidation()` means the rules validated the raw, unnormalised
+    input instead. Neither hook is where point 8's authorisation belongs — both run after `authorize()`,
+    not in place of it.
+34. **Cursor pagination (`cursorPaginate()`) trades random page access for a stable result under concurrent
+    writes, which offset pagination (point 21) cannot offer.** An offset-based page is computed by skipping N
+    rows at query time, so a row inserted or deleted ahead of the cursor shifts every later page by one — the
+    same class of bug point 21 of `skills/laravel-conventions` §4 describes for `chunk()`. A cursor instead
+    encodes the last row's sort key in an opaque token, so "page two" means "rows after this key" regardless
+    of what changed before it. It costs the ability to jump to an arbitrary page number, which is the
+    trade-off to name before reaching for it on an infinite-scroll feed versus a numbered results table.
+35. **A resource's `wrap()`/`withoutWrapping()` decides whether the payload's top level is `{"data": {...}}`
+    or the bare object, and that decision has to be made once for the whole API, not per resource.** The
+    default `data` wrapper is what point 21's collection metadata (`links`, `meta`) sits alongside; calling
+    `JsonResource::withoutWrapping()` in a service provider for an API that a frontend already unwraps
+    manually removes a redundant nesting level, but flipping it resource-by-resource produces an API where
+    some endpoints are wrapped and some are not, which is the same inconsistency point 11's envelope rule
+    already forbids for the response shape.
+36. **`Http::retry()` bounds how many times an outbound call is retried and on what backoff, and it composes
+    with point 18's `Http::pool()` rather than replacing it.** `Http::retry(3, 100)` retries a failing request
+    up to three times with a growing delay before the caller ever sees the exception, which is the right tool
+    for a flaky third-party API's transient 500s and timeouts — it is not a substitute for point 18's
+    concurrency answer to "three slow calls in a loop," because a retried call is still one call, just tried
+    more than once. A retry callback (`retry($times, $sleep, $when)`) can also narrow which failures are worth
+    retrying, so a 422 from a validation problem on the far side does not get retried into a rate limit.
+37. **CORS is one configuration file, not a header set by hand in a controller or middleware.** `config/cors.php`
+    declares which origins, methods and headers a browser-based cross-origin caller may use, and the framework's
+    own `HandleCors` middleware applies it consistently to every route in the group it's attached to — a
+    controller that manually sets `Access-Control-Allow-Origin` on its response duplicates a decision the config
+    file already owns, and it is the version that drifts the day the allowed-origins list changes and one
+    controller is missed. [Laravel routing docs — CORS, laravel.com/docs/12.x/routing, read 2026-09-10.]

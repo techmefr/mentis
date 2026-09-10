@@ -90,3 +90,31 @@
     exit hook was never wired leaks exactly like point 3's captive dependency, except the leak is in the
     container's own bookkeeping rather than in application code, which is why it tends to be found as a
     slow file-descriptor or connection-count climb rather than as a wrong answer.
+23. **A framework's own DI (FastAPI's `Depends`, a test runner's fixtures) is still a container, and points
+    1 through 22 still apply to it.** `Depends(get_session)` cached per request is the same per-request scope
+    as point 1's default; a `Depends` that opens a connection inline is point 10's constructor doing work; the
+    rules do not relax because the container is built into the framework rather than a separate library.
+24. **A default argument evaluated once at function definition (`def handler(service=Service())`) is a
+    de facto singleton binding with none of a container's visibility.** It is built at import time, shared
+    across every call, and mutable state on it behaves exactly like point 2's captive dependency — except
+    nothing that reads the signature would guess a singleton is hiding there, because it looks like an
+    ordinary default.
+25. **Constructor injection and property/attribute injection answer different questions about when a
+    dependency must exist.** A required collaborator belongs in `__init__`, where its absence is a
+    construction-time error the type checker can already see (§1.7); an attribute set after construction
+    can be forgotten, leaving an object that instantiates successfully and then fails the first time the
+    attribute is used, which is strictly worse than failing at construction.
+26. **A binding chosen by decorating a class (`@injectable`) still has to be discoverable by reading the
+    class, not only by knowing the container's scan configuration.** A decorator that silently omits
+    registering the class when a naming convention isn't matched, or a container that only picks up classes
+    under a configured module path, turns "why isn't this resolving" into a container-configuration hunt
+    instead of a two-line diagnosis from the class definition itself.
+27. **Environment-specific bindings (a fake email sender in tests, an in-memory store in local dev) belong
+    in one composition root per environment, not in `if os.environ.get(...)` branches inside the binding
+    itself.** A binding that inspects the environment to decide what to construct hides the substitution
+    point 8's protocol was supposed to make explicit — the environment should choose which composition root
+    runs, not which object a single binding quietly returns.
+28. **A dependency resolved lazily through a `Provide[...]` marker at the call site still has to be typed as
+    what it resolves to, not as the marker itself**, or the signature lies to both the reader and the checker
+    about what the parameter actually is once the framework's wiring step substitutes the real value —
+    the same visibility argument as point 6, applied to a marker-based container rather than a lookup call.

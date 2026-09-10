@@ -146,3 +146,25 @@ gained fixture scope as a state-sharing claim, parametrized-fixture combinatoria
 parametrize ids, Hypothesis for properties rather than examples, test-only dependencies still needing a
 declared group, matching a fixture's scope to its resource's real lifetime, and `conftest.py`'s
 directory-based discovery and shadowing.
+
+**Widening, 2026-09-10 — troisième pass.** Same word-count method as the day's first two passes, run against
+the five thinnest files remaining after them: §1 typing, §2 none/failures/exceptions, §3 naming, §4 async,
+§6 DI/lifetimes — each gaining roughly 400-600 words as new numbered points appended after their existing
+ones, nothing renumbered, nothing already stated repeated. Sourced from the `typing` documentation and its
+associated PEPs (698 `@override`, 742 `TypeIs`, 728 closed `TypedDict`), the `asyncio` stdlib docs (`Future`,
+locks, comprehensions, `anyio` versus raw structured concurrency), the exception and pytest-fixture
+documentation, and general naming/DI reasoning already used elsewhere in this block — never from the org
+catalogue this block was already mined from, and never by reading the XEFI marketplace files. §1 gained
+`@override`, `TypeIs` versus `TypeGuard`, closed `TypedDict`s, stub-file contracts, generic bounds, `NewType`,
+and callable `Protocol`s. §2 gained `raise ... from None`'s deliberate-hiding claim, exception hierarchies as
+a selective-catch tool, a library's exceptions as part of its public contract, tuple- versus stacked-`except`
+semantics, `BaseException` versus `Exception`, context managers duplicating pytest fixtures, and
+`TimeoutError`'s two unrelated origins. §3 gained module-versus-symbol naming, package `__init__.py`
+re-exports as a public-surface statement, decorator naming, name reuse across a module's history, pytest
+fixture names as public vocabulary, version-numbered names, and dunder look-alikes. §4 gained async context
+managers under cancellation, `asyncio.run()`'s per-call teardown, unresolved manual `Future`s, non-reentrant
+lock deadlocks, async comprehensions exhausting an unbounded source, and mixing `anyio` with raw `asyncio`
+primitives. §6 gained framework-native DI (`Depends`) still following the same rules, mutable default
+arguments as an invisible singleton, constructor versus attribute injection, decorator-based registration
+discoverability, environment-branching inside a binding instead of at the composition root, and typing a
+marker-resolved dependency as what it resolves to.

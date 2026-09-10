@@ -93,3 +93,35 @@
     and never calls `super().__init__()` prints as a blank line in a traceback and nothing in a log that
     formats exceptions by their string form — the fields are there on the object, but nothing standard
     reads them without knowing the specific class first.
+25. **`raise ... from None` says a cause was deliberately hidden, and that claim has to be true.** It reads
+    as "this is not an implementation detail leaking through, it is the actual error" — appropriate at a
+    boundary translating a low-level failure into a domain one the caller should not need to unwrap. Reaching
+    for it because the original traceback was noisy, rather than because the cause is genuinely irrelevant,
+    throws away the one piece of evidence that would have explained the failure.
+26. **An exception hierarchy is a tool for callers to catch selectively, not a taxonomy for its own sake.** A
+    single flat `AppError` forces every caller to inspect a code or a message to decide what happened,
+    exactly what point 8 exists to avoid; a base `AppError` with `NotFoundError`, `ConflictError`,
+    `ValidationError` beneath it lets a caller catch the one it can handle and let the rest propagate, without
+    the module publishing every leaf class it might ever raise.
+27. **A library's public exceptions are as much its contract as its return types.** A caller reasonably
+    writes `except LibrarySpecificError:` once the library documents raising it, so renaming, removing or
+    quietly no-longer-raising that class is a breaking change to every consumer, even though nothing about a
+    call signature changed — the same discipline point 8's inheritance chain assumes but from the other side
+    of the boundary.
+28. **`except (ValueError, TypeError):` and two stacked `except` clauses answer different questions.** A
+    tuple says both exceptions get the same handling; separate clauses say they don't, even if today's bodies
+    happen to look alike. Collapsing two clauses that will diverge the moment one needs its own logging or
+    recovery just to save a line reads as intentional and has to be undone later.
+29. **`BaseException` is not `Exception`, and catching it catches `SystemExit` and `KeyboardInterrupt`
+    alongside real errors.** A bare `except:` (no class at all) is broader than even point 8 warns about — it
+    swallows the process's own shutdown signals, so a script that should exit on Ctrl-C instead logs "unknown
+    error" and keeps running. Name `Exception`, never leave the class off entirely.
+30. **A context manager that only wraps setup and teardown, with nothing between, is a fixture in disguise
+    — and pytest already has that concept** (`skills/python-conventions` §8). Hand-writing `__enter__`/
+    `__exit__` for "create a temp resource, yield it, clean it up" inside test code duplicates what a
+    `pytest.fixture` with a `yield` statement already does with lifecycle management the runner understands,
+    including teardown on a failed test.
+31. **A `TimeoutError` from point-in-time code and one from `asyncio` share a name but not always a cause.**
+    Catching `TimeoutError` around a call that can time out for either reason without checking which
+    operation actually raised it can mask a hung dependency as a slow one, or vice versa — the same
+    "caught by type, wrong assumption about what it means" trap as catching too broad a class in point 8.

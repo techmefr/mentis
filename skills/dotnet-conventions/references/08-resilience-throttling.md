@@ -212,3 +212,43 @@
     diverges from, or interleaves with data the first one already emitted — which is a corruption mode
     point 1's ordinary "receiver deduplicates on a key" answer does not cover, because there is no single
     response to deduplicate.
+33. **The rate limiter algorithm is a choice about what kind of burst is tolerated, and the four shipped
+    implementations answer that differently, not just with different counters.** A fixed window resets its
+    count at a clock boundary, so a caller who sends nothing all window and then everything in its last
+    second, followed immediately by everything in the next window's first second, doubles the configured
+    rate for that one instant with no rule violated on paper; a sliding window divides the window into
+    segments and slides them forward, closing exactly that boundary case at the cost of more state per
+    partition; a token bucket instead replenishes continuously and lets a caller spend banked tokens in a
+    burst, which is the right shape for a client whose real traffic is bursty by nature rather than one that
+    should be smoothed. Picking fixed window because it's the first one in the list, for traffic that
+    actually bursts at window boundaries, is choosing the shape that fails at exactly the moment a limiter
+    exists to prevent.
+34. **A chaos strategy injected into a resilience pipeline needs to sit last in the pipeline to fault the call
+    itself, not first to fault the pipeline's own bookkeeping.** Point 14 already states that fault injection
+    is what turns the pipeline's arithmetic into an observed outcome; where the chaos strategy is registered
+    relative to retry, timeout and the circuit breaker decides what those strategies see — placed innermost,
+    a fault or an injected latency looks to the outer strategies exactly like the dependency failing, which is
+    what exercises them; placed outermost, it can abort the call before the strategies meant to be tested ever
+    run, and the test passes for having verified nothing.
+35. **A resilience pipeline that reads the wall clock directly cannot be driven through a fake clock in a
+    test, and point 14's fault injection only closes half of that gap.** A delay generator, a backoff
+    calculation or a timeout is specified in wall-clock time by default, so a test asserting "the third retry
+    waits about four seconds" either sleeps for four seconds or accepts a flaky window around the assertion;
+    building the pipeline against an injected time abstraction instead of `DateTime`/`Task.Delay` directly (the
+    same dependency point 06.4 already asks for around business logic) lets a test advance a fake clock
+    instantly and observe the exact retry schedule the configuration produces, deterministically, without
+    waiting or guessing at a tolerance.
+36. **A `SlidingWindowRateLimiter`'s extra state is proportional to its segment count, and configuring more
+    segments than the partition cardinality can justify spends memory on precision nobody asked for.** Each
+    partition key (point 16) gets its own limiter instance, and a sliding window limiter carries a counter per
+    segment per partition rather than the single counter a fixed window needs — smoothing the window-boundary
+    burst point 33 describes is worth that cost for a partition scheme with a bounded, known cardinality,
+    and is a second multiplier on top of point 16's unbounded-partition warning for one that isn't, turning a
+    memory-exhaustion risk that was already there into one that grows faster.
+37. **A rejection lease can carry more than a boolean, and discarding the `RateLimitLease`'s metadata after
+    checking `IsAcquired` throws away the one piece of information that explains the rejection.** A lease
+    returned from a limiter can carry metadata — a retry-after duration the limiter itself computed, the
+    reason a partition was rejected — that a caller checking only whether the acquisition succeeded never
+    reads; surfacing that metadata into the 429 response is what makes point 6's "the rejection has to be
+    machine-readable" true using a number the limiter already calculated, instead of a fixed retry-after the
+    caller picked without knowing the limiter's own state.

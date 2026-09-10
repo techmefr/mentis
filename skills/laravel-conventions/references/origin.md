@@ -588,3 +588,75 @@ mode, transaction retries, `rescue()`, HTTP client retries, job backoff, `Sleep:
 and conditional reporting helpers — `laravel.com/docs/12.x/{broadcasting,validation,authorization,container,
 database,eloquent,queues,http-client,errors}` and PHP 8.4's own asymmetric-visibility/property-hooks RFC
 notes, all read 2026-09-10. The marketplace XEFI was never opened for this pass.
+
+**Widening, 2026-09-10 — septième pass.** The five thinnest files by a fresh `wc -w` measurement —
+`06-http-surface.md` (2,251), `09-tests-static-analysis.md` (2,284), `08-jobs-realtime.md` (2,292),
+`04-queries.md` (2,296) and `07-configuration-commands.md` (2,316) — each gain 6–7 new points, same
+extend-don't-renumber method as every prior same-day pass: nothing already numbered moved, everything new
+appended after the last existing point, because the standalone `skills/laravel-*` files' `§N.M` citations
+(`bin/check_citations.py`) depend on the numbering holding still.
+
+§6 (HTTP surface) adds points 31–37: signed URLs (`URL::temporarySignedRoute()`) as the credential for a
+link with no session or bearer token; a Sanctum token's own abilities (`tokenCan()`) as a narrower check
+than "is this user authenticated"; `prepareForValidation()` versus `passedValidation()` as two different
+moments to normalise input, not interchangeable; cursor pagination trading random page access for stability
+under concurrent writes, unlike offset pagination; a resource's `wrap()`/`withoutWrapping()` decided once
+for the whole API rather than per resource; `Http::retry()` bounding an outbound call's own retries,
+composing with (not replacing) `Http::pool()`; and CORS as one config file rather than a header set by hand
+per controller.
+
+§9 (tests/static analysis) adds points 37–43: `Http::preventStrayRequests()` turning a forgotten
+`Http::fake()` into a hard failure instead of a real network call; `Process::fake()` as the same
+external-boundary rule applied to a shelled-out binary; Larastan generic collection annotations
+(`Collection<int, Invoice>`) as what actually lets it check contents, not just presence; a Pest architecture
+preset (`->preset()->php()/->security()`) bundling structural rules instead of hand-writing each one;
+`assertOnlyJsonPath` catching an extra serialised field `assertJsonPath` alone would miss; freezing
+`CarbonImmutable::setTestNow()` specifically when the codebase reads that class rather than plain `Carbon`;
+and `RefreshDatabase` not covering a second database connection a command manages on its own.
+
+§8 (jobs/realtime) adds points 30–36: a job's own `$afterCommit` property as a per-job override of the
+connection-wide `after_commit` setting; `Bus::chain()->catch()` firing once for the chain, a different
+signal from one job's own `failed()`; `displayName()` for a dashboard-legible name on a job class reused
+across distinct payloads; `$deleteWhenMissingModels` as a deliberate "a missing subject is fine here"
+statement rather than a blanket setting; a notification's `via($notifiable)` choosing channels per
+recipient, not just per class; `Queue::before()`/`Queue::after()` listeners for logging or metrics across
+every job from one place; and `broadcastAs()`/`broadcastWith()` decoupling the wire event name and payload
+from the PHP class name and public properties.
+
+§4 (queries) adds points 27–33: `doesntHave`/`whereDoesntHave` carrying `whereHas`'s correlated-subquery
+cost for its negative case too; `firstOr(fn () => ...)` for a missing row that is a different value to
+compute, not a 404; scoping `withoutGlobalScope()` to the one query that needs it rather than a model-wide
+toggle; `whereBelongsTo($model)` reading a relation's own foreign/owner key instead of hardcoding it;
+`simplePaginate()`/`cursorPaginate()` skipping the `COUNT` query a numbered page control needs but an
+infinite-scroll UI never uses; `when()`/`unless()` for inline conditional query clauses instead of an `if`
+reassigning the query variable; and `withoutTimestamps()` as a deliberate exception to a bulk write silently
+skipping `updated_at`, distinct from the query-builder gap point 26 already names.
+
+§7 (configuration/commands) adds points 34–40: a scheduled entry's `->appendOutputTo()`/`->emailOutputTo()`
+as a concrete destination for point 11's "somewhere for a failure to surface"; `vendor:publish --tag=`
+scoping a republish to one file group instead of overwriting everything a package can publish; `env()`'s
+narrow boolean/null coercion versus a `.env` value written as `"1"`/`"0"` that never becomes an actual
+boolean before `Config::boolean()`; `$this->trap(SIGTERM, ...)` letting a long-running command finish its
+current unit of work instead of dying mid-write on a deploy restart; `config:show <key>` inspecting one
+resolved value instead of the whole merged tree; `db:seed --class=` running one seeder in isolation without
+the full `DatabaseSeeder` chain; and `make:command --command=` separating a command's PHP class name from
+its artisan signature name.
+
+Word counts re-measured with `wc -w` after the edits: `06-http-surface.md` 2,251 → 2,978 (+727),
+`09-tests-static-analysis.md` 2,284 → 2,939 (+655), `08-jobs-realtime.md` 2,292 → 2,960 (+668),
+`04-queries.md` 2,296 → 2,967 (+671), `07-configuration-commands.md` 2,316 → 2,930 (+614).
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions`/`php-patterns`
+at a different angle (idempotent bulk writes, the prefer-the-framework's-own-mechanism argument, the
+external-boundary-must-be-faked rule) or is synthesised fresh from Laravel's own current public
+documentation for the mechanism named — signed URLs, Sanctum token abilities, form-request lifecycle hooks,
+cursor pagination, JSON resource wrapping, the HTTP client's retry and CORS handling, `Http::preventStrayRequests()`
+and `Process::fake()`, Larastan's generic collection typing, Pest architecture presets and JSON test
+assertions, job middleware and batching (`$afterCommit`, chain `catch()`, `displayName()`,
+`$deleteWhenMissingModels`), notification channel routing, queue job events, broadcast event customisation,
+query-builder negatives and conditionals (`doesntHave`, `firstOr`, `withoutGlobalScope`, `whereBelongsTo`,
+`simplePaginate`/`cursorPaginate`, `when()`/`unless()`, `withoutTimestamps()`), and console/scheduling
+tooling (`emailOutputTo`, `vendor:publish --tag`, `env()` coercion, signal trapping, `config:show`,
+`db:seed --class`, `make:command --command`) — `laravel.com/docs/12.x/{urls,sanctum,validation,pagination,
+eloquent-resources,http-client,routing,queues,notifications,broadcasting,eloquent,artisan}`, all read
+2026-09-10. The marketplace XEFI was never opened for this pass.

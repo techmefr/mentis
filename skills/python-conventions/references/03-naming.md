@@ -90,3 +90,35 @@
     skip_validation=True)` says it without opening the function, which is also why such a parameter is
     almost always worth making keyword-only (§3.18) — the name is the only thing standing between the
     reader and a guess.
+23. **A module named after a single symbol it exports is a name paid twice.** `user_repository.py` holding
+    only `class UserRepository` makes every import say `user_repository.UserRepository` or force a rename at
+    the import line, where the file could instead be named for the concept and let the class name stand on
+    its own — worth deciding once, since renaming a module after imports exist is a wider change than
+    renaming the class inside it.
+24. **A package `__init__.py` that re-exports selectively is naming the package's public surface, same as
+    `__all__` inside a module (§3.17).** A consumer importing from the package rather than the submodule is
+    trusting that whatever is re-exported there is meant to be used directly — an internal helper re-exported
+    "just in case" invites exactly the accidental dependency §3.6's leading underscore exists to prevent, one
+    layer up.
+25. **A decorator is named for what it does to the call, not for its implementation.** `@wraps_logger` says
+    how it's built; `@log_calls` or `@retry` says what a reader gets by applying it, which is the only thing
+    that matters at the point of use — the call site sees the name, never the body that built the wrapper.
+26. **A name reused for two different things across a module's history is worse than a bad name chosen once.**
+    A `Config` that used to hold environment settings and now holds a request-scoped options object, kept
+    because the rename touches many files, means every reader with the old mental model gets the wrong one
+    from the name alone — a name is either updated with what it points to or it actively teaches the wrong
+    thing.
+27. **Pytest fixture names are part of the test's public vocabulary, not local variables.** A fixture named
+    `data` or `obj` forces every test using it to look up its definition to know what it provides, where
+    `pending_order` or `authenticated_client` states it at the point of use — the same intent-revealing
+    argument as §3.1, but for a name that is injected rather than assigned, so the reader cannot even see
+    where it comes from without already knowing the fixture system.
+28. **A name that encodes a plan for future extension names a hypothesis, not the thing itself.**
+    `BaseHandlerV1` or `process_v2` bakes in a version scheme for a change that may never come and forces
+    every reader to wonder what `V1` communicates today; version the module or the package if the API itself
+    is versioned, and let a name that will be replaced wholesale just be replaced, not pre-numbered.
+29. **Dunder names (`__init__`, `__post_init__`, `__eq__`) are a fixed vocabulary the runtime already
+    understands — inventing a look-alike is a trap, not a convention.** A method named `__validate__` that is
+    never called by the interpreter reads as a hook the language recognizes, when it is really just a regular
+    method the author double-underscored for emphasis; the double underscore is reserved for names Python
+    itself gives meaning to.

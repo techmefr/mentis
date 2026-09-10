@@ -94,3 +94,30 @@
     Retrying without a cap on attempts or elapsed time turns a slow dependency into a request that never
     completes, which is point 10's timeout rule failing one level up — each individual await can time out
     correctly while the loop around it still runs forever.
+25. **An async context manager and an async iterator are not interchangeable, and `__aenter__` running setup
+    code has the same ordering obligations as a sync `__enter__`.** `async with lock:` must fully acquire
+    before the block starts, so any `await` inside `__aenter__` that can be cancelled partway needs the same
+    care as point 17's manager-under-cancellation case — the difference is only that `async def
+    __aenter__`/`__aexit__` exist at all, not that they are exempt from it.
+26. **`asyncio.run()` creates and tears down a new event loop per call, which makes it wrong for anything
+    that runs more than once in a process.** Calling it in a loop, or once per incoming request, discards
+    whatever was cached on the previous loop (connections, background tasks) and rebuilds the runtime each
+    time — it is the entry point for a program's main body, not a per-operation convenience.
+27. **A `Future` created manually (`loop.create_future()`) and never resolved hangs whoever awaits it
+    forever, with no traceback pointing at the missing `set_result`/`set_exception`.** Unlike an unawaited
+    coroutine (point 7), which at least warns, a future stuck pending produces a silent hang — pair the code
+    path that can fail to resolve it with the same timeout discipline as point 10.
+28. **An async lock held across an `await` that can itself deadlock on the same lock reproduces a threading
+    deadlock without a thread in sight.** `asyncio.Lock` is not reentrant: a coroutine that awaits something
+    which, through an unrelated call chain, tries to acquire the same lock again on the same task blocks
+    forever, since nothing frees a lock the holder itself is waiting to re-acquire.
+29. **Async comprehensions (`[x async for x in stream]`) still exhaust the whole async iterator before the
+    expression completes**, which reproduces point 3's unbounded-concurrency risk in miniature if the
+    iterator is unbounded, and reproduces point 15's held-open-generator risk if the comprehension is
+    abandoned by an exception partway through iteration. Bound the source, or iterate explicitly where
+    partial consumption needs to be handled.
+30. **`anyio` and raw `asyncio` are two different structured-concurrency vocabularies, and mixing their
+    primitives across a boundary loses the invariants either one alone would have kept.** A library built on
+    `asyncio.TaskGroup` composes cleanly with other `asyncio` code; wrapping it under `anyio`'s task group
+    scope, or vice versa, means cancellation and exception-group semantics from one framework meeting an API
+    that was never tested against them — settle on one per async call graph rather than per file.
