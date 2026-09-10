@@ -105,3 +105,32 @@
     the requirement is genuinely "clean up when the object is collected, and not before," the conditional
     table is the one collection in the framework that gives you that instead of a `Dispose` you have to
     remember to call.
+23. **An `IAsyncEnumerable<T>` producer accepts a `CancellationToken` through `[EnumeratorCancellation]`, not
+    through an ordinary parameter.** A plain parameter on an `async IEnumerable<T>` iterator method is never
+    populated by `await foreach`'s own `WithCancellation` — the attribute is what tells the compiler to wire
+    the token the caller passed into the one the method reads. Without it the enumeration looks cancellable
+    from the call site and simply never stops, which is a worse failure than not offering cancellation at
+    all, because it hides behind code that appears to support it.
+24. **A `CancellationTokenSource` created locally is disposed the same as any other `IDisposable` (point 1),
+    and a linked source doubly so.** `CancellationTokenSource.CreateLinkedTokenSource` allocates a second
+    object that has to be disposed independently of the tokens it links — a linked source left undisposed in
+    a hot path is a steady handle leak that shows up as memory growth with no single large allocation to
+    point at, because each one is small and the pattern repeats on every call.
+25. **A nullable value-type parameter tested with `HasValue`/`Value` rather than compared against `null`
+    through the equality operator once inside a hot path.** Both compile to the same result, but `.Value`
+    used without a preceding check throws `InvalidOperationException` with a message naming neither the
+    parameter nor the call site — matching point 6's pattern-form preference, `is { } bound` names and binds
+    the underlying value in the one expression that already proved it was there, which removes the separate
+    `.Value` access that can drift from the check that justified it.
+26. **A object pool's `Return` path resets every field the pooled instance accumulated, or the pool leaks
+    state across unrelated callers instead of leaking memory.** `ObjectPool<T>` and `ArrayPool<T>` hand the
+    same instance to the next renter with none of the framework's own cleanup — a buffer returned without
+    clearing carries the previous caller's data into a code path that never wrote to those slots, and a
+    pooled object with a mutable field carries state across two requests that have no other relationship to
+    each other.
+27. **Nullable reference type warnings from a third-party package's own (possibly incomplete) annotations
+    are not silenced with a project-wide `#nullable disable` around the call.** A dependency that annotated
+    its public surface incompletely produces a false warning at the call site — the fix is a narrow
+    `!`-suppression or a local `#pragma warning disable CS86xx` on that one line with a comment naming which
+    package's annotation is wrong, because disabling nullable checking for the surrounding code silences
+    every real warning in that block along with the one false one.

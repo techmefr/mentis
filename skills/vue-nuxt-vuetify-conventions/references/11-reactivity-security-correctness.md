@@ -60,3 +60,23 @@
     page size and the upload size at the boundary; without a cap, one caller decides how much CPU and
     memory the process spends, and the first time it happens it will not be a caller acting in good
     faith.
+17. **A CSRF cookie is `httpOnly`, `Secure` and at minimum `SameSite=Lax`; `Strict` where the app has no
+    cross-site entry point to preserve.** The double-submit pattern (a cookie value echoed back in a
+    request header) only defends anything if the cookie itself cannot be read or forged by the page that
+    is attacking the user — a cookie set without `httpOnly` is one `document.cookie` away from being
+    replayed by the same XSS payload §11.3 already worries about, and a missing `SameSite` lets a
+    cross-site form submit it on the victim's behalf without needing to read it at all.
+18. **A composable called conditionally, or inside a loop, is a composable whose internal `ref`s and
+    lifecycle hooks attach to a render that may not happen the same way twice.** Vue's own composable
+    contract assumes a stable call order across renders — the same reason hooks work in other reactive
+    frameworks — so gate the *logic* inside the composable with an early return, not the *call* to the
+    composable itself with a surrounding `if`.
+19. **`markRaw()` on a third-party instance a component only holds a reference to** (a map, a chart, an
+    editor) stops Vue from wrapping it in a reactive proxy it was never designed to survive. Without it,
+    the library's own internal mutations run through Vue's proxy traps on every call, which is wasted work
+    at best and, for an object whose class checks `this instanceof X`, an object that fails its own
+    identity check at worst.
+20. **A ref or computed that is genuinely never read outside its own module is dead reactive state, not a
+    cheap safety net.** Every `ref` left in a component "in case a future feature needs it" is change
+    detection Vue pays for on every mutation, for a subscriber that does not exist; delete it with the
+    feature it was speculating for, and let the feature that actually needs it declare its own.

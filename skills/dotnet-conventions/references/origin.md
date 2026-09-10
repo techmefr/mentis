@@ -284,3 +284,50 @@ middleware and partitioning guidance, the thread pool and `Parallel.ForEachAsync
 docs, and the ASP.NET Core claims-transformation and resource-based-authorisation pages. No org
 catalogue file was read for this pass. References total (excluding this file): 16,571 → ~19,423 words.
 
+**Widening, 2026-09-10 — quatrième pass.** csharp still had the worst measured ratio in the table, so
+this pass again took the five thinnest reference files by raw word count — §4, §7, §5, §9, §6, each
+a second or third pass — checked against a gap not already covered, not against the org catalogue
+(already re-diffed 2026-09-07) but against current Microsoft Learn / .NET Blog / dotnet-runtime and
+dotnet-docs documentation for that file's own topic:
+
+- **§4** (types and visibility) gained a `ref struct` implementing an interface or flowing through a
+  generic method under C# 13's `allows ref struct` constraint without losing its ordinary restrictions,
+  a discriminated union as a sealed hierarchy of sealed records rather than an enum with a bolted-on
+  payload field, `protected internal` (union) versus `private protected` (intersection) as two different
+  accessibility sets, an implicit/explicit conversion operator's information-loss test, an operator
+  overload reserved for a type with one unambiguous mathematical meaning, and generic variance (`in`/`out`)
+  declared only where every member of the interface actually respects it (§4.22–§4.27).
+- **§7** (language idioms) gained the index/range operators over hand-computed offsets, a `using`
+  declaration over the braced form, a target-typed conditional expression, a primary constructor's
+  parameters read directly rather than re-copied into a parallel field, the `ArgumentOutOfRangeException`
+  numeric guard family, and a target-typed `new()` for a collection whose type the left-hand side already
+  states (§7.18–§7.23).
+- **§5** (disposal, nullability, enumeration) gained `[EnumeratorCancellation]` as the only way an
+  `IAsyncEnumerable<T>` iterator actually receives the caller's token, a linked `CancellationTokenSource`
+  needing its own disposal distinct from the tokens it links, the pattern form (`is { } bound`) over a bare
+  `.Value` access on a nullable value type, an object pool's `Return` path resetting every accumulated
+  field or leaking state across unrelated callers, and a third-party package's incomplete nullable
+  annotations suppressed narrowly rather than through a project-wide `#nullable disable` (§5.23–§5.27).
+- **§9** (publish-time failures) gained Blazor WebAssembly's partial-by-default trimmer granularity
+  leaving an unannotated package whole in the bundle, an `AppContext` feature switch only shrinking the
+  trimmed output when declared as a `RuntimeHostConfigurationOption` rather than flipped at runtime,
+  `SatelliteResourceLanguages` trimming resource assemblies for cultures never shipped, a source generator
+  reading a sibling file at compile time versus the file on disk at run time, and `DynamicDependencyAttribute`
+  as the narrow, per-member alternative to rooting a whole assembly (§9.19–§9.23).
+- **§6** (data access and portability) gained a concurrency token turning a lost update into a loud
+  `DbUpdateConcurrencyException`, `ComplexProperty`/owned types mapping a value object without giving it
+  its own table identity, a `ValueConverter` configured once in the model rather than by hand in a getter,
+  keyset pagination replacing offset paging once `Skip` has to walk past what it discards, a connection
+  string never checked in as the literal secret, and a keyless entity type as read-only by construction, not
+  a shortcut around defining a real key (§6.22–§6.27).
+
+Sourced from current Microsoft Learn, the .NET Blog and dotnet/runtime and dotnet/efcore documentation
+only, per this file's rule C: the C# 13 `ref struct`/`allows ref struct` and params-collections pages,
+the access-modifiers and operator-overloading language reference, the generic-variance (`in`/`out`)
+reference, the enumerator-cancellation and `CancellationTokenSource` API docs, `ObjectPool<T>`/
+`ArrayPool<T>` usage guidance, Blazor WebAssembly's trimmer-configuration page, the
+`RuntimeHostConfigurationOption`/feature-switch and `SatelliteResourceLanguages` MSBuild references,
+`DynamicDependencyAttribute`'s API docs, and the EF Core pages on concurrency tokens, complex/owned
+types, value conversions, and keyless entity types. No org catalogue file was read for this pass.
+References total (excluding this file): ~19,423 → ~22,456 words.
+

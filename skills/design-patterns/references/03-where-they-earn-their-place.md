@@ -52,3 +52,30 @@
     contains, and where the second real case is. If that sentence cannot be written, the diff is a
     `simplify` candidate — and if it can, it belongs in the ADR (§5.2 here) rather than being rediscovered by
     the next reader.
+11. **Chain of Responsibility earns its place when a request must pass through an ordered set of handlers
+    and any one of them may resolve it and stop the rest** — a support ticket escalated L1 to L2 to L3 until
+    someone has the authority to close it, an approval that climbs a management chain until it finds a
+    signer, a validation pipeline where the first failing rule stops the remaining ones from even running.
+    What justifies naming it separately from plain middleware (§2.3) is exactly that stopping condition:
+    once a caller writes "if this handler claims it, nothing after it runs," the shape is Chain of
+    Responsibility rather than a fixed sequence of steps that always all execute.
+12. **Bridge earns its place when an abstraction and its implementation each vary independently and both
+    need to grow without a combinatorial explosion of subclasses** — a shape hierarchy (circle, square)
+    that must be renderable through several unrelated drawing back-ends (canvas, SVG, print), where
+    `Circle`/`Square` times `CanvasRenderer`/`SvgRenderer` would otherwise need one subclass per pairing.
+    It is the rarest earned pattern in most of our stacks because the condition — two axes of variation,
+    both real, both growing — is uncommon outside rendering and driver-style code; reach for it only when
+    a second axis of variation is already forcing subclasses to multiply, not in anticipation of one.
+13. **Visitor earns its place when new operations on a fixed set of node types are added more often than
+    new node types are.** A compiler's AST, a document processor walking HTML/XML elements, a reporting
+    step that walks a fixed schema — each adds a new visitor (export to PDF, validate, pretty-print)
+    without touching the node classes themselves. The condition that has to hold is the inverse of most
+    OOP design: the type hierarchy is closed and stable, and it is the set of operations that is open — get
+    that condition backwards and Visitor turns every new node type into an edit of every visitor, which is
+    strictly worse than a method per node.
+14. **Composite earns its place when the client code must treat a single item and a group of items
+    through the same call, recursively** — a UI component tree where a container and a leaf both expose
+    `render()`, a filesystem where a folder and a file both expose `size()`, a permission rule that can be
+    a single check or a group of checks combined with AND/OR. What it buys is that calling code never
+    special-cases "is this a group or a single item" — the recursion is the whole payoff, so a "composite"
+    with only one level of nesting is a plain collection wearing a bigger name.

@@ -115,3 +115,38 @@
     can't, as under trimming or Native AOT (§9). It is generated code that has to be regenerated whenever
     the mapped model changes, which is a real cost of its own — worth carrying for a model large enough
     that startup time matters, not a default reached for on every project.
+22. **A concurrency token (`[Timestamp]`/`RowVersion`, or a plain column mapped with
+    `IsConcurrencyToken()`) is how a lost update is turned into a `DbUpdateConcurrencyException` instead of a
+    silent overwrite.** Two requests loading the same row, editing different fields and saving in sequence
+    otherwise both succeed — the second `SaveChanges` simply writes over the first's change, with no error
+    anywhere naming what was lost. The token makes the second save fail loudly, at the point where the
+    caller can still decide what "the row changed underneath you" should mean for this operation.
+23. **A complex type or owned type maps a value object into the owner's own table without giving it an
+    identity the rest of the schema can reference.** `ComplexProperty` (or `OwnsOne` for the entity-shaped
+    predecessor) is how an address or a money amount stays a real .NET type with its own equality instead of
+    flattening back into loose columns on the parent — reach for it whenever a value object (§4.12) would
+    otherwise be represented as three or four separate scalar properties the mapping quietly re-groups by
+    naming convention alone.
+24. **A `ValueConverter` translates between the .NET type the domain wants and the column type the store
+    actually has, and belongs in the model configuration, not in a property getter that runs the conversion
+    by hand on every read.** An enum stored as its display string, a value object stored as its wrapped
+    primitive, a `DateOnly` mapped where the provider still expects `DateTime` — configuring the conversion
+    once means every query, projection and migration agrees on it, where a getter that converts on read still
+    leaves `Where` clauses and raw column access seeing the untranslated stored value.
+25. **Keyset pagination (`WHERE Id > @lastId ORDER BY Id LIMIT @n`) replaces offset-based paging
+    (`Skip`/`Take`) once a table is large enough that `Skip` has to walk past everything it discards.** An
+    OFFSET is not an index seek — the database still scans and discards every skipped row to find where the
+    page starts, so page 500 costs proportionally more than page 1 even though both return the same number
+    of rows; keyset paging seeks directly to the last-seen key, which is the same trade point 6 makes for a
+    query in a loop, restated for the shape of a paged list rather than a relation.
+26. **A configuration source's connection string is never the literal secret checked into `appsettings.json`
+    — a placeholder is, and the real value comes from an environment variable, a secret store or user-secrets
+    in development.** `appsettings.json` ships inside the published artefact and is readable by anyone who
+    can open it, so a credential committed there is a credential leaked the moment the repository or the
+    image is shared, independent of whatever access control the running service itself enforces.
+27. **A keyless entity type (`HasNoKey()`, or a type mapped from a raw SQL view with no natural key) can
+    never be tracked and is only ever read, never updated through the change tracker.** It exists for a
+    database view, a stored-procedure result shape, or a report projection that has no single-row identity
+    to track — reaching for it on a table that does have a key just to skip defining one removes the ability
+    to update that entity through EF Core at all, which is a permanent limitation on that mapping, not a
+    shortcut around modeling the key.

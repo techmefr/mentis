@@ -57,3 +57,25 @@
     well-earned abstraction on a path is fine; three stacked on the same path means the person fixing a
     typo in a message reads four files. When that is the answer, the area is a `simplify` candidate
     whatever each individual pattern's original justification was.
+13. **An "unused abstraction" is a distinct smell from a one-implementation interface (§3), and it is the
+    one that was never used even once.** Speculative design added "in case it's needed later" — a plugin
+    hook nothing plugs into, a configurable strategy slot always called with the same argument — costs the
+    same file and registration as §3's case but has no history to point to as justification; it was a
+    guess about the future rather than a seam that lost its second side. Delete it the same way, faster,
+    because there is no need to check whether removing it would break a real caller.
+14. **Feature envy through a pattern's own interface is a sign the abstraction sits at the wrong layer.**
+    When a Strategy implementation reaches back into the context object for three unrelated fields to do
+    its job, the behaviour that varies was never cleanly separable from the caller's state to begin with —
+    the interface is now a large parameter list in disguise, and the fix is usually to pass what's needed
+    explicitly rather than to add a fourth field to the shared context.
+15. **A pattern kept "for consistency with the rest of the module" after its own justification is gone is
+    the deletion test's hardest case, because the argument sounds like a virtue.** Consistency is a reason
+    to keep a live convention, not a reason to keep one dead structure so the count of abstractions in a
+    directory stays even; if every other Strategy in the module still has two branches and this one has
+    one, this one is the odd one out precisely because it should have been deleted first.
+16. **Shotgun surgery through a pattern's seam is the collapsing-branches signal (§4) arriving from the
+    other direction.** Instead of branches shrinking to one, a single conceptual change now requires
+    editing the interface, every implementation, and the registry that wires them — because the shape the
+    pattern was built around no longer matches how the domain actually changes. When one product decision
+    routinely touches all three, the abstraction is describing the wrong axis, not merely accumulating
+    cost, and reshaping it is worth doing before the next such change rather than after it.

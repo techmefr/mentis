@@ -55,3 +55,26 @@
     consequence for the user — two people on the same record, a job whose progress they are waiting on —
     not because live updates feel modern. Polling on the screen that needs it is often the honest answer,
     and it is one file instead of five.
+13. **Choose the transport by direction of traffic, not by habit.** A screen that only receives — a live
+    feed, a notification list, a progress bar, a streamed AI response — is server-to-client traffic, which
+    is exactly what Server-Sent Events were built for: plain HTTP, automatic reconnection built into the
+    browser's `EventSource`, and no separate protocol upgrade to authenticate and reconnect by hand. A
+    screen where the client also pushes — chat, a collaborative editor, anything with two-way turns — is
+    what a full WebSocket connection is for. Reaching for a socket on a read-only screen is the harder
+    primitive doing the easier job, with its own reconnect and auth story to maintain for traffic that
+    only ever goes one way.
+14. **An `EventSource`/SSE connection is still a connection**, and everything in points 1–3 and 8 applies
+    to it unchanged: one owner, scoped subscription released on unmount, nothing opened during SSR.
+    `EventSource` reconnects on its own after a drop, which is convenient and also why point 7 still
+    matters — the automatic reconnect closes the gap in the *transport*, not in the *data*, so whatever
+    happened on the stream while it was down is still gone and still needs a resync from the API.
+15. **At genuine fan-out scale, a WebSocket held open per idle viewer is a cost paid for a connection doing
+    nothing**, where SSE over HTTP/2 multiplexes many idle streams far more cheaply. This is not a reason
+    to swap a working two-way feature for a one-way transport it cannot express — see point 13 — but it is
+    the reason "let's use a socket for everything, it's more general" stops being free once the number of
+    simultaneous viewers is the actual bottleneck rather than a hypothetical one.
+16. **A reconnect/backoff policy is calendar time, not a fixed retry count.** A client that retries a fixed
+    number of times and then gives up silently leaves the user on stale data with no signal that anything
+    is wrong; exponential backoff with a visible "reconnecting" state (and a manual retry once backoff gives
+    up) is what turns an outage into a UI the user can trust, instead of one that quietly stopped telling
+    the truth.

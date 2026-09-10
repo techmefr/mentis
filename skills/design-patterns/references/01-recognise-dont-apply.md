@@ -63,3 +63,29 @@
     person to land in — and the refactor as its own change, with the tests written against the existing
     behaviour first (`skills/tdd`), because a pattern extracted from code nobody pinned is a rewrite
     wearing a refactor's name.
+14. **Refactor to a smell, never to a pattern.** The trigger that justifies introducing one is always a
+    named smell already in the code — duplicated conditionals on the same field, a constructor doing two
+    unrelated jobs, a switch that keeps growing — never the pattern itself as a goal. "We should use
+    Strategy here" answers a question nobody asked; "this `switch` on `channel` is duplicated in four
+    places and every addition touches all four" is a smell, and the pattern is one of several possible
+    answers to it, not the only one.
+15. **A pattern and a code smell are different sizes of the same idea, and mixing them up is why reviews
+    stall.** A smell is method- or class-level and heuristic — long parameter list, feature envy, shotgun
+    surgery — while a pattern is a structural answer at the same or a larger scale. Treating "add a
+    pattern" as the fix for a smell without naming which smell skips the step that would have shown a
+    cheaper fix existed: the shotgun surgery might be solved by moving one field, not by introducing an
+    interface.
+16. **God Object and Spaghetti Code are what happens when this section's second-real-case test is skipped
+    in the other direction** — not by adding a pattern too early, but by refusing every abstraction until
+    one class or one function owns everything. The corrective for one over-shoot is not the opposite
+    over-shoot: the fix for a growing god class is still the second-real-case test, applied honestly, not
+    a pattern for every method it contains.
+17. **"We might use this design elsewhere" is the tell that no second case exists yet.** A generic,
+    timeless-sounding justification substitutes for a specific one because there isn't a specific one to
+    give — a real second case has a name, a ticket, a date. When the sentence in the PR description could
+    be pasted into any other PR unchanged, that is evidence against adding the abstraction, not for it.
+18. **The rule of three is this section's threshold stated as a number, and the number is not arbitrary.**
+    One occurrence is a fact, two is a coincidence worth watching, three is a pattern worth naming — the
+    same count `when-stuck` uses for extraction applies here because the risk is identical: abstracting
+    from two examples still lets one example's accident pass for the rule, and only the third case tells
+    you which parts were never going to vary.
