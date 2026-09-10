@@ -81,3 +81,43 @@
     wrapped function keeps point 8's error-handling and point 13's context-forwarding rules in one place
     instead of copy-pasted into every page that fetches — a call site that reaches for raw `useFetch` next
     to a codebase that already has the wrapped version is the tell one of the two paths is unreviewed.
+18. **`callOnce` is for a side effect that must run exactly once across both renders, not for a value the
+    template needs back.** Registering an app-init side effect (a store seed, an analytics call) in a plain
+    `setup()` runs it once server-side and again client-side on hydration; `callOnce` writes its own marker
+    into the payload so the client-side run is skipped. It takes a key the same way `useFetch` does (point
+    4) — an unkeyed call at a non-unique call site collides the same way. [nuxt.com/docs/4.x/api/utils/call-once,
+    read 2026-09-10.]
+19. **`useNuxtApp().payload` is the same object the checklist in point 15 is really about** — everything
+    `useState`, a keyed `useAsyncData`/`useFetch`, or `callOnce` writes lands there and is what gets
+    serialised into the HTML. Reading it directly is a debugging tool (what actually shipped to the
+    browser, versus what the code intended to fetch) rather than a call site's normal way to get data — a
+    component reaching into the payload by key instead of calling the composable that owns it is bypassing
+    the cache/dedup the composable provides. [nuxt.com/docs/4.x/api/composables/use-nuxt-app, read
+    2026-09-10.]
+20. **`definePageMeta({ ssr: false })` opts one page out of server rendering; it is not the same decision as
+    wrapping a fragment in `<ClientOnly>` (point 10).** The whole page ships as a client-rendered shell, so
+    every hydration-mismatch rule above stops applying to it *and* every SEO/first-paint cost of client-only
+    rendering applies to the whole route, not just a widget — reach for it when the page depends on
+    something genuinely unavailable server-side (a browser-only SDK, a device API), not as a shortcut past a
+    mismatch that a narrower `<ClientOnly>` or a mounted-guard would fix locally.
+21. **Nuxt DevTools' payload/state panels show what actually serialised, which is the fastest way to check
+    point 11 and point 15 without grepping the HTML by hand.** A field the template never binds but that
+    still shows up in the payload panel is the over-selection point 11 warns about, caught before a review
+    rather than after a security report.
+22. **Testing a data-fetching component under a unit runner (Vitest + `@nuxt/test-utils` or a mocked
+    `#app` runtime) exercises only the client-side branch of `useFetch`/`useAsyncData` unless the SSR
+    utilities are explicitly invoked** — a suite that never renders the server path can pass green while a
+    real SSR request 401s (point 13) or leaks a field (point 11), because the divergence this whole section
+    is about only exists between two render paths a client-only test never runs both of.
+23. **`AbortSignal.timeout()` composed with a request's own cancellation signal (`AbortSignal.any([...])`) is
+    the client-side half of the timeout story; the server side of it is a separate concern this section
+    doesn't own.** A `$fetch` call with no timeout at all hangs the UI's loading state for as long as the
+    network allows, which on a flaky connection is indistinguishable from the app being frozen — pairing a
+    sane timeout with the abort-on-navigate pattern (§13.13) keeps a stale in-flight request from resolving
+    into a page the user already left. [developer.mozilla.org/en-US/docs/Web/API/AbortSignal, read
+    2026-09-10.]
+24. **A hydration mismatch caused by browser extensions (an injected attribute, a wrapped `<body>`) is not a
+    bug in this codebase's code, and chasing it as one wastes a review.** The dev-mode warning point 9 says
+    to trust still fires for it; the tell is that the mismatch is on an attribute the app never sets and
+    disappears in a clean profile — worth a quick check before assuming the fetched data or the primitive
+    choice is at fault.

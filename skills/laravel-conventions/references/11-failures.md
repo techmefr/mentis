@@ -179,3 +179,39 @@
     every `report_if(` call surfaces every place the app decided a failure was conditionally worth flagging,
     where the same logic spelled out as a plain `if` around `report()` blends into ordinary application
     branching and stops being an inventory anyone can run.
+35. **The `Exceptions` facade's `->stopIgnoring()`, `->dontReport()` and `->report()` closures registered from
+    `bootstrap/app.php` are one central file, and a project still keeping an `App\Exceptions\Handler` class
+    from before that change is running two competing registration surfaces at once.** Point 15 already names
+    `withExceptions()` as the one place this is configured — the trap is a leftover `Handler::register()` from
+    an upgraded project still holding half the rules, so a `dontReport()` entry added to `bootstrap/app.php`
+    looks like it should work and does nothing, because the class-based handler never delegates to it.
+36. **A `reportable()` closure that returns `false` stops the exception from reaching the default log channel,
+    the same way `stop()` (point 23) does on a `report()` method — but only for the report it was registered
+    for.** A project registering more than one `reportable()` for overlapping exception types has each one's
+    return value checked independently, so an earlier closure returning `false` to suppress the default log
+    does not silence a later closure that still wants its own copy reported; the two are not short-circuiting
+    each other, they are each answering their own "did I already handle this."
+37. **A `renderable()` closure only runs when the request expects the rendered format it returns — it is not
+    a blanket override of point 5's negotiation.** Registering `renderable(fn (DomainException $e) => response()->view(...))`
+    still lets the framework's own JSON negotiation take over for an API client, because the closure's return
+    value is used for the request that reaches it, and a request that never reaches a renderable-eligible path
+    (a console command, a queued job) never calls it at all — the closure is a per-exception-type render rule,
+    not a second exception handler running instead of the first.
+38. **`Context::hidden()` attaches data to the report the same way `Context` (point 26) does, without that
+    data leaking into a log line built from the visible context.** Point 13's "identifiers, not payloads" still
+    governs what goes in either — the hidden variant exists for data the report needs (an internal trace id
+    correlating with an upstream system) but that a structured log statement reading the whole context
+    shouldn't print verbatim into every ordinary log entry for the request.
+39. **PHPUnit's own assertion failure and a domain exception are not the same kind of throw, and treating an
+    assertion failure as "just another exception" to catch in test-support code breaks the test silently.** A
+    `try { $this->assertTrue(...); } catch (Throwable $e) { report($e); }` pattern written to "gracefully
+    continue" a flaky assertion swallows the one throw PHPUnit relies on to mark the test failed — point 3's
+    "an empty catch is a swallow in costume" applies with more consequence here, because the costume is worn
+    around the test framework's own failure signal, not around application code.
+40. **A job's `failed()` method (point 16) itself can throw, and a second exception raised while handling the
+    first one is not retried — it is simply lost unless the queue driver logs it separately.** Code inside
+    `failed()` that reaches for the database, an HTTP call, or anything else that can fail needs its own
+    guard, because by the time `failed()` runs there is no more retry budget (point 17) for either the
+    original failure or a new one thrown while reacting to it — an unguarded `failed()` is where point 12's
+    "the tracker has to know the difference" quietly stops being true, for exactly the failures the job most
+    needed someone to see.

@@ -195,3 +195,39 @@
     PHP classes, while the command name follows the project's own namespacing convention for artisan commands
     (a colon-separated domain prefix); conflating the two by naming the class after the desired CLI invocation
     produces a class name that reads like a terminal command instead of a PHP type.
+41. **`Command::SUCCESS`, `Command::FAILURE` and `Command::INVALID` are three distinct exit codes, not two,
+    and point 24's "exit code is part of the contract" means picking the right one.** `INVALID` (exit 2) is
+    for a call the command itself rejects before doing any work — a bad argument combination the signature
+    alone couldn't express — while `FAILURE` (exit 1) is for the work being attempted and not succeeding; a
+    deploy script or cron wrapper that only checks "zero or not" loses that distinction, but a caller that
+    branches on the specific code (retry on `FAILURE`, fix the invocation on `INVALID`) needs the command to
+    return the one that actually happened, not `FAILURE` for both.
+42. **`$this->artisan(...)->expectsQuestion($question, $answer)` scripts an interactive prompt's answer for a
+    test, which is what point 21's "invoke the command, don't extract the logic" needs for any command that
+    asks something.** A command using `$this->confirm()`/`$this->choice()` still needs those prompts satisfied
+    under CI's non-interactive shell (point 26) — `expectsQuestion()` supplies the scripted answer so the test
+    exercises the real prompt-handling code path instead of the command being refactored to skip prompting
+    just to make it testable.
+43. **`config()->array('key')`, alongside `Config::string()`/`Config::integer()`/`Config::boolean()` (point
+    29), asserts a config value is actually an array before the caller indexes into it.** A config key meant
+    to hold a list of allowed values that instead resolves to a scalar (a `.env` override collapsing what was
+    meant to stay an array in `config/*.php`) fails at the point it's read with the typed accessor, instead of
+    failing later at whatever `foreach` or `in_array()` call assumed the array shape and got a scalar instead.
+44. **`optimize:clear` is the single command that reverses every cache `optimize` (point 33) built — config,
+    route, event and view — and running only `config:clear` after changing a route closure leaves the stale
+    route cache in place.** The two commands are not symmetric in scope: `optimize` bundles all four caches
+    into one deploy step precisely so nothing is forgotten, but clearing has to be told to do the same, or a
+    developer chasing point 17's "the trap only fires once cached" ends up clearing the one cache they
+    suspect and missing the one that's actually stale.
+45. **A local `.env.testing` overrides `.env` specifically for the test runner, and a project without one is
+    running its test suite against whatever `.env` happens to hold** — a queue connection, a mail driver or a
+    third-party key meant for local development, silently exercised by CI unless the test environment pins
+    its own values. `phpunit.xml`'s `<php>` block sets the same keys inline as a second, equally valid place
+    to pin them; either way the point is that "which config the tests run under" is a decision, not whatever
+    `.env` happens to contain on the machine running them.
+46. **`artisan make:command --test` scaffolds the test file alongside the command class in the same step**,
+    which is the mechanical nudge for point 21's "a command is tested by invoking it" — a command generated
+    without it is one keystroke away from being committed with no test at all, because writing the test file
+    by hand from scratch is friction a generated stub removes. The stub still needs the actual prompt and
+    exit-code assertions (points 21, 41, 42) filled in; the flag only saves creating the file in the right
+    place with the right base class.
