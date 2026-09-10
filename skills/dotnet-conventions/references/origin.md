@@ -570,3 +570,49 @@ measured via `wc -w` on the five touched files: §2 3,320 → 3,901, §9 3,348 �
 3,538 → 4,218, §4 3,601 → 4,273 (+3,248 words across the five). Ratio measured by `bin/measure_depth.py`:
 x1.70 → x1.55. `bin/check_citations.py`: 0 unresolved.
 
+**Dogfooded again, 2026-09-10.** A second, independent small solution was built against this block: an
+ASP.NET Core minimal-API project (`net8.0`) plus an xUnit test project, `EnableNETAnalyzers` on,
+`AnalysisLevel latest-recommended`, `TreatWarningsAsErrors` on — a webapi-and-tests pair this time, chosen
+to confront §3 (authorisation) and §2/§9 (options validation, hosted services), which the 2026-09-09
+console-only dogfood never exercised. Built outside this repo in `/tmp/dogfood-csharp`, never read from or
+copied out of the marketplace XEFI (rule C). The application: an in-memory weather-alert API — a
+`BackgroundService` polling several stations through a bounded `Parallel.ForEachAsync`, a
+`TimeProvider`-driven `PeriodicTimer`, an `IOptionsMonitor`-backed severity classifier, a cross-field
+`IValidateOptions<T>` validator, a scoped ingest pipeline created via `IServiceScopeFactory` from the
+singleton poller, `[LoggerMessage]` source-generated logging, an `IAsyncDisposable` report writer with a
+guarded double-dispose, a `sealed record` DTO, an enum with explicit values, and a minimal-API surface with
+a named policy, a default-deny fallback policy, and one publicly `AllowAnonymous`-carved-out health
+endpoint, authenticated through a small custom `AuthenticationHandler` reading a header claim (point 9 of
+§3's "claims are input" made concrete: the header is trusted only after the handler validates it against a
+known value, never read as an identity directly). 16 xUnit tests green, including the negative
+authorisation test point 12 of §3 asks for (an anonymous request against a protected endpoint is refused)
+and a positive one against the same endpoint through the custom scheme.
+
+One real, build-verified gap came back, closed above: point 18 of §1's dedicated lock type does not compile
+on `net8.0`. The point already hedges with "where the language version supports it," but that hedge names
+the wrong gate: `System.Threading.Lock` is a .NET 9 BCL type, not a C# language feature, so a `net8.0`
+project (the default this exact SDK's `dotnet new webapi` produces, and still a fully current LTS target)
+gets a plain `CS0246: type or namespace not found` the moment a field is declared `private readonly Lock
+_gate = new();`, regardless of `LangVersion`. Found by the build, not by reading: the in-memory store's
+gate was written as `Lock` first, following point 18 literally, and the very first `dotnet build` failed on
+it. Reverting to `private readonly object _gate = new();` was the actual fix, now stated as the default on
+`net8.0` in the new point this pass adds (§1.45).
+
+Everything else built and tested clean on the first honest pass: the options cross-validation
+(`IValidateOptions<T>` plus `ValidateOnStart`, points 16 and 23 of §2) failed boot exactly as advertised
+when a deliberately misconfigured threshold pair was tried by hand; the fallback policy (point 6 of §3)
+refused the anonymous request with a 401 with no code written for that specific case, and the named policy
+plus the custom `AuthenticationHandler` let the header-bearing request through; `[LoggerMessage]`'s
+generated partial methods (points 9 and 41 of §2) compiled without incident; and the guarded `DisposeAsync`
+(point 15 of §5) survived being called twice in a dedicated test. Two test-authoring mistakes surfaced
+along the way — an assertion expecting `TaskCanceledException` where `ThrowIfCancellationRequested`
+actually throws the less-derived `OperationCanceledException`, and a race between the background poller
+populating a station's reading and an integration test asserting a 404 on the same endpoint — both are bugs
+in the tests this pass wrote, not gaps in the block, and are noted here only so the fixes are legible from
+the diff rather than because they belong in the rules.
+
+**The status still does not change.** Two dogfooded solutions by the same agent that wrote the block, in a
+sandbox, are still not the real production .NET codebase this file is waiting for — `theoden` keeps its
+question register. What this pass adds to the 2026-09-09 one is coverage of §3 and the options/hosted-
+service half of §2 that the console-only shape never touched, and one more mechanical defect a compiler (on
+a different target framework this time) could surface that reading never would have.

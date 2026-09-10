@@ -258,3 +258,10 @@
     every synchronous-context caller — one that cannot `await using` — to block on `DisposeAsync().AsTask()`
     to dispose it at all, which is the sync-over-async hazard point 3 already warns about, arrived at through
     a missing `Dispose()` overload rather than a `.Result` call.
+45. **`System.Threading.Lock` (point 18) is gated by the target framework, not by the C# language version, and
+    "where the language version supports it" is the wrong test to apply to it.** The type does not exist at
+    all on `net8.0` or earlier — it ships in .NET 9's own BCL — so a project on the current LTS with a recent
+    `LangVersion` still gets `CS0246` the moment `Lock` is used as a field type: the compiler understood the
+    `lock` pattern-based dispatch just fine, there was simply no such type to resolve. Check the target
+    framework moniker before reaching for it, not only the language version; on `net8.0` a plain `object` is
+    still the field to use for a `lock` statement.
