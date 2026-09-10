@@ -105,3 +105,14 @@
     readable without re-deriving the setup: a test that interleaves stubbing calls between actions makes it
     unclear which piece of the arrangement was in effect when the assertion ran, and unwinding that at the
     moment a test is red is the worst time to be doing it.
+25. **Point 13's "fails in under a second" is specific to a driven animation ticker; a plain `Timer.periodic`
+    started by a widget (not an `AnimationController`) does not fail nearly that fast, and can pass by
+    coincidence before it fails at all.** Dogfooded 2026-09-10: a countdown badge with a self-cancelling
+    5-second `Timer.periodic`, pumped with `pumpAndSettle()` in a screen that also contained a list, passed
+    in one test and hung for several real seconds before timing out in another — the difference was only
+    which point in the timer's own countdown `pumpAndSettle` happened to be called from, not anything about
+    the test itself. §9.9's off-screen-cost rule and this section's own point 13 both already say a ticking
+    resource left running is a real defect; the addition here is narrower and purely about the test symptom:
+    a widget-level `Timer` is invisible to the animation-ticker fast-fail path, so a screen that owns one
+    needs an explicit `tester.pump(duration)` for a known interval instead of `pumpAndSettle`, and reaching
+    for `pumpAndSettle` there is not just slow, it is nondeterministic.

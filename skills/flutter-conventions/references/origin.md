@@ -229,3 +229,36 @@ either, only its file and folder names used as a checklist of subjects already c
 entry's stated running total did not recompute cleanly against the actual word counts of all ten files, so
 this entry restates the true total rather than propagate the mismatch); references directory total as
 measured now: 18,075 words (origin.md itself excluded).
+
+**Dogfooded again, 2026-09-10.** A second small app was written against this block after the three widening
+passes above (which added roughly 8,000 words of never-yet-exercised content) — a paginated, searchable item
+list with pull-to-refresh, an add-item form with validation, and a small widget owning a `Timer.periodic` for
+disposal. Flutter 3.47.3 stable, on the host with no Android/iOS/desktop toolchain installed — `flutter
+analyze` and `flutter test` need neither. `flutter analyze` clean under `flutter_lints`, 15 tests green (unit
+tests on the state holder plus widget tests on the list, the form and the countdown widget).
+
+Two real gaps came back, both closed here (§4 point 29, §10 point 25), and a third thing checked and found not
+to be a gap:
+
+- **A refresh's stale-content fallback and a filter-change's cursor reset are two different signals wearing
+  one boolean.** Point 10 (§4) says a failed refresh keeps old content, marked stale; point 8 (§6) says a
+  changed filter resets the page cursor. Both were implemented off the same "reset to page one" flag, so a
+  failed reload caused by typing a new, rejected filter inherited the refresh's stale-content branch instead
+  of landing on the error state — because the previous filter's results were still in memory and looked, to
+  that one check, like a refresh with something to fall back on. Found by a widget test that changed the
+  filter to a value the fake backend rejects and got the stale banner instead of a retry button.
+- **`pumpAndSettle`'s fast-fail behaviour documented at §10 point 13 is specific to a driven animation
+  ticker.** A widget-owned `Timer.periodic` (not an `AnimationController`) doesn't fail in under a second the
+  way that point describes — pumping a screen that held one either settled by coincidence, depending on where
+  in the timer's own countdown `pumpAndSettle` happened to be called, or hung for several real seconds before
+  timing out. Explicit `tester.pump(duration)` for a known interval is what point 25 now asks for instead of
+  `pumpAndSettle` on such a screen.
+- **Checked and not a gap**: §7.18's `on Object` boundary catch and §4.15's status-in-the-holder-not-in-
+  nullability rule both held exactly as written once actually built against — the state holder's `on Object`
+  catch and its single status enum were what made the stale-vs-error distinction above representable at all
+  once the two signals were separated; the rules were sound, only the call sites conflated two concerns the
+  rules don't yet warn apart.
+
+The status still does not change. 🟡 — two mechanical findings from one small app, both from a test failing
+rather than from reading, is the same kind of evidence the first dogfood pass produced, not a different
+verdict on the block's production-readiness.

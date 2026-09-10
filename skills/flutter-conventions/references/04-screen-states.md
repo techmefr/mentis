@@ -121,3 +121,15 @@
     the success of point 1 nor the error of point 5; treating it as success hides what didn't load, and
     treating it as error discards what did. Point 18's per-item outcome generalises to a single response that
     is itself mixed: render what came back, and say plainly which part didn't.
+29. **Point 10's "keep the old content, mark it stale" is a policy for a pull-to-refresh, not for every
+    request that happens to reset the page cursor to zero.** Dogfooded 2026-09-10: a list's state holder used
+    one boolean to mean both "go back to page one" (needed by a pull-to-refresh *and* by §6.8's filter-change
+    reset) and "this is a refresh whose failure should keep showing the old page marked stale." With one flag
+    doing both jobs, typing a filter that the backend rejects landed on point 10's stale-content branch
+    instead of point 5's error state, because the previous filter's results were still sitting in state and
+    looked, to that one check, exactly like a refresh with something to fall back on. The two need to be
+    threaded as separate signals — "reset the cursor" and "this is a refresh, not a fresh query" — because a
+    failed reload triggered by a changed filter has no honest "old content" to fall back to: the old content
+    belongs to a search the user has already abandoned, and showing it marked merely "stale" hides a failure
+    behind data that no longer answers the question being asked. Found by a widget test that entered a new,
+    failing filter after a successful first load and got the stale banner instead of the retry button.
