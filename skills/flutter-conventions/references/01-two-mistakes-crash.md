@@ -92,3 +92,33 @@ itself.
     skips whatever teardown was written after the code that could throw — a lock never released, a temporary
     file never deleted, a loading flag never cleared. `try`/`finally` runs the release on every exit path,
     including the one nobody was thinking about when the method was first written.
+24. **A `Future` or `Stream` built inline as an argument to `FutureBuilder`/`StreamBuilder` is a fresh one
+    every rebuild.** The builder widget compares the instance it was given to the one from the previous
+    build, and a new instance — even one that resolves to the same data — reads as a brand-new async
+    operation: the widget drops back to `ConnectionState.waiting` and the screen flashes its loading state
+    on every unrelated rebuild instead of once. The future belongs to a field created outside `build`, the
+    same hoisting point 14 already requires for a controller.
+25. **`setState()` after `dispose()` throws its own assertion, distinct from the `BuildContext` failures of
+    point 1.** The two are easy to conflate because both are triggered by the same root cause — a
+    resumption point firing after the widget is gone — but the `mounted` guard that protects a context read
+    protects a late `setState` call for exactly the same reason and needs to be checked independently if the
+    callback does both; guarding one and assuming the other is covered is how half the fix ships.
+26. **Pausing a subscription is not the same decision as cancelling it.** A widget kept alive off-screen by
+    `AutomaticKeepAliveClientMixin` (§2.19) still doesn't want its subscription's callback running while
+    nobody can see the result — `StreamSubscription.pause()` on becoming invisible and `resume()` on
+    becoming visible again keeps the subscription intact for when the tab is swiped back to, instead of
+    cancelling and re-subscribing from scratch and possibly missing what happened while it was away.
+27. **A passing test suite is not proof nothing leaks.** Leak detection for controllers, streams and other
+    disposables is opt-in per test rather than a property of the app, and a resource created outside the
+    widget tree the test actually pumps — a singleton, a background isolate, a static subscription — is
+    invisible to it either way. The absence of a reported leak means the checked paths were clean, not that
+    the screen was.
+28. **`Timer.periodic` started in a method that can throw before reaching its own cancellation needs the
+    same `finally` treatment as point 23.** A retry loop that schedules a periodic timer and only cancels it
+    on the success branch leaves the timer running forever the one time the method exits through its catch
+    block — the ticking callback then fires against a widget that already tore down everything else.
+29. **A `compute()` call or a spawned `Isolate` outlives the widget that started it unless told otherwise.**
+    Unlike a future awaited in place, an isolate keeps running its work — and holding its memory — after the
+    screen that requested it is gone, because nothing about disposing a widget signals the separate isolate
+    to stop; a long-running background computation needs its own explicit kill switch stored and called from
+    `dispose`, not an assumption that leaving the screen ends it.

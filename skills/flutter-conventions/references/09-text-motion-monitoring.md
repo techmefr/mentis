@@ -91,3 +91,34 @@
     `Semantics` label carrying the same information as text (or a live region for content that updates after
     the initial render, per §4's live-region point) is what makes the transition itself optional to have
     perceived, and its absence a content gap rather than a missed animation.
+22. **`SemanticsService.announce` is for a change with no widget to attach a live region to.** Point 21's
+    label works when something stays on screen to carry it; a transient event — a copy-to-clipboard
+    confirmation, a validation pass that doesn't change any visible text — has nothing to hang the
+    announcement on, and the imperative announce call is the mechanism for exactly that gap, not a
+    replacement for a live region where one applies.
+23. **Reduced motion is one accessibility signal among several the platform exposes the same way.**
+    `MediaQuery.boldTextOf` and `.highContrastOf` are read from context exactly like point 8's reduce-motion
+    flag, and a design system that branches on one but ignores the others ships a screen that respects
+    exactly the preference someone happened to test with — bold text needs a font weight that actually has a
+    bold cut, and high contrast needs a palette that was checked at that ratio, neither of which happens by
+    leaving the flag unread.
+24. **A locale changed while the app is running has to reach every already-built widget through
+    `Localizations`, not through a value read once.** A formatted string computed at startup and stored in a
+    field or a cache survives a runtime locale switch unchanged, because nothing re-runs the formatting —
+    the fix is reading the locale-dependent value at the point of display, the same "don't cache what the
+    context can still change" shape as point 1's typed keys, applied to a value that changes after launch
+    instead of only differing between installs.
+25. **A crash reporter's breadcrumb trail is what turns a report into a reproduction.** Point 10's four
+    startup settings say the report arrives; a trail of the last few navigations, taps and state
+    transitions — attached automatically, without point 14's screen captures or form contents — is what lets
+    the report say what the user was doing rather than only where it happened, and it is worth wiring
+    deliberately rather than trusting whatever a crash SDK captures by default.
+26. **A cue that is only visual or only audible reaches half the audience the animation reached.** Haptic
+    feedback on a state change — a toggle confirmed, a swipe threshold crossed, an error surfaced — reaches a
+    user who can feel the device but not perceive point 21's label or a sound cue, the same "more than one
+    channel" argument extended past text and sound into touch.
+27. **`TextScaler.clamp` caps a runaway scale factor for the one layout that cannot survive the platform
+    maximum, not for the app as a whole.** Point 17's scaler is meant to be read and respected everywhere;
+    a fixed-height row of icons or a single-line label that genuinely breaks past a given multiplier is
+    clamped locally, at that widget, with the reason written down — clamping globally reintroduces the exact
+    failure point 17 exists to prevent, for every reader who actually needs the larger text.

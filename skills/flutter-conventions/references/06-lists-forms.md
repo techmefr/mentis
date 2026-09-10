@@ -94,3 +94,33 @@
     the platform already has on file for every other app the user has filled it into once — the six-digit
     code is the visible case, but the same defeat happens quietly on every field a form author didn't think
     of as "sensitive enough" to tag.
+26. **Tab order on a form is a separate decision from visual order.** The framework builds a default
+    traversal from the tree's structure, which usually matches the layout — until a row is built with a
+    trailing icon button before its label, or a field is wrapped in a container that reorders its children
+    for styling reasons, and the "next" key jumps somewhere the eye doesn't expect. A `FocusTraversalGroup`
+    with an explicit policy is how a form's tab order is asserted rather than inherited from incidental
+    widget nesting.
+27. **The last field's action still has to reach the submit button, not just dismiss the keyboard.** Point
+    16 already says the final `TextInputAction` should submit; the mechanism is calling
+    `FocusScope.of(context).nextFocus()` or the form's own submit handler from that field's `onFieldSubmitted`
+    — omitted, the field's action defaults to closing the keyboard, and a one-handed user on a phone has no
+    way to reach a submit button that point 16 already established the keyboard was covering.
+28. **`Dismissible` needs a confirmation step for anything the user cannot easily redo.** A swipe that
+    deletes a row immediately, with only a snack bar's undo window after the fact, relies on the user
+    noticing the snack bar before it times out; `confirmDismiss` returning a decision before the item leaves
+    the list is the version of that safety net that doesn't depend on how fast someone reads.
+29. **A field-level async check needs the same discard rule as point 16's search results.** A username or
+    slug availability check fired on every keystroke can return "taken" for a value the user has already
+    revised to something else by the time the response lands, and showing that stale verdict against the
+    current text tells the user their new entry is invalid when it was never checked at all — the request
+    and its answer have to be compared against what the field currently holds, not assumed to still match.
+30. **Uniform manual spacing between list items and `ListView.separated`'s own separator builder are not
+    interchangeable once the list is long.** A `Padding` or `SizedBox` baked into every item widget is built
+    and measured for every row the lazy builder produces, including the divider; `ListView.separated`'s
+    dedicated separator builder is the same lazy-build discipline as point 1 applied to the gaps between rows
+    rather than only to the rows themselves.
+31. **A pinned `SliverAppBar` and a floating one answer different questions about when the header
+    reappears.** `pinned` keeps the collapsed bar on screen through the whole scroll, the way point 19's
+    persistent header keeps a section label visible; `floating` brings the full bar back the moment the user
+    scrolls up even from the middle of a long list, which is the right shape for a search bar the user wants
+    back quickly and the wrong one for a section label that should only reappear at its own section.

@@ -92,3 +92,42 @@
     tell both the reader and the linter that the import is the public surface, not a leftover — the
     alternative of suppressing the warning wholesale hides the next genuinely unused import behind the same
     silenced rule.
+25. **`[dependency-groups]` in `pyproject.toml` is the one place non-production dependencies are declared,
+    not a tool-specific table bolted on beside it.** A `[tool.poetry.group.dev]`, a `dev-requirements.txt`
+    and a linter's own extras section are three places the same "install this for testing" list can drift —
+    the standardised table (PEP 735) is read by the installer directly and is exactly point 18's "one file,
+    not one file per tool" applied to dev dependencies specifically.
+26. **A dependency group is not an optional extra, and conflating them ships test tooling to production.**
+    An `[project.optional-dependencies]` entry is installable by an end user and appears in the built
+    wheel's metadata; a dependency group is deliberately excluded from the distribution — using the wrong
+    one for a test or lint dependency means `pip install yourpackage[dev]` becomes something a consumer can
+    type at all, when it was never meant to be there.
+27. **A dependency group can depend on another dependency group, and that composition is the point.** A
+    `test` group and a `docs` group both listing the same pinned pytest version independently is the
+    duplication point 16 warns about — an `all` or `dev` group that includes both by reference stays
+    consistent when one of them bumps a version, where two independently maintained lists do not.
+28. **A project with a `pyproject.toml` still needs its own dependency lockfile committed, or "the same
+    code" in point 10 is a fiction.** Version ranges in `pyproject.toml` describe what is allowed, not what
+    actually ran; without a lockfile two installs months apart can silently resolve to different transitive
+    versions, and a bug attributed to "the code" was really a dependency that moved underneath it.
+29. **A namespace package (no `__init__.py`, split across several distributions) is a deliberate choice for
+    a plugin ecosystem, not a default layout.** It trades away the single, checkable place point 20 asks
+    `__init__.py` to provide — with several installed distributions contributing to the same import name,
+    there is no one file to audit for what runs on import, and a missing distribution fails as a partial,
+    confusing namespace rather than a clean `ImportError`.
+30. **A tool's configuration living in its own ecosystem-standard file instead of `pyproject.toml` is not
+    automatically the "second way to do a solved thing" point 18 forbids.** Some tools (a Dockerfile, a CI
+    YAML) have no `pyproject.toml`-native form at all — the rule point 18 states is about metadata that
+    *could* live in one place ending up scattered across several that drift, not about every tool needing
+    to be shoehorned into the same file regardless of what it configures.
+31. **A lockfile pinning a group's own dependencies is what makes point 27's composed groups reproducible
+    across machines, not only consistent with each other.** Two developers resolving the same
+    `[dependency-groups]` table independently can still land on different transitive versions the day a
+    new release appears between their two installs; the lockfile is what freezes the resolution itself,
+    the same distinction point 28 draws between what a range allows and what actually ran.
+32. **A build backend declared explicitly in `[build-system]` is what makes `pip install` reproducible
+    away from the machine that authored the package.** Omitting it leaves the backend to whatever default
+    the installer happens to ship, and a package built once under one default and installed later under
+    another can silently pick up different packaging behaviour — stating `requires` and `build-backend`
+    is the same "declared, not assumed" discipline point 14 asks of configuration values, applied to the
+    build itself.

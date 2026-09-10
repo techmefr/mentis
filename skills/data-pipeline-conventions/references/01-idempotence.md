@@ -51,3 +51,38 @@
     about the cost, the timeout, the memory or the lock the full run will take. Point 3 is about
     correctness; the volume question belongs to §4, and treating a green sample as clearance for a
     destructive full run is the specific mistake that makes it worth saying twice.
+13. **`unique_key` is the merge's real contract, and it has to be the model's actual grain, not "unique
+    enough in the source today."** A merge keyed on a column that is only accidentally unique overwrites
+    the wrong row the day two events share it, and the failure looks like a silently dropped record
+    rather than an error — so the key gets its own uniqueness and not-null test, the same as any other
+    published contract in point 11.
+14. **A lookback window survives clock skew and late arrival better than a bare high-water mark.**
+    Re-processing the last few periods on every incremental run costs a little recomputation and buys
+    back the records point 9 says are expected: a source system's clock running a few minutes behind, or
+    a correction landing just after the previous run's cutoff, both land inside the lookback instead of
+    being silently missed forever.
+15. **A schema change in the source is a decision, not a crash.** A pipeline has to state whether an
+    unexpected new column is captured, ignored or fails the run — the alternative is finding out which
+    one happens by accident, usually via a downstream query that started returning `NULL` for a column
+    it used to fill.
+16. **A scheduled full refresh is the self-healing companion to incremental processing, not a
+    contradiction of it.** Incremental keeps the daily cost down; drift between the incremental history
+    and the source still accumulates from edge cases nobody wrote a test for, and a periodic full rebuild
+    (weekly, monthly) is what catches and corrects it before a customer does.
+17. **Row-count trend, not just row-count-at-a-point, is what catches a broken filter.** A single run's
+    count says nothing on its own; the same count against its trailing average is what turns "the join
+    condition silently changed" into an alert instead of a number nobody looks at until the quarterly
+    reconciliation.
+18. **Idempotency has to be provable from outside the code, not asserted in a comment.** A test that runs
+    the same pipeline twice against the same input and diffs the two outputs is the check that actually
+    exercises point 1 — reading the code and reasoning "this looks idempotent" is exactly the kind of
+    confidence a partial `UPSERT` or an unguarded side effect defeats silently.
+19. **`on_schema_change` is a policy to set, not a default to inherit.** Left unset, a merge into a table
+    whose source added a column either fails the whole run on the next build or silently drops the new
+    column depending on the engine — stating whether new columns are appended, ignored or force a full
+    rebuild turns point 15's "decision, not a crash" into something a reviewer can actually see in the
+    model's own configuration rather than infer from an incident.
+20. **A merge strategy still needs a deliberate answer for a row deleted at the source.** `MERGE` only
+    ever inserts or updates matched keys; a row absent from the incoming batch is silently left in place
+    forever unless the model explicitly checks for and marks it gone — which is the same absence-as-event
+    rule §3.8 states for the modelling layer, arriving here at the mechanism that has to implement it.

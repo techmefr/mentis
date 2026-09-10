@@ -79,3 +79,37 @@
     pattern was built around no longer matches how the domain actually changes. When one product decision
     routinely touches all three, the abstraction is describing the wrong axis, not merely accumulating
     cost, and reshaping it is worth doing before the next such change rather than after it.
+17. **"Nobody on the team can say why this abstraction exists" is itself the deletion trigger, not just a
+    symptom to note before finding the real one.** Knowledge about a seam erodes as the people who added it
+    leave or move on, faster than the code does; once a review or an audit produces only guesses about why
+    an interface has one implementation, treat the silence the same way as a re-measured performance claim
+    that came back negative (§5) — the justification is gone, whether or not anyone can reconstruct what it
+    once was.
+18. **Renaming a dead pattern to sound domain-specific is camouflage, not a fix.** `TemporaryState` instead
+    of removing a one-transition state machine, or `RefundPolicyResolver` instead of removing a Strategy
+    down to one branch, passes the deletion test's symptom off as solved because the new name no longer
+    says "pattern." The deletion test (§1) is about the shape, not the label — a rename that keeps every
+    class and every indirection has changed nothing a reader has to walk through.
+19. **A pattern that has become impossible to unit-test in isolation has already stopped paying for
+    itself, before anyone counts the reading cost.** When exercising one implementation requires mocking
+    the shared context, the registry and two collaborator interfaces just to reach the branch under test,
+    the setup is bigger than the plain function it replaced would have needed — the isolation the pattern
+    was supposed to buy has been paid back as test friction instead.
+20. **Observability built on top of a pattern's structure is a hidden dependency that outlives the
+    pattern's own justification.** A dashboard that groups error rates by strategy class name, or an
+    alert keyed on a state's enum value, freezes that shape in place even after the behavioural reason for
+    it is gone — deleting the pattern silently breaks a dashboard nobody thought to check. Search for what
+    reads the pattern's own names before removing it, the same way §6.9 says to search for what still cites
+    its justification.
+21. **A pattern exposed as a public interface to another team or another repo is a deprecation, not a
+    same-diff deletion.** Everything else in this section describes a change one team can make and review
+    in one PR; a Strategy interface published as part of a package's public API, or an event another
+    service subscribes to, has consumers this repo cannot see. Separate the internal cleanup — the parts
+    only this codebase depends on — from the external contract, and give the external one the deprecation
+    cycle a breaking change to a shared boundary always needs.
+22. **A pattern surviving a migration to a new language or framework version is not evidence it is still
+    earning its place — it is evidence nobody re-ran the tests in this section against it.** Code that
+    moves wholesale from one stack to another carries its abstractions across by default, and a hand-rolled
+    Iterator or Command that made sense under the old runtime's limitations is exactly the kind of thing a
+    framework upgrade (§6.10) is supposed to catch — but only if the migration includes that pass rather than
+    treating a like-for-like port as proof the shape is still right.

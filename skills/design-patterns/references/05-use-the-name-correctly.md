@@ -73,3 +73,36 @@
     IDE's inline type hint doesn't already say, and they add a word to every call site that has to be read
     past. Reserve the vocabulary for the type; name the variable for the domain value it holds —
     `provider`, `refund`, `handler` for the one actually resolved this call.
+16. **A pattern name inside an error message or a log line is a debugging tell, not documentation.**
+    `throw new Error("Strategy has no handler")` tells whoever reads the incident channel at 2am that a
+    dispatch failed, not what business operation was being attempted or which input caused it. The
+    message a caller sees should name the domain failure — "no refund channel configured for this
+    provider" — and leave the pattern vocabulary in the code that only developers read.
+17. **Pattern vocabulary belongs in identifiers, never in user-facing strings.** A validation message,
+    a toast, an admin screen's label should never say "Factory" or "the default Strategy" — the reader
+    on the other end has no reason to know the word and every reason to be confused by it. If a string
+    meant for a user has drifted into naming its own implementation, that string was written from the
+    code outward instead of from what the user needs to know.
+18. **A rename that only touches the identifier, not the shape, silently invalidates the ADR that named
+    it.** Renaming `InvoiceStrategy` to `InvoiceHandler` through an IDE's rename-symbol tool is safe for
+    the compiler and unsafe for the reader: the ADR (§5.2) and any review comment that said "this is a
+    Strategy" now refer to a name the code no longer has. A pattern-carrying rename is a documentation
+    change, not just a refactor, and needs the same grep-and-fix pass as deleting the pattern outright
+    (§6.9).
+19. **One class filling two pattern roles under one name means the name has stopped being specific.** A
+    class that is simultaneously "the Strategy" callers pick between and "the Factory" that constructs
+    the other Strategies is neither cleanly — a reader asking "which one is this" gets two contradictory
+    answers from the same identifier. Split the two responsibilities into two named things, or drop the
+    pattern name entirely and describe what the class actually does (§5.10).
+20. **A file that keeps its pattern-derived name across an unrelated rewrite hides the rewrite in blame
+    history.** Renaming `OrderState` to `OrderStrategy` because the implementation changed shape, without
+    a commit that says so, means the next person who blames the file for a bug finds a naming change where
+    they expected a behavioural one. Keep the name stable across cosmetic changes and change it, with a
+    reason in the commit message, only when the shape genuinely stopped matching the label (§5.12).
+21. **A pattern name borrowed from a different catalogue than the one this repo uses is worse than an
+    unnamed structure, because it looks precise while being wrong.** Calling a plain callback registry a
+    "Publisher" (a term from a messaging-system vocabulary, not GoF's Observer) or calling a validation
+    pipeline a "Middleware Chain" when the codebase's own convention calls that shape Chain of
+    Responsibility (§3.11) forces a reader to first work out which glossary is in play before they can even
+    check whether the name fits. One glossary, consistently applied, is worth more than a technically
+    defensible synonym borrowed from elsewhere.

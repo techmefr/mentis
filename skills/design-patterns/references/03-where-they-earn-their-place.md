@@ -79,3 +79,36 @@
     a single check or a group of checks combined with AND/OR. What it buys is that calling code never
     special-cases "is this a group or a single item" — the recursion is the whole payoff, so a "composite"
     with only one level of nesting is a plain collection wearing a bigger name.
+15. **Iterator earns its place when the traversal logic is itself nontrivial and more than one consumer
+    needs the same traversal** — a lazily-fetched pagination cursor that hides the next-page request behind
+    `next()`, a tree walked in more than one order by more than one caller. If only one consumer exists,
+    the language's own iteration protocol (a generator, `for..of`, a plain array) is the honest version and
+    a hand-written Iterator class is §1.2's single-caller test failing under a different name.
+16. **Factory Method earns its place, separately from Abstract Factory, when it is the subclass — not the
+    caller — that decides which concrete product gets built.** A base `Importer` class per file format,
+    where each subclass's `createRowParser()` returns the parser that format needs, is Factory Method: the
+    calling code never chooses, it just calls the base class's template method. Several static named
+    constructors on one class (`Money::fromCents`, `Money::fromDollars`) are not this pattern — that
+    distinction is §4.12's, and confusing the two is why "Factory" ends up on classes that build nothing.
+17. **Specification earns its place when the same business rule must be evaluated two ways: as a database
+    filter and as an in-memory check against an object already loaded.** "Overdue and unassigned" written
+    once as a composable predicate, then translated into a query clause for a list view and evaluated
+    directly against a single loaded record for a business-rule check, is worth the class. Written for only
+    one of the two evaluation contexts, it is a filter object with an oversized name.
+18. **Proxy earns its place at a real access boundary the language's own runtime proxy doesn't reach** — an
+    authorization check that must run before a remote call is allowed to leave the process, or a stand-in
+    object returned instead of a resource that is expensive or not yet permitted to load. This is a
+    narrower claim than caching: a cache read through a stand-in is memoization (§2.13), and calling it
+    Proxy when the only behaviour is "remember the last result" is the same name mismatch §1 warns about.
+19. **Observer earns its place beyond the framework's own event bus (§2.2) when several independent modules
+    must react to one domain event without knowing about each other, and each owns its own failure
+    handling.** Two callbacks living in the same file that both run after one action are not this pattern —
+    they're a function calling two other functions. The shape is Observer once a third, unrelated module
+    can subscribe without the event's publisher or its existing subscribers being touched, and a failure in
+    one subscriber does not stop the others from running.
+20. **Two of these earned cases commonly show up together, and naming both is more honest than naming
+    one.** A Composite tree of permission rules is usually walked by a Visitor that exports it to a
+    readable audit string, and a Chain of Responsibility of approval steps often needs an Iterator over the
+    chain itself for a "who approved this so far" screen. When a review names only the pattern that was
+    top of mind, the second structure goes undocumented until someone has to explain it cold — the sentence
+    this section owes (§3.10) covers every named pattern actually present, not just the first one found.

@@ -168,3 +168,21 @@ primitives. §6 gained framework-native DI (`Depends`) still following the same 
 arguments as an invisible singleton, constructor versus attribute injection, decorator-based registration
 discoverability, environment-branching inside a binding instead of at the composition root, and typing a
 marker-resolved dependency as what it resolves to.
+
+**Widening, 2026-09-10 — 4ème passe.** Same word-count method as the day's three previous passes, this
+time on §5 structure/style, the one section untouched since the original 2026-09-08 sectioning pass and,
+combined with `data-pipeline-conventions`'s four sections, among the thinnest files left in the stack
+against `bin/measure_depth.py`'s parity target. §5 gained roughly 425 words as 8 new numbered points
+appended after its existing 24, nothing renumbered, nothing already stated repeated. Sourced from PEP 735
+(dependency groups in `pyproject.toml`) and its accompanying `peps.python.org` text, current packaging
+guidance on `[build-system]` and lockfiles, and reasoning already established elsewhere in this section —
+never from the org catalogue this block was already mined from, and never by reading the XEFI
+marketplace files. §5 gained `[dependency-groups]` as the one standardised place for non-production
+dependencies over a tool-specific table, the distinction between an optional extra (shippable to a
+consumer) and a dependency group (deliberately excluded from the distribution), group composition to
+avoid duplicating a shared dependency across groups, a committed lockfile as what makes "the same code"
+actually reproducible rather than a version-range fiction, namespace packages as a deliberate
+plugin-ecosystem trade-off rather than a default layout, the limits of point 18's "one file" rule against
+tools with no `pyproject.toml`-native form, a lockfile pinning a composed group's own resolution, and an
+explicit `[build-system]` declaration as the same "declared, not assumed" discipline applied to the build
+itself.

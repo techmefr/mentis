@@ -195,3 +195,37 @@ docs.flutter.dev breaking-changes pages, riverpod.dev, dart.dev) for every mecha
 own already-written references sections for continuity of voice and cross-references — never from the
 marketplace XEFI catalogue, whose file contents were not read for this pass either. Five files, 2,269 words
 added; references directory total 15,546 → 17,815 words (origin.md itself excluded from both counts).
+
+**Widening, 2026-09-10 — 3ème passe.** The five thinnest sections after the first two widening passes got
+5-7 new points each, appended after the existing numbering (nothing renumbered): §1 the two crashing mistakes
+(1,361 → 1,833 words: a `Future`/`Stream` built inline inside `FutureBuilder`/`StreamBuilder` reading as a new
+operation on every rebuild, `setState()`-after-`dispose()` as a distinct assertion from point 1's context
+failures, pausing versus cancelling a subscription for a kept-alive off-screen widget, leak-tracking tests
+being opt-in rather than a property of the app, `Timer.periodic` needing the same `finally` guard as other
+cleanup, and a spawned isolate outliving the widget that started it), §9 text/motion/monitoring (1,454 → 1,934:
+`SemanticsService.announce` for a transient event with no widget to hang a live region on, `boldTextOf`/
+`highContrastOf` as siblings to the reduce-motion flag, a runtime locale switch needing `Localizations` rather
+than a value cached at startup, crash breadcrumbs without payload data, haptic feedback as a channel alongside
+text and sound, and `TextScaler.clamp` scoped to one layout rather than applied globally), §4 screen states
+(1,469 → 1,964: `ConnectionState.none` versus `.waiting`, automatic short-backoff retry as a different policy
+from a user-initiated one, a shimmering skeleton counting as an animation under §9's off-screen-cost rule, an
+optimistic write rejected with a different final value rather than only rejected, suppressing a repeated
+identical error announcement, and a partial-failure response as a fifth state the loading/success/empty/error
+model doesn't name), §6 lists/forms (1,479 → 1,955: `FocusTraversalGroup` for tab order distinct from visual
+order, the last field's `onFieldSubmitted` reaching the submit action rather than only the keyboard,
+`confirmDismiss` for an irreversible swipe action, discarding a stale async field-validation response the same
+way as a stale search result, `ListView.separated`'s lazy separator builder versus a manual spacing widget per
+item, and pinned versus floating `SliverAppBar` behaviour), and §2 widgets/rebuilds (1,485 → 1,963:
+`AnimatedBuilder`/`ListenableBuilder`'s `child` parameter for the static part of a listened subtree,
+`Widget.canUpdate`'s runtimeType-plus-key rule for element reuse, a scoped selector as the InheritedWidget
+narrowing of point 21 applied to a state library, `prefer_const_constructors` not catching a manually-hoisted
+constant subtree, DevTools' "Enhance tracing" attributing a frame to the callback that produced it, and a
+`StatelessWidget` still rebuilding on every parent rebuild unless it is actually `const`). Sourced from the
+framework's own current documentation (flutter.dev, api.flutter.dev, dart.dev, pub.dev API docs) for every
+mechanism cited, plus this block's own already-written references sections for continuity of voice and
+cross-references — never from the marketplace XEFI catalogue, whose file contents were not read for this pass
+either, only its file and folder names used as a checklist of subjects already covered elsewhere. Five files,
+2,401 words added (measured directly on the five touched files before and after this pass — the prior
+entry's stated running total did not recompute cleanly against the actual word counts of all ten files, so
+this entry restates the true total rather than propagate the mismatch); references directory total as
+measured now: 18,075 words (origin.md itself excluded).
