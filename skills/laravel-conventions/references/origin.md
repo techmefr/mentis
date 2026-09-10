@@ -274,3 +274,20 @@ serialise work that was actually safe to run in parallel.
 actually enforced — naming a class as expected once rather than catching it at every throw site, sampling
 a class that fires legitimately at volume instead of either silence or flooding the tracker, and reversing
 the framework's default ignore list where a spike in an otherwise-routine status is itself the signal.
+
+**Widening, 2026-09-10 — §2, §5 and §8 gain 12 points.** The three thinnest sections got the pass, applying
+the standard rule: extend, don't renumber, because 25 standalone `skills/laravel-*` files already cite exact
+§N.M positions in this document. §2 (authorisation) gained `Gate::before()` for a single-declaration
+super-admin bypass instead of a role check copy-pasted into every policy, Sanctum token abilities as a
+narrower layer under the user's own permissions, treating an authorisation denial as a tested contract the
+same as the success path, and policy-discovery naming — a policy that breaks the convention denies silently
+rather than throwing, which reads as a strict app instead of a wiring bug. §5 (naming, typing, style) gained
+`readonly` promoted properties for value objects and DTOs as point 6 taken one step further, boolean
+predicate naming for properties and parameters (not just methods, which point 13 already covered), backed
+enum type choice (string for a label, int only for something genuinely ordinal), and `final` by default with
+an abstract base as the deliberate exception. §8 (jobs, notifications, realtime) gained `ShouldBeUnique`
+versus `WithoutOverlapping` as answers to two different questions — stopping a duplicate from being queued
+versus stopping two queued copies from running at once — presence channels as private channels plus a
+roster rather than a separate authorisation model, on-demand notification routing for a recipient with no
+`User` record, and `ShouldBeEncrypted` for a job payload carrying something sensitive, extending point 3's
+reference-not-snapshot reasoning to the case where the snapshot must exist anyway.

@@ -58,3 +58,28 @@
     would need to be true instead — without it, every refusal reads the same and the support ticket asks
     what they did wrong. It stays a policy decision, not validation (point 7): the message explains *why
     this caller may not*, never *what is wrong with the payload*.
+11. **A super-admin bypass is declared once, in `Gate::before()`, never sprinkled as an extra clause in
+    every policy method.** `Gate::before` runs ahead of every ability check and can short-circuit the whole
+    decision, which is exactly the shape "this one principal passes everything" needs — the alternative,
+    an `if ($user->isSuperAdmin()) return true;` opening line copy-pasted into each policy, is point 1's
+    role-name-in-code mistake wearing a different hat, and it silently stops working the day someone adds a
+    policy and forgets the line. The bypass only reaches checks that go through the Gate — a query built by
+    hand that never calls `can()` gets no bypass and no denial either, which is a reason to route reads
+    through the same gate, not a reason to trust the bypass blindly.
+12. **A token's abilities are a second, narrower permission layer under the user's own — a token can only
+    do less than its owner, never more.** Issuing a Sanctum token scoped to `['orders:read']` for a
+    third-party integration means every request on that token is checked twice: can this *user* do this,
+    and does this *token* claim the ability to. Skipping the second check because the first already passed
+    turns a scoped API key into a full session token the moment it leaks, which defeats the reason to scope
+    it in the first place.
+13. **An authorisation denial is a contract worth a test, the same as the success path.** A test that only
+    asserts the owner can update the record and never asserts that someone else gets a 403 leaves the
+    scoping in point 4 unverified — the query changes, the `findOrFail` comes back, and nothing fails until
+    a real other-tenant request does. Assert the status code and, where point 10 applies, the message: a
+    403 that silently became a 200 after a refactor is the regression this rule exists to catch.
+14. **Policy discovery follows a naming convention, and a policy that breaks it is invisible.** Laravel
+    resolves `OrderPolicy` for `Order` automatically; a policy named otherwise, or a model living outside the
+    conventional model namespace, needs an explicit registration in the `AuthServiceProvider`'s policy map or
+    the framework never finds it. The failure mode is a denial that looks like the check works — `can()`
+    returns false for everyone, including the caller who should pass — so it reads as a strict app rather
+    than a wiring bug, and it takes a deliberately-permitted test case failing to surface it (point 13).

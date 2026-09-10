@@ -37,7 +37,7 @@ current public HTTP-resilience/rate-limiting guidance (never stack more than one
 per client; outbound rate limiting needs its own token-bucket-style strategy, distinct from inbound
 throttling), 9,957 → 10,104 words, x5.7 → **x5.61**); **widened again 2026-09-09**, §5 and §3 each gained points
 (async-dispose ownership, guarded double-dispose, generic nullability constraints; authorization-
-handler short-circuit, real-time connection re-validation), 10,104 → 10,432 words, x5.61 → **x5.44**)
+handler short-circuit, real-time connection re-validation), 10,104 → 10,432 words, x5.61 → **x5.44**); **widened 2026-09-10** via a background pass on the three thinnest remaining sections — §7 language idioms (`nameof` scope, list patterns, `u8` literals, `global using`, `params` collections), §1 async/cancellation (linked token sources, single-use `ValueTask`, `AsyncLocal` flow, `IProgress<T>`'s synchronization-context capture) and §4 types/visibility (the `file` access modifier, `readonly struct`, static abstract members/generic math, partial properties) — sourced from current public .NET documentation, 10,432 → 11,762 words, x5.44 → **x4.82**)
 |
 | Design system | `design` (10) | **`business/interface-design`** (new): token discipline, container decision tree, required screen states, button hierarchy, chips by kind, icon-text coupling, reference gathering — **house values deliberately excluded**; sectioned into `references/` and deepened 2026-09-08, 2,041 → 5,938 words of rules, §0 marked read-every-time, no section added |
 | Story management | `project-management` (9) | `business/product-ownership` §6–§8: story anatomy, label discipline, criticality, review axes, review output, decomposition, estimation-needs-the-code |
@@ -152,7 +152,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | python-no-db-cascade-delete | 6 | `python-conventions` §7.1 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | python-no-magic-strings | 6 | `python-conventions` §3.7 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | code-baseline | 6 | an org cross-language rule set (14 skills), mined and de-identified; the floor every per-stack block sits on; §7 added 2026-08-11 from a 15th skill (`extend-dont-override`) added to the real catalogue after the original mining pass — narrowest-supported-mechanism-first before copying or replacing a vendor file; **depth pass 2026-09-08 on all eight sections** (4,397 → 9,129 words of rules) — the block with least room, since it was already the deepest here, so the additions are the failure modes the sections were silent on: catch scope, cleanup on the failure path and cause preservation in §3; the primitive-obsession family (two ids of one primitive type, units, money as amount-plus-currency, a boolean pair encoding one state, a nullable field carrying two meanings) in §5; timeout, retry-with-backoff, idempotency on an outbound write, testing the client at the transport layer rather than mocking the client, and the webhook receiver's own three rules in §4; §6 reframed around the debt rather than the doctrine; and five more shapes in §8, including enforced-on-the-happy-path-only and verify-by-reading-the-system's-answer | 🟡 |
-| laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves | 🟡 |
+| laravel-conventions | 6 | an org catalogue (45 skills), mined and de-identified; fills the framework gap `php-patterns` explicitly left open; re-checked against the company's own internal house documentation on 2026-08-11, 1 internal contradiction fixed (§1.1 said "action/service", `code-baseline` already bans the `*Service` bag-name — the source's explicit no-Service/no-Repository rule settled it) plus the explicit `boot()` prohibition added to §1.2; **bodies pass 2026-09-07** against the same catalogue, now 65 skills: 48 already covered, and the gaps closed were §11 (new — failures: throw rather than return, reporting is not handling, an HTTP-native exception rather than a render callback, no hand-rolled content negotiation), §1.4 (a concern trait owns its concept end to end, which corrected §1.1's "simple scopes"), §1.5 (recognising a state machine or a pipeline from Laravel-shaped triggers), §3.14 (pruning is deleting), §3.12 (widened to model/abstraction with the earned-by test), §4.5 (every table through its model), §5.8 (localised date accessors), §7.4 (a command runs more than once), §9.11 (a data change ships its seed data) and §10.3 (the support-window date); §10.6 landed 2026-09-07 from `laravel/boost` (github.com/laravel/boost, named directly, same rule-C carve-out as §10.5 — a real public first-party Laravel package) after the real, installed org catalogue's Laravel plugin stopped treating Boost as MCP-only: install it with `--skills`, not the MCP server alone, since the layer-package layout of §10.5 is how its own skill actually resolves; **widened 2026-09-10** via a background pass on the three thinnest sections — §2 authorisation (`Gate::before` for a super-admin bypass, Sanctum ability tokens, testing a 403 as a contract, a silently-discovered policy), §5 naming/typing/style (readonly promoted properties, predicate naming for booleans, an enum's backing-type choice, `final` by default) and §8 jobs/realtime (`ShouldBeUnique` vs `WithoutOverlapping`, presence channels, on-demand notifications, `ShouldBeEncrypted`) — sourced from current official Laravel documentation, 15,419 → 16,839 words of `references/`, taking the `laravel` row from x3.13 to **x2.99** | 🟡 |
 | laravel-no-db-enums | 6 | `laravel-conventions` §3.1–§3.3 extracted to its own trigger, 2026-09-09 — pilot for a narrow-trigger + pointer restructuring: the mechanism and the five-reason argument stay in the parent block, this file only narrows *when* the rule fires (a migration adding a fixed-set column) | 🟡 |
 | laravel-no-cascade-delete | 6 | `laravel-conventions` §3.5–§3.10 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | laravel-no-observers | 6 | `laravel-conventions` §1.2 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
@@ -440,8 +440,8 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 25,536 | −54,289 | x3.13 |
-| csharp | 37 / 56,718 | 1 / 10,432 | −46,286 | x5.44 |
+| laravel | 65 / 79,825 | 3 / 26,710 | −53,115 | x2.99 |
+| csharp | 37 / 56,718 | 1 / 11,762 | −44,956 | x4.82 |
 | python | 20 / 22,097 | 2 / 11,777 | −10,320 | x1.88 |
 | flutter | 40 / 20,772 | 1 / 11,412 | −9,360 | x1.82 |
 | nuxt | 21 / 19,869 | 1 / 12,625 | −7,244 | x1.57 |
@@ -473,8 +473,8 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 12,350, php-patterns 6,068, inertia-conventions 7,118
-csharp: dotnet-conventions 10,432
+laravel: laravel-conventions 13,524, php-patterns 6,068, inertia-conventions 7,118
+csharp: dotnet-conventions 11,762
 python: python-conventions 8,494, data-pipeline-conventions 3,283
 flutter: flutter-conventions 11,412
 nuxt: vue-nuxt-vuetify-conventions 12,625
@@ -1751,6 +1751,20 @@ Fifth stack: `dotnet-dispose-what-you-own` (`dotnet-conventions` §5.9–§5.10)
 `dotnet-options-lifetime-mismatch` (`dotnet-conventions` §2.18). Same shape, same reason for staying
 out of `bin/measure_depth.py`. 45 standalone triggered skills now exist across five stacks
 (laravel/python/flutter/nuxt/dotnet).
+
+### Widening, 2026-09-10: parallel background passes on the two worst ratios
+
+Two background subagents, dispatched to go faster on "worst-ratio-first" widening without waiting on
+each other: one widened `dotnet-conventions`' three thinnest sections (§7, §1, §4 — 10,432 → 11,762
+words, x5.44 → x4.82), the other widened `laravel-conventions`' three thinnest sections (§2, §5, §8 —
+15,419 → 16,839 words, taking `laravel` from x3.13 to x2.99). Both stayed inside the same constraint as
+every widening pass: no XEFI marketplace content read, only public official documentation (Microsoft
+Learn for .NET, Laravel's own docs for Sanctum/broadcasting/notifications) synthesised in mentis's own
+voice, and neither agent touched `CATALOG.md`/`README.md` or committed — that integration stayed in the
+main session. `bin/check_citations.py` stayed at 0 unresolved after both passes. Six widening passes total
+on `csharp` this week; still the two worst ratios in the table (`laravel` x2.99, `csharp` x4.82), and both
+still have four-to-five-figure word deficits left — this pass closes thousands of words, not tens of
+thousands.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

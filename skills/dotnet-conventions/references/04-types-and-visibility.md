@@ -75,3 +75,30 @@
     reason consistency earns its place here rather than being taste is search: a codebase where the same
     kind of thing is named the same way is one where a grep finds all of them, and that is the tool
     everybody actually uses.
+18. **The `file` access modifier for a type meant to exist in exactly one file** — a small helper generated
+    alongside a source generator's output, or a scratch implementation type that backs one feature and has
+    no business being referenced from anywhere else. Where the language version supports it, `file` gives
+    that type a scope narrower than `internal` without paying nested-class's cost of hiding it from a
+    top-level search (point 2): it still appears in the file listing under its own name, it simply cannot be
+    named from another file, and two unrelated `file` types across the project can reuse the same identifier
+    with no collision.
+19. **A struct that never mutates its own state is declared `readonly struct`.** The modifier is a promise
+    the compiler checks — every field is enforced read-only and every member enforced non-mutating — and
+    the concrete payoff is that passing it by `in` no longer needs a defensive copy before each call, because
+    the compiler already knows the callee cannot change it. A struct that is only conventionally immutable,
+    with the keyword left off, gets that defensive copy on every `in` parameter and every readonly field
+    access silently, which is a performance cliff nobody sees in a diff.
+20. **A generic algorithm shared across numeric types goes through the platform's numeric interfaces**
+    (`INumber<T>`, `IBinaryInteger<T>` and neighbours) and their static abstract members, rather than a
+    separate overload per concrete type or a run-time dispatch on `typeof`. A static abstract interface
+    member is resolved at compile time from the generic type parameter, so a `Sum<T>(IEnumerable<T> values)
+    where T : INumber<T>` written once compiles to a direct call per instantiation — no boxing, no
+    reflection — for `int`, `decimal` or a custom value type that implements the interface, which a
+    hand-written overload set cannot offer without duplicating the body once per type.
+21. **A partial property or indexer pairs a generated backing implementation with a hand-written
+    declaration**, the same split partial classes already have for methods. Where the language version
+    supports it, the declaring part states the signature and the implementing part supplies the body — most
+    often the implementing part is what a source generator emits, so the property can be backed by
+    generated storage without either side needing to know the other's file. The rule is the same as any
+    other generated pairing: the hand-written half never reaches into what the generator owns, and the
+    generated half is never hand-edited, because the next build silently discards the edit.
