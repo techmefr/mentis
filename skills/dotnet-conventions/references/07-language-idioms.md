@@ -180,3 +180,56 @@
     private field does — was this forgotten, or intentional — with a compiler warning as the only way to
     find out, and only if the warning is enabled. The discard makes the answer part of the code itself
     instead of something a linter has to notice on your behalf.
+31. **The null-conditional assignment (`obj?.Prop = value`, `obj?.Prop += value`) replaces an `if (obj is not
+    null) obj.Prop = value` that existed only to guard the write, not to branch on anything the caller cares
+    about.** It composes with the compound-assignment forms — `+=`, `-=`, `??=` and the rest — but not with
+    `++`/`--`, so a counter increment still needs the explicit guard. Reach for it exactly where point 1's
+    test-and-bind already applies: when the null check and the single write are the whole statement, folding
+    them into one expression removes a branch that added no information a reader needed.
+32. **A partial constructor or a partial event pairs a declaring part with an implementing part, the same
+    split partial properties already have (point 21's sibling).** The declaring part states the signature —
+    parameters, or the event's type and name — and a generator or a hand-written second file supplies the
+    body, which is the same generated-pairing discipline point 21 already states: the hand-written half never
+    reaches into what the generated half owns, and the generated half is never hand-edited because the next
+    build silently discards the edit. Reach for it when a constructor's real body is generated (a source
+    generator wiring up injected fields) and the declaring part is what the type's own file wants to show a
+    reader who isn't looking for the generator's output.
+33. **A lambda parameter carrying `ref`, `in`, `out` or `scoped` states the same by-reference contract a
+    method parameter already states, instead of forcing a conversion to a named local method to get it.** A
+    delegate type that declares a `ref` parameter can now be satisfied by a lambda whose parameter repeats
+    the same modifier, without inferring it silently — which matters because a lambda that captured a `ref`
+    parameter by value before this was legal
+    used to either fail to compile or need an explicit delegate type spelled out by hand; stating the
+    modifier on the parameter is the same "keep the type and its contract visible on the line that declares
+    it" idiom point 9 already argues for, applied to a parameter modifier instead of a type name.
+34. **`nameof` now resolves an unbound generic type (`nameof(List<>)`, not only `nameof(List<int>)`), which is
+    the form a diagnostic or a log template actually wants when the message is about the generic type itself
+    and not one particular closed instantiation.** Before this, naming a generic type in a string meant either
+    picking an arbitrary type argument just to make `nameof` compile, or falling back to a literal `"List"`
+    that a rename silently stops matching — the same rename-safety point 13 already states for a parameter
+    name, extended to a type that had no safe spelling at all until now.
+35. **The widened implicit conversions to `Span<T>` and `ReadOnlySpan<T>` mean an API written to accept a span
+    now takes an array, a `string` (for `ReadOnlySpan<char>`) or another span-convertible type at the call
+    site with no explicit `.AsSpan()` — which is a call-site simplification, not a licence to assume every
+    span-typed parameter is now interchangeable with the type that used to be passed by hand.** A method
+    whose signature changed from `string` to `ReadOnlySpan<char>` to avoid an allocation still changes what
+    the caller can do with the value inside the method (no boxing, no capturing past the call, point 04.22's
+    `ref struct` restrictions) — the conversion hides the syntax, not the contract, so the call site reading
+    unchanged is not evidence the semantics did too.
+36. **A user-defined compound assignment operator (`operator +=` declared directly, rather than relying on
+    `operator +` plus the compiler's expansion to `x = x + y`) is for a type where the in-place form is
+    measurably cheaper than "compute a new value, then assign it" — a large mutable buffer, an accumulator
+    that would otherwise allocate a new instance on every `+=` in a loop.** It is the compound-assignment
+    counterpart to point 04.26's rule for `+`/`==`/`<`: reserved for an operation with one unambiguous
+    domain meaning, and reached for only when the in-place mutation is the actual optimisation being made —
+    not as a shorter way to spell an operator overload that already existed.
+37. **EF Core's `LeftJoin`/`RightJoin` query operators replace the `GroupJoin` + `SelectMany` +
+    `DefaultIfEmpty` sequence that used to be the only way to express an outer join in LINQ.** The three-step
+    form compiles to the same SQL an outer join needs, but nothing about its shape says "outer join" to a
+    reader — it reads as a grouped join followed by a flattening followed by a default-substitution, three
+    operators whose combination has to be recognised rather than read. `orders.LeftJoin(customers, o =>
+    o.CustomerId, c => c.Id, (o, c) => new { o, c })` states the join kind as a word instead of a pattern,
+    the same "prefer the form that states what it means" idiom running through this whole section — and the
+    right side of a `LeftJoin` (the left side of a `RightJoin`) is nullable in the projection, which is the
+    one thing worth checking against a pre-existing null-forgiving `!` left over from the old pattern's
+    workaround.

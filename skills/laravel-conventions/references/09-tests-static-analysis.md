@@ -152,3 +152,46 @@
     is supposed to write — a generated report keyed by the record's id, an upload stored under its owner's
     folder — catches the class of bug where a file is written successfully but to the wrong key, which
     `UploadedFile::fake()->create()` alone proves nothing about because the fake upload always succeeds.
+37. **`Http::preventStrayRequests()` turns an unfaked outbound call into a hard failure instead of a real
+    network request that happens to work in CI.** Without it, a test that forgets `Http::fake()` for one
+    endpoint the code calls only under a rare branch silently hits the real third party — point 13's "fake
+    every external boundary" is a rule the suite currently trusts the author to remember for every call site;
+    this setting is what makes forgetting one fail loudly at the point it's missed rather than passing quietly
+    until that branch runs in production against a service that has since changed its response shape.
+    [Laravel HTTP client docs, laravel.com/docs/12.x/http-client, read 2026-09-10.]
+38. **`Process::fake()` is point 13's external-boundary rule extended to a shelled-out command, and a suite
+    that skips it runs the real binary on the CI runner.** A job or command that shells out to `ffmpeg`,
+    `wkhtmltopdf` or a system script needs that call faked the same way an HTTP call does — `Process::fake()`
+    with a result sequence proves the exit-code and stderr handling without the CI runner needing that binary
+    installed at all, and its absence is the process-level version of the "looks like flakiness" trap point 13
+    already names for HTTP.
+39. **Larastan's level is a ceiling the codebase is already at, and a generic collection type annotated on a
+    return (`@return Collection<int, Invoice>`) is what lets it check the *contents* of a collection, not
+    just that a collection came back.** An untyped `Collection` return passes any level; the generic form is
+    what surfaces a caller treating an `Invoice` collection as if it held `User` models, or accessing a
+    property that doesn't exist on the element type — point 12's "write to the configured level" only pays off
+    on a model or repository method once its return type actually says what's inside.
+40. **A Pest architecture preset (`arch()->preset()->php()`, `->security()`) is a bundle of the structural
+    rules point 22 already describes, curated by the framework rather than hand-written per project.**
+    `->preset()->laravel()` folds in checks like "no `dd()`/`dump()` left in the codebase" and "controllers
+    don't extend the wrong base class" without writing each `arch()->expects()` call individually — reach for
+    the preset first and add project-specific `arch()` rules (point 22) only for a convention the preset
+    doesn't know about, rather than re-deriving rules the preset already ships.
+41. **`assertOnlyJsonPath` and `assertJsonFragment` answer different questions than `assertJsonPath` alone,
+    and picking the wrong one lets an extra field or a wrong sibling slip past.** `assertJsonPath('data.status',
+    'paid')` checks one path's value and says nothing about what else is in the payload; `assertOnlyJsonPath`
+    additionally asserts no *other* top-level key exists, which is what catches a resource (§6 point 10)
+    accidentally serialising a field it was never supposed to expose — the same failure mode point 27 already
+    names for `assertDatabaseCount`, here at the response-shape level instead of the row-count level.
+42. **`Date::setTestNow()` and Carbon's own `CarbonImmutable::setTestNow()` are the same mechanism point 15
+    already asks for, and mixing an app that reads `now()` with a test that only froze `Carbon::setTestNow()`
+    (not the immutable class) leaves one half of the code un-frozen if the codebase mixes both classes.** A
+    project standardising on `CarbonImmutable` needs the freeze called on that class specifically — freezing
+    the wrong one passes locally because most calls happen to go through the frozen class, and fails only on
+    the one code path that reads the other.
+43. **`RefreshDatabase`'s per-test transaction (point 24) does not survive `artisan()` calls that manage their
+    own database connection**, such as a command wrapping its own work in `DB::transaction()` on a *different*
+    connection name than the test's default — the command's writes commit for real even inside a test using
+    `RefreshDatabase`, because the trait only wraps the connection it knows about. Point 21's "test a command
+    by invoking it" (`skills/laravel-conventions` §7) still applies; the trap is assuming the wrapping
+    transaction makes every side effect of that invocation disposable when a second connection is in play.

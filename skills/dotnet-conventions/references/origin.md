@@ -38,6 +38,26 @@ for a reason that has not changed: **depth is not dogfooding**. Nobody here writ
 still unconfronted, and its status stays 🟡. What the pass does buy is that the rules now say *why*, which is
 what `theoden` needs in order to read them as questions rather than as assertions.
 
+**Widening, 2026-09-10 — huitième pass.** Still the worst ratio in the catalogue; five files touched, chosen
+as the thinnest remaining after seven earlier widening passes: `01-async-cancellation.md`,
+`04-types-and-visibility.md`, `06-data-access-portability.md`, `07-language-idioms.md`,
+`08-resilience-throttling.md`. New points appended after the existing ones in each file, none renumbered.
+Sourcing: cross-checked against the file's own existing coverage to avoid restating a point already made, then
+synthesised from the C# 14 / .NET 10 and EF Core 9–10 language and library docs (Microsoft Learn's "What's new
+in C# 14" and EF Core 9/10 "what's new" pages, the `dotnet/runtime` and `dotnet/efcore` repositories and issue
+trackers) — never from the marketplace XEFI. New material: null-conditional assignment, partial
+constructors/events, lambda parameter modifiers, unbound-generic `nameof`, widened `Span<T>` conversions,
+user-defined compound assignment operators, and EF Core 10's `LeftJoin`/`RightJoin` operators (§7); partial-type
+sealed/abstract propagation, interceptors, `UnsafeAccessorAttribute`/`UnsafeAccessorType`,
+`DynamicallyAccessedMembersAttribute`, and sealed-class devirtualisation (§4); `AsNoTrackingWithIdentityResolution`
+against JSON columns, JSON-aware `ExecuteUpdateAsync`, its new plain-lambda overload, complex-type column
+uniquification, automatic compiled-model detection, and querying into a JSON column's own structure (§6); rate
+limiter algorithm trade-offs (fixed/sliding window, token bucket), chaos-strategy placement in a pipeline,
+`TimeProvider`-driven pipeline testing, `SlidingWindowRateLimiter` memory cost, and `RateLimitLease` metadata
+(§8); `TimeProvider` overloads on `Task.Delay`/`Task.WaitAsync`/`CancellationTokenSource`, `System.Threading.Lock`
+scope versus scheduling, `Task.Factory.StartNew`'s unwrap and `LongRunning` gaps, and the `DisposeAsyncCore` seam
+(§1).
+
 Where the depth went. §3 authorisation was the thinnest section relative to what can go wrong in it (95
 words) and gained the most: authentication answering only "who" so a bare authorise marker admits every
 authenticated user; an endpoint policy never being row-level authorisation, so the id in the route belongs

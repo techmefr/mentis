@@ -188,3 +188,45 @@
     same-named types from different namespaces in one file — reached for instead as a shorthand for an
     ordinary type with an inconvenient name, it trades the type's own searchable identity (point 17's
     reasoning) for a local nickname that greps for the real name will never find.
+35. **A `sealed` or `abstract` modifier declared on any one part of a partial class applies to the whole
+    type, and the other parts do not repeat it.** The compiler merges the parts into one declaration before
+    any of point 11's reasoning about inheritance applies, so a type split across two files is sealed the
+    moment either file says so — which also means a reviewer checking whether a partial type is extensible
+    has to find every part before concluding it isn't, because the file in front of them may simply be the
+    one that left the modifier off.
+36. **An interceptor substitutes a different method body for a specific call site at compile time, with
+    nothing at that call site's own source marking that it happened.** The mechanism exists for source
+    generators — replacing a LINQ-to-objects call with a pre-translated one, the way EF Core's AOT query
+    compilation does — and it is scoped by `InterceptorsNamespaces`, the project setting that lists which
+    namespaces are trusted to contain one. That scope is the only visibility control it has: a project that
+    widens it carelessly makes "what does this call actually run" unanswerable by reading the call site,
+    which is the same search-defeating cost point 2 already charges a nested class for, paid here for an
+    entire compilation instead of one type.
+37. **`UnsafeAccessorAttribute` reaches a private member from outside the type with no reflection and no
+    runtime lookup cost, and that is precisely why it is not a routine substitute for widening the member
+    (point 10).** It exists for a narrow, named set of cases — a serializer or a test harness that must reach
+    a field on a type it does not own and cannot change, where reflection's cost or its incompatibility with
+    trimming and Native AOT rules it out — and every other case is still point 10's question: does a real
+    caller need this member widened, answered honestly, not routed around through an attribute that makes the
+    access invisible in the type's own file.
+38. **`UnsafeAccessorType` names the target type by an assembly-qualified string instead of by a compile-time
+    type reference, which trades point 37's compile-time-checked binding for one resolved at run time.** It
+    exists for the case point 37 cannot reach at all — a private member on a type that isn't referenceable
+    from the caller's compilation, such as one in an assembly loaded dynamically or one whose public surface
+    doesn't expose the type itself — and it inherits every cost that trade implies: a typo in the string, or
+    a rename in the target assembly, fails at run time with no compiler catching it, where the ordinary
+    attribute form fails the build instead.
+39. **`[DynamicallyAccessedMembers]` states, for a type or a generic parameter reached only through
+    reflection, which of its members a trimmer or an AOT compiler must keep even though nothing in the
+    visible call graph references them.** A generic method that calls `.GetProperties()` on `typeof(T)` has
+    no static reference from that call to any of `T`'s actual properties, so a trimmed build removes them
+    unless the parameter is annotated with which member kinds the reflection code needs — the annotation is a
+    visibility contract read by the tooling rather than the compiler, and an unannotated reflection path is
+    the one place point 10's access-modifier discipline is invisible to the thing that most needs to see it.
+40. **Sealing a class is also what lets the JIT devirtualize a call through it — resolve which method runs at
+    compile time instead of through a virtual dispatch — and that payoff only reaches call sites the compiler
+    can actually see are sealed.** Point 11 already states `sealed` as the inheritance default for its own
+    design reason; the performance case is a second, independent argument for the same default, and it is why
+    a class kept unsealed "just in case" costs more than an open design question — every call through it, in
+    every assembly that references it, pays the virtual-dispatch cost point 11's inheritance argument alone
+    would not have made visible.

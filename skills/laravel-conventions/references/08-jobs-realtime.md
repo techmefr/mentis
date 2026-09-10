@@ -145,3 +145,47 @@
     It is not a substitute for a queue: nothing survives a worker restart, there is no retry, and point 5's
     failure design does not apply, because there is no `failed()` to define. Reach for it only when point 6's
     "does the user need to wait" answer is genuinely yes and the wait is for parallel I/O, not serial work.
+30. **A job's `$afterCommit` property is point 4's dispatch-after-commit rule made per-job instead of a global
+    connection setting.** Setting `queue.connections.*.after_commit` in config applies to every job on that
+    connection; a job that must dispatch inside the transaction anyway (rare, but genuine — a step that reads
+    uncommitted work on purpose within the same request) overrides it with `public $afterCommit = false;` on
+    the job itself. The property exists precisely so one exception to point 4 doesn't force turning the rule
+    off connection-wide.
+31. **`Bus::chain([...])->catch(function (Throwable $e) {...})` fires once, for the first job in the chain
+    that fails, and it is not the same signal as that job's own `failed()`.** The chain stops at the failing
+    link — later jobs never run — and the `catch` callback is where a chain-level cleanup or notification
+    belongs, separate from whatever the individual job's `failed()` (point 5) already does for that job alone;
+    relying on the job's own `failed()` to also cover "the chain as a whole didn't finish" misses the case
+    where an *earlier* job in the same chain is what actually broke it.
+32. **A job's `displayName()` override is what a queue dashboard (Horizon, `queue:monitor`) shows instead of
+    the fully-qualified class name, and it is worth setting once a job class is reused for several distinct
+    operations.** `ProcessExport::displayName()` returning `"Export invoices for tenant {$this->tenantId}"`
+    turns a dashboard full of identical `ProcessExport` entries into one that says which tenant's export is
+    stuck — the default (the class name) is fine for a job that only ever does one thing, and stops being
+    enough the moment the same class handles several distinguishable payloads.
+33. **`$deleteWhenMissingModels` on a job tells the framework to silently discard the job when
+    `SerializesModels` re-fetches its subject (point 3) and finds it gone, instead of throwing a
+    `ModelNotFoundException` that then exhausts retries and lands in `failed()`.** It is the right default for
+    a job whose subject being deleted before the job runs is an expected, harmless outcome (send a reminder
+    about a record someone since removed); leaving it off is right when a missing subject is itself the
+    anomaly a `failed()` handler should know about, so the choice is a statement about which case is normal
+    for that specific job, not a blanket setting to reach for everywhere.
+34. **A notification's `via()` method receives the notifiable and can choose channels per recipient, not just
+    per notification class.** `via($notifiable)` returning `['mail']` for a user who opted out of in-app
+    alerts and `['mail', 'database', 'broadcast']` for one who didn't is what point 7's "channels chosen per
+    recipient" actually means in code — a fixed `protected $channels = ['mail']` on the class can only ever
+    express one policy for every recipient, which is the shortcut that quietly reappears the day two
+    recipients need to be treated differently.
+35. **`Queue::before()` and `Queue::after()` listeners observe every job on every queue from one place, which
+    is the right layer for logging or metrics that shouldn't live inside each job's `handle()`.** Registered
+    once in a service provider, they fire around every job regardless of class — a duration metric, a
+    structured log line with the job name and tenant — without touching the job classes themselves; point 12's
+    per-job middleware is the tool when the behaviour is specific to *one* job's concurrency or rate, and these
+    listeners are the tool when it's a blanket concern across all of them.
+36. **`broadcastAs()` and `broadcastWith()` decouple the event name and payload a frontend listens for from the
+    PHP class name and public properties, and skipping them ties the two together by accident.** Without
+    `broadcastAs()`, the event name on the wire is the fully-qualified class name, so renaming or moving the
+    PHP class (a refactor with no behavioural intent) breaks every listener still bound to the old name; without
+    `broadcastWith()`, the payload is every public property serialised as-is, which is the same "broadcast the
+    model, not the contract" problem point 9 already names, here for a plain event's own properties instead of
+    a model attached to it.
