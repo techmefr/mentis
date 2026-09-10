@@ -2015,6 +2015,25 @@ has closed around; the next session is the right time for its tenth pass, once t
 longer "fresh." All sourced from public documentation only, `bin/check_citations.py` stayed at 0
 unresolved.
 
+### Agent dogfood, 2026-09-10 (wave 1 of the 21 "written, not dogfooded" agents)
+
+First real dispatches of the newly-formalised agent roster on real material built earlier this
+session, using `subagent_type` set to the actual mentis agent rather than `general-purpose`: `samwise`
+reviewed the real async Python pipeline (`/tmp/dogfood-python`) and found a genuine bug — an
+`except*`/`ExceptionGroup` collapse in `enrichment.py` that silently drops all but the first concurrent
+failure, exactly the trap §4.31 (added this session) was written to name, plus the missing test for the
+two-simultaneous-failures case. `faramir` reviewed the real Flutter app (`/tmp/dogfood-flutter`) and
+found a genuine bug — a pull-to-refresh failure leaves `status` stuck at `refreshing` forever because
+the error path never resets it, only the success path does — plus two calibrated questions (an unwired
+countdown badge, a pagination-error screen that drops the whole list) left as questions rather than
+asserted, per the role's calibration. `trinity` built a real `NotificationsModule` (paginated query DTO,
+service, controller, tests) on `/tmp/dogfood-nestjs`; build/lint/test all passed, and one real practice
+gap surfaced — a paginated query DTO needs `ValidationPipe({ transform: true })` or `@IsInt()` on a
+query param never validates, since Express delivers it as a string — folded into
+`nestjs-node-conventions` §2.2. All three agents worked directly (no nested `Agent` calls, confirmed in
+each report), none touched `CATALOG.md`/`README.md` themselves. `README.md`'s status column updated for
+all three from "Written, not dogfooded yet" to real production experience.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it
