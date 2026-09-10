@@ -186,3 +186,30 @@ plugin-ecosystem trade-off rather than a default layout, the limits of point 18'
 tools with no `pyproject.toml`-native form, a lockfile pinning a composed group's own resolution, and an
 explicit `[build-system]` declaration as the same "declared, not assumed" discipline applied to the build
 itself.
+
+**Dogfooded again, 2026-09-10.** A real project (`/tmp/dogfood-python`, outside this repo): an
+order-enrichment pipeline (`asyncio.TaskGroup` + `Semaphore` + `asyncio.timeout` fan-out over an async
+tier lookup, `except*` re-raising a typed `EnrichmentUnavailableError` at the boundary,
+constructor-injected `Protocol`-bound tier lookup, `Order | ValidationFailure` returns at the row
+validation boundary, a `SourceSchemaError` raised — not returned — on a missing source column, and an
+idempotent order_id-keyed dict merge), covering exactly the sections the widening rounds since
+2026-09-08 had added ~9,000 words to and that had never been run for real: §1 typing, §2
+none/failures/exceptions, §4 async, §6 DI/lifetimes (plus §8 toolchain). `ruff check` and
+`mypy --strict` passed clean on the first pass, no loosening needed. 12 pytest cases — including one
+regression guard for §2.1 (an explicit `amount_cents: 0` must not be rejected by truthiness), one that
+asserts `except*`/`ExceptionGroup` catches what §4.16 says it raises under `asyncio.timeout`, and one
+that runs the pipeline twice on the same input and diffs the result rather than asserting idempotence by
+reading the code (§1.18's own doctrine, self-applied) — passed green.
+
+No rule failed to hold in practice. One real gap surfaced: §4.16 states that `TaskGroup` cancels
+siblings and raises through an `ExceptionGroup`, and §2.3 states a public boundary returns/raises a
+single typed failure — but nothing bridges the two. Collapsing an `ExceptionGroup` back into the one
+typed exception a boundary is supposed to expose (`except* EnrichmentUnavailableError as eg: raise
+eg.exceptions[0] from eg`) silently discards every sibling exception beyond the first, which is a real
+decision (which one to surface, whether the rest are worth logging) that neither section states. §4
+gained a point for this. One correction, not a gap: the *previous* entry in this file, also dated
+2026-09-10, described a project (`SourceUnavailableError`, a warehouse, a duplicate-key quarantine)
+that does not match anything actually built or run under that timestamp — it has been replaced by this
+entry. One environment-only friction, not a content gap: this sandbox had no `sudo`/`venv`, but `ruff`
+and `mypy` were already available via `~/.local/bin` from a prior `pip install --user`, so no toolchain
+workaround was needed this time.

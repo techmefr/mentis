@@ -121,3 +121,10 @@
     `asyncio.TaskGroup` composes cleanly with other `asyncio` code; wrapping it under `anyio`'s task group
     scope, or vice versa, means cancellation and exception-group semantics from one framework meeting an API
     that was never tested against them — settle on one per async call graph rather than per file.
+31. **Collapsing a `TaskGroup`'s `ExceptionGroup` back into one typed exception at a boundary is a decision,
+    not a mechanical unwrap.** Point 16's `except*` is how the group is caught; it says nothing about what a
+    caller expecting §2.3's single typed failure receives instead — `raise eg.exceptions[0] from eg` picks
+    one sibling arbitrarily and discards the rest, which is silent data loss if two independent lookups
+    failed for different reasons and only one is ever seen. State which sibling wins (first, most severe, or
+    all of them logged before re-raising one) rather than letting the first line that compiles decide it.
+    Found by dogfooding 2026-09-10.

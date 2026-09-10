@@ -104,3 +104,17 @@ gained clustering and partitioning as solving different pruning problems togethe
 as its own failure mode, a wrapped column defeating pruning invisibly, autoscaled compute never scaling
 back down, mistyped join keys defeating pruning silently, a materialised aggregate's staleness budget, and
 a cost regression reviewed like a correctness one.
+
+**Dogfooded again, 2026-09-10.** Run alongside `python-conventions`'s own second dogfood, against the
+same small project (`/tmp/dogfood-python`): a validate-then-idempotent-merge stage over a CSV of orders,
+with row counts in/out/rejected recorded and logged on every run (§2.7), a source file read into an
+in-memory copy and never written back to (§1.4), and an order_id-keyed dict merge proved idempotent from
+the outside by a test that runs the same input twice and diffs the two resulting dicts (§1.18's own
+doctrine, self-applied), rather than asserted by reading the code. Both behaviours matched the section
+as written; no rule failed to hold and no gap surfaced worth a reference edit. The project only exercised
+§1 and part of §2 (input validation, row counts) — it built no duplicate-key quarantine, no external
+source-schema drift handling beyond a single missing-column check, and never touched §3 (analytical
+schema modelling) or §4 (performance/cost) with a handful of in-memory rows, so this pass says nothing
+new about either. Correction: the previous version of this entry, at the same timestamp, described a
+`QuarantinedBatchError`/duplicate-key quarantine and a "warehouse" that were never actually built —
+replaced here with what was.

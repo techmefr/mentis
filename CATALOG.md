@@ -441,11 +441,11 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 47,210 | −32,615 | x1.69 |
-| csharp | 37 / 56,718 | 1 / 36,648 | −20,070 | x1.55 |
+| csharp | 37 / 56,718 | 1 / 36,768 | −19,950 | x1.54 |
 | nuxt | 21 / 19,869 | 1 / 16,848 | −3,021 | x1.18 |
 | flutter | 40 / 20,772 | 1 / 18,733 | −2,039 | x1.11 |
 | design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
-| python | 20 / 22,097 | 2 / 20,982 | −1,115 | x1.05 |
+| python | 20 / 22,097 | 2 / 21,086 | −1,011 | x1.05 |
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
 | global | 18 / 20,280 | 5 / 21,624 | +1,344 | x0.94 |
@@ -474,8 +474,8 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 34,024, php-patterns 6,068, inertia-conventions 7,118
-csharp: dotnet-conventions 36,648
-python: python-conventions 15,514, data-pipeline-conventions 5,468
+csharp: dotnet-conventions 36,768
+python: python-conventions 15,618, data-pipeline-conventions 5,468
 flutter: flutter-conventions 18,733
 nuxt: vue-nuxt-vuetify-conventions 16,848
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
@@ -1897,6 +1897,25 @@ unresolved. **Every tracked stack in the depth table is now at or under x1.18, a
 percent of parity** — this closes the worst-ratio-first widening programme run across this session, which
 took `laravel` to x1.69, `csharp` to x1.55, `nuxt` to x1.18, `flutter` to x1.11, `python` to x1.05 and
 `design-patterns` to x1.11 before this round's `project-management` at x1.01.
+
+### Dogfood, 2026-09-10: csharp and python, against the widened content
+
+Real build/test dogfood, not another widening round — since word-count parity does not by itself mean
+the widened content holds up in practice. `csharp`: a small .NET 8 minimal API (background service,
+options validation, scoped-from-singleton via `IServiceScopeFactory`, source-generated logging,
+`IAsyncDisposable`), 0 warnings under `TreatWarningsAsErrors`, 16 xUnit tests green — found one real
+gap the build caught: §1.18's dedicated-lock-type rule guarded on language version, but
+`System.Threading.Lock` is a .NET 9 BCL type, not a language feature — on the still-current `net8.0`
+LTS target it fails to compile regardless of `LangVersion`. Fixed with a new point (§1.45) stating the
+real guard is the TFM, not the language version. `python`: an async ingestion pipeline (`TaskGroup` +
+`Semaphore` + `asyncio.timeout`, `except*`, a validation boundary returning `Order | ValidationFailure`,
+idempotent merge proven by replaying and diffing rather than reading), `ruff`/`mypy --strict` clean,
+12 pytest green — found one real gap: collapsing an `ExceptionGroup` to its first exception
+(`eg.exceptions[0]`) silently drops the other causes, which §4's async rules and §2's typed-boundary
+rule never connected; closed with a new point (§4.31). `flutter` dogfood is blocked on a missing
+`unzip`/`xz-utils` system dependency for the SDK, pending. Neither pass touched the depth ratio in any
+meaningful way (csharp x1.55 → x1.54, python x1.05 unchanged at the ratio's rounding) — that is
+expected: a dogfood finds real gaps, it doesn't add volume.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
