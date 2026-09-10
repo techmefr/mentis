@@ -73,3 +73,28 @@
     the *static* type: assign it to an `object`, or pass it as one, and the statement silently goes back to
     monitor semantics on a boxed reference, which is a second lock nobody meant to take. The compiler warns
     on the cast; treat that warning as an error rather than a style note.
+19. **A timeout is a second token linked to the caller's, not a replacement for it.**
+    `CancellationTokenSource.CreateLinkedTokenSource(callerToken, timeoutSource.Token)` cancels on whichever
+    fires first and keeps both reasons distinguishable if the caller checks which token requested it. The
+    linked source is disposable and easy to forget precisely because it is short-lived — wrap it in a
+    `using` at the call site, the same discipline point 16's semaphore needs in `finally`, or the handle
+    leaks for the life of whatever owns the method.
+20. **`ValueTask`/`ValueTask<T>` is a single-use optimisation, not a drop-in `Task`.** It exists to avoid an
+    allocation on the common synchronous-completion path, and that saving is exactly what makes it unsafe to
+    treat like the type it replaces: awaiting it twice, calling `.Result` on it, or storing it to await later
+    are all undefined behaviour the compiler will not catch, where the equivalent on a `Task` merely returns
+    a cached result. Await it once, immediately, and convert to `Task` first if the caller needs to hold onto
+    it or await it from more than one place.
+21. **`AsyncLocal<T>` flows forward through `await` and into a child `Task.Run`, never back.** A correlation
+    id set before a call is visible to everything that call awaits or spawns, which is what makes it useful
+    for a request id threaded through a log scope without passing it as a parameter everywhere. The direction
+    is one-way: code the parent already started cannot see a value a child sets afterwards, so it is the
+    wrong tool for anything that looks like "let the callee report a result back through ambient state" —
+    that is what a return value or an `out` parameter is for.
+22. **`IProgress<T>.Report` posts back to the context that created the `IProgress<T>`, not the thread that
+    calls it.** The standard `Progress<T>` implementation captures the synchronisation context at
+    construction and marshals every `Report` call onto it, so a long-running async operation can report
+    progress from a background thread straight into a UI update with no manual dispatch — but only if the
+    `Progress<T>` was constructed on the thread that should receive the callback. Constructing it inside the
+    background work itself silently loses that guarantee and the callback runs wherever `Report` happened to
+    be called.

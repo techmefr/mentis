@@ -59,3 +59,27 @@
     me when all forty exports are done" — point 4's dispatch-after-commit rule still applies to the batch
     itself, and a job inside it that needs another job's *result*, not just its completion, is a chain
     (point 1), because a batch does not pass data between its members.
+14. **`ShouldBeUnique` and `WithoutOverlapping` answer different questions, and a job can need both.**
+    `ShouldBeUnique` stops a duplicate from ever reaching the queue while one instance is already queued or
+    running — the second `dispatch()` call is simply dropped. `WithoutOverlapping` lets the duplicate onto
+    the queue and only keeps two copies from *processing* at once, releasing the later one back for a retry
+    instead of discarding it. A job that must never pile up (the nightly export somebody re-triggers by
+    hand) wants the first; a job that tolerates being re-queued but not run twice in parallel wants the
+    second — and either way the uniqueness lock is a cache entry with its own TTL, so a lock that outlives
+    the job it was guarding silently blocks every legitimate retry after it.
+15. **A presence channel is a private channel plus a roster, not a separate authorisation model.** Its
+    `join()` callback still returns the same yes/no this record's owner may see this channel that point 8
+    asks for private channels; what it adds on top is a payload describing *who else is here*, which is why
+    it exists — a shared document, a chat room, anywhere the interface itself shows "3 people viewing".
+    Reaching for a presence channel because it "sounds more real-time" without ever rendering that roster
+    is a private channel with an unused feature and a heavier handshake.
+16. **A notification meant for someone who isn't a `User` — an email captured in a form, a webhook target
+    with no account — is routed on demand**, not by inventing a throwaway model to hang a
+    `Notifiable` trait on. The routing (address, channel) travels with the `send()` call instead of living
+    on a record, which is the right shape precisely when there is no record: the recipient's identity is the
+    notification's problem to carry, not the domain's problem to model.
+17. **A job payload that carries something sensitive — a token, a document, PII — is encrypted at rest with
+    `ShouldBeEncrypted`,** because the default queue payload is a plain serialised string sitting in
+    whatever store backs the connection (a database row, a Redis key), readable by anything with access to
+    that store. Encrypting the payload is the same reasoning as point 3 pushed one step further: a
+    reference is safer than a snapshot, and a snapshot that must exist is safer encrypted than in the clear.

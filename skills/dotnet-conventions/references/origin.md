@@ -177,3 +177,22 @@ the same requirement, so denial has to be an explicit `Fail` (§3.14), and a rea
 authorisation being checked once at the handshake, not re-validated as claims or permissions change
 mid-connection (§3.15). §5 847 → 1,145 words; §3 900 → 1,090 words.
 
+**Widening, 2026-09-10 — §7, §1 and §4 gained points.** csharp still carries the worst measured
+ratio, so this pass took the three thinnest sections (§7, §1, §4) rather than one, and checked each
+against a gap the existing points didn't already name — not against the org catalogue (already
+re-diffed 2026-09-07) but against current public C# language and BCL documentation (Microsoft Learn's
+C# 11/12/13 "what's new" pages, the `nameof`-scope, checked-operators and list-pattern feature
+specs, the `CancellationTokenSource` and `ValueTask` API docs, and the static-abstract-members /
+generic-math preview and release documentation). §7 gained `nameof`'s extended scope for a name that
+must track its declaration, list patterns for a shape check instead of a length-then-index pair, the
+`u8` literal for wire-level byte constants, `global using` and its dependency-visibility trade, and a
+`params` parameter typed as a collection rather than only an array (§7.13–§7.17). §1 gained linked
+token sources for combining a caller's token with a local timeout, `ValueTask`'s single-consumption
+rule, `AsyncLocal<T>`'s one-way flow into a child `await`/`Task.Run` and never back, and
+`IProgress<T>` capturing its synchronisation context at construction rather than at the call that
+reports (§1.19–§1.22). §4 gained the `file` access modifier as a narrower scope than nested classes
+without their search cost, `readonly struct` removing the defensive copy an `in` parameter otherwise
+pays for silently, static abstract interface members for a numeric algorithm shared across types with
+no boxing, and partial properties pairing a generated backing implementation with a hand-written
+declaration (§4.18–§4.21). §7 1,041 → ~1,760 words; §1 1,102 → ~1,780 words; §4 1,139 → ~1,850 words.
+

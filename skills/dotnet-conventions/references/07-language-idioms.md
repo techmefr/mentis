@@ -64,3 +64,36 @@
     package, a generated client — and never for a type we own, where the member simply goes on the type. An
     extension that reaches a service, a clock or a database is the worst case of both: an invisible
     dependency behind a member that looks like data (§2.1, §6.4).
+13. **`nameof` for any name that must stay in sync with the declaration it names** — a guard's parameter
+    name, a `PropertyChanged` argument, a log template's placeholder. The extended scope means a
+    parameter's name is reachable from an attribute on the method, on the parameter itself, or on a type
+    parameter, so there is no longer a reason to fall back to a string literal "because the name isn't in
+    scope here." A renamed parameter that used a literal compiles clean and silently breaks the message; one
+    written with `nameof` fails at the rename, in the same file, which is where the fix is cheapest.
+14. **A list pattern for a check that is really about shape, not a single element.** `[var first, .., var
+    last]` or `[_, _, ..]` states "exactly one item", "at least two", or "this exact sequence" as one
+    expression, the same test-and-bind move as §7.1 applied to a sequence instead of a single value. The
+    alternative — a length check followed by indexed access — has the same disagreement risk point 1
+    describes for a cast: the length that was checked and the index that is read can drift apart across an
+    edit, and nothing catches it until the index throws.
+15. **A `u8` suffix for a string literal that is going to be bytes anyway** — a fixed HTTP header name, a
+    magic-number prefix in a binary format, a constant compared against a `ReadOnlySpan<byte>` read off the
+    wire. The literal is stored pre-encoded as UTF-8 and compared without an allocation, where the
+    alternative — `Encoding.UTF8.GetBytes(...)` at every call, or worse, in a hot loop — allocates a new
+    array to compare against a constant that never changes. It is a wire-level literal, not a general
+    replacement for `string`: business text stays `string`, because it still needs comparison, formatting
+    and culture rules a byte span doesn't have.
+16. **A `global using` for a namespace that is imported by nearly every file in the project** — the
+    framework namespace, the project's own root namespace, a handful of primitives everyone touches. It
+    removes the same boilerplate `using` line from every file, which is a real gain; it also means a type's
+    dependency list is no longer visible by opening that one file, which is the trade a nested class avoids
+    by being findable at all (§4.2's complaint, one level up). Reserve it for the small set that really is
+    ambient, and resist the temptation to promote every namespace to global just to shorten a diff — the
+    file's own `using` list is still the fastest way to answer "what does this file talk to."
+17. **A `params` parameter typed as a collection or interface rather than only `T[]`.** Where the language
+    version supports it, `params IReadOnlyList<T>` or `params ReadOnlySpan<T>` accepts the same call-site
+    spread as an array parameter but lets the callee declare the narrower contract §4.16 already asks for on
+    a return type — the caller still writes `Method(a, b, c)` with no array literal in sight, and a
+    `ReadOnlySpan<T>` overload skips the array allocation entirely for the common case. Overload resolution
+    then has to pick between candidates that differ only in the `params` collection type, so keep at most
+    one `params` overload per call shape rather than several competing on element type.

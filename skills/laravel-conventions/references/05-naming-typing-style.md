@@ -66,3 +66,26 @@
 20. **An exception is named for the condition, not for the layer that threw it.**
     `InvoiceAlreadyPaid` tells a catch block what happened; `InvoiceServiceException` tells it where the
     code was, which is what the stack trace is already for (§11).
+21. **A value object or a DTO is `readonly` unless something legitimately mutates it after construction.**
+    Combined with constructor property promotion (point 6), `readonly` turns the class into one line per
+    property with no setter to forget and no accidental reassignment three methods later — the compiler
+    enforces the immutability a docblock comment used to merely promise. Reach for it on a money amount, an
+    address, a search filter; not on an Eloquent model, which is mutable by design and already guards its
+    own attributes.
+22. **A boolean property or parameter is named as a predicate, the same rule point 13 applies to methods.**
+    `$isDefault`, `$hasExpired`, `$canRetry` read at the call site; `$default`, `$expired`, `$retry` on a
+    parameter force the reader to check the signature to know which way `true` points. This matters most on
+    a positional boolean argument passed at a call site with no named-argument hint — `notify($user, true)`
+    says nothing back, `notify($user, shouldQueue: true)` does, and the fix costs nothing once the parameter
+    is already named as a predicate.
+23. **A backed enum's backing type is chosen for what reads the value, not for what's shortest to type.**
+    A `string` backing (`'draft'`, `'published'`) survives a database dump, a log line and an API payload as
+    something a human recognises without the enum's source open next to it; an `int` backing saves a few
+    bytes and forces every one of those to carry a lookup table in their head. Reserve `int` for a case that
+    is genuinely ordinal (a severity level compared with `<`) rather than a label — a status is a label.
+24. **A class closed to extension by default is `final`, and the exception is deliberate, not an oversight.**
+    A framework base class, a job, a listener, a single-purpose action class is rarely meant to be
+    subclassed — leaving it open invites a second implementation that overrides one method and silently
+    drifts from the first the next time the parent changes. Where extension is the actual design (a shared
+    base for a family of report exporters), that base is the one class allowed to skip `final`, and it says
+    so by existing as an abstract class rather than a concrete one nobody expected to be extended.
