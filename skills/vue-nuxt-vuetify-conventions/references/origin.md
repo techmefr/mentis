@@ -243,3 +243,30 @@ action's lifecycle without editing the action) against the official Pinia docs
 (pinia.vuejs.org/core-concepts, pinia.vuejs.org/core-concepts/state.html,
 pinia.vuejs.org/core-concepts/plugins.html). Content word count for the thirteen numbered sections
 (excluding this file): 13,683 before this pass, ~15,918 after.
+
+**Widening, 2026-09-10 — 3ème passe.** Only three sections remained untouched by the two passes above
+(§1/8/10/11/12, then §6/7/3/5/2): §13, §4, §9 — these were the depth pass's "block is complete" sections
+from 2026-09-08 and were, by word count, exactly the three thinnest left (972, 997, 1155 words). This pass
+covers them rather than a fifth and sixth file, since re-widening an already-widened section today would
+duplicate today's own work rather than close a gap; the task's "5 files" target is not met and that is
+stated here rather than papered over. Each gained 6 further points, same method (mechanism plus
+consequence, originals kept and unrenumbered). Sourcing, none of it the marketplace XEFI: §13
+(`PATCH`/`PUT` divergence on a partially-loaded record, optimistic-concurrency via a version/`updatedAt`
+field, request cancellation with `AbortController` against a re-triggerable call, idempotency keys for a
+non-idempotent retry, cache invalidation scoped to what a mutation changed, cursor vs offset pagination
+correctness under concurrent writes, multipart upload through the model) against MDN's `AbortSignal`
+documentation (developer.mozilla.org/en-US/docs/Web/API/AbortSignal) and current public writing on HTTP
+idempotency and cursor pagination — mechanisms rewritten in this block's own voice, nothing copied. §4
+(multi-word component names, prop `camelCase` declaration vs `kebab-case` template binding, acronym casing
+following the artefact's own scheme, plural-vs-singular collection naming with an id-keyed lookup named as
+such, a generic type parameter beyond a single undifferentiated `T`, a barrel file's naming scope, SFC
+filename casing picked once, a test file named for what it covers) against the official Vue.js style guide
+(vuejs.org/style-guide/rules-strongly-recommended.html). §9 (`callOnce` for an exactly-once side effect
+distinct from a value the template needs, `useNuxtApp().payload` as the debugging read of what point 15's
+checklist actually serialises, `definePageMeta({ ssr: false })` as a whole-page decision distinct from
+`<ClientOnly>`, Nuxt DevTools' payload panel as the fast check for points 11/15, a unit-test suite's blind
+spot on the SSR branch, `AbortSignal.timeout()`/`AbortSignal.any()` composed with §13.13's cancellation
+signal, browser-extension-caused mismatches as a false positive on point 9) against the official Nuxt docs
+(nuxt.com/docs/4.x/api/utils/call-once, nuxt.com/docs/4.x/api/composables/use-nuxt-app) and MDN's
+`AbortSignal` page. Content word count for the thirteen numbered sections (excluding this file): ~15,918
+before this pass, ~17,458 after.

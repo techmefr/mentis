@@ -59,6 +59,41 @@ holds and the rest is not a gap to fill by hand.
     design a screen around a nested include being available until the API has actually returned it for a
     non-privileged account.
 
+13. **A call the user can re-trigger needs a cancellation path.** A search-as-you-type or a fast tab switch
+    fires a new request before the previous one resolves; without an `AbortController` per call (aborting
+    the prior one before issuing the next), the responses can land out of order and the slower, stale one
+    overwrites the fresher result on screen. One controller can also cover several calls that must cancel
+    together — a single `abort()` stops all of them, which is cheaper than tracking each request's own flag.
+14. **A non-idempotent call (create, most updates) is not safe to retry blindly.** A network timeout after
+    the server already processed the request, followed by an automatic retry, can create the record twice
+    or apply the update twice; a client-generated idempotency key the server deduplicates on, or a retry
+    limited to genuinely idempotent calls (a plain `GET`, a `PUT` that replaces rather than increments), is
+    what makes a retry safe rather than a second side effect.
+15. **A mutation invalidates what it changed, not the whole cache.** Deleting a record and leaving three
+    other components holding the stale list is the same failure as §13.5 for a single record, scaled to a
+    collection: the model's own cache/refetch hook (or the composable that owns the fetch, §2.10) has to be
+    told which resource changed, rather than the caller assuming every reader will eventually refetch on its
+    own.
+16. **Cursor-based pagination and offset-based pagination answer different questions, and swapping one for
+    the other mid-project changes correctness, not just the URL shape.** An offset drifts under concurrent
+    inserts/deletes — page 2 can repeat or skip a row that moved past the boundary between two requests — a
+    cursor tied to a stable, unique, ordered field does not. Read which one the client's builder actually
+    issues before assuming "page 2" means the same list twice.
+17. **A file upload through the typed client is still a `multipart/form-data` request underneath**, and the
+    model's usual JSON-shaped call is often the wrong method for it — check whether the client exposes a
+    dedicated upload path before hand-rolling a `FormData` alongside a model that expects one. Progress
+    reporting, if the screen shows it, comes from the transport layer the client wraps, not from the model.
+18. **A `PATCH` and a `PUT` through the model are not interchangeable even when the client accepts either.**
+    A partial-update method that sends only the changed fields and a replace method that sends the whole
+    record diverge the moment a field the current view never loaded (point 11) is part of the payload: the
+    replace form blanks it, the partial form leaves it untouched. Which one the model's "update" call
+    actually issues is worth confirming once per resource rather than assumed from the method's name.
+19. **A version or `updatedAt` field the client exposes on a record is there for optimistic-concurrency
+    checks, not display filler.** Sending it back on save lets the server reject a write against data the
+    user never saw (someone else changed the record in between) instead of silently overwriting their
+    change; dropping the field from the payload because "the form doesn't show it" throws away the one
+    signal that would have caught the conflict.
+
 ## Where the org catalogue governs
 A house client is the authority on its own API surface, its decorators and its config. This section is the
 generic shape of the rule — go through the model, don't rebuild its payload, type for both sides of

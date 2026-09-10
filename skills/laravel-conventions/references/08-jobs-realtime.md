@@ -189,3 +189,32 @@
     `broadcastWith()`, the payload is every public property serialised as-is, which is the same "broadcast the
     model, not the contract" problem point 9 already names, here for a plain event's own properties instead of
     a model attached to it.
+37. **`SkipIfBatchCancelled` is job middleware, not an automatic effect of cancelling a batch** — point 23's
+    "cancellation sets a flag" means a job already dequeued and running keeps running unless it, or its
+    middleware, actually checks. Declaring `SkipIfBatchCancelled` on the job is what turns "the batch was
+    cancelled" into "this specific job bails out before doing its work," rather than every job in the batch
+    needing its own hand-written `if ($this->batch()?->cancelled())` at the top of `handle()`.
+38. **`queue:prune-batches` (and `queue:prune-failed` for point 16's `failed_jobs` table) has to be scheduled,
+    not merely known about, or the batches table grows without bound.** Point 23's batch bookkeeping and point
+    16's failed-job store both persist a row per batch and per failure indefinitely by default; a project that
+    added batching or job monitoring without also adding the corresponding prune command to the schedule
+    (`skills/laravel-conventions` §7 point 11) is accumulating a table nobody is watching until a query against
+    it gets slow.
+39. **A named batch (`Bus::batch([...])->name('...')`) is what makes Horizon's batch dashboard, or any
+    `job_batches` query, readable across dozens of concurrently running batches.** An unnamed batch is
+    identified only by its UUID in the dashboard, which is fine for one batch in flight and unreadable once
+    several kinds of batched work run at the same time — the same "displayName() for a dashboard" reasoning
+    point 32 already gives a single job, applied to the batch as a whole rather than one job class.
+40. **`Notification::sendNow()` bypasses the queue for a notification the way `ShouldBroadcastNow` (point 25)
+    bypasses it for a broadcast, and it carries the same trade-off.** Point 7's "notifications go through one
+    channel-agnostic mechanism, queued by default" still holds; `sendNow()` is the deliberate exception for a
+    notification whose value depends on synchronous delivery — a password-reset confirmation the user is
+    actively waiting on mid-flow — not a default reached for because a queue worker isn't running locally,
+    which just hides a missing worker instead of fixing it.
+41. **A job explicitly assigned to a connection with `->onConnection()` still needs a worker listening on
+    that connection, the same failure mode point 27 already names for queue priority.** `onQueue()` picks the
+    queue name within a connection; `onConnection()` picks which queue *driver and config* the job goes to at
+    all — a job dispatched onto a `sqs` connection while every running worker only listens on the default
+    `redis` connection never runs, and nothing about the dispatch call itself reports that mismatch, because
+    from the dispatching code's point of view the job was accepted successfully. [Laravel queues
+    documentation, laravel.com/docs/12.x/queues, read 2026-09-10.]

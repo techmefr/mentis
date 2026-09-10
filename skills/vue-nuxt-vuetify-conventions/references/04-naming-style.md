@@ -71,3 +71,41 @@
 16. **If a name needs a comment, the name is wrong.** This block produces no comments in code, which is
     not an austerity measure: a comment explaining what a symbol holds is a rename waiting to happen, and
     the rename survives the next edit while the comment does not.
+17. **A component name is always multi-word**, root `App` and the framework's own built-ins
+    (`<Transition>`, `<KeepAlive>`) excepted. HTML elements are single-word, so `Item.vue` or `Card.vue`
+    collides in spirit with a future native tag and reads, in a template, as if it might be one; `TodoItem`
+    or `ProductCard` cannot. [Vue.js style guide,
+    vuejs.org/style-guide/rules-strongly-recommended.html.]
+18. **A prop is declared `camelCase` and bound `kebab-case` in the template — not a project choice.** The
+    declaration lives in JavaScript, where `camelCase` is native; the binding lives in an HTML-parsed
+    template, which is case-insensitive, so `greetingText` becomes `greeting-text` at the call site. Writing
+    `greetingText="…"` in the template still works while it's a static string and silently stops matching
+    once it needs to bind a JS expression — a divergence between the two casings anywhere in the same
+    project is the tell that one file copied the wrong half. [Vue.js style guide,
+    vuejs.org/style-guide/rules-strongly-recommended.html.]
+19. **An acronym in a name follows the artefact's own casing, not the acronym's own capitalisation.**
+    `PascalCase`/`camelCase` lower every letter of the acronym but the first (`XmlParser`, `userId`,
+    `loadHtml`), because `XMLParser`/`userID` breaks the word-boundary a reader's eye uses to split a
+    compound name, and the two spellings coexisting in one codebase (`Id` here, `ID` there) is a second,
+    silent naming scheme nobody agreed to.
+20. **A collection is named plural, its singular is what a callback parameter over it is named (point 3),
+    and a `Map`/lookup keyed by id says so in its own name** (`postsById`, not `posts` reused for two
+    different shapes). A plural holding a single record, or a singular holding an array, is a type the name
+    lied about before the reader reaches the type annotation.
+21. **A generic type parameter is a name, not a bare `T`, once the function has more than one of them or the
+    parameter means something specific** (`TItem`, `TPayload` over an undifferentiated `T`, `U`). A single,
+    genuinely generic parameter on a short utility can stay `T` — the rule is that `T` communicates nothing
+    once a second parameter or a domain meaning enters, the same failure point 9 names for a bare `data`.
+22. **A barrel file (`index.ts` re-exporting a folder) is named for what it re-exports being obvious from the
+    folder path, never for what's inside it** — the file itself carries no naming decision beyond re-export
+    order, because a symbol renamed inside the folder and not in the barrel is the collision point 10
+    already covers, just one layer removed.
+23. **A single-file component's own filename is `PascalCase` or `kebab-case`, picked once for the whole
+    project and never mixed** — `PascalCase` matches how the component is referenced in a template or an
+    import (`import UserCard from './UserCard.vue'`) and is what editor autocompletion expects, which is why
+    it is the more common default; a project already on `kebab-case` files stays there rather than drifting
+    file-by-file. [Vue.js style guide, vuejs.org/style-guide/rules-strongly-recommended.html.]
+24. **A test file's name states what it verifies, not the tier it runs in.** `UserCard.spec.ts` next to
+    `UserCard.vue` is discoverable by the file it covers; a name built around "unit" or "e2e" alone forces
+    the reader to open the file to learn what it actually checks, and duplicates information the test
+    runner's own folder convention already carries.

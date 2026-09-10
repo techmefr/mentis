@@ -729,3 +729,62 @@ keys), migration squashing, Eloquent chunking, Horizon queue grouping, and PHP 8
 objects — `laravel.com/docs/12.x/{providers,routing,queues,sanctum,authorization,migrations,database,
 eloquent,horizon}`, PHP 8.4's property-hooks and lazy-objects RFCs, and PSR-12, all read 2026-09-10. The
 marketplace XEFI was never opened for this pass.
+
+**Widening, 2026-09-10 — neuvième passe.** The five thinnest files by a fresh `wc -w` measurement —
+`11-failures.md` (2,724), `07-configuration-commands.md` (2,930), `09-tests-static-analysis.md` (2,939),
+`08-jobs-realtime.md` (2,960) and `04-queries.md` (2,967) — each gain 5–7 new points, same extend-don't-renumber
+method as every prior same-day pass: nothing already numbered moved, everything new appended after the last
+existing point.
+
+§11 (failures) adds points 35–40: a leftover class-based `App\Exceptions\Handler::register()` competing with
+`bootstrap/app.php`'s `withExceptions()` as two registration surfaces at once after an upgrade; a `reportable()`
+closure's `false` return only suppressing the default log for that one registration, not for a second
+`reportable()` on an overlapping type; a `renderable()` closure only firing for a request that reaches a
+render-eligible path, never becoming a second exception handler running instead of the first; `Context::hidden()`
+attaching report-only data without it leaking into an ordinary log line; a `try/catch` around a PHPUnit assertion
+swallowing the framework's own failure signal instead of application code's; and a job's `failed()` method
+itself throwing with no retry budget left to catch it.
+
+§7 (configuration/commands) adds points 41–46: `Command::SUCCESS`/`FAILURE`/`INVALID` as three exit codes, not
+two, for a caller that branches on which one happened; `expectsQuestion()` scripting an interactive prompt's
+answer under CI's non-interactive shell; `config()->array()` asserting a config value's shape the same way
+point 29's typed accessors assert a scalar's; `optimize:clear` as the one command that reverses everything
+`optimize` cached, not just whichever cache a developer suspects; `.env.testing` (or `phpunit.xml`'s `<php>`
+block) pinning what config the test suite actually runs under instead of inheriting `.env`; and `make:command
+--test` scaffolding the test file in the same step as the command class.
+
+§9 (tests/static analysis) adds points 44–48: a PHPStan/Larastan baseline as a burn-down tool whose entry count
+should fall over time, not a target to keep topped up; Pest's functional API (`it()`, `expect()`, `$this`) being
+invisible to a static analyser that doesn't specifically understand Pest; browser testing (Pest's own, or Dusk)
+as a third tier reserved for what neither a feature nor a unit test can observe; an interactive command's test
+asserting the actual prompts asked, not only its exit code; and a checksum-based snapshot losing the readable
+diff a textual snapshot gives point 28's "read what changed" something to act on.
+
+§8 (jobs/realtime) adds points 37–41: `SkipIfBatchCancelled` as job middleware a running job still needs
+declared, not an automatic effect of cancellation; `queue:prune-batches`/`queue:prune-failed` needing to be
+scheduled or the batch and failed-job tables grow unbounded; a named batch as what makes Horizon's dashboard
+readable across several concurrent batches; `Notification::sendNow()` as the synchronous exception to point 7's
+queued-by-default rule; and `->onConnection()` needing a worker actually listening on that connection, the
+connection-level version of point 27's queue-priority trap.
+
+§4 (queries) adds points 34–38: `firstOrCreate()`/`updateOrCreate()`'s select-then-insert race between two
+concurrent calls, closed by a unique constraint or a `lockForUpdate()` transaction; `whereAny()`/`whereAll()`
+replacing a hand-chained `orWhere()` sequence with one call that satisfies point 24's column allow-list by
+construction; `lockForUpdate()`/`sharedLock()` only taking effect inside `DB::transaction()`; `Builder::clone()`
+preventing a reused query variable from silently inheriting constraints added on another branch; and
+`Model::preventAccessingMissingAttributes()` as `shouldBeStrict()`'s missing-attribute guard split out for
+partial adoption.
+
+Word counts re-measured with `wc -w` after the edits: `11-failures.md` 2,724 → 3,293 (+569),
+`07-configuration-commands.md` 2,930 → 3,484 (+554), `09-tests-static-analysis.md` 2,939 → 3,435 (+496),
+`08-jobs-realtime.md` 2,960 → 3,384 (+424), `04-queries.md` 2,967 → 3,466 (+499).
+
+Sourcing: every new point either restates a mechanism already present in `laravel-conventions` at a different
+angle (the throw-vs-swallow argument, the invoke-don't-extract testing rule, the dispatch-after-commit rule,
+the column allow-list rule) or is synthesised fresh from Laravel's own current public documentation and the
+Pest/PHPStan ecosystem's own docs for the mechanism named — error handling (`Exceptions` facade, `reportable`/
+`renderable`, `Context::hidden`), console tests (`expectsQuestion`, exit code constants), artisan optimize
+commands, config typed accessors, queue batches and connections, notifications, and Eloquent locking/race
+conditions — `laravel.com/docs/12.x/{errors,console-tests,queues,configuration}`, `api.laravel.com/docs/12.x`,
+`pestphp.com/docs/pest-v4-is-here-now-with-browser-testing`, Larastan's own documentation, and PHPStan's
+baseline documentation, all read 2026-09-10. The marketplace XEFI was never opened for this pass.

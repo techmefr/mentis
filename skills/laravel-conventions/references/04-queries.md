@@ -191,3 +191,37 @@
     builder (point 26) skips it implicitly and silently, which reads identically at the call site but for the
     opposite reason — one is a decision, the other is the same gap point 26 already names, just visible through
     the timestamp instead of a missing event.
+34. **`firstOrCreate()`/`updateOrCreate()` run a select then, conditionally, an insert as two separate
+    statements — and between them is exactly where a second concurrent call can also see no match.** Both
+    requests decide "no row exists," both insert, and the second insert either duplicates a row that a unique
+    index would have caught (point 25's "constraint still applies to soft-deleted rows" is the same category
+    of database-level check) or fails outright if one exists — the fix is either a unique constraint backing
+    the lookup columns so the race fails loudly instead of duplicating silently, or the whole read-then-write
+    wrapped in `DB::transaction()` with `lockForUpdate()` (point 36) so the second call actually waits for the
+    first to finish before it reads. [Laravel race-condition guidance and Eloquent docs, read 2026-09-10.]
+35. **`whereAny([...], $operator, $value)` and `whereAll([...], $operator, $value)` apply one condition across
+    several columns at once, replacing a chain of `orWhere()`/`where()` calls that has to get its parentheses
+    right by hand.** `whereAny(['title', 'body'], 'like', "%{$term}%")` is point 24's column allow-list already
+    satisfied by construction — the columns are named once in an array literal, not built from request input —
+    and it reads as one search-across-fields intent instead of a chain a later edit can silently unbalance by
+    adding a `where()` that should have been an `orWhere()`.
+36. **`lockForUpdate()` and `sharedLock()` only take effect inside `DB::transaction()` — called outside one,
+    the lock is requested and released again before the next line runs, which reads exactly like the race it
+    was meant to close.** `lockForUpdate()` blocks every other transaction that touches the same row, including
+    another `lockForUpdate()` and a plain read that itself uses `sharedLock()`; `sharedLock()` blocks writers
+    while still letting other readers through. Point 11's "two writes that must both land are a transaction"
+    is the same rule from the other direction: the lock is what makes the read the transaction's first
+    statement trustworthy for the write that follows it.
+37. **`Builder::clone()` (or PHP's own `clone`) is what lets a base query be reused for two different results
+    — a paginated list and its unfiltered total, say — without the second use silently inheriting constraints
+    added while building the first.** An Eloquent builder is mutable: calling `->where()` on a query object
+    already assigned to a variable elsewhere in the method changes that other reference too, because both
+    names point at the same builder instance; cloning before branching is what keeps point 4's "filtering
+    belongs in the query" from producing two queries that turn out to be the same query with a shared, growing
+    set of constraints neither branch expected.
+38. **`Model::preventAccessingMissingAttributes()` is `shouldBeStrict()` (point 14) split into its own toggle**,
+    for a project that wants the missing-attribute guard without also making every N+1 access throw. It
+    exists because the three behaviours `shouldBeStrict()` bundles are not always wanted together — a project
+    mid-migration on N+1s might want missing-attribute and mass-assignment strictness on immediately while
+    still triaging lazy-loading violations separately, and the split toggle is what makes that partial
+    adoption possible instead of all-or-nothing.

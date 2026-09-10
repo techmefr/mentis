@@ -195,3 +195,35 @@
     `RefreshDatabase`, because the trait only wraps the connection it knows about. Point 21's "test a command
     by invoking it" (`skills/laravel-conventions` §7) still applies; the trap is assuming the wrapping
     transaction makes every side effect of that invocation disposable when a second connection is in play.
+44. **A PHPStan or Larastan baseline generated with `--generate-baseline` records today's findings so the
+    build stays green while the tool is first adopted on an existing codebase — it is not a target to keep
+    topped up.** Point 12's "write to the configured level, the baseline is not a licence to add to it" covers
+    new code; the corollary for the baseline file itself is that its entry count should fall over time as old
+    findings get fixed, and a baseline that only ever grows on every regeneration is static analysis being
+    used to document debt instead of to prevent it. [PHPStan baseline docs and Larastan documentation, read
+    2026-09-10.]
+45. **Pest's own architecture and functional-API surface (`it()`, `expect()`, `$this`) is invisible to a
+    generic PHPStan run unless the project's static analysis actually understands Pest's syntax, not just
+    Laravel's.** Point 39's generic-collection typing and point 12's "write to the level" both assume the
+    analyser can see the test file's real shape; a Pest closure test analysed as if it were a bare function
+    misses the implicit `$this` binding and the global helpers, which is a gap in what gets checked, not a
+    gap in the tests themselves.
+46. **A browser test (Pest's own browser testing, or Dusk) is a third kind of test outside point 1's two
+    tiers, reserved for what neither a feature nor a unit test can prove: that the rendered page actually
+    works in a real browser** — a JavaScript interaction, a visual regression, a multi-step flow through
+    actual DOM events. Reaching for it to cover what an HTTP feature test already asserts (a response's JSON
+    shape, a redirect, a database row) duplicates a fast test with a slow one that also has to keep a browser
+    driver working in CI; it earns its place only for the behaviour a `TestResponse` genuinely cannot observe.
+47. **A command's own test asserts the questions it actually asks, not just its final exit code, when the
+    command is interactive.** `expectsQuestion($question, $answer)` (`skills/laravel-conventions` §7 point 42)
+    scripts the prompt so the invoke-only test of point 21 exercises the real confirmation and choice logic —
+    a command tested only via `assertExitCode(0)` with no interaction scripted either has no prompts at all,
+    or the test happens to pass by luck of a default the framework silently supplied, which is indistinguishable
+    from the prompt never having been checked.
+48. **A snapshot assertion library that hashes output instead of storing it verbatim (a checksum-based
+    snapshot) trades point 28's "approving a diff without reading it" for a failure that names nothing at
+    all** — the test goes red on any change, including a deliberate one, but the failure message carries no
+    readable diff to review, only "the hash changed." A textual snapshot the reviewer can diff in the pull
+    request is what makes point 28's "read what changed" possible to actually do; a hash-only comparison
+    still needs the underlying output stored somewhere human-readable, or the red test answers nothing beyond
+    "something is different."
