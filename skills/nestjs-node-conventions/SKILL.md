@@ -30,6 +30,14 @@ repository is written or modified, during `code` (6) or `tdd` (5).
 5. Tests through `Test.createTestingModule({...}).compile()`, never a manual service instantiation in a
    unit test, so the DI graph stays the same as in production (mock the injected providers, not the
    service under test).
+6. The current Nest CLI scaffold (`@nestjs/cli new`) ships as ESM (`"type": "module"`,
+   `moduleResolution: "nodenext"`): every relative import needs its explicit `.js` extension
+   (`from './users.service.js'`), including between `.ts` files — the extension is a TypeScript/Node
+   module-resolution requirement, not a build artifact to strip. And with `isolatedModules` +
+   `emitDecoratorMetadata` both on by default, a non-class type (an interface, a type alias) used in a
+   decorated method's signature — most often a controller's return type — must be brought in with
+   `import type`, or the build fails with `TS1272`; a DTO class doesn't need this since it exists at
+   runtime.
 
 ### 2. DTOs and validation: the HTTP boundary
 1. One DTO per input shape (`CreateUserDto`, `UpdateUserDto`), decorated with `class-validator`
@@ -89,3 +97,13 @@ discriminated unions and mapped types/type guards on Prisma models; a market Rea
 (prisma-development/SKILL.md for the schema/migrations/type-safe operations, trpc/SKILL.md for the
 routers/procedures tree, zod-schema-validation/SKILL.md for validation at the boundaries). Mechanisms
 rewritten, no copied text.
+
+Dogfooded, 2026-09-10: first real dogfood, a small standalone NestJS 12 project (`UsersModule` with
+controller/service/repository, a `CreateUserDto` validated with `class-validator`, a global
+`ValidationPipe`, a simulated `WelcomeEmailQueue` job, `Test.createTestingModule` unit tests). Build,
+lint and tests all pass; the module/DI/DTO/exception rules in §1-2 held with no rewrite needed. Two real
+gaps found by practice and folded into §1.6 above: the current Nest CLI scaffold is ESM and needs `.js`
+extensions on relative imports, and `isolatedModules` + `emitDecoratorMetadata` force `import type` for
+any interface/type-alias used in a decorated signature (else `TS1272`). §3 (Zod/tRPC) and §4 (Prisma)
+were not dogfooded here (no tRPC router, no Prisma schema in this small project) and still need a real
+pass.

@@ -35,7 +35,9 @@
    (§9.10).
 10. `route.ts` exports **named** handlers (`GET`, `POST`…), never `export default`. The router matches by
     export name, so a default export produces a route that exists and responds 405 to everything, which
-    looks like a routing bug rather than a signature one.
+    looks like a routing bug rather than a signature one. `page.tsx`/`layout.tsx` and the other convention
+    files sit right next to `route.ts` in the same folder and take the opposite rule — default export
+    required, no named alternative (§1.3) — so the two file kinds are easy to cross-apply from memory.
 11. `next/head` is ignored in the App Router: go through the `Metadata` API. Nothing warns — the tags simply
     do not appear, and it is usually a crawler or a link preview that reports it, weeks later.
 12. No mutable module-level state on the server side (`let`/`var` outside a function): it's shared between

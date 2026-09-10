@@ -11,7 +11,15 @@
    that clears itself while typing, which is chased in the input rather than in the parent that redefines it.
 3. **Named exports only**, never `export default`: a default export is renamed freely at each import site,
    so the same component ends up under three names and greps for none of them. It also breaks the rename
-   refactor — the tool updates the declaration and leaves every import alone, silently.
+   refactor — the tool updates the declaration and leaves every import alone, silently. **Exception, not a
+   choice: the App Router's file-convention modules** (`page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`,
+   `not-found.tsx`, `template.tsx`, `global-error.tsx`) — the router requires a default export on these
+   specific files and there is no named-export alternative (confirmed by building one: `next build` doesn't
+   pick up a named export there). The rule still holds for every component that isn't one of these files,
+   including one rendered *by* a page — only the file the router itself loads by convention is exempt. This
+   is the mirror image of §7.10 (`route.ts` handlers take named exports only, no default) — the two file
+   kinds sit in the same folder tree with opposite export rules, which is worth stating plainly rather than
+   discovering from a build error.
 4. **Separate the container from the presentation**: a component that fetches, holds business logic and
    renders a full UI does three jobs. The data/logic side goes in a hook or a container; the JSX side stays a
    presentational component that takes props. The practical payoff is testing: a presentational component is

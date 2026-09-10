@@ -87,3 +87,23 @@ Router plus sections: 10,476 → **10,999 words**. Against the org catalogue's r
 from x0.89 to **x0.85** — still the strongest ratio in the depth table, now by a wider margin, and this
 pass adds nothing the catalogue's 36 skills already covered: the questions asked were current-platform
 questions, the same method used for `csharp` and `design-patterns` the same week.
+
+**Dogfooded, 2026-09-10.** First real dogfood of this block: a small Next.js 16 (App Router, Turbopack) +
+React 19 + TypeScript app built from scratch in `/tmp/dogfood-react` (outside this repo), applying the
+block's rules directly rather than researching new ones — a TanStack Query hook through a query-key factory
+(§6.3), a Zod schema at the API boundary with the type derived from it (§3.15-16), a container/presentational
+split (§1.4) with the derived "remaining count" computed via `useMemo` in the container rather than stored
+(§5.2), a colocated RTL/Vitest test (§1.11), strict typing with no `any`/`as` anywhere. `tsc --noEmit`,
+`eslint .` and `next build` all passed clean on the first try with the rules applied as written; the Vitest
+suite passed 2/2 after resolving ordinary fresh-install peer-dependency friction (`vite`, `@testing-library/dom`
+not auto-pulled), which is tooling noise rather than a convention gap and isn't reflected in the rules.
+
+One real gap surfaced by the build, not by inspection: §1.3 ("named exports only, never `export default`")
+is unconditionally worded, but `app/page.tsx` and `app/layout.tsx` **must** use `export default` — Next's
+router loads these file-convention modules by a default-export contract with no named-export form, confirmed
+by the build itself rather than assumed. §7.10 already carved out the opposite exception for `route.ts`
+(named handlers only) one section over, so the block stated one convention-file exception without stating
+its mirror image next to the general rule it qualifies. Fixed by adding the App Router file list as a named
+exception to §1.3, with a cross-reference to §7.10, and a matching cross-reference added at §7.10 pointing
+back. Every other rule read (§1, §3, §5, §6, §7 in full; §9 skimmed for the fetch boundary) matched what the
+build and lint gates actually enforced — no further edits made.
