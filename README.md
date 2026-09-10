@@ -304,6 +304,8 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
 | `smith` | Dynamic adversarial security probing on a running app (auth bypass, injection, IDOR), bounded to an explicitly authorised target, never edits | Written, not dogfooded yet |
 | `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
+| `widener` | Widens a stack block's `references/*.md` against current public docs; never touches CATALOG.md/README.md, never commits | Real production experience (a dozen widening rounds this session) |
+| `dogfooder` | Builds a small real project against a block's rules and runs the real toolchain; never touches CATALOG.md/README.md, never commits | Real production experience (nine dogfood rounds this session) |
 
 Full detail: [`CATALOG.md`](./CATALOG.md) (registry + sourcing backlog, with
 every idea credited to its real source) and
