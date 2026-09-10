@@ -61,3 +61,34 @@
 17. **Verify with the keyboard and at 200% before claiming any of this.** Automated checkers cover a
     minority of the criteria and pass a page that cannot be used: tab through the feature, operate it
     without a mouse, and zoom. That is the whole test, and it takes a minute.
+18. **A focused element is never fully hidden behind a sticky header, a cookie banner or a pop-up.** WCAG
+    2.2's Focus Not Obscured criterion exists because a keyboard user tabbing through a page with a fixed
+    header can land on a control that scrolled directly underneath it — the browser says it's focused, the
+    screen shows nothing there, and the user has no way to tell where they are. Test it by tabbing through
+    a long page with anything sticky turned on. [w3.org/TR/WCAG22, 2.4.11 Focus Not Obscured]
+19. **A clickable target is at least 24×24 CSS pixels, or spaced enough not to be hit by accident.** A row
+    of icon-only actions packed edge to edge fails this even when each icon individually "works" — the
+    failure is a mis-click on a touch device or with a tremor, not a missing label. Padding around a small
+    icon counts toward the target size; the icon itself doesn't have to grow. [w3.org/TR/WCAG22, 2.5.8
+    Target Size]
+20. **Any drag interaction ships a single-pointer alternative.** A reorderable list, a slider or a map pan
+    that only responds to a drag gesture locks out anyone who cannot perform one precisely — a tap-to-move
+    button, up/down controls, or an editable numeric field next to the slider are what makes the same
+    action reachable with one deliberate click instead of a sustained motion. [w3.org/TR/WCAG22, 2.5.7
+    Dragging Movements]
+21. **A help mechanism, once offered, stays in the same relative place on every page that offers one.** A
+    support link that moves from the header on one screen to a floating button on the next forces a user
+    who relies on a consistent layout — including one navigating by muscle memory or by a screen reader's
+    landmark list — to relocate it from scratch each time; consistent placement is itself part of the
+    contract, not a cosmetic nicety. [w3.org/TR/WCAG22, 3.2.6 Consistent Help]
+22. **Don't ask for the same information twice in one flow.** Re-entering an email address or a reference
+    number the user already typed two steps earlier is a redundant-entry failure, not just friction — the
+    fix is carrying the value forward (pre-filled, or referenced instead of retyped) rather than trusting
+    every user to copy it correctly a second time under time pressure. [w3.org/TR/WCAG22, 3.3.7 Redundant
+    Entry]
+23. **Authentication never depends solely on a cognitive test the user has to solve from memory.** A
+    CAPTCHA with no accessible alternative, or a login step that requires transcribing a code with no
+    paste and no password-manager support, blocks exactly the users an accessible login is supposed to
+    serve; support paste (point 9 already bans blocking it) and offer at least one path — biometric,
+    magic link, password manager — that does not depend on solving a puzzle. [w3.org/TR/WCAG22, 3.3.8
+    Accessible Authentication]

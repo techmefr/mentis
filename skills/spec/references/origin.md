@@ -68,3 +68,12 @@ public scope-management practice (the won't-have versus deferred distinction, sc
 through explicit boundary documentation) for §4; both synthesised into this block's own voice, with the
 cross-references back into this file's existing points and into `business/product-ownership` written for
 this pass rather than carried over from any source.
+
+**Widening, 2026-09-10 — second pass, closing the `project-management` gap.** Two more sections widened,
+points added after the existing numbering: §5 (ADR) and §2 (`CONTEXT.md`). Sourcing: public ADR practice
+(handling a reversed decision, a disagreement between teams, a framework-default non-decision, a
+prototype's decisions not surviving into production, attributing a reason to a person rather than a
+constraint) for §5; public requirements/vocabulary practice (borrowed synonyms across features, explicit
+range boundaries, entity-identity questions, role-dependent term splits, rule exceptions kept with the
+rule, units on numbers) for §2 — both synthesised into this block's own voice, no XEFI marketplace content
+read or referenced.

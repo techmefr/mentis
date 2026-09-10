@@ -164,3 +164,44 @@
    without knowing which enum, and it is what makes the compiler (via Larastan) refuse a new enum that
    forgets to implement it — a `match` with no `default` arm silently returns null for a case nobody
    remembered to add, where an unimplemented interface method fails at analysis time instead.
+28. **A module's own routes are registered from that module's own service provider, not appended to the
+   application's single `routes/web.php` or `bootstrap/app.php`.** Where an OSDD-style layer package exists
+   (§10 point 5), a `RouteServiceProvider` scoped to that package and booted from the package's own
+   provider keeps "where behaviour lives" answerable per domain — a route added straight to the app-wide
+   file is discoverable only by opening a file that has nothing to do with the domain it belongs to, and it
+   is the one wiring point that quietly survives a domain's move into its own package. [Laravel service
+   providers documentation, laravel.com/docs/12.x/providers, read 2026-09-10.]
+29. **A domain that needs data from another domain is handed an interface to depend on, not the other
+   domain's concrete model or action class.** §10 point 9 already states that a domain is entered through a
+   stated surface; the mechanism that makes the boundary real rather than a naming convention is a contract
+   (`BillingLookup`) bound to a concrete implementation in a service provider, resolved by the consuming
+   domain through the interface alone — swapping the implementation, or later moving the providing domain
+   into its own package, changes zero call sites in every consumer.
+30. **A job's cross-cutting behaviour — throttling, preventing overlap, limiting concurrency — is a job
+   middleware returned from `middleware()`, not an `if` inside `handle()`.** `WithoutOverlapping`,
+   `RateLimited` and `ThrottlesExceptions` each wrap the job the same way HTTP middleware wraps a request,
+   which keeps `handle()` reading as pure domain logic (point 1's "an action's inputs are typed parameters,"
+   applied to the async case in point 26) instead of interleaving the actual work with the bookkeeping that
+   decides whether it should run at all right now. [Laravel queues documentation,
+   laravel.com/docs/12.x/queues, read 2026-09-10.]
+31. **Route-level middleware defined as a class method, not a constructor call, is where Laravel 11+ expects
+   it — the controller constructor's `$this->middleware()` registration was removed from the base
+   controller.** A controller implementing `HasMiddleware` and returning its list from a static `middleware()`
+   method keeps the same "declared once, close to the controller" property point 22's single-action
+   controller already relies on; a project still calling `$this->middleware()` in a constructor on a
+   from-scratch Laravel 11+ app is reaching for a base-controller method the skeleton no longer ships, which
+   fails immediately rather than silently — but the fix is the new method, not restoring the old base class.
+   [Laravel upgrade guide, laravel.com/docs/12.x/upgrade, read 2026-09-10.]
+32. **`Model::unguard()` called globally lifts mass-assignment protection for every model for the rest of the
+   request, not just the one call site that needed it.** It exists for a seeder or a one-off console command
+   that legitimately fills every column of a known-safe payload; wrapping it around a request-driven write —
+   or leaving it toggled on without the matching `Model::reguard()` immediately after — reopens exactly the
+   gap §2 point 6 already names for a route-level permission that authorises the write but not the fields,
+   this time for every model in the app rather than one.
+33. **A collection method that returns a new collection, and one that returns a scalar or mutates in place,
+   read alike at the call site unless the chain is named — point 18's naming-the-steps advice applies before
+   the pipeline gets long enough to need it.** `$collection->each(fn ($item) => $item->save())` returns the
+   original collection and reads as if it built something; naming the intermediate step (`$saved = ...`)
+   only where a value is actually produced keeps a side-effecting `each()` visibly different from a
+   transforming `map()` in a diff, rather than trusting the reviewer to notice which one is which from the
+   method name alone.

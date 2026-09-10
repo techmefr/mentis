@@ -90,3 +90,34 @@
     differently in the state.** Extending point 4: the state holder distinguishes "loaded zero rows" from
     "still loading page one," since a screen that renders both as the same empty illustration briefly shows
     "nothing here, try creating one" to a user whose first page just hasn't arrived yet.
+23. **`ConnectionState.none` and `ConnectionState.waiting` are not the same absence of data.** A
+    `FutureBuilder` given no future yet — the common shape when the request is triggered by user action
+    rather than fired at construction — reports `none`, not `waiting`; a screen that only checks
+    `snapshot.connectionState == ConnectionState.waiting` for its loading state renders as if nothing were
+    happening at all until the request is actually issued, which is point 1's "never a blank screen" failing
+    from the state machine's own vocabulary rather than from the widget ignoring it.
+24. **An automatic retry and a user-initiated one are different policies, not the same button fired
+    twice.** Point 7's retry answers "the user asked again"; a transient failure — one dropped packet on an
+    otherwise fine connection — is worth one or two automatic attempts with a short backoff before ever
+    showing the error state at all, and conflating the two means either the user waits through retries they
+    never asked for, or the app gives up after one flaky response it could have silently absorbed.
+25. **A shimmering skeleton is an animation, and point 9's off-screen-cost rule applies to it too.** A
+    content-shaped placeholder (point 11) that shimmers continuously while its data source is unreachable —
+    a stalled background sync, a screen left open on a dead connection — keeps a ticker running for a
+    loading state that may never resolve; a static skeleton after a short delay, or the timeout of point 8,
+    is what stops "loading forever" from also being "animating forever."
+26. **An optimistic write can be rejected with a different final value, not just rejected outright.** Point
+    14's rollback assumes the server either confirms or refuses the exact change shown; a rate limit that
+    clamps a quantity, a price that changed underneath the order, or a server-side default overriding a
+    client guess means the honest recovery is reconciling the screen to what actually got written, not only
+    reverting to what was there before the optimistic update.
+27. **The same failure retried immediately produces the same error, and the user does not need to see it
+    announced twice in a row.** A snack bar or a live-region announcement (point 19) fired on every retry
+    attempt against an outage that hasn't cleared restates information the user already has; suppressing a
+    repeat of the identical error within a short window keeps the channel meaningful for when something
+    actually changes, without silencing point 6's per-failure wording the first time it appears.
+28. **A degraded success is a fifth thing the four-state model doesn't name.** A response that returns data
+    alongside a partial-failure flag — half the widgets on a dashboard loaded, half timed out — is neither
+    the success of point 1 nor the error of point 5; treating it as success hides what didn't load, and
+    treating it as error discards what did. Point 18's per-item outcome generalises to a single response that
+    is itself mixed: render what came back, and say plainly which part didn't.

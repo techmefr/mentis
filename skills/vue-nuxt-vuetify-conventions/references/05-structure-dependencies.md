@@ -66,3 +66,32 @@
 15. **The lockfile is part of the change.** A dependency added without it installs a different version on
     the next machine, which turns "works locally" into a claim about one developer's node_modules rather
     than about the repository.
+16. **A layer's precedence is fixed and worth knowing before debugging "my override didn't apply".** The
+    project's own files win over anything in `extends`, and among extended layers the ones listed last
+    lose to the ones listed first — configuration is merged (not replaced) through the framework's own
+    deep-merge, so two layers each setting one key of the same object both survive, but two layers setting
+    the *same* key resolve by that order, not by which one "feels more specific". [nuxt.com/docs/4.x/guide
+    /going-further/layers]
+17. **A remote layer (a git ref, an npm package) is a dependency you audit before extending it, not a free
+    template.** Extending a layer runs its `nuxt.config` and any build-time code it ships inside your own
+    project, with your project's environment — the trust boundary is the same one that applies to any
+    installed dependency, and "it's just a Nuxt layer" is not an exemption from checking what it does.
+18. **Each layer owns its full `app/` subtree and its own dependencies, not a shared one assembled by the
+    consuming project.** A layer that expects the host project to already have a package installed breaks
+    the moment it's extended somewhere that doesn't; a self-contained layer with its own `package.json`
+    (or its dependencies declared explicitly) is reusable, one that reaches up into whatever happens to be
+    around it is coupled to a specific host and only looks reusable.
+19. **A monorepo settles on one lockfile at the workspace root, not one per package.** Workspaces (npm,
+    pnpm or yarn) exist precisely so every package resolves from the same dependency graph; a package with
+    its own lockfile silently opts itself out of that graph and can end up on a different version of a
+    shared dependency than every sibling package, which is the same two-lockfiles failure as point 3, one
+    level down the tree.
+20. **Auto-scanned components and composables are named to avoid cross-layer collision, not just
+    cross-file collision within one layer.** Two layers each auto-registering a `Button` component or a
+    `useUser` composable resolve by layer order (point 16) rather than by an error, so the wrong one can
+    win silently; a prefix or namespace tied to the owning layer turns a silent shadowing into a name that
+    is unambiguous to grep for.
+21. **A layer is deleted by deleting its directory, not by disabling it in config.** A layer commented out
+    of `extends` but left on disk still ships in the repository, still gets modified by someone who finds
+    it while searching, and still shows up in a dependency audit as installed — treat an unused layer the
+    way an unused dependency is treated: removed, not merely unwired.

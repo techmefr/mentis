@@ -96,3 +96,35 @@
     narrowing actually worked. Reaching for one to diagnose the other's problem is why a fix that clearly
     reduced rebuilds is sometimes reported as having done nothing — it fixed a cost that was never the one
     showing on screen.
+24. **`AnimatedBuilder` and `ListenableBuilder`'s `child` parameter exists to defeat point 6's own mechanism
+    for the static part of the subtree.** Anything built inside `builder` reruns on every notification the
+    listenable fires; a widget passed through `child` instead is built once by the parent and handed down
+    unchanged, so a static label or icon sitting next to a spinning indicator does not get rebuilt sixty
+    times a second along with it. Rebuilding it inside `builder` "because it was already there" quietly
+    reintroduces the cost point 6 was meant to remove.
+25. **Element reuse is decided by `Widget.canUpdate`: same `runtimeType`, same `key`.** A conditional that
+    swaps between two widget classes for what is conceptually the same slot — an icon button becoming a
+    text button, a placeholder becoming the real content — forces a full teardown and rebuild of that
+    subtree even with a matching key, because the type changed; keeping one widget type and varying its
+    parameters, where the design allows it, is what lets point 9's key-based identity actually carry state
+    across the change.
+26. **A scoped listener — `Selector`, `Consumer`, or an equivalent from whatever state library is in use —
+    is point 21's `InheritedWidget` narrowing, not a separate optimisation.** It rebuilds only when the
+    piece it selects changes, the same contract the granular `MediaQuery` accessors of point 17 give for
+    the window; reaching for the whole state object "to keep it simple" inside one of these defeats the
+    narrowing the same way reaching for `MediaQuery.of` defeats point 17, just one layer up the stack.
+27. **The `prefer_const_constructors` lint catches a missed `const` at a call site, not a widget built once
+    and reused from a field.** Hoisting a constant subtree into a `static final` or an instance field and
+    returning it from `build` gets the same reuse point 2 describes, but the analyzer has nothing to flag if
+    the hoist is skipped — the win here is manual, and it is invisible to the tool that normally catches this
+    class of omission.
+28. **DevTools' "Enhance tracing" names which callback produced a given frame, not just how many widgets
+    rebuilt.** Where the rebuild track of point 23 says a rebuild happened, enhanced tracing attributes it to
+    a specific `build`, layout or paint call — the difference between knowing a screen rebuilt too often and
+    knowing which state change in a screen with several state holders actually triggered that particular
+    frame.
+29. **A `StatelessWidget` still rebuilds on every parent rebuild unless it's `const`.** The absence of a
+    `State` object is not, by itself, the optimisation point 2 relies on — a `StatelessWidget` instantiated
+    fresh each time the parent builds is a fresh instance the framework has no reason to skip, and only
+    becomes skippable once it is actually constructed as `const` or reused from a stored instance; "stateless
+    means cheap" is the assumption point 2's rule quietly corrects.

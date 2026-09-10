@@ -217,3 +217,46 @@
     can only partition by IP or an anonymous key, which throttles a shared NAT or proxy as one caller and
     never distinguishes the users behind it — a decision made once, at the same composition root point 11
     already points to, not discovered per endpoint.
+38. **The fallback policy (point 6) and the default policy answer two different questions, and configuring
+    only one leaves the other's gap exactly where it was.** The default policy is what a bare `[Authorize]`
+    with no policy name evaluates against; the fallback policy is what applies to an endpoint carrying no
+    authorisation metadata at all. Widening the default policy tightens every unnamed `[Authorize]` in the
+    codebase without touching a single endpoint that has no attribute whatsoever — point 2's "no declaration
+    is a bug" is only enforced by the second setting, and a team that configures the first alone has fixed a
+    different problem than the one point 6 describes.
+39. **A fallback policy reaches endpoints the team didn't write authorisation for because it forgot they
+    exist, not only ones it forgot to annotate — the app's own OpenAPI document and a Scalar/Swagger UI
+    endpoint are typically registered without an explicit policy and inherit the fallback like anything
+    else.** Where the fallback is authenticated-user-required, an API surface meant to stay publicly
+    browsable now 401s at the door unless it's explicitly carved out with `AllowAnonymous` (point 7) — which
+    is the fallback doing exactly what point 6 asks of it, surfacing as a bug report about the docs page
+    rather than a security gap, because nobody thought of the docs page as "an endpoint."
+40. **`AddAuthorizationBuilder` centralises every policy declaration in one fluent chain at the composition
+    root, but it does not configure a fallback or default policy on its own — leaving either unset is a
+    choice made by omission, not a safe default the builder API supplies for you.** The builder is a better
+    place to satisfy point 6 than a bare `AddAuthorization` delegate, precisely because every policy is
+    declared in the same readable chain a reviewer can scan top to bottom for a missing `.SetFallbackPolicy()`
+    call — but the chain itself does not warn when that call is absent, so the builder changes where the gap
+    is visible without changing whether it exists.
+41. **`IAuthorizationRequirementData` lets a custom attribute be both the thing decorating the action and the
+    requirement the policy evaluates, collapsing point 17's "declare the requirement once" into one
+    declaration instead of two.** A hand-rolled requirement still needs a named policy string wired to it
+    separately from the attribute that references that name; a requirement-data attribute is applied directly
+    to the action (`[MinimumAge(18)]`) and generates its own requirement and policy behind the scenes, which
+    removes the step where the attribute's policy-name string and the policy registration's own string can
+    drift out of sync with each other — the same class of typo point 28's dynamic provider already has to
+    guard against for a hand-strung policy name.
+42. **A dynamic `IAuthorizationPolicyProvider` (point 28) combining several attributes on one action into a
+    single evaluated policy runs that combination on every request the endpoint serves, not once at
+    startup.** Where `[Authorize]` is stacked with a resource-based check or a custom requirement attribute
+    from point 41, the provider's job is to fold them into one policy result each time — a provider that
+    recomputes an expensive combination per request rather than caching by the exact attribute set pays that
+    cost on the hot path point 3's "read it by eye at review" doesn't catch, because nothing about the
+    attributes on the action looks like a performance decision.
+43. **`RequireAuthorization()` chained through nested `MapGroup` calls accumulates the same way point 35
+    already describes for one group and one endpoint, and nesting hides how many layers actually stacked.**
+    A route group inside another route group, each adding its own `RequireAuthorization`, means an endpoint at
+    the innermost level satisfies every requirement from every enclosing group at once — which is the correct
+    behaviour, but a reader checking one group's policy for what an endpoint requires has to walk every
+    ancestor group to see the whole set, the same "invisible at the one place a reader is looking" problem
+    point 1 states for a controller-level attribute, now one nesting level per group instead of one class.

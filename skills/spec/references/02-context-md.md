@@ -43,3 +43,24 @@
 12. **Keep it out of the code as comments.** The vocabulary lives in one document; restated in comments
     it becomes several copies with no authoritative one, and the copies drift with every edit. The code
     carries the vocabulary in its names instead.
+13. **A synonym borrowed from another feature's `CONTEXT.md` is checked, not assumed.** Two features
+    using "member" can mean two different entities with different lifecycles; importing the word without
+    importing the definition reintroduces the split point 2 exists to prevent, just across feature
+    boundaries instead of within one.
+14. **A rule stated as a range needs its boundary named explicitly.** "Above ten seats" leaves the tenth
+    seat undecided — inclusive or exclusive is a testable fact, not a stylistic choice, and leaving it
+    implicit hands the ambiguity to whichever engineer writes the comparison operator first.
+15. **An entity's identity is stated, not implied by its fields.** Two contracts with the same customer
+    and the same dates are either the same contract or two — `CONTEXT.md` says which, because the schema
+    (§7's plan-level concern) will encode whichever answer it is given, and reversing it later is a
+    migration, not an edit.
+16. **A term that changes meaning depending on which role is reading it is split into two terms.** "Active"
+    meaning one thing to billing and another to support is not one rule with two audiences, it is two
+    rules sharing a word — leaving it shared guarantees a query that is correct for one reader and wrong
+    for the other.
+17. **A business rule with a named exception lists the exception in the same entry, not as a footnote
+    elsewhere.** A rule and its carve-out read together or they get implemented separately, by different
+    people, at different times, and the carve-out is the one that gets forgotten.
+18. **Numbers with units are written with the unit.** "Ten" meaning ten seats, ten days or ten euros is
+    resolved by context only until the document is read out of order or quoted in a ticket — the unit
+    costs three characters and removes the ambiguity permanently.

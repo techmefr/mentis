@@ -44,3 +44,27 @@
 12. **A spec whose ADRs are all trivial has either an easy feature or an unexamined one.** Worth a
     second look: a feature with no expensive-to-reverse decision anywhere is usually a feature whose
     data model was inherited without being checked.
+13. **A decision reversed later gets a new ADR, not a deleted one.** The old ADR is superseded (point
+    10), and the new one records what changed since — the constraint that lifted, the scale that was
+    reached, the dependency that was deprecated. Deleting the old one erases the exact history a reader
+    needs to judge whether the same mistake is being made twice.
+14. **Two teams disagreeing on a structural choice write one ADR, not one each.** A per-team record lets
+    each side keep believing its own version was adopted, and the next reader finds two documents that
+    contradict each other with no way to tell which one shipped. The disagreement itself, and how it was
+    resolved, is part of what the single ADR has to say.
+15. **An ADR that only restates the framework's own default is not a decision.** Choosing not to
+    override what the framework already does is worth a line only when a competent reader would expect
+    an override here — otherwise it is noise competing with the ADRs that carry real alternatives
+    (`skills/design-patterns` §2, framework-already-does-it).
+16. **A prototype's ADRs do not survive into the production spec by default.** A decision taken to get a
+    demo working under a deadline was usually taken under different constraints — real data volume, real
+    concurrency, real security requirements — than the ones the shipped feature will face, so it is
+    reopened, not inherited silently.
+17. **An ADR referencing a person by name outlives that person's tenure on the project.** "Because
+    Sophie needed it this way" is a decision with no traceable reason once Sophie has moved on; the
+    reason has to survive independently of who was in the room, per point 3's constraint-not-preference
+    rule.
+18. **A decision an ADR describes as reversible is checked against what actually reverses it.** "We can
+    always change the storage format later" is only true if nothing downstream has come to depend on the
+    format's specifics — an ADR that claims reversibility without checking for that dependency is really
+    an unrecorded structural decision, mislabeled to avoid point 2's bar.

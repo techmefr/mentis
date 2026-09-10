@@ -44,3 +44,15 @@
     story and the implementation, nothing is written down as a side effect of a handoff — every trace has
     to be created on purpose. §1.12's finding, §2.5's refusals, §3.11's answers and the ADR for a
     structural decision (`skills/spec`) are the whole institutional memory in this configuration.
+11. **Reread the story after the code is done, before merging, as if someone else had written it.** This
+    is the closest substitute for §7's missing reader: it will not catch what the author still cannot see,
+    but it does catch the criterion quietly rewritten to match the code (point 6) and the exclusion that
+    got implemented as an assumption rather than as a decision.
+12. **A story that keeps growing during implementation is a sign the interview (§1) was too short, not a
+    licence to keep adding scope silently.** Without a second reader to notice the drift, the author is
+    the only check — so a criterion added mid-build gets the same one-line justification a scope change
+    would get from anyone else (§3's saying-no discipline still applies to yourself).
+13. **The estimate revision, when the code turns out harder than expected, is written down with the
+    reason, not silently absorbed into extra hours.** In the two-role configuration nobody outside notices
+    a slipping estimate until the sprint retro — writing the revision the moment it is known is the only
+    way the gap becomes visible before it is history.
