@@ -27,6 +27,13 @@ As soon as Go code is written or modified, during `code` (6) or `tdd` (5).
    otherwise a context leak.
 5. Concurrent access to a map with no mutex or `sync.Map` panics at runtime ("concurrent map read and map
    write"), not detected statically.
+6. A "check closed, then send" pattern on a channel a `Close()` method also closes is a race: a sender can
+   pass the closed check, then have `Close()` run and close the channel before the send executes, panicking
+   with "send on closed channel". A plain `sync.Mutex` held only around the check doesn't fix this — the
+   lock must also be held across the send itself (e.g. `RLock`/`RUnlock` bracketing the `select` in the
+   sender, `Lock` in `Close` before closing the channel), so the closer can't close until every in-flight
+   sender has finished sending. Not caught by `go vet`, `staticcheck`, or `-race` unless a test actually
+   races the two calls.
 
 ### 2. Error handling
 1. No returned error ignored without an explicit `_` or handling.
@@ -89,3 +96,14 @@ assertion (§2.6), and `os.Exit`/`log.Fatal` confined to `main()` via a `run()` 
 gaps, now closed. The guide's pointer-vs-value-receiver and channel-sizing guidance stay out: both are
 judgment calls that depend on the concrete type/use, not a rule with a mechanical trigger the way the
 three added ones are.
+
+**Dogfooded, 2026-09-10.** First real confrontation: a small worker-pool job queue (`Queue`/`Runner`
+interface, goroutines draining a jobs channel, `context` for submit-cancellation and per-job cancellation,
+a JSON-tagged `Job`/`Result` struct), built outside this repo, with `go build`/`go vet`/`golangci-lint
+run` (default linters, clean) and `go test -race` (all green) as the checkpoint. One real gap surfaced by
+writing the code, not by re-reading the guide: the "check closed under a mutex, then send on the channel"
+shape used for `Submit`+`Close` is a genuine TOCTOU race (a sender can pass the check and then lose to a
+concurrent `Close()`, panicking on a closed channel) that neither `go vet`, `staticcheck`, nor even
+`-race` flags unless a test happens to interleave the two calls — added as §1.6. Every other rule in this
+file (context-first-param, `%w` wrapping, comma-ok assertions, `defer resp.Body.Close()`, `run() error` +
+single `os.Exit` in `main`) held up against the practice with no adjustment needed.

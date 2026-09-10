@@ -449,7 +449,7 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
 | bi, design, xefi | 16 / 17,306 | 4 / 18,571 | +1,265 | x0.93 |
 | global | 18 / 20,280 | 5 / 21,624 | +1,344 | x0.94 |
-| react | 36 / 9,302 | 1 / 10,999 | +1,697 | x0.85 |
+| react | 36 / 9,302 | 1 / 11,158 | +1,856 | x0.83 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -481,7 +481,7 @@ nuxt: vue-nuxt-vuetify-conventions 16,848
 global: code-baseline 9,129, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,048
 project-management: product-ownership 9,343, spec 5,109
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 10,999
+react: react-nextjs-conventions 11,158
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 3,896
 ```
 
@@ -1928,6 +1928,41 @@ turned out true only for a driven `AnimationController`; a widget-owned `Timer.p
 by coincidence or hung for real seconds depending on timing — nondeterministic, not just slow — fixed
 with a new point (§10.25) recommending explicit `tester.pump(duration)` for timer-driven widgets.
 flutter x1.11 → **x1.09**.
+
+### Dogfood, 2026-09-10: go, react and nestjs — three more blocks off "written, never run"
+
+Same real-build-not-widening method as the csharp/python/flutter round above, run on the three
+remaining single-language stack blocks still marked "written not dogfooded": `go-conventions`,
+`react-nextjs-conventions` and `nestjs-node-conventions`, in parallel background passes. Go and
+Node/npm toolchains installed into the user's own home (no sudo available) to make this possible.
+
+`go`: a worker-pool `Queue`/`Runner` with goroutines, `context.Context` cancellation and a clean
+`Close()`; `go build`/`go vet`/`golangci-lint`/`go test -race` all green. Found a genuine TOCTOU race
+neither `go vet` nor `-race` alone would have caught without a test interleaving the exact two calls:
+checking "closed" under a mutex and then sending on the channel afterwards leaves a window where
+`Close()` wins the race and the send panics. Fixed with a new point (`go-conventions` §1.6) and, in the
+demo code, by holding an `RWMutex` read-lock across the whole check-then-send. Documented directly in
+`SKILL.md`'s own Origin section — this block has no `references/` split.
+
+`react-nextjs-conventions`: a Next.js 16/React 19 app-router project (TanStack Query, Zod-parsed
+responses, a query-key factory, a container/presentational split), `tsc`/`eslint`/`next build`/`vitest`
+all green. Found one real gap: §1.3's "named exports only, never `export default`" is stated with no
+exception, but Next's app router *requires* `export default` for `page.tsx`/`layout.tsx` — the mirror
+image of §7.10's already-documented `route.ts` exception, which §1.3 never cross-referenced. Fixed with
+the exception added to §1.3 and a cross-reference from §7.10, 10,999 → 11,158 words.
+
+`nestjs-node-conventions`: a `UsersModule` (constructor DI, typed exceptions, DTO validation) plus a
+simulated job queue, on a current Nest CLI scaffold; build/lint/tests all green. Found two real gaps
+from the current scaffold's ESM defaults, neither about the block's own DI/DTO/exception rules (which
+held unchanged): relative imports need an explicit `.js` extension even between `.ts` files under
+`moduleResolution: nodenext`, and a non-class type used in a decorated method's signature needs
+`import type` or the build fails with `TS1272` under `isolatedModules`. Both added as a new point in
+`SKILL.md`'s Origin section (no `references/` split here either).
+
+None of these three touch the tracked depth table's worst-ratio programme — `go` and `nestjs` aren't
+tracked rows at all, and `react` was already ahead of parity (x0.85 → x0.83, still comfortably under 1).
+The value here is entirely the dogfood: three more blocks moved from "written against public docs,
+never run" to "run against a real build once, with the gaps a build finds and a reading doesn't."
 
 ## 3. The rule that keeps us "in control" (reminder)
 
