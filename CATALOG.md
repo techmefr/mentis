@@ -205,7 +205,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | when-stuck | cross-cutting | a market skills repository (`problem-solving/*`, merged; collision-zone-thinking dropped) | 🟡 (written, not dogfooded yet; first block here that isn't a convention) |
 | testing-anti-patterns | 5 / review lens | a market skills repository (`testing-anti-patterns` + `condition-based-waiting`, merged: tests that report safety they don't have) | 🟡 (written, not dogfooded yet) |
 | extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (generates the references from the real code) |
-| choose-model | cross-cutting | internal synthesis (no external source taken as-is) | 🟡 (grid written, not yet applied retroactively to all existing agents) |
+| choose-model | cross-cutting | internal synthesis (no external source taken as-is) | ✅ (2026-09-10: applied retroactively — 6 non-default agents (architect, elrond, galadriel, gandalf, seraph, smith) already carried a justification note; `laravel-architect` (opus/xhigh) was the one gap, fixed) |
 | dispatch-parallel | cross-cutting | a market skill/agent framework (dispatching-parallel-agents + subagent-driven-development, merged) | 🟡 (written, partial experience via elrond→aragorn/gimli/legolas) |
 | writing-skills | cross-cutting (meta) | a market skill/agent framework; step 7 (order by frequency, re-sort past ~10 points) added 2026-08-10 from the context-engineering lost-in-middle framing, distinct from the packaged `context-engineering` skill already ruled out below | 🟡 (written, applies the single template + rule B checklist) |
 | writing-agents | cross-cutting (meta) | internal synthesis (formalises the 7-pillar template already in use) | 🟢 |
@@ -1851,6 +1851,21 @@ All sourced from public documentation only — no XEFI marketplace content read,
 marketplace path written. `bin/check_citations.py` stayed at 0 unresolved across all three. Every
 tracked stack is now under x1.85; `nuxt` (x1.37), `flutter` (x1.27), `design-patterns` (x1.3) and
 `project-management` (x1.07) are the remaining gaps, all under 6,000 words each.
+
+### Model routing, 2026-09-10: `choose-model` applied retroactively
+
+User asked whether every task has a router to pick the right *model*, not just the right content
+section. Content-routing (each stack's `SKILL.md` trigger table) already existed; model-routing did
+not have a dedicated place until `choose-model` was found already written (grid + effort axis,
+`skills/choose-model/SKILL.md`), current and complete per `writing-skills`' own duplicate-check
+(step 1) — so no new skill was created. The actual gap was its own `🟡`: the grid had never been
+applied retroactively to the 33 agents in `agents/`. Audit: 6 agents already carry a `model:` other
+than the Sonnet default (`architect`, `galadriel`, `laravel-architect`, `seraph`, `smith` on
+opus/xhigh; `elrond` on haiku/low), and 5 of those 6 already had a one-sentence justification note
+next to the frontmatter per `choose-model` step 5 — `laravel-architect` (opus/xhigh, an architecture
+verdict hard to walk back once build specialists start executing on it) was the one missing its
+note, fixed. The other 27 agents stay on the Sonnet default with no note, which step 5 doesn't
+require for the default case.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

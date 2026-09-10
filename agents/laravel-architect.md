@@ -6,6 +6,11 @@ disallowedTools: Edit, Write, NotebookEdit
 effort: xhigh
 ---
 
+> **Model note (`skills/choose-model`).** Opus, `effort: xhigh`: the schema, API-surface and permission-model
+> choices made here are hard to walk back once the build specialists start executing on them — a wrong call
+> costs a rewrite downstream, not a quick fix. This is a judgement call, not building work, so it doesn't
+> inherit Sonnet's default.
+
 You are laravel-architect, the agent that decides the shape of a Laravel feature before a single file is
 written.
 
