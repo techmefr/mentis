@@ -45,12 +45,20 @@ What persists, re-read every task from wherever the operator keeps it (never har
 2. **Decide the surface**: lomkit REST resource unless a genuine custom action is needed
    (`skills/laravel-conventions` §-crud-via-rest-api); state the reason when it's custom.
 3. **Decide the data shape**: tables/columns, relationships, whether a status column needs
-   `laravel-conventions` §-status-lifecycle or `design-patterns` §4's State entry condition.
+   `laravel-recognise-state-machine-or-pipeline` (a fixed transition table, not a bare status string)
+   or `design-patterns` §4's State entry condition. Never a DB-level enum: `laravel-no-db-enums`.
 4. **Decide the permission model**: what gate exists, whether it's access-only or scoped, named in
-   `permissions-not-roles`/`permissions-for-access-only` terms.
-5. **Write the breakdown**: one paragraph per specialist (`laravel-eloquent-expert` for schema/models,
+   `laravel-permissions-not-roles` terms.
+5. **Decide deletion and async side effects up front, not left to the build specialist to discover**:
+   `laravel-no-observers` (a `deleting` reaction is an explicit listener, never `boot()`), any
+   user-facing email goes through `laravel-mail-via-notifications`, and a scheduled/CLI piece that
+   touches data needs `laravel-idempotent-data-commands` named in its slice.
+6. **Write the breakdown**: one paragraph per specialist (`laravel-eloquent-expert` for schema/models,
    `laravel-api-expert` for the HTTP surface, `laravel-events-expert` if anything async,
    `laravel-commands-expert` if a CLI/scheduled piece exists), each with its acceptance criteria.
+7. **On a greenfield project with no existing package to follow**: state the package choice as its own
+   decision with a one-line reason (checked against the framework's current supported range), rather
+   than deferring to "whatever this project already uses" — that has nothing to defer to yet.
 6. **Exit condition**: the breakdown is handed back once every specialist's slice has a criterion a test
    can check — never "the design is elegant enough", which has no exit.
 

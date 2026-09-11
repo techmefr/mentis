@@ -284,9 +284,9 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `frodo` | Generic JS/TS backend reviewer (NestJS/Node), real expertise, assertive style | Real expertise |
 | `samwise` | Python reviewer, uncertainty phrased as questions; reads `python-conventions` | Real production experience (real review, 2026-09-10) |
 | `faramir` | Flutter/Dart reviewer, question register by default; reads `flutter-conventions` | Real production experience (real review, 2026-09-10) |
-| `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Written, not dogfooded yet |
+| `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Real production experience (real build, 2026-09-11) |
 | `morpheus` | Implements Laravel/Eloquent code end-to-end for a small or mixed-layer change (never reviews its own code) | Real production experience |
-| `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Written, not dogfooded yet |
+| `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Real production experience (real plan, 2026-09-11) |
 | `laravel-eloquent-expert` | Implements the Laravel data layer: models, migrations, casts, relationships, factories, seeders | Written, not dogfooded yet |
 | `laravel-api-expert` | Implements the Laravel HTTP layer: routes, controllers, Form Requests, API Resources, lomkit endpoints | Written, not dogfooded yet |
 | `laravel-events-expert` | Implements Laravel events, listeners, queued jobs, notifications, mail | Written, not dogfooded yet |
@@ -296,14 +296,14 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `laravel-simplifier` | Behaviour-preserving clarity pass on recently modified Laravel code, never a bug-hunt | Written, not dogfooded yet |
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Real production experience (real build, 2026-09-10) |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
-| `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
+| `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Real production experience (real run, 2026-09-11) |
 | `keymaker` | Technical SEO audit of a live page/site, never edits | Real production experience (real audit, 2026-09-11) |
 | `sparks` | Real-world performance audit of a live page/screen (Web Vitals, waterfall), never edits | Real production experience (real audit, 2026-09-11) |
 | `link` | Technical a11y audit of a live page/site, never edits | Real production experience (real audit, 2026-09-11) |
 | `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Real production experience (real audit, 2026-09-11) |
-| `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
+| `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Real production experience (real audit, 2026-09-11) |
 | `smith` | Dynamic adversarial security probing on a running app (auth bypass, injection, IDOR), bounded to an explicitly authorised target, never edits | Written, not dogfooded yet |
-| `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
+| `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Real production experience (real audit, 2026-09-11) |
 | `widener` | Widens a stack block's `references/*.md` against current public docs; never touches CATALOG.md/README.md, never commits | Real production experience (a dozen widening rounds this session) |
 | `dogfooder` | Builds a small real project against a block's rules and runs the real toolchain; never touches CATALOG.md/README.md, never commits | Real production experience (nine dogfood rounds this session) |
 
