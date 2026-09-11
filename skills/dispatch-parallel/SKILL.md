@@ -70,6 +70,14 @@ Every dispatched subagent has come back (or been explicitly abandoned with the r
 the aggregation cites which result comes from which agent: never an anonymous synthesis.
 
 ## Guardrails
+- **Never two agents with Write/Edit on the same repo/project simultaneously, even on "disjoint"
+  slices.** A slice boundary drawn on paper (schema vs. HTTP vs. events) doesn't stay file-disjoint in
+  practice: two build agents each touch the shared provider, the shared exception class, the shared
+  service-registration file. One overwrites the other's `Event::dispatch` and a transaction wrapper
+  without either erroring, and only a re-read of the file catches it — no test goes red, because
+  each agent's own tests were written against its own version. If several build slices target the
+  same project, run them **sequentially**, not in parallel, unless each one is a genuinely separate
+  directory (a different OSDD layer, a different package) with zero shared files.
 - Never two agents with Write/Edit on the same file simultaneously.
 - One agent failing doesn't cancel the others: isolate the failure, don't relaunch the whole
   batch.

@@ -288,8 +288,8 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `morpheus` | Implements Laravel/Eloquent code end-to-end for a small or mixed-layer change (never reviews its own code) | Real production experience |
 | `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Real production experience (real plan, 2026-09-11) |
 | `laravel-eloquent-expert` | Implements the Laravel data layer: models, migrations, casts, relationships, factories, seeders | Written, not dogfooded yet |
-| `laravel-api-expert` | Implements the Laravel HTTP layer: routes, controllers, Form Requests, API Resources, lomkit endpoints | Written, not dogfooded yet |
-| `laravel-events-expert` | Implements Laravel events, listeners, queued jobs, notifications, mail | Written, not dogfooded yet |
+| `laravel-api-expert` | Implements the Laravel HTTP layer: routes, controllers, Form Requests, API Resources, lomkit endpoints | Real production experience (real build, 2026-09-11) |
+| `laravel-events-expert` | Implements Laravel events, listeners, queued jobs, notifications, mail | Real production experience (real build, 9 tests passed, 2026-09-11) |
 | `laravel-commands-expert` | Implements Artisan commands and their scheduling | Written, not dogfooded yet |
 | `laravel-testing-expert` | Chooses Feature vs Unit, writes and runs factory-driven Laravel tests | Written, not dogfooded yet |
 | `laravel-debugger` | Root-causes and fixes a failing test, a Larastan finding, an exception, a regression | Written, not dogfooded yet |
