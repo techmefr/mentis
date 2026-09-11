@@ -2126,6 +2126,33 @@ which is itself a check-then-act the skill's own doctrine would forbid for row c
 `dogfooder.md` now targets `~/dogfood/<stack>`, never `/tmp`. `README.md`'s status column updated for
 both agents based on the real, verified work each completed before the environmental loss.
 
+### Agent dogfood, 2026-09-11 (Laravel wave, complete rebuild — the remaining 5 Laravel agents)
+
+The Laravel project was rebuilt at `~/dogfood/laravel` (persistent, git-tracked — never `/tmp` again)
+and the full domain built **sequentially, one agent at a time**, per the `dispatch-parallel` fix from
+the earlier failed attempt. `laravel-eloquent-expert`, `laravel-events-expert` and `laravel-api-expert`
+each redid their slice cleanly this time (29 tests passing by the end, no collision). Three more agents
+completed the roster: `laravel-commands-expert` built a `tasks:remind-overdue` command and hit a real
+crash mid-chunk that exposed a genuine tension between `no-queries-in-loops` and the (non-existent)
+`laravel-idempotent-data-commands` skill, resolved with a claim-then-send pattern (one `update` over
+the whole chunk before the send loop, so a mid-chunk crash can't re-notify). `laravel-testing-expert`
+added real coverage (visibility scoping across owner/member/stranger, a not-covered case — a task
+assigned to someone outside the project's membership is invisible by design) and, crucially, found a
+genuine concurrency bug: two "simultaneous" completions of the same task each passed the transition
+guard against a stale in-memory read and each fired the completion notification — left the two tests
+red rather than weakening them. `laravel-debugger` root-caused it correctly (the guard, the idempotence
+check and the write were all evaluated outside the lock that protected only the `save()`) and fixed it
+with a `lockForUpdate()` reread inside the transaction — 29/29 passing after, 0 regression — and named
+the real gap: `laravel-recognise-state-machine-or-pipeline` never says the guard must be evaluated
+under a lock in the same transaction as the write, so a textbook-correct transition table still races.
+Folded into that skill directly. `laravel-simplifier` closed the wave with a genuine behaviour-preserving
+pass (extracted named methods, removed a duplicated predicate, reformulated rationale comments as
+failure-mode statements) and correctly flagged two real behavioural issues without touching them:
+a multi-target lomkit Action partially applies before failing (each target commits its own transaction),
+and `ProjectResource`'s mutable fields include `owner_id`, letting an authorized caller reassign
+ownership and escape `ProjectPolicy::delete`'s owner check — both handed off as `/code-review` scope,
+not fixed here. `README.md`'s status column updated for all five.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it

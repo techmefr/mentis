@@ -21,6 +21,13 @@ should go back to draft", or "it should also send a notification".
    Same recognition, before adding the next `if` to an existing method.
 3. **Read `skills/design-patterns` §4 and `skills/domain-modeling`** once either shape is recognised
    — they cover the mechanics; this file only covers the recognition.
+4. **A transition's guard has to be evaluated on state reread under a lock, inside the same
+   transaction as the write that follows it — never on the in-memory instance a prior `find()`
+   loaded.** Two concurrent requests that each load the row before either writes will both pass a
+   guard checked against stale data, both perform the write, and both fire the side effect: a
+   perfectly correct transition table still races if the decision is made outside the lock that
+   protects the write. `ShouldDispatchAfterCommit` on the resulting event delays the dispatch past
+   the transaction; it does not deduplicate it, and looks like it might.
 
 ## Output / checkpoint
 Before the first transition method or the next pipeline step is written, the request has been named
