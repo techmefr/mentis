@@ -2153,6 +2153,37 @@ and `ProjectResource`'s mutable fields include `owner_id`, letting an authorized
 ownership and escape `ProjectPolicy::delete`'s owner check — both handed off as `/code-review` scope,
 not fixed here. `README.md`'s status column updated for all five.
 
+### Agent dogfood, 2026-09-11 (tank and smith — the roster's last two, 21/21 complete)
+
+`tank` ran a real SQL tuning pass on a real MySQL 8 container (`~/dogfood/laravel` repointed from
+SQLite, 2000 users/200 projects/20,000 tasks seeded in bulk), blocked once on a missing `php8.3-mysql`
+extension (correctly refused to install it itself and asked the operator), then completed with a real
+`EXPLAIN`/`EXPLAIN ANALYZE` pass on `GetVisibleProjectsForUser`/`GetVisibleTasksForUser` and the lomkit
+`search` endpoints. Verdict: no fix needed — the index it had flagged as a candidate before the block
+(`project_user.user_id`) already existed, created automatically by the FK constraint Laravel/MySQL
+require; every query plan came back `eq_ref`/`ref`/covering index, no table scan. A clean, honestly
+reported no-op result, not padded to justify the dispatch.
+
+`smith` ran a bounded, explicitly-authorised probe against the same project (`~/dogfood/laravel`, local
+only, never exposed) and found something more valuable than a bypass: **the API's HTTP authentication
+was never actually wired for real traffic.** The `api` middleware group is empty (`bootstrap/app.php`),
+there's no `StartSession` on it and no Sanctum (`User` has no `HasApiTokens`, `composer.json` has no
+token package) — every one of 8 protected endpoints correctly returned 401 for missing, forged, expired
+*and* a validly-encrypted session cookie, because the `api` group ignores sessions entirely. Consequence:
+4 of the 5 requested attack surfaces (IDOR, mass-assign/state-machine bypass, privilege escalation,
+filter injection) were **not testable over real HTTP** — every attempt died at the auth wall before
+reaching a controller or policy. The defenses `laravel-api-expert` and `laravel-debugger` built (the
+`Gate::authorize` in the transition action, `status`/`assignee_id` excluded from mutable fields) are
+real in the source and pass in `TaskRestApiTest.php`, but that suite uses `actingAs`, an in-process
+PHPUnit helper that never exercises the actual HTTP auth path — so "the tests pass" and "the API is
+authenticated over the wire" turned out to be two different claims, and only the live probe could tell
+them apart. `smith` correctly declined to bypass the auth wall itself (e.g. via `actingAs`) to reach the
+other 4 axes, naming that as exactly the boundary it isn't authorised to cross alone, and reported "not
+tested" rather than "safe." Also found: `APP_DEBUG=true` committed in `.env` (low severity, unreachable
+over HTTP behind the 401 wall), and an unauthenticated `/api-documentation` Swagger shell serving no
+real schema (`/vendor/rest/openapi.json` 404). `README.md`'s status column updated for both agents —
+this closes the full 21-agent roster dogfood programme started this session.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it
