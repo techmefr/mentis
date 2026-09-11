@@ -2034,6 +2034,28 @@ query param never validates, since Express delivers it as a string — folded in
 each report), none touched `CATALOG.md`/`README.md` themselves. `README.md`'s status column updated for
 all three from "Written, not dogfooded yet" to real production experience.
 
+### Agent dogfood, 2026-09-11 (wave 2: the four one-off audit agents)
+
+`keymaker`, `sparks`, `link`, `mouse` each ran a real audit of the same live target, `/tmp/dogfood-react`
+(a small Next.js 16/React 19 demo built earlier this session), each starting its own `npm run dev`
+instance on its own port. All four found real, non-generic findings and none padded: `keymaker` flagged
+a blocking SEO gap (the task list is client-fetched with no SSR/prefetch, so the HTML a crawler sees
+never contains it, only "Loading tasks…"), plus the unmodified scaffold `<title>`/description, no
+OpenGraph/canonical/JSON-LD, and missing `robots.txt`/`sitemap.xml`. `sparks` found only minor,
+architecture-level points (client-fetching 3 hardcoded server-known tasks instead of rendering them
+server-side; ~1MB of JS chunks for a static 3-row list) — correctly declined to flag missing
+memoization on a 3-item list as a finding, per `measure-before-memo`. `link` found the same
+unmodified-title gap plus a missing `aria-live`/`role="status"` on the loading state, and correctly
+marked keyboard navigation "not applicable" rather than fabricating a finding — the page has zero
+focusable elements. `mouse` independently confirmed the same SSR/no-JS-fallback gap `keymaker` found,
+by directly `curl`-ing the raw SSR response rather than trusting the source, plus verified the API's
+405/404/redirect edge cases were all correct (not bugs). All four hit the same real platform fact and
+reported it rather than silently working around it: the Browser pane's network namespace cannot reach
+a WSL-hosted `localhost` dev server, so all four compensated with direct `curl`/`WebFetch` against the
+raw HTTP response and source reading, not a real interactive browser — a genuine tooling boundary this
+dogfood pass surfaced, not an agent failure. `README.md`'s status column updated for all four from
+"Written, not dogfooded yet" to real production experience.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it
