@@ -287,13 +287,13 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `neo` | Implements Vue3/Nuxt3 code (never reviews its own code) | Real production experience (real build, 2026-09-11) |
 | `morpheus` | Implements Laravel/Eloquent code end-to-end for a small or mixed-layer change (never reviews its own code) | Real production experience |
 | `laravel-architect` | Plans a Laravel feature before code exists: schema, API surface, permission model, the breakdown; read-only | Real production experience (real plan, 2026-09-11) |
-| `laravel-eloquent-expert` | Implements the Laravel data layer: models, migrations, casts, relationships, factories, seeders | Written, not dogfooded yet |
+| `laravel-eloquent-expert` | Implements the Laravel data layer: models, migrations, casts, relationships, factories, seeders | Real production experience (real build, 2026-09-11) |
 | `laravel-api-expert` | Implements the Laravel HTTP layer: routes, controllers, Form Requests, API Resources, lomkit endpoints | Real production experience (real build, 2026-09-11) |
 | `laravel-events-expert` | Implements Laravel events, listeners, queued jobs, notifications, mail | Real production experience (real build, 9 tests passed, 2026-09-11) |
-| `laravel-commands-expert` | Implements Artisan commands and their scheduling | Written, not dogfooded yet |
-| `laravel-testing-expert` | Chooses Feature vs Unit, writes and runs factory-driven Laravel tests | Written, not dogfooded yet |
-| `laravel-debugger` | Root-causes and fixes a failing test, a Larastan finding, an exception, a regression | Written, not dogfooded yet |
-| `laravel-simplifier` | Behaviour-preserving clarity pass on recently modified Laravel code, never a bug-hunt | Written, not dogfooded yet |
+| `laravel-commands-expert` | Implements Artisan commands and their scheduling | Real production experience (real build, 2026-09-11) |
+| `laravel-testing-expert` | Chooses Feature vs Unit, writes and runs factory-driven Laravel tests | Real production experience (found a real race-condition bug, 2026-09-11) |
+| `laravel-debugger` | Root-causes and fixes a failing test, a Larastan finding, an exception, a regression | Real production experience (fixed a real bug, 2026-09-11) |
+| `laravel-simplifier` | Behaviour-preserving clarity pass on recently modified Laravel code, never a bug-hunt | Real production experience (real pass, 2026-09-11) |
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Real production experience (real build, 2026-09-10) |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
 | `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Real production experience (real run, 2026-09-11) |
