@@ -2056,6 +2056,36 @@ raw HTTP response and source reading, not a real interactive browser — a genui
 dogfood pass surfaced, not an agent failure. `README.md`'s status column updated for all four from
 "Written, not dogfooded yet" to real production experience.
 
+### Agent dogfood, 2026-09-11 (wave 3: neo, dozer, architect, seraph, laravel-architect)
+
+Five more agents run for real. `neo` scaffolded and built a real Nuxt task-filter feature (Nitro API,
+composable, Pinia store, accessible components) from scratch in `~/dogfood-nuxt`; lint/typecheck/build
+all passed. Two real frictions: `npx nuxi@latest init` currently scaffolds Nuxt 4's `app/` layout despite
+the package name, and the minimal scaffold ships with none of Pinia/ESLint/TypeScript wired — all added
+by hand before lint/typecheck were even runnable. `dozer` wrote a real pre-implementation test suite
+(retry-with-backoff) for `/tmp/dogfood-go`'s job queue; confirmed red for the right reason (undefined
+symbols the feature must add), and found a real cross-language gap folded into `agents/dozer.md` §5: in
+a compiled language, one undefined symbol fails the *whole package's build*, so pre-existing tests in
+that package report as collateral failures with no individual verdict — the report has to disambiguate
+that explicitly. `architect` audited `/tmp/dogfood-nestjs` and found real, non-generic dead-code/wiring
+debt: a `NotificationsModule` with no producer, a `WelcomeEmailQueue.processNext()` with zero callers
+while `enqueue()` is called on every user creation (an unbounded silently-growing queue), two scratch
+files with identical exports never imported yet shipped into the prod build (one logging a reset token
+to stdout), and a repository leaking its own backing array by reference. `seraph` audited
+`/tmp/dogfood-python` and found 5 majeurs: a validation boundary that only catches `ValueError` while
+a short CSV row yields `TypeError` (kills the whole batch instead of the promised typed failure), an
+unbounded/unvalidated `customer_id` that is the only outbound query parameter, a validator that ignores
+two text fields entirely, all-or-nothing quarantine across merged shards, and an `int()` parse that
+silently accepts forms (`"1_000"`, non-ASCII digits) other readers of the same CSV would reject
+differently. `laravel-architect` designed a full Tasks-domain feature for a fresh Laravel 13 project
+(schema, lomkit REST surface, permissions, state machine, notification chain, breakdown across five
+build specialists) and found a real gap in its own agent definition: `agents/laravel-architect.md`
+under-cited its own toolset, missing `laravel-recognise-state-machine-or-pipeline`,
+`laravel-mail-via-notifications`, `laravel-no-observers` and `laravel-idempotent-data-commands` — all
+four turned out to be exactly the skills that decided this feature's shape — and named nothing for the
+greenfield case where "the package this project already standardised on" is the empty set. Both folded
+into `agents/laravel-architect.md`'s LOOP. `README.md`'s status column updated for all five.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it

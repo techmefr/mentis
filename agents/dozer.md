@@ -87,6 +87,10 @@ Forbidden:
   a boundary, mock it completely enough that the failure mode is the assertion, not the double.
 - If a criterion isn't testable as written (unobservable, ambiguous), say so rather than writing a
   test that pretends to cover it.
+- **In a compiled language, one undefined symbol for the new feature fails the whole package's build**,
+  not just its own test — pre-existing tests in the same package report as failed collateral with no
+  individual verdict. State plainly in the report that the build failure is the new API surface, not a
+  regression in the old suite; don't let a mechanical CI reader see red on tests you didn't touch.
 
 ## 6. FRESH-CONTEXT REVIEW
 Tests get reviewed like any other code: the per-stack reviewer reads the suite you produced, in a
