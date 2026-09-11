@@ -12,7 +12,7 @@
   <img alt="hooks" src="https://img.shields.io/badge/hooks-4-bf8700?style=flat-square">
   <img alt="tests" src="https://img.shields.io/badge/tests-9%20suites%20%C2%B7%20216%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
-  <img alt="licence" src="https://img.shields.io/badge/licence-none%20yet-lightgrey?style=flat-square">
+  <a href="./LICENSING.md"><img alt="licence" src="https://img.shields.io/badge/licence-AGPL--3.0--or--later%20%2B%20commercial-1a7f37?style=flat-square"></a>
 </p>
 
 > [!NOTE]
@@ -50,6 +50,8 @@ The line-by-line breakdown is [`CATALOG.md`](./CATALOG.md); the summary is [Stat
 - 🧭 [`WORKFLOW.md`](./WORKFLOW.md) — the numbered pipeline, step → block routing
 - 📚 [`CATALOG.md`](./CATALOG.md) — the registry, every idea credited to its real source
 - 📐 [`CONVENTIONS.md`](./CONVENTIONS.md) — the single template, rules A/B/C
+- 🤝 [`CONTRIBUTING.md`](./CONTRIBUTING.md) — PR-only, and the contribution terms
+- ⚖️ [`LICENSING.md`](./LICENSING.md) — AGPL-3.0-or-later, or a commercial licence
 - 🖥️ [The native platform surface](./references/claude-code-platform.md) — what Claude Code already provides, so no block reimplements it
 
 </td>
@@ -519,14 +521,16 @@ flowchart LR
 
 ## Public repo, protected branch
 
-This repo is public and `master` is protected, for everyone including the owner (`enforce_admins` is
-on): **no direct push, no force push, no branch deletion**. Every change — mine included — goes
-through a pull request. A review isn't required to merge (no second maintainer reliably available to
-give one), but the PR itself, and the trail it leaves, is mandatory.
+This repo is public and `main` is protected, for everyone including the owner (`enforce_admins` is
+on): **no direct push, no force push, no branch deletion**, and the `gate` status check has to be
+green. Every change — mine included — goes through a pull request. A review isn't required to merge
+(no second maintainer reliably available to give one), but the PR itself, and the trail it leaves,
+is mandatory. **If you modify mentis, you open a PR** — the terms are in
+[`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
 ## Versioning
 
-Every change to `master` gets a semver tag (`vMAJOR.MINOR.PATCH`) so anyone who copied files out of
+Every change to `main` gets a semver tag (`vMAJOR.MINOR.PATCH`) so anyone who copied files out of
 this repo can tell if they're behind:
 
 | Bump | When |
@@ -842,4 +846,21 @@ questions rather than statements: `boromir` (Go), `theoden` (.NET), `samwise` (P
 
 ## Licence
 
-No licence chosen yet, internal repo for now, not meant to be public as-is.
+mentis is **dual-licensed** — [`LICENSING.md`](./LICENSING.md) has the full comparison.
+
+| | 🟢 [AGPL-3.0-or-later](./LICENSE) | 💼 Commercial |
+|---|---|---|
+| Use it, at work, commercially | ✅ | ✅ |
+| Modify it | ✅ | ✅ |
+| Keep your modifications private | ❌ — distributing it **or running it as a service** obliges you to publish the complete corresponding source, under AGPL | ✅ |
+| Ship it inside a closed product, or resell it | ❌ | ✅ |
+
+The AGPL's §13 is the point: the usual *"we never distribute it, we only host it"* escape is closed.
+For anything the AGPL doesn't allow, open an issue titled `Commercial licence`.
+
+**Contributing** — every change goes through a pull request, and opening one means agreeing to the
+[contribution terms](./CONTRIBUTING.md): you keep your copyright, your work stays free software
+under AGPL for everyone, and you grant the copyright holder the right to relicense it, which is what
+keeps the commercial track possible.
+
+Copyright © 2026 techmefr. See [`NOTICE`](./NOTICE).
