@@ -2086,6 +2086,46 @@ four turned out to be exactly the skills that decided this feature's shape — a
 greenfield case where "the package this project already standardised on" is the empty set. Both folded
 into `agents/laravel-architect.md`'s LOOP. `README.md`'s status column updated for all five.
 
+### Agent dogfood, 2026-09-11 (Laravel wave, slices 1-3, with a real process failure)
+
+`laravel-eloquent-expert` built the real data layer for a Tasks domain on a fresh Laravel 13 project
+(`xefi/laravel-osdd` installed and wired, migrations, models, a `TaskStatus` enum with a transition
+table, factories, scoped query classes) — verified live (15 users, 4 projects, 27 tasks, transitions
+behaving correctly, `php artisan test` green) and found real OSDD tooling gaps (`osdd:layer
+--target-path` wants the *parent* directory despite its help text saying otherwise; `osdd:start`
+deletes the SQLite file with no re-touch; a generated layer provider references a seeder and route
+files that don't exist yet).
+
+Slices 2 (`laravel-api-expert`, HTTP/lomkit/permissions) and 3 (`laravel-events-expert`, transition
+action/events/notifications) were then dispatched **in parallel on the same project — a real mistake**:
+both agents wrote to shared files (the layer's service provider, the transition exception, the
+transition action) and silently overwrote each other's work with no test going red, because each
+agent's own tests were written against its own version of the file. `laravel-events-expert` caught it
+mid-task and manually re-merged its lost transaction wrapper and event dispatch back in, and both
+agents independently flagged it as a roster gap. Fixed structurally in `dispatch-parallel`'s Guardrails:
+never run two Write-capable agents on the same project concurrently, even across "disjoint" slices,
+unless the slices are genuinely separate directories with zero shared files.
+
+Separately, mid-way through slice 2, a WSL restart wiped `/tmp` — destroying the entire project
+(migrations, models, both agents' code) with no warning, the same root cause `neo` hit earlier this
+session. `laravel-api-expert` lost its code before it could run `route:list` or test an endpoint, though
+it had already verified `lomkit/laravel-rest-api` v2.23.2 installs cleanly on Laravel 13 and surfaced
+several real lomkit gotchas by reading its source: excluding a field from mutation has no dedicated
+mechanism (only `fields()` gates both read and write, so hiding `status` from mutate needs branching
+on `$request instanceof MutateRequest`), a resource's `destroyQuery()`/`mutateQuery()` return value is
+discarded if the override doesn't mutate the builder in place (a silent authorization leak), lomkit
+Actions never pass through a policy at all (an action's own `handle()` must call `Gate::authorize`
+itself), and the OSDD auto-discovery gap laravel-architect had already flagged for policies is
+confirmed in practice: every `can()` on a model outside `App\Models` silently returns `false` without
+the explicit `Gate::policy()` registration. `laravel-events-expert` did complete and verify before the
+wipe (9 tests passed, including a rejected illegal transition and idempotent double-completion), and
+found two more real skill gaps: `laravel-no-observers` says nothing about never marking a `deleting`
+listener `ShouldQueue` (the parent row would be gone before the queued job runs), and
+`laravel-post-may-run-twice`'s doctrine doesn't transpose to a state transition's idempotence check,
+which is itself a check-then-act the skill's own doctrine would forbid for row creation. Fixed:
+`dogfooder.md` now targets `~/dogfood/<stack>`, never `/tmp`. `README.md`'s status column updated for
+both agents based on the real, verified work each completed before the environmental loss.
+
 ## 3. The rule that keeps us "in control" (reminder)
 
 We never wire a repo in as a dependency. We read → we extract the mechanism → we **rewrite** it

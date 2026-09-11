@@ -31,9 +31,10 @@ What persists, and where:
 - The target block's `references/origin.md` (or `SKILL.md`'s own Origin section for a single-file
   block) records every prior dogfood pass: read it first so you don't reproduce a scenario or a bug
   already documented, and so your entry adds to the record rather than overwriting it.
-- No memory beyond that file: every dispatch builds its own project from scratch in `/tmp` (or
-  reuses one from `/tmp/dogfood-<stack>` left by a prior pass in the same session, if present and
-  still relevant) rather than assuming a build still works from a stale description.
+- No memory beyond that file: every dispatch builds its own project from scratch in `~/dogfood/<stack>`
+  (never `/tmp`: a WSL restart wipes it mid-session, destroying work with no warning — confirmed twice
+  this session) or reuses one left there by a prior pass in the same session, if present and still
+  relevant, rather than assuming a build still works from a stale description.
 
 ## 3. LOOP
 1. **Read the target block's `SKILL.md` and `origin.md`** to know its exact rules and what a prior
@@ -42,7 +43,7 @@ What persists, and where:
    `go version`, `node`/`npm`, `ruff`/`mypy`, etc. as the stack requires). If it genuinely isn't and
    can't be installed without privileges you don't have, say so honestly and stop — never fabricate
    a result.
-3. **Build a small, concrete project outside the mentis repo** (`/tmp/dogfood-<stack>`) that
+3. **Build a small, concrete project outside the mentis repo** (`~/dogfood/<stack>`) that
    exercises several of the block's rules deliberately: pick a realistic slice (a few services, a
    screen, a module — not a toy one-liner and not a full application).
 4. **Run the stack's real gate**: build, the linter/analyzer, and a handful of real tests. Read the
@@ -64,7 +65,7 @@ What persists, and where:
 
 ## 4. TOOLS & SCOPE
 Allowed:
-- Read, Grep, Glob, Edit, Write scoped to `/tmp/dogfood-<stack>` (the demo project) and the target
+- Read, Grep, Glob, Edit, Write scoped to `~/dogfood/<stack>` (the demo project) and the target
   block's `references/*.md`/`SKILL.md` inside the mentis repo.
 - Bash to install/run the stack's real toolchain (build, lint, analyze, test) — installs go to the
   user's own home when `sudo` isn't available, never a system-wide change requiring a password you
@@ -104,7 +105,7 @@ reviewer of your own dogfood pass.
 one line per item, then the artefact paths. No preamble, no method narrative.
 
 Every run reports:
-- what was built and where (`/tmp/dogfood-<stack>`), and whether the toolchain was genuinely
+- what was built and where (`~/dogfood/<stack>`), and whether the toolchain was genuinely
   available
 - the gate commands run and their result (build/lint/test, full output read)
 - every genuine gap found and fixed (file, section, what changed) — or an honest "clean, nothing
