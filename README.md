@@ -297,10 +297,10 @@ exist to signal: `laravel-architect` never writes, the seven builders never revi
 | `trinity` | Implements NestJS/Node code (contracts first, never reviews its own code) | Real production experience (real build, 2026-09-10) |
 | `tank` | SQL tuning (MySQL/SQL Server) and Elasticsearch-Scout mapping/indexing | Written, not dogfooded yet |
 | `dozer` | Writes the test suite (test-casebook, default-FAIL); tests only, never implementation | Written, not dogfooded yet |
-| `keymaker` | Technical SEO audit of a live page/site, never edits | Written, not dogfooded yet |
-| `sparks` | Real-world performance audit of a live page/screen (Web Vitals, waterfall), never edits | Written, not dogfooded yet |
-| `link` | Technical a11y audit of a live page/site, never edits | Written, not dogfooded yet |
-| `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Written, not dogfooded yet |
+| `keymaker` | Technical SEO audit of a live page/site, never edits | Real production experience (real audit, 2026-09-11) |
+| `sparks` | Real-world performance audit of a live page/screen (Web Vitals, waterfall), never edits | Real production experience (real audit, 2026-09-11) |
+| `link` | Technical a11y audit of a live page/site, never edits | Real production experience (real audit, 2026-09-11) |
+| `mouse` | Manual/exploratory testing of a flow on a running app, never edits | Real production experience (real audit, 2026-09-11) |
 | `seraph` | Dedicated static security audit (code/config/dependencies), read-only, complements the native `/security-review` | Written, not dogfooded yet |
 | `smith` | Dynamic adversarial security probing on a running app (auth bypass, injection, IDOR), bounded to an explicitly authorised target, never edits | Written, not dogfooded yet |
 | `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | Written, not dogfooded yet |
