@@ -10,9 +10,7 @@ concrete way to wire a requirement into code, not the only way, and not one a DP
 be skipped on the strength of. Adapt the shape to the project's actual schema, stack version and
 threat model before trusting it.
 
-## 2.1 Anonymising/pseudonymising a user record (Laravel)
-
-A deletion request (§3.2 of the router) often can't be a hard `DELETE` — foreign keys from orders,
+1. **Anonymising/pseudonymising a user record (Laravel).** A deletion request (step 3 of the router `SKILL.md`) often can't be a hard `DELETE` — foreign keys from orders,
 invoices or audit trails point at the row, and removing it breaks referential integrity or destroys
 records you're legally required to keep for accounting purposes. Anonymising in place — overwriting
 the identifying fields while keeping the row and its relations intact — is the common answer. A
@@ -73,9 +71,7 @@ and whether the search index / cache / analytics events already emitted for that
 matching purge — the CNIL guidance in §1 (`references/01-cnil-france.md`) treats "the record survives
 elsewhere" as the normal way a deletion fails silently.
 
-## 2.2 Cookie/tracker consent (Nuxt)
-
-The CNIL rule in §1.3 (`references/01-cnil-france.md`) — refuse as easily as accept, no script fires
+2. **Cookie/tracker consent (Nuxt).** The CNIL rule in `references/01-cnil-france.md` point 3 — refuse as easily as accept, no script fires
 before consent, revocation stays reachable — translates into three concrete requirements on a Nuxt
 app: a categorised list of trackers (not a single accept/reject toggle), a load gate that keeps
 non-essential scripts out of the DOM until their category is granted, and a persistent way back into
@@ -143,14 +139,11 @@ load()
 ```
 
 `ConsentBanner` presents "accept all" / "refuse all" as two controls of identical weight and size —
-the symmetry §1.3 asks for is a layout decision as much as a code one — plus a link into a settings
-view that calls `revoke()`, reachable from the footer at any time rather than only on first visit.
-An accessible, non-color-only way to distinguish the two buttons matters here too
-(`skills/accessibility`).
-
-## 2.3 Scheduled purge / retention job (Laravel)
-
-A retention period named in §1.2 needs a mechanism that actually runs, not a comment in a policy
+the symmetry `references/01-cnil-france.md` point 3 asks for is a layout decision as much as a code
+one — plus a link into a settings view that calls `revoke()`, reachable from the footer at any time
+rather than only on first visit. An accessible, non-color-only way to distinguish the two buttons
+matters here too (`skills/accessibility`).
+3. **Scheduled purge / retention job (Laravel).** A retention period named in `references/01-cnil-france.md` point 2 needs a mechanism that actually runs, not a comment in a policy
 document. The Laravel scheduler plus a command per retention rule keeps each rule visible and
 independently testable:
 
@@ -184,15 +177,12 @@ final class PurgeStaleProspectsCommand extends Command
 $schedule->command('gdpr:purge-stale-prospects')->daily();
 ```
 
-The `3 years` cutoff here is the CNIL prospect-retention figure from §1.2 — written as a named,
-searchable constant tied to its source in the real project (`RetentionPeriod::PROSPECT_INACTIVITY`
-or equivalent), not a bare `subYears(3)` a future reader has no way to trace back to a regulation.
-One retention rule per command keeps the `gdpr:*` namespace as the single place someone audits when
-asked "what do we actually delete, and when."
-
-## 2.4 Keeping personal data out of logs and exception reporters
-
-Same reasoning as `SKILL.md` §3.4 and `skills/auth-session-conventions` §2.1/§2.4 for credentials:
+The `3 years` cutoff here is the CNIL prospect-retention figure from `references/01-cnil-france.md`
+point 2 — written as a named, searchable constant tied to its source in the real project
+(`RetentionPeriod::PROSPECT_INACTIVITY` or equivalent), not a bare `subYears(3)` a future reader has
+no way to trace back to a regulation. One retention rule per command keeps the `gdpr:*` namespace as
+the single place someone audits when asked "what do we actually delete, and when."
+4. **Keeping personal data out of logs and exception reporters.** Same reasoning as `SKILL.md` step 3 point 4 and `skills/auth-session-conventions` §2.1/§2.4 for credentials:
 logs and third-party exception reporters have wider read access and longer retention than the system
 that produced the data, and a serialised request body or a stack trace is exactly where personal
 data leaks in without anyone deciding to export it.
@@ -242,6 +232,7 @@ same request.
   shows the shape, not a shippable diff.
 - **Never treat "we wrote the purge command" as "the retention rule is enforced.**" A scheduled
   command that isn't wired into the scheduler, or that silently stops running, produces exactly the
-  false confidence §1.2 warns about.
-- **Never assume the exception-reporter scrub in §2.4 is the only export path** — a query logger, an
-  analytics event, a webhook payload can each carry the same data through a different pipe.
+  false confidence `references/01-cnil-france.md` point 2 warns about.
+- **Never assume the exception-reporter scrub in point 4 above** is the only export path — a query
+  logger, an analytics event, a webhook payload can each carry the same data through a different
+  pipe.

@@ -115,8 +115,9 @@ published guidance — its AIPD pages, its retention-period guide, its cookies r
 DPO-designation guidance and its register-of-processing guidance, all cited by URL inline and checked
 2026-09-29 — **not itself CNIL-endorsed**: it's this block's reading of CNIL's public documents,
 same non-authoritative register as the rest of `business/`. One figure is flagged unresolved rather
-than asserted: connection-log retention, where sources cited disagree between roughly 6 months and 1
-year (§1.2 of that file states the disagreement and defers the exact number to the DPO/legal team).
+than asserted: connection-log retention, where CNIL's own published range spans roughly 6 months to
+1 year (`references/01-cnil-france.md` §1.2 states the range and defers the exact figure within it to
+the DPO/legal team).
 `references/02-code-patterns.md` is original engineering translation — Laravel/Nuxt patterns for
 anonymisation, consent, scheduled purges and log scrubbing — written by us, not sourced from CNIL or
 any external catalogue, and stated as illustrative rather than certified in its own opening
