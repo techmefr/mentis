@@ -79,3 +79,28 @@ confronted with the first real audit. What the depth changes is what the block i
 meantime — a reviewer citing a point can now say what it costs the reader, which is what makes an
 accessibility remark survive a discussion about priorities. The `link` agent remains the reader for a
 whole page or site in production; this block stays scoped to the diff.
+
+**§5 (RGAA) added 2026-09-29.** The block previously deferred all RGAA specifics to "an org design
+catalogue" — a skill that isn't actually part of `mentis`, so a plain-repo install of this block had
+nothing to read RGAA from at all (`CATALOG.md` §0: a rule can't be left broken on a plain repo). RGAA 4.1
+is now written up directly in `references/05-rgaa.md`: what it is and who it legally binds, the 13
+thématiques and 106 criteria, the official per-criterion test methodology that is the actual difference
+from a WCAG-level judgment call, the mandatory déclaration d'accessibilité (schéma pluriannuel, plan
+d'action annuel, per-page mention, required content) and what triggers it, and the sanction regime under
+the 2023 decree. `SKILL.md`'s boundary paragraph was rewritten: it no longer names an org catalogue as the
+source for RGAA — that catalogue, where one exists, still owns a **mockup-time numeric threshold** (same
+carve-out as `business/interface-design` §0), but RGAA itself is now self-sufficient here.
+
+Sources read for §5: the official RGAA 4.1 reference
+([accessibilite.numerique.gouv.fr](https://accessibilite.numerique.gouv.fr/), its
+[critères et tests](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/) page, and the
+[RGAA 4.1 PDF](https://accessibilite.numerique.gouv.fr/doc/RGAA-v4.1.pdf)) for the criteria count,
+thématiques and test-methodology structure; secondary sources (Handinova, Ouzom, rgaa-checker.com,
+sk-web.fr) for the 2023 decree's private-sector threshold, deadline and sanction amounts — checked
+2026-09-29. **Flagged unverified inside §5 itself, deliberately, rather than asserted as fact**: the exact
+private-sector turnover/headcount threshold and compliance deadline (secondary sources agree on shape,
+not independently confirmed against the décret's own text); the exact sanction amounts under the
+ordonnance 2023-859 regime; and whether 106 criteria still holds for whichever RGAA point-release is
+current when this is read — the count is versioned and this pass checked 4.1 only, on 2026-09-29.
+Re-verify all three before they land in a contract or a legal document, same discipline as the contrast
+thresholds in §3.
