@@ -6,7 +6,8 @@ description: Use when writing or reviewing tests, the specific ways a test suite
 # testing-anti-patterns
 
 Step 5 of the pipeline (`WORKFLOW.md`), and a review lens at step 8. `tdd` says tests come first;
-this block is about the tests that exist, run, pass, and prove nothing.
+`skills/run-generated-tests` says a written test has to actually run, scoped; this block is about
+the tests that exist, run, pass, and prove nothing.
 
 Every pattern here has the same shape: **the suite is green and the safety is imaginary**. That's
 worse than having no tests, because nobody checks manually anymore.

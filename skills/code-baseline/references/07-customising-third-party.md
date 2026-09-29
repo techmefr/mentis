@@ -61,3 +61,32 @@
     line; editing a file inside a package/dependency directory directly; a duplicated upstream template
     that will drift the moment the package updates; reaching for "replace the whole thing" without having
     checked for a config key first.
+16. **Point 10 is about a missing hook; this is about a defect.** When the root cause is a genuine bug in
+    the dependency — a missing validation rule, an unhandled type, a documented behaviour the package
+    itself doesn't honour — the ladder above doesn't apply, because there is no narrower legitimate hook
+    for behaviour the package never intended. The fix belongs upstream: a public issue on the package's own
+    tracker, and a pull request when the fix is small enough to write. Never a local shim (a middleware, a
+    subclass overriding one method, a `try`/`catch` swallowing the exception the package shouldn't throw)
+    that reproduces the missing behaviour for one call site in one project.
+17. **A local shim fixes one call site in one project; an upstream fix fixes every project on that
+    package, including the rest of this one.** A shim also can't see the package's internals move: it
+    encodes today's shape from the outside, so the next upstream release either leaves it silently
+    guarding nothing or rejects input the package now accepts. And it never gets removed — when the real
+    fix lands upstream, the shim usually stays, so the codebase carries two guards, one authoritative and
+    one stale.
+18. **Reproduce against the package before concluding it's a bug**, stripped of the application entirely —
+    that is the artefact the issue is built from, and it often reveals the fix is actually a documented
+    hook, moving the case back to point 1's ladder. Then check the tracker and the changelog: it may
+    already be fixed on an unreleased branch, in which case the "fix" is a version-constraint bump, not a
+    patch.
+19. **A local bridge is legitimate only as a stated, temporary measure that follows the upstream report,
+    never as the recommendation.** It has to be the narrowest thing that works, named for what it bridges
+    with the upstream link and the version that removes it stated in the commit message (never in the code
+    — `skills/code-baseline` §1's ticket-reference rule applies the same way to an upstream issue link), go
+    through the package's own extension surface rather than around it (point 4), and be deleted in the same
+    change that bumps to the fixed release. A bridge with no upstream report behind it is a workaround with
+    better paperwork.
+20. **Not every rough edge is a bug worth filing.** Customising documented behaviour is point 1's ladder,
+    not this point; a maintainer's on-the-record "won't fix, out of scope" is a legitimate answer to link
+    and keep the local code for; and a genuinely abandoned package (no releases, no response to issues in
+    years) is a fork-or-replace decision to raise explicitly, not a workaround to write quietly.

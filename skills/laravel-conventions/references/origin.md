@@ -788,3 +788,18 @@ commands, config typed accessors, queue batches and connections, notifications, 
 conditions — `laravel.com/docs/12.x/{errors,console-tests,queues,configuration}`, `api.laravel.com/docs/12.x`,
 `pestphp.com/docs/pest-v4-is-here-now-with-browser-testing`, Larastan's own documentation, and PHPStan's
 baseline documentation, all read 2026-09-10. The marketplace XEFI was never opened for this pass.
+
+**§7 gains points 47–51, 2026-09-29 — factories and Faker providers.** Mined from an org skill catalogue's
+Laravel plugin, whose `custom-faker-extensions`/`faker-extensions`/`seeder-conventions` skills shipped
+2026-09-17 through 2026-09-24 (the org's own tracking, read that date). The gap was real: §7 already said
+seeder data comes from Faker (point 4) but had nothing on *where generation logic that Faker's core doesn't
+cover belongs* — the factory ends up carrying it inline. Rewritten around the public `fakerphp/faker`
+extension mechanism (`Faker\Provider\Base` subclasses, `$faker->addProvider()`) rather than the source's own
+internal Faker fork, whose registration model (a kebab-cased global registry keyed off the short class name,
+a `composer.json` `extra.faker` manifest, a `resolveExtensions()` runtime call that throws on a second
+invocation) is specific to a proprietary package this repo doesn't carry and isn't publicly reusable (rule C).
+What transfers and is kept: a factory attribute is one generator call, generation logic that needs more than
+a call belongs in a registered provider, and a seeder's fallback to inline generation is not an option —
+stated as the source's own explicit behaviour change. The extracted narrow-trigger satellite is
+`skills/laravel-faker-provider-extensions`. Word count re-measured with `bin/measure_depth.py` after the
+edit.
