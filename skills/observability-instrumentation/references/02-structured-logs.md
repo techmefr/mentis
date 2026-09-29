@@ -47,3 +47,18 @@
 12. **A log the format of which nothing reads is unstructured after all.** Fields renamed per service,
     a timestamp in a local format, a level as a number in one place and a word in another: each breaks
     the cross-service query that was the point of structuring. One vocabulary, declared once.
+13. **The error-tracking event and the log line are not the same instrument, and one failure gets one
+    of each at most.** The event is for an anomaly somebody would act on — it carries a stack trace, a
+    release and a user for reproduction — the log line is for the routine record of what happened to
+    the request. Reporting the same failure to both, or reporting an expected condition (validation,
+    not-found, a handled retry) as an event, produces the noise that buries the anomaly that mattered.
+    In Laravel, this is the `reportable()`/`dontReport` split in the exception-handling configuration
+    (`bootstrap/app.php`, or `App\Exceptions\Handler` on older versions) — the same place
+    `business/data-protection` §2.4 scrubs personal data before either destination — plus
+    `Log::channel()` for the routine record, never both for one exception. The correlation ID from
+    point 2 threads through a queued job via the job's own context (carried on the payload or restored
+    from `Context` at the start of `handle()`), because the queue is exactly the boundary point 2 warns
+    breaks propagation by default. In Nuxt, the same split is a server-side error hook (its own
+    `beforeSend`, §2.4 of `business/data-protection` again for the client-side sketch) versus whatever
+    the server middleware logs on every request — a request ID assigned once at the edge and read back
+    out of the same middleware, not regenerated per log call.

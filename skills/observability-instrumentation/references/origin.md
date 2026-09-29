@@ -69,3 +69,14 @@ Router plus sections: 511 → 3,048.
 cannot do with instrumentation that was written for the code rather than for the incident. The block
 still has no real incident behind it in this repo, and `devops-conventions` continues to own the
 platform side.
+
+**§2 point 13 added 2026-09-29** (issue #114): checked first whether a Laravel/Nuxt-backend
+equivalent of `skills/sentry-flutter` was a genuine gap. It wasn't, once checked — neither
+`skills/sentry-flutter` nor any Laravel/Nuxt observability skill exists in the org catalogue to mine
+from, and the substance the issue asked for (structured-logging conventions, the error-event-vs-log
+boundary, incident traceability) was already stated generically in §2 points 1–12 and §4; what was
+genuinely missing was the stack-specific mechanism — which Laravel/Nuxt hook is the event-vs-log
+boundary, and how the correlation ID survives a Laravel queued job — not a new principle. Added as one
+point rather than a new skill: `business/data-protection` §2.4 already carries the Laravel exception-handler
+and Nuxt `beforeSend` scrub sketches this point cross-references, so the stack-specific surface here is
+a few sentences, well short of what would justify a dedicated block on the `sentry-flutter` model.
