@@ -52,18 +52,31 @@ before scoring it.
 
 - **Public sector**: state, local authorities, and public establishments — always bound, this is the
   standard's original scope (loi n°2005-102, décret n°2019-768).
-- **Private sector, since the 2023 decree**: an ordonnance and a décret published 10 October 2023
-  extended the obligation to large private companies, historically only those above €250M turnover,
-  down to a lower threshold — reported as **more than 10 employees and more than €2M turnover**
-  ([Ouzom](https://ouzom.fr/blog/posts/rgaa-2026/),
-  [rgaa-checker.com](https://rgaa-checker.com/guide/rgaa-definition)) — with a compliance deadline
-  reported as **28 June 2025**. **Verify the exact headcount/turnover figures and the deadline
-  against the décret's current text (or the DINUM/Défenseur des droits guidance) before stating them
-  to a client or in a legal document** — secondary sources agree on the shape of the threshold but
-  this reference cannot certify the figure is still current.
-- A separate, EU-wide regime (the European Accessibility Act, EAA) runs in parallel for certain
-  private digital products/services and is **not the same obligation or the same enforcement body**
-  as RGAA — don't conflate the two when scoping which one applies to a given client
+- **Large private companies, under RGAA/loi 2005-102 itself**: article 47 of loi n°2005-102 binds
+  private organisations above **€250M average annual turnover in France over the last three
+  accounting years** — this is the historical RGAA private-sector threshold and it did **not**
+  change with the 2023 texts; the official portal still states it this way
+  ([accessibilite.numerique.gouv.fr/obligations/champ-application](https://accessibilite.numerique.gouv.fr/obligations/champ-application/)).
+  Ordonnance n°2023-859 (6 September 2023) changed **enforcement** for this same population — it
+  created ARCOM's sanction power (§5.4) — not the threshold itself.
+- **Don't confuse that with the EAA's much lower threshold** (below): a company under €250M turnover
+  can still be bound, but by the EAA, not by RGAA, and the two obligations differ in scope and
+  enforcement body.
+- **European Accessibility Act (EAA, directive 2019/882)**: a separate, EU-wide regime, transposed
+  into French law by **loi n°2023-171 du 9 mars 2023** and applicable **since 28 June 2025**. It
+  binds specific categories of private "services" — e-commerce, banking, transport ticketing,
+  telecoms, e-books, and a few others named by the directive — **not every private digital product**.
+  Its own **micro-enterprise exemption** is what sits at **fewer than 10 employees AND at most €2M
+  annual turnover or balance-sheet total**: an organisation has to clear *both* thresholds to be
+  exempt, and clearing either one alone is enough to be in scope if it also offers an EAA-listed
+  service. This is the figure earlier drafts of this section had mislabelled as an RGAA threshold —
+  it is EAA's, and it only reaches EAA-listed services, not RGAA's general private-sector scope
+  ([Sorena — microenterprise exemption](https://www.sorena.io/artifacts/eu/accessibility-act/faq/microenterprise-and-disproportionate-burden-decisions),
+  [Quertum — EAA in France](https://quertum.net/accessibility-act-in-france-rgaa/)).
+- **RGAA and EAA are not the same obligation and not the same enforcement body** — scoping which one
+  (or both) applies to a given client means checking the client's turnover against RGAA's €250M line
+  *and* separately checking whether it offers an EAA-listed service, rather than reading one
+  threshold as if it settled both questions
   ([rgaa-checker.com](https://rgaa-checker.com/blog/risques-juridiques-accessibilite)).
 
 ## 5.3 The déclaration d'accessibilité: what's mandatory and what triggers it

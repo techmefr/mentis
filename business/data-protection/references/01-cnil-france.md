@@ -50,12 +50,12 @@ secondary trackers:
   end** (e.g. from the last order), before archiving or deletion.
 - **Cookies and trackers**: lifetime capped at **13 months**, with data collected through them kept
   no more than **25 months** (CNIL's cookies recommendation, §1.3).
-- **Connection/access logs**: sources diverge between roughly **6 months and 1 year** depending on
-  the specific guidance cited (CNIL's own journalisation recommendation vs. commonly cited
-  code-de-la-sécurité-intérieure practice) — **this is the one figure in this section not
-  independently resolved; confirm the current applicable duration for logs specifically with the
-  DPO/legal before hard-coding a retention job around it**, rather than picking whichever number
-  looks more convenient.
+- **Connection/access logs**: CNIL's own recommendation (délibération n°2021-122 du 14 octobre 2021 on
+  journalisation) gives a **range, not a single figure — roughly 6 months to 1 year, extensible up to
+  around 3 years or more for a duly justified higher-risk case**. This is deliberately not a single
+  number to hard-code: **the actual duration inside that range is a risk-based call the DPO/legal
+  team makes for the specific processing**, not a figure this checklist can pick for you — confirm
+  where a given project sits in the range before wiring a retention job around it.
 - **CCTV / employee monitoring / other categories**: CNIL's guide above covers more categories than
   listed here (HR files, video surveillance, etc.) — read it directly for anything not named above
   rather than assuming a category not listed here has no published figure.
