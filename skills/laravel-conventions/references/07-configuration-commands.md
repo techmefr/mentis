@@ -231,3 +231,43 @@
     by hand from scratch is friction a generated stub removes. The stub still needs the actual prompt and
     exit-code assertions (points 21, 41, 42) filled in; the flag only saves creating the file in the right
     place with the right base class.
+47. **A factory's `definition()` maps each attribute to one Faker call; the moment an attribute needs logic
+    to produce its value, that logic belongs in a Faker provider, not in the factory.** `'reference' =>
+    'CMD-'.str_pad((string) random_int(1, 999999), 6, '0', STR_PAD_LEFT)` is a generator hiding inside a
+    column list; `$faker->unique()->orderReference()` reads as a column-to-generator map because it is one.
+    The distinction matters beyond style: `unique()`, `nullable()` and a regex constraint only wrap a real
+    generator call — they cannot wrap a string glued together inline, so a factory that builds its own
+    reference also ends up writing its own collision-retry loop and its own `rand(0, 1) ? null : …`.
+48. **`Faker\Provider\Base` is the extension point, registered once through `$faker->addProvider(new
+    ...)` in a service provider's `boot()`, never called from inside a factory, a seeder or a test.**
+    Point 5 of `skills/laravel-conventions` §1 already forbids a lifecycle closure doing this kind of
+    one-time setup from anywhere but a provider; a factory that registers its own provider on every
+    `definition()` call re-registers it on every row, and a test that registers one in `setUp()` leaks it
+    into every test that runs after, in the same process, whether or not that test asked for it.
+49. **Every public method on a provider becomes a generator Faker exposes** — `$faker->yourMethod()` —
+    so a provider's own helper methods that aren't meant to be called that way stay `private` or
+    `protected`. Naming the provider and its methods after the project's own domain
+    (`OrderReferenceProvider::orderReference()`) rather than after a generic concept avoids the one real
+    collision risk: a provider registered twice, or two providers exposing the same method name, silently
+    lets the last registration win and nobody notices until the wrong generator answers.
+50. **Reach for a locale or a community `fakerphp/faker` extension before writing a project provider.**
+    `fakerphp/faker`'s own locale packages already carry realistic company names, VAT-style business
+    identifiers and addresses for most locales; a hand-rolled string that merely *looks* plausible (a
+    fourteen-digit number where the real format carries a check digit) is a fixture the validation rules
+    the application ships elsewhere would reject, and it rots silently because nothing re-checks a factory
+    value against those rules.
+51. **A seeder consumes the same generators a factory does, and inline generation is not a fallback for
+    either of them.** Point 12's idempotent-upsert rule and this point are independent: a seeder that
+    falls back to `'reference' => 'INV-'.Str::random(8)` when no provider covers the value has reintroduced
+    point 47's problem one call site removed from the factory, for the same reason — the value still needs
+    a name, a place to live, and a way to be made unique that a bare string literal cannot give it.
+52. **In a layer-package (OSDD-style) project, there is no  at the project root** — each
+   layer carries its own, including its overrides of third-party packages, loaded before providers
+   register. See  for the load-order trap this creates (an override
+   posted from a provider's  arrives after the package already read its own settings, and
+   is dropped with no error) and the test that catches it.
+52. **In a layer-package (OSDD-style) project, there is no `config/` at the project root** — each
+   layer carries its own, including its overrides of third-party packages, loaded before providers
+   register. See `skills/laravel-layer-owned-config` for the load-order trap this creates (an override
+   posted from a provider's `register()` arrives after the package already read its own settings, and
+   is dropped with no error) and the test that catches it.

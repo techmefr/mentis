@@ -49,6 +49,10 @@ What persists, re-read every task from wherever the operator keeps it (never har
    or `design-patterns` §4's State entry condition. Never a DB-level enum: `laravel-no-db-enums`.
 4. **Decide the permission model**: what gate exists, whether it's access-only or scoped, named in
    `laravel-permissions-not-roles` terms.
+5. **On a multi-tenant project, decide data residency per table**: central only if it must be
+   answerable before any tenant is open, tenant otherwise (`laravel-tenant-context-by-default`); a
+   record needed identically in several tenants is a replica, not a duplicated central table
+   (`laravel-tenant-replica`).
 5. **Decide deletion and async side effects up front, not left to the build specialist to discover**:
    `laravel-no-observers` (a `deleting` reaction is an explicit listener, never `boot()`), any
    user-facing email goes through `laravel-mail-via-notifications`, and a scheduled/CLI piece that
@@ -59,6 +63,9 @@ What persists, re-read every task from wherever the operator keeps it (never har
 7. **On a greenfield project with no existing package to follow**: state the package choice as its own
    decision with a one-line reason (checked against the framework's current supported range), rather
    than deferring to "whatever this project already uses" — that has nothing to defer to yet.
+8. **On an OSDD (layer-package) project, name each new layer for what it owns before naming it** —
+   never `core`/`common`/`shared`/`socle` (`no-catch-all-layer`) — and note in the breakdown when a
+   new setting belongs in that layer's own `config/`, not the project root (`laravel-layer-owned-config`).
 6. **Exit condition**: the breakdown is handed back once every specialist's slice has a criterion a test
    can check — never "the design is elegant enough", which has no exit.
 

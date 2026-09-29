@@ -218,3 +218,25 @@
    Laravel's service container refuses on its behalf; the boundary is only as real as the static-analysis
    rule point 7 already asks for, because nothing at runtime stops a provider from binding a concrete class
    straight out of another module's namespace and every caller resolving it none the wiser.
+41. **A functional or technical layer is named for what it owns, never for its position** (,
+   , , , , ). A positional name refuses no file, so every
+   unplaced piece of code lands there until the layer is the application and every other layer depends
+   on it — see  for the naming rule, the placement question, and how an
+   existing catch-all is dissolved rather than added to.
+42. **In a database-per-tenant project, tenancy is one named technical layer** (point 1's split
+   applies to it exactly like any other infrastructure concern), and each functional/technical layer
+   keeps its own tenant schema under its , declared from the same layer
+   buckets point 5's scaffolding already tracks. See  for
+   what belongs centrally versus per tenant, and  for the one shape of
+   record that legitimately exists on both sides.
+41. **A functional or technical layer is named for what it owns, never for its position** (`core`,
+   `common`, `shared`, `socle`, `transverse`, `utils`). A positional name refuses no file, so every
+   unplaced piece of code lands there until the layer is the application and every other layer depends
+   on it — see `skills/no-catch-all-layer` for the naming rule, the placement question, and how an
+   existing catch-all is dissolved rather than added to.
+42. **In a database-per-tenant project, tenancy is one named technical layer** (point 1's split
+   applies to it exactly like any other infrastructure concern), and each functional/technical layer
+   keeps its own tenant schema under its `database/migrations/tenant/`, declared from the same layer
+   buckets point 5's scaffolding already tracks. See `skills/laravel-tenant-context-by-default` for
+   what belongs centrally versus per tenant, and `skills/laravel-tenant-replica` for the one shape of
+   record that legitimately exists on both sides.
