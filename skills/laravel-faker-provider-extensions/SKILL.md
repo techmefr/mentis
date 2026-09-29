@@ -28,11 +28,17 @@ value needs more than a single generator call to produce.
    require.
 5. **Seeders follow the same rule.** Falling back to an inline string when no provider covers a value
    reintroduces the problem one call site removed from the factory.
+6. **`unique()` on a bounded set breaks the suite, not just one test.** Faker's `unique()` modifier
+   tracks drawn values in a pool that is static for the process — fine against an effectively
+   unbounded generator (`email()`, `uuid()`), but a bounded set (an enum, a fixed vocabulary array, a
+   provider method with few possible outputs) exhausts that pool after enough factory calls across
+   the whole run, and every call after that throws. Use `Sequence` (or a plain counter passed into the
+   provider) instead of `unique()` whenever the underlying value space is small.
 
 ## Output / checkpoint
 No factory or seeder attribute in the diff builds its value with anything beyond one generator call
-and its modifiers (`unique()`, `nullable()`, a regex/format constraint) — every attribute needing
-logic resolves to a provider method, registered once.
+and its modifiers (`nullable()`, a regex/format constraint) — every attribute needing logic resolves
+to a provider method, registered once, and `unique()` is only used against an unbounded value space.
 
 ## Guardrails
 - This is the generation-logic half of `skills/laravel-conventions` §7's config/commands/seeders/
@@ -52,3 +58,8 @@ mechanism kept is the one that transfers to any `fakerphp/faker` project: factor
 generator map, and generation logic lives in a registered provider. The source's explicit behaviour
 change — a seeder no longer allows inline generation as a fallback — is kept as point 5. Written
 2026-09-29.
+
+Point 6 added 2026-09-29, mined from the same catalogue's `no-fakerphp` skill: `unique()`'s draw pool
+is process-static, so it is safe against an unbounded generator but throws once a bounded value space
+(an enum, a short vocabulary) is exhausted across the run — `Sequence` is the fix kept here, since it
+is a public `fakerphp/faker` mechanism and not specific to the source's internal fork.
