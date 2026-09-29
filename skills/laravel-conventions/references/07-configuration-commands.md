@@ -261,11 +261,6 @@
     falls back to `'reference' => 'INV-'.Str::random(8)` when no provider covers the value has reintroduced
     point 47's problem one call site removed from the factory, for the same reason — the value still needs
     a name, a place to live, and a way to be made unique that a bare string literal cannot give it.
-52. **In a layer-package (OSDD-style) project, there is no  at the project root** — each
-   layer carries its own, including its overrides of third-party packages, loaded before providers
-   register. See  for the load-order trap this creates (an override
-   posted from a provider's  arrives after the package already read its own settings, and
-   is dropped with no error) and the test that catches it.
 52. **In a layer-package (OSDD-style) project, there is no `config/` at the project root** — each
    layer carries its own, including its overrides of third-party packages, loaded before providers
    register. See `skills/laravel-layer-owned-config` for the load-order trap this creates (an override
