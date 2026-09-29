@@ -79,3 +79,44 @@ confronted with the first real audit. What the depth changes is what the block i
 meantime — a reviewer citing a point can now say what it costs the reader, which is what makes an
 accessibility remark survive a discussion about priorities. The `link` agent remains the reader for a
 whole page or site in production; this block stays scoped to the diff.
+
+**§5 (RGAA) added 2026-09-29.** The block previously deferred all RGAA specifics to "an org design
+catalogue" — a skill that isn't actually part of `mentis`, so a plain-repo install of this block had
+nothing to read RGAA from at all (`CATALOG.md` §0: a rule can't be left broken on a plain repo). RGAA 4.1
+is now written up directly in `references/05-rgaa.md`: what it is and who it legally binds, the 13
+thématiques and 106 criteria, the official per-criterion test methodology that is the actual difference
+from a WCAG-level judgment call, the mandatory déclaration d'accessibilité (schéma pluriannuel, plan
+d'action annuel, per-page mention, required content) and what triggers it, and the sanction regime under
+the 2023 decree. `SKILL.md`'s boundary paragraph was rewritten: it no longer names an org catalogue as the
+source for RGAA — that catalogue, where one exists, still owns a **mockup-time numeric threshold** (same
+carve-out as `business/interface-design` §0), but RGAA itself is now self-sufficient here.
+
+Sources read for §5: the official RGAA 4.1 reference
+([accessibilite.numerique.gouv.fr](https://accessibilite.numerique.gouv.fr/), its
+[critères et tests](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/) and
+[champ d'application](https://accessibilite.numerique.gouv.fr/obligations/champ-application/) pages,
+and the [RGAA 4.1 PDF](https://accessibilite.numerique.gouv.fr/doc/RGAA-v4.1.pdf)) for the criteria
+count, thématiques, test-methodology structure and the RGAA private-sector threshold; secondary
+sources (rgaa-checker.com, sk-web.fr, Sorena, Quertum) for the ordonnance 2023-859 sanction amounts
+and the EAA's own threshold and transposition date — checked 2026-09-29, both directly against
+`accessibilite.numerique.gouv.fr` where that page states the figure.
+
+**Correction made same day, before merge: the private-sector threshold in an earlier draft of §5.2
+was wrong.** It stated RGAA's own private-sector threshold as "more than 10 employees and more than
+€2M turnover" — that figure is the European Accessibility Act's micro-enterprise exemption (directive
+2019/882, French transposition loi n°2023-171 du 9 mars 2023, applicable since 28 June 2025), a
+separate regime covering specific EAA-listed services, not RGAA's general private-sector scope. The
+official RGAA portal states the RGAA private-sector threshold as **€250M average annual turnover**,
+unchanged by the 2023 texts — those texts (ordonnance 2023-859) changed ARCOM's enforcement powers for
+the existing population, not the threshold itself. §5.2 now states both thresholds separately, sourced
+from the official portal (RGAA's €250M line) and from EAA-specific secondary sources (the microenterprise
+exemption), and says explicitly not to read one as settling the other.
+
+**Still flagged unverified inside §5, deliberately, rather than asserted as fact**: the exact sanction
+amounts under the ordonnance 2023-859 regime (multiple secondary sources agree on €50k/€25k renewable
+~6-monthly, not independently confirmed against the ordonnance's own text); and whether 106 criteria
+still holds for whichever RGAA point-release is current when this is read — the count is versioned
+and this pass checked 4.1/4.1.2 only, on 2026-09-29, confirmed independently across the official RGAA
+4.1 PDF and two independent trackers (Handinova, rgaa-test.fr), which additionally agree on 258 tests
+across the 106 criteria (not yet stated in §5.1, could be added). Re-verify the sanction amounts before
+they land in a contract or a legal document, same discipline as the contrast thresholds in §3.

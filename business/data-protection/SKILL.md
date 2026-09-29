@@ -43,6 +43,13 @@ Take these to the DPO/legal rather than guessing:
 - **Does this need a formal impact assessment?** Large-scale, sensitive or systematic-monitoring
   processing may. That call isn't ours.
 
+**For a French project, or a French DPO/legal team**, GDPR's open wording above ("appropriate",
+"high risk") has a published, concrete answer from CNIL: the AIPD trigger grid, retention-period
+figures by data category, the cookie-consent regime and the DPO-designation criteria are in
+[`references/01-cnil-france.md`](./references/01-cnil-france.md). Read it before taking a retention
+period or an AIPD call to the DPO, so the question arrives with CNIL's own figure attached rather
+than "how long is normal?"
+
 ### 3. What the code has to provide
 1. **Access and portability**: a person can ask what you hold about them. If satisfying that request
    means a developer writing a bespoke query each time, it will be slow and eventually wrong.
@@ -58,6 +65,12 @@ Take these to the DPO/legal rather than guessing:
    knowingly.
 6. **Access is scoped**: the same discipline as any authorisation
    (`skills/security-hardening` §3), applied to the data most likely to be requested.
+
+**For a concrete Laravel/Nuxt shape of items 2, 4 and 5 above** — anonymising a record instead of a
+hard delete, a scheduled purge job tied to a named retention figure, a cookie-consent integration,
+and keeping personal data out of logs and exception reporters — see
+[`references/02-code-patterns.md`](./references/02-code-patterns.md). Illustrative patterns to adapt,
+not a certified implementation.
 
 ### 4. Third parties
 1. **A new service that receives personal data is a decision, not a dependency choice.** It needs a
@@ -93,3 +106,19 @@ expertise**, deliberately shaped as "which questions must reach a lawyer" rather
 engineering consequences — logs and URLs, search indexes and backups surviving a deletion, exception
 reporters exporting data unnoticed, non-production copies — are ours, and are the part this block adds
 that a legal summary wouldn't.
+
+**Sectioned 2026-09-29**, following the split already used by `business/interface-design`,
+`business/product-ownership` and `business/data-analytics`: this file is now the router, and two
+`references/` files carry what a single generic GDPR file couldn't hold without either bloating past
+the router's own budget or staying vague. `references/01-cnil-france.md` is sourced from CNIL's own
+published guidance — its AIPD pages, its retention-period guide, its cookies recommendation/FAQ, its
+DPO-designation guidance and its register-of-processing guidance, all cited by URL inline and checked
+2026-09-29 — **not itself CNIL-endorsed**: it's this block's reading of CNIL's public documents,
+same non-authoritative register as the rest of `business/`. One figure is flagged unresolved rather
+than asserted: connection-log retention, where CNIL's own published range spans roughly 6 months to
+1 year (`references/01-cnil-france.md` §1.2 states the range and defers the exact figure within it to
+the DPO/legal team).
+`references/02-code-patterns.md` is original engineering translation — Laravel/Nuxt patterns for
+anonymisation, consent, scheduled purges and log scrubbing — written by us, not sourced from CNIL or
+any external catalogue, and stated as illustrative rather than certified in its own opening
+paragraph and guardrails.
