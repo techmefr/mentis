@@ -83,7 +83,7 @@ without depending on it (`CATALOG.md` §0).
 | 2 | `spec` | — |
 | 3 | `domain-modeling`, `archi`, `api-design`, `documentation-adr`, `design-patterns` | `architect` (periodic debt audit, outside the pipeline) |
 | 4 | `plan`, `wayfinder` | — |
-| 5 | `tdd`, `testing-anti-patterns` | `dozer` |
+| 5 | `tdd`, `testing-anti-patterns`, `run-generated-tests` | `dozer` |
 | 6 | `code` + the conventions block for the stack: `typescript-patterns`, `php-patterns`, `vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`, `nestjs-node-conventions`, `go-conventions`, `dotnet-conventions`, `python-conventions`, `java-conventions`, `auth-session-conventions`, `security-hardening`, `background-jobs-conventions`, `webperf`, `seo`, `accessibility`, `observability-instrumentation`, `devops-conventions`, `data-pipeline-conventions`, `shell-scripting-conventions`, `design-patterns` | `neo` (Vue/Nuxt), `morpheus` (Laravel), `trinity` (NestJS/Node), `tank` (SQL/ES) |
 | — | `bug-triage` (a report, before there's a runnable case), `debug` (a bug with a cause), `when-stuck` (the approach itself) | — |
 | 7 | `gate` | `galadriel` |

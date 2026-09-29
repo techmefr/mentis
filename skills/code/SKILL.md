@@ -12,7 +12,9 @@ After `tdd` (red tests written), during `/BUILD`.
 
 ## Steps
 1. Take **one** `task_item`, write the minimum code that makes its test pass.
-2. `toggle_task_item` when the increment is done, commit.
+2. Run that test scoped, per `skills/run-generated-tests` — the new/changed test, at widest the file
+   it lives in, never the project's bare full-suite command. `toggle_task_item` when the increment is
+   done, commit.
 3. Blocked / unexpected error → invoke the **`debug`** block before proposing a fix.
 4. Repeat until the `task_items` are exhausted.
 

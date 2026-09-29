@@ -93,3 +93,19 @@ own edit.
 
 Twenty-four intra-block `§N.M` references were re-checked one by one against the new numbering, including
 the one in this file: the citation reading `§4.6–§4.9` for wrapping a parsed file now reads `§4.13–§4.18`.
+
+**§7 gains points 16–20, 2026-09-29.** Mined from an org skill catalogue's Laravel plugin, whose
+`contribute-upstream` skill shipped 2026-09-26 with a `lomkit/laravel-rest-api` validation-gap worked
+example (a request envelope keyed under a top-level field that dot-notation rules never validate,
+reachable pre-authentication) — kept as an illustration since `lomkit/laravel-rest-api` is a real public
+Packagist package this repo already names elsewhere (`skills/laravel-conventions` §6, rule C's carve-out
+for a real public tool). The rule itself generalises past Laravel: point 10 already named "upstreaming" as
+the cheapest override in one sentence; this pass turns that sentence into the missing distinction — a
+missing *hook* is point 1's ladder, a genuine *defect* has no narrower legitimate answer at all, so the fix
+goes to the package's own tracker, never into an app-local shim reproducing the missing behaviour for one
+call site. The bridge criteria (point 19) and the reproduce-before-filing discipline (point 18) are kept from the
+source; its security-disclosure detail (a genuinely exploitable defect goes through the package's own
+private disclosure process, per its `SECURITY.md`, rather than a public issue that hands out the payload)
+is left out here — `skills/code-baseline` has no existing disclosure-process rule to attach it to, and
+adding one is out of scope for this pass. Word count re-measured with `bin/measure_depth.py` after the
+edit.

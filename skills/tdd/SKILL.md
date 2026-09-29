@@ -26,7 +26,9 @@ After `plan`, before writing the implementation.
    initialised to `{ "passes": false }` (the contract starts as a failure).
 2. Write the matching test following **test-casebook** (`data-test-*` selectors, exhaustive,
    persona matrix, target coverage ≥ 90%).
-3. Run the suite: **everything is red**, that's the expected result at this step.
+3. Run the suite: **everything is red**, that's the expected result at this step. Scoped runs later, once
+   implementation starts, follow `skills/run-generated-tests` — this step is the one deliberate exception
+   where the whole new set is meant to run together, because "everything red" is the thing being checked.
 4. **Read each failure**: red has to mean the assertion failed, not that the test file crashed on a
    broken import or an incomplete mock. A setup error satisfies the contract while proving nothing,
    and it turns green later for reasons unrelated to the behaviour.
