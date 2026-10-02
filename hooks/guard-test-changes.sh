@@ -5,6 +5,8 @@
 # (deleted, commented out, or its expected value changed) unless MENTIS_ALLOW_TEST_CHANGES
 # is set. Extending a test file with a new case is unaffected: this only fires when a line
 # that matched an assertion pattern BEFORE the edit is no longer present, verbatim, AFTER it.
+# It also refuses a skipped or todo test, an assertion that cannot fail, a deleted test, and (when wired
+# on Bash too) a shell command that rewrites, moves or reverts a test file.
 #
 # Wiring: see hooks/README.md.
 #

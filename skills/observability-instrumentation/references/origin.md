@@ -80,3 +80,9 @@ boundary, and how the correlation ID survives a Laravel queued job — not a new
 point rather than a new skill: `business/data-protection` §2.4 already carries the Laravel exception-handler
 and Nuxt `beforeSend` scrub sketches this point cross-references, so the stack-specific surface here is
 a few sentences, well short of what would justify a dedicated block on the `sentry-flutter` model.
+
+**§5 added 2026-10-02** (OpenTelemetry). Sources read that day: the OpenTelemetry documentation and semantic
+conventions (CC-BY-4.0) and the `otel-instrumentation` skill of `dash0hq/agent-skills` (Apache-2.0), rewritten with
+credit. The spans, sampling and naming rules follow the documentation; the service-identity bundle, the attribute
+registry and the verification step are reasoning of ours and are marked as such in the section. SLO and burn-rate
+guidance was not added: no primary source on it was read.

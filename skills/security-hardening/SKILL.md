@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: Use when writing code that crosses a trust boundary (user input reaching a query or a template, a file upload, a new endpoint, an outbound call with a user-supplied target). The writing counterpart to the seraph agent.
+description: Use when writing code that crosses a trust boundary (user input reaching a query or a template, a file upload, a new endpoint, an outbound call with a user-supplied target), a response header, a third-party resource, a production setting, or a browser or mobile client. The writing counterpart to the seraph agent.
 ---
 
 # security-hardening
@@ -20,14 +20,16 @@ case.
 
 ## When
 As soon as a diff has user-controlled data reaching one of those, adds a file upload, adds an
-endpoint, or brings in a new dependency. Not as a generic pass over untouched code: that's `seraph`'s
+endpoint, sets a response header or a cookie, embeds a third-party resource, changes production
+configuration, or brings in a new dependency. Not as a generic pass over untouched code: that's `seraph`'s
 job, on demand.
 
 ## Steps
 
 **Read only the sections the boundary actually is.** The rules live one file per section under
 `references/`; §1 and §2 are the two halves of a data path, §3 is any new entry point, §4 is uploads,
-secrets and dependencies, and §5 is what you owe before calling it done.
+secrets and dependencies, §5 is what you owe before calling it done, and §6 to §8 are what the browser,
+the production environment and the client enforce or expose, §9 is cryptography, §10 the level a review is held to.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -36,6 +38,11 @@ secrets and dependencies, and §5 is what you owe before calling it done.
 | 3 | Access control on every new route | an endpoint, consumer, job or webhook is added or changed | [`03-access-control.md`](./references/03-access-control.md) |
 | 4 | Files, secrets and dependencies | an upload, a secret, or a new dependency | [`04-files-secrets-deps.md`](./references/04-files-secrets-deps.md) |
 | 5 | Verification | before claiming the boundary is done | [`05-verification.md`](./references/05-verification.md) |
+| 6 | Browser and transport: policy headers, framing, referrer, integrity, opener, mixed content, cookies, CORS | a page, a header, a cookie, a third-party resource or a cross-window message | [`06-browser-and-transport.md`](./references/06-browser-and-transport.md) |
+| 7 | Production configuration and abuse: debug, startup validation, rate limits, error detail, audit | environment config, a public or authentication endpoint, a dependency gate | [`07-production-and-abuse.md`](./references/07-production-and-abuse.md) |
+| 8 | Client templates and mobile: URL, component, style and event vectors; web views, deep links, binaries | data bound into a front-end template, a client bundle, a mobile app | [`08-client-and-mobile.md`](./references/08-client-and-mobile.md) |
+| 9 | Applied cryptography: no home-made primitives, randomness, constant-time compare, nonces, password hashing, keys | code encrypts, signs, hashes a secret, generates a token or a key | [`09-cryptography.md`](./references/09-cryptography.md) |
+| 10 | Assurance level: declared once, reviewed against | a spec or a security review of an application is written | [`10-assurance-levels.md`](./references/10-assurance-levels.md) |
 
 ## Output / checkpoint
 For each boundary the diff introduces: where validation happens, what the whitelist is, how output is
@@ -52,11 +59,16 @@ evidence, not reasoned about (§5.3).
 - Never test an injection against a shared or production environment: hostile-value replays belong in
   local or preview environments (§5.8 — that boundary is `seraph`'s rule too, and it applies to writing
   code just as much as to auditing it).
-- Scope: this block covers application code. Platform hardening (TLS, WAF, network policy, IdP
-  configuration) is infra reality and stays outside this repo.
+- Never loosen a protection of §6 to make a third-party widget load: allow that one origin, narrowly,
+  and record why.
+- Scope: this block covers what the application code and its configuration ask of the browser, the
+  transport and the client (§6 to §8). Operating the platform (certificate lifecycle and the
+  strict-transport rollout in `devops-conventions` §5, WAF, network policy, IdP configuration) is infra
+  reality and stays outside this repo.
 
 ## Origin
 A rewrite of a market generalist catalogue's `security-and-hardening` idea, against OWASP (Top 10,
-ASVS) and OWASP's escaping cheat sheets. The full provenance, the split with `seraph` and
+ASVS) and OWASP's escaping cheat sheets; §6 to §8 added 2026-10-02 from the primary web, mobile and
+OWASP specifications. The full provenance, the split with `seraph` and
 `auth-session-conventions`, the 2026-08-10 OWASP coverage check and the refresh log are in
 [`references/origin.md`](./references/origin.md).

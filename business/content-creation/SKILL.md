@@ -61,6 +61,8 @@ The pipeline's own artefacts are the raw material, and they're already written a
 6. **If a person's name is on it, that person read it.** Publishing generated text under someone's byline
    without them reading it is the fastest way to lose the credibility this block exists to build.
 7. **Editing is where it gets good.** Cut a third. The cut third is almost always the introduction.
+8. **Read the draft for machine-writing tells** with `business/ai-prose-tells`: clusters, not single words,
+   and a rewrite never adds a fact.
 
 ### 4. Adapt per network without diluting
 1. **Write the substance once**, then re-hook per network (`social-publishing` §2). Same claim, different
@@ -88,6 +90,12 @@ Everything produced here goes through `business/social-publishing`: named owner,
 exact content, alt text and captions, media and personal data cleared, links checked logged out. Claims
 about the product go through `business/product-marketing` §2 first — every factual claim carries a source.
 
+### 7. Deeper material
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Content trusted by readers and by search engines: people-first, visible expertise, sources, dates, generated and scaled content, link labelling | the piece lives on a page meant to be found through search, or a page's editorial quality is audited | [`01-search-and-trust.md`](./references/01-search-and-trust.md) |
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the piece traced to real work, internal detail
 stripped, one idea with a hook the piece keeps, every number carrying its measurement, and a named human
@@ -101,6 +109,8 @@ who read it before it goes to `social-publishing`.
 - **Never publish generated text under a person's byline they haven't read.**
 - **Never use engagement bait**, and never manufacture a conflict for reach.
 - Never post an incident story before the affected customers have been told and the owner has approved.
+- **Never publish generated text nobody fact-checked**, including its title, description and alt text
+  (`references/01-search-and-trust.md` §1.12).
 - This block doesn't own brand voice or campaign strategy. Where someone does, they decide.
 
 ## Origin
@@ -116,3 +126,10 @@ Two things they don't have, and both are the point of this block: **no mechanism
 fact-checking a claim before it ships**, and no notion of where the material should come from — they start
 from a topic. Ours: start from the artefact the dev pipeline already produced (§2 is a mentis-specific
 table), the line where a hook stops being honest (§3.5), and the byline rule. Verified 2026-08-06.
+
+Widened 2026-10-02: `references/01-search-and-trust.md` restates, as editorial questions and habits, the
+public guidance of a search provider (helpful, reliable, people-first content; spam policies on keyword
+stuffing, scaled content abuse and link schemes; the page on generative AI content; qualifying outbound
+links), all read on 2026-10-02. The documentation text is licensed for reuse with attribution; none is
+copied, and no ranking factor or number is stated. The owner's direction that the framework serves more
+than one agent harness is why this editorial material, earlier set aside as out of scope, is now written.

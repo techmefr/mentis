@@ -61,3 +61,28 @@ Router plus sections: 375 → 2,392.
 **Status.** The source is unchanged and still stands. The depth is ours, written from the changes that
 look compatible and are not — which is what a reviewer needs in order to refuse one, and is a different
 thing from this block having been used against a real third-party consumer, which it has not.
+
+**Sections 4 and 5 added 2026-10-02**, from primary sources read that day (rule B: mechanisms rewritten,
+no prose copied; every rule traces to a passage that was read, none was recited from memory).
+
+- **§4 (protobuf and gRPC).** The protobuf style guide and the protobuf best-practices page (the
+  `protocolbuffers.github.io` content repository; code under BSD-3-Clause per its LICENSE file, the CC BY 4.0
+  licence of the site content was not re-verified in the repository and the text is rewritten either way); the
+  gRPC guides on deadlines, cancellation, error handling, status codes, retry, health checking, graceful stop,
+  wait-for-ready and keepalive (`grpc.io` content repository, CC BY 4.0, code samples Apache-2.0); AIP-155
+  (request identification), AIP-158 (pagination), AIP-180 (backwards compatibility), AIP-193 (errors) and
+  AIP-194 (automatic retry) from `google.aip.dev` (CC BY 4.0, samples Apache-2.0). Left out on purpose: the
+  Java and C++ language-option mechanics, edition-2024 symbol-visibility details (moving fast, version-specific)
+  and the per-language example tables. The buf tool is named as the open-source lint and breaking checker but
+  its own documentation was not read here; the rule states the check, not the tool's rule categories.
+- **§5 (HTTP and OpenAPI).** RFC 9457 (problem details, read in full text); the OpenAPI Initiative's
+  best-practices page and the 3.0-to-3.1 and 3.1-to-3.2 upgrade guides (`learn.openapis.org`, CC BY 4.0);
+  Spectral's OpenAPI rule reference and CI guide (Apache-2.0); the Zalando RESTful API guidelines chapters on
+  pagination, idempotency, status codes, URLs, JSON and security (CC BY 4.0). The OpenAPI specification text
+  itself (versions 3.1.2 and 3.2.0) was listed, not read end to end: the Schema Object claims are the upgrade
+  guides' claims. Left out: the Zalando proprietary headers and company-specific naming; the OWASP API Security
+  list (CC BY-SA, idea only, not read here); the Redocly CLI (not read).
+
+**Status.** Both sections are 🟡 like the rest of the block: written from the standards and style guides,
+never run against a real third-party consumer. OpenAPI moves by minor version; re-read the upgrade guide
+before trusting point 2 of §5 on a newer one (`skills/source-freshness`).

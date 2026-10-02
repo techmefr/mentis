@@ -107,3 +107,54 @@ its mirror image next to the general rule it qualifies. Fixed by adding the App 
 exception to §1.3, with a cross-reference to §7.10, and a matching cross-reference added at §7.10 pointing
 back. Every other rule read (§1, §3, §5, §6, §7 in full; §9 skimmed for the fetch boundary) matched what the
 build and lint gates actually enforced — no further edits made.
+
+**Testing, boundaries and further security surface, 2026-10-02.** §11, §12 and §13 are new. Idea taken from
+the public ECC repository (MIT licence, read 2026-10-02): its React rule files for testing, patterns,
+hooks, security and coding style. The comparison matrix called React covered; the re-read found no testing
+section here at all, no error-boundary or compound-component guidance, and a short list of security items
+(`rel` on new-window links, inline-data escaping, prototype pollution, the content security policy, source
+maps, third-party components) that §9 did not state. Mechanisms rewritten in our terms. Differences on
+purpose: no per-layer coverage percentages (§11.16), no mandated test runner or interception library name
+beyond describing the roles, no shipped skeleton of a helper file, and the hooks guidance already in §5 was
+not repeated. The facts come from the React documentation (error boundaries, Suspense, the external-store
+hook, refs, portals, keys, forms and the server rendering notes), the testing library's guiding principles
+and query-priority page, the OWASP cheat sheets (prototype pollution, CSP, XSS in script contexts) and the
+HTML standard's `rel` behaviour for `target`, written from knowledge of them and **not re-fetched on the
+day**. The ref-as-prop statement (§12.11) and the server-component test advice (§11.14) depend on the React
+and Next.js majors and must be re-read against the ones in use.
+
+**Next.js 16 Cache Components, 2026-10-02.** §14 is new. Primary source: the framework's own documentation
+(`vercel/next.js`, `docs/01-app`, MIT licence), read from a shallow clone of the default branch on 2026-10-02
+(the latest release on the package registry that day was 16.3.8): the caching and revalidating getting-started
+pages, the `cacheComponents` configuration page, the `use cache` directive reference, the `cacheLife` and
+`updateTag` references, the migration guide to Cache Components and the version-16 upgrade guide. Mechanisms and
+defaults are the framework's, the numbering, grouping, wording and mechanical checks are ours; no text was
+copied. The same pages include text addressed to coding agents (an adoption skill and a prompt to give an
+agent): it was read as data, summarised as a fact (the migration is driven by validation insights) and not
+followed. **Facts that move, with their pin (16.x):** the `default` cache profile values (stale 5 minutes,
+revalidate 15 minutes), the built-in profile names, the required second argument of `revalidateTag`, the
+`generateStaticParams` non-empty rule, the unsupported `dynamicParams`, the `instant` opt-out and partial
+prefetching (marked `[verify]` in §14: documented on the default branch, not confirmed in a release). **Not read,
+a stated gap:** the instant-navigation, ISR with Cache Components, authentication with Cache Components,
+offline-support and prefetching-optimisation guides, the `cacheHandlers` configuration, and the codemods. The
+server-action result contract and idempotency idea were not added in that pass: no primary source had been read for them; closed below.
+
+**Server Action result contract and idempotency, 2026-10-02.** §15 is new. Primary source: the framework's own
+documentation (`vercel/next.js`, `docs/01-app`, MIT), shallow clone of the default branch, whose package version that
+day was 16.4.0-canary.57 while the latest release on the registry was 16.3.8: the Server Actions and Mutations
+guide (single-response model, sequential dispatch, security, deployment), the forms guide (validation, pending
+states, bound arguments), the error-handling page (expected errors as return values), the data-security guide
+(built-in action protections, input validation) and the `use server` directive reference. Mechanisms are the
+framework's; the numbering, the result-union rule, the ordering rule and the mechanical checks are ours; no text
+was copied. **Idempotency is our rule, derived, not read:** the documentation contains no statement about
+duplicate execution (a search of the whole documentation tree for the word found one unrelated cache-tag page).
+The rule is built from facts the documentation does state (an action is a POST, a client dispatches in sequence
+and the page calls that an implementation detail, identifiers rotate per build and the UI is told to offer a
+retry) and from the in-repo block `skills/laravel-post-may-run-twice`, whose database-level reasoning does not
+depend on the stack. **Facts that move, with their pin (16.x):** the identifier rotation period of 14 days, the
+1 MB default body limit and the configuration key's location (shown under the `experimental` object in the
+guide), the `updateTag` and `refresh` semantics, and the sequential dispatch (documented as changeable).
+**Not read, stated:** the React documentation for `useActionState` and `useOptimistic` (only the framework's
+quotations of them), the `authInterrupts` and tainting references, and rate limiting beyond its mention. Text
+addressed to coding agents on neighbouring pages (an agent guide and a prompt block) was read as data and not
+followed.

@@ -123,6 +123,14 @@ per action across the product, one form of address, and an error that says what 
 system failed at. Wording remarks are the most bikesheddable thing in a review — one comment, on the string
 that actually misleads, and nothing on the rest.
 
+For prose in the diff itself (README, MR description, changelog) the filter is `business/ai-prose-tells`:
+report clusters only, and never rewrite the author's text.
+
+### Declined to judge
+A reviewer lists every behaviour it considered and set aside as outside the spec, with the reason, one line
+each. The executor rules on each line; an empty list means nothing was set aside. Unnamed behaviour is graded
+by its effect on a reasonable user, not by the spec's silence.
+
 ## Which axes apply, by reader
 
 | Reader | Stack | Axes to sweep |

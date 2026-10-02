@@ -100,3 +100,17 @@ read the first/last element without `reset()`/`end()`'s internal-pointer mutatio
 side effect of `array_shift()`/`array_pop()`, and without the key-vs-value confusion of
 `array_key_first()`/`array_key_last()` — returning `null` on an empty array, so point 3's falsy-collapse
 still applies to the result.
+
+**Dependencies, execution surface and test runner, 2026-10-02.** §6 is new. Idea taken from the public ECC
+repository (MIT licence, read 2026-10-02): its PHP security and testing rule files, which the comparison
+matrix called partial (the audit in CI, the trust check on a new maintainer, the coverage drivers and the
+runner configuration were not written down). Mechanisms rewritten in our terms. Differences on purpose: the
+upstream coding-style file prefers `declare(strict_types=1)` and we do not impose it (§1.1 and
+`laravel-strict-types-default` state our position), the upstream proposes a service-and-repository layering
+that we do not adopt (`skills/laravel-conventions` §10 and `laravel-no-fat-models` are ours), and no coverage
+percentage is taken. The facts come from the Composer documentation (lock file, platform setting, audit,
+plugin allow-list, authoritative classmap), the PHP manual (PDO error modes and emulated prepares, the
+argument-escaping functions) and the PHPUnit documentation (strictness settings, attribute-based data
+providers, code-coverage drivers), written from knowledge of them and **not re-fetched on the day**. The
+runner's configuration attribute names and the attribute form of data providers depend on its major version
+and must be re-read against the one the project uses.

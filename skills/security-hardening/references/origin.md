@@ -83,3 +83,44 @@ last one and remains valid, since nothing in this pass changed which items the b
 ours, written from the failure modes rather than from a source that can be re-checked — which is the
 form `seraph` and a reviewer both need, and is not a substitute for the platform hardening this block
 explicitly leaves outside the repo.
+
+**Extended 2026-10-02: §6, §7, §8.** The block's earlier scope line sent everything about the browser and
+the transport to "infra reality". That was wrong for the part the *application* asks for: a response
+header, a cookie attribute, an integrity hash, a `rel` on a link and a debug flag are all set in the
+repository, and none of them is enforced by anything unless the code requests it. The three added
+sections are the writing-time half of that; certificate lifecycle and strict-transport rollout went to
+`devops-conventions` §5.
+
+- **§6** (browser and transport) was written from the primary specifications named at its foot (W3C
+  Content Security Policy, Referrer Policy, Subresource Integrity, Permissions Policy and Mixed Content;
+  the WHATWG HTML and Fetch standards; the cookie RFC) and OWASP's secure-headers, CSP and CORS cheat
+  sheets. The public Front-End-Checklist repository (licence unclear, read 2026-10-02) was used only as a map of which topics people
+  forget; no wording was taken from it, and every fact was re-derived from the standards. No header value
+  or numeric threshold is recited: the section names the directive and sends the reader to the current
+  specification, the form `skills/source-freshness` asks for.
+- **§7** (production and abuse) rewrites the production-configuration and rate-limiting ideas of the
+  MIT-licensed `affaan-m/ECC` Laravel security skill (read 2026-10-02) as a framework-neutral list, and
+  adds the points that skill does not carry: the key a rate limit uses, limits across several copies of
+  the application, cost-proportional bounds, error-difference leaks, and observing the deployment rather
+  than the repository. The stack mapping at its foot is the only place a framework is named.
+- **§8** (client and mobile) rewrites the Vue security rules and the Dart and Flutter security rules of
+  the same repository (MIT, read 2026-10-02) into framework-neutral points: URL schemes, dynamic
+  component selection, bound styles and event attributes, public build variables on the web side;
+  cleartext policy, timeouts, pinning, web views, deep links, exported components, secure windows and
+  obfuscation on the mobile side. The pinning trade-off, the "obfuscation is not a control" point and the
+  on-device re-authentication point are ours, from the OWASP mobile verification standard.
+
+Not taken: a CAPTCHA vendor recommendation (a runtime dependency on a third-party service, rule B), any
+numeric header value or timeout (recited numbers go stale), and the Laravel and Flutter package-specific
+code samples (the stack blocks own those).
+
+**Extended, 2026-10-02 (§9, §10).** §9 rewritten from primary sources read that day: RFC 9106 (Argon2
+parameter sets and salt guidance), RFC 5116 (nonce distinctness, random key, nonce-reuse consequences for
+the Galois/counter mode), NIST SP 800-63B-4 section 3.1.1.2 (verifier length, composition and blocklist
+requirements, read from the guideline site), plus the standard-library security guide of the MIT-licensed
+`samber/cc-skills-golang` (commit 8e899e2) for the random-generator, constant-time and vetted-primitive
+rules. NIST SP 800-38D was fetched but its page only gave the abstract; NIST SP 800-57 (key separation,
+cryptoperiod) could not be extracted and is not cited. §10 takes the idea of declaring an assurance level
+once from the OWASP mobile verification standard, which is share-alike licensed: idea only, no text. Its
+testing guide was not read. Status 🟡; parameter figures go stale, re-read the RFC and the guideline before
+relying on them.

@@ -1,6 +1,6 @@
 ---
 name: php-patterns
-description: "Use when writing or reviewing pure PHP at the language level, whatever the framework: typing, error handling, OOP patterns, comparison and array semantics, time/money/text values. The framework layer above it is skills/laravel-conventions."
+description: "Use when writing or reviewing pure PHP at the language level, whatever the framework: typing, error handling, OOP patterns, comparison and array semantics, time/money/text values, dependencies, the execution surface, the test runner. The framework layer above it is skills/laravel-conventions."
 ---
 
 # php-patterns
@@ -29,7 +29,7 @@ conventions apply on top of it, not instead of it.
 ## Steps
 
 **Read only the sections the task actually touches.** The rules live one file per section under
-`references/`; loading all five for a change that renames a method is waste, and a section read is a
+`references/`; loading all six for a change that renames a method is waste, and a section read is a
 section that has to be applied. If you are reviewing a whole diff, pick the rows whose trigger the diff
 meets, not the whole table.
 
@@ -40,11 +40,12 @@ meets, not the whole table.
 | 3 | OOP and structure | a class, an interface, a trait or a static is introduced | [`03-oop-and-structure.md`](./references/03-oop-and-structure.md) |
 | 4 | Comparison, arrays and the standard library | a comparison, a possibly-absent value, or an array transformation is written | [`04-comparison-arrays-stdlib.md`](./references/04-comparison-arrays-stdlib.md) |
 | 5 | Time, numbers and text | a date, a money amount, a numeric input or non-ASCII text is handled | [`05-time-numbers-text.md`](./references/05-time-numbers-text.md) |
+| 6 | Dependencies, the execution surface and the test runner | a package is added or updated, a statement, shell command or include path is built outside a framework layer, or the test runner is configured | [`06-dependencies-execution-tests.md`](./references/06-dependencies-execution-tests.md) |
 
 ## Output / checkpoint
-Code compliant with the five sections above, checked on top of the applicable Laravel conventions
+Code compliant with the six sections above, checked on top of the applicable Laravel conventions
 through `gate` (7) and `review` (8, `gimli`). **On framework-free PHP those two steps have no framework layer
-to lean on**: the checkpoint is then the five sections above plus whatever test runner the project
+to lean on**: the checkpoint is then the six sections above plus whatever test runner the project
 actually has, and "no static analyser installed" is a finding to report rather than a checkpoint to skip
 silently — §1.11 is the reason the analyser is worth asking for in the first place.
 

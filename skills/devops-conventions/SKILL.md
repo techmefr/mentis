@@ -1,6 +1,6 @@
 ---
 name: devops-conventions
-description: Use when writing or reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible) or monitoring and alerting. Not for application code.
+description: Use when writing or reviewing a CI/CD pipeline, infrastructure as code (Docker, Terraform, Ansible), monitoring and alerting, TLS and certificate setup, database migrations, or container-orchestrator manifests. Not for application code.
 ---
 
 # devops-conventions
@@ -56,27 +56,31 @@ code (Terraform, Ansible), or a monitoring/alerting config is written or modifie
 2. Post-mortem with no individual blame, focused on the systemic cause (what made the incident
    possible), not on who pressed what.
 
+### 5 to 7. Further sections, read when the task meets the trigger
+
+Sections 1 to 4 stay above because every pipeline touches them. The rest live one file per section under
+`references/`; read the rows whose trigger the task actually meets, not the table.
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 5 | Transport security in operation: TLS everywhere, redirect, strict-transport rollout, certificate renewal, key custody | a proxy, load balancer, ingress, certificate, redirect or domain is configured | [`05-transport-and-certificates.md`](./references/05-transport-and-certificates.md) |
+| 6 | Safe schema and data migrations: compatibility during deploy, locks, online indexes, backfill, way back | a migration is added or edited, a large table altered, a backfill planned | [`06-safe-migrations.md`](./references/06-safe-migrations.md) |
+| 7 | Workloads on a container orchestrator: probes, resources, rollout, shutdown, least access, network, images | manifests for a container orchestrator are written or changed | [`07-container-orchestration.md`](./references/07-container-orchestration.md) |
+
 ## Output / checkpoint
-Pipeline/infra compliant with the sections above, `plan`/`dry-run` read and cited before any real
+Pipeline/infra compliant with the sections that apply, `plan`/`dry-run` read and cited before any real
 `apply` on a shared environment.
 
 ## Guardrails
 - Never an automatic `apply`/deployment on a shared environment without explicit human confirmation
   (consistent with the framework's general doctrine: actions that are hard to undo stay a human
   checkpoint).
+- A migration that rewrites or locks a large table, or drops data, is never run on a shared environment
+  without the human checkpoint above and a restore that has been practised (§6.8).
 - This block has no dedicated in-house production experience yet: to be confronted with the first real
   infra/CI audit, not to be treated as proven doctrine.
 
 ## Origin
-Sourced from the 12-factor app (config through environment variables, logs as event streams), DORA
-metrics (Accelerate: Forsgren/Humble/Kim: deployment frequency, lead time, MTTR, change failure rate)
-and established GitOps/IaC practice. Mechanisms rewritten, no copied text. Market research, no
-internal production feedback at this stage.
-
-§2 point 4 (protected shared resources) added 2026-08-11, generalised from the org catalogue's
-hard-interdiction skill on protected shared databases — a real rule naming one specific SQL Server
-host as never-rename-never-drop. The specific host, the specific business tools it feeds (Sage, a CRM)
-and the specific escalation mailbox are left out per rule C; what's kept is the shape that made the
-source skill work as a hard rule rather than a wish — forbid by effect not by exact syntax, name the
-blast radius explicitly because it's invisible from the SQL statement itself, and require the
-escalation to go to the resource's actual owner instead of accepting a user's confirmation as consent.
+12-factor app, DORA metrics and established GitOps/IaC practice for §1 to §4; primary standards and
+documentation for §5 to §7 (added 2026-10-02). Full provenance, the protected-resource rule and the
+refresh log are in [`references/origin.md`](./references/origin.md).

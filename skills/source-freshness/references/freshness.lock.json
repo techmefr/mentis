@@ -1,0 +1,66 @@
+{
+  "@angular/core": {
+    "version": "22.2.1",
+    "generatedAt": "2026-10-02"
+  },
+  "@nestjs/core": {
+    "version": "12.1.2",
+    "generatedAt": "2026-10-02"
+  },
+  "@playwright/test": {
+    "version": "1.63.0",
+    "generatedAt": "2026-10-02"
+  },
+  "@sveltejs/kit": {
+    "version": "3.0.0",
+    "generatedAt": "2026-10-02"
+  },
+  "@tanstack/react-query": {
+    "version": "5.104.0",
+    "generatedAt": "2026-10-02"
+  },
+  "alpinejs": {
+    "version": "3.17.4",
+    "generatedAt": "2026-10-02"
+  },
+  "astro": {
+    "version": "7.3.5",
+    "generatedAt": "2026-10-02"
+  },
+  "htmx.org": {
+    "version": "2.0.11",
+    "generatedAt": "2026-10-02"
+  },
+  "lit": {
+    "version": "3.3.3",
+    "generatedAt": "2026-10-02"
+  },
+  "next": {
+    "version": "16.3.8",
+    "generatedAt": "2026-10-02"
+  },
+  "pinia": {
+    "version": "4.0.3",
+    "generatedAt": "2026-10-02"
+  },
+  "solid-js": {
+    "version": "1.9.15",
+    "generatedAt": "2026-10-02"
+  },
+  "svelte": {
+    "version": "5.57.1",
+    "generatedAt": "2026-10-02"
+  },
+  "tailwindcss": {
+    "version": "4.3.3",
+    "generatedAt": "2026-10-02"
+  },
+  "vite": {
+    "version": "8.3.2",
+    "generatedAt": "2026-10-02"
+  },
+  "vue": {
+    "version": "3.5.43",
+    "generatedAt": "2026-10-02"
+  }
+}

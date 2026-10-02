@@ -77,6 +77,16 @@ reality: an internal repo nobody outside the company can open, infra details, po
 A block that can't pass this test isn't rewritten to be vaguer — it's **kept out and stays local**. That
 has already happened, and the mechanism for deciding is in `skills/distributing-blocks` §1.
 
+## Rule D: block content is harness-neutral
+
+The substance of a block is portable markdown: what to do, why, how to check it. It must read the same
+under any agent harness, today's or a future one. Whatever belongs to one harness stays out of the
+substance and goes in three places only: the **frontmatter** (`paths`, `disable-model-invocation`, tool
+lists), the **hooks** (`hooks/`, wiring documented in `hooks/README.md`), and, when a block truly needs it,
+one short **adaptation note** at the end of the block. In the body, say "the agent", "a delegated worker",
+"the operator", "a check that runs on every edit", not the name of a product's tool, command or config file.
+A reader on another harness should lose nothing but the note.
+
 ## The second layer: `business/`
 
 Blocks for the company's other functions (legal, UI/UX, marketing, sales, communication, product) live in

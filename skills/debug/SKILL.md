@@ -27,7 +27,9 @@ The error surfaces deep in the stack; the instinct is to fix it there, which fix
    chain, not the intuition.
 3. **Follow the data, not just the calls**: where did this invalid value enter the system? Usually
    several frames above where it finally caused damage.
-4. **Stop at the original trigger**: the point before which nothing else caused it.
+4. **Stop at the original trigger**: the point before which nothing else caused it. Before editing,
+   grep every caller of the function you are about to change and fix at the point they all route through;
+   patching only the path the report names leaves its siblings broken.
 5. When manual tracing stalls, **capture the call chain at the suspicious operation** rather than
    guessing: log the parameters, the surrounding context, and a captured stack trace, immediately
    before the failing call. In tests, write to stderr — a logger may be suppressed, and then you're

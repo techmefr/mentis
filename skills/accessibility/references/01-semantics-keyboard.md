@@ -13,7 +13,7 @@
 2. Tab order follows the logical visual order: never a positive `tabindex` that breaks the DOM's natural
    order; `tabindex="-1"` only to deliberately remove an element from the flow. A positive value does
    not reorder locally — it lifts the element above every natural stop on the page, so one such value
-   reorders the entire document and the effect is invisible until someone tabs through it.
+   reorders the entire document and the effect is invisible until someone tabs through it. The same split appears without any `tabindex`: CSS that reorders boxes (`order`, reversed flex or grid placement, absolute positioning) moves what the eye sees and leaves the keyboard on the DOM sequence, so tab order is the DOM order and a visual order that disagrees with it is fixed in the markup (§6.19).
 3. Visible focus (`:focus-visible`) never removed by an `outline: none` with no replacement: a keyboard
    user must always see where they are. Without it the page is not degraded, it is unusable: activation
    becomes guesswork, and the reader's only recovery is to tab back to something they recognise and count

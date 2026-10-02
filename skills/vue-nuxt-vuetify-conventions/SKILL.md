@@ -1,6 +1,6 @@
 ---
 name: vue-nuxt-vuetify-conventions
-description: "Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, the data-access client, linter-derived correctness."
+description: "Use when writing or reviewing Vue 3/Nuxt: the SFC shape, composables and stores, typing, naming, structure, i18n, accessibility in templates, the UI-toolkit-first rule, hydration safety, realtime, the data-access client, linter-derived correctness, tests, injection and query keys, the template injection surface."
 ---
 
 # vue-nuxt-vuetify-conventions
@@ -46,12 +46,16 @@ trigger the diff meets, not the whole table.
 | 5 | Structure and dependencies | a file is placed, or an import crosses a layer | [`05-structure-dependencies.md`](./references/05-structure-dependencies.md) |
 | 6 | i18n | any string the user will read | [`06-i18n.md`](./references/06-i18n.md) |
 | 7 | Accessibility in templates | the template renders a control, a form or an image | [`07-accessibility-templates.md`](./references/07-accessibility-templates.md) |
-| 8 | The component library | a UI element is built, or custom CSS is about to be written | [`08-component-library.md`](./references/08-component-library.md) |
-| 9 | Nuxt: hydration safety and the choice of data primitive | SSR, `useFetch`/`useAsyncData`, or a value that only exists client-side | [`09-nuxt-hydration-safety.md`](./references/09-nuxt-hydration-safety.md) |
+| 8 | The component library, with a Vuetify version matrix (rules 21 to 28) | a UI element is built, custom CSS is about to be written, or the toolkit's major version, upgrade or Nuxt wiring is in question | [`08-component-library.md`](./references/08-component-library.md) |
+| 9 | Nuxt: hydration safety and the choice of data primitive | SSR, `useFetch`/`useAsyncData` (including gating a fetch with `enabled`), or a value that only exists client-side | [`09-nuxt-hydration-safety.md`](./references/09-nuxt-hydration-safety.md) |
 | 10 | Realtime events | a socket, a broadcast or a live update | [`10-realtime-events.md`](./references/10-realtime-events.md) |
 | 11 | Reactivity and security correctness (linter-derived) | reviewing a diff, or chasing a reactivity bug | [`11-reactivity-security-correctness.md`](./references/11-reactivity-security-correctness.md) |
 | 12 | Recurring review patterns (quality debt observed in the field) | reviewing a diff, for the debt that keeps coming back | [`12-recurring-review-patterns.md`](./references/12-recurring-review-patterns.md) |
 | 13 | The data-access client | the front end calls the backend through a typed client or model layer | [`13-data-access-client.md`](./references/13-data-access-client.md) |
+| 14 | Testing | a component, a composable, a store, a route or a server handler gets a test | [`14-testing.md`](./references/14-testing.md) |
+| 15 | Injection, query keys, routing and head | a value is provided and injected, a query is keyed, a guard or middleware is written, a page's title and meta are set | [`15-injection-query-keys-routing-head.md`](./references/15-injection-query-keys-routing-head.md) |
+| 16 | The template and bundle injection surface | a template binds a URL, a style, a dynamic component or raw HTML, a variable is exposed to the browser, or a server route calls out | [`16-template-injection-surface.md`](./references/16-template-injection-surface.md) |
+| 17 | Template refs, attribute fallthrough, watchers, built-ins, store traps | a template ref is read, attributes are forwarded through a wrapper, a watcher is written, `<Transition>`/`<KeepAlive>` is used, or a store is called outside a component | [`17-reactivity-refs-builtins.md`](./references/17-reactivity-refs-builtins.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and

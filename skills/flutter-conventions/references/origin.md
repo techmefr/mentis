@@ -262,3 +262,27 @@ to be a gap:
 The status still does not change. 🟡 — two mechanical findings from one small app, both from a test failing
 rather than from reading, is the same kind of evidence the first dogfood pass produced, not a different
 verdict on the block's production-readiness.
+
+**Security, language habits and state-holder testing, 2026-10-02.** §11, §12 and §13 are new. Idea taken from
+the public ECC repository (MIT licence, read 2026-10-02): its Dart rule files for security, coding style and
+testing, which the comparison matrix called partial (storage and deep links were covered here, the network,
+web view, manifest and build half was not). Mechanisms rewritten in our terms. Differences on purpose: no
+coverage percentage (§13.11), no tying of the testing advice to one state-management library (§13.4 and
+§13.5 describe both families), the import-style question is settled by the analyser rather than by a rule of
+ours (§12.1; the upstream rule prefers package imports while the language's style guide prefers relative
+ones), and the deep-link advice is an allow-list plus confirmation instead of a single code example (§11.7).
+The facts come from the primary documentation, written from knowledge of it and **not re-fetched on the
+day**: the Android network security configuration and the exported-component requirement, the iOS transport
+security settings and keychain persistence across reinstall, the Dart language guides (Effective Dart on
+imports, catch clauses and errors), the analyser's strict modes, and the web view plugin's controller and
+navigation delegate. Re-verify the plugin API names (§11.8) and the Android target-version statements
+(§11.1, §11.9) against the version the project builds with before this moves out of 🟡.
+
+**Extended, 2026-10-02 (§14, §9.28, §10.26-27).** Rewritten, not copied, from the MIT-licensed
+`iamantoniodinuzzo/claude-flutter` (commit 9863f44): its variants skill, its forced-update skill with the
+release playbook and decision record (the course-derived ordering of store publication before raising the
+floor is reported as that source states it, not independently verified), its web-interaction audit rule, its
+no-UI-strings rule and its robot-testing skill. Left out on purpose: the Melos workspace skill, targeted
+analyse and build-filter flags, the second-opinion delegation, the screenshot-flow and crash-reporter
+vendor details (flags and vendors go stale; the principles are already in §9 and §13). Pinned tool versions
+in the source are not carried over. Status unchanged.

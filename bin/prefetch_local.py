@@ -79,6 +79,12 @@ def main():
         rng, diff_args, slug = "staged", ["diff", "--cached"], "staged"
     elif args and ".." in args[0]:
         rng = args[0]
+        if "..." not in rng:
+            left, right = rng.split("..", 1)
+            ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", left, right or "HEAD"],
+                                      capture_output=True)
+            if ancestor.returncode != 0:
+                raise RuntimeError(f"{left} is not an ancestor of {right or 'HEAD'}: a review range must descend from its base")
         diff_args = ["diff", rng]
         slug = rng.replace("/", "-").replace("..", "-to-")
     else:
@@ -90,6 +96,8 @@ def main():
 
     raw = git(*diff_args, "--no-color", "--no-ext-diff", "-M")
     diffs = split_files(raw)
+    if not staged and not diffs:
+        raise RuntimeError(f"empty range {rng}: no changes to review")
 
     out = os.path.expanduser(f"{SCRATCH}/local-{slug}")
     os.makedirs(f"{out}/files", exist_ok=True)

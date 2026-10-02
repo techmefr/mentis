@@ -58,14 +58,15 @@ checklist assembled from public sources, not professional advice, and each one s
 | `licence-compliance` | legal | adding a dependency, vendoring code, or shipping something that bundles third-party code |
 | `legal-documents` | legal | before a first launch/public beta, charging, self-service signup, a new country, or a new subprocessor |
 | `regulatory-watch` | legal | before writing a regulatory obligation into a document, plan or estimate; periodically as an audit |
-| `ux-writing` | UI/UX | writing any text a user reads: labels, buttons, errors, empty states, emails |
-| `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded |
-| `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study |
+| `ux-writing` | UI/UX | writing any text a user reads: labels, buttons, errors, empty states, emails, link text, plain and inclusive wording |
+| `ai-prose-tells` | communication | a README, MR description, release note or changelog is drafted or reviewed and might read as machine-written |
+| `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
+| `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
 | `sales-support` | sales | engineering is pulled into a proposal, scoping call, demo, or RFP response |
 | `release-communication` | communication | a change ships that someone outside the team can notice |
 | `incident-communication` | communication | something user-visible is broken or degraded in production |
 | `internal-communication` | communication | announcing a decision, flagging a risk, asking for help, or handing off work |
-| `content-creation` | communication | producing content for a public channel, starting from work actually done |
+| `content-creation` | communication | producing content for a public channel, starting from work actually done; people-first content and visible trust |
 | `community-management` | communication | running the ongoing conversation on an account/community — replies, moderation, escalation |
 | `product-ownership` | product | deciding what gets built and in what order, or writing/reviewing a story |
 | `social-publishing` | communication | before publishing on any public social platform or account |

@@ -270,3 +270,47 @@ signal, browser-extension-caused mismatches as a false positive on point 9) agai
 (nuxt.com/docs/4.x/api/utils/call-once, nuxt.com/docs/4.x/api/composables/use-nuxt-app) and MDN's
 `AbortSignal` page. Content word count for the thirteen numbered sections (excluding this file): ~15,918
 before this pass, ~17,458 after.
+
+**Testing, injection, query keys and template surface, 2026-10-02.** §14, §15, §16 and §6 point 23 are new.
+Idea taken from the public ECC repository (MIT licence, read 2026-10-02): its Vue and Nuxt rule files for
+testing, patterns, coding style and security, which had no counterpart here (the matrix called the testing
+file absent and the others partial). The mechanisms were rewritten in our terms and our section numbering;
+what differs on purpose: a full mount by default and a stated reason for every stub (§14.2), the project's
+selector contract before accessible queries (§14.4), no coverage target, no directory-layout opinion
+(the layout rules are §5's), and a client guard described as a convenience that never replaces the server
+decision (§15.11). The facts come from the primary documentation, written from knowledge of it and **not
+re-fetched on the day**: the Vue security guide (what is and is not escaped, the template-is-code rule), the
+Vue test utilities guide (awaited triggers, default transition stubs, router and provide options), the store
+library's testing guide, the Nuxt documentation (testing utilities and their helper names, route middleware
+arguments, head composables, `routeRules`, payload serialisation, `useRequestFetch`) and the h3 validating
+readers. Re-verify the helper names in §14.16 to §14.23 against the installed major before this moves out of
+🟡: that package's API changed names across recent releases.
+
+**Refs, fallthrough, watchers, built-ins and store traps, 2026-10-02.** §17 is new. Primary sources, read the
+same day from shallow clones: the Vue documentation (`vuejs/docs`, licensed CC BY 4.0, read at the 2026-09-15
+state: template refs, fallthrough attributes, watchers, the list-rendering page, the Transition and KeepAlive
+pages, the TypeScript composition-API page) and the Pinia documentation (`vuejs/pinia`, `packages/docs`, MIT:
+defining stores, usage outside components, state, actions). Attribution as that licence requires: the facts are
+from the Vue documentation (Copyright 2019-present Yuxi (Evan) You and Vue documentation contributors, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/);
+the text here is our adaptation in our own wording and structure, with no copied sentences, and it is not endorsed
+by the licensor. Latest releases that day: Vue 3.5.43, Pinia 4.0.3. **Facts that move, with their pin (Vue 3.5):**
+`useTemplateRef`, deep watcher depth numbers, `onWatcherCleanup` and `once` (all 3.5+), the name inference of
+`<script setup>` for KeepAlive (3.2.34+). **Not done in that pass, a stated gap, closed on the same day below:** the Vuetify version pin and the Nuxt
+`useFetch`/`useAsyncData` `enabled` gating.
+
+**Vuetify version pin and Nuxt `enabled` gating, 2026-10-02.** §8 rules 21 to 28 and §9 rules 25 and 26 are new.
+Primary sources, read the same day from shallow clones of two MIT-licensed public repositories: the Vuetify
+repository (`vuetifyjs/vuetify`, `packages/docs`: upgrade guide, browser support, long-term support, installation,
+treeshaking, global configuration, theme; package metadata for the Vue peer range), pinned to **Vuetify 4.2.3**
+(latest on the registry that day); and the Nuxt repository (`nuxt/nuxt`, `docs`: the `useAsyncData` and `useFetch`
+pages and the data-fetching guide), pinned to the **Nuxt 4.5** stable line (4.5.2 on the registry that day). The
+repository's main branch is a 5.0 pre-release and its documentation already marks two options 4.6, which is why
+§9.25 refuses them. Rewritten in our words, no example copied. **Facts that move, with their pin:** the support
+dates and the browser floor (§8.21, §8.22: dated facts from the toolkit's support and browser pages, re-read on
+each minor), the list of version-4 behaviour changes (§8.24: the upgrade guide at 4.2), the Nuxt `enabled`
+semantics (§9.25, introduced in 4.5), the manual Nuxt wiring page (§8.26, headed for Nuxt 3). **Ruled out:** the
+upgrade guide opens with a suggestion to install an assistant server and prompt it to scan the project; it is
+instruction-like text inside a source, so it was read as data and nothing was installed or run. **Not read,
+stated:** the Vuetify 3 peer and browser matrix (only its support dates are known), the Nuxt module's own
+documentation (a separate site), the Vuetify component-by-component API pages, and the blueprints.
+

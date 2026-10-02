@@ -67,6 +67,12 @@ pull (`distributing-blocks` §4); otherwise periodically, when nothing else is p
    ignored wholesale, which costs more than the missing block did.
 4. Every merge or retirement is recorded in `Origin` or the catalogue, so the idea can be found again.
 
+### 5. Detection blocks carry their false-positive section
+A block whose job is to flag something (a lens, a filter, an audit) must have a section on what not to
+flag, and a positive requirement for what the result has to contain (`skills/writing-skills` step 8). This is
+a reading check, not a script: nothing reliably marks which blocks are detectors, and a heuristic would
+either miss them or reject blocks that are not.
+
 ## Output / checkpoint
 Every reference resolves; no rename has touched text about somebody else's work; statuses match what
 has actually been run; no two blocks own the same responsibility. Anything failing is either fixed in

@@ -213,3 +213,27 @@ that does not match anything actually built or run under that timestamp — it h
 entry. One environment-only friction, not a content gap: this sandbox had no `sudo`/`venv`, but `ruff`
 and `mypy` were already available via `~/.local/bin` from a prior `pip install --user`, so no toolchain
 workaround was needed this time.
+
+**Web API layer and security surface, 2026-10-02.** §9 and §10 are new. Idea taken from the public ECC
+repository (MIT licence, read 2026-10-02): its Python rule files (the web framework rules, security,
+testing, patterns, coding style), which the comparison matrix called covered by this block; the line-by-line
+re-read found the web layer (response models, separate request models, token claims, CORS, dependency
+overrides) and the security surface beyond secrets and a scanner unwritten here. Mechanisms rewritten in our
+terms. Differences on purpose: the upstream formatter and import-sorter pair is replaced by the single
+linter-formatter of §8.1, protocols and dataclasses are already covered by §1 and §3 and were not
+repeated, and no coverage command is taken. The facts come from the standard library documentation (the
+serialiser and YAML-loader warnings, the subprocess, tempfile, secrets, hmac and tarfile/zipfile security
+notes), the web framework's documentation on response models and dependency overrides, the OWASP cheat
+sheets on JWT, XML and SSRF, and the packaging documentation on index configuration, written from knowledge
+of them and **not re-fetched on the day**. The archive-extraction filter statement (§10.5) depends on the
+interpreter version and must be re-read against the one the project pins.
+
+**FastAPI specifics, 2026-10-02.** §11 is new. Written from the FastAPI documentation read in the project
+repository that day (version file reads 0.142.2; MIT licence, repository `LICENSE`, read): the tutorial pages on
+parameter validation with `Annotated`, response models, dependencies with `yield`, background tasks, OAuth2 with
+password hashing and tokens, the advanced pages on lifespan events, settings, testing dependencies, strict
+content-type checking, running behind a proxy, and the deployment pages on server workers. Mechanisms rewritten in
+our terms. Not read: the pages on WebSockets, templates, sub-applications, WSGI, custom responses, client
+generation and the SQL-database tutorial (persistence stays §7). The `scope` argument of dependencies needs release
+0.121 or later and the yield-cleanup timing was changed in 0.106 (the documentation lists both); expiry: at each
+FastAPI minor, re-read §11.4 to §11.7 first.

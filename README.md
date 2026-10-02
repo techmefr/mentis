@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-105-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-158-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-24-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-4-bf8700?style=flat-square">
@@ -31,11 +31,11 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **105** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **158** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **24** | 🟡 by contract, they never gate ([why](./business/README.md)) |
-| 🪝 **Hooks** — the gate pair, the test guard, the install guard | **4** | 🟢 wired into one real repo, 2026-09-09 |
-| 🧪 **`bin/`** — review transports + repo self-checks | **9 scripts / 9 suites** | 🟢 216 checks, run on every push |
+| 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
+| 🧪 **`bin/`** — review transports + repo self-checks | **12 suites** | 🟢 run on every push (`bin/pre-push`) |
 
 **Maturity legend** — 🟢 has run on real work · 🟡 written, reviewed, never run.
 The line-by-line breakdown is [`CATALOG.md`](./CATALOG.md); the summary is [Status](#status).
@@ -219,6 +219,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `ship` | 10 | Merge + notification, see the `gandalf` agent |
 | `finish` | 11 | Cleans up the worktree, updates the base branch |
 | `merge-worktree` | 11 | Multi-worktree merge mechanics |
+| `receiving-review` | 8 (author side) | Feedback on your own change: verify each point against the code, stop on an unclear one, answer with substance |
+| `safe-refactor` | 6 / 9 (support) | Restructure working code with behaviour fixed: pin the proof first, one boundary per step, replay the same proof |
+| `execute-plan` | 5 to 7 (opt-in per run) | Carry out a written plan through delegated workers: fresh implementer per task, conformity then quality review, round cap |
 | `deprecation-migration` | cross-cutting | Frames a deprecation/migration (Strangler, Adapter, Feature Flag, Expand/Contract) |
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
 
@@ -236,6 +239,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `vue-nuxt-vuetify-conventions` | Nuxt/Vue/Vuetify conventions, real production experience |
 | `react-nextjs-conventions` | React/Next.js conventions, sourced from the market |
 | `nestjs-node-conventions` | NestJS/Node conventions (DI, DTO, Zod, Prisma) |
+| `laravel-verification` | Ordered read-only verification phases for a Laravel change; "not run" is its own outcome |
 | `laravel-conventions` | Laravel: thin models, events over observers, permissions not roles, schema, queries, tests |
 | `inertia-conventions` | Laravel + Inertia (Vue/React/Svelte rendered from controllers), and why the REST and Nuxt rules do not apply there |
 | `go-conventions` | Go: concurrency, errors, context (sourced from the market) |
@@ -325,18 +329,67 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 </details>
 
 <details>
+<summary><b>Stack and tool blocks, lot 4</b> — written 2026-10-02 from the vendors' own documentation, all 🟡 (32)</summary>
+
+| Skill | What it frames |
+|---|---|
+| `laravel-cache` | Cache-aside reads, falsy values, atomic writes and locks, tags, flushing, failover |
+| `laravel-http-client` | Timeouts, retries, error handling, pooling, shared setup, faking in tests |
+| `laravel-scheduling` | Overlap, one-server runs, background runs, environment limits, bounding the work |
+| `laravel-dispatch-after-commit` | An event, job, notification or mail dispatched inside a transaction |
+| `laravel-filament` | Find the installed major first, apply the version-independent rules, verify signatures in its documentation |
+| `laravel-larastan` | Which rules are on by default, model properties from migrations, baselines and ignores |
+| `laravel-pest` | Architecture tests, datasets, mutation testing, type coverage, parallel runs, on a project that already runs Pest |
+| `laravel-lomkit-rest-api` | What the package whitelists, its authorisation layers, the mistakes that bypass them |
+| `angular-conventions` | Standalone components, signals, templates, injection, interceptors, routing and guards |
+| `svelte-conventions` | Runes, effects, props and snippets, shared state and server-side leaks, SvelteKit loading |
+| `solid-conventions` | Components run once, tracking scopes, why destructuring props breaks reactivity |
+| `astro-conventions` | Static versus on-demand rendering, islands, scripts and styles, environment access |
+| `web-components-conventions` | Custom elements with Lit 3: properties versus state, the update cycle, events |
+| `htmx-alpine-conventions` | Which tool owns what, swap targets and response codes, history and caching |
+| `tailwind-conventions` | Tailwind v4 class detection, theme variables, directives and custom utilities |
+| `vite-bundler-conventions` | Variables that reach the browser, dev-server exposure, pre-bundling, production targets |
+| `data-fetching-state-conventions` | Where a piece of state lives and how data is fetched, cached, mutated and shared |
+| `node-http-conventions` | Express and Fastify: async error flow, proxy trust, security headers, schemas, hooks |
+| `rails-conventions` | Routing, Active Record, migrations, configuration, security surface, tests |
+| `django-conventions` | Services and selectors, the ORM, migrations, settings, deployment checklist |
+| `spring-boot-conventions` | Layout and injection, typed configuration, actuator exposure, shutdown, security filters |
+| `symfony-conventions` | Services, thin controllers, forms, firewall and voters, deployment steps, workers |
+| `elixir-phoenix-conventions` | Assertive code, processes, macros, contexts, scoped access, tests |
+| `graphql-conventions` | Schema naming, nullability, mutations, pagination, evolution, errors, authorisation, demand control |
+| `rust-conventions` | Types and API, errors versus panics, unsafe and FFI, ownership and async, supply chain |
+| `c-conventions` | Integers, memory and strings, errors and resources, threads, hardening flags and sanitizers |
+| `cpp-conventions` | Types, RAII, exceptions, class design, concurrency, templates, shared hardening |
+| `kotlin-android-conventions` | Immutability, null handling, functions and errors, Android layered structure and tests |
+| `swift-conventions` | API naming, argument labels, parameters, documentation of public API |
+| `zig-conventions` | Names, layout, doc comments, pinned to a development tree |
+| `redis-conventions` | Key design, expiry and eviction, atomic updates, pooling, persistence |
+| `sql-conventions` | PostgreSQL, MySQL/InnoDB and SQLite: types, constraints, indexes, transactions, permissions |
+| `terraform-conventions` | Terraform and OpenTofu: layout, state and locking, refactors, module contracts, pinning |
+| `messaging-conventions` | Kafka and RabbitMQ: delivery guarantees, acknowledgement order, retries |
+
+</details>
+
+<details>
 <summary><b>Cross-cutting quality</b> — the axes a correctness pass structurally cannot see (9)</summary>
 
 | Skill | What it does |
 |---|---|
 | `auth-session-conventions` | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
-| `security-hardening` | Trust boundaries while writing: validation, escaping per context, access control, uploads |
+| `security-hardening` | Trust boundaries while writing: validation, escaping per context, access control, uploads, browser headers, production settings, mobile clients |
 | `background-jobs-conventions` | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
 | `webperf` | Diagnose slowness from a measurement, not from intuition |
-| `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
+| `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev), crawl health, structured data, content trust |
+| `html-document` | The shell of a page: doctype, encoding, viewport, language, head integrity, favicons, real 404, no-script |
+| `frontend-testing` | Which test layer catches which frontend defect, how end-to-end and visual tests stay stable |
+| `browser-runtime` | Code that touches what the browser owns: storage, external JSON, messaging, error handling, pre-consent requests |
+| `sampled-evaluation` | Judging a batch by sampling it, with a planted known-bad item; complement to the double evaluation in `gate` |
+| `loop-design` | Before building an agent loop: decidable goal, external judge, attempt cap, human keeps the last switch |
+| `session-postmortem` | Why a session went wrong, from its transcripts, every finding cited path:line |
+| `responsive-layout` | Breakpoints where content breaks, fluid sizing, dvh, overflow, fixed bars, mobile keyboard |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
-| `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, sourced from 12-factor/DORA |
+| `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, TLS and certificates, safe database migrations, container orchestration |
 | `data-pipeline-conventions` | ETL/ELT, data quality and analytical modelling, sourced from dbt/DAMA-DMBOK |
 
 </details>
@@ -378,6 +431,7 @@ without internal expertise in that function.
 | `regulatory-watch` | ⚖️ legal | Jurisdiction first, primary source or `[verify]`, and a deadline past its window is unverified |
 | `fintech-compliance` | ⚖️ legal | Payments, card data, ledgers, KYC: regulatory scope and the engineering invariants that keep it correct |
 | `ux-writing` | 🎨 UI/UX | Errors with a next action, buttons naming the outcome, empty states that aren't "No data" |
+| `ai-prose-tells` | 📣 communication | Clusters of machine-writing tells in a README, MR description or changelog; a rewrite never adds a fact |
 | `interface-design` | 🎨 UI/UX | Containers, states, design tokens, button hierarchy, chips versus buttons, before it is coded |
 | `product-marketing` | 📣 marketing | Positioning in four sentences; every factual claim carries a source before it ships |
 | `sales-support` | 💰 sales | Estimate ≠ commitment, never a date in the room, demos show what exists |
@@ -722,17 +776,20 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 
 ## Maintaining this repo
 
-**Nine suites, 216 checks**, listed once in `bin/pre-push`:
+**Twelve suites**, listed once in `bin/pre-push`:
 
 | Suite | Covers |
 |---|---|
 | `test_scripts.py` · `test_local.py` | The scripts and the local review transport |
-| `test_hooks.py` · `test_guard_test_changes.py` | `hooks/block-installs.sh` and `hooks/guard-test-changes.sh` |
+| `test_hooks.py` · `test_guard_test_changes.py` | Every script in `hooks/`, default and opt-in, plus `hooks/guard-test-changes.sh` |
 | `test_frontmatter.py` | Every block's frontmatter |
 | `test_rule_c.py` | Every tracked file, for anything rule C keeps out of a publishable repo |
 | `test_git_hooks.py` | The wiring of the gate itself |
 | `test_measure_depth.py` | That `CATALOG.md`'s depth table still matches `bin/measure_depth.py` |
 | `test_check_citations.py` | Every `§N` and `§N.M` in the repo, against the section **and the point** it names |
+| `test_contrast_check.py` | The contrast-ratio script used by the design blocks |
+| `test_freshness_lock.py` | `bin/check_freshness_lock.py`: the tracked-package list and the lock agree, a moved version is reported |
+| `test_routing.py` | That a plain-language request ranks the block meant for it first, from block descriptions alone |
 
 <details>
 <summary><b>Four of them exist because of a specific failure</b>, and all four are worth stating</summary>
@@ -826,10 +883,10 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 105 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 158 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 24 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
-| 🪝 `hooks/` | 4 scripts | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
+| 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 9 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 **Written with no internal production experience on the stack**, so their remarks are phrased as

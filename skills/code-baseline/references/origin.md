@@ -109,3 +109,10 @@ private disclosure process, per its `SECURITY.md`, rather than a public issue th
 is left out here — `skills/code-baseline` has no existing disclosure-process rule to attach it to, and
 adding one is out of scope for this pass. Word count re-measured with `bin/measure_depth.py` after the
 edit.
+
+**Widening, 2026-10-02.** Points 17 to 19 of §3 (the four tests a swallowing catch must pass, the critical-path ban,
+the triage procedure) and §0.7 come from the `anti-pattern-czar` command of `claude-mem` (Apache-2.0, read that
+day) and the `surgical-patch` skill of `caveman` (Apache-2.0, same day), rewritten in our words. No text copied;
+the NOTICE obligations of the licence do not apply.
+
+**Widening, 2026-10-02 (anti-slop pass).** Points 12 to 14 of §8 (placeholder implementation, suppression without a reason, copy-paste drift) come from the rule list and rule documentation of Heyosseus/sloppy (MIT, read 2026-10-02), mechanism only: the tool itself is not a dependency (rule B). Rewritten in our words; no text copied.

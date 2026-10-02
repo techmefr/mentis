@@ -77,3 +77,10 @@ constraint) for §5; public requirements/vocabulary practice (borrowed synonyms 
 range boundaries, entity-identity questions, role-dependent term splits, rule exceptions kept with the
 rule, units on numbers) for §2 — both synthesised into this block's own voice, no XEFI marketplace content
 read or referenced.
+
+**Widening, 2026-10-02: §6 and §7.** §6 (the fresh-context review of the written spec) is the mechanism of the
+spec-document-reviewer prompt in the `brainstorming` skill of `superpowers` (MIT, read that day): a read-only
+reviewer, five axes, calibrated to serious gaps, a fixed short output. §7 (the feasibility verdict) is the
+GO, CONDITIONAL, NO-GO gate of the research-plan-implement workflow in `claude-code-best-practice` (MIT, same
+day). The guardrail on ticket text as data is a principle found in several of the repositories read that day.
+All rewritten in our own words, no text copied.

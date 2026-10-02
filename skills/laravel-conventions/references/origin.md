@@ -803,3 +803,22 @@ a call belongs in a registered provider, and a seeder's fallback to inline gener
 stated as the source's own explicit behaviour change. The extracted narrow-trigger satellite is
 `skills/laravel-faker-provider-extensions`. Word count re-measured with `bin/measure_depth.py` after the
 edit.
+
+**Production configuration, safe migrations and the verification block, 2026-10-02.** §12, §13 and the new
+`skills/laravel-verification` block are new. Idea taken from the public ECC repository (MIT licence, read
+2026-10-02): its Laravel security skill (production settings), its Laravel verification skill (the ordered
+phases) and its PHP and database-migration rules (the matrix called the production configuration absent and
+the migration checklist partial: expand and contract existed, the lock, backfill, rollback and
+production-shaped-data parts did not). Mechanisms rewritten in our terms. Differences on purpose: no
+`strict_types` mandate (`laravel-strict-types-default` stands), no generic repository and no response
+envelope (the upstream patterns file proposes both), no coverage percentage, no fixed list of header values
+(those belong to `skills/security-hardening`), and the production checks are asserted on the target
+environment, not read from the repository (§12.1). The facts come from the framework documentation (the
+deployment, session, trusted-proxy, queue, scheduling, health-route, maintenance-mode and migration pages)
+and from the vendor documentation of the major relational engines on online DDL and concurrent index builds,
+written from knowledge of them and **not re-fetched on the day**. Engine-specific statements in §13.4,
+§13.5 and §13.15 depend on engine and version and must be re-read against the one in use. Left out as a
+third-party runtime dependency (rule B): the upstream plugin-discovery skill that calls an external package
+directory.
+
+**Widening, 2026-10-02 (Laravel and PHP lot).** Points 39 and 40 of §4 and points 43 to 46 of §10 come from the `db-performance`, `collections` and `architecture` rule files of Laravel Boost (`laravel/boost`, MIT, cloned 2026-10-02), mechanisms only, rewritten in our words; its `eloquent` advice to use local scopes is left out because the house rule against model scopes wins. New narrow blocks from the same lot: `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament`, `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`.

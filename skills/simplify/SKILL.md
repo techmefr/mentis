@@ -16,12 +16,20 @@ After `review` (`reviewed`), before `ship`.
 3. Check consistency with what `archi` (3) wrote down, and mark as built what is now built — so the
    architecture record stops describing a plan and starts describing the code.
 
+4. Prove the behaviour held: run the same proof you ran at the gate, on the simplified code, and read the result
+   (`skills/gate` §8). A simplification you did not re-verify is a change you did not review.
+5. A simplification that moves responsibility between files or layers is a structural change: follow
+   `skills/safe-refactor` for it (proof first, one boundary per step) rather than folding it into this pass.
+6. Remove only what the change itself made redundant; leave neighbouring code and report it instead
+   (`skills/code-baseline` §0).
+
 ## Output / checkpoint
 `simplified`.
 
 ## Guardrails
 Quality only: **no** bug hunting here (that was `review`/`gate`). Don't change behaviour; if a
-simplification breaks a test, it's a real change → back to `code`.
+simplification breaks a test, it's a real change → back to `code`. Never edit a test to make a simplification
+pass: that is the behaviour change, hidden (`skills/tdd`).
 
 ## Origin
 Native Claude Code (`simplify` skill) + internal, rewritten.

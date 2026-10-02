@@ -187,15 +187,57 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | flutter-no-future-in-state | 6 | `flutter-conventions` §7.6 extracted to its own trigger, 2026-09-09, same pilot | 🟡 |
 | flutter-conventions | 6 | an org catalogue (37 skills), mined and de-identified; replaced the earlier "no mobile block" position; §7 deepened 2026-08-11 against the company's own internal BLoC/Cubit documentation — the one section in this block now sourced from actual production use, not a catalogue description; **depth pass 2026-09-08 on all ten sections** (3,380 → 10,321 words of rules, x6.1 → x2.0), written from documented framework and platform behaviour since there is no production experience to draw on — the additions that were real absences are the device-level ones: a secure-storage read failing after the keystore is cleared, a session's data outliving a logout on a shared phone, the process being killed in the background, a permission revoked while backgrounded, a one-shot system prompt, an overflow being silent in release, the reader's font scale making a fitted row overflow, and a media query answering about the window rather than the widget; a stale `§1.2` citation for disposal (§1's disposal half starts at point 5) was found by doing the pass, and ten more references were realigned; **dogfooded once 2026-09-09** on a small Flutter app in the SDK container, 63 tests green and the analyser clean, which closed seven gaps — five of them surfaced by a failing test or a failed resolve rather than by reading: `on Exception` missing the half of the framework's failures that are `Error`s (§7.18), an awaited call into the holder saying nothing about whether it worked so a screen leaves on a failed save (§7.19), a status enum plus a nullable payload keeping the impossible combination representable (§7.20), a parse moved off the main isolate hanging a widget test rather than failing it (§8.18), the localisation generator being both a required generation step and an exact dependency pin (§9.16), an unconditional settle failing in under a second rather than never returning (§10.13 corrected) with `find.byType` matching the framework's own widgets (§10.17), and the composition root having nowhere to live in the two-layer split (§10.18); **widened 2026-09-10** via a background pass on the five thinnest sections — §1 the two mistakes that crash, §2 widgets/rebuilds, §4 screen states, §5 navigation and §6 lists/forms — sourced from current official flutter.dev/dart.dev documentation, 11,412 → 14,063 words, taking `flutter` from x1.82 to **x1.48**); **widened a second time 2026-09-10**, a background pass over §3 layout, §7 state-management, §8 data-storage/permissions, §9 text/motion/monitoring and §10 naming/structure/tests — sourced from flutter.dev/api.flutter.dev/riverpod.dev/dart.dev, 14,063 → 16,332 words, taking `flutter` from x1.48 to x1.27); **widened a third time 2026-09-10**, a background pass over §1 the two mistakes that crash, §2 widgets/rebuilds, §4 screen states, §6 lists/forms and §9 text/motion/monitoring — sourced from flutter.dev/api.flutter.dev/dart.dev/pub.dev current documentation, 16,332 → 18,733 words, taking `flutter` from x1.27 to **x1.11** | 🟡 (no mobile production experience at all, `faramir`'s question register applies — neither the depth pass nor one dogfood app changes that) |
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
-| seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
-| accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
+| seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) Lot 3: sectioned, §5 crawl health, §6 structured data and previews, §7 content trust and local presence; hreflang self-reference corrected. | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
+| accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard Lot 3: §6 document structure, §7 media and motion, §8 ARIA validity and recipes. | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
+| responsive-layout | 6 | no external source: internal synthesis of fluid-layout practice (content-driven breakpoints, dvh, auto-fit grids, overflow debugging, safe-area, keyboard cover); crosses accessibility and webperf Lot 3: sectioned, steps 13 to 29 added. | 🟡 (written, never run) |
+| loop-design | cross-cutting (new 2026-10-02) | the `loop-design-check` skill of `ECC` (MIT), read 2026-10-02: four-condition gate, decidable goal with bounds, plan/build/judge with an external judge, attempt cap, human keeps the last switch; the native `/loop` and `/goal` mechanics are not restated | 🟡 (written, never run) |
+| session-postmortem | cross-cutting (new 2026-10-02) | the `diagnosing-superpowers` skill of `superpowers` (MIT), read 2026-10-02: intake before analysis, rejected-candidate listing, seven dimensions, path:line rule, transcript context safety; bundle export, scrubbing and issue drafting left out | 🟡 (written, never run) |
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience in house) |
-| devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
+| devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases **Lot 3, 2026-10-02**: hybrid layout, §5 transport and certificates, §6 safe migrations, §7 container orchestration. | 🟡 (sourced from the market, no dedicated production experience in house) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling; §1.4–§1.5 added 2026-09-07 from an org BI skill for handling supplied accounting files, read for its handling discipline rather than its format knowledge (never write back over the file someone handed you; confirm a destructive transformation before applying it) — §3.1 already held the raw-layer version at pipeline scale, the missing case was the ad-hoc one; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (749 → 3,212 words of rules), the **last single-file block counted in the depth table**. No section added; §1.4, §1.5 and §3.1 kept their numbers. None of the failures here announces itself, which is the depth: idempotence covering the *whole* run so an upsert followed by a log append or a notification is not idempotent, a partial run having to leave a state you can classify, a run keyed on the wall clock being unbackfillable, late-arriving corrections making a forward-only window stop matching the source, a quarantine with a published count rather than a silent skip, the *number* of failing rows being what makes an alert actionable, a validation with no owner getting loosened at the first inconvenient hour, duplicates being defined by a business key whose wrong choice deletes real data, a check reading the pipeline's own output passing on any consistent error, a deletion upstream being an event rather than an absence, reusing the source's key letting a renumbering rewrite your history, and incremental processing being correct only if you can say what "new" means; **dogfooded once 2026-09-08** alongside `python-conventions` on a small stdlib-only pipeline, which closed one real ambiguity: §2.4 said to quarantine the bad rows where blocking is unacceptable, and applied, that is impossible for half the checks — a duplicated key, a total disagreeing with its parts and an entity counted in two groups are properties of the *set*, so no row can be set aside; §2.4 now says the run is the quarantine unit in that case. §1.2, §1.4 and §2.7 were the three rules that carried the exercise with no translation needed | 🟡 (sourced from the market, no dedicated production experience in house) |
 | auth-session-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate jwt/oauth-oidc/keycloak/auth0 agents, no equivalent here) + a documented internal incident on a token refresh flow + OWASP session management; §4 (reference login flow) extracted from our two real frontend implementations read side by side; re-checked directly against the OWASP Session Management Cheat Sheet on 2026-08-10, 3 real gaps closed (privilege-change invalidation, absolute session lifetime, Clear-Site-Data on logout) plus an explicit CSRF note | 🟢 (§4 describes code already in production on two frontends; the rest still to dogfood) |
-| security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,030 → 4,144 words of rules). No section added: the five are the shape of a boundary. §3 kept its number (`business/data-protection` cites it) and §2.4 stayed the SSRF rule the 2026-08-10 OWASP check added. None of these failures is loud — a missing authorisation declaration returns the right data to whoever wrote it — so the depth is the skipped case: the boundary being the right place because it is *enumerable*, reject-don't-repair, request-binding accepting fields the interface never shows, a value from another system still being untrusted, escaping on input giving a database correct for one destination, a resolved-path check rather than a join, secrets in URLs reaching history and proxies, an outbound call spending its own credentials, authorising before the work, **default-deny**, every response *field* being subject to the endpoint's decision, a webhook's authorisation being signature verification, the lock file being the real inventory, an install step running with your credentials, and the negative test being the only proof | 🟡 (written, not dogfooded yet) |
+| security-hardening | 6 | a market generalist dev skill catalogue (`security-and-hardening`) + OWASP Top 10/ASVS/escaping cheat sheets; the writing-time vs audit-time split is ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,030 → 4,144 words of rules). No section added: the five are the shape of a boundary. §3 kept its number (`business/data-protection` cites it) and §2.4 stayed the SSRF rule the 2026-08-10 OWASP check added. None of these failures is loud — a missing authorisation declaration returns the right data to whoever wrote it — so the depth is the skipped case: the boundary being the right place because it is *enumerable*, reject-don't-repair, request-binding accepting fields the interface never shows, a value from another system still being untrusted, escaping on input giving a database correct for one destination, a resolved-path check rather than a join, secrets in URLs reaching history and proxies, an outbound call spending its own credentials, authorising before the work, **default-deny**, every response *field* being subject to the endpoint's decision, a webhook's authorisation being signature verification, the lock file being the real inventory, an install step running with your credentials, and the negative test being the only proof **Lot 3, 2026-10-02**: §6 browser and transport, §7 production and abuse, §8 client and mobile (see the audit entry). | 🟡 (written, not dogfooded yet) |
 | background-jobs-conventions | 6 | gap found while scouting a market per-technology agent catalogue (separate kafka/rabbitmq/bullmq/sidekiq/celery agents, no equivalent here) + established distributed-systems practice (at-least-once, idempotency keys, bounded retries, dead-letter) | 🟡 (written, not dogfooded yet) |
-| webperf | 6 | a market generalist dev skill catalogue (`webperf`) + web.dev performance guidance + bundle-weight items from a market open source TypeScript project | 🟡 (written, not dogfooded yet) |
+| webperf | 6 | a market generalist dev skill catalogue (`webperf`) + web.dev performance guidance + bundle-weight items from a market open source TypeScript project Lot 3: sectioned, §4 loading path, §5 images, §6 delivery. | 🟡 (written, not dogfooded yet) |
+| html-document | 6 | public `Front-End-Checklist` (topics only, no wording) + HTML Living Standard, RFC 9110, MDN, web.dev | 🟡 (written 2026-10-02, never run) |
+| frontend-testing | 6, 8 | same repository (testing topics) + consumer-driven contract pattern + WAI/WCAG on what automation cannot see; layer table and flaky policy ours | 🟡 (written 2026-10-02, never run) |
+| browser-runtime | 6 | same repository (JavaScript, privacy, security topics) + HTML Living Standard (storage, messaging), browser vendors and regulators on third-party cookies | 🟡 (written 2026-10-02, never run) |
+| laravel-verification | 6 / 7 | `laravel-verification` of `ECC` (MIT), rewritten; Laravel, Pint, PHPStan, Composer docs | 🟡 (written 2026-10-02, never run) |
+| sampled-evaluation | cross-cutting | `santa-method` idea of `ECC` (MIT), batch and stratified sampling; complement to `gate` §11 | 🟡 (written 2026-10-02, never run) |
+| laravel-cache | 6 | Laravel 13 cache documentation + the caching rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-http-client | 6 | http-client rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-scheduling | 6 | scheduling rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-dispatch-after-commit | 6 | events, notifications and mail rules of `laravel/boost` (MIT) + the `JobDispatchedInTransactionUsesAfterCommit` rule of `larastan/larastan` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-filament | 6 | filamentphp.com 5.x documentation (upgrade guide, resources, testing); version detection idea from a public skill (MIT), no wording. Signatures are never written per version | 🟡 (written 2026-10-02, never run) |
+| laravel-larastan | 6 | `larastan/larastan` 3.x documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-pest | 6 | `pestphp/docs` (MIT) + the testing-best-practices rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-lomkit-rest-api | 6 | skill and `composer.json` shipped in `lomkit/laravel-rest-api` (MIT); the package site was not re-read | 🟡 (written 2026-10-02, never run) |
+| angular-conventions | 6 | Angular 22 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| svelte-conventions | 6 | Svelte 5.57 and SvelteKit 3 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| tailwind-conventions | 6 | Tailwind CSS 4.3 documentation, idea only (unlicensed), rewritten | 🟡 (written 2026-10-02, never run) |
+| vite-bundler-conventions | 6 | Vite 8 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| data-fetching-state-conventions | 6 | TanStack Query 5.104 documentation, the Redux style guide, the Pinia documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| htmx-alpine-conventions | 6 | htmx 2 documentation (0BSD) + Alpine 3 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| astro-conventions | 6 | Astro documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| solid-conventions | 6 | Solid 1.x documentation, idea only (unlicensed), rewritten | 🟡 (written 2026-10-02, never run) |
+| web-components-conventions | 6 | Lit 3 documentation (BSD-3-Clause), rewritten | 🟡 (written 2026-10-02, never run) |
+| rust-conventions | 6 | Rust API Guidelines (MIT or Apache-2.0), Pragmatic Rust Guidelines (MIT), ANSSI secure Rust guide (Licence Ouverte 2.0), rewritten; pinned commits in `references/origin.md` | 🟡 (written 2026-10-02, never run) |
+| c-conventions | 6 | SEI CERT C rule statements (idea only), a compiler hardening guide (CC BY 4.0), Google C++ style on headers and macros (CC BY 3.0), Linux kernel style (GPL, idea only), rewritten | 🟡 (written 2026-10-02, never run) |
+| cpp-conventions | 6 | C++ Core Guidelines (idea only: licence is not open), Google C++ style (CC BY 3.0), rewritten; hardening cited from `c-conventions` | 🟡 (written 2026-10-02, never run) |
+| kotlin-android-conventions | 6 | Kotlin documentation (Apache-2.0) + Now in Android (Apache-2.0), rewritten; pinned commits in `references/origin.md` | 🟡 (written 2026-10-02, never run) |
+| swift-conventions | 6 | Swift API Design Guidelines (Apache-2.0), rewritten; API surface only | 🟡 (written 2026-10-02, never run) |
+| zig-conventions | 6 | Zig language reference style guide (MIT), rewritten; pinned to a 0.16.0 development tree | 🟡 (written 2026-10-02, never run) |
+| rails-conventions | 6 | Rails and Ruby community style guides (CC BY 3.0), `rubocop-rails` cops (MIT), Rails guides (CC BY-SA 4.0, idea only); Rails 7.1 to 8.x | 🟡 (written 2026-10-02, never run) |
+| django-conventions | 6 | Django documentation (BSD-3-Clause), a public Django style guide (MIT), PostgreSQL `CREATE INDEX` documentation; Django 6.2 alpha documentation | 🟡 (written 2026-10-02, never run) |
+| spring-boot-conventions | 6 | Spring Boot reference 4.2.0-SNAPSHOT and Spring Security reference (Apache-2.0), rewritten | 🟡 (written 2026-10-02, never run) |
+| node-http-conventions | 6 | Express documentation (CC BY 4.0), Fastify documentation (MIT), Helmet README (MIT), rewritten; sits beside `nestjs-node-conventions` | 🟡 (written 2026-10-02, never run) |
+| symfony-conventions | 6 | Symfony documentation (CC BY-SA 3.0, idea only, no wording reused) | 🟡 (written 2026-10-02, never run) |
+| elixir-phoenix-conventions | 6 | Elixir anti-pattern pages (Apache-2.0) + Phoenix guides (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| graphql-conventions | 6 | graphql.github.io learning guides (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| redis-conventions | 6 | Redis documentation (idea only, CC BY-NC-SA) + public Redis agent skills (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| sql-conventions | 6 | PostgreSQL manual, SQLite documentation, MySQL manual (idea only), Timescale `pg-aiguide` (Apache-2.0), Supabase and PlanetScale skills (MIT), OWASP cheat sheet (CC BY-SA, idea only) | 🟡 (written 2026-10-02, never run) |
+| terraform-conventions | 6 | `terraform-skill` and `terraform-best-practices` (Apache-2.0), HashiCorp documentation (idea only) | 🟡 (written 2026-10-02, never run) |
+| messaging-conventions | 6 | Apache Kafka repository documentation and configuration source (Apache-2.0), RabbitMQ website-repository documentation (Apache-2.0 or MPL-2.0), rewritten | 🟡 (written 2026-10-02, never run) |
 | domain-modeling | 3 | a recognised market skill author (`domain-modeling`) + DDD staples; states-not-flags is ours | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
 | api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule); **sectioned and deepened 2026-09-08** — the three inline sections moved to one file each under `references/` and the router became a table of triggers (375 → 2,392 words of rules). This was the thinnest block counted in the depth table, for the same reason `spec` was: a checklist of principles an experienced reader already agrees with and cannot apply under pressure, because the pressure comes from a change that looks compatible and is not — so the depth is a catalogue of those: **loosening is compatible and tightening is not**, widening a type breaking every parser written against the narrower promise, renaming being removal plus addition, a change to a field's *meaning* being breaking with the type unchanged, a default value being part of the contract, consumers depending on our *failures* so a changed status code turns careful retry handling into a duplicated write, an unspecified ordering being a choice made once by accident, and compatibility being verified by comparing the two schemas rather than remembered | 🟢 (direct rewrite) |
@@ -230,6 +272,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | ship | 10 | internal (`/SHIP`, gandalf) | 🟡 |
 | finish | 11 | internal, plain git — rewritten from an orchestrator teardown step with no dependency on it | 🟡 |
 | merge-worktree | 11 | a market context-engineering kit (`git-worktrees`) | 🟡 |
+| receiving-review | 8 (author side) | `receiving-code-review` of `superpowers` (MIT), read 2026-10-02, mechanism rewritten | 🟡 (written 2026-10-02, never run) |
+| safe-refactor | 6 and 9 (support) | `safe-refactor`, `surgical-patch`, `verify-and-stop` of `caveman` (Apache-2.0, MIT lineage), read 2026-10-02; the pinning behaviour is ours | 🟡 (written 2026-10-02, never run) |
+| execute-plan | 5 to 7 (opt-in per run) | `subagent-driven-development` of `superpowers` (MIT) and `do` of `claude-mem` (Apache-2.0), read 2026-10-02, rewritten; continuous execution replaced by a round cap | 🟡 (written 2026-10-02, never run) |
 
 ### Business layer (`business/`, weaker contract: no gate, no evidence, 🟡 ceiling)
 | Block | Function | Origin (idea rewritten) | Maturity |
@@ -239,6 +284,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | regulatory-watch | legal | same suite (regulatory-change monitors, freshness gate, `[verify]` on unsourced claims) + a community GRC pack covering 30 frameworks with no update mechanism, which is the gap this fills; jurisdiction-first and "unverified rather than wrong" are ours | 🟡 (no internal legal expertise; produces dated questions, never a compliance verdict) |
 | licence-compliance | legal | licence texts + the published permissive/weak/strong-copyleft distinctions; lock file as the real inventory, generated notices and the rule-C symmetry are ours | 🟡 (no internal legal expertise) |
 | ux-writing | UI/UX | published content guidelines of the major design systems; the domain-modeling consistency link, the no-concatenation rule and the empty/no-match/failed-to-load split are ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,005 → 4,217 words of rules). No section added; §4.1 kept its number, cited from `business/release-communication` §2. Interface text has no test — a wrong string ships green and the only evidence is a behaviour — so the depth is that behaviour: a validation message naming the *rule* rather than the verdict, the message being the only thing that can say what happened to the reader's work after a failed save, "you cannot" versus "it did not work" where only one is retryable, a zero being a measurement and not an empty state, a permission-empty list as a third case where "add your first item" cannot be followed, sample content in an empty screen being reconciled against as real, the form of address propagating into every verb form, a half-translated screen failing silently because a missing key renders as its source text, a plural not being a conditional, and a hardcoded string bypassing the translation file, the review and the search at once | 🟡 (no internal UX-writing expertise, no tone-of-voice reference available) |
+| ai-prose-tells | communication (new 2026-10-02) | four public MIT prose-quality filters, read 2026-10-02 (severity tiers, tell families judged in clusters, draft-audit-final loop, user voice sample first, mandatory not-to-flag list); the second audit question (a fact absent from the source), the no-added-fact rewrite and the positive requirement are ours | 🟡 (written, never run) |
 | product-marketing | marketing | published positioning structure (audience / alternative / outcome / boundary); claim-needs-a-source as `default = failure` applied outside code, and technical claims read by a builder, are ours | 🟡 (no internal marketing expertise, no brand or campaign reference available) |
 | sales-support | sales | published discovery-before-solution practice and the estimate-versus-commitment distinction; the estimation rules mirror internal engineering practice (points, spikes, scope moves not the number) with nothing named | 🟡 (no internal sales expertise; pricing and contract terms deliberately out of scope under rule C) |
 | release-communication | communication | keep-a-changelog conventions + standard deprecation-notice practice; the three-bucket ordering by required action, and "anything fitting no bucket is internal noise", are ours | 🟡 (no internal technical-writing or comms expertise) |
@@ -444,16 +490,16 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 50,539 | −29,286 | x1.58 |
-| csharp | 37 / 56,718 | 1 / 36,768 | −19,950 | x1.54 |
+| laravel | 65 / 79,825 | 3 / 54,558 | −25,267 | x1.46 |
+| csharp | 37 / 56,718 | 1 / 40,065 | −16,653 | x1.42 |
 | design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 19,124 | −1,648 | x1.09 |
-| nuxt | 21 / 19,869 | 1 / 18,491 | −1,378 | x1.07 |
-| python | 20 / 22,097 | 2 / 21,086 | −1,011 | x1.05 |
-| project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
-| bi, design, xefi | 16 / 17,306 | 4 / 20,034 | +2,728 | x0.86 |
-| global | 18 / 20,280 | 6 / 23,255 | +2,975 | x0.87 |
-| react | 36 / 9,302 | 1 / 11,158 | +1,856 | x0.83 |
+| flutter | 40 / 20,772 | 1 / 23,318 | +2,546 | x0.89 |
+| nuxt | 21 / 19,869 | 1 / 25,052 | +5,183 | x0.79 |
+| python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
+| project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
+| bi, design, xefi | 16 / 17,306 | 4 / 29,680 | +12,374 | x0.58 |
+| global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
+| react | 36 / 9,302 | 1 / 16,841 | +7,539 | x0.55 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -477,16 +523,16 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 37,353, php-patterns 6,068, inertia-conventions 7,118
-csharp: dotnet-conventions 36,768
-python: python-conventions 15,618, data-pipeline-conventions 5,468
-flutter: flutter-conventions 19,124
-nuxt: vue-nuxt-vuetify-conventions 18,491
-global: code-baseline 9,577, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,272, run-generated-tests 959
-project-management: product-ownership 9,343, spec 5,109
+laravel: laravel-conventions 40,301, php-patterns 7,139, inertia-conventions 7,118
+csharp: dotnet-conventions 40,065
+python: python-conventions 18,879, data-pipeline-conventions 5,468
+flutter: flutter-conventions 23,318
+nuxt: vue-nuxt-vuetify-conventions 25,052
+global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
+project-management: product-ownership 9,343, spec 5,795
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 11,158
-bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 5,359
+react: react-nextjs-conventions 16,841
+bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,857
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
@@ -2185,6 +2231,116 @@ tested" rather than "safe." Also found: `APP_DEBUG=true` committed in `.env` (lo
 over HTTP behind the 401 wall), and an unauthenticated `/api-documentation` Swagger shell serving no
 real schema (`/vendor/rest/openapi.json` 404). `README.md`'s status column updated for both agents —
 this closes the full 21-agent roster dogfood programme started this session.
+
+### Audit, 2026-10-02: five public anti-slop and design-quality repositories
+
+Read: `anti-slop` (MIT, v3.2.20), `claude-code-skills` (MIT; `stop-slop`, `slop-detector`), `slopless` (MIT),
+`hallmark` (MIT), plus the design-quality skill behind the `interface-design` additions. Mechanisms rewritten
+in the house template (rule B), nothing copied.
+
+**Taken.**
+- New `business/ai-prose-tells` and `skills/responsive-layout`, both 🟡.
+- `business/interface-design`: §7 default without a reason, direction and dials, conflict protocol, scored
+  pre-critique, audit shape, token lock, control states, fabricated content and fake chrome bans.
+- `skills/gate`, `skills/testing-anti-patterns`: no invented data, artefact gating beyond the exit code,
+  negative tests that can fail; `business/ux-writing` §5.13: no invented figures.
+- `skills/code-baseline` §0.6 and §7.21, `skills/qa-exploratory-testing` §5 (inventory of controls),
+  `skills/accessibility` §3.1 with `bin/contrast_check.py`.
+- `skills/writing-skills` steps 8 to 10, `skills/ship` and `business/social-publishing` send gate,
+  `skills/dispatch-parallel` and `skills/writing-agents` bounded output.
+- `hooks/block-installs.sh`: test anchored on the command boundary, executors unwrapped.
+
+**Left out, with the reason.**
+- Code-slop detection (`antislop-code`): `skills/code-baseline` is stricter and already owns it.
+- Human-writing mode (`antislop-human`): already covered by the preservation section of `ai-prose-tells`.
+- Installers, durable modes and persistent configuration: rule B, no runtime dependency.
+- `red-pen`: no licence, so not read for reuse.
+- `clarify`, `distill`, `quieter`, `polish`, `harden`: Apache-licensed derivatives of another project; not used.
+- `hallmark` theme catalogue: out of scope, a list of looks goes stale on arrival (`interface-design` §7.5).
+
+### Audit, 2026-10-02 (lot 2): fourteen public repositories read for mechanisms
+
+Read (all by their sources, not from a brief): `taste-skill` (MIT), `ECC` (MIT), `ponytail` (MIT), `superpowers`
+(MIT), `orca` (MIT), `Understand-Anything` (MIT), `claude-code-best-practice` (MIT), `humanizer` (MIT),
+`claude-mem` (Apache-2.0), `caveman` (Apache-2.0), `Front-End-Checklist` (method only, licence unclear, no text
+used). Mechanisms rewritten (rule B), nothing copied.
+
+**Taken.**
+- `business/interface-design` §7.7 counted caps (principle only, no author thresholds), §8 redesign, §0.14 Design Read.
+- `skills/webperf` §2.8 motion; `skills/writing-agents` step 6 anti-truncation; `skills/qa-exploratory-testing` §6 click-path audit.
+- New `skills/loop-design` and `skills/session-postmortem`, both 🟡.
+- `skills/dispatch-parallel` supervision rules; `skills/wayfinder` per-ticket report.
+- `skills/code` ladder, `skills/debug` caller grep (no marker, no ledger, no benchmark figure).
+- `skills/plan` steps 4 to 7, `skills/review` and `references/review-axes.md` Declined to judge, `skills/tdd` project-suite line.
+- `business/ai-prose-tells` family 14, thread-reply case, embedded mode, text-as-material guard; wired from `skills/mr-conventions` and `skills/ship`.
+- `skills/archi` graph freshness; `skills/extract-conventions` pointer.
+- `skills/ship` go-live and MR-watching sections; `references/terse-reporting.md` security prose; `skills/maintaining-blocks` §5.
+- Hooks, both opt-in: `hooks/gateguard.sh` (idea and mechanism from the `gateguard` hook in `ECC`, MIT, whose original tool is the `zunoworks` project; the gain its author reports, +2.25 points, comes from two of the author's own A/B runs and is to be re-measured here) and `hooks/guard-secrets.sh` (idea spotted in a curated list, mechanism written internally).
+- `bin/prefetch_local.py` rejects an empty range and a non-descending explicit range (the default already used `git merge-base`).
+
+**Left out, with the reason.**
+- Composio dependencies, `Agent-Reach`, heavy graphs and dashboards, `claude-mem` memory: rule B, runtime dependency.
+- The `ponytail` marker comment and debt ledger: comments are forbidden, and its benchmark numbers are the author's, not measured here.
+- The curated awesome-claude-code list as text: licence forbids derivatives; only the idea behind the secrets hook was noted.
+- `anti-ai-slop-writing` mechanical quotas: they push text to pass a metric (against `ai-prose-tells`).
+- A scripted check that detection blocks have a not-to-flag section: no reliable marker for detectors, so it is a reading check in `skills/maintaining-blocks` §5.
+
+### Audit, 2026-10-02 (lot 3): process, front end, security, stacks, prose and design
+
+Five writers in parallel on one working tree, sources read the same day, mechanisms rewritten (rule B), no
+prose copied. Everything new is 🟡: written, never run. Excuse tables in the process blocks are labelled
+PREDICTED and must be replaced by sentences from a `testing-blocks` run.
+
+**Taken.**
+- Process: new `receiving-review`, `safe-refactor`, `execute-plan` (opt-in per run). Extended `gate` (claims and proof, verification loop, excuses, double evaluation), `ship` (go-live lenses), `plan`, `review`, `mr-conventions` (commit messages), `brainstorm` (structured dissent), `spec` (fresh-context review, feasibility verdict, ticket text is data), `tdd`, `handoff`, `bug-triage` (root-cause grouping, before the hypothesis), `merge-worktree`, `code-baseline` (override criteria for a catch), `using-mentis`, `simplify`.
+- Front end: new `html-document`, `frontend-testing`, `browser-runtime`; `webperf`, `seo`, `responsive-layout` sectioned; `accessibility` §6 to §8. Editorial and local SEO reinstated as harness-independent knowledge (seo §7). A wrong rule fixed: hreflang versions list themselves.
+- Security and operations: `security-hardening` §6 to §8, `devops-conventions` §5 to §7 (TLS, migrations, orchestrator). Five opt-in hooks: `block-no-verify`, `config-protection`, `guard-commit-message`, `guard-destructive` (cautious mode only), `session-start-using-mentis`, with the shared `command_views.py` reader.
+- Stacks: new `laravel-verification` and `sampled-evaluation`; testing, security and language-habit sections for .NET, Vue/Nuxt, Flutter, Laravel, PHP, Python, React/Next; `typescript-patterns`, `testing-anti-patterns` and `testing-blocks` turned into routers.
+- Prose and design: `ai-prose-tells` families 15 to 43 plus a French file, `interface-design` §0.15 to 0.17, §1.13 to 1.16, §7.8 to 7.10, §8.8 to 8.9, microinteractions and data-and-flows references, `ux-writing` links and inclusive wording, editorial and local-presence references for `content-creation` and `product-marketing`.
+- Depth table and composition lines re-measured with `bin/measure_depth.py` (laravel x1.47, csharp x1.46, flutter x0.92, nuxt x0.87, python x0.95, react x0.65).
+
+**Left out, with the reason.**
+- Runtime dependencies and installers (visual companion server, hosted measurement services, MCP servers, manifests): rule B.
+- Recited figures (page weight, TLS versions, HSTS duration, coverage floors, quotas, scoring bands): the sections cite the standard or defer to the project baseline.
+- Catalogues of named looks, banned-phrase lists, ranking myths (keyword density, `llms.txt`, geo meta): they age or are unproven; the refusals are recorded where they would be re-added.
+- PWA, CDN, HTTP/2, CSS minification and linters: installable-product decision, infrastructure or tooling-owned.
+- `safety-guard` freeze mode: covered by one task per worktree. `execute-plan` continuous mode: opposite of an operator decision per run, replaced by a round cap.
+- Go, Java, Ruby, Rust, Swift and Kotlin rules: stacks not used here.
+- Hooks bootstrapped through `node -e` or tool-specific flags: mechanism not imitated, scripts stay readable.
+- PowerShell detection in hooks, a separate santa-method block (duplicates `gate` §11), generic Repository and response-envelope advice (against doctrine).
+
+**Open.** Redis patterns for `background-jobs-conventions`, `finish` and `start-feature` isolation detection, the `debug` and `code` cross-links to `safe-refactor`, `business/content-creation` dangling pointer to `references/social-platforms.md`, RED runs for every predicted table.
+
+### Audit, 2026-10-02 (lot 4): thirty-two stack and tool blocks, five extensions, two hooks, the test guard
+
+Five writers in parallel on one working tree, sources read the same day from their primary documentation or
+repositories, mechanisms rewritten (rule B). Every new block is 🟡: written, never run on real work. Version facts
+carry their pin and read date in each block's `origin.md` or `Origin` section.
+
+**Taken.**
+- Laravel and PHP: new `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament` (detect the major first, never per-version syntax), `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`. Extended `laravel-conventions` (§4 points 39 to 40, §10 points 43 to 46), `code-baseline` (§8 points 12 to 14), `over-engineering-review` (audit mode: count, rank both ends, defend, a third kept), `plan` (steps 14 to 16: brief traceability, trust boundaries, verdict from a fresh context).
+- Test guard: `hooks/guard-test-changes.py` rewritten to also refuse a skipped or todo test, an assertion that cannot fail, a deleted test, and shell routes around a test file (39 cases). Wiring under a shell matcher documented in `hooks/README.md`.
+- Front end: new `angular-conventions`, `svelte-conventions`, `solid-conventions`, `astro-conventions`, `web-components-conventions`, `htmx-alpine-conventions`, `tailwind-conventions`, `vite-bundler-conventions`, `data-fetching-state-conventions`. Extended `react-nextjs-conventions` §14 (Cache Components), `typescript-patterns` §8 and §9, `vue-nuxt-vuetify-conventions` §17, `frontend-testing`, `testing-blocks` §8, `nestjs-node-conventions`.
+- Native and systems languages: new `rust-conventions`, `c-conventions`, `cpp-conventions`, `kotlin-android-conventions`, `swift-conventions` (API surface only), `zig-conventions` (pinned to a development tree).
+- Back end: new `rails-conventions`, `django-conventions`, `spring-boot-conventions`, `node-http-conventions`, `symfony-conventions`, `elixir-phoenix-conventions`, `graphql-conventions`. Extended `api-design` (gRPC and protobuf, HTTP and OpenAPI), `python-conventions` §11 (FastAPI), `auth-session-conventions` §6 (native and desktop clients), `background-jobs-conventions` §6.
+- Data and infrastructure: new `redis-conventions`, `sql-conventions`, `terraform-conventions`, `messaging-conventions`; `observability-instrumentation` §5 (OpenTelemetry).
+- Maintenance: `bin/check_freshness_lock.py` with `bin/test_freshness_lock.py` (16 tracked packages, offline by default), `bin/test_routing.py` (a request ranks the intended block from descriptions alone), both in `bin/pre-push`; `source-freshness` step for the lock. Two opt-in hooks: `gate-ui-a11y` and `detect-correction`.
+- Depth table and composition lines re-measured with `bin/measure_depth.py` (laravel x1.46, python x0.91, nuxt x0.84, react x0.6, global x0.6).
+
+**Corrected at integration.**
+- Prose too close to a source was rewritten after a nine-word overlap scan against every cloned source: `plan` step 15, `over-engineering-review`, the `cpp-conventions` sections 1 to 7 (the Core Guidelines are not openly licensed: idea only), one `react-nextjs-conventions` §14 sentence, one `laravel-dispatch-after-commit` sentence, one `laravel-conventions` §4 point. Short factual statements shared with the documentation (a default, a method name) were left.
+- Harness vocabulary removed from the substance (rule D): a hook path in `laravel-pest`, a "public skill" mention in `laravel-filament` and `laravel-lomkit-rest-api`.
+- `laravel-filament`: an unconfirmed remark (binary columns and serialisation) is marked to confirm and the reasoning of ours is listed. `react-nextjs-conventions` §14: the Cache Components default is stated as the recommended defaults of a new app, the wording of the documentation.
+- A missing line break fused `laravel-conventions` §4 points 39 and 40.
+
+**Left out, with the reason.**
+- Rules from memory with no source read: removed from `c-conventions` and `cpp-conventions`; the Express cookie, session and rate-limit rules; the Symfony static-analysis section; the Elixir tool sections; a coroutine rule for Kotlin; the crypto and assurance sections of `security-hardening` (no primary source read).
+- Licensed against reuse, so idea only: C++ Core Guidelines, SEI CERT C, Linux kernel style, Symfony and Tailwind documentation, OWASP cheat sheets, MASVS and MASTG, Rails guides, MySQL and Redis documentation. A swift skill collection under a restrictive licence was not read.
+- Unread, so not written: `mobile-release`, `package-release`, search engines, git, LLM and agent blocks, design tokens and Storybook, the Vuetify version matrix, `dotnet-conventions` minimal APIs (notes kept by the back-end writer), updates to the Flutter, Go, Java and .NET blocks.
+- Text addressed to agents inside two sources (a Next.js adoption page, a joke page in the htmx documentation) was read as data and not followed.
+- Instructions from sources to install tools or hosted services: rule B.
+
+**Open.** Every new block needs a first run on a real change; the freshness lock covers 16 packages and not Storybook or Style Dictionary; the `node-http-conventions` and `nestjs-node-conventions` overlap and the `laravel-dispatch-after-commit` and `background-jobs-conventions` §6.1 overlap are not yet cross-referenced; the hook wiring for the shell half of `guard-test-changes` is documented but not exercised on a real repository.
 
 ## 3. The rule that keeps us "in control" (reminder)
 
