@@ -624,5 +624,60 @@ for name in sorted(os.listdir(HOOKS_DIR)):
         fail += 1
         print(f"FAIL  hooks/{name} lost its executable bit")
 
+print("\n-- gate-ui-a11y: opt-in a11y-review gate on UI edits")
+A11Y = os.path.join(HOOKS_DIR, "gate-ui-a11y.sh")
+a11y_dir = tempfile.mkdtemp(prefix="mentis-a11y-")
+a11y_env = dict(os.environ, MENTIS_A11Y_GATE="1", MENTIS_A11Y_DIR=a11y_dir)
+
+
+def a11y(payload, env=None):
+    text = payload if isinstance(payload, str) else json.dumps(payload)
+    return subprocess.run(["bash", A11Y], input=text, capture_output=True, text=True, env=env or a11y_env).returncode
+
+
+def edit_of(path, session="s1"):
+    return {"tool_name": "Edit", "session_id": session, "tool_input": {"file_path": path}}
+
+
+expect("a11y: off unless MENTIS_A11Y_GATE=1", a11y(edit_of("src/App.vue"), dict(os.environ, MENTIS_A11Y_GATE="")), 0)
+expect("a11y: a UI file is refused before the review", a11y(edit_of("src/App.vue")), 2)
+expect("a11y: a tsx file is refused", a11y(edit_of("src/Button.tsx")), 2)
+expect("a11y: a non-UI file passes", a11y(edit_of("src/api.ts")), 0)
+expect("a11y: a test of a UI file passes", a11y(edit_of("src/Button.test.tsx")), 0)
+expect("a11y: a story passes", a11y(edit_of("src/Button.stories.tsx")), 0)
+expect("a11y: an unparseable payload that names a UI file is refused", a11y("not json App.vue"), 2)
+expect("a11y: an unparseable payload with no UI file passes", a11y("not json at all"), 0)
+open(os.path.join(a11y_dir, "s1"), "w").close()
+expect("a11y: the marker lets the session edit", a11y(edit_of("src/App.vue")), 0)
+expect("a11y: the marker is per session", a11y(edit_of("src/App.vue", "s2")), 2)
+old = _time.time() - 48 * 3600
+os.utime(os.path.join(a11y_dir, "s1"), (old, old))
+expect("a11y: an expired marker no longer counts", a11y(edit_of("src/App.vue")), 2)
+
+print("\n-- detect-correction: opt-in correction detector")
+CORR = os.path.join(HOOKS_DIR, "detect-correction.sh")
+corr_log = os.path.join(tempfile.mkdtemp(prefix="mentis-corr-"), "log.jsonl")
+corr_env = dict(os.environ, MENTIS_CORRECTION_DETECTOR="1", MENTIS_CORRECTIONS_LOG=corr_log)
+
+
+def corr(prompt, env=None):
+    r = subprocess.run(["bash", CORR], input=json.dumps({"prompt": prompt, "session_id": "c1"}),
+                       capture_output=True, text=True, env=env or corr_env)
+    return r.returncode, r.stdout
+
+
+expect("correction: off unless MENTIS_CORRECTION_DETECTOR=1", corr("No, that's wrong", dict(os.environ, MENTIS_CORRECTION_DETECTOR=""))[1], "")
+code, out = corr("No, that's wrong, the field is optional")
+expect("correction: a correction injects context", (code, "additionalContext" in out), (0, True))
+expect("correction: it is logged", os.path.exists(corr_log) and "that's wrong" in open(corr_log).read(), True)
+expect("correction: French wording is seen", "additionalContext" in corr("Non, c'est faux")[1], True)
+expect("correction: you forgot", "additionalContext" in corr("You forgot the migration")[1], True)
+expect("correction: an ordinary prompt is silent", corr("Add a field to the user form")[1], "")
+expect("correction: 'no problem' is not a correction", corr("No problem, go ahead")[1], "")
+expect("correction: a malformed payload allows", subprocess.run(["bash", CORR], input="nope", capture_output=True, text=True, env=corr_env).returncode, 0)
+
+for name in ("gate-ui-a11y.sh", "gate-ui-a11y.py", "detect-correction.sh", "detect-correction.py"):
+    expect(f"hooks/{name} exists and is executable", os.access(os.path.join(HOOKS_DIR, name), os.X_OK), True)
+
 print(f"\n{ok} passed, {fail} failed")
 sys.exit(1 if fail else 0)

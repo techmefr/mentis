@@ -229,6 +229,23 @@
    buckets point 5's scaffolding already tracks. See  for
    what belongs centrally versus per tenant, and  for the one shape of
    record that legitimately exists on both sides.
+43. **Post-response work that needs no retry and no durability can use the framework's deferred-function helper
+    instead of a job; anything that must survive a crash or be retried is still a job.** A deferred function
+    normally runs after the response, in the same PHP process, so a fatal error or a restart loses it. Page-view
+    logging qualifies; sending an invoice does not.
+44. **Request-scoped context is for data that must follow a request through logs and into the jobs it queues.**
+    The framework's context facade adds visible values (they appear in log context) and hidden ones (they
+    propagate to queued jobs without appearing in logs). A secret placed in it travels to every queued job, so
+    put nothing there that should not propagate. Reaching for it to avoid passing a plain argument one layer
+    down is the wrong use.
+45. **Independent work can run through the concurrency facade, with a cost.** With a process-based driver each
+    closure runs in its own PHP process that boots the application, so it pays only for independent queries,
+    outbound calls or computations that are individually slow; the synchronous driver runs them one after
+    another and is what tests use.
+46. **Depend on a contract at a boundary only when testability or interchangeable implementations justify
+    it.** A payment gateway, a notification channel and an external service are the usual places; an interface
+    in front of a class with one implementation and no test seam is over-abstraction
+    (`skills/over-engineering-review`).
 41. **A functional or technical layer is named for what it owns, never for its position** (`core`,
    `common`, `shared`, `socle`, `transverse`, `utils`). A positional name refuses no file, so every
    unplaced piece of code lands there until the layer is the application and every other layer depends

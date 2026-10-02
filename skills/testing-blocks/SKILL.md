@@ -62,7 +62,7 @@ it is not evidence.
    closes the obvious route and leaves the clever one open.
 3. Stop when a round of pressure produces no new workaround.
 
-### 5 to 7. The rest of the method
+### 5 to 8. The rest of the method
 The four steps above are the core. The rest lives one file per section under `references/`; read the rows
 whose trigger the task meets.
 
@@ -71,6 +71,7 @@ whose trigger the task meets.
 | 5 | Keep what the runs taught as a table, not as prose | a block has been run under pressure and the recorded sentences have to be kept | [`05-rationalisation-table.md`](./references/05-rationalisation-table.md) |
 | 6 | Test the routing text on its own | a block's description is written or changed, or a block loads on the wrong tasks | [`06-routing-text.md`](./references/06-routing-text.md) |
 | 7 | Measure compliance across prompt strictness | a block, a rule or an agent definition has to be measured across runs | [`07-compliance-measurement.md`](./references/07-compliance-measurement.md) |
+| 8 | Model matrix, exit gate and the three-arm protocol on a pinned fixture | a block is about to leave 🟡 on measured runs, or a result is compared across models or against no block | [`08-matrix-gate-arms.md`](./references/08-matrix-gate-arms.md) |
 
 ## Output / checkpoint
 For each block tested: the scenario, the pressures applied, the verbatim rationalisation from the RED
@@ -122,3 +123,7 @@ promotion of low-compliance steps to a hook) comes from the `skill-comply` skill
 (MIT licence, read 2026-10-02), rewritten harness-neutral: its scenario generator, its trace capture and its
 model prompts were not taken, and the three levels are renamed in our terms. The mechanisms were rewritten in
 our terms and no text was copied.
+
+Section 8 added 2026-10-02 is ours and has no external source: the pinned fixture, the three arms (absent,
+routed, forced), the model matrix and the exit gate (no criterion at 0% in every cell, no negative delta) are
+built on §1-§7. It has not yet been run on a real block.

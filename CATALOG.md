@@ -204,6 +204,40 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | browser-runtime | 6 | same repository (JavaScript, privacy, security topics) + HTML Living Standard (storage, messaging), browser vendors and regulators on third-party cookies | 🟡 (written 2026-10-02, never run) |
 | laravel-verification | 6 / 7 | `laravel-verification` of `ECC` (MIT), rewritten; Laravel, Pint, PHPStan, Composer docs | 🟡 (written 2026-10-02, never run) |
 | sampled-evaluation | cross-cutting | `santa-method` idea of `ECC` (MIT), batch and stratified sampling; complement to `gate` §11 | 🟡 (written 2026-10-02, never run) |
+| laravel-cache | 6 | Laravel 13 cache documentation + the caching rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-http-client | 6 | http-client rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-scheduling | 6 | scheduling rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-dispatch-after-commit | 6 | events, notifications and mail rules of `laravel/boost` (MIT) + the `JobDispatchedInTransactionUsesAfterCommit` rule of `larastan/larastan` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-filament | 6 | filamentphp.com 5.x documentation (upgrade guide, resources, testing); version detection idea from a public skill (MIT), no wording. Signatures are never written per version | 🟡 (written 2026-10-02, never run) |
+| laravel-larastan | 6 | `larastan/larastan` 3.x documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-pest | 6 | `pestphp/docs` (MIT) + the testing-best-practices rule of `laravel/boost` (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| laravel-lomkit-rest-api | 6 | skill and `composer.json` shipped in `lomkit/laravel-rest-api` (MIT); the package site was not re-read | 🟡 (written 2026-10-02, never run) |
+| angular-conventions | 6 | Angular 22 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| svelte-conventions | 6 | Svelte 5.57 and SvelteKit 3 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| tailwind-conventions | 6 | Tailwind CSS 4.3 documentation, idea only (unlicensed), rewritten | 🟡 (written 2026-10-02, never run) |
+| vite-bundler-conventions | 6 | Vite 8 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| data-fetching-state-conventions | 6 | TanStack Query 5.104 documentation, the Redux style guide, the Pinia documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| htmx-alpine-conventions | 6 | htmx 2 documentation (0BSD) + Alpine 3 documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| astro-conventions | 6 | Astro documentation (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| solid-conventions | 6 | Solid 1.x documentation, idea only (unlicensed), rewritten | 🟡 (written 2026-10-02, never run) |
+| web-components-conventions | 6 | Lit 3 documentation (BSD-3-Clause), rewritten | 🟡 (written 2026-10-02, never run) |
+| rust-conventions | 6 | Rust API Guidelines (MIT or Apache-2.0), Pragmatic Rust Guidelines (MIT), ANSSI secure Rust guide (Licence Ouverte 2.0), rewritten; pinned commits in `references/origin.md` | 🟡 (written 2026-10-02, never run) |
+| c-conventions | 6 | SEI CERT C rule statements (idea only), a compiler hardening guide (CC BY 4.0), Google C++ style on headers and macros (CC BY 3.0), Linux kernel style (GPL, idea only), rewritten | 🟡 (written 2026-10-02, never run) |
+| cpp-conventions | 6 | C++ Core Guidelines (idea only: licence is not open), Google C++ style (CC BY 3.0), rewritten; hardening cited from `c-conventions` | 🟡 (written 2026-10-02, never run) |
+| kotlin-android-conventions | 6 | Kotlin documentation (Apache-2.0) + Now in Android (Apache-2.0), rewritten; pinned commits in `references/origin.md` | 🟡 (written 2026-10-02, never run) |
+| swift-conventions | 6 | Swift API Design Guidelines (Apache-2.0), rewritten; API surface only | 🟡 (written 2026-10-02, never run) |
+| zig-conventions | 6 | Zig language reference style guide (MIT), rewritten; pinned to a 0.16.0 development tree | 🟡 (written 2026-10-02, never run) |
+| rails-conventions | 6 | Rails and Ruby community style guides (CC BY 3.0), `rubocop-rails` cops (MIT), Rails guides (CC BY-SA 4.0, idea only); Rails 7.1 to 8.x | 🟡 (written 2026-10-02, never run) |
+| django-conventions | 6 | Django documentation (BSD-3-Clause), a public Django style guide (MIT), PostgreSQL `CREATE INDEX` documentation; Django 6.2 alpha documentation | 🟡 (written 2026-10-02, never run) |
+| spring-boot-conventions | 6 | Spring Boot reference 4.2.0-SNAPSHOT and Spring Security reference (Apache-2.0), rewritten | 🟡 (written 2026-10-02, never run) |
+| node-http-conventions | 6 | Express documentation (CC BY 4.0), Fastify documentation (MIT), Helmet README (MIT), rewritten; sits beside `nestjs-node-conventions` | 🟡 (written 2026-10-02, never run) |
+| symfony-conventions | 6 | Symfony documentation (CC BY-SA 3.0, idea only, no wording reused) | 🟡 (written 2026-10-02, never run) |
+| elixir-phoenix-conventions | 6 | Elixir anti-pattern pages (Apache-2.0) + Phoenix guides (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| graphql-conventions | 6 | graphql.github.io learning guides (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| redis-conventions | 6 | Redis documentation (idea only, CC BY-NC-SA) + public Redis agent skills (MIT), rewritten | 🟡 (written 2026-10-02, never run) |
+| sql-conventions | 6 | PostgreSQL manual, SQLite documentation, MySQL manual (idea only), Timescale `pg-aiguide` (Apache-2.0), Supabase and PlanetScale skills (MIT), OWASP cheat sheet (CC BY-SA, idea only) | 🟡 (written 2026-10-02, never run) |
+| terraform-conventions | 6 | `terraform-skill` and `terraform-best-practices` (Apache-2.0), HashiCorp documentation (idea only) | 🟡 (written 2026-10-02, never run) |
+| messaging-conventions | 6 | Apache Kafka repository documentation and configuration source (Apache-2.0), RabbitMQ website-repository documentation (Apache-2.0 or MPL-2.0), rewritten | 🟡 (written 2026-10-02, never run) |
 | domain-modeling | 3 | a recognised market skill author (`domain-modeling`) + DDD staples; states-not-flags is ours | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
 | api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule); **sectioned and deepened 2026-09-08** — the three inline sections moved to one file each under `references/` and the router became a table of triggers (375 → 2,392 words of rules). This was the thinnest block counted in the depth table, for the same reason `spec` was: a checklist of principles an experienced reader already agrees with and cannot apply under pressure, because the pressure comes from a change that looks compatible and is not — so the depth is a catalogue of those: **loosening is compatible and tightening is not**, widening a type breaking every parser written against the narrower promise, renaming being removal plus addition, a change to a field's *meaning* being breaking with the type unchanged, a default value being part of the contract, consumers depending on our *failures* so a changed status code turns careful retry handling into a duplicated write, an unspecified ordering being a choice made once by accident, and compatibility being verified by comparing the two schemas rather than remembered | 🟢 (direct rewrite) |
@@ -456,16 +490,16 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 54,162 | −25,663 | x1.47 |
+| laravel | 65 / 79,825 | 3 / 54,558 | −25,267 | x1.46 |
 | csharp | 37 / 56,718 | 1 / 38,771 | −17,947 | x1.46 |
 | design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
 | flutter | 40 / 20,772 | 1 / 22,506 | +1,734 | x0.92 |
-| nuxt | 21 / 19,869 | 1 / 22,756 | +2,887 | x0.87 |
-| python | 20 / 22,097 | 2 / 23,300 | +1,203 | x0.95 |
+| nuxt | 21 / 19,869 | 1 / 23,761 | +3,892 | x0.84 |
+| python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
 | project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
 | bi, design, xefi | 16 / 17,306 | 4 / 29,680 | +12,374 | x0.58 |
-| global | 18 / 20,280 | 6 / 28,351 | +8,071 | x0.72 |
-| react | 36 / 9,302 | 1 / 14,330 | +5,028 | x0.65 |
+| global | 18 / 20,280 | 6 / 33,523 | +13,243 | x0.6 |
+| react | 36 / 9,302 | 1 / 15,629 | +6,327 | x0.6 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -489,15 +523,15 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 39,905, php-patterns 7,139, inertia-conventions 7,118
+laravel: laravel-conventions 40,301, php-patterns 7,139, inertia-conventions 7,118
 csharp: dotnet-conventions 38,771
-python: python-conventions 17,832, data-pipeline-conventions 5,468
+python: python-conventions 18,879, data-pipeline-conventions 5,468
 flutter: flutter-conventions 22,506
-nuxt: vue-nuxt-vuetify-conventions 22,756
-global: code-baseline 10,079, security-hardening 8,738, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,272, run-generated-tests 959
+nuxt: vue-nuxt-vuetify-conventions 23,761
+global: code-baseline 10,355, security-hardening 8,738, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,795
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 14,330
+react: react-nextjs-conventions 15,629
 bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,857
 ```
 
@@ -2276,6 +2310,37 @@ PREDICTED and must be replaced by sentences from a `testing-blocks` run.
 - PowerShell detection in hooks, a separate santa-method block (duplicates `gate` §11), generic Repository and response-envelope advice (against doctrine).
 
 **Open.** Redis patterns for `background-jobs-conventions`, `finish` and `start-feature` isolation detection, the `debug` and `code` cross-links to `safe-refactor`, `business/content-creation` dangling pointer to `references/social-platforms.md`, RED runs for every predicted table.
+
+### Audit, 2026-10-02 (lot 4): thirty-two stack and tool blocks, five extensions, two hooks, the test guard
+
+Five writers in parallel on one working tree, sources read the same day from their primary documentation or
+repositories, mechanisms rewritten (rule B). Every new block is 🟡: written, never run on real work. Version facts
+carry their pin and read date in each block's `origin.md` or `Origin` section.
+
+**Taken.**
+- Laravel and PHP: new `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament` (detect the major first, never per-version syntax), `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`. Extended `laravel-conventions` (§4 points 39 to 40, §10 points 43 to 46), `code-baseline` (§8 points 12 to 14), `over-engineering-review` (audit mode: count, rank both ends, defend, a third kept), `plan` (steps 14 to 16: brief traceability, trust boundaries, verdict from a fresh context).
+- Test guard: `hooks/guard-test-changes.py` rewritten to also refuse a skipped or todo test, an assertion that cannot fail, a deleted test, and shell routes around a test file (39 cases). Wiring under a shell matcher documented in `hooks/README.md`.
+- Front end: new `angular-conventions`, `svelte-conventions`, `solid-conventions`, `astro-conventions`, `web-components-conventions`, `htmx-alpine-conventions`, `tailwind-conventions`, `vite-bundler-conventions`, `data-fetching-state-conventions`. Extended `react-nextjs-conventions` §14 (Cache Components), `typescript-patterns` §8 and §9, `vue-nuxt-vuetify-conventions` §17, `frontend-testing`, `testing-blocks` §8, `nestjs-node-conventions`.
+- Native and systems languages: new `rust-conventions`, `c-conventions`, `cpp-conventions`, `kotlin-android-conventions`, `swift-conventions` (API surface only), `zig-conventions` (pinned to a development tree).
+- Back end: new `rails-conventions`, `django-conventions`, `spring-boot-conventions`, `node-http-conventions`, `symfony-conventions`, `elixir-phoenix-conventions`, `graphql-conventions`. Extended `api-design` (gRPC and protobuf, HTTP and OpenAPI), `python-conventions` §11 (FastAPI), `auth-session-conventions` §6 (native and desktop clients), `background-jobs-conventions` §6.
+- Data and infrastructure: new `redis-conventions`, `sql-conventions`, `terraform-conventions`, `messaging-conventions`; `observability-instrumentation` §5 (OpenTelemetry).
+- Maintenance: `bin/check_freshness_lock.py` with `bin/test_freshness_lock.py` (16 tracked packages, offline by default), `bin/test_routing.py` (a request ranks the intended block from descriptions alone), both in `bin/pre-push`; `source-freshness` step for the lock. Two opt-in hooks: `gate-ui-a11y` and `detect-correction`.
+- Depth table and composition lines re-measured with `bin/measure_depth.py` (laravel x1.46, python x0.91, nuxt x0.84, react x0.6, global x0.6).
+
+**Corrected at integration.**
+- Prose too close to a source was rewritten after a nine-word overlap scan against every cloned source: `plan` step 15, `over-engineering-review`, the `cpp-conventions` sections 1 to 7 (the Core Guidelines are not openly licensed: idea only), one `react-nextjs-conventions` §14 sentence, one `laravel-dispatch-after-commit` sentence, one `laravel-conventions` §4 point. Short factual statements shared with the documentation (a default, a method name) were left.
+- Harness vocabulary removed from the substance (rule D): a hook path in `laravel-pest`, a "public skill" mention in `laravel-filament` and `laravel-lomkit-rest-api`.
+- `laravel-filament`: an unconfirmed remark (binary columns and serialisation) is marked to confirm and the reasoning of ours is listed. `react-nextjs-conventions` §14: the Cache Components default is stated as the recommended defaults of a new app, the wording of the documentation.
+- A missing line break fused `laravel-conventions` §4 points 39 and 40.
+
+**Left out, with the reason.**
+- Rules from memory with no source read: removed from `c-conventions` and `cpp-conventions`; the Express cookie, session and rate-limit rules; the Symfony static-analysis section; the Elixir tool sections; a coroutine rule for Kotlin; the crypto and assurance sections of `security-hardening` (no primary source read).
+- Licensed against reuse, so idea only: C++ Core Guidelines, SEI CERT C, Linux kernel style, Symfony and Tailwind documentation, OWASP cheat sheets, MASVS and MASTG, Rails guides, MySQL and Redis documentation. A swift skill collection under a restrictive licence was not read.
+- Unread, so not written: `mobile-release`, `package-release`, search engines, git, LLM and agent blocks, design tokens and Storybook, the Vuetify version matrix, `dotnet-conventions` minimal APIs (notes kept by the back-end writer), updates to the Flutter, Go, Java and .NET blocks.
+- Text addressed to agents inside two sources (a Next.js adoption page, a joke page in the htmx documentation) was read as data and not followed.
+- Instructions from sources to install tools or hosted services: rule B.
+
+**Open.** Every new block needs a first run on a real change; the freshness lock covers 16 packages and not Storybook or Style Dictionary; the `node-http-conventions` and `nestjs-node-conventions` overlap and the `laravel-dispatch-after-commit` and `background-jobs-conventions` §6.1 overlap are not yet cross-referenced; the hook wiring for the shell half of `guard-test-changes` is documented but not exercised on a real repository.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

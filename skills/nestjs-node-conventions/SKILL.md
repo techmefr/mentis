@@ -1,119 +1,52 @@
 ---
 name: nestjs-node-conventions
-description: "Use when writing a module, a controller, a service or a tRPC router on the NestJS/Node stack: constructor injection, validated DTOs, Zod/tRPC contracts, the Prisma repository pattern."
+description: "Use when writing, testing or reviewing a module, a controller, a service, a pipe, guard, interceptor or filter, the configuration and shutdown, or a tRPC router on the NestJS/Node stack: constructor injection, validated DTOs, the request pipeline order, Zod/tRPC contracts, the Prisma repository and its transactions, end-to-end tests and a read-only audit."
+paths: "**/*.module.ts, **/*.controller.ts, **/*.service.ts, **/*.guard.ts, **/*.pipe.ts, **/*.interceptor.ts, **/*.filter.ts, **/*.dto.ts, **/main.ts, **/schema.prisma, **/*.e2e-spec.ts"
 ---
 
 # nestjs-node-conventions
 
-Step 6 of the pipeline (`WORKFLOW.md`). The first mentis block for the Node backend, none existed before,
-relevant to the future Node/NestJS project vision (NestJS + Prisma + tRPC). Frames the writing of code on
-this stack: Nest architecture, validation contracts, cross-cutting type-safe contracts expected by tRPC,
-and Prisma data access: four families of rules that overlap because it's always the same stack and the
-same step, a single block rather than one per library.
+Step 6 of the pipeline (`WORKFLOW.md`). The mentis block for the Node backend: Nest architecture, validation
+contracts, cross-cutting type-safe contracts expected by tRPC, Prisma data access, and, since 2026-10-02, the
+request pipeline, configuration and shutdown, scopes, tests and a read-only audit method. One block rather than
+one per library, because it is always the same stack and the same step. **Status: a base to confront with real
+work**; sections 1 and 2 were dogfooded (see `references/origin.md`), the rest were not. Framework facts are
+pinned to **NestJS 12** (documentation read 2026-10-02); the rest of the Node and TypeScript practice lives in
+`skills/typescript-patterns`, `skills/api-design` and `skills/security-hardening`.
 
 ## When
-As soon as a Nest module, a controller, a service, a DTO, a tRPC router or procedure, or a Prisma
-repository is written or modified, during `code` (6) or `tdd` (5).
+As soon as a Nest module, a controller, a service, a guard, a pipe, an interceptor, a filter, a DTO, the entry
+point or configuration, a tRPC router or procedure, a Prisma repository or a Nest test is written, modified or
+audited, during `code` (6), `tdd` (5) or `review` (8).
 
 ## Steps
 
-### 1. NestJS: module/controller/service architecture
-1. One module per business domain (`UsersModule`, `OrdersModule`...), declared with its explicit
-   `providers`/`controllers`/`exports`. No business logic in the module itself.
-2. The controller only routes and serialises: it receives the validated DTO, calls the service, returns
-   the result. No business rule, no direct Prisma access in a controller.
-3. Dependency injection through the constructor only (`constructor(private readonly usersService:
-   UsersService) {}`). Never a `new Service()`: it breaks the Nest lifecycle and the DI graph becomes
-   unverifiable.
-4. `forwardRef()` as a last resort only, when a circular dependency between two modules really is
-   unavoidable. Before reaching for it, check whether splitting a module removes the cycle.
-5. Tests through `Test.createTestingModule({...}).compile()`, never a manual service instantiation in a
-   unit test, so the DI graph stays the same as in production (mock the injected providers, not the
-   service under test).
-6. The current Nest CLI scaffold (`@nestjs/cli new`) ships as ESM (`"type": "module"`,
-   `moduleResolution: "nodenext"`): every relative import needs its explicit `.js` extension
-   (`from './users.service.js'`), including between `.ts` files — the extension is a TypeScript/Node
-   module-resolution requirement, not a build artifact to strip. And with `isolatedModules` +
-   `emitDecoratorMetadata` both on by default, a non-class type (an interface, a type alias) used in a
-   decorated method's signature — most often a controller's return type — must be brought in with
-   `import type`, or the build fails with `TS1272`; a DTO class doesn't need this since it exists at
-   runtime.
-
-### 2. DTOs and validation: the HTTP boundary
-1. One DTO per input shape (`CreateUserDto`, `UpdateUserDto`), decorated with `class-validator`
-   (`@IsString()`, `@IsEmail()`, `@IsOptional()`...). Never an `any` or an untyped object as a controller
-   parameter.
-2. A global `ValidationPipe` (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
-   forbidNonWhitelisted: true }))`) rather than a pipe placed route by route. Add `transform: true` as
-   soon as any DTO validates query params (a paginated list's `page`/`limit`, for instance): Express
-   delivers query values as strings, so a `@IsInt()` field paired with `@Type(() => Number)` only
-   converts before validation when `transform` is on — without it, every such route fails validation
-   permanently, not just on bad input.
-3. Typed HTTP exceptions (`NotFoundException`, `ConflictException`, `BadRequestException`...) are thrown
-   on the service side, never on the controller side; the service knows the business rule that justifies
-   the status, the controller doesn't.
-
-### 3. Cross-cutting type-safe contracts (Zod + tRPC)
-1. At the boundaries where the contract has to be shared with a type-safe client (tRPC), derive the type
-   from the validation schema with `z.infer<typeof schema>` rather than maintaining a TypeScript interface
-   alongside the Zod schema: a single source of truth, never two definitions that can diverge.
-2. Heterogeneous API responses (success/error, several result variants) modelled as a discriminated union
-   (`{ status: 'ok', data } | { status: 'error', message }`) with an explicit discriminant field, never an
-   object with optional fields the caller has to guess at.
-3. tRPC tree organised by business domain, symmetric to the Nest modules: one router per domain
-   (`usersRouter`, `ordersRouter`), composed into a root `appRouter`; each procedure (`query`/`mutation`)
-   validates its input with a Zod schema passed to `.input()`.
-4. The procedure's Zod schema and the equivalent REST controller's `class-validator` DTO describe the same
-   data shape: when a single use case is exposed twice (REST + tRPC), check they don't diverge silently
-   rather than letting them evolve independently.
-
-### 4. Prisma: schema, migrations, data access
-1. One repository per business aggregate (`UsersRepository`), injected into the service like any other Nest
-   provider: the service never knows `PrismaClient` directly, only the repository.
-2. Every change to `schema.prisma` goes through a committed migration (`prisma migrate dev`), never through
-   a manual change to the schema in the database.
-3. Type-safe operations: rely on the types generated by Prisma (`Prisma.UserCreateInput`,
-   `Prisma.UserWhereInput`...) rather than retyping a query's inputs/outputs by hand.
-4. Prisma mapped types (`Prisma.UserGetPayload<{ include: {...} }>`) to type precisely the result of a
-   query with relations, rather than an approximate homemade type or an `any` on the repository's return.
-5. Type guards on the models when a relation is optional (conditional `include`): check the relation is
-   present before reading it, never a cast that hides the `undefined` case.
-6. For any Prisma integration point not covered here (transaction strategies, middleware, seeding, multiple
-   connections...), refer to the official Prisma documentation rather than guessing: this block's sources
-   only detail the ORM on the TypeORM side, not Prisma.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Module, controller and service architecture; constructor DI; ESM scaffold traps | a module, controller, service or its injection is written | [`01-architecture-di.md`](./references/01-architecture-di.md) |
+| 2 | DTOs, global validation, schema validation, typed exceptions | an input shape, a pipe or a typed exception is written | [`02-dtos-validation.md`](./references/02-dtos-validation.md) |
+| 3 | Zod and tRPC: one source of truth, unions, routers | a shared contract, a response union or a tRPC router is written | [`03-zod-trpc.md`](./references/03-zod-trpc.md) |
+| 4 | Prisma: repositories, migrations, client lifecycle, transactions | a schema, a migration, a repository or a transaction is written | [`04-prisma.md`](./references/04-prisma.md) |
+| 5 | Request pipeline: order, which component for which job, filters, serialisation, streams | a middleware, guard, interceptor, pipe or filter is written or bound | [`05-request-pipeline.md`](./references/05-request-pipeline.md) |
+| 6 | Configuration, hooks, scopes, shutdown, standalone context | configuration is read, a provider needs set-up or tear-down, or the process must start and stop cleanly | [`06-config-lifecycle.md`](./references/06-config-lifecycle.md) |
+| 7 | Tests, mechanical checks, read-only audit | a Nest test is written, or a backend is reviewed without being changed | [`07-testing-audit.md`](./references/07-testing-audit.md) |
 
 ## Output / checkpoint
-Code compliant with the four sections above. No dedicated checkpoint: compliance is checked by `gate` (7)
-and `review` (8), like the rest of the code produced at the `code`/`tdd` step.
+Code compliant with the sections read for the change. No dedicated checkpoint: compliance is checked by `gate`
+(7) and `review` (8), like the rest of the code produced at the `code`/`tdd` step. For an audit: the finding list
+of `references/07-testing-audit.md`, with the unread areas named.
 
 ## Guardrails
-No comments in the code produced. Never a `new Service()`: DI always goes through the constructor.
-`forwardRef()` as a last resort, not as a reflex when facing a circular dependency error. Never business
-logic in a controller or a tRPC router. No duplicate type definition where `z.infer` can derive the type
-from the schema. Don't reimplement a mechanism that Nest, Prisma or tRPC already provide. When in doubt
-about a Prisma integration not covered here, consult the official docs rather than guessing.
+No comments in the code produced. Never an install: name the package, the person runs `pnpm add <package>`
+(`CONVENTIONS.md`). Never a `new Service()`: DI always goes through the constructor. `forwardRef()` as a last
+resort, not as a reflex when facing a circular dependency error. Never business logic in a controller or a tRPC
+router. No duplicate type definition where `z.infer` can derive the type from the schema. No `process.env` read
+outside the configuration. Don't reimplement a mechanism that Nest, Prisma or tRPC already provide. In an audit,
+change nothing. A rule naming a number or a default is the pinned major's; read `package.json` before applying
+it to another.
 
 ## Origin
-Ideas taken from: a market NestJS skill catalogue (skills/nestjs-expert/SKILL.md) for the
-module/controller/service architecture, constructor DI, `class-validator` DTOs, HTTP exceptions and
-`Test.createTestingModule` tests; an advanced market TypeScript skill for the Zod/`z.infer` contracts,
-discriminated unions and mapped types/type guards on Prisma models; a market React/Node skill catalogue
-(prisma-development/SKILL.md for the schema/migrations/type-safe operations, trpc/SKILL.md for the
-routers/procedures tree, zod-schema-validation/SKILL.md for validation at the boundaries). Mechanisms
-rewritten, no copied text.
-
-Dogfooded, 2026-09-10: first real dogfood, a small standalone NestJS 12 project (`UsersModule` with
-controller/service/repository, a `CreateUserDto` validated with `class-validator`, a global
-`ValidationPipe`, a simulated `WelcomeEmailQueue` job, `Test.createTestingModule` unit tests). Build,
-lint and tests all pass; the module/DI/DTO/exception rules in §1-2 held with no rewrite needed. Two real
-gaps found by practice and folded into §1.6 above: the current Nest CLI scaffold is ESM and needs `.js`
-extensions on relative imports, and `isolatedModules` + `emitDecoratorMetadata` force `import type` for
-any interface/type-alias used in a decorated signature (else `TS1272`). §3 (Zod/tRPC) and §4 (Prisma)
-were not dogfooded here (no tRPC router, no Prisma schema in this small project) and still need a real
-pass.
-
-Dogfooded again, 2026-09-10 (agent `trinity`, its first real dispatch): built a `NotificationsModule`
-(paginated query DTO, service, controller, in-memory repository, unit tests) on the same standalone
-project. Build/lint/test all passed. One real gap found and folded into §2.2 above: a paginated query
-DTO needs `ValidationPipe({ transform: true })` globally, not just `whitelist`/`forbidNonWhitelisted`,
-or `@IsInt()` on a query param never passes since Express hands it in as a string.
+Rewritten from the NestJS documentation (`nestjs/docs.nestjs.com`, MIT licence, the version-12 content), read on
+2026-10-02, and from the sources listed with the dogfood record in
+[`references/origin.md`](./references/origin.md). Read that file when checking freshness, not when applying a
+rule.

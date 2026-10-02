@@ -227,3 +227,13 @@ notes), the web framework's documentation on response models and dependency over
 sheets on JWT, XML and SSRF, and the packaging documentation on index configuration, written from knowledge
 of them and **not re-fetched on the day**. The archive-extraction filter statement (§10.5) depends on the
 interpreter version and must be re-read against the one the project pins.
+
+**FastAPI specifics, 2026-10-02.** §11 is new. Written from the FastAPI documentation read in the project
+repository that day (version file reads 0.142.2; MIT licence, repository `LICENSE`, read): the tutorial pages on
+parameter validation with `Annotated`, response models, dependencies with `yield`, background tasks, OAuth2 with
+password hashing and tokens, the advanced pages on lifespan events, settings, testing dependencies, strict
+content-type checking, running behind a proxy, and the deployment pages on server workers. Mechanisms rewritten in
+our terms. Not read: the pages on WebSockets, templates, sub-applications, WSGI, custom responses, client
+generation and the SQL-database tutorial (persistence stays §7). The `scope` argument of dependencies needs release
+0.121 or later and the yield-cleanup timing was changed in 0.106 (the documentation lists both); expiry: at each
+FastAPI minor, re-read §11.4 to §11.7 first.

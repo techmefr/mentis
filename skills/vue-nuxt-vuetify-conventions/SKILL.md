@@ -55,6 +55,7 @@ trigger the diff meets, not the whole table.
 | 14 | Testing | a component, a composable, a store, a route or a server handler gets a test | [`14-testing.md`](./references/14-testing.md) |
 | 15 | Injection, query keys, routing and head | a value is provided and injected, a query is keyed, a guard or middleware is written, a page's title and meta are set | [`15-injection-query-keys-routing-head.md`](./references/15-injection-query-keys-routing-head.md) |
 | 16 | The template and bundle injection surface | a template binds a URL, a style, a dynamic component or raw HTML, a variable is exposed to the browser, or a server route calls out | [`16-template-injection-surface.md`](./references/16-template-injection-surface.md) |
+| 17 | Template refs, attribute fallthrough, watchers, built-ins, store traps | a template ref is read, attributes are forwarded through a wrapper, a watcher is written, `<Transition>`/`<KeepAlive>` is used, or a store is called outside a component | [`17-reactivity-refs-builtins.md`](./references/17-reactivity-refs-builtins.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and

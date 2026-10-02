@@ -67,6 +67,40 @@ where most of these problems get introduced at once.
    intended, it lands in the dead-letter destination, and the log names the job and the id.
 3. For anything scheduled, confirm the overlap guard by running it while it's already running.
 
+### 6. Dispatch, acknowledgement and queues in a database
+1. **Dispatch after the transaction commits, never inside it.** A job enqueued inside an open transaction can
+   start before the commit and look for a row that does not exist yet. Use the framework's after-commit hook
+   (Django `on_commit`, or the queue library's wrapper around it where it has one) so the job leaves only
+   once the data is visible. A job dispatched and then a rollback is the inverse trap: the job runs for a
+   change that never happened, which the after-commit hook also prevents.
+2. **Know when the message is acknowledged.** A broker keeps a message until a worker acknowledges it. Many
+   task libraries acknowledge just before running (a started job is never run again, so a worker killed
+   mid-run loses it) and offer acknowledgement after completion (a killed worker's job is redelivered). Choose
+   late acknowledgement only for a job that is idempotent (§1); with it, a job killed by the operating system
+   or by a signal may still be acknowledged on purpose to avoid a crash loop, so check the library's
+   documented behaviour for a lost worker instead of assuming redelivery.
+3. **Back off exponentially, with jitter, and cap the delay.** A retry delay that doubles (1, 2, 4, 8 seconds
+   and so on) with a ceiling, randomised so that all the jobs that failed together do not retry together.
+   Set the maximum number of retries and the exception types that must not be retried (§2.1, §2.2) in the
+   job's own declaration, so the policy is visible beside the code.
+4. **The job asserts the state of the world; the caller does not.** A job that runs minutes after dispatch finds
+   the data changed, or finds that a rate rule ("re-index at most every five minutes") has already been met.
+   The job checks its own preconditions when it runs, rather than trusting that the dispatcher did (§1.3).
+5. **Never wait for another job from inside a job.** A task that blocks on the result of a sub-task wastes a
+   worker and can deadlock once the worker pool is full of waiting tasks. Chain with callbacks or a follow-up
+   job instead (§3.1).
+6. **Store the result only if someone reads it.** Keeping a result for every job spends time and storage; turn
+   it off for fire-and-forget work.
+7. **Size the job on purpose.** Many small jobs let work spread across workers and keep a long job from
+   blocking others, but each job has fixed overhead (a message, possibly remote data), so too fine a grain
+   cancels the gain (§3.4).
+8. **A queue held in a database table needs row locks that skip.** With several consumers reading a queue-like
+   table, `SELECT ... FOR UPDATE SKIP LOCKED` lets each take rows no other consumer has locked instead of
+   waiting. The PostgreSQL documentation warns that skipping locked rows gives an inconsistent view of the
+   data, so it is for queue-like tables and not for general queries. Take the row, mark it claimed and commit
+   or hold the lock for the work, and design so that a claimed row whose worker died is released again
+   (a claim with an expiry), otherwise it is stuck for good.
+
 ## Output / checkpoint
 The double-run and the forced-failure path were **observed**, with the evidence attached, not
 reasoned about. A job reaching `gate` with only its happy path exercised isn't verified.
@@ -90,3 +124,11 @@ broker-independent discipline. At-least-once delivery, idempotency keys, bounded
 back-off and dead-letter handling are established distributed-systems practice rather than anyone's
 proprietary idea; the deploy/payload-compatibility section reuses the reasoning already in
 `api-design` and `deprecation-migration`.
+
+Section 6 added 2026-10-02 from documents read that day: the task-queue library's user guide on tasks, its
+retry and acknowledgement options (BSD-3-Clause, the repository licence text read), and the PostgreSQL `SELECT`
+reference for the locking clause (PostgreSQL licence). Mechanisms restated in our terms, no wording copied. The
+after-commit rule (§6.1) rests on the library guide's own example of a task racing a transaction and on the
+Django transactions topic read for `skills/django-conventions`. Not read: the Sidekiq and BullMQ documentation,
+the Rails Active Job guide beyond its title (share-alike, idea only), the Oban and Postgres-queue libraries.
+Left out: exactly-once claims and outbox patterns, for which no source was read.

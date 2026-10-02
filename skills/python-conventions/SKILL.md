@@ -1,6 +1,6 @@
 ---
 name: python-conventions
-description: "Use when writing or reviewing Python: type hints and mypy strict, failures returned as values at public boundaries, async correctness, the toolchain, layered structure, the ORM rules, the web API layer, the security surface and supply chain."
+description: "Use when writing or reviewing Python: type hints and mypy strict, failures returned as values at public boundaries, async correctness, the toolchain, layered structure, the ORM rules, the web API layer and FastAPI, the security surface and supply chain."
 ---
 
 # python-conventions
@@ -47,6 +47,7 @@ trigger the diff meets, not the whole table.
 | 8 | Toolchain and tests | a tool version, a test double or the test base is involved | [`08-toolchain-tests.md`](./references/08-toolchain-tests.md) |
 | 9 | The web API layer | an HTTP endpoint, a request or response model, an authentication dependency, CORS or an API test is written | [`09-web-api.md`](./references/09-web-api.md) |
 | 10 | Security surface and supply chain | serialised data is loaded, a subprocess, a secret, an outside path, XML or an archive is handled, or a dependency is added or audited | [`10-security-and-supply-chain.md`](./references/10-security-and-supply-chain.md) |
+| 11 | FastAPI specifics | the framework is FastAPI and a `yield` dependency, a lifespan, a response model, a background task, the settings object, a proxy setting or a deployment shape is written | [`11-fastapi.md`](./references/11-fastapi.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, and `ruff check`/`mypy` (or `pyright`) with no new finding introduced

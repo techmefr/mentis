@@ -820,3 +820,5 @@ written from knowledge of them and **not re-fetched on the day**. Engine-specifi
 §13.5 and §13.15 depend on engine and version and must be re-read against the one in use. Left out as a
 third-party runtime dependency (rule B): the upstream plugin-discovery skill that calls an external package
 directory.
+
+**Widening, 2026-10-02 (Laravel and PHP lot).** Points 39 and 40 of §4 and points 43 to 46 of §10 come from the `db-performance`, `collections` and `architecture` rule files of Laravel Boost (`laravel/boost`, MIT, cloned 2026-10-02), mechanisms only, rewritten in our words; its `eloquent` advice to use local scopes is left out because the house rule against model scopes wins. New narrow blocks from the same lot: `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament`, `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`.

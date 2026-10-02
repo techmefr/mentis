@@ -31,6 +31,7 @@ nothing decides whether a log line or a metric belongs.
 | 2 | Structured logs | a log line is added or changed | [`02-structured-logs.md`](./references/02-structured-logs.md) |
 | 3 | Metrics and traces: anti-cardinality | a metric, a label or a trace span is added | [`03-metrics.md`](./references/03-metrics.md) |
 | 4 | Alerting: symptom-based | an alert is added or changed | [`04-alerting.md`](./references/04-alerting.md) |
+| 5 | OpenTelemetry: service identity, span names and status, attribute naming, sampling | the code is instrumented with OpenTelemetry | [`05-opentelemetry.md`](./references/05-opentelemetry.md) |
 
 ## Output / checkpoint
 The instrumentation added explicitly answers one of the on-call questions stated at step 1; no

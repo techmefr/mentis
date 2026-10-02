@@ -50,6 +50,8 @@ pipeline for the first time.
      out.
    - Selectors are the `data-test-*` attributes of `skills/tdd`, not CSS classes or visible text that a
      redesign or a translation changes.
+   - When the runner is Playwright Test, its locators, waiting, saved sign-in state, network mocking, fixtures,
+     retries and traces are in [`references/01-playwright.md`](./references/01-playwright.md) (pinned to 1.63).
 5. **Make visual tests stable before trusting them.** A visual test that fails for no reason is deleted
    within a month. Fix the data, freeze the clock and randomness, disable animation, load the exact fonts
    from the repository, and render in the same container image everywhere. Snapshot components in their
@@ -114,3 +116,11 @@ see. Deliberately not taken: a coverage percentage, a named test runner or scree
 guidance (already in `skills/testing-anti-patterns`). A separate `e2e-testing` block was not written: the
 end-to-end doctrine is `skills/tdd` and the stability rules are step 4 here. Written, not yet run on
 real work.
+
+The Playwright reference (`references/01-playwright.md`) is rewritten from the runner's own documentation
+(`microsoft/playwright`, `docs/src`, Apache-2.0), read 2026-10-02 at the 1.63 release notes: best practices,
+locators, auto-waiting, assertions, authentication, mocking, fixtures, retries, parallelism, timeouts, trace
+viewer, snapshots, web server and accessibility testing. No sentence or example is copied. Facts that move,
+pinned to 1.63: the default timeouts (test 30 s, assertion 5 s), the trace modes, the locator list. Not read:
+component testing, the test-agents pages, the reporter API, and the other language bindings. Refresh with
+`skills/source-freshness` on the next minor.

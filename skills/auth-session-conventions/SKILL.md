@@ -135,6 +135,35 @@ A new frontend follows it rather than inventing a variant.
    `Authorization`/`Bearer`. A clean grep is the evidence; assuming the redaction works is not. Do
    this on the error paths too, since that's where whole objects get logged.
 
+### 6. Native, desktop and command-line apps (public clients)
+Sections 1 to 5 describe a browser frontend with a backend. An app installed on a user's device is a
+**public client**: it cannot keep a secret. Read 2026-10-02 from the IETF documents on OAuth for native apps
+and on the proof key for code exchange (RFC 8252, RFC 7636).
+1. **Sign in through the system browser, never an embedded web view.** An embedded view lets the host app read
+   the user's credentials and cookies, and makes the user sign in from scratch in each app. Open the
+   authorization request in the external browser and receive the result back in the app.
+2. **Use the authorization code flow with PKCE; the implicit flow is not recommended.** The client generates a
+   random code verifier, sends a hash of it (method `S256`) in the authorization request, and presents the
+   verifier when redeeming the code, so an app that intercepted the code cannot use it. The verifier is
+   at least 43 characters from a restricted alphabet carrying at least 256 bits of entropy (32 random bytes
+   encoded as URL-safe base64 gives 43 characters). Use `S256` whenever the client can; never fall back to
+   `plain` after `S256` was refused (the error means the server is misconfigured). The authorization server
+   should refuse native requests without PKCE. The implicit flow cannot be protected by PKCE and cannot
+   renew a token without the user, so a refresh token needs the code flow.
+3. **Pick the redirect to the app that fits the platform, and know its weakness.** A claimed `https` URL is
+   the least exposed to interception. A private-use scheme works but several apps can register the same
+   scheme and the code may reach the wrong one (PKCE covers that); name it from a domain you control in reverse
+   order (it must contain a dot). A loopback redirect (`http` to `127.0.0.1` or `[::1]` with a free port chosen
+   at request time) is the desktop option: bind the loopback interface only, open the port for the request
+   and close it once the response arrives, prefer the IP literal to `localhost`, and try both IPv4 and IPv6.
+   The server must accept any port on a loopback redirect and match the rest exactly.
+4. **Do not ship a client secret in the app.** A secret embedded in a distributed app is readable by every
+   user, so it identifies the app but proves nothing. The server must treat such a client as public.
+5. **Send a random `state` and refuse any response that does not match a pending request.** It blocks a forged
+   response delivered through the inter-app channel. With several identity providers in one app, use a distinct
+   redirect URI for each and reject a response that arrives on a different one, so one provider cannot replay
+   another's response.
+
 ## Output / checkpoint
 The expiry/refresh path was observed, not assumed: evidence attached (log, network trace, or
 screenshot of the renewed request succeeding). No auth diff reaches `gate` with only the login
@@ -175,3 +204,9 @@ closes the classic CSRF vector too, rather than leaving a reader to wonder if a 
 needed. Session-ID-regeneration-at-login and idle-timeout ranges stay out: they're framed for a
 server-side session store, and this reference flow is a stateless bearer token, where the equivalent
 guarantee is already the expiry-margin/refresh discipline in §1.
+
+Section 6 added 2026-10-02 from two IETF documents read that day, in full text: RFC 8252 (OAuth 2.0 for native
+apps, a best current practice) and RFC 7636 (proof key for code exchange). Mechanisms restated, no wording
+copied. Not read: the OAuth 2.0 security best current practice document, the device authorization grant and the
+OpenID Connect specifications, so nothing is claimed here for the device flow (a command-line tool without a
+browser) or for token binding. Expiry: if either RFC is obsoleted by a later one, re-read §6 first.

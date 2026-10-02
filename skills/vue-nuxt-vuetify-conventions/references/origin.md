@@ -285,3 +285,17 @@ library's testing guide, the Nuxt documentation (testing utilities and their hel
 arguments, head composables, `routeRules`, payload serialisation, `useRequestFetch`) and the h3 validating
 readers. Re-verify the helper names in §14.16 to §14.23 against the installed major before this moves out of
 🟡: that package's API changed names across recent releases.
+
+**Refs, fallthrough, watchers, built-ins and store traps, 2026-10-02.** §17 is new. Primary sources, read the
+same day from shallow clones: the Vue documentation (`vuejs/docs`, licensed CC BY 4.0, read at the 2026-09-15
+state: template refs, fallthrough attributes, watchers, the list-rendering page, the Transition and KeepAlive
+pages, the TypeScript composition-API page) and the Pinia documentation (`vuejs/pinia`, `packages/docs`, MIT:
+defining stores, usage outside components, state, actions). Attribution as that licence requires: the facts are
+from the Vue documentation (Copyright 2019-present Yuxi (Evan) You and Vue documentation contributors, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/);
+the text here is our adaptation in our own wording and structure, with no copied sentences, and it is not endorsed
+by the licensor. Latest releases that day: Vue 3.5.43, Pinia 4.0.3. **Facts that move, with their pin (Vue 3.5):**
+`useTemplateRef`, deep watcher depth numbers, `onWatcherCleanup` and `once` (all 3.5+), the name inference of
+`<script setup>` for KeepAlive (3.2.34+). **Not done, a stated gap:** the Vuetify component-choice matrix and
+Vuetify version pin, and the Nuxt `useFetch`/`useAsyncData` `enabled`-style gating: no Vuetify or Nuxt
+documentation was read in this pass, so nothing about them was written (the existing §8 and §9 are unchanged).
+

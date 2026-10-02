@@ -21,6 +21,8 @@ suites=(
   bin/test_measure_depth.py
   bin/test_check_citations.py
   bin/test_contrast_check.py
+  bin/test_freshness_lock.py
+  bin/test_routing.py
 )
 
 echo "pre-push: running ${suites[*]}"

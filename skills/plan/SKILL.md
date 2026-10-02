@@ -57,6 +57,23 @@ After `archi`, before `tdd`.
     The final phase searches the changed files for them (`skills/gate`): the plan names what to look for,
     the gate looks. A check that cannot be searched is written as a review question instead.
 
+14. **Every step traces to a line of the brief.** Walk the plan step by step and name the brief line it serves.
+    A step with no such line is an addition nobody asked for, however reasonable it looks by itself: cut it, or
+    send it back to the spec as a question. The same pass lists structure with exactly one use in the plan (an interface, a base
+    class, a factory, a config option), each new dependency with what it buys over what the project already
+    has, and error handling for states that cannot occur.
+15. **Trust boundaries are named in the plan, not discovered in the code.** Every step that accepts data
+    from outside the process (an HTTP call, a webhook, a message, a file, a third-party service) answers three questions: who may
+    trigger it, what checks the incoming data, and what the response is allowed to contain. A step that crosses a boundary and names none of them is
+    the plan's likeliest security defect, and answering it here costs a sentence. Add the one realistic
+    failure or edge case the plan does not mention (one, not ten).
+16. **An independent check ends in a verdict.** For a plan that carries risk, the check runs in a fresh
+    context that never saw the plan being written, so it has no attachment to any part of it. It writes
+    nothing and rewrites nothing; it returns `GO` (proportionate to the brief), `TRIM` (right shape, remove
+    these items first) or `RETHINK` (it solves a different problem than the brief), with at most five findings
+    ranked by cost. A plan that is fine gets `GO` in one line: inventing objections is the fault. It judges
+    scope, structure and size, never naming or formatting.
+
 ## Output / checkpoint
 `plan_done` + one tracked item per increment, in dependency order.
 
@@ -72,3 +89,5 @@ Native / a market generalist dev skill catalogue (planning-and-task-breakdown), 
 way.
 
 Steps 4 to 6 rewritten from the `writing-plans` skill of `superpowers` (MIT, 6.4.x), read 2026-10-02, and steps 8 to 10 from the same skill (file map, header, no placeholders, self-review, one plan per subsystem). Steps 0, 11, 12 and 13 come from the `make-plan` and `do` skills of `claude-mem` (Apache-2.0, read 2026-10-02): documentation discovery first, copy-from-documentation framing, the sub-worker report contract and the searchable anti-pattern list. Rewritten in our words; no text copied, so its NOTICE obligations do not apply. Step 7 comes from the cross-model plan-review workflow in `claude-code-best-practice` (MIT), same date.
+
+Steps 14 to 16 (brief traceability, speculative structure and dependency scrutiny, named trust boundaries, the GO/TRIM/RETHINK verdict from a fresh context, the five-finding cap) rewritten from the plan-check skill of abdian/claude-toolkit-laravel (MIT), read 2026-10-02. Rewritten in our words; no text copied. Nothing here relaxes the guard against automatic execution.

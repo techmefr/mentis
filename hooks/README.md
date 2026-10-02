@@ -10,7 +10,7 @@ Three guarantees, five scripts (seven more guards, all opt-in, are described at 
 |---|---|---|
 | No pass without evidence read (step 7 of `WORKFLOW.md`) | `verify-gate.sh` + `record-read.sh` | `PreToolUse` on `Edit`/`Write`, `PostToolUse` on `Read` |
 | **No agent installs anything, ever** | `block-installs.sh` | `PreToolUse` on `Bash` |
-| **No pre-existing test assertion disappears silently** (`skills/debug` §3.4) | `guard-test-changes.sh` + `guard-test-changes.py` | `PreToolUse` on `Edit`/`Write` |
+| **No pre-existing test assertion disappears silently** (`skills/debug` §3.4) | `guard-test-changes.sh` + `guard-test-changes.py` | `PreToolUse` on `Edit`/`Write`, and on `Bash` for the shell routes |
 
 ## Why a hook and not a rule
 
@@ -96,6 +96,8 @@ value is in what it does not break, plus the executable bit on every file in thi
 script had been missing since it was written.
 
 ## `guard-test-changes.sh`: no pre-existing assertion disappears silently
+
+**What it also refuses (2026-10-02).** A test skipped, marked todo or incomplete; an assertion that cannot fail; a test deleted or renamed away (counted before and after, by declared test name); and, on the `Bash` event, a shell command that rewrites, moves, deletes or reverts a test file (`sed -i`, `rm`, `mv`, `git checkout`/`restore`, a redirection onto it). Wire the same script under `matcher: "Bash"` to get the shell half; wired on `Edit|Write` only, the shell routes stay open. A test path the fast path does not recognise is not seen.
 
 **What it refuses**, on every `Edit`/`Write` targeting a file that looks like a test
 (`*.test.*`, `*.spec.*`, `*_test.*`, `test_*.py`, `*Test.php`, `*Test.java`): an edit where an
@@ -322,6 +324,25 @@ has not been re-measured here.
 on any error.
 
 Wire either exactly like the others (see the settings snippet above).
+
+## Opt-in gate and detector hooks (2026-10-02, third set)
+
+Two more hooks, **off until their variable is set**, never part of the default set.
+
+| Script | Event | Job |
+|---|---|---|
+| `gate-ui-a11y.sh` + `.py` | `PreToolUse` on `Edit`/`Write`/`MultiEdit` | Refuses an edit to a UI file (`.vue`, `.svelte`, `.tsx`, `.jsx`, `.html`, `.astro`; not a test or a story) until the accessibility review of `skills/accessibility` has left its marker for the session |
+| `detect-correction.sh` + `.py` | `UserPromptSubmit` | Notices a prompt that corrects the previous answer, appends one line to a log and returns a short reminder to name the wrong assumption and propose the guardrail that would have prevented it |
+
+**`gate-ui-a11y`** needs `MENTIS_A11Y_GATE=1`. The marker lives in `MENTIS_A11Y_DIR` (default
+`~/.mentis-a11y`), one file per session, and expires after `MENTIS_A11Y_TTL_HOURS` (default 12). It fails
+closed, but only when the target is a UI file and the payload cannot be read.
+
+**`detect-correction`** needs `MENTIS_CORRECTION_DETECTOR=1`; the log is `MENTIS_CORRECTIONS_LOG` (default
+`~/.mentis-corrections.jsonl`). It never blocks and fails open. It is a wording heuristic: it misses
+corrections phrased in no way it knows and can fire on a prompt that quotes one.
+
+Wire either exactly like the others (see the settings snippet above), the detector under `UserPromptSubmit`.
 
 ## Opt-in command and config hooks (2026-10-02, second set)
 

@@ -53,6 +53,8 @@ trigger the diff meets, not the whole table.
 | 12 | Boundaries, composition, context, forms, refs | a failure or loading state is contained, a context or compound component is introduced, a form, portal or ref is built, an external store is subscribed to | [`12-boundaries-composition-forms.md`](./references/12-boundaries-composition-forms.md) |
 | 13 | Further security surface | a link opens a new window, inline data is shipped to the browser, an outside object is merged, a third-party script or widget is added, or the production build is configured | [`13-security-surface-extra.md`](./references/13-security-surface-extra.md) |
 
+| 14 | Next.js 16 Cache Components | `cacheComponents` is on, a route sets `dynamic`/`revalidate`/`fetchCache`, `"use cache"` appears, or a 15 app moves to 16 | [`14-cache-components.md`](./references/14-cache-components.md) |
+
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and by
 `legolas` at review time in the `review` step (8).

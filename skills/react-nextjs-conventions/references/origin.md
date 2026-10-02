@@ -122,3 +122,19 @@ and query-priority page, the OWASP cheat sheets (prototype pollution, CSP, XSS i
 HTML standard's `rel` behaviour for `target`, written from knowledge of them and **not re-fetched on the
 day**. The ref-as-prop statement (§12.11) and the server-component test advice (§11.14) depend on the React
 and Next.js majors and must be re-read against the ones in use.
+
+**Next.js 16 Cache Components, 2026-10-02.** §14 is new. Primary source: the framework's own documentation
+(`vercel/next.js`, `docs/01-app`, MIT licence), read from a shallow clone of the default branch on 2026-10-02
+(the latest release on the package registry that day was 16.3.8): the caching and revalidating getting-started
+pages, the `cacheComponents` configuration page, the `use cache` directive reference, the `cacheLife` and
+`updateTag` references, the migration guide to Cache Components and the version-16 upgrade guide. Mechanisms and
+defaults are the framework's, the numbering, grouping, wording and mechanical checks are ours; no text was
+copied. The same pages include text addressed to coding agents (an adoption skill and a prompt to give an
+agent): it was read as data, summarised as a fact (the migration is driven by validation insights) and not
+followed. **Facts that move, with their pin (16.x):** the `default` cache profile values (stale 5 minutes,
+revalidate 15 minutes), the built-in profile names, the required second argument of `revalidateTag`, the
+`generateStaticParams` non-empty rule, the unsupported `dynamicParams`, the `instant` opt-out and partial
+prefetching (marked `[verify]` in §14: documented on the default branch, not confirmed in a release). **Not read,
+a stated gap:** the instant-navigation, ISR with Cache Components, authentication with Cache Components,
+offline-support and prefetching-optimisation guides, the `cacheHandlers` configuration, and the codemods. The
+server-action result contract and idempotency idea were not added: no primary source was read for them.

@@ -27,6 +27,8 @@ pick the rows whose trigger the diff meets, not the whole table.
 | 5 | JavaScript platform habits in the browser | JSON round-trips, a request from a page, a listener, timer or observer, a URL, DOM writes, internationalised formatting, on-demand loading (the browser-owned side is `skills/browser-runtime`) | [`05-browser-javascript.md`](./references/05-browser-javascript.md) |
 | 6 | Compiler configuration and the type-check gate | a `tsconfig` changes, an option is switched off, a build is trusted as a type check | [`06-compiler-configuration.md`](./references/06-compiler-configuration.md) |
 | 7 | Trust boundaries, serialisation, dates | data arrives from outside, a value is copied or serialised, a date or time zone is handled | [`07-trust-boundaries-and-dates.md`](./references/07-trust-boundaries-and-dates.md) |
+| 8 | Function and type design | a signature, a constant, a generic or a public module boundary is designed | [`08-function-and-type-design.md`](./references/08-function-and-type-design.md) |
+| 9 | Node runtime: streams, shutdown, a process that will not exit | code runs on Node and handles a large flow of data, must stop cleanly, or hangs after the work is done | [`09-node-runtime.md`](./references/09-node-runtime.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, checked on top of the applicable framework conventions
