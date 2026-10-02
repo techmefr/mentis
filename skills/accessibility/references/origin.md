@@ -23,7 +23,11 @@ own shape at component level. Every section and point number was preserved, whic
 the 2026-08-10 re-check above cites §1.6, §1.7, §1.8, §4.4 and §4.5 by number as the criteria it closed —
 the five new points are still at those exact positions, and the additions were appended after them.
 
-**No threshold was added, and that is deliberate.** The figures in §3.1 and §1.8 are the ones already
+**Contrast arithmetic added 2026-10-02: `bin/contrast_check.py` (stdlib, formula from the WCAG 2.2
+definitions of relative luminance and contrast ratio, knee at 0.04045) written to compute the ratio
+instead of eyeballing it; it prints no threshold.
+
+**No threshold was added, and that is deliberate.**** The figures in §3.1 and §1.8 are the ones already
 sourced from WCAG in an earlier pass and are unchanged; every point added by this pass is a mechanism,
 not a number, because a recalled threshold is exactly the failure `skills/source-freshness` exists for
 and `business/interface-design` §0.7 states the same rule from the design side.

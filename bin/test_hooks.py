@@ -122,6 +122,37 @@ for c in [
 ]:
     allowed(c)
 
+print("\n-- command boundary: executors are unwrapped, arguments are not commands")
+for c in [
+    "ssh build-host 'npm install'",
+    'ssh -p 2222 deploy@host "cd /srv && pnpm add left-pad"',
+    'sh -c "pip install requests"',
+    "bash -lc 'npm ci'",
+    "wsl.exe -e bash -lc 'cd ~/app && npm install'",
+    'bash -c "ssh host \'composer require x/y\'"',
+    "FOO=1 npm install",
+    "sudo -E pip install requests",
+    "ls | xargs npm install",
+    "if true; then npm install; fi",
+    "(cd app && npm install)",
+    "echo ok\nnpm install",
+]:
+    blocked(c)
+
+for c in [
+    "echo 'npm install x'",
+    'echo "run pip install requests first"',
+    'grep "rm -rf" scripts/clean.sh',
+    'grep -rn "npm install" docs',
+    "printf '%s\\n' 'pnpm add lodash' > notes.txt",
+    "git commit -m 'docs: explain npm install step'",
+    "ssh build-host 'ls -la'",
+    'sh -c "echo npm install"',
+    "bash -c 'unterminated quote",
+    "echo it's; ls",
+]:
+    allowed(c)
+
 print("\n-- the second stage: what `npm run <script>` actually runs")
 import tempfile
 

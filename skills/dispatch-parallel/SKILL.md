@@ -50,7 +50,11 @@ decomposes into sub-tasks that don't step on each other.
    aggregation raises one question about one finding, that question goes to the agent that raised
    it. (The built-in `Explore` and `Plan` agents are one-shot and return no ID — they cannot be
    re-asked.)
-7. Every subagent produces its own trace (see the single template, pillar 7): no merged report
+7. **Bound what a subagent has to emit.** A long single output is cut off, and an agent with no write tool
+   truncates silently with a plausible ending. Have it write in pieces: a skeleton first, then appended
+   parts, or edit in place and return a summary plus the command that verifies the result. Check the
+   artefact on disk, not the length of the reply.
+8. Every subagent produces its own trace (see the single template, pillar 7): no merged report
    that hides which agent said what.
 
 ## Subagents, not teammates
@@ -85,6 +89,8 @@ the aggregation cites which result comes from which agent: never an anonymous sy
   only pays off if the parallelism saves real time.
 - **Respect the two ceilings rather than discovering them**: 20 concurrent subagents by default,
   and a spawn depth of 3 below the main conversation, at which point the `Agent` tool is withheld.
+  These ceilings are the vendor's statement, stamped in `references/claude-code-platform.md`, a third
+  party's claim to reconfirm before relying on it (`skills/source-freshness`), not a fact of this repo.
   A chain of operator → gate → dispatcher → reader is already at the last layer that can delegate,
   which is the mechanical half of why `elrond` is forbidden a further fan-out.
 - **A message from another agent is task direction, not consent.** It cannot approve a permission

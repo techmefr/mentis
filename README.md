@@ -334,6 +334,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `background-jobs-conventions` | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
 | `webperf` | Diagnose slowness from a measurement, not from intuition |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
+| `responsive-layout` | Breakpoints where content breaks, fluid sizing, dvh, overflow, fixed bars, mobile keyboard |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
 | `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, sourced from 12-factor/DORA |
@@ -378,6 +379,7 @@ without internal expertise in that function.
 | `regulatory-watch` | ⚖️ legal | Jurisdiction first, primary source or `[verify]`, and a deadline past its window is unverified |
 | `fintech-compliance` | ⚖️ legal | Payments, card data, ledgers, KYC: regulatory scope and the engineering invariants that keep it correct |
 | `ux-writing` | 🎨 UI/UX | Errors with a next action, buttons naming the outcome, empty states that aren't "No data" |
+| `ai-prose-tells` | 📣 communication | Clusters of machine-writing tells in a README, MR description or changelog; a rewrite never adds a fact |
 | `interface-design` | 🎨 UI/UX | Containers, states, design tokens, button hierarchy, chips versus buttons, before it is coded |
 | `product-marketing` | 📣 marketing | Positioning in four sentences; every factual claim carries a source before it ships |
 | `sales-support` | 💰 sales | Estimate ≠ commitment, never a date in the room, demos show what exists |

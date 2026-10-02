@@ -13,10 +13,15 @@ After `simplify` (`simplified`), GATE tests green.
 
 ## Steps
 1. Check one last time: GATE `verified`, suite green, checkpoints up to date.
-2. Push the branch.
-3. Open the **MR as a draft** (author dev + 2 colleagues), clear description (status +
+2. **Gate anything that sends before it sends.** For every outbound message, post or notification the
+   change or the release triggers: resolve the recipient identifier first and assert the recipient and the
+   text before the call, not after. Never test with a send on a real dispatch path; use a dry-run or a
+   sink. Public visibility is never the default. Grep the draft for IP addresses, local paths, host names
+   and key names before it leaves.
+3. Push the branch.
+4. Open the **MR as a draft** (author dev + 2 colleagues), clear description (status +
    message).
-4. Mark `mr_draft_pushed` / `status: awaiting_human`.
+5. Mark `mr_draft_pushed` / `status: awaiting_human`.
 
 ## Output / checkpoint
 `mr_draft_pushed`, `status: awaiting_human`.

@@ -61,6 +61,8 @@ The pipeline's own artefacts are the raw material, and they're already written a
 6. **If a person's name is on it, that person read it.** Publishing generated text under someone's byline
    without them reading it is the fastest way to lose the credibility this block exists to build.
 7. **Editing is where it gets good.** Cut a third. The cut third is almost always the introduction.
+8. **Read the draft for machine-writing tells** with `business/ai-prose-tells`: clusters, not single words,
+   and a rewrite never adds a fact.
 
 ### 4. Adapt per network without diluting
 1. **Write the substance once**, then re-hook per network (`social-publishing` §2). Same claim, different

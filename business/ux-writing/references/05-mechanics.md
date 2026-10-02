@@ -48,3 +48,7 @@
 12. **Never ship a placeholder.** "Lorem ipsum", "TODO", "test" and a bare "Error" all reach production
     eventually, because the string that was obviously temporary is the one nobody re-reads — and the
     reader who finds it cannot tell whether the feature behind it works.
+13. **Never invent a figure to make a string concrete.** A count, a percentage, a duration ("usually takes
+    two minutes", "used by 10,000 teams") or a before-and-after delta that nobody measured is a promise the
+    product made up. Interpolate the real value, or leave the claim out; an example number in a draft
+    string is a placeholder and falls under point 12.

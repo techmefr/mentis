@@ -7,7 +7,9 @@
 1. Text/background contrast ≥ 4.5:1 (normal text) or 3:1 (large text ≥ 18px bold/24px): WCAG AA level,
    checked against the design system's real colours, not eyeballed. Eyeballing fails in one direction
    consistently — on the display it was designed on, in the light it was designed in — and the readers
-   it fails are the ones on a phone outdoors or a cheap monitor, who are not in the room.
+   it fails are the ones on a phone outdoors or a cheap monitor, who are not in the room. The ratio
+   is a fixed formula over two colours, so compute it: `bin/contrast_check.py` takes two hex colours and
+   prints the ratio, and the threshold it is compared with still comes from the standard.
 2. Information is never carried by colour alone (e.g. red = error): always doubled with text, an icon or
    a pattern. The reader affected is not only someone who cannot distinguish the hues: the same failure
    applies to a printed or greyscale copy of the screen, and to a chart whose legend is a row of

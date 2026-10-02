@@ -52,3 +52,10 @@ exists, the rule is "pick a scale and never leave it", which is the part that ho
     exists, and put them where the implementer will read them. A scale that lives only in the mockup's
     geometry has to be reverse-engineered by measuring rectangles, and the measurement is where the
     forty spacings come from.
+
+11. **Once the theme is chosen, no value sits outside a token.** Colour, space, radius, shadow and type come
+    from the chosen set; a literal in a component is a finding, however close it is to a token. Reuse the
+    project's existing token names, and do not mint a synonym for something that already has a name.
+12. **An existing global stylesheet is append-only.** Add new tokens and rules; do not reorder, rename or
+    delete what other screens depend on in the same change. A rewrite of the shared file belongs in its
+    own change with its own review.

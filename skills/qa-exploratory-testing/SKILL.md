@@ -53,6 +53,14 @@ real user journey: not on an internal refactor with no user-facing surface.
    goes back to step 5 of the LOOP as "to be reproduced", never straight into the
    report as a bug.
 
+### 5. Inventory of controls: no PASS without a list
+1. List every control on the journey (links, buttons, fields, toggles, menus) before judging any of
+   them.
+2. For each, record the action taken, what was observed, and whether the console stayed clean. A control
+   with no recorded action is untested, not passing.
+3. A PASS exists only as that list. If nothing can run (no environment, no browser), say so and verify by
+   inspecting the code; report it as inspected, not as passed. `skills/gate` step 7 points here.
+
 ## Output / checkpoint
 Every bug found is reported with: the exact journey to reproduce it, observed vs expected result,
 severity (blocking/major/minor). No bug reported without a precise reproduction sequence.

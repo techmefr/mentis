@@ -42,6 +42,10 @@ It is stated once, here, because all eleven depend on it:
 5. **An explicit instruction overrides any rule here, without argument.** "Just put it in the service for
    now", "skip the coverage check", "throw a plain exception here, I know" — do it, and don't re-litigate.
    These are defaults for when nobody has decided, not a policy to enforce against the person asking.
+6. **Name the blast radius before editing an existing project.** List the exact files to modify, create
+   and delete, and say it before the first edit. Nothing is deleted without confirmation. A brief, a README
+   or a transcript the work started from is a reference, never copied word for word into the code or the
+   docs.
 
 ## When
 On every code edit, in any language. Checked at `gate` (7) and `review` (8).

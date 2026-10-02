@@ -40,7 +40,9 @@ inside the pipeline.
    - **6. FRESH-CONTEXT REVIEW**: who re-reads this work, with a fresh context: an agent never
      certifies itself "ready".
    - **7. TRACE**: what the end-of-task output always contains (files touched, test evidence,
-     status).
+     status). Keep the emitted payload bounded: an agent that writes a large artefact does it in
+     pieces or in place and returns a summary plus a verification command; one without a write tool
+     truncates silently (`skills/dispatch-parallel` step 7).
 4. **Choose the model, then decide the effort level separately**, via `choose-model`. `model:` is
    always declared and always justified in one sentence. `effort:` is normally **omitted**, because
    an agent without it inherits the session's level — declare one only to override the session on

@@ -38,6 +38,8 @@ guarding against. A test run whose output nobody opened is a green tick, not a v
 `brew`, `apt`, `dnf`, `pacman`, `winget`, `choco`; toolchain installers (`nvm`, `rustup`, `asdf`, `volta`); and
 the whole `curl … | bash` family, including `bash <(curl …)`, a downloaded `.sh`, and `iwr … | iex`.
 
+**Command boundary (2026-10-02).** A word counts only where a command starts: the start of the text, or after a newline, `;`, `&`, `|`, parentheses or a backtick, once `sudo`, `env`, `VAR=value`, `time` or `xargs` are peeled off. The command inside `ssh host "..."`, `sh -c` or `bash -lc` is unwrapped and judged the same way. `echo 'npm install x'` and `grep "npm install" notes` carry the words as arguments and pass. A shell-quoting error inside the command never blocks by itself.
+
 **What it lets through**: `npm run`, `pnpm test`, `bun run dev`, `make`, `git`, `docker compose`, a plain
 `curl` to an API — the ordinary work. That distinction is the whole design. A guard that blocks
 `npm run test` is switched off within a day, and then it guards nothing.

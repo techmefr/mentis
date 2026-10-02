@@ -78,3 +78,11 @@ Router plus sections: 2,041 → 5,938.
 from what goes wrong between a mockup and step 6, not from a source that can be re-checked. The block has
 no design system of its own behind it, and never will have — by construction, since the numbers are exactly
 what rule C keeps out, and that is why every rule here is a discipline or a decision tree instead.
+
+**Added 2026-10-02, from a public design-quality skill (MIT), read that day.** Mechanisms rewritten, none
+copied: a required direction with three-level dials (§0.9-0.10), a conflict protocol (§0.11), a numeric
+pre-critique with a revision cap (§0.12), a fixed audit shape with a drift check (§0.13), tokens locked once
+chosen and append-only shared stylesheets (§1.11-1.12), per-control state rendering through forced classes,
+the ban on fabricated content and fake chrome (§3.11-3.13), and the three-level "default without a reason"
+model with dose caps and the logo test (§7). Left out: the catalogue of named graphic modes and themes
+(out of scope, and stale on arrival), the installer, and any house values.

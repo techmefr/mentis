@@ -189,6 +189,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | java-conventions | 6 | Effective Java (Bloch) + SpotBugs/Error Prone + established Spring conventions; re-checked against Effective Java's item list on 2026-08-10, 2 real gaps closed (equals/hashCode contract, final-by-default) plus a Spring/JPA gap (lazy loading / N+1, mirroring python-conventions' ORM section) | 🟡 (sourced from the market, no internal production experience, same status as go-conventions) |
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
+| responsive-layout | 6 | no external source: internal synthesis of fluid-layout practice (content-driven breakpoints, dvh, auto-fit grids, overflow debugging, safe-area, keyboard cover); crosses accessibility and webperf | 🟡 (written, never run) |
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience in house) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling; §1.4–§1.5 added 2026-09-07 from an org BI skill for handling supplied accounting files, read for its handling discipline rather than its format knowledge (never write back over the file someone handed you; confirm a destructive transformation before applying it) — §3.1 already held the raw-layer version at pipeline scale, the missing case was the ad-hoc one; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (749 → 3,212 words of rules), the **last single-file block counted in the depth table**. No section added; §1.4, §1.5 and §3.1 kept their numbers. None of the failures here announces itself, which is the depth: idempotence covering the *whole* run so an upsert followed by a log append or a notification is not idempotent, a partial run having to leave a state you can classify, a run keyed on the wall clock being unbackfillable, late-arriving corrections making a forward-only window stop matching the source, a quarantine with a published count rather than a silent skip, the *number* of failing rows being what makes an alert actionable, a validation with no owner getting loosened at the first inconvenient hour, duplicates being defined by a business key whose wrong choice deletes real data, a check reading the pipeline's own output passing on any consistent error, a deletion upstream being an event rather than an absence, reusing the source's key letting a renumbering rewrite your history, and incremental processing being correct only if you can say what "new" means; **dogfooded once 2026-09-08** alongside `python-conventions` on a small stdlib-only pipeline, which closed one real ambiguity: §2.4 said to quarantine the bad rows where blocking is unacceptable, and applied, that is impossible for half the checks — a duplicated key, a total disagreeing with its parts and an entity counted in two groups are properties of the *set*, so no row can be set aside; §2.4 now says the run is the quarantine unit in that case. §1.2, §1.4 and §2.7 were the three rules that carried the exercise with no translation needed | 🟡 (sourced from the market, no dedicated production experience in house) |
@@ -239,6 +240,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | regulatory-watch | legal | same suite (regulatory-change monitors, freshness gate, `[verify]` on unsourced claims) + a community GRC pack covering 30 frameworks with no update mechanism, which is the gap this fills; jurisdiction-first and "unverified rather than wrong" are ours | 🟡 (no internal legal expertise; produces dated questions, never a compliance verdict) |
 | licence-compliance | legal | licence texts + the published permissive/weak/strong-copyleft distinctions; lock file as the real inventory, generated notices and the rule-C symmetry are ours | 🟡 (no internal legal expertise) |
 | ux-writing | UI/UX | published content guidelines of the major design systems; the domain-modeling consistency link, the no-concatenation rule and the empty/no-match/failed-to-load split are ours; **sectioned and deepened 2026-09-08** — the five inline sections moved to one file each under `references/` and the router became a table of triggers (1,005 → 4,217 words of rules). No section added; §4.1 kept its number, cited from `business/release-communication` §2. Interface text has no test — a wrong string ships green and the only evidence is a behaviour — so the depth is that behaviour: a validation message naming the *rule* rather than the verdict, the message being the only thing that can say what happened to the reader's work after a failed save, "you cannot" versus "it did not work" where only one is retryable, a zero being a measurement and not an empty state, a permission-empty list as a third case where "add your first item" cannot be followed, sample content in an empty screen being reconciled against as real, the form of address propagating into every verb form, a half-translated screen failing silently because a missing key renders as its source text, a plural not being a conditional, and a hardcoded string bypassing the translation file, the review and the search at once | 🟡 (no internal UX-writing expertise, no tone-of-voice reference available) |
+| ai-prose-tells | communication (new 2026-10-02) | four public MIT prose-quality filters, read 2026-10-02 (severity tiers, tell families judged in clusters, draft-audit-final loop, user voice sample first, mandatory not-to-flag list); the second audit question (a fact absent from the source), the no-added-fact rewrite and the positive requirement are ours | 🟡 (written, never run) |
 | product-marketing | marketing | published positioning structure (audience / alternative / outcome / boundary); claim-needs-a-source as `default = failure` applied outside code, and technical claims read by a builder, are ours | 🟡 (no internal marketing expertise, no brand or campaign reference available) |
 | sales-support | sales | published discovery-before-solution practice and the estimate-versus-commitment distinction; the estimation rules mirror internal engineering practice (points, spikes, scope moves not the number) with nothing named | 🟡 (no internal sales expertise; pricing and contract terms deliberately out of scope under rule C) |
 | release-communication | communication | keep-a-changelog conventions + standard deprecation-notice practice; the three-bucket ordering by required action, and "anything fitting no bucket is internal noise", are ours | 🟡 (no internal technical-writing or comms expertise) |
@@ -451,8 +453,8 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 18,491 | −1,378 | x1.07 |
 | python | 20 / 22,097 | 2 / 21,086 | −1,011 | x1.05 |
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
-| bi, design, xefi | 16 / 17,306 | 4 / 20,034 | +2,728 | x0.86 |
-| global | 18 / 20,280 | 6 / 23,255 | +2,975 | x0.87 |
+| bi, design, xefi | 16 / 17,306 | 4 / 21,187 | +3,881 | x0.82 |
+| global | 18 / 20,280 | 6 / 23,358 | +3,078 | x0.87 |
 | react | 36 / 9,302 | 1 / 11,158 | +1,856 | x0.83 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -482,11 +484,11 @@ csharp: dotnet-conventions 36,768
 python: python-conventions 15,618, data-pipeline-conventions 5,468
 flutter: flutter-conventions 19,124
 nuxt: vue-nuxt-vuetify-conventions 18,491
-global: code-baseline 9,577, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,272, run-generated-tests 959
+global: code-baseline 9,680, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,272, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,109
 design-patterns: design-patterns 10,965
 react: react-nextjs-conventions 11,158
-bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 5,359
+bi, design, xefi: data-analytics 4,520, interface-design 6,996, ux-writing 4,279, accessibility 5,392
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
@@ -2185,6 +2187,32 @@ tested" rather than "safe." Also found: `APP_DEBUG=true` committed in `.env` (lo
 over HTTP behind the 401 wall), and an unauthenticated `/api-documentation` Swagger shell serving no
 real schema (`/vendor/rest/openapi.json` 404). `README.md`'s status column updated for both agents —
 this closes the full 21-agent roster dogfood programme started this session.
+
+### Audit, 2026-10-02: five public anti-slop and design-quality repositories
+
+Read: `anti-slop` (MIT, v3.2.20), `claude-code-skills` (MIT; `stop-slop`, `slop-detector`), `slopless` (MIT),
+`hallmark` (MIT), plus the design-quality skill behind the `interface-design` additions. Mechanisms rewritten
+in the house template (rule B), nothing copied.
+
+**Taken.**
+- New `business/ai-prose-tells` and `skills/responsive-layout`, both 🟡.
+- `business/interface-design`: §7 default without a reason, direction and dials, conflict protocol, scored
+  pre-critique, audit shape, token lock, control states, fabricated content and fake chrome bans.
+- `skills/gate`, `skills/testing-anti-patterns`: no invented data, artefact gating beyond the exit code,
+  negative tests that can fail; `business/ux-writing` §5.13: no invented figures.
+- `skills/code-baseline` §0.6 and §7.21, `skills/qa-exploratory-testing` §5 (inventory of controls),
+  `skills/accessibility` §3.1 with `bin/contrast_check.py`.
+- `skills/writing-skills` steps 8 to 10, `skills/ship` and `business/social-publishing` send gate,
+  `skills/dispatch-parallel` and `skills/writing-agents` bounded output.
+- `hooks/block-installs.sh`: test anchored on the command boundary, executors unwrapped.
+
+**Left out, with the reason.**
+- Code-slop detection (`antislop-code`): `skills/code-baseline` is stricter and already owns it.
+- Human-writing mode (`antislop-human`): already covered by the preservation section of `ai-prose-tells`.
+- Installers, durable modes and persistent configuration: rule B, no runtime dependency.
+- `red-pen`: no licence, so not read for reuse.
+- `clarify`, `distill`, `quieter`, `polish`, `harden`: Apache-licensed derivatives of another project; not used.
+- `hallmark` theme catalogue: out of scope, a list of looks goes stale on arrival (`interface-design` §7.5).
 
 ## 3. The rule that keeps us "in control" (reminder)
 

@@ -51,3 +51,25 @@ Cite it from the standard or flag the point as to be verified — never state a 
    that shape is looked up. Everything else in this block is a decision tree or a discipline and does not
    have a number in it — which is deliberate, because a number here would be a value owned by a design
    system this block cannot see.
+
+## Direction, dials, conflicts, pre-critique, audit
+
+9. **A direction is required before producing.** One sentence naming who the screen is for and the feeling it
+   should have, in the owner's words or the existing system's. Without one, the output is labelled
+   draft and says so at the top: a mockup with no direction cannot be judged, only liked or disliked.
+10. **Three dials, each on three levels.** Energy (calm, steady, lively), rhythm (even, mixed, syncopated)
+    and motion (still, restrained, expressive). Three levels, not a slider: a reviewer deciding whether a
+    set of screens is uniform or varied answers in binary, and a ten-step scale hides that answer. Set the
+    dials from the direction, write them down, and hold them across screens unless a screen has a stated
+    reason.
+11. **A conflict between two rules, or between a rule and the brief, is raised, not resolved silently.**
+    Name the element, name the rule, ask the owner, and log the answer in one line where the next person
+    will read it. An unrecorded decision is made again, differently, on the next screen.
+12. **Score before rendering.** Rate the proposed screen from 1 to 5 on six axes: hierarchy, consistency
+    with the system, states covered, density, accessibility, and fit with the direction. Any axis under 3
+    sends the design back for revision before anything is drawn in detail. Three revision passes without
+    clearing the bar mean the brief is wrong; stop and go back to the owner rather than polish.
+13. **Audit output has a fixed shape.** Each finding is: the named tell or rule, the file and line range
+    (or the screen and element), a severity, and a one-line fix. Finish with a count of critical, major and
+    minor. Add a drift check: compare the design declared in the brief or tokens file with what shipped,
+    and list each divergence as its own finding.

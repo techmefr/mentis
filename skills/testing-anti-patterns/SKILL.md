@@ -62,6 +62,17 @@ through code that had coverage: one of these is usually why.
    calls them for real.
 2. Red flag: a public method whose only callers are in test files.
 
+### 5. Tests that cannot fail, and defaults that pass for data
+1. **A negative test must be able to fail.** Before trusting "this input is rejected", feed it an input
+   that should be accepted and confirm the test notices; an assertion on an error that the setup itself
+   produces proves nothing about the rule.
+2. **A positive test must exercise the quantity it claims to measure.** A test titled "retries three
+   times" that stubs the retry loop, or "caches the result" that never reads twice, passes whatever the
+   code does. Assert on the observable the title names.
+3. **A default is not data.** Code that turns a failure into `[]`, `0` or `null` and a test that blesses
+   it manufacture a result that nobody observed (`skills/gate` step 6). Test the failure path as a
+   failure.
+
 ## Output / checkpoint
 For the tests added: no assertion whose subject is a mock, no bare duration wait, mocks justified
 against the real shape, no test-only method left in production code. If a test can't fail, it isn't
