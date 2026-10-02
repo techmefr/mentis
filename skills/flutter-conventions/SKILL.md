@@ -1,6 +1,6 @@
 ---
 name: flutter-conventions
-description: "Use when writing or reviewing Flutter/Dart: BuildContext across async gaps, disposal, widget decomposition, rebuild scope, layout and overflows, the four async UI states, navigation, state management, storage, tests."
+description: "Use when writing or reviewing Flutter/Dart: BuildContext across async gaps, disposal, widget decomposition, rebuild scope, layout and overflows, the four async UI states, navigation, state management, storage, network and platform security, Dart language habits, tests."
 ---
 
 # flutter-conventions
@@ -45,6 +45,9 @@ trigger the diff meets, not the whole table.
 | 8 | Data, storage, permissions | persistence, a secret, a platform permission | [`08-data-storage-permissions.md`](./references/08-data-storage-permissions.md) |
 | 9 | Text, motion, monitoring | user-visible text, an animation, crash reporting | [`09-text-motion-monitoring.md`](./references/09-text-motion-monitoring.md) |
 | 10 | Naming, structure, tests | a file is placed or named, or tests are written | [`10-naming-structure-tests.md`](./references/10-naming-structure-tests.md) |
+| 11 | Network, platform and build security | an HTTP client, a deep link or intent, a web view, a manifest or property list, or a release build is touched | [`11-network-platform-security.md`](./references/11-network-platform-security.md) |
+| 12 | Dart language habits | an import, an unawaited future, generated code, a forced null, a decoded payload or the analyser configuration | [`12-dart-language-habits.md`](./references/12-dart-language-habits.md) |
+| 13 | Testing state holders, doubles, time and flows | a state holder, a repository, a debounce, a golden or a device-level flow gets a test | [`13-testing-state-holders-time.md`](./references/13-testing-state-holders-time.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, analyzer clean, no new lint introduced by the diff. Checked by

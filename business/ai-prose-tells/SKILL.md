@@ -23,11 +23,11 @@ prose (axis 8 of `references/review-axes.md`).
    every list in this block. Match its register, sentence length and punctuation; the catalogue only
    settles what the sample leaves open.
 2. **Draft, audit, final.** Write the draft from the source facts. Audit it against
-   [`01-tells.md`](./references/01-tells.md), asking two questions in this order:
+   the tells in the references (table below), asking two questions in this order:
    - What still sounds machine-made?
    - Did I state a fact the source does not contain?
    Fix, then produce the final. One audit pass, one revision; a third pass means the brief was thin, so
-   go and get the missing facts.
+   go and get the missing facts. Finish with the register test (`02-more-tells.md` section 5).
 3. **Look for clusters, never a single tell.** One "robust" or one list of three is how people write.
    Three tells of different families in one paragraph is a finding.
 4. **Rewriting adds no fact.** Cutting filler and naming the actor is allowed; a new number, a reason or
@@ -35,6 +35,14 @@ prose (axis 8 of `references/review-axes.md`).
 5. **Removing slop leaves a hole; fill it with something positive.** Deleting "significantly improves
    performance" leaves nothing unless the measured figure, the changed call or the failing case goes in.
    If the source holds nothing to put there, the sentence goes and the text stays shorter.
+
+### Which reference to read
+
+| File | Covers | Read it when |
+|---|---|---|
+| [`01-tells.md`](./references/01-tells.md) | Families 1 to 14, clusters, what not to flag, human signs, the positive requirement | every audit |
+| [`02-more-tells.md`](./references/02-more-tells.md) | Families 15 to 43, production residue, checks a count settles, the register test | the draft still reads as machine-made after `01`, or it is an MR description, README or caption |
+| [`03-french.md`](./references/03-french.md) | The same mechanisms with French instances and French false positives | the text is in French |
 
 ### Severity: four tiers, one blocker
 

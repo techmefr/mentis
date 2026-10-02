@@ -1,6 +1,6 @@
 ---
 name: webperf
-description: "Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend: diagnose from a measurement rather than from intuition."
+description: "Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend (a script, a font, an image, a third-party tag, a route): diagnose from a measurement rather than from intuition, then pull the loading, image and delivery levers in cost order."
 ---
 
 # webperf
@@ -8,57 +8,27 @@ description: "Use when a page or a screen feels slow, or before shipping a featu
 Step 6 of the pipeline (`WORKFLOW.md`), and a diagnosis step whenever something is slow. `seo`
 covers Core Web Vitals because search ranking depends on them; this block is about the runtime cost
 itself, including on screens no crawler will ever see (an authenticated dashboard, an internal admin
-table).
+table). The rules are written against the web platform, not against a framework or a tool: any browser
+tooling that can record a trace and a network waterfall serves.
 
 ## When
 When a page/screen is reported slow, or before shipping a feature that adds a dependency, a chart, a
-large table, or a new route. Not as a routine pass over code nobody has complained about: unmeasured
-optimisation is how simple code becomes complicated for nothing.
+large table, an image set, a font, a third-party tag or a new route. Not as a routine pass over code nobody
+has complained about: unmeasured optimisation is how simple code becomes complicated for nothing.
 
 ## Steps
 
-### 1. Measure before touching anything
-1. **Reproduce the slowness and get a number.** Which page, which interaction, how long, on what
-   connection and what device class. "The list is slow" isn't actionable; "the list takes 4s to first
-   render with 500 rows" is.
-2. **Find where the time actually goes** before forming a theory: network waterfall (how many
-   requests, which ones block), main-thread work, render count. The bottleneck is regularly not
-   where it feels like it is.
-3. **Write the number down.** Without a before, there's no after, and "it feels faster" is how a
-   change that made things worse gets shipped.
+**Start at §1 and §3 every time; read §2, §4, §5 and §6 only when the measurement points there.** The rules
+live one file per section under `references/`.
 
-### 2. The usual suspects, in the order they usually matter
-1. **Requests that didn't need to happen.** The same data fetched by several components, a request
-   fired per row, a call repeated on every keystroke with no debounce. Fewer requests beats faster
-   requests.
-2. **Requests in sequence that could be parallel.** A waterfall where each call waits for the
-   previous one's result, when only the last one actually depends on it.
-3. **Payload size.** An endpoint returning entire objects when the screen shows three fields; a
-   relation loaded and never used. This is usually a backend fix, and usually the biggest win.
-4. **Rendering the whole thing.** Hundreds of rows mounted at once when a dozen are visible. Paginate
-   or virtualise before optimising the row component.
-5. **Work repeated on every render.** A computation, a sort, a filter or an object built inline
-   instead of derived once. Cheap per call, expensive multiplied by renders.
-6. **Bundle weight.** A whole library imported for one helper, a heavy dependency pulled into the
-   initial route instead of the one screen that needs it, an icon set imported wholesale. Check what
-   the route actually ships, don't guess from the import list.
-7. **Images and fonts.** Unsized images (which also cost layout shift), full-resolution assets
-   displayed small, a blocking font.
-8. **Motion that costs frames.** No raw scroll listener, and no scroll position held in reactive state:
-   observe with `IntersectionObserver`, CSS scroll-driven effects, or a passive handler throttled to the
-   frame. A `requestAnimationFrame` loop never writes into framework state each tick; it writes to the
-   element or a CSS variable, and stops when idle. Animate `transform` and `opacity`; animate a layout
-   property only when the layout change is itself the visible effect. A reduced-motion preference is
-   honoured everywhere (`skills/accessibility` §3.9). Stacking uses a named z-index scale, not an arbitrary
-   large number.
-
-### 3. Confirm, and keep the honest comparison
-1. **Re-measure the same scenario, the same way.** Same page, same data volume, same throttling. A
-   comparison against a different dataset proves nothing.
-2. **State the win as a number**, and if it's marginal, say so and consider reverting: complexity
-   added for a 3% gain is a net loss on a codebase someone has to maintain.
-3. **Check you didn't move the cost.** Caching that makes the second load fast and the first slower,
-   or a frontend win paid for by a heavier query, is a trade to make deliberately, not by accident.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Measure before touching anything | always, first | [`01-measure.md`](./references/01-measure.md) |
+| 2 | The usual suspects, in the order they usually matter (requests, payload, rendering, bundle, motion) | the measurement names a cost and you need to know which lever is likely | [`02-suspects.md`](./references/02-suspects.md) |
+| 3 | Confirm, and keep the honest comparison | before reporting any win | [`03-confirm.md`](./references/03-confirm.md) |
+| 4 | The loading path: blocking scripts and styles, hints, fonts, third parties, deferred code, long tasks, back-forward cache, budgets | late first render or largest element, a long task during load, or a script, font, stylesheet or third-party origin is being added | [`04-loading-path.md`](./references/04-loading-path.md) |
+| 5 | Images, vector graphics, animated clips | the page ships rasters, an icon set, an illustration or a GIF-like clip | [`05-images.md`](./references/05-images.md) |
+| 6 | Delivery: time to first byte, compression, caching by file name, content types, source maps | slow before anything arrives, assets re-downloaded, or a build is about to ship | [`06-delivery.md`](./references/06-delivery.md) |
 
 ## Output / checkpoint
 A before number, the identified cause, the change, and an after number measured the same way. No
@@ -69,18 +39,13 @@ performance change shipped on "it feels faster".
   guessing routinely makes code more complex and slower.
 - **Simplicity outranks micro-optimisation** here as everywhere: a marginal gain that costs
   readability is refused. Minimising the logic to maintain is the standing priority.
+- **No figure from memory.** A byte budget, a time budget or a browser-support claim comes from the
+  project's own baseline or from the cited standard at the time of writing (`skills/source-freshness`).
 - Don't cache to hide a query problem: it turns a slow page into a slow page with stale data.
 - A perceived-performance change (skeletons, optimistic UI) is legitimate but it's a different claim:
   don't report it as a latency improvement.
+- A hint, a preload or a prefetch is a guess paid for in bandwidth; each one is justified by a measurement
+  and counted against a ceiling.
 
 ## Origin
-Sourced from the market: a `webperf` skill in a market generalist dev skill catalogue was the trigger
-to write this, alongside web.dev's performance guidance (already the source for the Core Web Vitals
-part of `seo`) and the bundle-weight items rewritten from a market open source TypeScript project's
-review skill. The ordering of section 2 (requests before rendering before bundle) and the
-measure-first/re-measure-identically discipline are ours; the "state a marginal win and consider
-reverting" rule follows the standing internal preference for simplicity over call-count optimisation.
-No dedicated internal performance-engineering experience at this stage.
-
-Motion rules (§2.8) added 2026-10-02 from the redesign checklist of a public design-quality skill
-(`taste-skill`, MIT, read that day); reduced motion was already in `skills/accessibility` and is referenced, not repeated.
+Layout, rules and provenance are in [`references/origin.md`](./references/origin.md).

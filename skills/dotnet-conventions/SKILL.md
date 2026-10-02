@@ -1,6 +1,6 @@
 ---
 name: dotnet-conventions
-description: "Use when writing or reviewing C#/.NET: async/await with cancellation, injection and service lifetimes, the type and visibility prohibitions, authorisation, disposal, nullability, EF Core."
+description: "Use when writing or reviewing C#/.NET: async/await with cancellation, injection and service lifetimes, the type and visibility prohibitions, authorisation, disposal, nullability, EF Core, tests."
 ---
 
 # dotnet-conventions
@@ -31,7 +31,7 @@ As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).
 ## Steps
 
 **Read only the sections the task actually touches.** The rules live one file per section under
-`references/`; loading all nine for a change that renames a field is waste, and a section read is a
+`references/`; loading all ten for a change that renames a field is waste, and a section read is a
 section that has to be applied. If you are reviewing a whole diff, pick the rows whose trigger the diff
 meets, not the whole table.
 
@@ -46,6 +46,7 @@ meets, not the whole table.
 | 7 | Language idioms | new code has a choice of form (preferences, not prohibitions) | [`07-language-idioms.md`](./references/07-language-idioms.md) |
 | 8 | Resilience and throttling | an outbound client, a retry, a timeout, or a limit on our own API | [`08-resilience-throttling.md`](./references/08-resilience-throttling.md) |
 | 9 | What only breaks at publish | the project targets a trimmed, single-file or AOT publish, or reflection is written in one that might | [`09-publish-time-failures.md`](./references/09-publish-time-failures.md) |
+| 10 | Testing | a test project, a fixture, a double, an HTTP-level or database-backed test is written | [`10-testing.md`](./references/10-testing.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, and a build with no new

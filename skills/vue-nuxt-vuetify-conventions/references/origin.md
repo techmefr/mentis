@@ -270,3 +270,18 @@ signal, browser-extension-caused mismatches as a false positive on point 9) agai
 (nuxt.com/docs/4.x/api/utils/call-once, nuxt.com/docs/4.x/api/composables/use-nuxt-app) and MDN's
 `AbortSignal` page. Content word count for the thirteen numbered sections (excluding this file): ~15,918
 before this pass, ~17,458 after.
+
+**Testing, injection, query keys and template surface, 2026-10-02.** §14, §15, §16 and §6 point 23 are new.
+Idea taken from the public ECC repository (MIT licence, read 2026-10-02): its Vue and Nuxt rule files for
+testing, patterns, coding style and security, which had no counterpart here (the matrix called the testing
+file absent and the others partial). The mechanisms were rewritten in our terms and our section numbering;
+what differs on purpose: a full mount by default and a stated reason for every stub (§14.2), the project's
+selector contract before accessible queries (§14.4), no coverage target, no directory-layout opinion
+(the layout rules are §5's), and a client guard described as a convenience that never replaces the server
+decision (§15.11). The facts come from the primary documentation, written from knowledge of it and **not
+re-fetched on the day**: the Vue security guide (what is and is not escaped, the template-is-code rule), the
+Vue test utilities guide (awaited triggers, default transition stubs, router and provide options), the store
+library's testing guide, the Nuxt documentation (testing utilities and their helper names, route middleware
+arguments, head composables, `routeRules`, payload serialisation, `useRequestFetch`) and the h3 validating
+readers. Re-verify the helper names in §14.16 to §14.23 against the installed major before this moves out of
+🟡: that package's API changed names across recent releases.

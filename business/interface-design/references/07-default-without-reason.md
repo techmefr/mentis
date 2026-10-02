@@ -44,3 +44,26 @@ is there.
    - no badge or pill laid over an image (a caption below, outside it);
    - no scroll cue, and no generic "Step 1 / Step 2 / Step 3" labels: name the step by what it does.
    A count that exceeds its cap is a finding under §7.4's severity rules.
+8. **An application screen is built around the decision it serves.** The default dashboard shell (a
+   sidebar, a row of statistic cards, a big chart, a recent-activity feed) is a layout looking for
+   content. Start from the decision instead: who opens this screen, what do they decide, what do they
+   need to see to decide it. Then:
+   - a chart answers one named question; its title is that question or its answer, and an unlabelled
+     chart is a decoration;
+   - a statistic card has a source, a period and a comparison (§3.12); a card with a number and an up
+     arrow and nothing else is removed;
+   - an activity feed exists when someone acts on the events in it, otherwise it is filler;
+   - table columns are the ones a reader uses (§10.6), not the columns the database has;
+   - filler data in a mockup is replaced by realistic structure or an honest placeholder (§3.12).
+   Severity follows §7.4: a card with an invented figure is critical (forbidden), a chart without a
+   question is major.
+9. **Tells of a build that was never looked at.** Treatments that show a screen was produced and shipped
+   without a human reading it, each forbidden unless a reason is written: a version number, a release
+   date or an "all systems operational" strip in a hero; "Step 1 / Step 2 / Step 3" with no content
+   behind the numbers; a scroll cue; a decorative status dot with no state; lorem text or a person named
+   after a placeholder; a sample paragraph describing what the page will say. These are examples of a
+   class, not a catalogue (§7.5): the class is "a surface that says nothing true about this product".
+10. **One focal point per screen, and white space that is structure.** The screen has one place the eye is
+    meant to land and one primary action (§4); everything else is arranged to support it. Space between
+    groups is how grouping is shown (§1.5); it is not what is left over after the content is placed, and
+    it is not filled because it looks empty. A screen with three focal points has none.

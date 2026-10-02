@@ -1,6 +1,6 @@
 ---
 name: testing-anti-patterns
-description: Use when writing or reviewing tests, the specific ways a test suite reports safety it doesn't have, mock theatre and timing guesses above all. Complements tdd (which says write tests first) by covering what makes a written test worthless.
+description: "Use when writing or reviewing tests, the specific ways a test suite reports safety it doesn't have: mock theatre, timing guesses, tests that cannot fail, state leaking between tests, regressions typical of code written by an agent. Complements tdd (which says write tests first) by covering what makes a written test worthless."
 ---
 
 # testing-anti-patterns
@@ -14,69 +14,30 @@ worse than having no tests, because nobody checks manually anymore.
 
 ## When
 While writing tests, and when reviewing a diff that adds them. Also when a bug reaches production
-through code that had coverage: one of these is usually why.
+through code that had coverage: one of these is usually why. And after any fix: §6 and §8 say where the
+regression test goes and how to show it can fail.
 
 ## Steps
 
-### 1. Mock theatre: testing the double instead of the code
-1. **Never assert on a mock's existence or on the mock having been called** as the point of the test.
-   That confirms your mock works. Assert on what the code *does*: the value returned, the state
-   changed, what the caller observes.
-2. **Red flag, mechanical**: if removing the mock makes the test fail for a reason other than a
-   missing dependency, or if the mock setup is more than half the test, the test is about the mock.
-3. **Mock at the lowest useful level**, usually the external boundary (network, clock, filesystem),
-   not a high-level method of your own code. Mocking your own method mocks away the thing under test.
+**Read only the sections the task actually touches.** The rules live one file per section under
+`references/`; a section read is a section that has to be applied.
 
-### 2. Mock without understanding what you removed
-1. **Before mocking, know the real method's side effects** and whether the test depends on them.
-   Mocking away a call that the test silently relied on gives a pass that means nothing.
-2. **An incomplete mock fails silently.** A double returning only the three fields you thought about
-   passes, while the real payload has twelve and the code reads a fourth. Build mocks from the real
-   response shape, not from the fields you remembered.
-3. Corollary already learned the hard way on our own stack: a mocked engine missing a method the code
-   calls produces a crash that looks like a real bug, and hours go into the wrong hypothesis.
-4. **Run it against the real implementation once**, if you can, before deciding what to mock.
-
-### 3. Timing guesses: the flaky-test engine
-1. **Never wait for a duration; wait for the condition.** `sleep(50)` then assert is a bet on machine
-   speed: it passes locally and fails in CI under load, which is the definition of flaky.
-2. The correct shape is polling the thing you actually care about, with a **timeout** so a genuine
-   failure fails instead of hanging, and a **sane interval** (10ms, not 1ms).
-3. **Read the state fresh inside the loop.** Capturing it before the wait and re-asserting on the
-   stale copy is the same bug with extra steps.
-4. **A deliberate delay is only legitimate when the timing itself is the thing under test**, and then
-   it gets a comment saying so — otherwise the next person deletes it or, worse, copies it.
-5. Never "fix" a flaky test by increasing the sleep. That converts an intermittent failure into a slow
-   suite that still fails, occasionally, for the same reason.
-6. **Don't flag a virtual-clock advance as a duration wait.** `tester.pump(Duration(...))` /
-   `FakeAsync` (Flutter), `vi.advanceTimersByTime` / `jest.advanceTimersByTime` (JS), and similar
-   fake-timer APIs move a simulated clock inside a deterministic test zone — they don't sleep on the
-   wall clock and can't flake under CI load. The anti-pattern is a *real* wall-clock wait
-   (`Future.delayed`, `sleep`, `setTimeout` with no fake timer installed) used to outguess a timer or
-   debounce in production code; that one still gets rewritten as a poll on observable state (e.g.
-   listening for the next `notifyListeners`/state-change event) with a timeout, per point 2 above.
-
-### 4. Test-shaped code in production
-1. **A method that exists only for tests doesn't belong in the production class.** Reset helpers,
-   internal-state getters, test hooks: move them into test utilities. Otherwise something eventually
-   calls them for real.
-2. Red flag: a public method whose only callers are in test files.
-
-### 5. Tests that cannot fail, and defaults that pass for data
-1. **A negative test must be able to fail.** Before trusting "this input is rejected", feed it an input
-   that should be accepted and confirm the test notices; an assertion on an error that the setup itself
-   produces proves nothing about the rule.
-2. **A positive test must exercise the quantity it claims to measure.** A test titled "retries three
-   times" that stubs the retry loop, or "caches the result" that never reads twice, passes whatever the
-   code does. Assert on the observable the title names.
-3. **A default is not data.** Code that turns a failure into `[]`, `0` or `null` and a test that blesses
-   it manufacture a result that nobody observed (`skills/gate` step 6). Test the failure path as a
-   failure.
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Mock theatre: testing the double instead of the code | a double is introduced, or a test asserts that something was called | [`01-mock-theatre.md`](./references/01-mock-theatre.md) |
+| 2 | Mock without understanding what you removed | a collaborator is replaced, or a double is built from memory of a payload | [`02-mock-without-understanding.md`](./references/02-mock-without-understanding.md) |
+| 3 | Timing guesses: the flaky-test engine | a test waits, polls, sleeps or advances a clock | [`03-timing-guesses.md`](./references/03-timing-guesses.md) |
+| 4 | Test-shaped code in production | a reset helper, a test hook or an internal getter is added to a production class | [`04-test-shaped-production-code.md`](./references/04-test-shaped-production-code.md) |
+| 5 | Tests that cannot fail, and defaults that pass for data | a negative test, a claim in a test title, a fallback value or a fixture is written | [`05-cannot-fail.md`](./references/05-cannot-fail.md) |
+| 6 | Regressions typical of code written by an agent | a bug is fixed, a diff written in one pass is reviewed, or the author is the only reviewer | [`06-regressions-in-agent-written-code.md`](./references/06-regressions-in-agent-written-code.md) |
+| 7 | Isolation, order dependence, finding the polluter | a test passes alone and fails in the suite, a run leaves state behind, or parallelism and random order are switched on | [`07-isolation-and-pollution.md`](./references/07-isolation-and-pollution.md) |
+| 8 | What a test is for | a test is written, named, edited after a failure, skipped or pruned | [`08-what-a-test-is-for.md`](./references/08-what-a-test-is-for.md) |
 
 ## Output / checkpoint
 For the tests added: no assertion whose subject is a mock, no bare duration wait, mocks justified
-against the real shape, no test-only method left in production code. If a test can't fail, it isn't
-finished (see `dozer`, which owns this while writing).
+against the real shape, no test-only method left in production code, no test that leaves state behind,
+every test able to name the break it catches. If a test can't fail, it isn't finished (see `dozer`, which
+owns this while writing).
 
 ## Guardrails
 - **Never weaken a test to make it pass.** Loosening an assertion, widening a matcher or deleting a
@@ -84,39 +45,11 @@ finished (see `dozer`, which owns this while writing).
 - Never mock "just to be safe": each double is a piece of reality removed, and it has to be justified.
 - A flaky test is a **bug report**, not noise to be retried. Retrying it hides either a race in the
   test or a race in the code, and you can't tell which without looking.
+- A coverage percentage is a map of what no test touched, never a goal; this block sets none.
 
 ## Origin
 Rewrite of `testing/testing-anti-patterns` and `testing/condition-based-waiting` from a market skills
-repository (the companion repo of the upstream this framework responds to), merged into one block
-because they're one responsibility: tests that report safety they don't have. The five anti-patterns
-and the wait-on-a-condition rule are theirs. The incomplete-mock item is reinforced by our own
-experience of a mocked search engine missing a method, which presented as a database bug; the
-"never increase the sleep" and "a flaky test is a bug report" formulations are ours.
-
-**Dogfooded, 2026-09-10.** Applied as a review lens (no new code written) over six real test suites
-from earlier this session — xUnit (`/tmp/dogfood-csharp`), pytest (`/tmp/dogfood-python`), Flutter
-widget/unit tests (`/tmp/dogfood-flutter`), `go test` (`/tmp/dogfood-go`), vitest/RTL
-(`/tmp/dogfood-react`), and vitest for NestJS (`/tmp/dogfood-nestjs`). Five of the six suites were
-clean against every pattern in this block: no mock-existence assertions, mocks built from real shapes
-(the C# `FakeOptionsMonitor`, the Python `InMemorySource`), no test-only production methods, and the
-Python/Go suites in particular already do condition-based waiting with an explicit timeout
-(`asyncio.wait_for`/`TaskGroup` timeouts, `context.WithTimeout`) rather than sleeping.
-
-One real instance of §3 was found and fixed: `item_list_controller_test.dart` in the Flutter project
-waited on the 300ms debounce in `ItemListController.onQueryChanged` with hardcoded
-`Future<void>.delayed(Duration(milliseconds: 400))` margins — a real wall-clock duration guess, not a
-virtual-clock advance, so it was exactly the pattern this block warns about (margin above a timer,
-liable to flake under CI load). Rewrote it to poll the controller's own `notifyListeners` stream for
-the expected state via a small `waitUntil` helper with a timeout, per §3.2-3.3. The one legitimate
-`Future.delayed` left in that file (racing two `onQueryChanged` calls to prove the later one wins) was
-already commented as deliberate, satisfying §3.4.
-
-Gap found in the block itself, now fixed as §3.6: nothing distinguished a real wall-clock
-`sleep`/`Future.delayed` from a fake-timer/virtual-clock advance (`tester.pump(Duration(...))` in
-Flutter, `vi.advanceTimersByTime` in JS). The Flutter widget tests in `item_list_screen_test.dart` and
-`countdown_badge_test.dart` use `tester.pump(const Duration(...))` repeatedly and, read against the
-original wording ("never wait for a duration; wait for the condition"), look like the same
-anti-pattern — they are not: `tester.pump` runs inside Flutter's deterministic fake-async test zone
-and cannot flake on machine speed. Applying the rule literally there would have produced a false
-positive against idiomatic, correct code. §3.6 names the exemption explicitly so the lens doesn't
-misfire on this widely-used idiom.
+repository, plus, since 2026-10-02, the sections on regressions typical of agent-written code, on
+isolation and on the purpose of a test, from a read of two further public repositories. The full
+provenance, the dogfooding record and the refresh log are in [`references/origin.md`](./references/origin.md).
+Read it when checking whether a rule is still current, not when applying one.

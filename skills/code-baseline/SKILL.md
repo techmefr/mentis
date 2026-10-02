@@ -47,6 +47,11 @@ It is stated once, here, because all eleven depend on it:
    or a transcript the work started from is a reference, never copied word for word into the code or the
    docs.
 
+7. **A fix touches the lines that carry the cause, and only those.** The rename, the tidier loop and the abstraction
+   you would prefer next door go in a separate change. What your own change orphaned (an import, a helper it made
+   unused) is removed with it; dead code that was already there is reported and left. This is §0.3 pointed at
+   bug fixes: the reviewer has to be able to separate the fix from everything else.
+
 ## When
 On every code edit, in any language. Checked at `gate` (7) and `review` (8).
 

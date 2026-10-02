@@ -62,6 +62,15 @@ Concrete contrast, same change:
   uncaught failure. This adds `TimeoutError` to the caught set and exposes `max_attempts` so callers
   stop being stuck with the hard-coded default; `worker.py` is updated to pass its own value.
 
+Three more lines belong in the description when they apply, because the diff cannot show them:
+
+- **Why this approach and not the obvious other one**, in a sentence, when a reviewer would otherwise
+  propose the other one in the first comment.
+- **Before and after, shown, for anything a user can see.** A screenshot or a recording of the old and the new
+  behaviour; for a change with no visible effect, the command or the output that shows it.
+- **How it was tested**: the commands that were run and what they showed, not "tested locally". A residual item
+  (`skills/ship`, go-live) and an omission chosen on purpose ("not handled: X, add when Y") end the description.
+
 ### 4. Inline review comments: plain text, short, direct
 **Writing one, as a reviewer.** Plain text — no markdown formatting, no backticks around identifiers,
 no emojis, no decorative arrows. State the problem and, where it isn't obvious, what would fix it, in
@@ -79,12 +88,22 @@ Contrast:
 **Responding, as the author.** Every comment gets one of two outcomes, never silence: fix it, or push
 back with a stated reason ("intentional — see the guard three lines up", "out of scope for this
 PR/MR, filed as a follow-up"). An unanswered comment left to be silently overwritten by the next push
-is indistinguishable, to the reviewer, from having been ignored.
+is indistinguishable, to the reviewer, from having been ignored. How to arrive at the outcome (read all of it,
+verify against the code, stop on an unclear item, no performed agreement) is `skills/receiving-review`.
 
 ### 5. Optional: linking to an issue tracker
 Some teams require every PR/MR to reference the issue/ticket it closes. Where a project's own house
 style requires that, follow it — but it is a per-project convention layered on top of the shape above,
 not a default this block prescribes. Absent such a requirement, don't invent one.
+
+### 6. Commit messages
+The subject is `type(scope): summary` in the imperative ("add", "fix", "remove"), lowercase after the colon, no
+trailing period, aiming at fifty characters and never past seventy-two. A body appears only when it carries what
+the diff cannot: the reason when it is not obvious, a breaking change, a migration step, the identifier of the
+issue it closes. It never says "this commit", never restates the file the scope already names, carries no emoji,
+and is wrapped near seventy-two columns. Breaking changes, security fixes, data migrations and reverts always
+get a body, so that whoever bisects to the commit in a year has the context. The subject length is checkable
+by a commit-message hook, which is where the rule is best kept.
 
 ## Output / checkpoint
 No dedicated checkpoint of its own — folds into `ship`'s `mr_draft_pushed` (draft-by-default, the
@@ -98,6 +117,7 @@ the way `gate` does.
 - Never post an inline comment that only restates the diff, or one padded with hedging language that
   buries the actual point.
 - Never leave a review comment unanswered across a push — fix it or state why not.
+- Never write a commit subject past seventy-two characters, or a body that retells the diff.
 - Never invent a ticket-linking syntax as if it were a universal standard; that's a per-project
   override, not this block's default.
 
@@ -108,3 +128,10 @@ items here as defaults to override with a project's own stated house style where
 draft-by-default and squash-and-delete mechanics were already partially stated inline in `skills/ship`
 and `skills/finish`; this block is their generic home plus the two conventions (description prose,
 inline-comment style) that weren't written down anywhere before.
+
+The three description lines of §3, the commit format of §6 and the pointer to `receiving-review` were added
+2026-10-02. The commit format is the shape of the `caveman-commit` skill of `caveman` (Apache-2.0, read that
+day: imperative subject, length bounds, body only for the non-obvious why), rewritten with our lowercase
+convention and without its compressed register. The description lines come from the pull-request guidance in
+the contributor notes of `orca` (MIT, same date): the alternative rejected, visible before and after, the test
+that was run. No text copied.

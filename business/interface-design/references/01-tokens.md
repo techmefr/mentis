@@ -59,3 +59,21 @@ exists, the rule is "pick a scale and never leave it", which is the part that ho
 12. **An existing global stylesheet is append-only.** Add new tokens and rules; do not reorder, rename or
     delete what other screens depend on in the same change. A rewrite of the shared file belongs in its
     own change with its own review.
+
+13. **A theme is a second palette to measure, not a filter over the first.** Dark mode, a high-contrast
+    mode or a brand variant needs its own values for each semantic token (background, surface, text,
+    border, accent, status). Define tokens by role, give each role one value per theme, and never
+    hand-invert. Then check every screen in every shipped theme: contrast of text and of non-text
+    components is measured per theme (`skills/accessibility`, `bin/contrast_check.py`), shadows that
+    carry depth in one theme often disappear in another, and images and illustrations need a decision
+    (adapted, or placed on a neutral surface). A theme that was only looked at once is not shipped.
+14. **Numerals that line up.** Columns of figures, prices and times use equal-width (tabular) numerals so
+    digits align and values do not jitter when they update; running text keeps the font's default
+    figures. This is a type-token decision made once (§1.3), not a per-cell fix.
+15. **A line length is a token too.** Long-form text has a maximum measure chosen once, expressed in
+    characters rather than pixels; the value belongs to the design system. A paragraph that runs the
+    full width of a wide screen is read badly by everyone and abandoned by some.
+16. **Text over an image, gradient or video is measured at its worst point.** Contrast is judged on the
+    least favourable area behind the text, across the sizes the layout takes, not on an average or on the
+    area the designer looked at. If the worst point fails, put a solid or scrim layer behind the text, or
+    move the text; a promise that the image "usually" is dark enough is not a design.

@@ -219,6 +219,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `ship` | 10 | Merge + notification, see the `gandalf` agent |
 | `finish` | 11 | Cleans up the worktree, updates the base branch |
 | `merge-worktree` | 11 | Multi-worktree merge mechanics |
+| `receiving-review` | 8 (author side) | Feedback on your own change: verify each point against the code, stop on an unclear one, answer with substance |
+| `safe-refactor` | 6 / 9 (support) | Restructure working code with behaviour fixed: pin the proof first, one boundary per step, replay the same proof |
+| `execute-plan` | 5 to 7 (opt-in per run) | Carry out a written plan through delegated workers: fresh implementer per task, conformity then quality review, round cap |
 | `deprecation-migration` | cross-cutting | Frames a deprecation/migration (Strangler, Adapter, Feature Flag, Expand/Contract) |
 | `handoff` | cross-cutting | Handover document between two sessions on the same task, without duplicating |
 
@@ -236,6 +239,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `vue-nuxt-vuetify-conventions` | Nuxt/Vue/Vuetify conventions, real production experience |
 | `react-nextjs-conventions` | React/Next.js conventions, sourced from the market |
 | `nestjs-node-conventions` | NestJS/Node conventions (DI, DTO, Zod, Prisma) |
+| `laravel-verification` | Ordered read-only verification phases for a Laravel change; "not run" is its own outcome |
 | `laravel-conventions` | Laravel: thin models, events over observers, permissions not roles, schema, queries, tests |
 | `inertia-conventions` | Laravel + Inertia (Vue/React/Svelte rendered from controllers), and why the REST and Nuxt rules do not apply there |
 | `go-conventions` | Go: concurrency, errors, context (sourced from the market) |
@@ -330,16 +334,20 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | Skill | What it does |
 |---|---|
 | `auth-session-conventions` | Tokens, sessions, refresh and permission checks: the surface where a regression stays invisible |
-| `security-hardening` | Trust boundaries while writing: validation, escaping per context, access control, uploads |
+| `security-hardening` | Trust boundaries while writing: validation, escaping per context, access control, uploads, browser headers, production settings, mobile clients |
 | `background-jobs-conventions` | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
 | `webperf` | Diagnose slowness from a measurement, not from intuition |
-| `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
+| `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev), crawl health, structured data, content trust |
+| `html-document` | The shell of a page: doctype, encoding, viewport, language, head integrity, favicons, real 404, no-script |
+| `frontend-testing` | Which test layer catches which frontend defect, how end-to-end and visual tests stay stable |
+| `browser-runtime` | Code that touches what the browser owns: storage, external JSON, messaging, error handling, pre-consent requests |
+| `sampled-evaluation` | Judging a batch by sampling it, with a planted known-bad item; complement to the double evaluation in `gate` |
 | `loop-design` | Before building an agent loop: decidable goal, external judge, attempt cap, human keeps the last switch |
 | `session-postmortem` | Why a session went wrong, from its transcripts, every finding cited path:line |
 | `responsive-layout` | Breakpoints where content breaks, fluid sizing, dvh, overflow, fixed bars, mobile keyboard |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
-| `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, sourced from 12-factor/DORA |
+| `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, TLS and certificates, safe database migrations, container orchestration |
 | `data-pipeline-conventions` | ETL/ELT, data quality and analytical modelling, sourced from dbt/DAMA-DMBOK |
 
 </details>
@@ -731,7 +739,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 | Suite | Covers |
 |---|---|
 | `test_scripts.py` · `test_local.py` | The scripts and the local review transport |
-| `test_hooks.py` · `test_guard_test_changes.py` | `hooks/block-installs.sh` and `hooks/guard-test-changes.sh` |
+| `test_hooks.py` · `test_guard_test_changes.py` | Every script in `hooks/`, default and opt-in, plus `hooks/guard-test-changes.sh` |
 | `test_frontmatter.py` | Every block's frontmatter |
 | `test_rule_c.py` | Every tracked file, for anything rule C keeps out of a publishable repo |
 | `test_git_hooks.py` | The wiring of the gate itself |
@@ -830,10 +838,10 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 105 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 113 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 24 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
-| 🪝 `hooks/` | 4 scripts | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
+| 🪝 `hooks/` | 11 scripts (4 wired set, 7 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 9 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 **Written with no internal production experience on the stack**, so their remarks are phrased as

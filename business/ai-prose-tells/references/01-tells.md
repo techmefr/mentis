@@ -10,7 +10,8 @@ Judge families, not words. Each entry names the mechanism, so a new variant is r
    comprehensive, leverage, streamline, cutting-edge, delve, crucial. Test: can a measurement or a name
    replace it? If yes, replace it; if no, delete it.
 2. **Scope inflation.** A small change dressed as a milestone: "a pivotal step toward a better developer
-   experience" for a renamed flag. Test: does the sentence size match the diff?
+   experience" for a renamed flag. Test: does the sentence size match the diff? The same family covers the
+   profound-sounding sentence with no claim in it; ask which precise statement is hiding inside.
 3. **Vague attribution.** "Experts agree", "it is widely known", "best practices suggest". Name who or
    cut it.
 4. **Chatbot closure.** "I hope this helps", "let me know if you have questions", "feel free to". It
@@ -20,13 +21,17 @@ Judge families, not words. Each entry names the mechanism, so a new variant is r
 6. **Rule of three.** Triplets used as rhythm: "fast, reliable, and scalable". One triplet is normal; a
    triplet in every paragraph is a template.
 7. **Negative parallelism.** "Not just X, but Y", "It is not about X, it is about Y". The frame creates a
-   contrast nobody asked for.
-8. **Staccato.** A run of very short sentences for effect. "It works. It scales. It ships."
+   contrast nobody asked for. It also comes split over two sentences ("This is not a rewrite. It is a
+   refactor."), as a negative tail, and as an objection nobody raised ("I am not saying X", "a tempting
+   approach"). Keep it when the negation corrects a belief the reader really holds, and say whose.
+8. **Staccato.** A run of very short sentences for effect. "It works. It scales. It ships." Includes the
+   one-line paragraph that only repeats the one before.
 9. **False ranges.** "From small teams to large enterprises", "from setup to deployment", where the two
    ends are not a scale.
 10. **Actorless passive.** "Errors are handled", "the cache is invalidated". Who does it, and when? Naming
     the actor often exposes that nobody checked.
-11. **Generic conclusion.** A final paragraph restating the document, or promising a bright future.
+11. **Generic conclusion.** A final paragraph restating the document, or promising a bright future, or a
+    closing sentence that names the lesson the text already showed.
 12. **Formatting excess.** Bold on every key phrase, emoji as bullets, a heading over three lines.
 13. **Hedging stack.** "may potentially", "could possibly", "it is generally considered". Hedge once,
     where the uncertainty is real, and say what the uncertainty is.
@@ -40,6 +45,9 @@ Judge families, not words. Each entry names the mechanism, so a new variant is r
 Reviewer and author share the diff. "As discussed above, the function validates input, which matters
 because..." becomes "Agreed, moving the check into `parse`." A comment longer than the change it discusses
 is the signal.
+
+Families 15 onward, and the checks a count can settle, are in
+[`02-more-tells.md`](./02-more-tells.md). For French text read [`03-french.md`](./03-french.md).
 
 ## 2. Clusters, not instances
 

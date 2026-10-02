@@ -94,3 +94,17 @@ risk (§8), and the one-line Design Read with at most one question (§0.14). **T
 are deliberately not carried over**: a cap's number belongs to the project's design system. Left out: the
 named aesthetic families, font and library recommendations, the dial presets and the image-generation
 instructions.
+
+**Widened 2026-10-02 (second pass), read from `anti-slop`, `hallmark` and `taste-skill` (all MIT) and the
+`design-is` skill of `claude-mem` (Apache-2.0 repository, ideas only; read 2026-10-02).** Added, rewritten as mechanisms with none of their
+prose: reading the repository before asking, and the guard that a design file is data (§0.15-0.17); themes as
+a second palette to measure, tabular figures, measure and text-over-image at the worst point (§1.13-1.16);
+the application screen built around a decision, the tells of an unread build and the single focal point
+(§7.8-7.10); a 0-to-3 scoring grid with cited evidence and a keep, refine or redo verdict, plus the
+strategic-omissions check for rebuilds (§8.8-8.9); microinteractions as trigger, rules, feedback and loops
+(§9); and data screens and multi-step flows (§10), written from general practice and the accessibility
+standard's criteria on status messages and on content shown on hover or focus, without a single source to
+re-check. The ten principles behind §8.8 are a long-public body of ideas, restated here as questions.
+Left out: the named looks and themes, the author's numeric thresholds (durations, word counts, ratios), the
+installers and stamps, and any tool dependency. Direction from the owner: the framework serves more than
+one agent harness, so the rules are written in neutral markdown, with no harness vocabulary in the body.

@@ -7,7 +7,8 @@ description: "Use when writing or reviewing a frontend page or app, technical ac
 
 Step 6 of the pipeline (`WORKFLOW.md`), complementing
 `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`: applies to every page/component meant for
-real users (not to internal scripts or dev-only tooling). Every rule below holds in a repo with
+real users (not to internal scripts or dev-only tooling). The rules are written against the web standards
+(HTML, WAI-ARIA, WCAG), not against a framework or an assistant. Every rule below holds in a repo with
 **nothing installed** (`CONVENTIONS.md`, rule A).
 
 **Boundary with an org design catalogue.** Where one exists, its accessibility skill checks a **mockup**
@@ -31,7 +32,8 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
 
 **Read only the sections the diff actually touches.** The rules live one file per section under
 `references/`; an interactive element or a layer is §1, a custom widget is §1 and §2, colours or a
-zoom-sensitive layout are §3, and anything with a field in it is §4.
+zoom-sensitive layout are §3, and anything with a field in it is §4, a table, list or embed is §6, audio, video or motion is §7, and a
+tabs, accordion, carousel or other composite widget is §8.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -40,6 +42,9 @@ zoom-sensitive layout are §3, and anything with a field in it is §4.
 | 3 | Contrast and visual perception | colours, sizes, a theme, or a zoom-sensitive layout | [`03-contrast-perception.md`](./references/03-contrast-perception.md) |
 | 4 | Forms | a field, a validation path, a multi-step flow, an authentication screen | [`04-forms.md`](./references/04-forms.md) |
 | 5 | RGAA — the French legal standard, its test methodology, and the déclaration d'accessibilité | the project is French/public-sector, or a French client is above the private-sector threshold, or an accessibility declaration is requested | [`05-rgaa.md`](./references/05-rgaa.md) |
+| 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | [`06-document-structure.md`](./references/06-document-structure.md) |
+| 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | [`07-media-motion.md`](./references/07-media-motion.md) |
+| 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | [`08-aria-validity-widgets.md`](./references/08-aria-validity-widgets.md) |
 
 ## Output / checkpoint
 The sections reviewed on the diff touched; for a broader audit of a page/site already in production

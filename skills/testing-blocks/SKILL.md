@@ -1,6 +1,6 @@
 ---
 name: testing-blocks
-description: "Use when a skill or agent in this framework has been written but never proven to change behaviour: validate it with a pressure scenario, run without the block then with it."
+description: "Use when a skill or agent in this framework has been written but never proven to change behaviour: validate it with a pressure scenario, run without the block then with it, keep the recorded excuses as a table, test the routing text, and measure compliance across prompt strictness."
 ---
 
 # testing-blocks
@@ -12,18 +12,11 @@ It's the `tdd` discipline turned on the framework itself: **a block's output is 
 the test is behavioural. And it's cheaper than what we were waiting for — you don't need a real
 project and a real feature to find out a block doesn't work.
 
-**Run it through `claude plugin eval`, not by hand.** The platform now runs scored eval cases
-(`evals/**/case.yaml`, graders in `graders/*.md`) against a plugin, a skills directory or a
-`plugin@marketplace` id, and it **adds a no-plugin baseline arm automatically** — which is exactly
-the RED run in step 1, mechanised, with the comparison the protocol below asks you to do manually.
-The steps that follow are still the method: the runner gives you the harness and the scoring, it
-does not invent the pressure scenario or record the rationalisation for you. The honest state of
-this block as of 2026-09-07 is that its protocol predates the runner and hasn't been re-expressed
-as eval cases yet — that is the open item in `CATALOG.md` §2, not a settled design. And it stays
-open for a reason worth stating rather than rediscovering: **the runner is in early access**, so on
-CLI 2.1.218 `claude plugin eval init` returns *"`plugin eval` is currently in early access"* and no
-case here can actually be run. Until that opens, the manual protocol below is not a legacy path, it
-is the only one — so keep running it, and check the runner again rather than assuming the gate moved.
+The protocol is a method, not a tool: it needs a way to run the same scenario with and without the block
+and a way to record what the agent said it was doing. Any evaluation harness that offers a baseline arm
+(the run without the block) mechanises step 1; without one, run the two arms by hand. The harness never
+invents the pressure scenario or records the rationalisation for you. The adaptation for the harness this
+repository is developed on is in the note at the end.
 
 ## When
 Before a block moves out of 🟡. Also when a block was followed in the calm case and ignored the one
@@ -69,9 +62,20 @@ it is not evidence.
    closes the obvious route and leaves the clever one open.
 3. Stop when a round of pressure produces no new workaround.
 
+### 5 to 7. The rest of the method
+The four steps above are the core. The rest lives one file per section under `references/`; read the rows
+whose trigger the task meets.
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 5 | Keep what the runs taught as a table, not as prose | a block has been run under pressure and the recorded sentences have to be kept | [`05-rationalisation-table.md`](./references/05-rationalisation-table.md) |
+| 6 | Test the routing text on its own | a block's description is written or changed, or a block loads on the wrong tasks | [`06-routing-text.md`](./references/06-routing-text.md) |
+| 7 | Measure compliance across prompt strictness | a block, a rule or an agent definition has to be measured across runs | [`07-compliance-measurement.md`](./references/07-compliance-measurement.md) |
+
 ## Output / checkpoint
 For each block tested: the scenario, the pressures applied, the verbatim rationalisation from the RED
-run, and the behaviour in the GREEN run. That's what promotes a block out of 🟡 in `CATALOG.md` —
+run, the behaviour in the GREEN run, and the block's table of excuses and counters fed from those sentences
+(§5), and, where it was measured, the compliance rate per prompt level (§7). That's what promotes a block out of 🟡 in `CATALOG.md` —
 and the maturity note says *tested under pressure*, which is a different and weaker claim than *used
 on real work*. Both are worth having; don't let one stand in for the other.
 
@@ -82,9 +86,20 @@ on real work*. Both are worth having; don't let one stand in for the other.
   rationalisations are consistently more specific and more reasonable-sounding than the invented ones.
 - **Don't grade your own homework in the same context.** The run that judges compliance shouldn't be
   the one that wrote the block; same reason `galadriel` exists.
+- **A predicted rationalisation is labelled as predicted.** Only verbatim sentences from a run may be
+  presented as observed.
 - This tests whether a block **changes behaviour**, not whether its content is correct. A confidently
   wrong block can pass this and still be wrong: correctness comes from the source, from review, and
   from real use.
+
+## Adaptation note: Claude Code
+The platform's evaluation runner (`claude plugin eval`: scored cases in `evals/**/case.yaml`, graders in
+`graders/*.md`, run against a plugin, a skills directory or a `plugin@marketplace` id) adds a no-plugin
+baseline arm automatically, which is the RED run of step 1 mechanised. As of 2026-09-07 this protocol
+predates the runner and has not been re-expressed as eval cases; that is the open item in `CATALOG.md` §2.
+The runner was in early access then (on CLI 2.1.218 `claude plugin eval init` answered that it was
+currently in early access), so the manual protocol is the only one available until that opens: check the
+runner again rather than assuming the gate moved.
 
 ## Origin
 Rewrite of `testing-skills-with-subagents` from a market skills repository (the companion repo of the
@@ -96,3 +111,14 @@ Found late, and the omission is worth recording: this framework's own sourcing p
 137-agent per-technology catalogue while never listing the contents of the project it takes its
 premise from. The distinction between *tested under pressure* and *used on real work* is ours, added
 so this block can't be used to quietly retire the dogfooding requirement.
+
+Sections 5 to 7 added 2026-10-02: the table of recorded excuses and the list of tells come from the public
+Superpowers repository's skill-writing guidance (MIT licence, read 2026-10-02), rewritten so the table is
+fed only from verbatim runs and a predicted row is labelled as predicted; the description-only test
+comes from its observation that an agent follows a description that summarises the process instead of
+opening the block. The compliance measurement of §7 (an expected sequence of observable actions, three
+levels of prompt support, classification of the trace by meaning with a deterministic order check, and
+promotion of low-compliance steps to a hook) comes from the `skill-comply` skill of the public ECC repository
+(MIT licence, read 2026-10-02), rewritten harness-neutral: its scenario generator, its trace capture and its
+model prompts were not taken, and the three levels are renamed in our terms. The mechanisms were rewritten in
+our terms and no text was copied.

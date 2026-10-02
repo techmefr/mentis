@@ -41,10 +41,23 @@ turn a red result green. This block's guardrail (below) covers the moment these 
 adding a case is fine, loosening or retargeting an existing assertion to match broken output isn't,
 whichever agent is at the keyboard.
 
+The sections below are read when their trigger is met.
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Excuses, red flags, the test that names its break, the regression test proven by reverting | you are tempted to write the code first, to loosen a test, or to trust a test that never failed | [`01-excuses-and-red-flags.md`](./references/01-excuses-and-red-flags.md) |
+| 2 | End-to-end tests | the criteria describe a journey through a real interface | [`02-end-to-end.md`](./references/02-end-to-end.md) |
+
 ## Output / checkpoint
 `tests_written` + `test-results.json` (every line `{ passes: false }`).
 
 ## Guardrails
+**No production code without a failing test that demanded it.** Code that came first is set aside and the test is
+written from the criterion, not fitted to what the code does.
+
+A test names the break it catches (the regression or decision it guards); one whose break you cannot name is
+a candidate for deletion. A regression test is proven by reverting the fix and watching it fail (`01-excuses-and-red-flags.md`).
+
 The project's own suite defines green, a targeted test is not enough, and every failure is named even when this change did not cause it.
 No test bypassed, hidden or disabled. The default contract is **failure**: nothing is
 "passing" until the GATE has proven it. Never loosen an assertion or lower a coverage threshold to
@@ -57,3 +70,9 @@ for the default-FAIL contract, rewritten. **Aligned with `test-casebook` 1.1.0**
 still only ever "as fresh as the copy installed in the project": a stamp here dates a reading, not the
 installed package. Re-verify
 against the installed package rather than from memory (`skills/source-freshness`). Stamped 2026-08-11.
+
+The law, the excuses table, the red flags and the break-naming rule (§1) come from the `test-driven-development` and
+`writing-good-tests` skills of `superpowers` (MIT, read 2026-10-02), rewritten in our words; the excuses are
+predicted, not yet recorded from a run. The end-to-end section (§2) is written from the `e2e-testing` skill of
+`ECC` (MIT, same date) and from the documentation of the browser automation tools, keeping only the
+driver-neutral rules.

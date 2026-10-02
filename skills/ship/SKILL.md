@@ -32,6 +32,17 @@ accessibility (`skills/accessibility`), exposure of secrets and trust boundaries
 (`skills/security-hardening`). A blocker is anything whose failure harms a user or the data; the rest is
 debt to record. The method is a checklist of concerns, written here without any source text.
 
+The data and operations lenses (reversal, release switch, idempotence, configuration validated at startup,
+health, diagnosable logs, the critical journey, ownership, a watch against a baseline, a verdict capped by
+blocking facts) are in [`01-go-live-lenses.md`](./references/01-go-live-lenses.md). Read it when the change
+touches stored data, a contract, a background process or a configuration; skip it for a copy edit.
+
+## What was left out, said once
+The MR description ends with the omissions you chose: what was deliberately not built or not done, and the
+condition under which it should be picked up. "Not handled: pagination of the export, add when a list passes a
+few thousand rows." This replaces any marker comment in the code, and it keeps scope cuts visible to the
+person who approves.
+
 ## Watching the MR until it is clean
 After the MR exists, stay with it until it is actually ready, not after one pass: pipeline checks passed
 or intentionally skipped, no unresolved review threads, and every actionable comment checked against the
@@ -61,4 +72,4 @@ added 2026-09-07 from an org cross-language rule set (`no-ai-attribution`), read
 rule anywhere on commit attribution, and the source's own framing — that the failure mode is autopilot rather
 than disagreement — is the part worth keeping.
 
-The MR-watching loop is an idea from the `babysit` skill of `claude-mem` (Apache-2.0, read 2026-10-02; its NOTICE obligations apply to a copy, none was made), adapted to GitLab. The go-live section is our own checklist of concerns after surveying a public front-end checklist for method only; none of its text is used.
+The MR-watching loop is an idea from the `babysit` skill of `claude-mem` (Apache-2.0, read 2026-10-02; its NOTICE obligations apply to a copy, none was made), adapted to GitLab. The go-live section is our own checklist of concerns after surveying a public front-end checklist for method only; none of its text is used. The data and operations lenses in `references/01-go-live-lenses.md` are written from the production-audit and deployment-patterns skills of `ECC` (MIT, read 2026-10-02) and from the standard practice they describe (twelve-factor configuration, expand and contract migrations, signed webhooks); the numeric score and banding of the source are not taken. The omissions paragraph is the replacement for the debt marker of `ponytail` (MIT, same date), which relied on code comments.

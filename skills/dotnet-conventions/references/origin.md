@@ -616,3 +616,15 @@ sandbox, are still not the real production .NET codebase this file is waiting fo
 question register. What this pass adds to the 2026-09-09 one is coverage of §3 and the options/hosted-
 service half of §2 that the console-only shape never touched, and one more mechanical defect a compiler (on
 a different target framework this time) could surface that reading never would have.
+
+**Testing section, 2026-10-02.** §10 is new. Idea taken from the public ECC repository (MIT licence, read
+2026-10-02): its C# testing rule and testing skill, which name xUnit, a substitution library, container-backed
+integration tests and an in-process web host as the stack. The mechanism was kept and rewritten in our terms;
+what was **not** taken is its shape: no mandated assertion library (the one it recommends changed licence terms
+at a major version, so §10.6 says to read the licence instead), no fixed coverage percentage (§10.24), and the
+in-memory EF provider it uses for the host fixture (§10.16 says why that is the wrong test double). The facts
+come from the primary documentation, written from knowledge of it and **not re-fetched on the day**: the xUnit
+lifecycle and parallelism model (instance per test, collection fixtures), the ASP.NET Core integration-testing
+guide (the web host factory, `ConfigureTestServices`, the public `Program` requirement), the EF Core testing
+guidance on the in-memory provider, and the framework's fake time provider and fake logger testing packages.
+Re-verify those API names against the target framework before this section moves out of 🟡.

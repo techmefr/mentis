@@ -4,7 +4,7 @@ The only enforcement in this repo. Everything else is markdown that an agent rea
 because some guarantees **cannot** be written instructions: a rule holds right up to the moment it is
 inconvenient, and the moment it is inconvenient is exactly the moment it matters.
 
-Three guarantees, five scripts:
+Three guarantees, five scripts (seven more guards, all opt-in, are described at the end of this file):
 
 | Guarantee | Script(s) | Event |
 |---|---|---|
@@ -322,3 +322,124 @@ has not been re-measured here.
 on any error.
 
 Wire either exactly like the others (see the settings snippet above).
+
+## Opt-in command and config hooks (2026-10-02, second set)
+
+Five more hooks, **off until wired**, never part of the default set. Four are guards of the same family as
+`block-installs.sh`: they exist because the written rule they enforce holds right up to the moment it is
+inconvenient.
+
+| Script | Event | Job |
+|---|---|---|
+| `block-no-verify.sh` | `PreToolUse` on `Bash` | Refuses the ways past a git hook: `--no-verify` (and `-n` on commit/am), `-c core.hooksPath=...`, `git config core.hooksPath <path>`, `HUSKY=0`, `LEFTHOOK=0`, `SKIP=...`, and removing or disabling a script in `.git/hooks` |
+| `config-protection.sh` | `PreToolUse` on `Edit`/`Write`/`MultiEdit` | Refuses loosening a check to make code pass it: any edit to an existing linter, formatter or hook-manager config or ignore list; and, for type-checker, analyser and test-runner configs, an edit that turns a strictness flag off, adds an ignore or baseline entry, lowers a level, or drops a "warnings are errors" switch |
+| `guard-commit-message.sh` | `PreToolUse` on `Bash` | Refuses a `git commit` whose message is not `type(scope)!: description` with a lowercase description, or whose text credits a tool (a co-author trailer or "generated with" line naming an assistant) |
+| `guard-destructive.sh` | `PreToolUse` on `Bash` | Refuses recursive forced deletion, forced or deleting pushes, `reset --hard`, wholesale `checkout`/`restore`/`clean`, `DROP`/`TRUNCATE`/unqualified `DELETE` sent to a database client, framework database-wipe commands, prune/destroy of containers, volumes, clusters and infrastructure, package publishing, `chmod -R 777` |
+| `session-start-using-mentis.sh` | `SessionStart` | After a clear or a compaction, prints a condensed `using-mentis` so the entry-point habit survives the lost context |
+
+`command_views.py` is not a hook: the three Bash guards import it so that they agree on what a command is.
+**Copy it next to them.** The python halves (`*.py`) sit beside their shell wrappers for the same reason.
+
+**Command boundary, shared by the three Bash guards.** A word counts only where a command starts: the
+start of the text, or after an **unquoted** newline, `;`, `&`, `|`, parentheses or a backtick, once `sudo`,
+`env`, `VAR=value`, `time` or `xargs` are peeled off. The command inside `ssh host "..."`, `sh -c`,
+`bash -lc`, `eval` and `find -exec` is unwrapped and judged the same way. Quoted text is one argument, so
+`grep "rm -rf" notes`, `echo 'git commit --no-verify'` and `git commit -m "docs: why --no-verify is refused"`
+pass. Heredoc bodies are data, except where the guard reads them on purpose (a commit message, SQL for a
+database client). There is no PowerShell detection.
+
+**Fail-open, everywhere.** No `python3`, an unreadable payload or any error in the hook exits 0. These are
+tripwires for the honest mistake and for injected instructions, not a sandbox; a guard that breaks the
+session gets removed, and then it guards nothing. (The install guard above is the exception, by design: it
+fails closed on a command that mentions a package manager.)
+
+**Activation, one by one.** Add the entry to the `settings.json` array of the event, exactly as in the
+wiring snippet above:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-no-verify.sh" },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-commit-message.sh" },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-destructive.sh" }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/config-protection.sh" }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "clear|compact",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start-using-mentis.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Wire only the ones you want. `block-no-verify.sh` and `config-protection.sh` are the pair that stop the two
+cheapest ways of turning a red check green; `guard-destructive.sh` is the one to wire where an agent runs
+unattended; `guard-commit-message.sh` is a house-format decision, so it is the one a team opts into on
+purpose.
+
+**What each one lets through, and where its limit is.**
+
+- **`block-no-verify.sh`.** Lets through an ordinary commit and push, `git push -n` (a dry run, not a skip),
+  reading `core.hooksPath`, and unsetting it. *Limits:* a hook skipped through a wrapper script or an alias
+  is not seen; `HUSKY=0` set in a `.env` the manager loads is not seen.
+- **`config-protection.sh`.** The strict tier refuses an edit to an existing file even when it tightens the
+  rule, because a tightening is the user's call too and the cost of asking is one line. The loosening tier
+  counts strictness tokens before and after, so it is a heuristic: a rewrite that moves a flag around can
+  read as neutral, and a loosening phrased in a way no pattern knows passes. `MENTIS_ALLOW_CONFIG_CHANGES=1`,
+  set by the human before the task, lifts it (the same shape as `MENTIS_ALLOW_TEST_CHANGES` above, with the
+  same task-wide reach). Only the edit tools are seen, not `sed -i`.
+- **`guard-commit-message.sh`.** Judges a message it can read: `-m`, `--message`, `-F file`, `-F -` with a
+  heredoc, `-m "$(cat <<'EOF' ...)"`. An editor commit, `--amend --no-edit` and a message built by a command
+  substitution are not judged. The subject must start with a type from the default list (`feat`, `fix`,
+  `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`; replace it with
+  `MENTIS_COMMIT_TYPES`), may carry a scope and a breaking `!`, and its description starts lowercase unless
+  the first word is an acronym. Git's own `Merge`, `Revert`, `fixup!` and `squash!` subjects pass. Attribution
+  is a line that looks like a trailer or a "generated/written/created with|by|using" sentence and names an
+  AI assistant by name; a human co-author passes. *Limit:* a name list ages; extend it when a new assistant
+  appears.
+- **`guard-destructive.sh`.** `rm -rf` of `node_modules`, `dist`, `build`, `coverage` and the other
+  plainly rebuildable directories passes, as do `--force-with-lease`, `git reset --soft`, `git clean -n`,
+  `branch -d` and a `DELETE` with a `WHERE`. Anything leaving the working tree, a wildcard, or a path that is
+  not on that short list is refused. SQL is judged only when a database client is a command of the same line,
+  so `grep "DROP TABLE" migrations` passes; `cat dump.sql | mysql` is not seen. `MENTIS_ALLOW_DESTRUCTIVE=1`
+  in the human's own environment, set before the session, lifts the guard; the same text inside the command
+  does nothing. *Limit:* a destructive action behind a `make` target, a script or an alias is not seen. A
+  "freeze" mode that confines writes to one directory is not here: one worktree per task does that job.
+- **`session-start-using-mentis.sh`.** Reads the `source` of the session start and acts for `clear` and
+  `compact` (override with `MENTIS_SESSION_START_SOURCES`). The text it prints is **derived** from
+  `skills/using-mentis/SKILL.md` at run time (frontmatter, `When`, `Output / checkpoint` and `Origin` dropped,
+  the rest as written), so editing the block edits the reminder and there is no second copy to forget. The
+  file is found through `MENTIS_USING_MENTIS`, then next to the hooks directory, then the project's and the
+  user's `.claude/skills`. Not found: prints nothing.
+
+**Using them from another harness.** The behaviour is in markdown and in these scripts, not in one product.
+The contract is small: a JSON object on standard input (`tool_name`, `tool_input` with `command` or
+`file_path` and the edit strings, `cwd`, and `source` for a session start), exit code 2 to refuse with the
+reason on standard error, exit 0 to allow, standard output of a session-start hook added to the context. A
+harness with a different payload shape adapts the few lines that read it (`load_payload` and the field
+names in each `main`); the command reader, the patterns and the messages carry over unchanged. Where a
+harness has no pre-execution hook at all, the same checks belong in a git hook or the CI job.
+
+Checked by `bin/test_hooks.py`: each hook with the commands it must refuse and, as importantly, the ones it
+must not (quoted text, the safe spelling of the same action, an ordinary neighbour), plus fail-open on a
+malformed payload and the executable bit on every file in this directory.
+
+Origin: the five ideas come from the MIT-licensed `affaan-m/ECC` hook set (a no-verify blocker, a config
+protector, a commit-quality check, a safety guard) read 2026-10-02, and from the session-start context
+re-injection pattern. Rewritten here as readable shell and python that fail open, anchored on the command
+boundary instead of a substring match, with the message and config rules of this repository.

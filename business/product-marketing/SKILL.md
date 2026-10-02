@@ -52,6 +52,12 @@ Write these plainly; if any is vague, the copy will be vague in a longer form.
    consequences.
 5. Technical discoverability — meta, structure, Core Web Vitals — is `skills/seo`, not this block.
 
+### 4. Business details, local presence and profiles
+Contact details, address, hours, listings and social profiles are claims too. Read
+[`references/01-local-and-profile-presence.md`](./references/01-local-and-profile-presence.md) §1 when the
+product or company has a physical location, a service area, public listings or profiles, or a page that
+prints such details.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the four positioning sentences, and a source
 attached to every factual claim, with the technical ones confirmed by someone who built it. Any claim
@@ -64,6 +70,8 @@ without a source is removed before publishing, not softened.
 - **Never make a compliance, security or legal claim without the person who owns it saying yes.**
 - Never publish real customer data, names or logos without their written agreement — that's their
   decision, not ours, and it's also a data-protection question.
+- **Never publish an address people cannot visit as a shop**, nor write, buy or trade reviews
+  (`references/01-local-and-profile-presence.md` §1.4, §1.6).
 - This block doesn't own brand voice or campaign strategy. Where it conflicts with whoever does, they
   win; the claim-needs-a-source rule is the exception and doesn't bend.
 
@@ -74,3 +82,10 @@ marketing expertise** and with no access to a brand or campaign reference, so it
 where engineering can be useful and be held to something. The claim-needs-a-source discipline and its
 framing as `default = failure` applied outside code are ours, as is the rule that technical claims are
 read by a builder before shipping.
+
+Widened 2026-10-02: `references/01-local-and-profile-presence.md` rewrites, as claim discipline, the
+public guidance of a search provider on local business structured data, on keeping a business listing
+accurate and complete, and on qualifying links, read 2026-10-02, plus the schema.org vocabulary the
+structured data uses. Local listings and profile management were earlier set aside as marketing; the
+owner's direction that the framework serves more than one agent harness reopened them. No platform's
+interface is described, since those change.

@@ -107,3 +107,18 @@ its mirror image next to the general rule it qualifies. Fixed by adding the App 
 exception to §1.3, with a cross-reference to §7.10, and a matching cross-reference added at §7.10 pointing
 back. Every other rule read (§1, §3, §5, §6, §7 in full; §9 skimmed for the fetch boundary) matched what the
 build and lint gates actually enforced — no further edits made.
+
+**Testing, boundaries and further security surface, 2026-10-02.** §11, §12 and §13 are new. Idea taken from
+the public ECC repository (MIT licence, read 2026-10-02): its React rule files for testing, patterns,
+hooks, security and coding style. The comparison matrix called React covered; the re-read found no testing
+section here at all, no error-boundary or compound-component guidance, and a short list of security items
+(`rel` on new-window links, inline-data escaping, prototype pollution, the content security policy, source
+maps, third-party components) that §9 did not state. Mechanisms rewritten in our terms. Differences on
+purpose: no per-layer coverage percentages (§11.16), no mandated test runner or interception library name
+beyond describing the roles, no shipped skeleton of a helper file, and the hooks guidance already in §5 was
+not repeated. The facts come from the React documentation (error boundaries, Suspense, the external-store
+hook, refs, portals, keys, forms and the server rendering notes), the testing library's guiding principles
+and query-priority page, the OWASP cheat sheets (prototype pollution, CSP, XSS in script contexts) and the
+HTML standard's `rel` behaviour for `target`, written from knowledge of them and **not re-fetched on the
+day**. The ref-as-prop statement (§12.11) and the server-component test advice (§11.14) depend on the React
+and Next.js majors and must be re-read against the ones in use.

@@ -20,7 +20,9 @@ bring back, `finish` then tidies away the worktree that has become useless.
 ## Steps
 
 1. **Spot the active worktrees**: `git worktree list`, check the path and branch of each one
-   before doing anything.
+   before doing anything. Know where you stand: when `git rev-parse --git-dir` and `git rev-parse
+   --git-common-dir` differ, you are inside a linked worktree and not in the main checkout. A detached HEAD
+   is a state to resolve before removing or merging anything, never a branch to delete from under.
 2. **Choose the strategy according to the need**:
    - **Targeted file(s)**: we know exactly what to retrieve, everything else is ignored:
      `git checkout <worktree-branch> -- path/file`
@@ -35,11 +37,19 @@ bring back, `finish` then tidies away the worktree that has become useless.
    - **Multi-worktree**: several branches have to converge into a single integration branch:
      repeat the merge-under-review per branch, one at a time, resolving conflicts before moving
      on to the next.
+   - **Neighbouring branches that overlap**: when it is unclear which branch should be the base or in what order
+     they fold in, decide that first, read-only, before any merge command: `references/01-consolidating-branches.md`.
 3. **Validate**: commit once the content has been checked (never an automatic commit on a
    cherry-pick/merge until the staged diff has been re-read).
 4. **Clean up**: list the remaining worktrees (`git worktree list`), remove the one(s) that have
    become useless (`git worktree remove <path>`), then `git worktree prune` if orphan entries
-   remain (worktree deleted by hand, external drive unplugged…).
+   remain (worktree deleted by hand, external drive unplugged…). Remove only worktrees this task created or that
+   the operator named; one made by a tool or by someone else is left in place and mentioned. Never remove the
+   worktree you are standing in from inside it.
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | Consolidating neighbouring branches: roster, shared read-only plan file, one reader per branch, rounds, conclusion | several branches overlap and the base and order are not decided | [`01-consolidating-branches.md`](./references/01-consolidating-branches.md) |
 
 ## Output / checkpoint
 
@@ -66,3 +76,10 @@ the integration base.
 Idea taken from: a market context-engineering kit,
 plugins/git/skills/git-worktrees/SKILL.md, "How to Merge Worktree" section. Mechanism rewritten
 our way (mentis template, articulation with `finish`).
+
+The consolidation of overlapping branches (§1) is the mechanism of the `standup` skill of `claude-mem`
+(Apache-2.0, read 2026-10-02): a read-only shared room, one agent per branch, rounds driven by a facilitator, a
+conclusion written by the facilitator. Rewritten in our words and without its helper scripts, since a plain file
+and a lock are enough; no text copied, so the NOTICE obligations do not apply. The worktree-detection and
+removal-scope rules of step 1 and step 4 come from the `using-git-worktrees` and
+`finishing-a-development-branch` skills of `superpowers` (MIT, same date), rewritten.

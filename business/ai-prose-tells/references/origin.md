@@ -26,3 +26,17 @@ section, and the scope split with `business/ux-writing` and `business/content-cr
 Left out on purpose: the scoring scripts and installers of the sources (rule B: no runtime dependency),
 any numeric "AI score", and detection of generated code, which `skills/code-baseline` already covers more
 strictly.
+
+**Widened 2026-10-02 (same day, second pass).** The owner's direction is that mentis serves more than one
+agent harness, so the block holds as much of the mechanism as is neutral and publishable. Added from the
+same repositories: families 15 to 43 in `02-more-tells.md` (authority and candour frames, subject-verb
+mismatches, aphorisms, synonym cycling, trailing negations, emphasis by capitals or quotation marks,
+inline-header lists, extended filler, speculative gap-filling, the dash decision, production residue in
+captions and commit text, checks a count can settle, the register test) and `03-french.md`, written for
+French rather than translated. Rewritten as mechanisms; no sentence copied. Left out: banned-phrase lists
+and per-model vocabulary by era (they age), the numeric scores and quotas, the before-and-after pairs of
+the sources (their prose), and the scanner scripts.
+
+Licence note for the audit trail: in one of the sources the licence file carries a different copyright
+holder from the rest of that repository. Nothing was copied from it, so no obligation arises; the note is
+here so a later reader does not mistake the discrepancy for an omission on our side.

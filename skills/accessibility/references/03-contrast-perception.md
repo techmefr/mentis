@@ -36,7 +36,7 @@
    them or hunts by hovering.
 8. **Text over an image or a gradient has no single contrast ratio.** It passes over part of the
    background and fails over the rest, which is why it cannot be checked with a colour picker and why
-   the reliable answer is a solid or scrim layer behind the text rather than a measurement.
+   the reliable answer is a solid or scrim layer behind the text rather than a measurement. When a measurement is still wanted, it is taken over the worst-case zone under the text (the lightest patch behind light text, the darkest behind dark text, at every breakpoint where the text sits over a different part of the picture), never over the average or the part the designer looked at. Every delivered theme, the dark one included, is a second palette measured on its own.
 9. **Honour a reduced-motion preference.** Transitions, parallax and large movement cause real symptoms
    for some readers — not a preference about taste — and the platform already exposes the setting, so
    ignoring it is a decision rather than an oversight. The reduced variant is not "no feedback": it is
