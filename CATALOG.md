@@ -190,6 +190,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | seo | 6 | Google Search Central + web.dev (Core Web Vitals, structured data); re-checked item by item against the current SEO starter guide on 2026-08-10, 2 real gaps closed (hreflang, nofollow/anchor text) | 🟡 (sourced from the market, no dedicated SEO production experience in house) |
 | accessibility | 6 | WCAG 2.2 (AA) + MDN + W3C ARIA APG; re-checked against the 6 success criteria genuinely new in 2.2 (not carried over from 2.1) on 2026-08-10, 5 real gaps closed (Focus Not Obscured, Dragging Movements, Target Size, Redundant Entry, Accessible Authentication Minimum), Consistent Help left out deliberately; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (1,027 → 3,896 words of rules). No section and no threshold was added: the four are the standard's own shape at component level, and every point added is a mechanism rather than a number, because a recalled threshold is the failure `skills/source-freshness` exists for. The five WCAG 2.2 points closed on 2026-08-10 kept their exact positions (§1.6–§1.8, §4.4–§4.5), since this block's own origin cites them by number. The additions are the failures the checklist stated no consequence for: headings as the *navigation* mechanism rather than typography, landmarks and a skip link, an undeclared page language selecting the wrong pronunciation rules, hover-only affordances that do not exist for a keyboard, a `role` *replacing* semantics rather than adding to them, a live region that has to exist before its content arrives, a state attribute set once at render asserting something wrong half the time, an accessible name that omits the visible label defeating voice control, `aria-hidden` over a focusable subtree producing a silent tab stop, a reader's font size being a different mechanism from browser zoom, the copied viewport attribute that disables pinch zoom, autocomplete metadata, the input type as an accessibility decision, and a disabled control announced as available while being unreachable by keyboard | 🟡 (sourced from the market, no dedicated a11y production experience in house) |
 | responsive-layout | 6 | no external source: internal synthesis of fluid-layout practice (content-driven breakpoints, dvh, auto-fit grids, overflow debugging, safe-area, keyboard cover); crosses accessibility and webperf | 🟡 (written, never run) |
+| loop-design | cross-cutting (new 2026-10-02) | the `loop-design-check` skill of `ECC` (MIT), read 2026-10-02: four-condition gate, decidable goal with bounds, plan/build/judge with an external judge, attempt cap, human keeps the last switch; the native `/loop` and `/goal` mechanics are not restated | 🟡 (written, never run) |
+| session-postmortem | cross-cutting (new 2026-10-02) | the `diagnosing-superpowers` skill of `superpowers` (MIT), read 2026-10-02: intake before analysis, rejected-candidate listing, seven dimensions, path:line rule, transcript context safety; bundle export, scrubbing and issue drafting left out | 🟡 (written, never run) |
 | qa-exploratory-testing | 8 (complement) | established exploratory testing literature (session-based testing) + ISTQB (boundary testing) | 🟡 (sourced from the market, no dedicated QA production experience in house) |
 | devops-conventions | 6 (infra/CI) | 12-factor app + DORA metrics (Accelerate) + established GitOps/IaC practices; §2 point 4 (protected shared resources) added 2026-08-11 from the org catalogue's hard-interdiction skill on protected shared databases | 🟡 (sourced from the market, no dedicated production experience in house) |
 | data-pipeline-conventions | 6 (data) | dbt conventions + DAMA-DMBOK (quality dimensions) + Kimball dimensional modelling; §1.4–§1.5 added 2026-09-07 from an org BI skill for handling supplied accounting files, read for its handling discipline rather than its format knowledge (never write back over the file someone handed you; confirm a destructive transformation before applying it) — §3.1 already held the raw-layer version at pipeline scale, the missing case was the ad-hoc one; **sectioned and deepened 2026-09-08** — the four inline sections moved to one file each under `references/` and the router became a table of triggers (749 → 3,212 words of rules), the **last single-file block counted in the depth table**. No section added; §1.4, §1.5 and §3.1 kept their numbers. None of the failures here announces itself, which is the depth: idempotence covering the *whole* run so an upsert followed by a log append or a notification is not idempotent, a partial run having to leave a state you can classify, a run keyed on the wall clock being unbackfillable, late-arriving corrections making a forward-only window stop matching the source, a quarantine with a published count rather than a silent skip, the *number* of failing rows being what makes an alert actionable, a validation with no owner getting loosened at the first inconvenient hour, duplicates being defined by a business key whose wrong choice deletes real data, a check reading the pipeline's own output passing on any consistent error, a deletion upstream being an event rather than an absence, reusing the source's key letting a renumbering rewrite your history, and incremental processing being correct only if you can say what "new" means; **dogfooded once 2026-09-08** alongside `python-conventions` on a small stdlib-only pipeline, which closed one real ambiguity: §2.4 said to quarantine the bad rows where blocking is unacceptable, and applied, that is impossible for half the checks — a duplicated key, a total disagreeing with its parts and an entity counted in two groups are properties of the *set*, so no row can be set aside; §2.4 now says the run is the quarantine unit in that case. §1.2, §1.4 and §2.7 were the three rules that carried the exercise with no translation needed | 🟡 (sourced from the market, no dedicated production experience in house) |
@@ -453,7 +455,7 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 18,491 | −1,378 | x1.07 |
 | python | 20 / 22,097 | 2 / 21,086 | −1,011 | x1.05 |
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
-| bi, design, xefi | 16 / 17,306 | 4 / 21,187 | +3,881 | x0.82 |
+| bi, design, xefi | 16 / 17,306 | 4 / 21,730 | +4,424 | x0.8 |
 | global | 18 / 20,280 | 6 / 23,358 | +3,078 | x0.87 |
 | react | 36 / 9,302 | 1 / 11,158 | +1,856 | x0.83 |
 
@@ -488,7 +490,7 @@ global: code-baseline 9,680, security-hardening 4,144, api-design 2,394, documen
 project-management: product-ownership 9,343, spec 5,109
 design-patterns: design-patterns 10,965
 react: react-nextjs-conventions 11,158
-bi, design, xefi: data-analytics 4,520, interface-design 6,996, ux-writing 4,279, accessibility 5,392
+bi, design, xefi: data-analytics 4,520, interface-design 7,539, ux-writing 4,279, accessibility 5,392
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
@@ -2213,6 +2215,33 @@ in the house template (rule B), nothing copied.
 - `red-pen`: no licence, so not read for reuse.
 - `clarify`, `distill`, `quieter`, `polish`, `harden`: Apache-licensed derivatives of another project; not used.
 - `hallmark` theme catalogue: out of scope, a list of looks goes stale on arrival (`interface-design` §7.5).
+
+### Audit, 2026-10-02 (lot 2): fourteen public repositories read for mechanisms
+
+Read (all by their sources, not from a brief): `taste-skill` (MIT), `ECC` (MIT), `ponytail` (MIT), `superpowers`
+(MIT), `orca` (MIT), `Understand-Anything` (MIT), `claude-code-best-practice` (MIT), `humanizer` (MIT),
+`claude-mem` (Apache-2.0), `caveman` (Apache-2.0), `Front-End-Checklist` (method only, licence unclear, no text
+used). Mechanisms rewritten (rule B), nothing copied.
+
+**Taken.**
+- `business/interface-design` §7.7 counted caps (principle only, no author thresholds), §8 redesign, §0.14 Design Read.
+- `skills/webperf` §2.8 motion; `skills/writing-agents` step 6 anti-truncation; `skills/qa-exploratory-testing` §6 click-path audit.
+- New `skills/loop-design` and `skills/session-postmortem`, both 🟡.
+- `skills/dispatch-parallel` supervision rules; `skills/wayfinder` per-ticket report.
+- `skills/code` ladder, `skills/debug` caller grep (no marker, no ledger, no benchmark figure).
+- `skills/plan` steps 4 to 7, `skills/review` and `references/review-axes.md` Declined to judge, `skills/tdd` project-suite line.
+- `business/ai-prose-tells` family 14, thread-reply case, embedded mode, text-as-material guard; wired from `skills/mr-conventions` and `skills/ship`.
+- `skills/archi` graph freshness; `skills/extract-conventions` pointer.
+- `skills/ship` go-live and MR-watching sections; `references/terse-reporting.md` security prose; `skills/maintaining-blocks` §5.
+- Hooks, both opt-in: `hooks/gateguard.sh` (idea and mechanism from the `gateguard` hook in `ECC`, MIT, whose original tool is the `zunoworks` project; the gain its author reports, +2.25 points, comes from two of the author's own A/B runs and is to be re-measured here) and `hooks/guard-secrets.sh` (idea spotted in a curated list, mechanism written internally).
+- `bin/prefetch_local.py` rejects an empty range and a non-descending explicit range (the default already used `git merge-base`).
+
+**Left out, with the reason.**
+- Composio dependencies, `Agent-Reach`, heavy graphs and dashboards, `claude-mem` memory: rule B, runtime dependency.
+- The `ponytail` marker comment and debt ledger: comments are forbidden, and its benchmark numbers are the author's, not measured here.
+- The curated awesome-claude-code list as text: licence forbids derivatives; only the idea behind the secrets hook was noted.
+- `anti-ai-slop-writing` mechanical quotas: they push text to pass a metric (against `ai-prose-tells`).
+- A scripted check that detection blocks have a not-to-flag section: no reliable marker for detectors, so it is a reading check in `skills/maintaining-blocks` §5.
 
 ## 3. The rule that keeps us "in control" (reminder)
 

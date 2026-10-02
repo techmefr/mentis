@@ -302,3 +302,23 @@ existing mechanism.
 positive, since fixed: `pnpm exec`, which is how a single test file gets run, was refused as an
 install, while `pnpm prisma …` — the same thing spelled without `exec` — went through. The two
 verdicts contradicted each other, and the message named an install the agent had not attempted.
+
+## Opt-in hooks (2026-10-02)
+
+Two more hooks, **off until wired** and never part of the default set.
+
+| Script | Event | Job |
+|---|---|---|
+| `gateguard.sh` | `PreToolUse` on `Edit`/`Write`/`MultiEdit` | Refuses the first edit of a file until the agent has produced facts it had to look up (importers, public API touched, data shape, the instruction quoted verbatim), then lets the retry through |
+| `guard-secrets.sh` | `PreToolUse` on `Write`/`Edit`/`MultiEdit`/`Bash` | Refuses an obvious secret: a private key block, a token with a well-known prefix, a populated `.env`, a `git add` of a `.env` |
+
+**`gateguard.sh`** also needs `MENTIS_GATEGUARD=1` in the session environment. State is per session in
+`MENTIS_GATEGUARD_DIR` (default `~/.mentis-gateguard`), expires after 30 minutes of inactivity and keeps at
+most 500 files. `MENTIS_GATEGUARD_EXEMPT` takes comma-separated globs of paths never gated (tests, generated
+output). It fails open on any error. The gain its source reports comes from two A/B runs by its author and
+has not been re-measured here.
+
+**`guard-secrets.sh`** is a tripwire for the evident, not a scanner; keep a secret scanner in CI. It fails open
+on any error.
+
+Wire either exactly like the others (see the settings snippet above).

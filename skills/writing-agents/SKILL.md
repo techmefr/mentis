@@ -56,7 +56,13 @@ inside the pipeline.
    amnesia, and for a reader or the gate it has to stay that way), and an agent that writes code
    without touching the operator's tree is `isolation: worktree`. The field list is in
    `references/claude-code-platform.md` §3.
-6. **Update `CATALOG.md`** (registry + traceability) and the agents table in `README.md` in the
+6. **Forbid truncation in the output contract.** Where the agent produces code or a long artefact, its
+   pillars ban the abridging moves: "for brevity", "the rest is similar", a skeleton in place of the
+   implementation, an ellipsis standing for omitted code. Before producing, count the deliverables the
+   request asks for; before returning, count again and compare. When the output cannot fit, stop cleanly
+   at the end of a unit (a function, a file, a section) with an explicit marker saying how many of how many
+   are done and where the next piece starts, rather than skipping the middle to reach the end.
+7. **Update `CATALOG.md`** (registry + traceability) and the agents table in `README.md` in the
    same move.
 
 ## Output / checkpoint
@@ -84,3 +90,5 @@ Step 5 and the pillar-4 amendment added 2026-09-07. The trigger was not an idea:
 carried `name`/`description`/`model` and nothing else, while twelve of them stated *"Never
 Write/Edit"* in prose and inherited every tool at runtime. The frontmatter fields that close that
 gap are stamped in `references/claude-code-platform.md` §3.
+
+Step 6 (no truncation, count before and after, clean pause marker) added 2026-10-02, rewritten from the output-completeness skill of `taste-skill` (MIT, read that day).

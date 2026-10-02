@@ -26,11 +26,17 @@ After `gate` (`verified`), before `simplify`.
 2. Aggregate both side by side.
 3. A pass by the **per-stack reviewer** in the dev's usual style: `elrond` to route, or
    `aragorn`/`gimli`/`legolas`/`boromir`/`theoden`/`frodo` directly if the stack is known.
+3b. **Behaviour the spec does not name** is judged by what a reasonable user would expect, graded by its
+   effect on that user, not by whether the spec mentions the trigger. Every behaviour a reviewer considered
+   and set aside as out of scope goes under **Declined to judge**, one line each with the reason. An empty
+   list means nothing was set aside.
 4. **Triage before posting anything.** The findings from steps 1-3 are raw coverage, not a review:
    verify each one against the real code, drop what would only start a pointless argument, rank
-   bugs above nits, and reword each surviving point short and sourced. A wrong or unsourced
+   bugs above nits, rule on every Declined-to-judge line (triage cannot absorb the list without saying so), and reword each surviving point short and sourced. A wrong or unsourced
    finding costs more credibility than the bug it claimed to catch.
-5. For depth: native `/code-review` + `/security-review` (gandalf as the final gate).
+5. When the thing under review is a plan, the reviewer adds phases and never rewrites the original
+   (`skills/plan` step 7).
+6. For depth: native `/code-review` + `/security-review` (gandalf as the final gate).
 
 ## Output / checkpoint
 `reviewed`.
@@ -44,3 +50,5 @@ A recognised market skill author (non-polluting two-axis code review) + the hous
 rewritten. Step 4 (triage before posting) is the generic form of a mechanism that proved itself on
 an agent kept private: the agent was calibrated on one named person's habits, which doesn't belong
 in a shared framework, but the discipline it encoded holds for any reviewer.
+
+Steps 3b and the Declined-to-judge list come from the reviewer prompt and execution flow of `superpowers` (MIT), read 2026-10-02.

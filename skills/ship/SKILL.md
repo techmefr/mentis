@@ -19,9 +19,26 @@ After `simplify` (`simplified`), GATE tests green.
    sink. Public visibility is never the default. Grep the draft for IP addresses, local paths, host names
    and key names before it leaves.
 3. Push the branch.
-4. Open the **MR as a draft** (author dev + 2 colleagues), clear description (status +
+4. Run the commit message and the MR description through `business/ai-prose-tells` in embedded mode
+   (it returns the final text only). Open the **MR as a draft** (author dev + 2 colleagues), clear description (status +
    message).
 5. Mark `mr_draft_pushed` / `status: awaiting_human`.
+
+## Go-live: blocker or accepted debt
+Before the MR leaves draft for a release, walk the go-live concerns and mark each one **verified** or
+**residual** (known, accepted, named). Nothing is silently skipped; a residual item has an owner and a
+reason. The concerns and their blocks: speed and weight (`skills/webperf`), discoverability (`skills/seo`),
+accessibility (`skills/accessibility`), exposure of secrets and trust boundaries
+(`skills/security-hardening`). A blocker is anything whose failure harms a user or the data; the rest is
+debt to record. The method is a checklist of concerns, written here without any source text.
+
+## Watching the MR until it is clean
+After the MR exists, stay with it until it is actually ready, not after one pass: pipeline checks passed
+or intentionally skipped, no unresolved review threads, and every actionable comment checked against the
+code rather than taken from a bot summary. Fix real issues in focused commits and run the relevant tests
+before pushing. Resolve a stale thread only after verifying the code now answers it. On GitLab use `glab`
+with the host given explicitly; the MR rules (draft, squash, plain comments, `skills/mr-conventions`) still
+govern, and the merge stays with the human.
 
 ## Output / checkpoint
 `mr_draft_pushed`, `status: awaiting_human`.
@@ -43,3 +60,5 @@ Internal (`/SHIP` sequence, `gandalf` final gate), rewritten our way. The no-too
 added 2026-09-07 from an org cross-language rule set (`no-ai-attribution`), read directly: the repo had no
 rule anywhere on commit attribution, and the source's own framing — that the failure mode is autopilot rather
 than disagreement — is the part worth keeping.
+
+The MR-watching loop is an idea from the `babysit` skill of `claude-mem` (Apache-2.0, read 2026-10-02; its NOTICE obligations apply to a copy, none was made), adapted to GitLab. The go-live section is our own checklist of concerns after surveying a public front-end checklist for method only; none of its text is used.

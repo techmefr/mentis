@@ -86,3 +86,11 @@ chosen and append-only shared stylesheets (§1.11-1.12), per-control state rende
 the ban on fabricated content and fake chrome (§3.11-3.13), and the three-level "default without a reason"
 model with dose caps and the logo test (§7). Left out: the catalogue of named graphic modes and themes
 (out of scope, and stale on arrival), the installer, and any house values.
+
+**Counted caps, redesign and Design Read, 2026-10-02.** Read from `taste-skill` (MIT: the main skill and its
+`redesign-skill`), 2026-10-02. Mechanisms rewritten, none copied: the principle of caps that a grep or a
+count can verify (§7.7), the keep-or-redo audit-first redesign flow with preservation rules and levers by
+risk (§8), and the one-line Design Read with at most one question (§0.14). **The author's numeric thresholds
+are deliberately not carried over**: a cap's number belongs to the project's design system. Left out: the
+named aesthetic families, font and library recommendations, the dial presets and the image-generation
+instructions.

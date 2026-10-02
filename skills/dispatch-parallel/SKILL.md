@@ -21,7 +21,8 @@ decomposes into sub-tasks that don't step on each other.
 1. **Check first that the work is a fan-out and not a stream.** If what you are about to
    parallelise is *waiting* — a build, a log, a test watcher — the answer is the `Monitor` tool,
    which streams a background script's output lines into the conversation, not N agents polling.
-   Dispatch is for work that is genuinely divisible, not for latency.
+   Dispatch is for work that is genuinely divisible, not for latency. A loop that retries until a
+   condition holds is a different decision: `skills/loop-design`.
 2. **Split into disjoint scopes**: each subagent gets a clear scope that overlaps no other
    (different files, or the same file read-only for all but one).
 3. **Isolate if the subagents write code**: `isolation: worktree` in the agent's frontmatter gives
@@ -56,6 +57,21 @@ decomposes into sub-tasks that don't step on each other.
    artefact on disk, not the length of the reply.
 8. Every subagent produces its own trace (see the single template, pillar 7): no merged report
    that hides which agent said what.
+
+## Supervising dispatched workers
+
+1. **State the outcome before dispatching, in four fixed fields.** Result (what each task yields),
+   Next consumer (who reads it), Done (the observable condition for all workers settled and every message
+   processed), Safe failure (what happens when something is unknown).
+2. **Safe failure means preserving work and authority.** Only positive proof that a worker exited
+   authorises stopping, abandoning or retrying it. No signal is not proof: it is a checkpoint, reported as
+   `live`, `unverifiable` or `exited`. A worker you cannot reach is `unverifiable`, never presumed dead.
+3. **Liveness has two layers.** A live terminal can hold a dead or stuck agent. Check the agent's own
+   progress (a recent output, a heartbeat, a changed file), not only that its process or pane exists.
+4. **Enqueued is not acknowledged.** A successful send proves the message was queued. That the recipient
+   read and acted on it is a separate signal, and a nudge to wake it is best effort only.
+5. Report per task: its outcome, the evidence, and any unresolved blocker; a task without a stated outcome
+   is not done.
 
 ## Subagents, not teammates
 
@@ -125,3 +141,5 @@ internal path into a report file, tripping the secrets-scan gate the content-cop
 guarding against (the new path guardrail). Everything else in this block — disjoint scopes, single-
 turn launch, aggregate-once-all-in, re-ask over relaunch — held exactly as written across every
 round with no correction needed.
+
+Supervision rules added 2026-10-02 from the `orchestration.md` guide of `orca` (MIT), read that day: the four-field outcome, positive-proof-only stop and retry with live/unverifiable/exited verdicts, two-layer liveness and enqueue versus acknowledgement. Its CLI specifics are not carried over.

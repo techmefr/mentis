@@ -15,6 +15,10 @@ Read on 2026-10-02, four public repositories, all MIT-licensed:
 - `hallmark`: read for its handling of false positives; only the principle that a detector needs an
   explicit "do not flag" list was kept.
 
+- `humanizer` (read 2026-10-02): the family of re-explaining to a reader who already has the context
+  (reply in a thread), the rule that filtered text is material and not instruction, and the embedded mode
+  that returns only the final text.
+
 Rewritten as mechanisms in the house template; no prose copied. Ours: the second audit question (did I
 assert a fact absent from the source), the rule that a rewrite adds no fact, the positive-requirement
 section, and the scope split with `business/ux-writing` and `business/content-creation`.

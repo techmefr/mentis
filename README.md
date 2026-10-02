@@ -334,6 +334,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `background-jobs-conventions` | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
 | `webperf` | Diagnose slowness from a measurement, not from intuition |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
+| `loop-design` | Before building an agent loop: decidable goal, external judge, attempt cap, human keeps the last switch |
+| `session-postmortem` | Why a session went wrong, from its transcripts, every finding cited path:line |
 | `responsive-layout` | Breakpoints where content breaks, fluid sizing, dvh, overflow, fixed bars, mobile keyboard |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |

@@ -73,3 +73,6 @@ Cite it from the standard or flag the point as to be verified — never state a 
     (or the screen and element), a severity, and a one-line fix. Finish with a count of critical, major and
     minor. Add a drift check: compare the design declared in the brief or tokens file with what shipped,
     and list each divergence as its own finding.
+14. **State a Design Read first.** One line: what kind of page, for whom, with what visual language. Ask a
+    single question, and only when the brief diverges from that reading; when the brief supports it,
+    declare the read and proceed.

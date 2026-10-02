@@ -60,6 +60,18 @@ real user journey: not on an internal refactor with no user-facing surface.
    with no recorded action is untested, not passing.
 3. A PASS exists only as that list. If nothing can run (no environment, no browser), say so and verify by
    inspecting the code; report it as inspected, not as passed. `skills/gate` step 7 points here.
+### 6. Click-path audit: where each part works and the whole does not
+For a control whose parts each work yet the result is wrong ("the button does nothing").
+1. **Map the state actions first.** For every action of every store in scope, write what it sets and what
+   it resets as a side effect, including state it does not own. The dangerous ones are the actions that
+   clear something another action just set.
+2. **Trace each handler call by call, in order.** For every call: what it reads, what it writes, what it
+   resets.
+3. **Check that no later call undoes an earlier one**, that async calls cannot resolve in the wrong order,
+   and that a closure is not reading a stale value.
+4. **Compare the final state with the control's label.** A button called "New email" must leave a compose
+   view open; if the last call reset that, the finding is the sequence, not either function.
+5. Record each finding as handler, call order, the state it ends in, and the state the label promises.
 
 ## Output / checkpoint
 Every bug found is reported with: the exact journey to reproduce it, observed vs expected result,
@@ -80,3 +92,5 @@ text. Market research, no dedicated internal QA production feedback at this stag
 (reconnaissance before action, wait for the page to settle before reading the DOM) is a rewrite of the
 discipline in Anthropic's official `webapp-testing` skill, transposed from Playwright to our Browser
 pane tooling.
+
+Section 6 rewritten from the `click-path-audit` skill of the `ECC` collection (MIT), read 2026-10-02: the side-effect map of store actions, ordered handler tracing and the label-versus-final-state check.

@@ -240,6 +240,98 @@ else:
     fail += 1
     print("FAIL  refusal message lost the injection warning")
 
+GATEGUARD = os.path.join(HOOKS_DIR_ := os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "hooks"), "gateguard.sh")
+SECRETS = os.path.join(HOOKS_DIR_, "guard-secrets.sh")
+
+
+def run_hook(script, payload, env_extra=None):
+    env = dict(os.environ)
+    env.pop("MENTIS_GATEGUARD", None)
+    env.update(env_extra or {})
+    r = subprocess.run(["bash", script], input=json.dumps(payload), capture_output=True, text=True, env=env)
+    return r.returncode, r.stderr
+
+
+def expect(label, got, want):
+    global ok, fail
+    if got == want:
+        ok += 1
+        print(f"PASS  {label}")
+    else:
+        fail += 1
+        print(f"FAIL  {label}: exit {got}, wanted {want}")
+
+
+print("\n-- gateguard: opt-in fact-forcing gate")
+gdir = tempfile.mkdtemp(prefix="mentis-gg-")
+genv = {"MENTIS_GATEGUARD": "1", "MENTIS_GATEGUARD_DIR": gdir}
+
+
+def edit(path, session="s1"):
+    return {"tool_name": "Edit", "session_id": session, "tool_input": {"file_path": path, "new_string": "x"}}
+
+
+expect("disabled by default", run_hook(GATEGUARD, edit("/p/a.py"), {"MENTIS_GATEGUARD_DIR": gdir})[0], 0)
+code, err = run_hook(GATEGUARD, edit("/p/a.py"), genv)
+expect("first edit of a file is refused", code, 2)
+expect("the refusal asks for the importers", "imports or references" in err, True)
+expect("the retry on the same file goes through", run_hook(GATEGUARD, edit("/p/a.py"), genv)[0], 0)
+expect("it stays allowed afterwards", run_hook(GATEGUARD, edit("/p/a.py"), genv)[0], 0)
+expect("another file is gated on its own", run_hook(GATEGUARD, edit("/p/b.py"), genv)[0], 2)
+expect("another session starts clean", run_hook(GATEGUARD, edit("/p/a.py", "s2"), genv)[0], 2)
+expect("an exempt glob is never gated",
+       run_hook(GATEGUARD, edit("/p/tests/t_x.py", "s3"), genv | {"MENTIS_GATEGUARD_EXEMPT": "*/tests/*,*.md"})[0], 0)
+expect("a non-edit tool is ignored", run_hook(GATEGUARD, {"tool_name": "Read", "tool_input": {"file_path": "/p/z.py"}}, genv)[0], 0)
+expect("a malformed payload fails open", subprocess.run(["bash", GATEGUARD], input="not json", capture_output=True,
+                                                         text=True, env=dict(os.environ, **genv)).returncode, 0)
+import time as _time
+sf = os.path.join(gdir, "s1.json")
+st = json.load(open(sf))
+st["last"] = _time.time() - 31 * 60
+json.dump(st, open(sf, "w"))
+expect("state expires after 30 minutes of inactivity", run_hook(GATEGUARD, edit("/p/a.py"), genv)[0], 2)
+
+print("\n-- guard-secrets: obvious secrets are refused")
+
+
+def write(path, content):
+    return {"tool_name": "Write", "tool_input": {"file_path": path, "content": content}}
+
+
+def bash(cmd):
+    return {"tool_name": "Bash", "tool_input": {"command": cmd}}
+
+
+pem = "-----BEGIN " + "RSA PRIVATE KEY-----\nabc\n"
+aws = "AKIA" + "ABCDEFGHIJKLMNOP"
+ghp = "ghp_" + "a" * 36
+stripe = "sk_live_" + "b" * 24
+for label, payload in [
+    ("a private key block", write("/p/k.txt", pem)),
+    ("an AWS key id", write("/p/c.py", f'KEY = "{aws}"')),
+    ("a GitHub token in an edit", {"tool_name": "Edit", "tool_input": {"file_path": "/p/c.py", "new_string": ghp}}),
+    ("a GitHub token in a multi-edit", {"tool_name": "MultiEdit", "tool_input": {"file_path": "/p/c.py", "edits": [{"new_string": ghp}]}}),
+    ("a live payment key in a shell command", bash(f"curl -u {stripe}: https://api.example.test")),
+    ("a populated .env", write("/p/.env", "API_TOKEN=abcd1234efgh\n")),
+    ("a populated .env.local", write("/p/.env.local", "export DB_PASSWORD=hunter2\n")),
+    ("git add of .env", bash("git add .env")),
+    ("git add -f of a nested .env", bash("git add -f apps/web/.env && git commit -m x")),
+]:
+    expect(f"blocked: {label}", run_hook(SECRETS, payload)[0], 2)
+
+for label, payload in [
+    ("ordinary code", write("/p/a.py", "def f():\n    return 1\n")),
+    ("an .env.example with empty values", write("/p/.env.example", "API_TOKEN=\n")),
+    ("an .env with no secret-shaped variable", write("/p/.env", "APP_ENV=local\nPORT=3000\n")),
+    ("git add of a source file", bash("git add src/a.py")),
+    ("git add of .env.example", bash("git add .env.example")),
+    ("a prose mention of a prefix", write("/p/README.md", "tokens start with ghp_ and are 40 chars")),
+    ("an unrelated tool", {"tool_name": "Read", "tool_input": {"file_path": "/p/.env"}}),
+]:
+    expect(f"allowed: {label}", run_hook(SECRETS, payload)[0], 0)
+expect("a malformed payload fails open",
+       subprocess.run(["bash", SECRETS], input="not json", capture_output=True, text=True).returncode, 0)
+
 # A hook is wired by path and run by the runtime, so a lost executable bit is a hook that
 # does not fire — and an editor that rewrites the file is enough to lose it. Found on
 # 2026-09-09, in a commit of this repo's own that dropped two of them.

@@ -44,6 +44,13 @@ optimisation is how simple code becomes complicated for nothing.
    the route actually ships, don't guess from the import list.
 7. **Images and fonts.** Unsized images (which also cost layout shift), full-resolution assets
    displayed small, a blocking font.
+8. **Motion that costs frames.** No raw scroll listener, and no scroll position held in reactive state:
+   observe with `IntersectionObserver`, CSS scroll-driven effects, or a passive handler throttled to the
+   frame. A `requestAnimationFrame` loop never writes into framework state each tick; it writes to the
+   element or a CSS variable, and stops when idle. Animate `transform` and `opacity`; animate a layout
+   property only when the layout change is itself the visible effect. A reduced-motion preference is
+   honoured everywhere (`skills/accessibility` §3.9). Stacking uses a named z-index scale, not an arbitrary
+   large number.
 
 ### 3. Confirm, and keep the honest comparison
 1. **Re-measure the same scenario, the same way.** Same page, same data volume, same throttling. A
@@ -74,3 +81,6 @@ review skill. The ordering of section 2 (requests before rendering before bundle
 measure-first/re-measure-identically discipline are ours; the "state a marginal win and consider
 reverting" rule follows the standing internal preference for simplicity over call-count optimisation.
 No dedicated internal performance-engineering experience at this stage.
+
+Motion rules (§2.8) added 2026-10-02 from the redesign checklist of a public design-quality skill
+(`taste-skill`, MIT, read that day); reduced motion was already in `skills/accessibility` and is referenced, not repeated.

@@ -41,6 +41,8 @@ independent logical commits — each one something a later reader will want to `
 is the wrong call. That's the exception to name explicitly before merging, not a default to assume.
 
 ### 3. Description as prose: symptom, cause, what changes
+Run the text through `business/ai-prose-tells` in embedded mode (final text only) before it is posted.
+
 A description that lists "changed X, changed Y, changed Z" restates the diff a reviewer can already
 open — it costs the author time to write and gives the reviewer nothing they didn't already have.
 Prose that states what was actually wrong, why, and what the change does about it gives the reviewer

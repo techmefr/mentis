@@ -31,3 +31,16 @@ is there.
    treatments follow from it.
 6. **No stylesheet stamps.** Do not leave a comment in the CSS announcing the design system or the tool
    that produced it. The tokens are the record.
+7. **Counted caps per page.** Rules a grep or a count can check, stated as a ceiling whose number comes from
+   the project's design system (or is chosen once and written down), never a figure carried over from
+   elsewhere:
+   - small uppercase, widely tracked labels above headlines: capped relative to the number of sections;
+   - one layout family (a given grid or card arrangement) used once per page;
+   - alternating image and text splits: capped in a row;
+   - text elements in the hero: capped, with no tagline, trust strip or pricing teaser stacked in it;
+   - the navigation fits on one line at desktop width;
+   - a bento or feature grid has exactly as many cells as there is content;
+   - a divider under every row of a list is replaced by grouping;
+   - no badge or pill laid over an image (a caption below, outside it);
+   - no scroll cue, and no generic "Step 1 / Step 2 / Step 3" labels: name the step by what it does.
+   A count that exceeds its cap is a finding under §7.4's severity rules.

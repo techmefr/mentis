@@ -30,6 +30,16 @@ Judge families, not words. Each entry names the mechanism, so a new variant is r
 12. **Formatting excess.** Bold on every key phrase, emoji as bullets, a heading over three lines.
 13. **Hedging stack.** "may potentially", "could possibly", "it is generally considered". Hedge once,
     where the uncertainty is real, and say what the uncertainty is.
+14. **Re-explaining what the reader already knows.** A reply in a thread rebuilds the problem, the diagnosis
+    and the proof for someone who was in the conversation, and the decision arrives last. Lead with the
+    decision; keep only the reasoning that would change whether the reader agrees. Every sentence must give
+    the reader something they do not have, conversation included. Apply it only when the surrounding
+    thread is visible or the text is plainly a reply; if unsure, ask.
+
+### The case of an MR comment or thread reply
+Reviewer and author share the diff. "As discussed above, the function validates input, which matters
+because..." becomes "Agreed, moving the check into `parse`." A comment longer than the change it discusses
+is the signal.
 
 ## 2. Clusters, not instances
 

@@ -29,7 +29,7 @@ when a mockup arrives and has to be checked before someone builds it.
 ## Steps
 
 **Read §0 every time, then only the sections the task actually touches.** The rules live one file per
-section under `references/`. Settling the mode is not optional and costs one file; loading all eight to
+section under `references/`. Settling the mode is not optional and costs one file; loading all nine to
 answer one question is waste.
 
 | § | Covers | Read it when | File |
@@ -41,7 +41,8 @@ answer one question is waste.
 | 4 | Buttons and chips | action hierarchy, a toolbar, a filter bar, status indicators | [`04-buttons-chips.md`](./references/04-buttons-chips.md) |
 | 5 | Icon and text together | an icon sits next to a label, or a control is icon-only | [`05-icon-text.md`](./references/05-icon-text.md) |
 | 6 | Gathering references | looking for prior art before designing a screen | [`06-references.md`](./references/06-references.md) |
-| 7 | A default without a reason | choosing a visual treatment, or auditing a finished screen | [`07-default-without-reason.md`](./references/07-default-without-reason.md) |
+| 7 | A default without a reason, and counted caps per page | choosing a visual treatment, or auditing a finished screen | [`07-default-without-reason.md`](./references/07-default-without-reason.md) |
+| 8 | Redesigning what exists | the screen or product already exists and is being restyled or rebuilt | [`08-redesign.md`](./references/08-redesign.md) |
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes before implementation starts: every value taken from a

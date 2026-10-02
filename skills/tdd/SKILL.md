@@ -45,6 +45,7 @@ whichever agent is at the keyboard.
 `tests_written` + `test-results.json` (every line `{ passes: false }`).
 
 ## Guardrails
+The project's own suite defines green, a targeted test is not enough, and every failure is named even when this change did not cause it.
 No test bypassed, hidden or disabled. The default contract is **failure**: nothing is
 "passing" until the GATE has proven it. Never loosen an assertion or lower a coverage threshold to
 close a gap: a test that can't fail reports safety that isn't there.
