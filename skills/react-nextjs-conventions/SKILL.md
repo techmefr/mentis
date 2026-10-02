@@ -1,6 +1,6 @@
 ---
 name: react-nextjs-conventions
-description: "Use when writing or reviewing React/Next.js: structure and naming, typing, hooks discipline, immutability, memo, server-state libraries, validation at boundaries, App Router, effects and security correctness, tests, boundaries and composition, further security surface."
+description: "Use when writing or reviewing React/Next.js: structure and naming, typing, hooks discipline, immutability, memo, server-state libraries, validation at boundaries, App Router, effects and security correctness, tests, boundaries and composition, further security surface, the Server Action result contract and idempotency."
 ---
 
 # react-nextjs-conventions
@@ -52,8 +52,8 @@ trigger the diff meets, not the whole table.
 | 11 | Testing components and hooks | a component, a hook, a form or a data-fetching screen gets a test | [`11-testing.md`](./references/11-testing.md) |
 | 12 | Boundaries, composition, context, forms, refs | a failure or loading state is contained, a context or compound component is introduced, a form, portal or ref is built, an external store is subscribed to | [`12-boundaries-composition-forms.md`](./references/12-boundaries-composition-forms.md) |
 | 13 | Further security surface | a link opens a new window, inline data is shipped to the browser, an outside object is merged, a third-party script or widget is added, or the production build is configured | [`13-security-surface-extra.md`](./references/13-security-surface-extra.md) |
-
 | 14 | Next.js 16 Cache Components | `cacheComponents` is on, a route sets `dynamic`/`revalidate`/`fetchCache`, `"use cache"` appears, or a 15 app moves to 16 | [`14-cache-components.md`](./references/14-cache-components.md) |
+| 15 | The Server Action result contract and idempotency | a Server Action is written or reviewed: its return type, how it reports failure, what a second run does, what a deployment does to an open form | [`15-server-action-contract.md`](./references/15-server-action-contract.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and by

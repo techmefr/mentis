@@ -277,3 +277,12 @@ security settings and keychain persistence across reinstall, the Dart language g
 imports, catch clauses and errors), the analyser's strict modes, and the web view plugin's controller and
 navigation delegate. Re-verify the plugin API names (§11.8) and the Android target-version statements
 (§11.1, §11.9) against the version the project builds with before this moves out of 🟡.
+
+**Extended, 2026-10-02 (§14, §9.28, §10.26-27).** Rewritten, not copied, from the MIT-licensed
+`iamantoniodinuzzo/claude-flutter` (commit 9863f44): its variants skill, its forced-update skill with the
+release playbook and decision record (the course-derived ordering of store publication before raising the
+floor is reported as that source states it, not independently verified), its web-interaction audit rule, its
+no-UI-strings rule and its robot-testing skill. Left out on purpose: the Melos workspace skill, targeted
+analyse and build-filter flags, the second-opinion delegation, the screenshot-flow and crash-reporter
+vendor details (flags and vendors go stale; the principles are already in §9 and §13). Pinned tool versions
+in the source are not carried over. Status unchanged.

@@ -4,7 +4,7 @@ The only enforcement in this repo. Everything else is markdown that an agent rea
 because some guarantees **cannot** be written instructions: a rule holds right up to the moment it is
 inconvenient, and the moment it is inconvenient is exactly the moment it matters.
 
-Three guarantees, five scripts (seven more guards, all opt-in, are described at the end of this file):
+Three guarantees, five scripts (nine more hooks, all opt-in, are described at the end of this file, with an environment-variable table and a wiring snippet):
 
 | Guarantee | Script(s) | Event |
 |---|---|---|
@@ -160,11 +160,20 @@ can unlock this guard.
   `verify-gate.sh` makes for the contract file, for the same reason: exhaustive parsing for five
   ecosystems isn't worth the maintenance for a guard whose job is catching the honest-mistake
   shape, not every possible obfuscation.
-- **Only `Edit`/`Write`.** A test file changed through `Bash` (`sed -i`, a generated file) isn't
-  seen by this hook.
+- **The shell half is a segment heuristic.** On `Bash` the command is split on `&&`, `||`, `;`, `|` and
+  newlines. A redirection (`>`, `>>`) onto a test path is refused; so is a mutator (`rm`, `mv`, `truncate`,
+  `tee`, `shred`, `sed -i`, `perl -i`, `git rm`/`checkout`/`restore`/`stash`/`reset`/`clean`) in a segment
+  that also names a test path. Allowed: `git checkout .`, `cp x a.test.ts`, `cat`, `npx vitest run a.test.ts`,
+  `npx prettier --write a.test.ts`, and `rm -rf node_modules && npm test -- a.test.ts` (the paths sit in
+  different segments). A mutator word after a quote (a commit message that says "rm ...") is not seen. A
+  mutator word inside an unquoted word of a segment that names a test path can be a false positive.
+  A payload that cannot be parsed but names a test path is refused (exit 2). Test paths recognised:
+  `.test.`, `.spec.`, `_test.`, `test_*.py`, `*Test.php`, `*Test.java`. A generated file, a script that
+  edits tests behind a `make` target, or a path outside those patterns is not seen.
+- **Without the `Bash` matcher in the wiring, the shell routes stay open.**
 
-Checked by `bin/test_guard_test_changes.py` — 18 cases across five ecosystems, six of them the
-formatted shape above.
+Checked by `bin/test_guard_test_changes.py` — 39 cases across five ecosystems, six of them the
+formatted shape above, the rest the shell routes.
 
 ## Coexisting with the `test-casebook` gate
 
@@ -189,7 +198,8 @@ Copy the scripts into the target repo's `.claude/hooks/`, make them executable, 
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-installs.sh" }
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-installs.sh" },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-test-changes.sh" }
         ]
       },
       {
@@ -291,7 +301,8 @@ rewritten from market long-running-agent patterns (a default-FAIL `PreToolUse` h
 fresh-context evaluator); the read-log half, the fail-closed choice and the single-file scope are
 ours.
 
-`guard-test-changes.sh`/`.py`: 18 cases (`bin/test_guard_test_changes.py`). **Dogfooded once,
+`guard-test-changes.sh`/`.py`: 39 cases (`bin/test_guard_test_changes.py`), the shell routes added 2026-10-02
+and covered by those cases only (not yet dogfooded in a real session). **Dogfooded once,
 2026-09-09**, wired into a real NestJS repo and run against real edits to one of its spec files:
 seven edits an agent would actually make, which is where the line-versus-statement defect above
 came from — two of the seven were allowed and should have been blocked, and two were blocked and
@@ -342,7 +353,63 @@ closed, but only when the target is a UI file and the payload cannot be read.
 `~/.mentis-corrections.jsonl`). It never blocks and fails open. It is a wording heuristic: it misses
 corrections phrased in no way it knows and can fire on a prompt that quotes one.
 
-Wire either exactly like the others (see the settings snippet above), the detector under `UserPromptSubmit`.
+Wire either exactly like the others (see the settings snippet above), the detector under `UserPromptSubmit`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/gate-ui-a11y.sh" }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/detect-correction.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**How `gate-ui-a11y` decides.** It reads `tool_input.file_path` (or `path`) and `session_id`. Exempt: tests,
+stories and anything under `__tests__`, `__mocks__`, `node_modules`, `dist`, `build`. The block message gives
+the `mkdir -p ... && touch ...` command that creates the marker. *Limits:* the agent can create the marker
+itself, so it is a speed bump that forces the review to be named, not proof that it happened; a UI file edited
+through `Bash` is not seen; with the gate on and no `python3`, an edit to a UI file is refused, otherwise
+allowed.
+
+**How `detect-correction` decides.** It reads `prompt` and `session_id`, looks only at the first 600
+characters, with English and French patterns, appends a JSONL line (`at`, `session`, the first 300 characters
+of the text) to the log and returns a short reminder as `hookSpecificOutput.additionalContext`. *Limit:* the
+log holds prompt text, so treat it as sensitive and keep it out of any repository.
+
+### Environment variables
+
+All are read from the human's environment before the session; nothing in a diff or a command can set them.
+
+| Variable | Hook | Effect | Default |
+|---|---|---|---|
+| `MENTIS_ALLOW_TEST_CHANGES` | `guard-test-changes` | `1` lifts the guard, for the whole task | unset |
+| `MENTIS_ALLOW_CONFIG_CHANGES` | `config-protection` | `1` lifts the guard | unset |
+| `MENTIS_ALLOW_DESTRUCTIVE` | `guard-destructive` | `1` lifts the guard | unset |
+| `MENTIS_COMMIT_TYPES` | `guard-commit-message` | replaces the allowed type list | built-in list |
+| `MENTIS_GATEGUARD` | `gateguard` | `1` turns it on | off |
+| `MENTIS_GATEGUARD_DIR` | `gateguard` | state directory | `~/.mentis-gateguard` |
+| `MENTIS_GATEGUARD_EXEMPT` | `gateguard` | comma-separated globs never gated | none |
+| `MENTIS_A11Y_GATE` | `gate-ui-a11y` | `1` turns it on | off |
+| `MENTIS_A11Y_DIR` | `gate-ui-a11y` | marker directory | `~/.mentis-a11y` |
+| `MENTIS_A11Y_TTL_HOURS` | `gate-ui-a11y` | marker lifetime | 12 |
+| `MENTIS_CORRECTION_DETECTOR` | `detect-correction` | `1` turns it on | off |
+| `MENTIS_CORRECTIONS_LOG` | `detect-correction` | log file | `~/.mentis-corrections.jsonl` |
+| `MENTIS_SESSION_START_SOURCES` | `session-start-using-mentis` | session sources that print the reminder | `clear`, `compact` |
+| `MENTIS_USING_MENTIS` | `session-start-using-mentis` | path of the `using-mentis` block | searched |
+| `MENTIS_EVIDENCE_DIR`, `MENTIS_READ_LOG` | `verify-gate`, `record-read` | evidence directory, read log | `.claude/evidence`, per repo |
 
 ## Opt-in command and config hooks (2026-10-02, second set)
 
@@ -450,7 +517,8 @@ purpose.
 
 **Using them from another harness.** The behaviour is in markdown and in these scripts, not in one product.
 The contract is small: a JSON object on standard input (`tool_name`, `tool_input` with `command` or
-`file_path` and the edit strings, `cwd`, and `source` for a session start), exit code 2 to refuse with the
+`file_path` and the edit strings, `cwd`, `session_id` for the session-scoped hooks, `prompt` for the correction detector, `path` as an alternative
+to `file_path`, and `source` for a session start), exit code 2 to refuse with the
 reason on standard error, exit 0 to allow, standard output of a session-start hook added to the context. A
 harness with a different payload shape adapts the few lines that read it (`load_payload` and the field
 names in each `main`); the command reader, the patterns and the messages carry over unchanged. Where a

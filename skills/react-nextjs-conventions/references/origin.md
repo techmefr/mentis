@@ -137,4 +137,24 @@ revalidate 15 minutes), the built-in profile names, the required second argument
 prefetching (marked `[verify]` in §14: documented on the default branch, not confirmed in a release). **Not read,
 a stated gap:** the instant-navigation, ISR with Cache Components, authentication with Cache Components,
 offline-support and prefetching-optimisation guides, the `cacheHandlers` configuration, and the codemods. The
-server-action result contract and idempotency idea were not added: no primary source was read for them.
+server-action result contract and idempotency idea were not added in that pass: no primary source had been read for them; closed below.
+
+**Server Action result contract and idempotency, 2026-10-02.** §15 is new. Primary source: the framework's own
+documentation (`vercel/next.js`, `docs/01-app`, MIT), shallow clone of the default branch, whose package version that
+day was 16.4.0-canary.57 while the latest release on the registry was 16.3.8: the Server Actions and Mutations
+guide (single-response model, sequential dispatch, security, deployment), the forms guide (validation, pending
+states, bound arguments), the error-handling page (expected errors as return values), the data-security guide
+(built-in action protections, input validation) and the `use server` directive reference. Mechanisms are the
+framework's; the numbering, the result-union rule, the ordering rule and the mechanical checks are ours; no text
+was copied. **Idempotency is our rule, derived, not read:** the documentation contains no statement about
+duplicate execution (a search of the whole documentation tree for the word found one unrelated cache-tag page).
+The rule is built from facts the documentation does state (an action is a POST, a client dispatches in sequence
+and the page calls that an implementation detail, identifiers rotate per build and the UI is told to offer a
+retry) and from the in-repo block `skills/laravel-post-may-run-twice`, whose database-level reasoning does not
+depend on the stack. **Facts that move, with their pin (16.x):** the identifier rotation period of 14 days, the
+1 MB default body limit and the configuration key's location (shown under the `experimental` object in the
+guide), the `updateTag` and `refresh` semantics, and the sequential dispatch (documented as changeable).
+**Not read, stated:** the React documentation for `useActionState` and `useOptimistic` (only the framework's
+quotations of them), the `authInterrupts` and tainting references, and rate limiting beyond its mention. Text
+addressed to coding agents on neighbouring pages (an agent guide and a prompt block) was read as data and not
+followed.

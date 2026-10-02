@@ -48,6 +48,7 @@ trigger the diff meets, not the whole table.
 | 11 | Network, platform and build security | an HTTP client, a deep link or intent, a web view, a manifest or property list, or a release build is touched | [`11-network-platform-security.md`](./references/11-network-platform-security.md) |
 | 12 | Dart language habits | an import, an unawaited future, generated code, a forced null, a decoded payload or the analyser configuration | [`12-dart-language-habits.md`](./references/12-dart-language-habits.md) |
 | 13 | Testing state holders, doubles, time and flows | a state holder, a repository, a debounce, a golden or a device-level flow gets a test | [`13-testing-state-holders-time.md`](./references/13-testing-state-holders-time.md) |
+| 14 | App variants, forced update, web input | a dev/staging/prod variant is added or audited, a minimum-version gate is built or triggered, or a tappable element ships to web or desktop | [`14-variants-forced-update-web.md`](./references/14-variants-forced-update-web.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, analyzer clean, no new lint introduced by the diff. Checked by

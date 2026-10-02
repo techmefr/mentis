@@ -46,8 +46,8 @@ trigger the diff meets, not the whole table.
 | 5 | Structure and dependencies | a file is placed, or an import crosses a layer | [`05-structure-dependencies.md`](./references/05-structure-dependencies.md) |
 | 6 | i18n | any string the user will read | [`06-i18n.md`](./references/06-i18n.md) |
 | 7 | Accessibility in templates | the template renders a control, a form or an image | [`07-accessibility-templates.md`](./references/07-accessibility-templates.md) |
-| 8 | The component library | a UI element is built, or custom CSS is about to be written | [`08-component-library.md`](./references/08-component-library.md) |
-| 9 | Nuxt: hydration safety and the choice of data primitive | SSR, `useFetch`/`useAsyncData`, or a value that only exists client-side | [`09-nuxt-hydration-safety.md`](./references/09-nuxt-hydration-safety.md) |
+| 8 | The component library, with a Vuetify version matrix (rules 21 to 28) | a UI element is built, custom CSS is about to be written, or the toolkit's major version, upgrade or Nuxt wiring is in question | [`08-component-library.md`](./references/08-component-library.md) |
+| 9 | Nuxt: hydration safety and the choice of data primitive | SSR, `useFetch`/`useAsyncData` (including gating a fetch with `enabled`), or a value that only exists client-side | [`09-nuxt-hydration-safety.md`](./references/09-nuxt-hydration-safety.md) |
 | 10 | Realtime events | a socket, a broadcast or a live update | [`10-realtime-events.md`](./references/10-realtime-events.md) |
 | 11 | Reactivity and security correctness (linter-derived) | reviewing a diff, or chasing a reactivity bug | [`11-reactivity-security-correctness.md`](./references/11-reactivity-security-correctness.md) |
 | 12 | Recurring review patterns (quality debt observed in the field) | reviewing a diff, for the debt that keeps coming back | [`12-recurring-review-patterns.md`](./references/12-recurring-review-patterns.md) |

@@ -127,3 +127,15 @@
 25. **Read the test run, not only its exit code.** The output lists skipped tests and the reason; a suite
     that is green with forty skipped tests has not run forty tests. Build warnings from the test project
     belong to the diff that introduced them; reading the artefact and not the exit code is `skills/gate`, step 5.
+26. **Ask "which behaviour could change without a test failing?", not "what is the coverage?".** For one
+    component, list its public outcomes (each returned field, exception type, state change, side effect,
+    denial), map each to the assertion that observes it, and report outcomes with no assertion. An
+    assertion on one returned field does not cover another; an allowed path does not cover its denial.
+27. **Probe with mutations that would be observable.** For a gap candidate, name a witness input, the
+    original observable result and the result after a plausible change (a flipped comparison, a boundary
+    moved by one, a removed guard); it counts only if the two differ publicly. A change that falls through to
+    the same result, or alters only a log line or a private representation, is equivalent and not a finding.
+    Boundaries get three witnesses: below, at, above. Rank gaps: denials, money and state changes first.
+28. **Do not edit production code to prove a gap.** Run the existing suite once to confirm it executes (an
+    exit code of zero with no tests run is not green); judge the rest by reading assertions against source and
+    label unexecuted candidates as unverified.

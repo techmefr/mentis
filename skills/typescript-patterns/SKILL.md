@@ -1,6 +1,6 @@
 ---
 name: typescript-patterns
-description: "Use when writing or reviewing pure TypeScript or JavaScript whatever the framework: advanced types, async patterns, closures, immutability, error narrowing, browser platform habits, compiler configuration, trust boundaries and dates. Nuxt, React and NestJS have their own blocks."
+description: "Use when writing or reviewing pure TypeScript or JavaScript whatever the framework: advanced types, async patterns, closures, immutability, error narrowing, browser platform habits, compiler configuration and versions, typed linting, trust boundaries and dates, a typed database client. Nuxt, React and NestJS have their own blocks."
 ---
 
 # typescript-patterns
@@ -29,6 +29,9 @@ pick the rows whose trigger the diff meets, not the whole table.
 | 7 | Trust boundaries, serialisation, dates | data arrives from outside, a value is copied or serialised, a date or time zone is handled | [`07-trust-boundaries-and-dates.md`](./references/07-trust-boundaries-and-dates.md) |
 | 8 | Function and type design | a signature, a constant, a generic or a public module boundary is designed | [`08-function-and-type-design.md`](./references/08-function-and-type-design.md) |
 | 9 | Node runtime: streams, shutdown, a process that will not exit | code runs on Node and handles a large flow of data, must stop cleanly, or hangs after the work is done | [`09-node-runtime.md`](./references/09-node-runtime.md) |
+| 10 | Typed linting with typescript-eslint | a lint configuration is created or changed, a type-aware rule is enabled, a suppression is added, or lint is slow | [`10-typed-linting.md`](./references/10-typed-linting.md) |
+| 11 | Compiler versions: the 6.0 defaults and the move to 7 | the compiler is upgraded across a major, a deprecation appears, or a build breaks after an upgrade | [`11-compiler-versions.md`](./references/11-compiler-versions.md) |
+| 12 | A typed database client (Prisma) | code calls a generated database client: result types, filters built from variables, client errors, JSON columns, the client's version | [`12-typed-orm-client.md`](./references/12-typed-orm-client.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, checked on top of the applicable framework conventions
@@ -45,6 +48,7 @@ applies to any code that runs in a page, whichever framework renders it.
 ## Origin
 Internal synthesis based on the operator's real production experience and established TypeScript
 recommendations; sections 4 to 7 added 2026-10-02 from the platform and language documentation and a
-read of a public rules repository. The full provenance, the source stamps and the refresh log are in
+read of a public rules repository; sections 10 to 12 added 2026-10-02 from the typescript-eslint and
+TypeScript documentation and the Prisma documentation. The full provenance, the source stamps and the refresh log are in
 [`references/origin.md`](./references/origin.md). Read it when checking whether a rule is still current,
 not when applying one.

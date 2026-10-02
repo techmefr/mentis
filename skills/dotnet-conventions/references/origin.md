@@ -628,3 +628,12 @@ lifecycle and parallelism model (instance per test, collection fixtures), the AS
 guide (the web host factory, `ConfigureTestServices`, the public `Program` requirement), the EF Core testing
 guidance on the in-memory provider, and the framework's fake time provider and fake logger testing packages.
 Re-verify those API names against the target framework before this section moves out of 🟡.
+
+**Extended, 2026-10-02 (§11, §12, §10.26-28).** Rewritten, not copied, from the MIT-licensed `dotnet/skills`
+repository read that day (build-organisation, build anti-pattern, test-gap-analysis and web-API skills) and
+the minimal-API skill of the MIT-licensed `codewithmukesh/dotnet-claude-kit` (listed, not read in depth).
+Left out on purpose: its XML-doc-comment rule on request types (clashes with the house no-comment rule),
+its CRAP-score and coverage-interpretation skills, binary-log analysis and build-performance baselines, and
+anything pinned to a platform release (target-framework migrations), which goes stale. The conversion of an
+existing solution to central package management was not read. Status unchanged; platform-line facts in §12.8
+to be re-read per `skills/source-freshness`.

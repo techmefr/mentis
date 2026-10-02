@@ -6,7 +6,7 @@
 
 1. **A new project starts with `strict`, from the first commit.** The strict switch enables a family of
    checks (null checking, implicit `any`, function parameter variance, bound-call checking, property
-   initialisation, `this` typing, always-strict emit, unknown catch variables); retrofitting them to a large
+   initialisation, `this` typing, always-strict emit, unknown catch variables, built-in iterator return types: nine in all, see §11.6); retrofitting them to a large
    codebase is a project of its own, and adding them on day one costs nothing. An existing project keeps the
    configuration it has: raising strictness is a decision with its own plan, usually package by package
    through separate configurations, and never a side effect of a feature (the guardrail of this block).
@@ -36,7 +36,7 @@
 8. **Lint rules that need type information pair with the compiler.** The ones that matter most: floating
    promises (§2, point 1), misused promises in places that expect a synchronous callback, unnecessary
    conditions on values the type says cannot be nullish, consistent type imports, an exhaustiveness check on
-   switches, no explicit `any`, and a ban on suppression directives without a description. They are errors in
+   switches, no explicit `any`, and a ban on suppression directives without a description. Several of these are in no preset and must be enabled by name (§10.3). They are errors in
    CI, not warnings that accumulate.
 9. **The project's own code is `.ts`.** A declaration file (`.d.ts`) describes code that exists elsewhere,
    such as a plain-JavaScript library; writing one beside own TypeScript hides implementation behind a

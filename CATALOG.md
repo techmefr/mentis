@@ -491,15 +491,15 @@ closing this costs nothing that made this repo cheaper to load.
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
 | laravel | 65 / 79,825 | 3 / 54,558 | −25,267 | x1.46 |
-| csharp | 37 / 56,718 | 1 / 38,771 | −17,947 | x1.46 |
+| csharp | 37 / 56,718 | 1 / 40,065 | −16,653 | x1.42 |
 | design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 22,506 | +1,734 | x0.92 |
-| nuxt | 21 / 19,869 | 1 / 23,761 | +3,892 | x0.84 |
+| flutter | 40 / 20,772 | 1 / 23,318 | +2,546 | x0.89 |
+| nuxt | 21 / 19,869 | 1 / 25,052 | +5,183 | x0.79 |
 | python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
 | project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
 | bi, design, xefi | 16 / 17,306 | 4 / 29,680 | +12,374 | x0.58 |
-| global | 18 / 20,280 | 6 / 33,523 | +13,243 | x0.6 |
-| react | 36 / 9,302 | 1 / 15,629 | +6,327 | x0.6 |
+| global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
+| react | 36 / 9,302 | 1 / 16,841 | +7,539 | x0.55 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -524,14 +524,14 @@ remembered — the defect that produced two unreproducible rows before this scri
 
 ```
 laravel: laravel-conventions 40,301, php-patterns 7,139, inertia-conventions 7,118
-csharp: dotnet-conventions 38,771
+csharp: dotnet-conventions 40,065
 python: python-conventions 18,879, data-pipeline-conventions 5,468
-flutter: flutter-conventions 22,506
-nuxt: vue-nuxt-vuetify-conventions 23,761
-global: code-baseline 10,355, security-hardening 8,738, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
+flutter: flutter-conventions 23,318
+nuxt: vue-nuxt-vuetify-conventions 25,052
+global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,795
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 15,629
+react: react-nextjs-conventions 16,841
 bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,857
 ```
 

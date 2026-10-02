@@ -41,3 +41,41 @@ typescript-eslint rule documentation and the TypeScript handbook were not availa
 pass; the Node documentation itself (streams, process signals) was not read, so §9 carries the claims of its
 source only. §8.4 points to the existing enum rule in §3.
 
+
+**Typed linting, compiler versions, typed database client, 2026-10-02.** §10, §11 and §12 are new, and two lines
+of §6 are corrected. Primary sources, read the same day from shallow clones: the typescript-eslint repository
+(MIT; documentation sources and the plugin's preset and rule files, plugin 8.71.0, the latest on the registry that
+day) for §10; the TypeScript website repository (documentation licensed CC BY 4.0, code MIT; the 6.0 release
+notes, the compiler-option reference pages for strict, verbatim module syntax, erasable syntax only,
+side-effect imports and lib replacement, and the option-relations script that lists the strict family) for §11
+and the §6 corrections; and the Prisma documentation repository (the version 7 tree, the release-status and
+coming-from-7 pages) for §12. That last repository carries no licence file, so under rule B of
+`CONVENTIONS.md` it is idea only: mechanisms and facts were taken and every sentence and example is ours. The
+website's CC BY 4.0 documentation was likewise rewritten, with no copied sentence, attributed here to the
+TypeScript documentation (Microsoft and contributors), not endorsed by the licensor.
+
+**Corrections to earlier text, with their evidence.** (1) §6.1 listed eight members of the strict family; the
+website's option-relations table lists nine, the ninth being the built-in iterator return check (in the table
+against 5.6). (2) §6.8 and the earlier guidance implied that the consistent type-imports, switch-exhaustiveness
+and explicit-boundary-types rules ship in the presets; the plugin's preset files contain none of the three
+outside the `all` preset, now §10.3. (3) The earlier origin note said the exhaustiveness and boundary-types rule
+names were taken from a style guide and not re-read; they now exist in the plugin's rule list at 8.71 (checked by
+file), and the boundary-types rule carries no deprecation marker in its source.
+
+**Facts that move, with their pin.**
+- typescript-eslint 8.71: supported compiler range up to below 6.1.0, ESLint 8.57 to 10, Node 18.18 or later
+  (§10.11); which presets are stable (§10.2); which rules are in which preset (§10.3). Re-read on each minor.
+- TypeScript 6.0 defaults and deprecations (§11.2 to §11.5); the registry's latest compiler on the day was 7.0.2,
+  and the documentation clone had release notes only through 6.0, so **nothing about 7.0 itself was read**: §11
+  states only what the 6.0 notes say about 7.0, and the lint plugin's range. This is the largest gap in this pass.
+- Prisma ORM 7.10 stable, 8.0 release candidate, general availability expected October 2026, the registry's
+  tag split on the day (§12.1); the strict-undefined-checks and relation-joins features are previews in the 7
+  tree (§12.4, §12.8); client error classes and the codes P2002, P2003, P2025 and P2034 (§12.6).
+
+**Not read, stated.** The TypeScript handbook chapters on narrowing, generics and modules beyond what §1 to §9
+already assert (this pass used the release notes and option reference, not the handbook pages); the
+typescript-eslint rule pages beyond the ones named in §10.8; the Prisma transaction, extension, raw-SQL and
+migration pages (the first is covered from another source in `skills/nestjs-node-conventions`); the Prisma 8
+query API in depth. **Ruled out as instruction-like text in a source:** the Prisma query-optimization page
+carries a prompt addressed to an AI coding assistant telling it to install and configure a package; it was read
+as data and nothing was installed.

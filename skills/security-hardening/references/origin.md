@@ -113,3 +113,14 @@ sections are the writing-time half of that; certificate lifecycle and strict-tra
 Not taken: a CAPTCHA vendor recommendation (a runtime dependency on a third-party service, rule B), any
 numeric header value or timeout (recited numbers go stale), and the Laravel and Flutter package-specific
 code samples (the stack blocks own those).
+
+**Extended, 2026-10-02 (§9, §10).** §9 rewritten from primary sources read that day: RFC 9106 (Argon2
+parameter sets and salt guidance), RFC 5116 (nonce distinctness, random key, nonce-reuse consequences for
+the Galois/counter mode), NIST SP 800-63B-4 section 3.1.1.2 (verifier length, composition and blocklist
+requirements, read from the guideline site), plus the standard-library security guide of the MIT-licensed
+`samber/cc-skills-golang` (commit 8e899e2) for the random-generator, constant-time and vetted-primitive
+rules. NIST SP 800-38D was fetched but its page only gave the abstract; NIST SP 800-57 (key separation,
+cryptoperiod) could not be extracted and is not cited. §10 takes the idea of declaring an assurance level
+once from the OWASP mobile verification standard, which is share-alike licensed: idea only, no text. Its
+testing guide was not read. Status 🟡; parameter figures go stale, re-read the RFC and the guideline before
+relying on them.
