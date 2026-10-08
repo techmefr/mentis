@@ -364,6 +364,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `go-http-resilience-pitfalls` | Go HTTP server and client timeouts, limits, deadlines and retries |
 | `go-performance` | Go performance: measure first, allocation, garbage collector |
 | `go-tooling-testing-security` | Go tool gate, test extras (goleak, synctest, fuzz) and security extras (os.Root, crypto/rand) |
+| `flutter-agent-loop` | Driving a Flutter app with the Dart and Flutter MCP tools: edit loop, hot reload, vetting packages |
+| `flutter-startup-error-hooks` | Flutter startup sequence, error hooks and state-library startup |
+| `flutter-notifications-background` | Local and push notifications, background handlers, links and entry delivery |
+| `flutter-native-bridge-ffi` | Platform channels, Pigeon, FFI and native-asset build hooks |
+| `flutter-release-toolchain-hygiene` | Flutter measuring, versions and release facts, pub and codegen hygiene, CI gates |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
