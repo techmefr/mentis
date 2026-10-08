@@ -340,6 +340,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `node-container-runtime` | Node container image, runtime configuration and how TypeScript is executed |
 | `nestjs-integration-patterns` | Transports, versioning, webhooks, queues, rate limits and request logging in Nest |
 | `prisma-ops-and-test-hygiene` | Prisma pool, migrations and queries in production; test hygiene, property and mutation testing |
+| `angular-signals-rxjs-ssr-pitfalls` | Angular signals and RxJS interop, SSR and hydration, zoneless, template mistakes |
+| `htmx-protocol-pitfalls` | htmx responses, polling, request UX and inheritance, integration |
+| `solid-ownership-pitfalls` | Solid ownership, control flow, stores, SSR and testing traps |
+| `astro-images-templates-pitfalls` | Astro images, templates, scripts and project setup |
+| `web-components-lifecycle-pitfalls` | Custom element constructor, callbacks and registration traps |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
