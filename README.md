@@ -374,6 +374,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `android-edge-to-edge-insets` | Android edge-to-edge window setup, insets applied once, the keyboard, Android 16 and 17 window changes |
 | `android-security-hardening` | Android exported components and intent redirection, PendingIntent, Play Integrity, Keystore |
 | `android-agp9-r8-gradle` | AGP 9 migration, R8 keep rules and Gradle hygiene |
+| `zig-pitfalls` | Zig errors and defer, allocators, comptime, build and test drift |
+| `systems-assertion-discipline` | Assertions and bounds in systems code: what to assert, release behaviour |
+| `rust-async-unsafe-pitfalls` | Rust cancellation safety, locks and blocking in async, unsafe depth |
+| `rust-test-supply-chain-ci` | Rust test tooling, supply chain checks and CI gates |
+| `cpp-build-and-lifetime-pitfalls` | C++ static storage and thread_local, CMake targets, presets, sanitizers, dependencies |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
