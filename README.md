@@ -333,6 +333,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `security-hardening` | Trust boundaries while writing: validation, escaping per context, access control, uploads |
 | `background-jobs-conventions` | Async work: idempotency, bounded retries, dead-letter, overlap; nobody is watching when it fails |
 | `webperf` | Diagnose slowness from a measurement, not from intuition |
+| `nestjs-reliability` | Idempotency keys, locks on several replicas, outbox and inbox, outbound resilience |
+| `node-async-performance` | Cancellation, bounded concurrency, diagnosing Node performance from a measurement |
+| `jwt-verification` | Verify a JWT with a pinned algorithm, issuer and audience, never just decode it |
+| `nestjs-di-traps` | Injection tokens, duplicate providers, cycles and service locators in Nest |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
