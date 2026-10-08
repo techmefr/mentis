@@ -350,6 +350,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `python-testing-strictness` | Strict pytest and coverage configuration, fixtures and event loops |
 | `python-sqlalchemy-fastapi-pitfalls` | SQLAlchemy sessions and pools, FastAPI handlers, the pydantic boundary |
 | `python-hygiene-pitfalls` | Python construct traps, logs and messages, threads and cleanup |
+| `dotnet-async-exception-pitfalls` | .NET exception hygiene, async traps and runtime hygiene |
+| `dotnet-aspnet-efcore-pitfalls` | ASP.NET Core request context, security configuration, EF Core, clients, caching and JSON |
+| `dotnet-blazor-conventions` | Blazor lifecycle and prerender, JS interop, state, forms and services |
+| `dotnet-container-runtime` | .NET image build, memory and GC settings, globalization and tzdata |
+| `polly-resilience-pitfalls` | Polly strategy misuse, registration and context |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
