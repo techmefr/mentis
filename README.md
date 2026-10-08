@@ -360,6 +360,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `jvm-test-infrastructure` | Testcontainers, Spring test slices and context cache, Awaitility, a fixed Clock |
 | `jvm-resilience-observability` | Resilience4j and timeouts, MDC, Micrometer tags, probes and graceful shutdown |
 | `compose-correctness` | Jetpack Compose state, effects, stability and lazy lists |
+| `go-container-runtime` | Go image build, GOMAXPROCS and GOMEMLIMIT in containers, graceful shutdown |
+| `go-http-resilience-pitfalls` | Go HTTP server and client timeouts, limits, deadlines and retries |
+| `go-performance` | Go performance: measure first, allocation, garbage collector |
+| `go-tooling-testing-security` | Go tool gate, test extras (goleak, synctest, fuzz) and security extras (os.Root, crypto/rand) |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
