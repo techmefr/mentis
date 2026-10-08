@@ -355,6 +355,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `dotnet-blazor-conventions` | Blazor lifecycle and prerender, JS interop, state, forms and services |
 | `dotnet-container-runtime` | .NET image build, memory and GC settings, globalization and tzdata |
 | `polly-resilience-pitfalls` | Polly strategy misuse, registration and context |
+| `jvm-pitfalls` | Java traps found by Error Prone, interrupts and futures, null analysis |
+| `jpa-hibernate-pitfalls` | JPA and Hibernate mapping, fetching, queries, transactions and schema creation |
+| `jvm-test-infrastructure` | Testcontainers, Spring test slices and context cache, Awaitility, a fixed Clock |
+| `jvm-resilience-observability` | Resilience4j and timeouts, MDC, Micrometer tags, probes and graceful shutdown |
+| `compose-correctness` | Jetpack Compose state, effects, stability and lazy lists |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
