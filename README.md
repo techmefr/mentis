@@ -337,6 +337,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `node-async-performance` | Cancellation, bounded concurrency, diagnosing Node performance from a measurement |
 | `jwt-verification` | Verify a JWT with a pinned algorithm, issuer and audience, never just decode it |
 | `nestjs-di-traps` | Injection tokens, duplicate providers, cycles and service locators in Nest |
+| `node-container-runtime` | Node container image, runtime configuration and how TypeScript is executed |
+| `nestjs-integration-patterns` | Transports, versioning, webhooks, queues, rate limits and request logging in Nest |
+| `prisma-ops-and-test-hygiene` | Prisma pool, migrations and queries in production; test hygiene, property and mutation testing |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
