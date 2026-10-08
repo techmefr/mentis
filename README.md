@@ -345,6 +345,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `solid-ownership-pitfalls` | Solid ownership, control flow, stores, SSR and testing traps |
 | `astro-images-templates-pitfalls` | Astro images, templates, scripts and project setup |
 | `web-components-lifecycle-pitfalls` | Custom element constructor, callbacks and registration traps |
+| `ci-workflow-hardening` | Pinned actions, token permissions, required checks and dependency supply chain for CI |
+| `python-container-runtime` | Python container image with uv: build, locked sync, non-root, process start |
+| `python-testing-strictness` | Strict pytest and coverage configuration, fixtures and event loops |
+| `python-sqlalchemy-fastapi-pitfalls` | SQLAlchemy sessions and pools, FastAPI handlers, the pydantic boundary |
+| `python-hygiene-pitfalls` | Python construct traps, logs and messages, threads and cleanup |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
