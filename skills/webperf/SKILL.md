@@ -45,6 +45,15 @@ optimisation is how simple code becomes complicated for nothing.
 7. **Images and fonts.** Unsized images (which also cost layout shift), full-resolution assets
    displayed small, a blocking font.
 
+### 2b. When the page has to work on a phone browser
+Read [`references/01-responsive-touch-interface.md`](./references/01-responsive-touch-interface.md) when the
+screen is used on a touch device or a narrow viewport, or when an animation, an image, a long text block or a
+dark theme is added: motion, touch targets, safe areas and the on-screen keyboard, typography, images and
+fonts, theming, URL state and phone forms. Unlike section 2 these are correctness rules, not measured
+optimisations: break one and a phone user hits it on the first visit, so they apply without a prior measurement.
+For React-specific rendering costs (transitions, `content-visibility`, listeners), see
+`skills/react-nextjs-conventions` §11.
+
 ### 3. Confirm, and keep the honest comparison
 1. **Re-measure the same scenario, the same way.** Same page, same data volume, same throttling. A
    comparison against a different dataset proves nothing.
@@ -73,4 +82,7 @@ part of `seo`) and the bundle-weight items rewritten from a market open source T
 review skill. The ordering of section 2 (requests before rendering before bundle) and the
 measure-first/re-measure-identically discipline are ours; the "state a marginal win and consider
 reverting" rule follows the standing internal preference for simplicity over call-count optimisation.
-No dedicated internal performance-engineering experience at this stage.
+No dedicated internal performance-engineering experience at this stage. `references/01-responsive-touch-interface.md`
+(2026-10-08) was written from Vercel's public Web Interface Guidelines (MIT, `vercel-labs/web-interface-guidelines`),
+filtered to the rules that hold outside any framework, plus the viewport, safe-area and keyboard cases that
+guide leaves out.
