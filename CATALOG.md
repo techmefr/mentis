@@ -30,7 +30,7 @@ crossed over (rule C).
 | Laravel | `laravel` (45) | **`skills/laravel-conventions`** (new): thin models, events over observers, permissions not roles, no DB enums, no cascade, no queries in loops, validation, typing, naming, config, seeders, soft-delete pruning, job ordering, REST shape, test tiers. `php-patterns` stays on the language below it |
 | Flutter | `flutter` (37) | **`skills/flutter-conventions`** (new): context across async gaps, disposal, decomposition, constraints, the four async states, routing, forms, state management, secure storage, permissions, tests |
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (13 sections) |
-| React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
+| React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (11 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
 | C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated; **widened against the current platform 2026-09-09**, two new sections — §8 resilience and throttling, §9 what only breaks at publish — plus nine points from the vendor's own current documentation, 7,490 → 9,727 words, x7.57 → **x5.83**); **widened 2026-09-09**, §9 gained three points against current public Native AOT/trimming guidance (suppressed warnings, AOT's inability to generate code at run time, reading a package's own compatibility from publish warnings rather than assuming it), 9,727 → 9,957 words, x5.83 → **x5.7**); **widened again 2026-09-09**, §8 gained two points against
 current public HTTP-resilience/rate-limiting guidance (never stack more than one resilience handler
@@ -399,7 +399,7 @@ linters, orchestration frameworks, etc. on the market).
 | market Claude Code agent catalogue | architecture-documenter / contract-testing-expert / runbook-generator | / | ✕ (low confidence, occasional use, no recurring signal) |
 | market Claude Code agent catalogue | core/code-reviewer, core/debugger, core/refactorer, core/architect, security-auditor, devsecops-engineer, ux-designer, ui-components-expert, code-documenter, orchestrators/*, postgresql-expert, redis-expert, graphql-expert, cypress-expert, jest-expert, e2e-testing-expert, operational/*, industry/* | / | ✕ (redundant with the existing roster or outside the confirmed stack) |
 | market multi-agent orchestration framework | generalist org-chart (who talks to whom) | multi-agent dispatch | ✕ (no forced fresh context and no evidence/verdict mechanism; off topic for the GATE gap, stays a separate 🔎 architecture lead) |
-| market React skill catalogue | `react-best-practices` (AGENTS.md) (perf/rendering/waterfall patterns with before/after code) | react-nextjs-conventions | ✅ |
+| market React skill catalogue | `react-best-practices` (AGENTS.md) (perf/rendering/waterfall patterns with before/after code) | react-nextjs-conventions | ✅ (re-read 2026-10-08, against the public Vercel agent-skills repo: gap pass added §11 and four §7 points) |
 | market React/Node skill catalogue | `redux-toolkit/SKILL.md` (typed createSlice, typed hooks, createAsyncThunk, memoised selectors) | react-nextjs-conventions | ✅ |
 | market shadcn skill catalogue | `skills/shadcn/SKILL.md` (composition through a wrapper, cn(), folder structure) | react-nextjs-conventions | ✅ |
 | market React linter | `oxlint-plugin-react-doctor`, ~780 deterministic rules (state/effects, perf, security, a11y), `error`-severity subset excluding niche frameworks taken into section 4 | react-nextjs-conventions | ✅ (content rewritten; the tool itself stays a separate 🔎 candidate for a future React CI gate, not installed, the operator has no React repo) |
@@ -453,7 +453,7 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 14,452 | −84 | x1.01 |
 | bi, design, xefi | 16 / 17,306 | 4 / 20,034 | +2,728 | x0.86 |
 | global | 18 / 20,280 | 6 / 23,255 | +2,975 | x0.87 |
-| react | 36 / 9,302 | 1 / 11,158 | +1,856 | x0.83 |
+| react | 36 / 9,302 | 1 / 13,254 | +3,952 | x0.7 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -485,7 +485,7 @@ nuxt: vue-nuxt-vuetify-conventions 18,491
 global: code-baseline 9,577, security-hardening 4,144, api-design 2,394, documentation-adr 2,909, observability-instrumentation 3,272, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,109
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 11,158
+react: react-nextjs-conventions 13,254
 bi, design, xefi: data-analytics 4,520, interface-design 5,938, ux-writing 4,217, accessibility 5,359
 ```
 

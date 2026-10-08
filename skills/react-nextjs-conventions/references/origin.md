@@ -107,3 +107,15 @@ its mirror image next to the general rule it qualifies. Fixed by adding the App 
 exception to §1.3, with a cross-reference to §7.10, and a matching cross-reference added at §7.10 pointing
 back. Every other rule read (§1, §3, §5, §6, §7 in full; §9 skimmed for the fetch boundary) matched what the
 build and lint gates actually enforced — no further edits made.
+
+**Gap pass 2026-10-08 against Vercel's public `vercel-labs/agent-skills` (MIT).** Re-read its
+`react-best-practices` (8 categories, 40+ rules), `react-view-transitions` and `composition-patterns` against
+this block, keyword by keyword. Waterfalls, Suspense, `next/dynamic`, barrel imports, hydration and
+accessibility were already here; what was absent became a new §11 (transitions and deferred values, refs for
+transient values, derived subscriptions, hoisted defaults and JSX, `content-visibility`, SVG wrapper
+animation, explicit conditional rendering, `<Activity>`, passive and shared listeners, versioned storage,
+layout thrashing, idle work, intent-based preloading, third-party deferral, resource hints, View
+Transitions) and four points at the end of §7 (`React.cache`, `after()`, module-level static I/O, minimal
+RSC props). Mechanisms rewritten with the symptom a reader sees, no copied text; the React 19.2 and Next
+APIs cited (`Activity`, `after()`, `ViewTransition`) are version-gated: check the project's React and Next versions before applying them. `react-native-skills` was deliberately left out: mobile on this stack is
+responsive web, and the layout/touch rules that transfer live in `skills/webperf/references/`.

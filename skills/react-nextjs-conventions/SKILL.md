@@ -49,6 +49,7 @@ trigger the diff meets, not the whole table.
 | 8 | The component library | a UI element is built, or custom CSS is about to be written | [`08-component-library.md`](./references/08-component-library.md) |
 | 9 | Security, never negotiable | always, on any diff | [`09-security-never-negotiable.md`](./references/09-security-never-negotiable.md) |
 | 10 | Accessibility and bundle weight | a control is rendered, or a dependency added | [`10-accessibility-bundle-weight.md`](./references/10-accessibility-bundle-weight.md) |
+| 11 | Rendering and runtime performance | a list grows, an interaction lags, a scroll or input handler is added, or something re-renders too often | [`11-rendering-runtime-performance.md`](./references/11-rendering-runtime-performance.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and by

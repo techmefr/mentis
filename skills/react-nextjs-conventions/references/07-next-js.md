@@ -63,3 +63,21 @@
 18. **`server-only` is a guard worth using.** Marking a module that touches secrets or the database makes an
     accidental import from a Client Component a build error instead of a leak (§9.3) — the import graph is
     what decides, and it is not visible from the file you are editing.
+19. **Wrap a server-side read that several components share in `React.cache`.** The same user lookup called from
+    the layout, the page and a nested component runs three times per request, and the cost is invisible because
+    each call looks cheap in its own file. `cache` memoises per request, so it never serves one user's value to
+    another's request — which is what separates it from the module-level state banned in point 12. Its argument
+    comparison is by reference: passing a fresh object each call misses the cache every time, so pass
+    primitives.
+20. **Anything that does not have to finish before the response goes in `after()`.** Logging, analytics events,
+    cache warming and audit writes awaited inside the handler add their latency to the user's wait for no
+    benefit; `after()` runs them once the response is sent. Nothing in it may be needed by the response, and a
+    failure in it is invisible to the user, so it reports to the logger rather than throwing.
+21. **Hoist static I/O to module level.** A font file, a logo or a config read from disk inside a handler is
+    re-read on every request; read once at module scope. This is the one legitimate use of module-level state on
+    the server, and it holds only for data that is identical for every user and never changes while the process
+    runs (point 12 still bans anything keyed by the current request).
+22. **Pass the client only the fields it renders.** Passing a whole record to a Client Component serialises
+    every column into the HTML payload (§9.10) and again into the RSC stream, so one `user` object can be sent
+    twice. Select the fields at the server boundary, and when two props hold the same array in different
+    shapes, derive one from the other on the client rather than serialising both.
