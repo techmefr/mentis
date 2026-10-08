@@ -369,6 +369,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `flutter-notifications-background` | Local and push notifications, background handlers, links and entry delivery |
 | `flutter-native-bridge-ffi` | Platform channels, Pigeon, FFI and native-asset build hooks |
 | `flutter-release-toolchain-hygiene` | Flutter measuring, versions and release facts, pub and codegen hygiene, CI gates |
+| `swiftui-correctness` | SwiftUI state, identity, navigation, accessibility and layout |
+| `swift-testing` | Swift Testing and XCTest, async and time, parallelism |
+| `android-edge-to-edge-insets` | Android edge-to-edge window setup, insets applied once, the keyboard, Android 16 and 17 window changes |
+| `android-security-hardening` | Android exported components and intent redirection, PendingIntent, Play Integrity, Keystore |
+| `android-agp9-r8-gradle` | AGP 9 migration, R8 keep rules and Gradle hygiene |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
