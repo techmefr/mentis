@@ -379,6 +379,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `rust-async-unsafe-pitfalls` | Rust cancellation safety, locks and blocking in async, unsafe depth |
 | `rust-test-supply-chain-ci` | Rust test tooling, supply chain checks and CI gates |
 | `cpp-build-and-lifetime-pitfalls` | C++ static storage and thread_local, CMake targets, presets, sanitizers, dependencies |
+| `persona-ux-audit` | 8 (complement) | Replay each critical journey as four contrasting personae, verify in source, produce a scored report |
+| `six-thinking-hats` | 1 (complement) | Structured parallel thinking through six fixed perspectives for a decision with trade-offs |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
