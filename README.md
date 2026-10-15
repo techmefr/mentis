@@ -386,6 +386,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `mysql-pitfalls` | 6 (new 2026-10-08) | MySQL 8 JSON, collation, partitioning, replica lag, online DDL and gh-ost prerequisites |
 | `mongodb-conventions` | 6 (new 2026-10-08) | MongoDB embedding vs referencing, validation, ESR index order, aggregation placement |
 | `clickhouse-conventions` | 6 (new 2026-10-08) | ClickHouse ORDER BY and partition choices, insert batching, mutations, ReplacingMergeTree |
+| `bash-pitfalls-and-bats` | 6 (new 2026-10-08) | Bash traps that lose variables or exit statuses silently, and bats tests that assert nothing |
+| `powershell-conventions` | 6 (new 2026-10-08) | PowerShell error semantics, secrets and dynamic code, function design |
+| `rails-jobs-migrations-pitfalls` | 6 (new 2026-10-08) | Rails background job failures, strong_migrations patterns, RSpec doubles |
+| `elixir-ecto-oban-pitfalls` | 6 (new 2026-10-08) | Ecto uniqueness and upserts, Oban production settings, configuration timing |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
