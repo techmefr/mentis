@@ -405,6 +405,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `kafka-delivery-semantics-pitfalls` | 6 (new 2026-10-15) | Kafka delivery guarantees, durability settings, transactions, compaction and deletes |
 | `airflow-dag-authoring-pitfalls` | 6 (new 2026-10-15) | Airflow re-runnable tasks, DAG parsing cost, data passing, sensors, testing and upgrades |
 | `dbt-cli-and-model-versioning-pitfalls` | 6 (new 2026-10-15) | dbt build vs run, selectors, model versions, contracts and access, unit tests, DAG checks |
+| `terraform-state-and-secrets-pitfalls` | 6 (new 2026-10-15) | Terraform state and backend baseline, locking, migrate-state vs reconfigure, keeping secrets out of state |
+| `terraform-refactor-identity-pitfalls` | 6 (new 2026-10-15) | count vs for_each identity, moved/import/removed blocks, version floors, pinning, what mocked tests prove |
+| `terraform-ci-delivery-pitfalls` | 6 (new 2026-10-15) | Applying the reviewed plan file, policy gates, OIDC trust, concurrency and locks, drift detection |
+| `otel-collector-config-pitfalls` | 6 (new 2026-10-15) | OpenTelemetry Collector YAML traps: unwired components, memory_limiter, OTTL, exporter queues, removed components |
+| `telemetry-sampling-and-cardinality-pitfalls` | 6 (new 2026-10-15) | Sampling vs RED metrics, tail-sampling topology, cardinality, temporality |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
