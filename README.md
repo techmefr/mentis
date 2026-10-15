@@ -399,6 +399,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `credential-lifecycle-pitfalls` | 6 (new 2026-10-15) | Password hashing, reset and verification tokens, TOTP and recovery codes, token entropy |
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
+| `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `elasticsearch-mapping-and-reindex-pitfalls` | 6 (new 2026-10-15) | Elasticsearch field types, mapping explosion, reindex, bulk loading, Serverless differences |
+| `rabbitmq-delivery-pitfalls` | 6 (new 2026-10-15) | RabbitMQ acknowledgements and prefetch, publisher confirms, dead-lettering, connections and channels |
+| `kafka-delivery-semantics-pitfalls` | 6 (new 2026-10-15) | Kafka delivery guarantees, durability settings, transactions, compaction and deletes |
+| `airflow-dag-authoring-pitfalls` | 6 (new 2026-10-15) | Airflow re-runnable tasks, DAG parsing cost, data passing, sensors, testing and upgrades |
+| `dbt-cli-and-model-versioning-pitfalls` | 6 (new 2026-10-15) | dbt build vs run, selectors, model versions, contracts and access, unit tests, DAG checks |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
