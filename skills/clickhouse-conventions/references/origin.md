@@ -1,0 +1,39 @@
+# clickhouse-conventions: origin and source stamps
+
+> Provenance of `skills/clickhouse-conventions`. Read it when a rule has to be traced to its source or checked
+> for freshness (`skills/source-freshness`), never to apply a rule.
+
+**Status: 🟡.** Written from documentation and reading, never run by us. No ClickHouse server was used while
+writing it. This is a new engine block with no same-topic block on main; it is meant to sit beside the general
+SQL conventions block (`sql-conventions`, on the unmerged branch `feat/antislop-lot`, PR 118) and be linked
+from it when PR 118 lands.
+
+## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
+
+| Source | Licence | What it gave |
+|---|---|---|
+| ClickHouse documentation, markdown view of the pages: choosing a primary key, choosing a partitioning key, select data types, `LowCardinality(T)` | Licence of the rendered pages not re-read in this pass: facts only, nothing copied | Ordering key defined at creation, projections as the only added ordering, filter-first ordering, partition as data management, low-cardinality partition key and the too-many-parts error, Nullable overhead, LowCardinality thresholds, narrow numeric types |
+| ClickHouse documentation: selecting an insert strategy, asynchronous inserts | Same: facts only | Batch sizes, one insert per second, retry with identical batches, `async_insert` and `wait_for_async_insert` semantics, flush conditions and defaults, flush-time rejection |
+| ClickHouse documentation: avoid mutations, `ALTER TABLE ... UPDATE`, `DELETE` (lightweight), `ReplacingMergeTree`, avoid `OPTIMIZE FINAL`, use data skipping indices where appropriate | Same: facts only | Mutation rewrite cost and behaviour, key-column update limit, lightweight delete behaviour and settings, deduplication only on merge, `OPTIMIZE FINAL` effects, `FINAL` in queries, skipping-index limits |
+| ClickHouse/agent-skills, best-practices rules `schema-pk-cardinality-order`, `schema-pk-filter-on-orderby`, `schema-types-lowcardinality` (LICENSE re-read, Apache-2.0), commit `356a8c1` of 2026-09-28 | Apache-2.0 | Low-to-high cardinality ordering statement and the leading-prefix claim (both stated in the text as the agent skills' claims) |
+
+## Removed in the verification pass (no page supporting them)
+Version numbers for lightweight `DELETE` (23.3 and 25.7 in the earlier review): the page read states no
+version, so the rule tells the reader to check the server. "`ORDER BY` is effectively immutable" narrowed to
+what the page says (the key must be defined at creation and cannot be added; projections add orderings). "Avoid
+`FINAL`" narrowed to `OPTIMIZE ... FINAL`: the documentation says `FINAL` in a query is sometimes needed and is
+fine when the query filters on the key columns. The "avoid Nullable columns" page of the best-practices set was
+not reachable (404 on the markdown view), so the rule rests on the select-data-types page.
+
+## Not verified
+1. **Own guidance:** none beyond the order in which rules are applied; the numbers (1,000, 10,000 to 100,000,
+   one insert per second, fewer than 100 to 1,000 partitions, 10,000 distinct values) are the documentation's.
+2. **Versions:** the documentation read was current on 2026-10-08 and does not tie these rules to server
+   versions; the `ALTER ... MODIFY ORDER BY` restrictions, projections and materialised views were not read.
+3. **Skipping prefix key columns prevents index use** is the agent skills' wording and is likely stronger than
+   the engine's behaviour; it is flagged in the text, not relied on.
+4. **ClickHouse Cloud defaults** (for example the 1,000 ms async flush timeout) are quoted as the page gives
+   them and not checked on a self-managed server.
+
+## Related blocks
+`data-pipeline-conventions`, `sql-server-tsql-types-and-queries`, `mysql-pitfalls`, `mongodb-conventions`.

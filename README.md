@@ -381,6 +381,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `cpp-build-and-lifetime-pitfalls` | C++ static storage and thread_local, CMake targets, presets, sanitizers, dependencies |
 | `persona-ux-audit` | 8 (complement) | Replay each critical journey as four contrasting personae, verify in source, produce a scored report |
 | `six-thinking-hats` | 1 (complement) | Structured parallel thinking through six fixed perspectives for a decision with trade-offs |
+| `sql-server-tsql-types-and-queries` | 6 (new 2026-10-08) | T-SQL type choices and query traps: datetime2, N-literals, non-sargable predicates, implicit conversion, parameter sniffing |
+| `sql-server-transactions-and-operations` | 6 (new 2026-10-08) | SQL Server transactions, error handling, dynamic SQL, schema health, backups and restore testing |
+| `mysql-pitfalls` | 6 (new 2026-10-08) | MySQL 8 JSON, collation, partitioning, replica lag, online DDL and gh-ost prerequisites |
+| `mongodb-conventions` | 6 (new 2026-10-08) | MongoDB embedding vs referencing, validation, ESR index order, aggregation placement |
+| `clickhouse-conventions` | 6 (new 2026-10-08) | ClickHouse ORDER BY and partition choices, insert batching, mutations, ReplacingMergeTree |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
