@@ -423,6 +423,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `mcp-server-design-pitfalls` | 6 (new 2026-10-15) | MCP server tool contract: names, annotations, schemas, results and errors, exposure and drift |
 | `agent-hook-guard-pitfalls` | 6 (new 2026-10-15) | Guard hooks for coding agents: signalling, per-guard fail policy, overrides, matcher traps, replay testing |
 | `llm-eval-regression-pitfalls` | 6 (new 2026-10-15) | Measuring a prompt, skill or model change: baselines, assertions, judge biases, errors and retries |
+| `blameless-incident-review-pitfalls` | 6 (new 2026-10-15) | Blameless incident reviews: contributing factors over one root cause, no counterfactuals, evidenced timelines, scoped action items |
+| `internal-comms-async-pitfalls` | 6 (new 2026-10-15) | Async team communication: channel by purpose, decisions in writing, message and meeting hygiene |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
