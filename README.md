@@ -414,6 +414,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `testing-library-query-pitfalls` | 6 (new 2026-10-15) | Testing Library queries, async and user-event traps, structure and lint |
 | `jest-vitest-assertion-pitfalls` | 6 (new 2026-10-15) | Jest and Vitest assertions that never run or prove nothing: async expect, focus and skip, snapshots, mocks |
 | `flaky-test-triage-pitfalls` | 6 (new 2026-10-15) | Flaky test classes, reproduction, retry meaning, quarantine lifecycle with owner and expiry |
+| `i18n-message-format-pitfalls` | 6 (new 2026-10-15) | Plurals and selectors, whole messages with named placeholders, translator context, ICU syntax hygiene |
+| `i18n-catalog-workflow-pitfalls` | 6 (new 2026-10-15) | Static extraction, CI health check, generated vs explicit IDs, BCP 47 fallback, pseudo-locale, translator QA |
+| `locale-negotiation-and-switcher-pitfalls` | 6 (new 2026-10-15) | Locale resolution order, root-only redirect, locale cookie, hreflang inputs, switcher markup, dates and time zones |
+| `webperf-measurement-and-budget-pitfalls` | 6 (new 2026-10-15) | Field vs lab evidence, p75, RUM with web-vitals, Lighthouse CI noise, size budgets |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
