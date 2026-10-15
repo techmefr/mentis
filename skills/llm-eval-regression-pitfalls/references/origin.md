@@ -10,7 +10,7 @@ A verification pass on 2026-10-15 re-read every source below in full and checked
 
 | Source | Licence | What it gave |
 |---|---|---|
-| agentskills/agentskills, `docs/skill-creation/evaluating-skills.mdx` (commit 69ef37e) | Apache-2.0 (LICENSE file) | Test cases, with and without baseline, clean context, timing, assertions, grading evidence, analysis, human review, blind comparison |
+| agentskills/agentskills, `docs/skill-creation/evaluating-skills.mdx` (commit 69ef37e) | CC-BY-4.0 for the docs pages (docs/LICENSE; the repo code is Apache-2.0), credit given | Test cases, with and without baseline, clean context, timing, assertions, grading evidence, analysis, human review, blind comparison |
 | UKGovernmentBEIS/inspect_ai, `docs/model-graded.qmd` and `docs/handling-errors.qmd` (commit 7158198) | MIT (LICENSE file) | Grader selection and fallback, panel voting, last-grade extraction and delimiter rewriting, unscored verdicts, reproducibility, fail_on_error, retries, scoring errored samples, refusals, crash recovery and stalled samples |
 | muratcankoylan/Agent-Skills-for-Context-Engineering, `skills/advanced-evaluation/SKILL.md` and `references/bias-mitigation.md` (commit 9ff0c99) | MIT (LICENSE file) | Deterministic pre-checks in the pairwise procedure, direct versus pairwise, bias list and mitigations, rubric practice, gotchas |
 
