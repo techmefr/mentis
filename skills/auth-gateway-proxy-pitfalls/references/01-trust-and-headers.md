@@ -19,7 +19,7 @@
    configured client-IP header is accepted only from trusted peers. For `X-Forwarded-For`, repeated header
    fields are combined in received order, then the chain is walked from right to left, skipping addresses
    covered by the trusted-proxy list; the first untrusted address is the client and entries to its left are
-   ignored. In its example, where a trusted proxy appends the real client to `10.0.0.5, 198.51.100.23`, the
+   ignored. In its example, where a trusted proxy appends the real client to `203.0.113.5, 198.51.100.23`, the
    client is `198.51.100.23`, not the possibly forged leftmost entry. When every address in the chain is
    trusted the leftmost one is used. Any application or rule of yours that reads the leftmost entry
    reads the part an attacker writes.
