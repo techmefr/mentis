@@ -449,6 +449,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `gha-trust-boundary-pitfalls` | 6 (new 2026-10-16) | GitHub Actions trust-boundary traps: spoofable actor, ref confusion, GITHUB_ENV, cache poisoning |
 | `nginx-proxy-pitfalls` | 6 (new 2026-10-16) | nginx and container reverse-proxy traps: headers and HSTS lock-in, file denial, caching, limits, TLS policy |
 | `docker-destructive-guardrails-pitfalls` | 6 (new 2026-10-16) | Guardrails for Docker destructive commands: prune family, rm -f scope, scoped alternatives |
+| `experiment-design-pitfalls` | 6 (new 2026-10-16) | A/B test design and readout: pre-registered hypothesis, sample size, analyse once, SRM check, honest null results |
+| `analysis-validation-pitfalls` | 6 (new 2026-10-16) | Pre-delivery check of an analysis: review groups, three-level verdict, calculation and logic traps |
+| `metric-movement-diagnosis-pitfalls` | 6 (new 2026-10-16) | Explaining a metric move or two disagreeing numbers: confirm, decompose, test hypotheses, reconcile |
+| `premortem-review-pitfalls` | 6 (new 2026-10-16) | Stress-testing a hard-to-undo decision with an independent attacker, risk cards and a red-team |
+| `assumption-validation-pitfalls` | 6 (new 2026-10-16) | Discovery-stage testing of assumptions: criteria and budget first, smallest disconfirming test |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
