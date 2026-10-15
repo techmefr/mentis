@@ -8,8 +8,8 @@ description: "Use when a Kubernetes Deployment, StatefulSet or pod template is w
 Step 6 of the pipeline (`WORKFLOW.md`), for the pod template. The four sections share one premise: **a pod
 that Kubernetes can start is not a pod Kubernetes can safely stop, restart, replace or squeeze, and the
 manifest is where you tell it how**. Placement, disruption budgets, configuration reload, secrets and manifest
-validation are in `kubernetes-availability-config-pitfalls`; RBAC and network exposure are not covered by any
-block yet. The image side of signals is in `node-container-runtime` §1.3 and `dockerfile-build-pitfalls`.
+validation are in `kubernetes-availability-config-pitfalls`; RBAC and network exposure are in
+`kubernetes-access-and-exposure-pitfalls`, and chart authoring in `helm-chart-pitfalls`. The image side of signals is in `node-container-runtime` §1.3 and `dockerfile-build-pitfalls`.
 
 ## When
 - Writing or reviewing a Deployment, StatefulSet or the pod spec of a Job or CronJob.
