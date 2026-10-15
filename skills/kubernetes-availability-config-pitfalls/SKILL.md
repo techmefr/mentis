@@ -9,7 +9,8 @@ Step 6 of the pipeline (`WORKFLOW.md`), for the parts of a manifest set that sit
 sections share one premise: **replicas, config and references are only as good as the thing that ties them
 together, and Kubernetes accepts a manifest whose ties are broken**. What a pod does while running, stopping
 and being replaced (probes, shutdown, resources, rollout) is in `kubernetes-workload-pitfalls`. RBAC,
-Pod Security fields and network policies are not covered by any block yet; Helm authoring is not either.
+Pod Security fields and network policies are in `kubernetes-access-and-exposure-pitfalls`; Helm authoring is
+in `helm-chart-pitfalls`.
 
 ## When
 - Adding or changing a PodDisruptionBudget, topology spread constraints, anti-affinity, an HPA or a replica count.
