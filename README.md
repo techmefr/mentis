@@ -462,6 +462,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `code-review-reviewer-pitfalls` | 6 (new 2026-10-16) | Reviewer-side mechanics: approval bar, severity labels, speed, change size, refusing later cleanups |
 | `python-patching-and-time-pitfalls` | 6 (new 2026-10-16) | pytest monkeypatch and tmp_path traps, freezegun traps |
 | `api-contract-and-schema-fuzz-pitfalls` | 6 (new 2026-10-16) | Pact HTTP contract tests and Schemathesis schema fuzzing: destructive probes, baselines, CI gating |
+| `international-input-pitfalls` | 6 (new 2026-10-16) | Name, phone, address, email and date fields that work outside one country |
+| `cwv-diagnosis-pitfalls` | 6 (new 2026-10-16) | Diagnosing INP, CLS and LCP from a trace: phases, shift victims, font metrics, LCP subparts |
+| `rtl-and-bidi-layout-pitfalls` | 6 (new 2026-10-16) | Right-to-left locales and bidirectional text: dir per locale, logical properties, isolating values |
+| `a11y-lint-wiring-pitfalls` | 6 (new 2026-10-16) | Wiring jsx-a11y and vuejs-accessibility so a green run means something |
+| `seo-crawl-control-pitfalls` | 6 (new 2026-10-16) | How a robots.txt is actually matched and tested, plus sitemap limits |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
