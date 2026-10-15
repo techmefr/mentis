@@ -390,6 +390,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `powershell-conventions` | 6 (new 2026-10-08) | PowerShell error semantics, secrets and dynamic code, function design |
 | `rails-jobs-migrations-pitfalls` | 6 (new 2026-10-08) | Rails background job failures, strong_migrations patterns, RSpec doubles |
 | `elixir-ecto-oban-pitfalls` | 6 (new 2026-10-08) | Ecto uniqueness and upserts, Oban production settings, configuration timing |
+| `dockerfile-build-pitfalls` | 6 (new 2026-10-15) | Dockerfile traps that still build green: stale apt index, hidden pipe failures, build secrets, pinning, shell-less images |
+| `docker-compose-file-pitfalls` | 6 (new 2026-10-15) | Docker Compose traps: depends_on health, sidecar healthchecks, secrets, socket proxy, down -v data loss |
+| `kubernetes-workload-pitfalls` | 6 (new 2026-10-15) | Pod runtime behaviour: probes, graceful shutdown, requests and limits, rollout and image tags |
+| `kubernetes-availability-config-pitfalls` | 6 (new 2026-10-15) | PDBs, spread, HPA, config reload and secrets, selectors, deprecated APIs, manifest linting |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
