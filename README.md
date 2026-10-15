@@ -436,6 +436,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `telemetry-sensitive-data-pitfalls` | 6 (new 2026-10-16) | What must never enter spans, metrics or logs, and the layers that keep it out |
 | `terraform-hcl-authoring-pitfalls` | 6 (new 2026-10-16) | HCL authoring traps: encode functions, dynamic blocks, rule resources, lifecycle, provisioners, image tags |
 | `grafana-dashboard-pitfalls` | 6 (new 2026-10-16) | Dashboard-as-code lint traps: rate interval, matchers, variables, panel metadata, exclusions |
+| `elasticsearch-query-and-triage-pitfalls` | 6 (new 2026-10-16) | Elasticsearch query tuning, relevance levers and read-only non-green cluster triage |
+| `search-index-sync-pitfalls` | 6 (new 2026-10-16) | Keeping an Elasticsearch or OpenSearch index in step from a framework: reindex triggers, consistency, zero-downtime reimport |
+| `redis-security-and-observability-pitfalls` | 6 (new 2026-10-16) | Redis hardening (auth, TLS, ACL, exposure) and monitoring signals |
+| `datastore-broker-alerting-signals` | 6 (new 2026-10-16) | Engine-specific alert signals with hold and severity for Redis, Elasticsearch, RabbitMQ and Kafka |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
