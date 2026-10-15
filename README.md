@@ -394,6 +394,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `docker-compose-file-pitfalls` | 6 (new 2026-10-15) | Docker Compose traps: depends_on health, sidecar healthchecks, secrets, socket proxy, down -v data loss |
 | `kubernetes-workload-pitfalls` | 6 (new 2026-10-15) | Pod runtime behaviour: probes, graceful shutdown, requests and limits, rollout and image tags |
 | `kubernetes-availability-config-pitfalls` | 6 (new 2026-10-15) | PDBs, spread, HPA, config reload and secrets, selectors, deprecated APIs, manifest linting |
+| `oauth-oidc-client-pitfalls` | 6 (new 2026-10-15) | Login through an external identity provider: state and PKCE, callback checks, session fixation, CSRF and CORS |
+| `auth-gateway-proxy-pitfalls` | 6 (new 2026-10-15) | Authenticating reverse proxy configuration: trusted proxies, header trust, path exemptions, redirect allow-list |
+| `credential-lifecycle-pitfalls` | 6 (new 2026-10-15) | Password hashing, reset and verification tokens, TOTP and recovery codes, token entropy |
+| `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
+| `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
