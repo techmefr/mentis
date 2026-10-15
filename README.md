@@ -432,6 +432,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `community-moderation-ladder-pitfalls` | 6 (new 2026-10-15) | Procedure after a report: reporting channels, warning-to-ban ladder, appeal vs reinstatement, large attacks, moderator rotation |
 | `marketing-claim-substantiation-pitfalls` | 6 (new 2026-10-15) | Claim-by-claim check before marketing ships: verdicts with named proof, statistic checks, reuse re-verification |
 | `messaging-audit-pitfalls` | 6 (new 2026-10-15) | Audit of existing positioning before a rewrite: seven checks, risks first, patch-or-rebuild decision |
+| `prometheus-rules-and-promql-pitfalls` | 6 (new 2026-10-16) | PromQL and rule-file traps: counters and ranges, rate before sum, recording-rule naming, absent and for, pint |
+| `telemetry-sensitive-data-pitfalls` | 6 (new 2026-10-16) | What must never enter spans, metrics or logs, and the layers that keep it out |
+| `terraform-hcl-authoring-pitfalls` | 6 (new 2026-10-16) | HCL authoring traps: encode functions, dynamic blocks, rule resources, lifecycle, provisioners, image tags |
+| `grafana-dashboard-pitfalls` | 6 (new 2026-10-16) | Dashboard-as-code lint traps: rate interval, matchers, variables, panel metadata, exclusions |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
