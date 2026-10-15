@@ -429,6 +429,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `customer-escalation-pitfalls` | 6 (new 2026-10-15) | Handling an escalated customer problem: first response, executive brief, repair step, internal ask |
 | `troubleshooting-kb-article-pitfalls` | 6 (new 2026-10-15) | Writing troubleshooting and error-reference pages from clustered evidence |
 | `release-notes-writing-pitfalls` | 6 (new 2026-10-15) | Release notes and changelogs: net outcomes, breaking entries, honest versions, claim-to-diff gate |
+| `community-moderation-ladder-pitfalls` | 6 (new 2026-10-15) | Procedure after a report: reporting channels, warning-to-ban ladder, appeal vs reinstatement, large attacks, moderator rotation |
+| `marketing-claim-substantiation-pitfalls` | 6 (new 2026-10-15) | Claim-by-claim check before marketing ships: verdicts with named proof, statistic checks, reuse re-verification |
+| `messaging-audit-pitfalls` | 6 (new 2026-10-15) | Audit of existing positioning before a rewrite: seven checks, risks first, patch-or-rebuild decision |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
