@@ -444,6 +444,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
 | `regex-validation-pitfalls` | 6 (new 2026-10-16) | Regex as a validation gate: full-match, anchors per platform, ReDoS |
+| `helm-chart-pitfalls` | 6 (new 2026-10-16) | Helm chart authoring traps: names, namespace in templates, values layout and types, selectors |
+| `kubernetes-access-and-exposure-pitfalls` | 6 (new 2026-10-16) | RBAC escalation paths, who can read Secrets, Pod Security Standards, NetworkPolicy deny-all |
+| `gha-trust-boundary-pitfalls` | 6 (new 2026-10-16) | GitHub Actions trust-boundary traps: spoofable actor, ref confusion, GITHUB_ENV, cache poisoning |
+| `nginx-proxy-pitfalls` | 6 (new 2026-10-16) | nginx and container reverse-proxy traps: headers and HSTS lock-in, file denial, caching, limits, TLS policy |
+| `docker-destructive-guardrails-pitfalls` | 6 (new 2026-10-16) | Guardrails for Docker destructive commands: prune family, rm -f scope, scoped alternatives |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
