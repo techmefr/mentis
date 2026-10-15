@@ -440,6 +440,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `search-index-sync-pitfalls` | 6 (new 2026-10-16) | Keeping an Elasticsearch or OpenSearch index in step from a framework: reindex triggers, consistency, zero-downtime reimport |
 | `redis-security-and-observability-pitfalls` | 6 (new 2026-10-16) | Redis hardening (auth, TLS, ACL, exposure) and monitoring signals |
 | `datastore-broker-alerting-signals` | 6 (new 2026-10-16) | Engine-specific alert signals with hold and severity for Redis, Elasticsearch, RabbitMQ and Kafka |
+| `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
+| `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
+| `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `regex-validation-pitfalls` | 6 (new 2026-10-16) | Regex as a validation gate: full-match, anchors per platform, ReDoS |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
