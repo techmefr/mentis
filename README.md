@@ -410,6 +410,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `terraform-ci-delivery-pitfalls` | 6 (new 2026-10-15) | Applying the reviewed plan file, policy gates, OIDC trust, concurrency and locks, drift detection |
 | `otel-collector-config-pitfalls` | 6 (new 2026-10-15) | OpenTelemetry Collector YAML traps: unwired components, memory_limiter, OTTL, exporter queues, removed components |
 | `telemetry-sampling-and-cardinality-pitfalls` | 6 (new 2026-10-15) | Sampling vs RED metrics, tail-sampling topology, cardinality, temporality |
+| `playwright-e2e-pitfalls` | 6 (new 2026-10-15) | Playwright E2E traps: role-first locators, web-first assertions, isolation and auth, CI config and lint |
+| `testing-library-query-pitfalls` | 6 (new 2026-10-15) | Testing Library queries, async and user-event traps, structure and lint |
+| `jest-vitest-assertion-pitfalls` | 6 (new 2026-10-15) | Jest and Vitest assertions that never run or prove nothing: async expect, focus and skip, snapshots, mocks |
+| `flaky-test-triage-pitfalls` | 6 (new 2026-10-15) | Flaky test classes, reproduction, retry meaning, quarantine lifecycle with owner and expiry |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
