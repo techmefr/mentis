@@ -418,6 +418,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `i18n-catalog-workflow-pitfalls` | 6 (new 2026-10-15) | Static extraction, CI health check, generated vs explicit IDs, BCP 47 fallback, pseudo-locale, translator QA |
 | `locale-negotiation-and-switcher-pitfalls` | 6 (new 2026-10-15) | Locale resolution order, root-only redirect, locale cookie, hreflang inputs, switcher markup, dates and time zones |
 | `webperf-measurement-and-budget-pitfalls` | 6 (new 2026-10-15) | Field vs lab evidence, p75, RUM with web-vitals, Lighthouse CI noise, size budgets |
+| `agent-mcp-trust-pitfalls` | 6 (new 2026-10-15) | Trust in an agent's MCP servers, proxies and tokens: confused deputy, token passthrough, tool poisoning, toxic flow |
+| `agent-sandbox-egress-pitfalls` | 6 (new 2026-10-15) | Agent code and shell isolation: dual filesystem and network isolation, egress allowlists, escalation paths |
+| `mcp-server-design-pitfalls` | 6 (new 2026-10-15) | MCP server tool contract: names, annotations, schemas, results and errors, exposure and drift |
+| `agent-hook-guard-pitfalls` | 6 (new 2026-10-15) | Guard hooks for coding agents: signalling, per-guard fail policy, overrides, matcher traps, replay testing |
+| `llm-eval-regression-pitfalls` | 6 (new 2026-10-15) | Measuring a prompt, skill or model change: baselines, assertions, judge biases, errors and retries |
 | `seo` | Technical SEO checklist for public pages (sourced from Google/web.dev) |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
