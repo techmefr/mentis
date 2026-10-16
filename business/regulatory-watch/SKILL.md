@@ -41,6 +41,9 @@ project enters a new country or sector; when someone says a deadline out loud; p
 4. **A statement with no source is flagged `[verify]`** and cannot be relied on
    (`skills/source-freshness` §1). "I believe the deadline is X" is a question for counsel, not an input
    to a plan.
+5. **How retrieving an official text goes wrong** (several dates in one act, consolidated versus original,
+   amendments, corrigenda, an unreachable source read as "not found"): read
+   [`references/05-retrieving-official-text.md`](./references/05-retrieving-official-text.md).
 
 ### 3. Date everything, and let it expire
 1. **Every regulatory statement carries the date it was verified**, and against which source.
@@ -90,3 +93,8 @@ Written **without internal legal expertise**. What's ours: putting jurisdiction 
 (a multi-country group has no single answer), the primary-source-or-`[verify]` rule, "unverified rather
 than wrong" past the window, and recording the alarms that didn't apply. The two examples are dated
 facts, verified 2026-08-06, and are examples of volatility rather than statements of what applies to us.
+
+`references/05-retrieving-official-text.md` (added 2026-10-16, 🟡 never dogfooded) draws its failure
+modes from the `prawo-pl-eli` and `emendrix` repositories (both MIT) and from one date read in
+Regulation (EU) 2024/2847 as published in the Official Journal; it flags which sentences are ours and
+that the texts read are original publications, not consolidated versions.

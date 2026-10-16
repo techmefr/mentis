@@ -32,6 +32,10 @@ it.
 4. **Collect the minimum.** "We might need it later" is not a purpose. Later, with a purpose, is when
    to add it.
 
+**To keep this field list as a versioned file next to the code** that feeds the DPO's record of
+processing activities, with a category on each field and a check in CI, read
+[`references/05-processing-record.md`](./references/05-processing-record.md).
+
 ### 2. Settle the questions an engineer can't answer alone
 Take these to the DPO/legal rather than guessing:
 - **On what basis are we allowed to hold this?** (consent, contract, legal obligation, legitimate
@@ -122,3 +126,7 @@ the DPO/legal team).
 anonymisation, consent, scheduled purges and log scrubbing — written by us, not sourced from CNIL or
 any external catalogue, and stated as illustrative rather than certified in its own opening
 paragraph and guardrails.
+`references/05-processing-record.md` (added 2026-10-16, 🟡 never dogfooded) restates GDPR Article 30
+as published in the Official Journal, read on EUR-Lex 2026-10-16 (not the consolidated text), and
+takes the field-annotation pattern from the `ethyca/fides` example files (Apache-2.0); the file says
+which sentences are ours.
