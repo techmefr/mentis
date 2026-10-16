@@ -288,6 +288,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | llm-eval-regression-pitfalls | 6 (new 2026-10-15) | agentskills docs (CC-BY-4.0, credited), inspect_ai (MIT), muratcankoylan advanced-evaluation (MIT) | 🟡 (never dogfooded) |
 | blameless-incident-review-pitfalls | 6 (new 2026-10-15) | PagerDuty incident-response-docs (Apache-2.0), adhorn IncidentReviewTemplate (MIT) | 🟡 (never dogfooded) |
 | internal-comms-async-pitfalls | 6 (new 2026-10-15) | GitHub Engineering communication guide (CC-BY-4.0, attributed), amatlack (CC-BY-4.0, README only), Clef handbook (CC0) | 🟡 (never dogfooded) |
+| decision-proposal-review-pitfalls | 6 (new 2026-10-16) | rust-lang/rfcs (MIT or Apache-2.0), kubernetes/enhancements (Apache-2.0), adr/madr (MIT or CC0) | 🟡 (never dogfooded) |
+| recurring-update-writing-pitfalls | 6 (new 2026-10-16) | anthropics/skills internal-comms (Apache-2.0), Pitchdrive, ir-kit, emotix, board-deck-builder (MIT) | 🟡 (never dogfooded) |
+| learning-mode-exercise-pitfalls | 6 (new 2026-10-16) | DrCatHicks learning-opportunities (CC-BY-4.0) | 🟡 (never dogfooded) |
+| training-objectives-and-formative-assessment-pitfalls | 6 (new 2026-10-16) | Carpentries instructor-training (CC-BY-4.0), idstack (MIT) | 🟡 (never dogfooded) |
 | incident-comms-pitfalls | 6 (new 2026-10-15) | PagerDuty incident-response-docs (Apache-2.0), thefgxdev incident-response-runbook (Apache-2.0, young repo, attributed), durrello runbooks (MIT, cross-check only) | 🟡 (never dogfooded) |
 | customer-escalation-pitfalls | 6 (new 2026-10-15) | CSPulse customer-success-skills (MIT, young repo, idea source) | 🟡 (never dogfooded) |
 | troubleshooting-kb-article-pitfalls | 6 (new 2026-10-15) | samber developer-relations-skills (MIT) | 🟡 (never dogfooded) |

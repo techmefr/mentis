@@ -425,6 +425,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `llm-eval-regression-pitfalls` | 6 (new 2026-10-15) | Measuring a prompt, skill or model change: baselines, assertions, judge biases, errors and retries |
 | `blameless-incident-review-pitfalls` | 6 (new 2026-10-15) | Blameless incident reviews: contributing factors over one root cause, no counterfactuals, evidenced timelines, scoped action items |
 | `internal-comms-async-pitfalls` | 6 (new 2026-10-15) | Async team communication: channel by purpose, decisions in writing, message and meeting hygiene |
+| `decision-proposal-review-pitfalls` | 6 (new 2026-10-16) | Writing and reviewing decision proposals: RFC, KEP and ADR shapes |
+| `recurring-update-writing-pitfalls` | 6 (new 2026-10-16) | Recurring internal and investor updates: structure, honesty, cadence |
+| `learning-mode-exercise-pitfalls` | 6 (new 2026-10-16) | Opt-in learning mode: short exercises after the work, without nagging |
+| `training-objectives-and-formative-assessment-pitfalls` | 6 (new 2026-10-16) | Training objectives and formative assessment for instructors |
 | `incident-comms-pitfalls` | 6 (new 2026-10-15) | Customer-facing communication while an incident runs: criteria, first message, cadence, wording, roles |
 | `customer-escalation-pitfalls` | 6 (new 2026-10-15) | Handling an escalated customer problem: first response, executive brief, repair step, internal ask |
 | `troubleshooting-kb-article-pitfalls` | 6 (new 2026-10-15) | Writing troubleshooting and error-reference pages from clustered evidence |
