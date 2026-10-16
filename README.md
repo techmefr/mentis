@@ -464,6 +464,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `contract-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a contract before signature: completeness, our side, quoted findings, triage against a playbook. Not legal advice |
+| `dpa-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a data processing agreement against GDPR Article 28 with a signing gate. Not legal advice |
+| `nda-triage-pitfalls` | 6 (new 2026-10-16) | Routing an NDA to standard approval, counsel review or full legal review. Not legal advice |
+| `oss-compliance-programme` | 6 (new 2026-10-16) | A standing open-source compliance programme: roles, decision log, component list, intake, training |
 | `ledger-pending-and-batch-ordering-pitfalls` | 6 (new 2026-10-16) | Ledger pending transfers, order-dependent batches, event versus recording time |
 | `journal-entry-review-pitfalls` | 6 (new 2026-10-16) | Reviewing manual journal entries: what each carries, approvals, recurring errors |
 | `financial-model-integrity-checks-pitfalls` | 6 (new 2026-10-16) | Arithmetic integrity checks on a financial model: formula scan, period identities, circularity |
