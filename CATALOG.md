@@ -317,6 +317,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | metric-movement-diagnosis-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded, young source) |
 | premortem-review-pitfalls | 6 (new 2026-10-16) | kharmanskyi open-steps (MIT), phuryn pm-skills (MIT) | 🟡 (never dogfooded, young sources) |
 | assumption-validation-pitfalls | 6 (new 2026-10-16) | shinpr claude-code-discover (MIT) | 🟡 (never dogfooded, young source) |
+| okr-scoring-pitfalls | 6 (new 2026-10-16) | product-on-purpose pm-skills measure-okr-grader (Apache-2.0) | 🟡 (never dogfooded) |
+| ai-feature-acceptance-pitfalls | 6 (new 2026-10-16) | TayaIntelligence prd-review (MIT) | 🟡 (never dogfooded) |
+| frontend-ux-antipattern-review-pitfalls | 6 (new 2026-10-16) | cassiozen UX-antipatterns (MIT) | 🟡 (never dogfooded) |
+| chart-choice-pitfalls | 6 (new 2026-10-16) | cxli233 FriendsDontLetFriends (MIT), plugin87 data-dashboard (MIT) | 🟡 (never dogfooded) |
+| event-tracking-plan-pitfalls | 6 (new 2026-10-16) | jtrackingai analytics-tracking-automation (Apache-2.0), product-on-purpose measure-instrumentation-spec (Apache-2.0) | 🟡 (never dogfooded) |
+| funnel-and-cohort-definition-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded) |
 | skill-trigger-eval-pitfalls | 6 (new 2026-10-16) | agentskills docs (CC-BY-4.0, credited), skill-validator (MIT) | 🟡 (never dogfooded) |
 | agent-run-limits-and-guardrail-pitfalls | 6 (new 2026-10-16) | inspect_ai docs (MIT), openai-agents-python docs (MIT) | 🟡 (never dogfooded) |
 | multi-agent-design-pitfalls | 6 (new 2026-10-16) | inspect_ai (MIT), openai-agents-python (MIT), muratcankoylan multi-agent-patterns (MIT, figures dropped), cc-safe-setup failure-modes doc (MIT, promotional, taxonomy only) | 🟡 (never dogfooded) |

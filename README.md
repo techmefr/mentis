@@ -454,6 +454,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `metric-movement-diagnosis-pitfalls` | 6 (new 2026-10-16) | Explaining a metric move or two disagreeing numbers: confirm, decompose, test hypotheses, reconcile |
 | `premortem-review-pitfalls` | 6 (new 2026-10-16) | Stress-testing a hard-to-undo decision with an independent attacker, risk cards and a red-team |
 | `assumption-validation-pitfalls` | 6 (new 2026-10-16) | Discovery-stage testing of assumptions: criteria and budget first, smallest disconfirming test |
+| `okr-scoring-pitfalls` | 6 (new 2026-10-16) | Scoring OKRs honestly: objective types, no retroactive edits, guardrails, evidence confidence |
+| `ai-feature-acceptance-pitfalls` | 6 (new 2026-10-16) | Acceptance bar for model-driven features: eval set as spec, imbalance, error-cost asymmetry, thresholds |
+| `frontend-ux-antipattern-review-pitfalls` | 6 (new 2026-10-16) | Reviewing UI state and recovery defects: feedback, errors, input handling, focus, wizards |
+| `chart-choice-pitfalls` | 6 (new 2026-10-16) | Chart choice and encoding: distributions, baselines, colour scales, heatmaps, pies |
+| `event-tracking-plan-pitfalls` | 6 (new 2026-10-16) | Analytics event plans: naming, auto-collected events, selectors, verification |
+| `funnel-and-cohort-definition-pitfalls` | 6 (new 2026-10-16) | Funnel and cohort definitions that can be compared: steps, windows, denominators, immature cohorts |
 | `skill-trigger-eval-pitfalls` | 6 (new 2026-10-16) | Skill trigger evals: should-trigger and near-miss queries, repeated runs, train/validation optimisation, description limit |
 | `agent-run-limits-and-guardrail-pitfalls` | 6 (new 2026-10-16) | Run limits and guardrail boundaries for agent loops: limit kinds, guardrail placement, approvals, trace redaction |
 | `multi-agent-design-pitfalls` | 6 (new 2026-10-16) | Multi-agent design: baseline first, tool vs handoff, filters vs redaction, consensus, delegated-agent failure modes |
