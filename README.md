@@ -452,6 +452,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `search-index-sync-pitfalls` | 6 (new 2026-10-16) | Keeping an Elasticsearch or OpenSearch index in step from a framework: reindex triggers, consistency, zero-downtime reimport |
 | `redis-security-and-observability-pitfalls` | 6 (new 2026-10-16) | Redis hardening (auth, TLS, ACL, exposure) and monitoring signals |
 | `datastore-broker-alerting-signals` | 6 (new 2026-10-16) | Engine-specific alert signals with hold and severity for Redis, Elasticsearch, RabbitMQ and Kafka |
+| `queue-worker-runtime-pitfalls` | 6 (new 2026-10-16) | BullMQ and Graphile Worker runtime traps: connections, job ids, shutdown, stalled jobs, lock windows |
+| `search-engine-index-settings-pitfalls` | 6 (new 2026-10-16) | Meilisearch and Redis Search indexing: settings that force a reindex, keys, rebuild behind an alias, query dialects |
+| `release-changelog-pitfalls` | 6 (new 2026-10-16) | release-please mechanics, Keep a Changelog 2.0.0 differences, build provenance attestations |
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |

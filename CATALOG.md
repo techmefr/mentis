@@ -315,6 +315,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | search-index-sync-pitfalls | 6 (new 2026-10-16) | ankane/searchkick (MIT), matchish/laravel-scout-elasticsearch (MIT) | 🟡 (never dogfooded) |
 | redis-security-and-observability-pitfalls | 6 (new 2026-10-16) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
 | datastore-broker-alerting-signals | 6 (new 2026-10-16) | samber/awesome-prometheus-alerts (CC BY 4.0, credit and changes in origin) | 🟡 (never dogfooded) |
+| queue-worker-runtime-pitfalls | 6 (new 2026-10-16) | BullMQ docs (MIT), Graphile Worker docs (MIT) | 🟡 (never dogfooded) |
+| search-engine-index-settings-pitfalls | 6 (new 2026-10-16) | meilisearch documentation (MIT), redis agent-skills redis-search (MIT) | 🟡 (never dogfooded) |
+| release-changelog-pitfalls | 6 (new 2026-10-16) | release-please (Apache-2.0), Keep a Changelog 2.0.0 (MIT), attest-build-provenance (MIT) | 🟡 (never dogfooded) |
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
