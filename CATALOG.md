@@ -327,6 +327,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| ledger-pending-and-batch-ordering-pitfalls | 6 (new 2026-10-16) | TigerBeetle docs (Apache-2.0), pgledger (MIT) | 🟡 (never dogfooded) |
+| journal-entry-review-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
+| financial-model-integrity-checks-pitfalls | 6 (new 2026-10-16) | anthropics financial-services (Apache-2.0) | 🟡 (never dogfooded) |
+| vendor-claims-and-scoring-pitfalls | 6 (new 2026-10-16) | procurement-skills (MIT), buyer-eval-skill (MIT) | 🟡 (never dogfooded) |
+| variance-analysis-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
+| month-end-close-sequencing-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
 | unknown-payment-outcome-pitfalls | 6 (new 2026-10-16) | payments-platform (Apache-2.0), TigerBeetle docs (Apache-2.0) | 🟡 (never dogfooded) |
 | money-arithmetic-and-rounding-pitfalls | 6 (new 2026-10-16) | payments-platform (Apache-2.0), TigerBeetle docs (Apache-2.0), pgledger (MIT), ISO 4217 list one (SIX) | 🟡 (never dogfooded) |
 | gl-subledger-reconciliation-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), anthropics financial-services (Apache-2.0), pgledger (MIT) | 🟡 (never dogfooded) |
