@@ -327,6 +327,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| saas-metric-definition-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded) |
+| data-contract-quality-rules-pitfalls | 6 (new 2026-10-16) | bitol Open Data Contract Standard v3.2.0 docs (Apache-2.0) | 🟡 (never dogfooded) |
+| semantic-layer-metric-pitfalls | 6 (new 2026-10-16) | dbt-labs dbt-agent-skills (Apache-2.0), dbt Core 1.12 | 🟡 (never dogfooded) |
+| api-change-classification-pitfalls | 6 (new 2026-10-16) | Google AIP 180 and 185 (CC-BY-4.0, attributed), Microsoft api-guidelines (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| prose-lint-gate-pitfalls | 6 (new 2026-10-16) | elastic vale-rules (Apache-2.0), grafana writers-toolkit (Apache-2.0), errata-ai packages (MIT), get-alex alex (MIT) | 🟡 (never dogfooded) |
+| customer-email-review-pitfalls | 6 (new 2026-10-16) | CSPulse customer-success-skills email-critic (MIT) | 🟡 (never dogfooded) |
 | webauthn-passkey-pitfalls | 6 (new 2026-10-16) | Copenhagen Book webauthn (MIT), SimpleWebAuthn (MIT) | 🟡 (never dogfooded) |
 | visual-snapshot-pitfalls | 6 (new 2026-10-16) | Playwright docs (Apache-2.0), jest-image-snapshot (Apache-2.0), goldbergyoni nodejs-testing-best-practices (MIT) | 🟡 (never dogfooded) |
 | testcontainers-node-pitfalls | 6 (new 2026-10-16) | testcontainers-node docs (MIT) | 🟡 (never dogfooded) |
