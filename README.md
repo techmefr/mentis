@@ -464,6 +464,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `flask-pitfalls` | 6 (new 2026-10-16) | Flask traps: async views, contexts across workers, debug mode, limits, proxy headers |
+| `vue-router-pitfalls` | 6 (new 2026-10-16) | Vue Router traps: params with path, navigation failures, guards, reused components, history fallback |
+| `vue-test-utils-pitfalls` | 6 (new 2026-10-16) | Vue Test Utils traps: awaiting updates, Suspense, stubs, teleport, fake timers |
+| `ofetch-client-pitfalls` | 6 (new 2026-10-16) | ofetch traps: retries on writes, timeouts, error data, interceptors, create defaults |
+| `react-jsx-and-promise-lint-pitfalls` | 6 (new 2026-10-16) | JSX and promise lint rules that catch real defects, and typed linting |
 | `saas-metric-definition-pitfalls` | 6 (new 2026-10-16) | Defining MRR, ARR, churn, NRR, GRR, LTV, CAC and active users before quoting them |
 | `data-contract-quality-rules-pitfalls` | 6 (new 2026-10-16) | Open Data Contract Standard 3.2.0 quality rules, SLA properties and status lifecycle |
 | `semantic-layer-metric-pitfalls` | 6 (new 2026-10-16) | dbt Core 1.12 semantic layer: spec versions, parse before validate, entities and dimensions |
