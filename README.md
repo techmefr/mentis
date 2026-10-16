@@ -464,6 +464,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `ledger-pending-and-batch-ordering-pitfalls` | 6 (new 2026-10-16) | Ledger pending transfers, order-dependent batches, event versus recording time |
+| `journal-entry-review-pitfalls` | 6 (new 2026-10-16) | Reviewing manual journal entries: what each carries, approvals, recurring errors |
+| `financial-model-integrity-checks-pitfalls` | 6 (new 2026-10-16) | Arithmetic integrity checks on a financial model: formula scan, period identities, circularity |
+| `vendor-claims-and-scoring-pitfalls` | 6 (new 2026-10-16) | Scoring vendors: gates, weights first, evidence types, claim statuses, challenge pass |
+| `variance-analysis-pitfalls` | 6 (new 2026-10-16) | Variance analysis: volume and price split, bridges, narrative anti-patterns, forecast bias |
+| `month-end-close-sequencing-pitfalls` | 6 (new 2026-10-16) | Month-end close as a dependency graph, soft and hard close, plus cash forecast pitfalls |
 | `unknown-payment-outcome-pitfalls` | 6 (new 2026-10-16) | A payment timeout is unknown, not failed: attempt records, idempotency, resolution by evidence |
 | `money-arithmetic-and-rounding-pitfalls` | 6 (new 2026-10-16) | Money as integer minor units, ISO 4217 exponents, largest-remainder splits, named rounding policy |
 | `gl-subledger-reconciliation-pitfalls` | 6 (new 2026-10-16) | Reconciling ledger to subledger: keys, cut-off, break buckets, aged items, role separation |
