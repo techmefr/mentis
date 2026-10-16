@@ -296,6 +296,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | customer-escalation-pitfalls | 6 (new 2026-10-15) | CSPulse customer-success-skills (MIT, young repo, idea source) | 🟡 (never dogfooded) |
 | troubleshooting-kb-article-pitfalls | 6 (new 2026-10-15) | samber developer-relations-skills (MIT) | 🟡 (never dogfooded) |
 | release-notes-writing-pitfalls | 6 (new 2026-10-15) | samber developer-relations-skills (MIT), keep-a-changelog (MIT) | 🟡 (never dogfooded) |
+| support-queue-design-pitfalls | 6 (new 2026-10-16) | samber developer-relations-skills (MIT), github/docs (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| security-advisory-comms-pitfalls | 6 (new 2026-10-16) | ossf oss-vulnerability-guide (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| security-questionnaire-answer-pitfalls | 6 (new 2026-10-16) | plainanswer security-questionnaire-answers (CC0, idea source), hangljoe AI-PreSales-Skills (MIT) | 🟡 (never dogfooded) |
+| deprecation-notice-pitfalls | 6 (new 2026-10-16) | zalando restful-api-guidelines, microsoft api-guidelines, kubernetes website (all CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
 | community-moderation-ladder-pitfalls | 6 (new 2026-10-15) | opensource.guide code of conduct (CC-BY-4.0, attributed), GitHub appeal and reinstatement policy (CC0), Kubernetes community moderation (Apache-2.0), social-media-skills (MIT, young repo) | 🟡 (never dogfooded) |
 | marketing-claim-substantiation-pitfalls | 6 (new 2026-10-15) | pmalliance claim-check, ContentForge fact-checker and claim-library spec, chrisrodde audit mode (all MIT, young repos) | 🟡 (never dogfooded) |
 | messaging-audit-pitfalls | 6 (new 2026-10-15) | chrisrodde positioning-and-messaging, pmalliance message-consistency-check (MIT, young repos) | 🟡 (never dogfooded, second human read advised) |
