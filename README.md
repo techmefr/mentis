@@ -464,6 +464,10 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `unknown-payment-outcome-pitfalls` | 6 (new 2026-10-16) | A payment timeout is unknown, not failed: attempt records, idempotency, resolution by evidence |
+| `money-arithmetic-and-rounding-pitfalls` | 6 (new 2026-10-16) | Money as integer minor units, ISO 4217 exponents, largest-remainder splits, named rounding policy |
+| `gl-subledger-reconciliation-pitfalls` | 6 (new 2026-10-16) | Reconciling ledger to subledger: keys, cut-off, break buckets, aged items, role separation |
+| `accounts-payable-duplicate-and-match-pitfalls` | 6 (new 2026-10-16) | Accounts payable: duplicate detection, three-way match wording, credits, approval gates, bank-detail changes |
 | `flask-pitfalls` | 6 (new 2026-10-16) | Flask traps: async views, contexts across workers, debug mode, limits, proxy headers |
 | `vue-router-pitfalls` | 6 (new 2026-10-16) | Vue Router traps: params with path, navigation failures, guards, reused components, history fallback |
 | `vue-test-utils-pitfalls` | 6 (new 2026-10-16) | Vue Test Utils traps: awaiting updates, Suspense, stubs, teleport, fake timers |
