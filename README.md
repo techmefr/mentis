@@ -464,6 +464,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `saas-metric-definition-pitfalls` | 6 (new 2026-10-16) | Defining MRR, ARR, churn, NRR, GRR, LTV, CAC and active users before quoting them |
+| `data-contract-quality-rules-pitfalls` | 6 (new 2026-10-16) | Open Data Contract Standard 3.2.0 quality rules, SLA properties and status lifecycle |
+| `semantic-layer-metric-pitfalls` | 6 (new 2026-10-16) | dbt Core 1.12 semantic layer: spec versions, parse before validate, entities and dimensions |
+| `api-change-classification-pitfalls` | 6 (new 2026-10-16) | Whether an API change is breaking: source, wire and semantic compatibility |
+| `prose-lint-gate-pitfalls` | 6 (new 2026-10-16) | Prose linting as a gate: severities, overrides, scoped disables, planted-violation tests |
+| `customer-email-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a customer email draft against its source: accuracy, the ask, bad news, chasers |
 | `webauthn-passkey-pitfalls` | 6 (new 2026-10-16) | Server-side WebAuthn: challenges, origin and RP ID checks, second-factor credentials, counters |
 | `visual-snapshot-pitfalls` | 6 (new 2026-10-16) | Screenshot and snapshot baselines: environment, thresholds, masking, updates |
 | `testcontainers-node-pitfalls` | 6 (new 2026-10-16) | Testcontainers for Node: mapped ports, wait strategies, cleanup, reuse, rootless runtimes |
