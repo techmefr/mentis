@@ -327,6 +327,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| php-architecture-test-pitfalls | 6 (new 2026-10-16) | deptrac (MIT), phpat (MIT) | 🟡 (never dogfooded) |
+| doctrine-migrations-pitfalls | 6 (new 2026-10-16) | doctrine/migrations (MIT) | 🟡 (never dogfooded) |
+| laravel-mysql-to-postgres-pitfalls | 6 (new 2026-10-16) | majdghithan agent-skills (MIT) | 🟡 (never dogfooded) |
+| mobile-crash-symbolication-pitfalls | 6 (new 2026-10-16) | majdghithan agent-skills (MIT) | 🟡 (never dogfooded) |
+| laravel-blade-view-pitfalls | 6 (new 2026-10-16) | laravel/boost (MIT) | 🟡 (never dogfooded) |
+| laravel-feature-test-pitfalls | 6 (new 2026-10-16) | laravel/boost (MIT), dotnet/skills (MIT) | 🟡 (never dogfooded) |
 | regex-validation-pitfalls | 6 (new 2026-10-16) | OpenSSF Best Practices WG regex guide (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
 | helm-chart-pitfalls | 6 (new 2026-10-16) | helm/helm-www (MIT) | 🟡 (never dogfooded) |
 | kubernetes-access-and-exposure-pitfalls | 6 (new 2026-10-16) | Kubernetes docs (CC-BY-4.0, attributed), network-policy-recipes (Apache-2.0), kube-linter (Apache-2.0) | 🟡 (never dogfooded) |
