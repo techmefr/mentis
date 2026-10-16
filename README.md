@@ -464,6 +464,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `php-architecture-test-pitfalls` | 6 (new 2026-10-16) | Deptrac and PHPat layering tests: default-deny rulesets, baselines, registered tests |
+| `doctrine-migrations-pitfalls` | 6 (new 2026-10-16) | doctrine/migrations traps: implicit DDL commits, diff dropping tables, dry run, version names |
+| `laravel-mysql-to-postgres-pitfalls` | 6 (new 2026-10-16) | Moving a Laravel app from MySQL to Postgres: sequences, ILIKE, booleans, strict GROUP BY |
+| `mobile-crash-symbolication-pitfalls` | 6 (new 2026-10-16) | Symbolicating iOS and Android crash reports: UUID matching, address arithmetic, stop rules |
+| `laravel-blade-view-pitfalls` | 6 (new 2026-10-16) | Blade views: attribute merging, stacks, escaping in context, CSRF, date casts |
+| `laravel-feature-test-pitfalls` | 6 (new 2026-10-16) | PHPUnit HTTP tests: endpoint cases, tenant 404 vs 403, permission matrix, fakes |
 | `regex-validation-pitfalls` | 6 (new 2026-10-16) | Regex as a validation gate: full-match, anchors per platform, ReDoS |
 | `helm-chart-pitfalls` | 6 (new 2026-10-16) | Helm chart authoring traps: names, namespace in templates, values layout and types, selectors |
 | `kubernetes-access-and-exposure-pitfalls` | 6 (new 2026-10-16) | RBAC escalation paths, who can read Secrets, Pod Security Standards, NetworkPolicy deny-all |
