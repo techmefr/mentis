@@ -295,6 +295,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | community-moderation-ladder-pitfalls | 6 (new 2026-10-15) | opensource.guide code of conduct (CC-BY-4.0, attributed), GitHub appeal and reinstatement policy (CC0), Kubernetes community moderation (Apache-2.0), social-media-skills (MIT, young repo) | 🟡 (never dogfooded) |
 | marketing-claim-substantiation-pitfalls | 6 (new 2026-10-15) | pmalliance claim-check, ContentForge fact-checker and claim-library spec, chrisrodde audit mode (all MIT, young repos) | 🟡 (never dogfooded) |
 | messaging-audit-pitfalls | 6 (new 2026-10-15) | chrisrodde positioning-and-messaging, pmalliance message-consistency-check (MIT, young repos) | 🟡 (never dogfooded, second human read advised) |
+| image-alt-text-writing-pitfalls | 6 (new 2026-10-16) | a11yproject (Apache-2.0), Microsoft style guide (CC-BY-4.0) | 🟡 (never dogfooded) |
+| social-publish-approval-gate-pitfalls | 6 (new 2026-10-16) | samalyxx socialbu-social-media-skills (MIT), social-media-skills (MIT) | 🟡 (never dogfooded) |
+| ai-content-disclosure-and-provenance-pitfalls | 6 (new 2026-10-16) | c2pa-org specifications UX recommendations (CC-BY-4.0), contentforge (MIT) | 🟡 (never dogfooded) |
+| community-and-social-metrics-pitfalls | 6 (new 2026-10-16) | opensource.guide (CC-BY-4.0), CHAOSS (MIT), social-media-skills (MIT), TeachingTrustSafety (CC0) | 🟡 (never dogfooded) |
 | prometheus-rules-and-promql-pitfalls | 6 (new 2026-10-16) | Prometheus docs practices pages (Apache-2.0), cloudflare/pint checks (Apache-2.0) | 🟡 (never dogfooded) |
 | telemetry-sensitive-data-pitfalls | 6 (new 2026-10-16) | Dash0 agent-skills sensitive-data rule, o11y-dev OpenTelemetry skill anti-patterns (Apache-2.0) | 🟡 (never dogfooded) |
 | terraform-hcl-authoring-pitfalls | 6 (new 2026-10-16) | Terramate agent-skills (MIT), terraform-skill (Apache-2.0) | 🟡 (never dogfooded) |
