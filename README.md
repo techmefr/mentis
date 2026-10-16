@@ -455,6 +455,12 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `queue-worker-runtime-pitfalls` | 6 (new 2026-10-16) | BullMQ and Graphile Worker runtime traps: connections, job ids, shutdown, stalled jobs, lock windows |
 | `search-engine-index-settings-pitfalls` | 6 (new 2026-10-16) | Meilisearch and Redis Search indexing: settings that force a reindex, keys, rebuild behind an alias, query dialects |
 | `release-changelog-pitfalls` | 6 (new 2026-10-16) | release-please mechanics, Keep a Changelog 2.0.0 differences, build provenance attestations |
+| `dotnet-msbuild-and-nuget-publish-pitfalls` | 6 (new 2026-10-16) | MSBuild project-file smells, duplicate project instances, IL warnings, NuGet trusted publishing |
+| `dotnet-testcontainers-and-time-seam-pitfalls` | 6 (new 2026-10-16) | Testcontainers rules and TimeProvider seams for .NET tests |
+| `java-upgrade-and-maven-audit-pitfalls` | 6 (new 2026-10-16) | JDK, Spring Boot and Hibernate upgrade path, Maven dependency audit |
+| `kotlin-android-data-flow-and-api-pitfalls` | 6 (new 2026-10-16) | Offline-first data flow, sealed UI state, Kotlin API ownership and multiplatform boundaries |
+| `flutter-monetization-pitfalls` | 6 (new 2026-10-16) | Ads and in-app purchase flow: rewarded outcomes, caps, entitlement gate, release gate |
+| `dart-pub-workspace-and-publish-pitfalls` | 6 (new 2026-10-16) | Dart pub workspaces with Melos, tag-triggered publishing, retraction and advisories |
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |

@@ -318,6 +318,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | queue-worker-runtime-pitfalls | 6 (new 2026-10-16) | BullMQ docs (MIT), Graphile Worker docs (MIT) | 🟡 (never dogfooded) |
 | search-engine-index-settings-pitfalls | 6 (new 2026-10-16) | meilisearch documentation (MIT), redis agent-skills redis-search (MIT) | 🟡 (never dogfooded) |
 | release-changelog-pitfalls | 6 (new 2026-10-16) | release-please (Apache-2.0), Keep a Changelog 2.0.0 (MIT), attest-build-provenance (MIT) | 🟡 (never dogfooded) |
+| dotnet-msbuild-and-nuget-publish-pitfalls | 6 (new 2026-10-16) | dotnet/skills (MIT) | 🟡 (never dogfooded) |
+| dotnet-testcontainers-and-time-seam-pitfalls | 6 (new 2026-10-16) | dotnet/skills (MIT), testcontainers-dotnet docs (MIT) | 🟡 (never dogfooded) |
+| java-upgrade-and-maven-audit-pitfalls | 6 (new 2026-10-16) | decebals/claude-code-java (MIT) | 🟡 (never dogfooded) |
+| kotlin-android-data-flow-and-api-pitfalls | 6 (new 2026-10-16) | android/nowinandroid (Apache-2.0), chrisbanes/skills (Apache-2.0) | 🟡 (never dogfooded) |
+| flutter-monetization-pitfalls | 6 (new 2026-10-16) | zakariaf/Flutter-Skills (MIT) | 🟡 (never dogfooded) |
+| dart-pub-workspace-and-publish-pitfalls | 6 (new 2026-10-16) | dart-lang/site-www (CC-BY-4.0 prose, BSD-3 code), melos (Apache-2.0) | 🟡 (never dogfooded) |
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
