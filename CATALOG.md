@@ -327,6 +327,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| dsar-handling-pitfalls | 6 (new 2026-10-16) | GDPR Article 12 (EUR-Lex, original OJ text), inthhq dsar (Apache-2.0) | 🟡 (never dogfooded) |
+| cra-exploited-vulnerability-clock | 6 (new 2026-10-16) | Regulation (EU) 2024/2847 Articles 14 and 71 (EUR-Lex, original OJ text), crawatch (MIT) | 🟡 (never dogfooded) |
 | contract-review-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), evolsb claude-legal-skill (MIT) | 🟡 (never dogfooded) |
 | dpa-review-pitfalls | 6 (new 2026-10-16) | The-Data-Galaxy dpa-review-skill (Apache-2.0), anthropics knowledge-work-plugins (Apache-2.0), GDPR Article 28 (EUR-Lex, original OJ text) | 🟡 (never dogfooded) |
 | nda-triage-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), evolsb claude-legal-skill (MIT) | 🟡 (never dogfooded) |

@@ -464,6 +464,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `dsar-handling-pitfalls` | 6 (new 2026-10-16) | Handling data subject access requests: the clock, case record, package delivery. Not legal advice |
+| `cra-exploited-vulnerability-clock` | 6 (new 2026-10-16) | Cyber Resilience Act reporting clock for exploited vulnerabilities, scope to be confirmed by counsel. Not legal advice |
 | `contract-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a contract before signature: completeness, our side, quoted findings, triage against a playbook. Not legal advice |
 | `dpa-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a data processing agreement against GDPR Article 28 with a signing gate. Not legal advice |
 | `nda-triage-pitfalls` | 6 (new 2026-10-16) | Routing an NDA to standard approval, counsel review or full legal review. Not legal advice |
