@@ -327,6 +327,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| flask-pitfalls | 6 (new 2026-10-16) | pallets/flask docs (BSD-3-Clause) | 🟡 (never dogfooded) |
+| vue-router-pitfalls | 6 (new 2026-10-16) | vuejs/router docs (MIT) | 🟡 (never dogfooded) |
+| vue-test-utils-pitfalls | 6 (new 2026-10-16) | vuejs/test-utils docs (MIT) | 🟡 (never dogfooded) |
+| ofetch-client-pitfalls | 6 (new 2026-10-16) | unjs/ofetch README (MIT, v2 alpha) | 🟡 (never dogfooded) |
+| react-jsx-and-promise-lint-pitfalls | 6 (new 2026-10-16) | eslint-plugin-react (MIT), typescript-eslint (MIT) | 🟡 (never dogfooded) |
 | saas-metric-definition-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded) |
 | data-contract-quality-rules-pitfalls | 6 (new 2026-10-16) | bitol Open Data Contract Standard v3.2.0 docs (Apache-2.0) | 🟡 (never dogfooded) |
 | semantic-layer-metric-pitfalls | 6 (new 2026-10-16) | dbt-labs dbt-agent-skills (Apache-2.0), dbt Core 1.12 | 🟡 (never dogfooded) |
