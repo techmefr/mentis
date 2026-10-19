@@ -696,7 +696,7 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 50,940 | −28,885 | x1.57 |
 | csharp | 37 / 56,718 | 1 / 34,538 | −22,180 | x1.64 |
 | design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 23,347 | +2,575 | x0.89 |
+| flutter | 40 / 20,772 | 1 / 23,422 | +2,650 | x0.89 |
 | nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
 | project-management | 10 / 14,536 | 2 / 15,426 | +890 | x0.94 |
@@ -729,7 +729,7 @@ remembered — the defect that produced two unreproducible rows before this scri
 laravel: laravel-conventions 36,600, php-patterns 7,175, inertia-conventions 7,165
 csharp: dotnet-conventions 34,538
 python: python-conventions 19,061, data-pipeline-conventions 5,536
-flutter: flutter-conventions 23,347
+flutter: flutter-conventions 23,422
 nuxt: vue-nuxt-vuetify-conventions 25,392
 global: code-baseline 10,384, security-hardening 9,912, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 9,378, spec 6,048

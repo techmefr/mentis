@@ -122,3 +122,9 @@ itself.
     screen that requested it is gone, because nothing about disposing a widget signals the separate isolate
     to stop; a long-running background computation needs its own explicit kill switch stored and called from
     `dispose`, not an assumption that leaving the screen ends it.
+30. **No analyser rule flags a `State` field that is never disposed.** Dogfooded 2026-10-19: a state with an
+    undisposed `TextEditingController` and `ChangeNotifier` produced no diagnostic under `flutter_lints` plus
+    every disposal-related rule available (`cancel_subscriptions`, `close_sinks`); the only warning was
+    `unused_field`, on a field nothing read. Disposal of controllers and notifiers is therefore a review and
+    test obligation, not something a green analyser has already checked — walk every field created in the
+    state against its `dispose`.
