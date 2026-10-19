@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-361-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-370-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
-  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-32-6e7781?style=flat-square">
+  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-33-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
   <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20663%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
@@ -31,9 +31,9 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **361** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **370** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
-| 💼 **Business blocks** — the company's other functions | **32** | 🟡 by contract, they never gate ([why](./business/README.md)) |
+| 💼 **Business blocks** — the company's other functions | **33** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
 | 🧪 **`bin/`** — review transports + repo self-checks | **13 suites** | 🟢 run on every push (`bin/pre-push`) |
 
@@ -637,7 +637,7 @@ dev core's claims being diluted by association. Each one states in its `Origin` 
 without internal expertise in that function.
 
 <details>
-<summary><b>The 24 business blocks</b>, by function</summary>
+<summary><b>The 33 business blocks</b>, by function</summary>
 
 | Block | Function | What it does |
 |---|---|---|
@@ -666,6 +666,14 @@ without internal expertise in that function.
 | `learning-development` | 👥 people | A real skills gap, a baseline before measuring impact, outcomes tied to something checkable |
 | `vendor-management` | 🤝 ops | Security and compliance review before signing a SaaS/vendor contract, and renewal tracking |
 | `sustainability-esg` | 🌱 ops | Materiality and evidence behind a sustainability claim, so it does not become greenwashing |
+| `ai-content-disclosure-and-provenance-pitfalls` | 🗣️ communication | Labelling AI-assisted content truthfully and keeping provenance data through upload and export |
+| `community-and-social-metrics-pitfalls` | 📊 data | Community and social numbers read in order, with their filters, severity and missing-versus-zero handling |
+| `community-moderation-ladder-pitfalls` | 🗣️ communication | The procedure after a report: private route, reporter protection, warning-to-ban ladder, appeal |
+| `evidence-appraisal` | 📊 data | Judging someone else's benchmark or study before a decision leans on it |
+| `image-alt-text-writing-pitfalls` | 🗣️ communication | Deciding whether an image needs alt text and writing it for its context |
+| `marketing-claim-substantiation-pitfalls` | 📣 marketing | Checking every disputable marketing claim against named proof before it ships |
+| `messaging-audit-pitfalls` | 📣 marketing | Auditing existing positioning and messaging before rewriting it |
+| `social-publish-approval-gate-pitfalls` | 🗣️ communication | What a social-post approval must show, bind and expire before an agent sends |
 
 </details>
 
@@ -1100,8 +1108,8 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 361 | 🟢 9 marked real production use; the rest 🟡 |
-| 💼 Business blocks | 32 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| 🧩 Skills | 370 | 🟢 9 marked real production use; the rest 🟡 |
+| 💼 Business blocks | 33 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
