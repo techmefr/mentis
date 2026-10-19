@@ -64,3 +64,9 @@ grep -rnE "new Date\(\)|Math\.random\(\)" src --include=*.html
 - Old idioms are findings on a project at the matching major and migration candidates on an older one.
 - `standalone: true` and an explicit `OnPush` are redundant from the major where they became the default
   (Angular 20 and 22 respectively); leave them in a project still on an earlier major.
+18. **Name an output for what happened, and keep an input name equal to its binding name.** An output named
+    after a native DOM event (`click`, `change`, `blur`) makes `(click)` ambiguous between the component and the
+    element, and an output starting with `on` yields the redundant `(onSave)`; use `saved`, `itemDeleted`. This
+    holds for the alias too, since the alias is the name the template sees. Renaming an input so the class and the
+    template disagree makes refactors and reading harder; the only legitimate aliases are the native-property
+    collision and the legacy-name cases of rule 3.
