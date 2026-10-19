@@ -106,3 +106,8 @@
     why an unused one is easy to leave behind and why the same fixture name defined at two directory levels
     silently shadows the outer one for tests below the inner file — worth knowing before assuming a fixture
     change is local to the file it was edited in.
+29. **A flat layout needs `pythonpath` declared, or `pytest` cannot import the package it tests.** With
+    `app/` and `tests/` side by side and nothing installed, collection fails with `ModuleNotFoundError: No
+    module named 'app'` while `mypy` and `ruff` pass, since they read files rather than import them. Either
+    adopt `src/` and install the project (§5.19), or state `pythonpath = ["."]` under
+    `[tool.pytest.ini_options]` — never fix it with a `sys.path` edit in `conftest.py`.

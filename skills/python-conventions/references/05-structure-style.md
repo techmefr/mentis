@@ -131,3 +131,8 @@
     another can silently pick up different packaging behaviour — stating `requires` and `build-backend`
     is the same "declared, not assumed" discipline point 14 asks of configuration values, applied to the
     build itself.
+33. **A call in a default value runs once, when the `def` or the class body executes, not per instance.**
+    `created_at: datetime = datetime.now(tz=UTC)` on a dataclass stamps every object with the moment the
+    module was imported, and a test comparing two instances never sees the difference. Mutable
+    default is the same mechanism; the fix for both is `field(default_factory=...)`, and ruff reports the call
+    form as RUF009 where mypy says nothing, so a project that only runs the type checker ships it.
