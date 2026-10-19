@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-352-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-353-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-32-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **352** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **353** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **32** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -199,6 +199,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `start-feature` | 0 | Starts a feature (worktree) |
 | `brainstorm` | 1 | Explores intent/need before any code |
 | `spec` | 2 | Frames the need as verifiable criteria |
+| `speckit` | 2 | Spec-kit cycle (constitution to implement); first choice when `.specify/` exists, `spec` otherwise |
 | `domain-modeling` | 3 | What is this concept, what's always true about it, where the rules live |
 | `archi` | 3 | Architecture decisions, before the plan |
 | `api-design` | 3 | Contract-first API design (Hyrum's law, extension vs breakage) |
@@ -1082,7 +1083,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 352 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 353 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 32 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |

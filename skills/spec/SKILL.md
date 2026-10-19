@@ -16,6 +16,9 @@ from. Downstream, §3's criteria are what `tdd` writes failing tests against.
 ## When
 After `brainstorm`, before `/PLAN`. Or as soon as the scope / acceptance criteria are unclear.
 
+**If the project is a spec-kit workspace (a `.specify/` directory) or the operator asked for it, use
+`skills/speckit` first**; this block then only covers what it leaves out (`speckit` reference 04).
+
 ## Steps
 
 **Read only the sections the step actually needs.** The rules live one file per section under

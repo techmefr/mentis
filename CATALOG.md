@@ -123,6 +123,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | start-feature | 0 (worktree) | a market worktree-management skill, rewritten | 🟡 (rewritten 2026-08-06: it called a local orchestrator's MCP tools directly, which broke rule B and made step 0 undistributable — plain git is now the default path, the orchestrator optional. Same correction in `using-mentis`, `plan`, `brainstorm`, `finish`) |
 | brainstorm | 1 | native `brainstorming` | 🟡 |
 | spec | 2 | a market skill catalogue (grill-with-docs) + internal; **sectioned and deepened 2026-09-08** — the block was 140 rules words, five numbered steps and nothing else, the thinnest in the repo, and became five sections under `references/` in the same order with a router table in `SKILL.md` (140 → 3,689 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `product-ownership`). Written as a procedure, it named the five deliverables and never said what makes each one *correct*: recording an answer in the words that were used rather than a paraphrase that hides the misunderstanding, "not decided" versus "not said", naming the fixture each criterion needs so `tdd` does not discover the case cannot be built, saying where a result is observable since that is what picks the test's tier, a definition stating what a term *excludes*, an exclusion that is really a dependency being labelled as one, and a deliberate *non*-decision earning an ADR because the absence is invisible in the code. The pass also settled which block owns acceptance criteria: `business/product-ownership` §4 owns what makes a business criterion valid, §3 here turns it into the technical contract and now points there instead of restating it; **widened again 2026-09-10**, a background pass over §5 ADR (a reversed decision gets a new ADR not an edited one, a disagreement between two teams gets one ADR not two, a framework-default restated is not a decision, a prototype's decisions do not survive into production by default, an ADR naming a person rather than a constraint) and §2 CONTEXT.md (a borrowed synonym checked not assumed, a range's boundary named explicitly, an entity's identity stated rather than implied, a role-dependent term split into two terms, a rule's exception kept in the same entry, units written on numbers) — sourced from public ADR and requirements-vocabulary practice, 3,689 → 5,109 words | 🟡 |
+| speckit | 2 (new 2026-10-19) | github/spec-kit (MIT) | 🟡 (never dogfooded) |
 | archi | 3 | internal graphify + a three-way dedup pass (name, shape, call site) with the negative result recorded | 🟡 (dedup mechanism written, not dogfooded yet) |
 | plan | 4 | a market skill catalogue (planning-and-task-breakdown) | 🟡 |
 | tdd | 5 | our own `test-casebook` + market long-running agent patterns (default-FAIL contract); the no-test-tampering sibling rule for the code step added 2026-08-11 | 🟡 |
@@ -694,7 +695,7 @@ closing this costs nothing that made this repo cheaper to load.
 | flutter | 40 / 20,772 | 1 / 23,318 | +2,546 | x0.89 |
 | nuxt | 21 / 19,869 | 1 / 25,052 | +5,183 | x0.79 |
 | python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
-| project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
+| project-management | 10 / 14,536 | 2 / 15,169 | +633 | x0.96 |
 | bi, design, xefi | 16 / 17,306 | 4 / 29,717 | +12,411 | x0.58 |
 | global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
 | react | 36 / 9,302 | 1 / 18,979 | +9,677 | x0.49 |
@@ -727,7 +728,7 @@ python: python-conventions 18,879, data-pipeline-conventions 5,468
 flutter: flutter-conventions 23,318
 nuxt: vue-nuxt-vuetify-conventions 25,052
 global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
-project-management: product-ownership 9,343, spec 5,795
+project-management: product-ownership 9,343, spec 5,826
 design-patterns: design-patterns 10,965
 react: react-nextjs-conventions 18,979
 bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,894

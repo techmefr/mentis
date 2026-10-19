@@ -9,7 +9,8 @@ Step 4 of the pipeline (`WORKFLOW.md`). Turn the target architecture into delive
 increments.
 
 ## When
-After `archi`, before `tdd`.
+After `archi`, before `tdd`. In a spec-kit workspace (`.specify/` present, or asked for), the breakdown
+is `skills/speckit`'s tasks step; use it first and keep this block for step 0 and the Review Focus.
 
 ## Steps
 0. **Documentation discovery, before anything is planned.** Find out what actually exists: read the
