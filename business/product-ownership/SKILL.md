@@ -31,7 +31,7 @@ a story is about to be picked up and it isn't clear what "done" means.
 
 **Read only the sections the task actually touches.** The rules live one file per section under
 `references/`; a request arriving is §1–§3, writing the story is §4 and §6, reviewing one is §7, breaking
-one down is §8. Loading all nine to answer one question is waste.
+one down is §8. Loading all ten to answer one question is waste.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -44,6 +44,7 @@ one down is §8. Loading all nine to answer one question is waste.
 | 7 | Reviewing a story | reviewing a story someone else wrote | [`07-reviewing-a-story.md`](./references/07-reviewing-a-story.md) |
 | 8 | Decomposition and estimation | a ready story is broken into tasks, or a number is attached to work | [`08-decomposition-estimation.md`](./references/08-decomposition-estimation.md) |
 | 9 | When the author is also the builder | one person writes the story and implements it | [`09-author-is-the-builder.md`](./references/09-author-is-the-builder.md) |
+| 10 | The whole-feature edge-case catalog | a feature is specified and the failure surface across it (inputs, limits, errors, concurrency, recovery) has not been listed and ranked | [`10-feature-edge-case-catalog.md`](./references/10-feature-edge-case-catalog.md) |
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the problem stated separately from the requested
@@ -70,6 +71,6 @@ separated from improvements.
 
 ## Origin
 Written without internal product-management expertise; §6–§8 come from an org skill catalogue for this
-function, extracted and de-identified, and §9 from a real organisational change. The full provenance, the
+function, extracted and de-identified, §9 from a real organisational change, and §10 rewritten from a public Apache-2.0 skill collection (2026-10-19). The full provenance, the
 source stamps and the refresh log are in [`references/origin.md`](./references/origin.md). Read it when
 checking whether a rule is still current, not when applying one.

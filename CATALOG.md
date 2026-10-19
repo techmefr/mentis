@@ -713,7 +713,7 @@ closing this costs nothing that made this repo cheaper to load.
 | flutter | 40 / 20,772 | 1 / 23,422 | +2,650 | x0.89 |
 | nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
-| project-management | 10 / 14,536 | 2 / 15,810 | +1,274 | x0.92 |
+| project-management | 10 / 14,536 | 2 / 16,550 | +2,014 | x0.88 |
 | bi, design, xefi | 16 / 17,306 | 4 / 30,603 | +13,297 | x0.57 |
 | global | 18 / 20,280 | 6 / 35,771 | +15,491 | x0.57 |
 | react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
@@ -746,7 +746,7 @@ python: python-conventions 19,061, data-pipeline-conventions 5,536
 flutter: flutter-conventions 23,422
 nuxt: vue-nuxt-vuetify-conventions 25,392
 global: code-baseline 10,384, security-hardening 10,753, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
-project-management: product-ownership 9,378, spec 6,432
+project-management: product-ownership 10,118, spec 6,432
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,154
 bi, design, xefi: data-analytics 4,724, interface-design 10,984, ux-writing 5,934, accessibility 8,961
