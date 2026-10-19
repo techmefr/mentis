@@ -170,7 +170,7 @@
     `[Base64String]` cover rules like "one of a fixed set" and "must decode" that previously meant a custom
     validator or point 23's `IValidateOptions<T>` for a mere whitelist; use the built-in attribute first so
     a trivial rule doesn't grow its own validator class.
-34. **`TimeProvider` is a service like any other here, and injecting it extends point 5's testability
+34. **`TimeProvider` is a service like any other here, and injecting it extends the testability
     argument to time.** Code reading `DateTime.UtcNow` or scheduling through `Task.Delay` reaches an
     untestable dependency every time; a `TimeProvider` taken through the constructor (point 1) is
     substituted with a fake clock as a fake repository substitutes for a real one, and the ordinary DI
