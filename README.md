@@ -10,7 +10,7 @@
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-24-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-4-bf8700?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-9%20suites%20%C2%B7%20216%20checks-1a7f37?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-10%20suites%20%C2%B7%20234%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
   <a href="./LICENSING.md"><img alt="licence" src="https://img.shields.io/badge/licence-AGPL--3.0--or--later%20%2B%20commercial-1a7f37?style=flat-square"></a>
 </p>
@@ -35,7 +35,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **24** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard | **4** | 🟢 wired into one real repo, 2026-09-09 |
-| 🧪 **`bin/`** — review transports + repo self-checks | **9 scripts / 9 suites** | 🟢 216 checks, run on every push |
+| 🧪 **`bin/`** — review transports + repo self-checks | **10 scripts / 10 suites** | 🟢 234 checks, run on every push |
 
 **Maturity legend** — 🟢 has run on real work · 🟡 written, reviewed, never run.
 The line-by-line breakdown is [`CATALOG.md`](./CATALOG.md); the summary is [Status](#status).
@@ -920,7 +920,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 
 ## Maintaining this repo
 
-**Nine suites, 216 checks**, listed once in `bin/pre-push`:
+**Ten suites, 234 checks**, listed once in `bin/pre-push`:
 
 | Suite | Covers |
 |---|---|
@@ -931,6 +931,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 | `test_git_hooks.py` | The wiring of the gate itself |
 | `test_measure_depth.py` | That `CATALOG.md`'s depth table still matches `bin/measure_depth.py` |
 | `test_check_citations.py` | Every `§N` and `§N.M` in the repo, against the section **and the point** it names |
+| `test_export_rules.py` | The rule exporter against its golden files in `export/golden/` |
 
 <details>
 <summary><b>Four of them exist because of a specific failure</b>, and all four are worth stating</summary>
@@ -1028,7 +1029,7 @@ stable and applied. The honest breakdown:
 | 💼 Business blocks | 24 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 4 scripts | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
-| 🧪 `bin/` | 9 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
+| 🧪 `bin/` | 10 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 **Written with no internal production experience on the stack**, so their remarks are phrased as
 questions rather than statements: `boromir` (Go), `theoden` (.NET), `samwise` (Python), `faramir`
