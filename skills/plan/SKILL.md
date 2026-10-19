@@ -81,8 +81,8 @@ After `archi`, before `tdd`, inside the cycle's plan and tasks steps, with or wi
 17. **Self-review pass, task size and blocking edges.** Before handing `tasks.md` over, run the planner's own
     pass (name and type consistency across tasks, an Interfaces note per task), size each task, and write what
     blocks each one. Read [`references/17-self-review-sizing-and-edges.md`](./references/17-self-review-sizing-and-edges.md)
-    when the task list is drafted or has to be cut or re-cut. It also records, as an open option and not a rule,
-    cutting tasks as vertical slices.
+    when the task list is drafted or has to be cut or re-cut. It also holds the rule that tasks are cut
+    as vertical slices, each run through `tdd` on its own.
 
 ## Output / checkpoint
 `plan_done` + one tracked item per increment, in dependency order, recorded as the feature's `tasks.md`.
@@ -102,4 +102,4 @@ Steps 4 to 6 rewritten from the `writing-plans` skill of `superpowers` (MIT, 6.4
 
 Steps 14 to 16 (brief traceability, speculative structure and dependency scrutiny, named trust boundaries, the GO/TRIM/RETHINK verdict from a fresh context, the five-finding cap) rewritten from the plan-check skill of abdian/claude-toolkit-laravel (MIT), read 2026-10-02. Rewritten in our words; no text copied. Nothing here relaxes the guard against automatic execution.
 
-The provenance of step 17 (`references/17-self-review-sizing-and-edges.md`) and the open decision it leaves to the owner are in [`references/origin.md`](./references/origin.md).
+The provenance of step 17 (`references/17-self-review-sizing-and-edges.md`) and the owner's decision on vertical slicing (2026-10-19) are in [`references/origin.md`](./references/origin.md).

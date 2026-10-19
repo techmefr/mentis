@@ -527,7 +527,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `prototype` | 6 (new 2026-10-19) | Throwaway prototype discipline: name the one question, pick logic demo or UI variants, keep it disposable, and decide what is lifted, kept on a side branch or deleted; never merged as is |
 | `reuse-before-write` | 6 (new 2026-10-19) | Author-side ladder before writing code (needed at all, already here, language or platform, installed dependency, one line, minimum) and the guards that keep the shortcut from cutting what must stay |
 | `block-eval-method` | 6 (new 2026-10-19) | Measuring a block or rule set against a no-block baseline: run isolation, proven instruments, per-task sign test, and gated completeness and reply judges |
-| `skill-trigger-evals` | 6 (new 2026-10-19) | Method for testing skill descriptions: labelled should-trigger and near-miss prompts, train/validation split, repeated runs and trigger rates, plus the with-versus-without output eval |
+| `skill-trigger-evals` | 6 (new 2026-10-19) | Method for testing skill descriptions: labelled should-trigger and near-miss prompts, train/validation split, repeated runs and trigger rates, description optimisation without overfitting (limit, keyword stuffing), plus the with-versus-without output eval |
 | `failure-classification-before-retry` | 6 (new 2026-10-19) | Stack-neutral method for the step after a failed call: sort the failure by scope, pick retry, wait, switch or stop; budgets, one retry layer, jitter, cool-down and recovery |
 | `spend-guard-fail-closed` | 6 (new 2026-10-19) | Fail-closed spend limits for agent and LLM usage: check before dispatch, unknown reading blocks, new options start excluded, who is told, cost figures are estimates not bills |
 | `ai-act-obligations-and-omnibus-status-pitfalls` | 6 (new 2026-10-19) | Method for engineers and a compliance owner on the EU AI Act: establish which amending acts and application dates currently apply before relying on any date, the role question for counsel, risk-class triage, and the inventory and records to keep. Not legal advice |
@@ -591,7 +591,6 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `chart-choice-pitfalls` | 6 (new 2026-10-16) | Chart choice and encoding: distributions, baselines, colour scales, heatmaps, pies |
 | `event-tracking-plan-pitfalls` | 6 (new 2026-10-16) | Analytics event plans: naming, auto-collected events, selectors, verification |
 | `funnel-and-cohort-definition-pitfalls` | 6 (new 2026-10-16) | Funnel and cohort definitions that can be compared: steps, windows, denominators, immature cohorts |
-| `skill-trigger-eval-pitfalls` | 6 (new 2026-10-16) | Skill trigger evals: should-trigger and near-miss queries, repeated runs, train/validation optimisation, description limit |
 | `agent-run-limits-and-guardrail-pitfalls` | 6 (new 2026-10-16) | Run limits and guardrail boundaries for agent loops: limit kinds, guardrail placement, approvals, trace redaction |
 | `multi-agent-design-pitfalls` | 6 (new 2026-10-16) | Multi-agent design: baseline first, tool vs handoff, filters vs redaction, consensus, delegated-agent failure modes |
 | `agent-context-hygiene-pitfalls` | 6 (new 2026-10-16) | Context hygiene for long agent sessions: degradation patterns, diagnosis, recovery, write/select/compress/isolate |
@@ -751,7 +750,7 @@ names exist to signal: `laravel-architect` never writes, the seven builders neve
 | `link` | Technical a11y audit of a live page/site, never edits | 🟢 Real audit, 2026-09-11 |
 | `architect` | Periodic architecture-debt audit (git hot-spots, deletion test), never edits | 🟢 Real audit, 2026-09-11 |
 | `widener` | Widens a stack block's `references/*.md` against current public docs; never commits | 🟢 A dozen widening rounds |
-| `dogfooder` | Builds a small real project against a block's rules and runs the real toolchain; never commits | 🟢 Nine dogfood rounds |
+| `dogfooder` | Builds a small real project against a block's rules and runs the real toolchain; never commits | 🟢 Several dogfood rounds |
 
 </details>
 

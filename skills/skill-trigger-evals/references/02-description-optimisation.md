@@ -1,4 +1,4 @@
-# skill-trigger-eval-pitfalls §2 — Description optimisation
+# skill-trigger-evals §2 — Description optimisation
 
 ## 2.1 Writing principles
 1. **Frame it as an instruction to the agent.** The guide prefers "use this skill when" to "this skill does",

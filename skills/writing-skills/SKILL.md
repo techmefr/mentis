@@ -104,4 +104,4 @@ Steps 8 to 10 added 2026-10-02 from a read of public prose-quality and design-qu
 positive-requirement and not-to-flag rules come from how those filters fail, the proof-artefact rule and
 the scanner regression test from the corpus's own history of unenforced guarantees.
 
-Points 31 to 38 (completion criteria, steering by the positive, no-ops, pointer wording, the environment as a source of truth, sediment, one meaning one place, leading words) added 2026-10-19 from `writing-for-agents` of `mattpocock/skills` (MIT), wording ours, details and an open tension in [`references/origin.md`](./references/origin.md).
+Points 31 to 38 (completion criteria, steering by the positive, no-ops, pointer wording, the environment as a source of truth, sediment, one meaning one place, leading words) added 2026-10-19 from `writing-for-agents` of `mattpocock/skills` (MIT), wording ours, details and the owner's decision on guardrail style in [`references/origin.md`](./references/origin.md).

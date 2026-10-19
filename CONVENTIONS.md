@@ -182,7 +182,7 @@ description: Use when <precise triggering situation>, <what the block does>. <on
 A `business/` block has no checkpoint and says so.>
 
 ## Guardrails
-<What we don't do. Agent/human boundary if relevant. Escalation if blocked.>
+<Each guardrail states what to do, and keeps its `Never ...` line beside it where failure is costly (writing-skills point 32). Agent/human boundary if relevant. Escalation if blocked.>
 
 ## Origin
 <Idea taken from: native Claude Code / market tooling / internal. Honest.>
@@ -230,7 +230,7 @@ disallowedTools: <tools>         # every tool-shaped prohibition in section 5, e
 ## 2. MEMORY        <what persists between two invocations, and what explicitly does not>
 ## 3. LOOP          <action → verification → decision, with an explicit exit condition>
 ## 4. TOOLS & SCOPE <allowed / forbidden, named; the scope of files it may produce findings on>
-## 5. GUARDRAILS    <what it never does; the default mode; what it does when in doubt>
+## 5. GUARDRAILS    <what it does and, where failure is costly, never does (positive form beside each `Never`); the default mode; what it does when in doubt>
 ## 6. FRESH-CONTEXT REVIEW <what guarantees it judges the artefact and not its own memory>
 ## 7. TRACE         <what its final message must contain, and what it writes where>
 ## 8+ …             <agent-specific sections, numbered on, free titles>

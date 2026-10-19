@@ -82,13 +82,13 @@ Read this file when a skill is being drafted or revised and its body or its desc
     criteria are checkable and exhaustive. When a bound cannot be made sharper and the rush is observed, the later
     steps can be hidden by splitting the sequence, which works only across a real context boundary (a hand-off or
     a delegated worker); an inline call leaves them in view. Sharpen the bound first.
-32. **Steer by the positive.** A prohibition puts the forbidden behaviour into the agent's context and makes it
-    more available, not less. State the behaviour you want ("write one-line comments") so the unwanted one is never
-    spoken. A prohibition stays only as a hard guardrail that cannot be phrased positively, and then it is paired
-    with the positive target. *Open tension with our own style*: the `Guardrails` section of the template is
-    written as "never ..." statements, and the default-equals-failure rule is a set of them. How far this point
-    reshapes that style is the owner's decision (`origin.md`); until it is made, no existing block is rewritten and
-    a new guardrail names what to do beside what not to do.
+32. **Steer by the positive, and keep the `Never` beside it where failure is costly.** A prohibition alone puts the
+    forbidden behaviour into the agent's context and makes it more available, not less. So every guardrail carries
+    its positive form (what to do instead), and where the failure is costly, or a hook enforces it, the `Never ...`
+    line stays beside it; the two are not alternatives. Worked example: "Run the project's own suite and name every
+    failure, even one this change did not cause. Never loosen an assertion or lower a coverage threshold to close a
+    gap." A guardrail with only a prohibition gets a positive target added when it is next edited; existing blocks
+    are not bulk-rewritten.
 33. **Hunt no-ops, and delete the whole sentence.** An instruction the agent already follows by default costs
     load and changes nothing. This is point 12 seen from the other side, with two additions: the test is relative
     to the model in use (two people who disagree about whether a sentence is a no-op disagree about the default,
