@@ -371,6 +371,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
 | dsar-handling-pitfalls | 6 (new 2026-10-16) | GDPR Article 12 (EUR-Lex, original OJ text), inthhq dsar (Apache-2.0) | 🟡 (never dogfooded) |
+| ai-act-obligations-and-omnibus-status-pitfalls | 6 (new 2026-10-19) | Regulation (EU) 2024/1689 Arts 2-6, 25, 49-51, 53, 113 (EUR-Lex, original text); COM(2025) 836; Regulation (EU) 2026/1744 (Digital Omnibus on AI, OJ 24.07.2026); Legislative Observatory 2025/0359(COD) | 🟡 (never dogfooded) |
+| e-invoicing-obligations-pitfalls | 6 (new 2026-10-19) | Directive (EU) 2025/516 (EUR-Lex, read 2026-10-19), one national tax-authority page (France, read 2026-10-19) | 🟡 (never dogfooded) |
+| vat-handling-in-software-pitfalls | 6 (new 2026-10-19) | Directive 2006/112/EC (consolidated 2025-01-01, EUR-Lex) | 🟡 (never dogfooded) |
+| cra-scope-and-role-determination-pitfalls | 6 (new 2026-10-19) | Regulation (EU) 2024/2847 Arts 2, 3, 13, 18-25 (EUR-Lex, read 2026-10-19) | 🟡 (never dogfooded) |
 | gdpr-breach-notification-and-dpia-pitfalls | 6 (new 2026-10-19) | Regulation (EU) 2016/679 Articles 33, 34, 35, 36(1)-(3), EUR-Lex original text read 2026-10-19 | 🟡 (never dogfooded) |
 | gdpr-international-transfers-pitfalls | 6 (new 2026-10-19) | Regulation (EU) 2016/679 Articles 44-49, EUR-Lex original text read 2026-10-19 | 🟡 (never dogfooded) |
 | nis2-incident-reporting-and-measures-pitfalls | 6 (new 2026-10-19) | Directive (EU) 2022/2555 Arts 2, 3, 20, 21, 23, 41 (EUR-Lex, read 2026-10-19) | 🟡 (never dogfooded) |
