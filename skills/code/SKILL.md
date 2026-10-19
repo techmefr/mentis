@@ -16,7 +16,7 @@ After `tdd` (red tests written), during `/BUILD`.
    do it; does the platform do it natively; does a dependency already installed do it; can it be one line;
    only then the minimum code. The ladder shortens the solution, never the reading. It never removes input
    validation at trust boundaries, error handling that prevents data loss, security measures or
-   accessibility basics.
+   accessibility basics. The long form, with the guards, is `skills/reuse-before-write`.
 1. Take **one** `task_item`, write the minimum code that makes its test pass.
 2. Run that test scoped, per `skills/run-generated-tests` — the new/changed test, at widest the file
    it lives in, never the project's bare full-suite command. `toggle_task_item` when the increment is

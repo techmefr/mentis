@@ -14,7 +14,9 @@ second one is the cheaper lever: raising a reader from Sonnet to Opus multiplies
 diff it will ever read, where `effort: xhigh` on the four agents whose verdict blocks a merge buys
 depth exactly where being wrong is expensive. The available levels, the aliases and what each one
 resolves to are in `references/claude-code-platform.md` §1 — read it there rather than trusting the
-grid below to be current on model names.
+grid below to be current on model names. A cost figure shown by a dashboard or a tracker is an estimate
+(usage times a price table), not a bill: a subscription or free tier has no per-request price, so read
+spend limits as in `skills/spend-guard-fail-closed`.
 
 ## When
 - While writing a new agent (`model:` and, where the verdict is hard to walk back, `effort:`).

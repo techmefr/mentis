@@ -63,6 +63,12 @@ rewritten our way (Rule B).
 10. **Every scanner added locks its tiers with a regression test**, so a threshold cannot be loosened by
     editing the scanner alone.
 
+11. **Points 11 to 30 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
+    calibrating control, validation patterns and description-writing rules from the open Agent Skills guides.
+    Read it when drafting or revising a body or a description:
+    [`references/11-authoring-rules.md`](./references/11-authoring-rules.md). Whether a description actually
+    triggers is measured with `skill-trigger-evals`, not judged by eye.
+
 ## Output / checkpoint
 A complete `skills/<name>/SKILL.md` file following the template, referenced in `CATALOG.md` and
 in the `README.md` table, with a non-empty `Origin` section.
@@ -88,6 +94,10 @@ copied, the mechanism was already familiar from long-context work and is stated 
 Concrete trigger for writing it now rather than leaving it as a general instinct: several blocks in this
 repo (`vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`) grew past 10 points per section across
 this session's re-checks, each addition appended at the bottom of its list.
+
+Points 11 to 30 (in `references/11-authoring-rules.md`) added 2026-10-19 from the Agent Skills open
+specification and its best-practices and description guides, agentskills/agentskills commit 69ef37e (docs
+CC BY 4.0, credited, restated in our words), details in [`references/origin.md`](./references/origin.md).
 
 Steps 8 to 10 added 2026-10-02 from a read of public prose-quality and design-quality filters: the
 positive-requirement and not-to-flag rules come from how those filters fail, the proof-artefact rule and

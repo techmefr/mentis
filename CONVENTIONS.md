@@ -154,9 +154,13 @@ Every block follows the **same shape**. One block = one folder `skills/<name>/SK
 ---
 name: <kebab-case-name>
 description: Use when <precise triggering situation>, <what the block does>. <one sentence>.
-# optional, per references/claude-code-platform.md §2 — declared only when the block needs it:
+# optional, per references/claude-code-platform.md §2 — declared only when the block needs it.
+# Open Agent Skills spec keys (portable to any client that reads the spec): license, compatibility
+# (at most 500 characters), metadata (string keys to string values) and allowed-tools:
+# allowed-tools: <tool> <tool>   # a space-separated string, not a list; pre-approved for the invoking turn only
+# mentis / Claude Code extensions (not in the open spec; a strict spec validator rejects them, and a block
+# that uses one is Claude Code-only, a rule C decision to record):
 # paths: <globs>              # a stack block that must not load on another stack's files
-# allowed-tools: <tools>      # pre-approved for the invoking turn only
 # disallowed-tools: <tools>   # removed while the block is active (an autonomous loop denies AskUserQuestion)
 # disable-model-invocation: true   # operator-only: a destructive step nobody triggers by accident
 # model: / effort:            # per skills/choose-model
