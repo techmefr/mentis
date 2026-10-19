@@ -114,3 +114,26 @@ merge as the substitute for §7's missing second reader, scope creep during impl
 same one-line justification a real scope change would get, and a slipping estimate being written down the
 moment it is known rather than absorbed silently. Sourced from this repo's own single-role pipeline
 experience, no external catalogue involved — this section was always ours, not the mined catalogue's.
+
+**§10 added 2026-10-19, whole-feature edge-case catalog.** Status 🟡, never run by us on a real feature.
+
+## Sources for §10 (re-read in full 2026-10-19, rewritten in our own words, no text copied)
+
+| Source | Licence | What it gave |
+|---|---|---|
+| product-on-purpose/pm-skills, `skills/deliver-edge-cases/SKILL.md` (commit 4100cb8) | Apache-2.0 (LICENSE file, re-read this session) | The seven-pass sweep (scope, inputs, boundaries, error states, concurrency, recovery, likelihood and impact ranking) and its separation from story-level criteria |
+
+Apache-2.0 attribution is given here; the text is a rewrite, not a copy. Ours: the catalogue-feeds-criteria
+direction, a family left empty being stated, scenario plus intended behaviour as the unit, the mixed
+likelihood and impact cases being the ones argued, the stop condition, adding post-release defects as cases,
+and the hand-off link to `skills/qa-exploratory-testing` and to the author-is-builder section.
+
+## Removed (not carried, on purpose)
+1. The source's template and worked example (`references/TEMPLATE.md`, `EXAMPLE.md`): not read this pass; the
+   section carries the method, not a document layout.
+2. Its evals, history file and phase and framework metadata: tooling of that repository.
+3. Its pointers to sibling skills of the collection (PRD, launch checklist, lessons log).
+
+## Not verified
+1. **Whether the fixed family order finds more than an unstructured sweep**: no comparison run.
+2. **Current text of the source**; check with `skills/source-freshness`.
