@@ -371,6 +371,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
 | crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
 | dsar-handling-pitfalls | 6 (new 2026-10-16) | GDPR Article 12 (EUR-Lex, original OJ text), inthhq dsar (Apache-2.0) | 🟡 (never dogfooded) |
+| reuse-before-write | 6 (new 2026-10-19) | ponytail (`ponytail` skill and README "How it works", MIT, read 2026-10-19) | 🟡 (never dogfooded) |
+| block-eval-method | 6 (new 2026-10-19) | ponytail (agentic benchmark README, results page and run/compare/judge/complete/answer scripts, MIT, read 2026-10-19) | 🟡 (never dogfooded) |
+| skill-trigger-evals | 6 (new 2026-10-19) | agentskills docs (CC-BY-4.0, credited, read 2026-10-19) | 🟡 (never dogfooded) |
+| failure-classification-before-retry | 6 (new 2026-10-19) | Google SRE book chapters "Handling Overload" and "Addressing Cascading Failures", RFC 6585 §4, an AI vendor's API error reference (read 2026-10-19); idea cross-checked against an MIT open-source gateway's resilience docs | 🟡 (never dogfooded) |
+| spend-guard-fail-closed | 6 (new 2026-10-19) | a cloud provider's budgets guide and an AI vendor's API error reference (read 2026-10-19); idea from an MIT open-source gateway's zero-cost routing and cost-tracking docs | 🟡 (never dogfooded) |
 | ai-act-obligations-and-omnibus-status-pitfalls | 6 (new 2026-10-19) | Regulation (EU) 2024/1689 Arts 2-6, 25, 49-51, 53, 113 (EUR-Lex, original text); COM(2025) 836; Regulation (EU) 2026/1744 (Digital Omnibus on AI, OJ 24.07.2026); Legislative Observatory 2025/0359(COD) | 🟡 (never dogfooded) |
 | e-invoicing-obligations-pitfalls | 6 (new 2026-10-19) | Directive (EU) 2025/516 (EUR-Lex, read 2026-10-19), one national tax-authority page (France, read 2026-10-19) | 🟡 (never dogfooded) |
 | vat-handling-in-software-pitfalls | 6 (new 2026-10-19) | Directive 2006/112/EC (consolidated 2025-01-01, EUR-Lex) | 🟡 (never dogfooded) |
@@ -705,7 +710,7 @@ closing this costs nothing that made this repo cheaper to load.
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
 | project-management | 10 / 14,536 | 2 / 15,426 | +890 | x0.94 |
 | bi, design, xefi | 16 / 17,306 | 4 / 30,000 | +12,694 | x0.58 |
-| global | 18 / 20,280 | 6 / 34,930 | +14,650 | x0.58 |
+| global | 18 / 20,280 | 6 / 35,771 | +15,491 | x0.57 |
 | react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -735,7 +740,7 @@ csharp: dotnet-conventions 34,538
 python: python-conventions 19,061, data-pipeline-conventions 5,536
 flutter: flutter-conventions 23,422
 nuxt: vue-nuxt-vuetify-conventions 25,392
-global: code-baseline 10,384, security-hardening 9,912, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
+global: code-baseline 10,384, security-hardening 10,753, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 9,378, spec 6,048
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,154

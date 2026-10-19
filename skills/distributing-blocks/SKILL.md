@@ -36,6 +36,19 @@ the triage step in `review` survived while the agent implementing it stayed priv
    the clone. Nothing is fetched at runtime — rule B applies to them too.
 3. Executable pieces (`hooks/`) are wired per repo, deliberately, by a human reading what they do.
 
+**Install target for other clients: `.agents/skills/`.** The open Agent Skills client guide names
+`<project>/.agents/skills/` and `~/.agents/skills/` as a widely used cross-client convention, next to each
+client's own directory; the specification itself does not mandate any location, and the guide notes that
+some clients also read `.claude/skills/`. Installing the same blocks into `.agents/skills/` is therefore a
+valid target for a client other than the one the rest of this block assumes (🟡: read in the guide, never
+tried against a second client). A client scanning those directories looks for subdirectories holding a file
+named `SKILL.md` and, per the guide, bounds the walk (for example a depth of 4 to 6 levels). **Flagged risk,
+not a verified fact:** a scanner that only looks one level down finds a block symlinked as
+`skills/<name>/` directly under the target, but not the repo's whole-clone symlink that puts `SKILL.md` three
+levels deep, and the `business/` layer is a second root; link block by block into the target if a client
+misses them. The same guide advises gating project-level skills on a folder-trust check, which is the
+consumer's setting to keep on.
+
 **Agents specifically: `bin/install_agents.py`.** Skills can be symlinked from the clone and stay
 current for free. Agents usually cannot, because a local install wants the real names back where the
 repo says "the operator", `<scratch>` and "an org skill catalogue" (rule C). The script does that

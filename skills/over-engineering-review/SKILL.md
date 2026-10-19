@@ -24,7 +24,7 @@ Go through only the added/modified lines of the diff. For each candidate found, 
 with a tag:
 
 - `to-delete:`, dead code, never called, or duplicated from an existing helper already present
-  in the repo (see also [[reuse-existing-components-before-creating]]). Three shapes that are easy to
+  in the repo (see also [[reuse-before-write]]). Three shapes that are easy to
   walk past: a constructor dependency the class never reads, a condition re-tested inside itself or
   twice in one chain, and the same guard written twice in one method with nothing reassigned between.
 - `stdlib:`, a function/utility reinvented when the language, the framework or an
@@ -68,6 +68,16 @@ An audit run on adjectives produces forty speculative findings. Run it in three 
 The correction has to cost less than the defect it removes. When taking an abstraction out is dearer than
 putting up with it, the verdict is `KEEP` and there is no finding. Style, naming and "I would have written it differently" are out of scope.
 
+### Extra tags and guards
+Two more tags (`merge:`, `split:`), the `reuse:` path rule, the whole-tree check before calling code unused,
+the stated-shortcut rule, audit honesty and the `net:` estimate live in one reference. Read it when a finding
+is about duplication or a function doing too many jobs, before calling code unused, before an audit report,
+and before quoting `net:`.
+
+| § | Covers | Read it when | File |
+|---|---|---|---|
+| 1 | `merge:`, `split:`, `reuse:` path, unused grep, stated shortcuts, audit honesty, `net:` as an estimate | any of the situations above | [`01-extra-tags-and-guards.md`](./references/01-extra-tags-and-guards.md) |
+
 ## Output / checkpoint
 A list of tagged findings, ending with an overall score:
 - `net: -N lines possible` if concrete deletions are found, N = a low estimate of lines that can
@@ -97,3 +107,12 @@ fix smaller than the problem) rewritten from the `find-overengineering` skill of
 `abdian/claude-toolkit-laravel` (MIT), read 2026-10-02. The three `to-delete` shapes (unread constructor
 dependency, redundant condition, doubled guard) come from the rule list of `Heyosseus/sloppy` (MIT),
 same date. No text copied.
+
+Section 1 of the references (`merge:`, `split:`, `reuse:` path, whole-tree grep before calling code unused,
+stated shortcut as a decision, audit honesty, `net:` as an estimate) was added 2026-10-19 from the lean list
+and the checks of the same `ponytail-review` and `ponytail-audit` skills and the honesty boundary of its
+`ponytail-gain` skill (MIT, commit 09c434a, re-read in full). Two adaptations are ours: the stated limit is
+recorded in the merge request or a decision record, not in a code comment, and the honesty line about
+`net:` is stated for this block's own figure, not for the source's benchmark. Not carried: the bug, risk,
+scale, test and speed groups, the four-part finding, the grouping into must, should and nice, and the
+verdict line (the reviewers own those). Status of the section: 🟡, never dogfooded.

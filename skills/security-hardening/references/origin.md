@@ -124,3 +124,13 @@ cryptoperiod) could not be extracted and is not cited. §10 takes the idea of de
 once from the OWASP mobile verification standard, which is share-alike licensed: idea only, no text. Its
 testing guide was not read. Status 🟡; parameter figures go stale, re-read the RFC and the guideline before
 relying on them.
+
+**Extended, 2026-10-19 (§11).** Exposed-service pitfalls rewritten from the MIT-licensed OmniRoute project's
+inference-posture, environment and guardrail-coverage documents (commit 9ec0bf15, read in session; its
+code was not read) and checked against OWASP API Security Top 10 2023, API5 and API8 (read 2026-10-19). The
+project documents carry one maintainer's incident report; the points about placeholder passwords, junk
+credentials degrading to anonymous, bind-address warnings and plaintext key storage are therefore flagged
+"own guidance" in the text, since OWASP's pages do not mention default credentials (API8 was read for that
+word and does not contain it). Not taken: any product name, flag, default value or incident detail, the
+multi-account and ban-evasion material, and the masking of public client secrets to avoid scanners.
+Status 🟡; nothing here was run against a live service by us.

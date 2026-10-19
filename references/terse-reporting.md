@@ -53,3 +53,22 @@ what carries nothing, not what is hard.
 
 **Evidence stays quoted in full.** A test output, an error message, a log line, a diff hunk: cite it as
 it is. The whole doctrine is default = failure, and a paraphrased proof is not a proof.
+
+## Compression traps: when the thing shortened is what the agent reads
+
+The rules above shorten what an agent writes. Shortening what it reads (tool output, logs, history) has
+three traps of its own. The first rests on a vendor's prompt-caching documentation read 2026-10-19
+(https://platform.claude.com/docs/en/build-with-claude/prompt-caching); the other two are own guidance, seen
+in one gateway project's compression notes (MIT, docs only, not verified in its code).
+
+- **Rewriting a cached prefix invalidates the cache.** A prompt cache matches the prefix exactly, and any
+  change before the cached point is a miss, so compressing the system prompt, tool definitions or early turns
+  can cost more than it saves. Compress only what follows the last cached point, and measure the cache-read
+  fields before and after.
+- **Savings exist only where the text was redundant.** Repeated error lines or a chatty log shrink a lot; a
+  clean match list or a short file read shrinks almost nothing. Low savings on clean output is not a
+  misconfiguration: check whether the input was redundant before judging the tool, and never quote a
+  percentage from another project.
+- **Never rewrite code, identifiers, URLs, versions or quoted evidence.** A compressed block that is later
+  edited, executed or cited must be byte-identical to the original. A lossy step (a summary, a filter, a
+  style rewrite) is opt-in per request, and a rewrite is checked against the original before it replaces it.
