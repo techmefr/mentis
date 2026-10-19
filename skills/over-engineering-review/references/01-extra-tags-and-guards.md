@@ -32,7 +32,7 @@
    sentence on a table that has ten thousand rows in production is a finding, and the number goes in it.
 7. **Where the limit is written is the team's, not this block's.** Comments in code are not written here
    (`skills/code`), so the statement lives in the merge request description, the plan or a decision record; a
-   limit nobody wrote down is not a stated limit.
+   limit nobody wrote down is not a stated limit. The feature's `debt.md` is the place to record it (§2).
 
 ## Audit mode honesty
 8. **Say which parts you did not read.** An audit of a large repository goes deep where a mistake costs the

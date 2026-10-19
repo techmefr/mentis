@@ -109,7 +109,10 @@ folder.
    (`skills/speckit`). The `spec`, `plan`, `archi` and `tdd` blocks supply the substance that goes into those
    artefacts and the checks around them; they never produce a different document.
    **Every feature gets its `specs/<NNN>-<name>/` folder**, with or without the tool and whatever its size: a
-   small change makes a short `spec.md`, `plan.md` and `tasks.md`, never no folder.
+   small change makes a short `spec.md`, `plan.md` and `tasks.md`, never no folder. A block may add one
+   extra artefact to that folder when it records something the cycle does not (`debt.md`, the ledger of
+   deliberate shortcuts, `skills/over-engineering-review` §2); it never opens a second place for requirements
+   or tasks.
 2. **Contradiction: the project wins.** When a mentis block and the project's own spec-kit template or
    constitution disagree on a format, a section or a step, the project's template wins and the block adapts.
    The one thing that does not give way is a block's default = failure guardrail (never invent a rule, never

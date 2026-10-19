@@ -77,6 +77,7 @@ and before quoting `net:`.
 | § | Covers | Read it when | File |
 |---|---|---|---|
 | 1 | `merge:`, `split:`, `reuse:` path, unused grep, stated shortcuts, audit honesty, `net:` as an estimate | any of the situations above | [`01-extra-tags-and-guards.md`](./references/01-extra-tags-and-guards.md) |
+| 2 | The deferral ledger: `specs/<NNN>-<name>/debt.md`, one row per deliberate shortcut (where, simplified, ceiling, trigger), the `no-trigger` tag, the report-only scan and its count | a change takes a deliberate shortcut, a review meets a stated limit, or the operator asks what has been deferred | [`02-debt-ledger.md`](./references/02-debt-ledger.md) |
 
 ## Output / checkpoint
 A list of tagged findings, ending with an overall score:
@@ -107,6 +108,9 @@ fix smaller than the problem) rewritten from the `find-overengineering` skill of
 `abdian/claude-toolkit-laravel` (MIT), read 2026-10-02. The three `to-delete` shapes (unread constructor
 dependency, redundant condition, doubled guard) come from the rule list of `Heyosseus/sloppy` (MIT),
 same date. No text copied.
+
+Section 2 of the references (the deferral ledger kept in the feature's `debt.md`) is stamped in
+`references/origin.md`.
 
 Section 1 of the references (`merge:`, `split:`, `reuse:` path, whole-tree grep before calling code unused,
 stated shortcut as a decision, audit honesty, `net:` as an estimate) was added 2026-10-19 from the lean list
