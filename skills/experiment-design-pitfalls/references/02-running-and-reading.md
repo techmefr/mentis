@@ -61,3 +61,25 @@ checked, a segment found afterwards.
 4. **A segment found after the readout is a new hypothesis**, to be tested in its own pre-registered
    experiment (own guidance).
 5. **Aggregates can mislead when the mix shifts**; `analysis-validation-pitfalls` §3 covers Simpson's paradox.
+
+## 2.5 Two public references that back §2.1 and §2.2
+Read in-session on 2026-10-19; they corroborate the rules above and add the points below.
+1. **Why peeking is not harmless** (Evan Miller's public article on running A/B tests). The usual
+   significance calculation assumes the sample size was fixed before the test; "run until it looks
+   significant" raises the false-positive rate well above the stated level, and the more looks, the more.
+   His remedies match §2.1: fix the sample size first and do not stop early, or, when early stopping is
+   truly needed, use a sequential or Bayesian design chosen before launch. Looking is tolerable if nothing
+   is decided from it. A product that shows live significance to decision-makers invites the mistake, so show
+   them the smallest effect the current sample could detect instead.
+2. **Test the split with a count test, not by eye** (Microsoft Research's public article on diagnosing sample
+   ratio mismatch). A ratio near the planned one can still be a mismatch because the ratio ignores sample
+   size; platforms run a chi-square test on the counts before results are shown. Causes sit at a stage:
+   assignment (bucketing, identifiers, carry-over from a previous test), execution (a redirect in one arm
+   only, a variant that changes logging or bot filtering), log processing (a bad join), analysis (a biased
+   trigger or segment condition), and the tester's ramp-up or self-selection. To localise it, compare
+   segments, and for a triggered analysis check the untriggered users: if they match, suspect the trigger or
+   its logging. Do not read the result until the cause is fixed; the article's example is a variant so
+   engaging that a bot filter removed its users, and the result flipped from negative to positive after the
+   fix.
+3. **Numbers are not carried from either source** (their thresholds and the rule of thumb for sample size);
+   compute them from the design assumptions (§1.2).

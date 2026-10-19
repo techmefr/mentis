@@ -108,3 +108,17 @@ re-check. The ten principles behind §8.8 are a long-public body of ideas, resta
 Left out: the named looks and themes, the author's numeric thresholds (durations, word counts, ratios), the
 installers and stamps, and any tool dependency. Direction from the owner: the framework serves more than
 one agent harness, so the rules are written in neutral markdown, with no harness vocabulary in the body.
+
+**Motion points added 2026-10-19 (§9.14 to §9.19).** Read in this session: `hallmark` (MIT, "Hallmark
+contributors" 2026, LICENSE head read again), `references/motion.md` and `references/microinteractions.md`,
+and the W3C Understanding pages for WCAG 2.2 SC 2.3.3 (Animation from Interactions, AAA) and SC 2.2.2
+(Pause, Stop, Hide, A), both read through a summarising fetch on 2026-10-19. Rewritten as mechanisms; no
+sentence, recipe or CSS copied. Most of the source's discipline was already in §9 and `skills/webperf`
+(compositor-only properties, reduced-motion equivalents, hover versus focus, focus rings, silent success,
+optimistic updates); only the six points above were missing. **Numbers deliberately not carried**: the
+source's duration buckets, curve coordinates, spring settings, stagger caps, tooltip delays and per-theme
+multipliers, and its default-on motion by page archetype and its bans on named looks (taste, not rule). The
+`taste-skill` motion step was not re-read. Not verified: that the 2.3.3 and 2.2.2 paraphrases match the
+normative text word for word (the Understanding pages are informative); the "counts as automatic" clause is
+from the 2.2.2 page's own wording.
+

@@ -68,3 +68,57 @@ Read this file when a skill is being drafted or revised and its body or its desc
     one platform); the portable cap is the one a block must never exceed.
 30. **A simple one-step request may not load a skill even when the description matches.** Agents tend to consult
     skills for work beyond what they do alone, so a trigger test needs prompts that really need the skill.
+
+## Levers from a second source (points 31 to 38)
+
+> Added 2026-10-19 from `mattpocock/skills` `writing-for-agents` (MIT), wording ours. 🟡: the source's claims
+> restated, none measured by us. Overlap with points 12, 15 and 25 to 30 was checked by reading them; where a
+> point extends one of those it says which.
+
+31. **Every step ends on a completion criterion.** The condition that tells the agent the step is done has two
+    properties. *Clarity*: can the agent tell done from not done? A vague bound ("understanding reached") invites
+    stopping early, because the steps still ahead pull attention towards being finished. *Demand*: how much it
+    requires. "Every modified model accounted for" forces more work than "produce a change list". The strongest
+    criteria are checkable and exhaustive. When a bound cannot be made sharper and the rush is observed, the later
+    steps can be hidden by splitting the sequence, which works only across a real context boundary (a hand-off or
+    a delegated worker); an inline call leaves them in view. Sharpen the bound first.
+32. **Steer by the positive.** A prohibition puts the forbidden behaviour into the agent's context and makes it
+    more available, not less. State the behaviour you want ("write one-line comments") so the unwanted one is never
+    spoken. A prohibition stays only as a hard guardrail that cannot be phrased positively, and then it is paired
+    with the positive target. *Open tension with our own style*: the `Guardrails` section of the template is
+    written as "never ..." statements, and the default-equals-failure rule is a set of them. How far this point
+    reshapes that style is the owner's decision (`origin.md`); until it is made, no existing block is rewritten and
+    a new guardrail names what to do beside what not to do.
+33. **Hunt no-ops, and delete the whole sentence.** An instruction the agent already follows by default costs
+    load and changes nothing. This is point 12 seen from the other side, with two additions: the test is relative
+    to the model in use (two people who disagree about whether a sentence is a no-op disagree about the default,
+    and the way to settle it is to run the block, not to argue), and a failing sentence is deleted rather than
+    trimmed. A word too weak to beat the default ("be thorough" when the agent already is) is a no-op as well; the
+    fix is a stronger word, not another technique.
+34. **A pointer's wording decides when its target is reached.** A skill description, a router row and a line in a
+    project instruction file are all pointers: they state what the material is and the branches that should send
+    the agent to it. Front-load the leading word; give one trigger per distinct branch (synonyms that rename one
+    branch are one branch written twice); cut identity the body already carries; remember that every word of an
+    always-loaded pointer is paid on every turn. A must-have target behind a weak pointer is a source of
+    run-to-run variance: sharpen the wording first and inline the material only if that fails. Extends points
+    25 to 29.
+35. **The environment is a source of truth, and a block that restates it is a cache.** Package scripts, config
+    files, the directory layout and a command's help output can be looked up. Write down what looking cannot find:
+    the unwritten convention, the reason behind a choice, the gotcha no config confesses (point 11). Leave one-file,
+    one-command lookups to the environment, where they cannot go stale.
+36. **Prune against sediment.** Stale layers settle in a block because adding feels safe and removing feels
+    risky, until what is still live has to be dug out from under them. Check each line for relevance: does it
+    still bear on what the block does, or did the behaviour or the world it describes move on? A shorter block is
+    easier to keep relevant. Complements `SKILL.md` step 7, which orders what stays and does not remove anything.
+37. **One meaning, one place; one concept, one heading.** Keep each meaning in a single authoritative place so a
+    behaviour change is a one-place edit (duplication also inflates a meaning's prominence beyond its real rank).
+    The opposite fault is scattering: keep a concept's definition, rules and caveats under one heading so reading
+    one brings its neighbours. A block that is simply too long, even when every line is live and unique, thins the
+    agent's attention; the cure is to move reference behind pointers and split by branch or sequence, which is the
+    router form of `CONVENTIONS.md`.
+38. **A leading word can replace a spelled-out phrase.** A compact concept the model already knows ("tight",
+    "red") repeated as a token, never as a sentence, recruits what the model already holds about it; a made-up
+    word recruits nothing and costs its definition. A triad written out in three places, or a pointer spending a
+    sentence to gesture at one idea, is a candidate. The source's claim, not measured here: check that the
+    shorter word still triggers the behaviour by running the block.
+

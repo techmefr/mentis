@@ -84,3 +84,12 @@ reviewer, five axes, calibrated to serious gaps, a fixed short output. §7 (the 
 GO, CONDITIONAL, NO-GO gate of the research-plan-implement workflow in `claude-code-best-practice` (MIT, same
 day). The guardrail on ticket text as data is a principle found in several of the repositories read that day.
 All rewritten in our own words, no text copied.
+
+**Widening, 2026-10-19: §6 points 8 to 12 (cold-reader question pass).** From the `brainstorming` skill of `superpowers` (MIT, 2025 Jesse Vincent), `SKILL.md` and `builder-check-prompt.md` both re-read in full that day: a fresh reader plays a builder who cannot reach the author and reports only the questions whose wrong guess would matter, the three piles (answered already, minor, theirs), one round of questions, the hand-over with a list of calls made, and the self-read fallback. Rewritten in our own words; no text copied. Status 🟡.
+
+Owner block chosen: `spec` §6, not `brainstorm`. §6 already owns the fresh-context review of the written spec and `brainstorm` step 5 already points to it, so the pass is one more check on the same artefact at the same moment. Point 10 is ours: the source lets the author settle a minor question and mark it as a call, which would collide with §1.7, so the minor pile is restricted to choices that change neither behaviour nor tests.
+
+Other `brainstorming` mechanisms checked and not added because already owned: one question per exchange and an open question before a menu (`§1` points 1 and 14), class sizing and re-sizing when the work grows (`skills/brainstorm` step 0), guesses marked as guesses in a write-back (`skills/brainstorm` step 1, `§1.8`), a spike allowed only if labelled throwaway (`skills/brainstorm` step 0 and its table). Not taken: the visual companion (a local server and a browser, a runtime dependency, already declined in `skills/brainstorm`), the first-message opt-out line and the "people may not have finished working out what they want" framing, which are voice rather than mechanism.
+
+Not verified: the spec-document-reviewer prompt of that source was not part of this read (the five axes of points 1 to 7 stay as written on 2026-10-02); `docs/superpowers/specs/2026-10-05-brainstorming-rebuild-design.md` was not read.
+

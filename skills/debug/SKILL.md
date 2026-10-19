@@ -15,7 +15,10 @@ During `code`, at the first unexpected error or the second identical failure.
 
 ### 1. Reproduce, then form one hypothesis
 1. Reproduce reliably: an exact command plus the minimal input. A bug you can't reproduce on demand
-   can't be shown fixed either.
+   can't be shown fixed either. That command is the **feedback loop**, and it comes before any hypothesis:
+   `references/05-feedback-loop-first.md` says what it must satisfy, how to build, tighten and minimise it, and how
+   to tag temporary logs so they are all removed. The loop is the precondition of the single hypothesis below, not
+   another method.
 2. State **a single** hypothesis and verify it (a targeted log or test) **before changing anything**.
    Changing code to see what happens is how a second bug gets introduced next to the first.
 
@@ -97,3 +100,5 @@ guardrails, and `neo`/`morpheus`/`trinity`'s), so it's caught before the diff, n
 `galadriel`. A rule alone holds until it's inconvenient, so it's also mechanical now:
 `hooks/guard-test-changes.sh` blocks the edit at the tool layer when a pre-existing assertion
 disappears, the same "written instruction + hook" pairing as `gate`'s evidence rule.
+
+Section 5 (`references/05-feedback-loop-first.md`: the feedback loop first, minimising, tagged logs, the correct-seam rule) was added 2026-10-19; its provenance and the reconciliation with the single-hypothesis rule are in [`references/origin.md`](./references/origin.md).

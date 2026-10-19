@@ -40,3 +40,12 @@ the sources (their prose), and the scanner scripts.
 Licence note for the audit trail: in one of the sources the licence file carries a different copyright
 holder from the rest of that repository. Nothing was copied from it, so no obligation arises; the note is
 here so a later reader does not mistake the discrepancy for an omission on our side.
+
+**Re-read 2026-10-19 (`humanizer`, MIT, 2025 Siqi Chen, LICENSE head read again, commit 8c307f3):** sections
+5, 10, 21 and the closing "when not to act" list in full, with the rest of the pattern map by title. Added
+families 44 (arguing with no one) and 45 (hyphen in every position), rewritten as mechanisms; no sentence,
+example or before-and-after pair copied. Typographic curly quotes (its pattern 21) are not carried: it is a
+formatting artefact of editors, not a writing tell, and the source itself calls it weak alone. The source's
+voice-preservation list matches the existing preservation section and added nothing. Not read: the rest of
+the source's pattern texts (only titles) and the Wikipedia page it cites. The 2026-10-19 maketime review
+listed this block as new; it already existed from 2026-10-02, so it was extended, not recreated.
