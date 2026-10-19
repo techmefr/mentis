@@ -236,3 +236,13 @@ our terms. Not read: the pages on WebSockets, templates, sub-applications, WSGI,
 generation and the SQL-database tutorial (persistence stays §7). The `scope` argument of dependencies needs release
 0.121 or later and the yield-cleanup timing was changed in 0.106 (the documentation lists both); expiry: at each
 FastAPI minor, re-read §11.4 to §11.7 first.
+
+**Dogfooded again, 2026-10-19.** `~/dogfood/py/app`: pydantic boundary model (`frozen`, `extra="forbid"`),
+frozen slotted dataclass, `NewType`, `StrEnum`/`Enum`, `TypedDict`, a `Protocol` store, a file store with
+explicit encoding and exception chaining, a `@contextmanager`, an async service (`Semaphore`, `TaskGroup`,
+`asyncio.timeout`) and 4 pytest cases, under a broad ruff selection, `mypy --strict` and pytest (docker,
+Python 3.13, ruff 0.17.1, mypy 2.4.0, pytest 9.1.1). The first run found, beyond the demo's own typos: ruff
+RUF009 on a `datetime.now()` dataclass default (§5.33 added) and pytest failing to import `app` in a flat
+layout while ruff and mypy passed (§8.29 added). TRY300, EM102, TRY003, T201 and mypy's missing-return
+were already covered by §2, §4 and §5. Final run: ruff clean, mypy clean, 4 passed. Not exercised:
+§6, §7, §9 to §11.
