@@ -221,3 +221,10 @@
     several options types validated at startup fail one at a time rather than all at once — the second
     misconfigured section's error never appears in that boot's logs, so each fix-and-redeploy surfaces the
     next, an avoidable round trip unless every validator is checked by hand before the first fix ships.
+43. **`ValidateOnStart` fires when the host starts, not when it is built.** Point 16's validations run
+    from a hosted service during `StartAsync`; a program that calls `Build()` and resolves a service
+    without starting the host (a hand-written console entry point, a test fixture over the root provider)
+    boots on unchecked options and fails at the first resolve of the options object instead, with a
+    stack that points at a constructor rather than at the configuration. Start the host in any path that
+    is meant to prove the configuration. Point 16's "own package" half also depends on the SDK: a project
+    on the web SDK gets the data-annotations validator from the shared framework and needs no package.

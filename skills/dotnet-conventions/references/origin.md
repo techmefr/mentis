@@ -637,3 +637,21 @@ its CRAP-score and coverage-interpretation skills, binary-log analysis and build
 anything pinned to a platform release (target-framework migrations), which goes stale. The conversion of an
 existing solution to central package management was not read. Status unchanged; platform-line facts in §12.8
 to be re-read per `skills/source-freshness`.
+
+**Dogfooded again, 2026-10-19.** Third pass, on the SDK pinned by the operator (`9.0.319`, no NuGet restore
+needed): a `net9.0` project on the web SDK used as a console host, `Nullable` on, `AnalysisMode All`,
+`EnforceCodeStyleInBuild`, warnings as errors, no test framework (a hand-checked exit code instead). Built in
+`~/dogfood/dotnet`: keyed registrations (§2.17), `IValidateOptions` plus data-annotations plus `ValidateOnStart`,
+`[LoggerMessage]` logging, `TimeProvider`, `System.Threading.Lock` on `net9.0` (§1.18, compiled), a bounded
+`Parallel.ForEachAsync`, an `IAsyncDisposable` writer with a guarded double dispose, an enum with explicit
+values, collection expressions, a switch expression with a throwing arm, sealed records. Ran: the happy path,
+a pre-cancelled token (cancellation surfaced as `OperationCanceledException`), an unknown currency (rejected
+and logged), and an out-of-range option with the host both unstarted and started.
+
+Three gaps, all found by the build or the run: **CA1008** fails an enum with no zero member under `AnalysisMode
+All`, which §4.15 as written produces (now stated in §4.15, tying the zero member to §5.13/§7.10); **CA1515 and
+CA1812** together, the first enforcing §4.10 on an application project and the second false by construction for
+container-built internal classes (new §4.47, with CA1303 added to the guardrail's scoping sentence);
+**`ValidateOnStart` runs at `StartAsync`**, so a build-and-resolve path never validated at boot and failed later
+in a constructor (new §2.43; it also corrects §2.16's package claim for the web SDK). Not exercised: tests
+(no package restore), `IAsyncEnumerable`, channels, EF Core.

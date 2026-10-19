@@ -60,6 +60,10 @@
     to the database and the serialiser puts on the wire, so inserting a member mid-list or reordering two
     silently changes the meaning of existing data — no migration, no error, no failing test. Pinning the
     values costs one line per member and makes a reorder harmless.
+    The analyser set agrees only if one member holds zero: the design-rule analyser for enums
+    (CA1008, on under `AnalysisMode All`) rejects an enum whose numbering starts at one. Name the zero
+    member (`None`, `Unknown`) as the explicit "unset" sentinel, so `default(T)` is a value you chose
+    rather than an unnamed one (§5.13, §7.10).
 16. **A member that returns a sequence declares the read-only interface**, not the concrete list or array.
     It is a **view, not a barrier**: the caller can't add or remove through it, but it is not a defensive
     copy. The half with no override is the other one: private collection state is never exposed through a
@@ -245,3 +249,12 @@
     not make that parameter variant — point 27 checks each parameter's own usage, so a derived interface
     adding an invariant-shaped member reintroduces the "can no longer be handed something that writes into
     it" trade, scoped to the parameter never declared variant.
+47. **An application project (an executable, a web host) makes every type `internal`, and the analyser set
+    says so by itself.** Under `AnalysisMode All` the rule on unneeded public types (CA1515) fails the
+    build on every `public` type in a project nothing references, which is point 10 enforced rather than
+    advised. The same set then reports every `internal` class that only the container constructs as
+    never instantiated (CA1812), since a registration by generic argument is not a `new` the analyser can
+    see: that finding is false by construction here, so scope it off in the project's editor configuration
+    beside the naming rules (Guardrails), and do not widen the type or add a dummy construction to
+    silence it. The test project that needs the types reaches them through `InternalsVisibleTo`, not by
+    re-widening.
