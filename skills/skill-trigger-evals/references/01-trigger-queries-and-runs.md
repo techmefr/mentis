@@ -1,4 +1,4 @@
-# skill-trigger-eval-pitfalls §1 — Trigger queries and runs
+# skill-trigger-evals §1 — Trigger queries and runs
 
 ## 1.1 What is being measured
 1. **Triggering is decided from the name and description alone.** The Agent Skills guide says agents load only
@@ -10,7 +10,7 @@
 3. **A should-trigger query must therefore need the skill** (own guidance). A query the agent can finish with
    basic tools that never triggers under any wording is a bad query, not a bad description.
 4. **Output quality is another measurement.** Whether the skill helps once loaded is in
-   `llm-eval-regression-pitfalls` §1; this block measures activation only.
+   `llm-eval-regression-pitfalls` §1; this section measures activation only (the output eval is step 8 of the block).
 
 ## 1.2 The query set
 1. **Label each query with whether it should trigger.** The guide stores them in a small JSON file with a

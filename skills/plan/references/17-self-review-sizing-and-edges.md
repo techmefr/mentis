@@ -66,13 +66,15 @@
     every batch. When even a batch cannot stay green on its own, the batches share one integration branch and a
     final integrate-and-verify task blocks on all of them: green is promised there and nowhere earlier.
 
-## One option under evaluation: slicing vertically
+## Slicing vertically
 
-16. **One option, the owner has not decided.** A plan can cut tasks as vertical slices, each crossing every layer
-    (schema, interface, tests) for one narrow behaviour and demonstrable on its own, instead of one task per layer.
-    The attraction is that each slice proves the whole path early and a blocked slice does not hide a broken layer
-    behind it. **This is not a rule of this block**: mentis `tdd` writes the whole set of acceptance tests first and
-    runs it red on purpose (a default-FAIL contract, written from the spec by a different agent), and nothing here
-    changes that. Until the owner decides how the two fit together, a plan follows the project's constitution on
-    slicing, and where there is none it cuts along points 7 to 9. Points 10 to 15 (edges, prefactor, size, wide
-    changes) hold whichever way the cut goes.
+16. **Tasks are vertical slices, and `tdd` runs once per slice.** Cut the task list so each task crosses every layer
+    (schema, interface, tests) for one narrow behaviour and can be demonstrated on its own, instead of one task per
+    layer. Each slice proves the whole path early, and a blocked slice does not hide a broken layer behind it. Each
+    slice names the acceptance criteria it covers, so `tdd` can take them one slice at a time: the slice's tests are
+    written first by a different agent than the implementer, run red, then the slice is implemented to green before
+    the next one starts (`skills/tdd`). The default-FAIL contract is unchanged: every criterion of the whole feature
+    stays `false` in `test-results.json` from the start. Layer-shaped tasks remain only for what has no behaviour of
+    its own to demonstrate (points 7 to 9 still order the work inside a slice), and the expand, migrate, contract
+    sequence of point 15 is the exception for a wide mechanical change. Points 10 to 15 (edges, prefactor, size,
+    wide changes) hold for every slice. Decided by the owner on 2026-10-19.

@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use when the tests step starts, before any implementation code, write the tests first (test-casebook doctrine) and turn every acceptance criterion into a contract line that fails by default.
+description: Use when the tests step starts, before any implementation code, write the tests first, one vertical slice at a time (test-casebook doctrine), and turn every acceptance criterion into a contract line that fails by default.
 ---
 
 # tdd
@@ -22,16 +22,22 @@ installed at all.
 After `plan`, before writing the implementation.
 
 ## Steps
-1. For **every acceptance criterion** in the spec, create a line in `test-results.json`
-   initialised to `{ "passes": false }` (the contract starts as a failure).
-2. Write the matching test following **test-casebook** (`data-test-*` selectors, exhaustive,
-   persona matrix, target coverage ≥ 90%).
-3. Run the suite: **everything is red**, that's the expected result at this step. Scoped runs later, once
-   implementation starts, follow `skills/run-generated-tests` — this step is the one deliberate exception
-   where the whole new set is meant to run together, because "everything red" is the thing being checked.
-4. **Read each failure**: red has to mean the assertion failed, not that the test file crashed on a
+The plan cuts the work as vertical slices (`skills/plan`, reference 17, point 16). Do steps 1 to 4 for one slice,
+then take the next slice.
+
+0. **Initialise the whole contract up front.** For **every acceptance criterion of the feature**, create a line in
+   `test-results.json` as `{ "passes": false }` (the contract starts as a failure). Lines of later slices stay
+   `false` until their own slice reaches the gate, so the gate stays mechanical.
+1. Take the slice's acceptance criteria and write the matching tests following **test-casebook** (`data-test-*`
+   selectors, exhaustive, persona matrix, target coverage >= 90%), by a different agent than the one that will
+   implement the slice.
+2. Run the slice's set: **all of it is red**, that's the expected result at this step. Scoped runs once
+   implementation starts follow `skills/run-generated-tests` — this step is the one deliberate exception where
+   the slice's whole new set is meant to run together, because "all red" is the thing being checked.
+3. **Read each failure**: red has to mean the assertion failed, not that the test file crashed on a
    broken import or an incomplete mock. A setup error satisfies the contract while proving nothing,
    and it turns green later for reasons unrelated to the behaviour.
+4. Implement the slice to green, then repeat from step 1 for the next slice.
 
 Delegate the writing to `dozer` (tests only, never implementation) when you want that separation
 enforced rather than relied on. That separation is the whole defence against a specific failure mode:
@@ -49,7 +55,7 @@ The sections below are read when their trigger is met.
 | 2 | End-to-end tests | the criteria describe a journey through a real interface | [`02-end-to-end.md`](./references/02-end-to-end.md) |
 
 ## Output / checkpoint
-`tests_written` + `test-results.json` (every line `{ passes: false }`).
+`tests_written` + `test-results.json` (every line `{ passes: false }` at the start; only the GATE flips a slice's lines).
 
 ## Guardrails
 **No production code without a failing test that demanded it.** Code that came first is set aside and the test is

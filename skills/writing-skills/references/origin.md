@@ -36,9 +36,9 @@
 
 Not taken: the model-invoked against user-invoked choice, splitting by invocation and router skills from `SKILL-MECHANICS.md` (platform mechanics of one harness, Rule D, and `references/claude-code-platform.md` owns them); the "two loads" framing and the human as index (opinion about one author's workflow); the progressive-disclosure ladder (the router form of `CONVENTIONS.md` already does it).
 
-## Not verified / open decision for the owner
+## Decided by the owner, and not verified
 
-1. **Positive steering against our guardrail style (point 32).** The source says a ban pulls the banned behaviour into context. Our template's `Guardrails` section and the default-equals-failure rule are phrased as prohibitions, and several hooks enforce prohibitions mechanically. The source itself keeps a prohibition for hard guardrails that cannot be phrased positively, which most of ours are. Not decided: whether to rewrite existing guardrails with a positive target beside each. Nothing was rewritten.
+1. **Positive steering against our guardrail style (point 32).** The source says a ban pulls the banned behaviour into context, and keeps a prohibition only for hard guardrails. **Decided by the owner on 2026-10-19: both.** Each guardrail states the positive instruction and, where the failure is costly, keeps the `Never ...` line beside it, since several hooks enforce prohibitions mechanically. Existing blocks are not bulk-rewritten; the positive form is added when a guardrail is next touched.
 2. Point 33 overlaps point 12 by design; the source's claim that the no-op test is model-relative was not tested by us.
 3. Point 38 (leading words) is the source's claim about pretraining and was not measured; the example words are the source's.
 4. Nothing in points 31 to 38 was run against our own blocks, and `skill-trigger-evals` was not used to check point 34.
