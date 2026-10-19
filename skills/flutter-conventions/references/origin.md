@@ -286,3 +286,16 @@ no-UI-strings rule and its robot-testing skill. Left out on purpose: the Melos w
 analyse and build-filter flags, the second-opinion delegation, the screenshot-flow and crash-reporter
 vendor details (flags and vendors go stale; the principles are already in §9 and §13). Pinned tool versions
 in the source are not carried over. Status unchanged.
+
+**Dogfooded again, 2026-10-19.** A third small app against this block: a profile screen with a repository,
+a `ChangeNotifier` owning a `Timer.periodic`, a `FutureBuilder` list with keyed tiles, a validated form, a
+`Semantics` label on an icon button and a save that awaits before using `context`. Analysis options: strict-casts,
+strict-inference, strict-raw-types and about 35 extra lint rules on top of `flutter_lints`. Flutter in docker,
+headless; `flutter analyze` clean apart from one style info, 6 widget tests green.
+
+One real gap, closed at §1 point 30: no analyser rule flags an undisposed controller or notifier field in a
+`State` (the first version had both undisposed and analysed with no diagnostic but `unused_field`). Checked
+and not gaps, because the run reproduced what the rules already say: a `FutureBuilder` future built inline
+refetches on rebuild (§1.24), `context` after an await throws on an unmounted widget (§1.1), a `FutureBuilder`
+without an error branch spins forever (§4), and `pumpAndSettle` times out on an indeterminate spinner (§10.27).
+Status unchanged, 🟡.
