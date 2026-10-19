@@ -49,7 +49,7 @@ The line-by-line breakdown is [`CATALOG.md`](./CATALOG.md); the summary is [Stat
 - 📖 [How I write and govern my agents](./doc/HOW-WE-WRITE-OUR-AGENTS.md) — the doc to read to understand everything, with diagrams
 - 🧭 [`WORKFLOW.md`](./WORKFLOW.md) — the numbered pipeline, step → block routing
 - 📚 [`CATALOG.md`](./CATALOG.md) — the registry, every idea credited to its real source
-- 📐 [`CONVENTIONS.md`](./CONVENTIONS.md) — the single template, rules A/B/C
+- 📐 [`CONVENTIONS.md`](./CONVENTIONS.md) — the single template, rules A to E
 - 🤝 [`CONTRIBUTING.md`](./CONTRIBUTING.md) — PR-only, and the contribution terms
 - ⚖️ [`LICENSING.md`](./LICENSING.md) — AGPL-3.0-or-later, or a commercial licence
 - 🖥️ [The native platform surface](./references/claude-code-platform.md) — what Claude Code already provides, so no block reimplements it
@@ -198,8 +198,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `using-mentis` | 0 | Discipline for using the framework, entry point |
 | `start-feature` | 0 | Starts a feature (worktree) |
 | `brainstorm` | 1 | Explores intent/need before any code |
-| `spec` | 2 | Frames the need as verifiable criteria |
-| `speckit` | 2 | Spec-kit cycle (constitution to implement); first choice when `.specify/` exists, `spec` otherwise |
+| `spec` | 2 | Substance of the framing (interview, scope, vocabulary, ADRs, verifiable criteria) written into the spec-kit artefacts |
+| `speckit` | 2 | The one spec process (Rule E): the spec-kit cycle and its artefacts, source of truth for every feature |
 | `domain-modeling` | 3 | What is this concept, what's always true about it, where the rules live |
 | `archi` | 3 | Architecture decisions, before the plan |
 | `api-design` | 3 | Contract-first API design (Hyrum's law, extension vs breakage) |
@@ -754,7 +754,7 @@ names exist to signal: `laravel-architect` never writes, the seven builders neve
 </details>
 
 Full detail: [`CATALOG.md`](./CATALOG.md) (registry + sourcing backlog, with every idea credited to
-its real source) and [`CONVENTIONS.md`](./CONVENTIONS.md) (the single template and rules A/B/C).
+its real source) and [`CONVENTIONS.md`](./CONVENTIONS.md) (the single template and rules A to E).
 
 ---
 
@@ -1078,7 +1078,7 @@ resolve, and staying on an older version on purpose has to remain possible.
 
 ## Status
 
-**Active demonstrator.** The doctrine (template, rules A/B/C, default = failure, fresh context) is
+**Active demonstrator.** The doctrine (template, rules A to E, default = failure, fresh context) is
 stable and applied. The honest breakdown:
 
 | | Count | State |
