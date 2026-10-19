@@ -693,7 +693,7 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 50,784 | −29,041 | x1.57 |
+| laravel | 65 / 79,825 | 3 / 50,940 | −28,885 | x1.57 |
 | csharp | 37 / 56,718 | 1 / 34,538 | −22,180 | x1.64 |
 | design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
 | flutter | 40 / 20,772 | 1 / 23,347 | +2,575 | x0.89 |
@@ -726,7 +726,7 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 36,444, php-patterns 7,175, inertia-conventions 7,165
+laravel: laravel-conventions 36,600, php-patterns 7,175, inertia-conventions 7,165
 csharp: dotnet-conventions 34,538
 python: python-conventions 18,908, data-pipeline-conventions 5,536
 flutter: flutter-conventions 23,347
