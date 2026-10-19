@@ -63,6 +63,12 @@ When a draft cites sources and each one has to be confirmed, read
 [`references/02-claim-verification-procedure.md`](./references/02-claim-verification-procedure.md) §5: fetched
 in this run, passage recorded, primary over recap, echo clusters counted once.
 
+### 6. A deck or talk: reading or speaking
+Before drafting a pitch deck or conference deck, decide whether it will be read alone or presented live. A
+speaking deck is sparse, one idea a slide, with the claim's source kept in the notes; a reading deck
+carries the claim, its number and its source on the slide itself, because nobody is there to explain it.
+Pick one per deck; when the need is mixed, take the nearer case and make the other version separately.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the four positioning sentences, and a source
 attached to every factual claim, with the technical ones confirmed by someone who built it. Any claim
@@ -87,6 +93,10 @@ marketing expertise** and with no access to a brand or campaign reference, so it
 where engineering can be useful and be held to something. The claim-needs-a-source discipline and its
 framing as `default = failure` applied outside code are ours, as is the rule that technical claims are
 read by a builder before shipping.
+
+Widened 2026-10-19 (second addition): step 6 rewrites, in our words, the reading-deck versus
+speaking-deck density idea of a slide-generator skill (frontend-slides, MIT, LICENSE file read; SKILL.md
+read in part). Its HTML runtime, presets and deploy script were not taken.
 
 Widened 2026-10-19: `references/02-claim-verification-procedure.md` rewrites, in our words, the verification
 method of the blog-factcheck skill of claude-blog (MIT, LICENSE file read; SKILL.md read in full). Scoring

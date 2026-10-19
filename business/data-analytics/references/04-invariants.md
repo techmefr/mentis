@@ -49,3 +49,11 @@ These hold regardless of which system is being queried:
     owns, they are not derivable from the schema, and a plausible answer is indistinguishable from the
     real one until it is wrong. Ask the team that owns the landscape, and record the answer where the
     next query will find it (§2.9).
+11. **Count the outcome you want, and keep non-events out of the denominator.** A metric of attention
+    (replies, clicks, opens, sign-ups) says people noticed; a metric of the outcome (interested replies,
+    purchases, activated accounts) says they wanted it, and two campaigns can rank in opposite orders on
+    the two. Pick the outcome as the numerator and say which classes of event count as it. Then decide
+    what is not a real trial and remove it from the base: automatic replies and bounces are not people
+    responding, and leaving them in lowers a rate for reasons unrelated to the thing measured. Write the
+    inclusions and exclusions next to the figure (point 4), and give a rate on a small base as a count
+    with a caveat rather than as a percentage that invites a winner to be declared.

@@ -78,6 +78,12 @@ plausible number. The additions that were real absences rather than elaborations
 
 Router plus sections: 1,804 → 4,520.
 
+**§4.11 added 2026-10-19** (outcome numerator, non-events out of the denominator, small bases) from the
+positive-reply-scoring skill of a cold-email kit (coldoutboundskills, MIT, LICENSE file read; SKILL.md read
+in full, scripts not read). Rewritten as a general metric rule; its vendor API, its eleven-label schema,
+its benchmarks and its 500-send threshold were not taken. Source commit 25c5d85. No existing point was
+renumbered.
+
 **Status.** Unchanged: 🟡, and the reason is unchanged too. There is still no in-house data-engineering
 expertise behind this block, so the depth makes the defaults arguable rather than proven — which is
 precisely what `agents/oracle` needs in order to report by mechanism instead of by assertion, and is a
