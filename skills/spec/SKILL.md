@@ -19,7 +19,7 @@ holds in a repo with **nothing installed** (`CONVENTIONS.md`, rule A).
 | §3 acceptance criteria | specify | acceptance scenarios and success criteria of `spec.md` |
 | §4 out of scope | specify | the exclusions and assumptions of `spec.md` |
 | §5 ADRs | plan | the decisions of `research.md`, plus an ADR file for a structural one |
-| §6 fresh-context review | clarify | a check on `spec.md` before the operator reads it |
+| §6 fresh-context review, cold-reader questions | clarify | a check on `spec.md` before the operator reads it, one round of owner questions |
 | §7 feasibility verdict | specify | an assumption or a stated blocker in `spec.md` |
 
 The full mapping, with `plan` and `archi`, is `skills/speckit` reference 04. Where the project's own template
@@ -48,7 +48,7 @@ content.
 | 3 | Acceptance criteria, the contract for `tdd` | turning the story's criteria into what the tests assert | [`03-acceptance-criteria.md`](./references/03-acceptance-criteria.md) |
 | 4 | Out of scope, explicitly | the scope is being locked | [`04-out-of-scope.md`](./references/04-out-of-scope.md) |
 | 5 | ADRs | a structural decision is taken | [`05-adr.md`](./references/05-adr.md) |
-| 6 | Fresh-context review of the written spec | the spec is written, before the operator is asked to read it | [`06-fresh-context-review.md`](./references/06-fresh-context-review.md) |
+| 6 | Fresh-context review of the written spec, and the cold-reader question pass | the spec is written, before the operator is asked to read it | [`06-fresh-context-review.md`](./references/06-fresh-context-review.md) |
 | 7 | The feasibility verdict | the request might be impossible, costly or blocked by something outside the team | [`07-feasibility-verdict.md`](./references/07-feasibility-verdict.md) |
 
 ## Output / checkpoint

@@ -35,5 +35,14 @@ orchestrator, which are the three places a delivery goes wrong that a CI file ca
   documentation and the Pod Security Standards. It carries no manifest templates, since a copied
   template ages faster than the reasons behind it.
 
+**Extended 2026-10-19: §8** (status 🟡, never run on a real pipeline). Written from official documentation
+read in this session on 2026-10-19: GitLab pipeline security, CI/CD variables, merge request pipelines
+(including forks), CI job token, GitLab Runner security, predefined variables (read to check for an
+injection warning: none found), and GitHub's security hardening guide for Actions. Rewritten in our own words.
+Not read: GitLab ID token / OIDC pages, protected branch settings, the Actions secure-use page beyond the
+hardening guide. Not found in the GitLab pages and so stated as our inference: untrusted text in scripts
+(§8.2). The cybersecurity skills library was deliberately not used. Platform settings change; recheck
+against the current pages before relying on one.
+
 Not taken: vendor-specific CI and cloud platform guidance (infra reality, rule C), and any numeric default
 recited from memory.

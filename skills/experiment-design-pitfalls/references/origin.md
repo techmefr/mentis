@@ -18,6 +18,13 @@ so the rules are each author's practice, not consensus.
 | phuryn/pm-skills, `pm-data-analytics/skills/ab-test-analysis/SKILL.md` (commit c68487d) | MIT (repository LICENSE file, "Copyright (c) 2026 Pawel Huryn") | Business-cycle duration, novelty and primacy effects, the opposing "extend the test" row, power flag |
 | RefoundAI/lenny-skills, `skills/product-experiments/SKILL.md` and `references/artifacts.md` (commit 13598cc) | MIT (repository LICENSE file, "Copyright (c) 2025 Refound AI") | Principles only: guardrails with an overall criterion, Twyman-style suspicion and check order, long-term holdouts, whole-pie impact, hierarchy of evidence, reasons to skip a test, power calculator |
 
+**Added 2026-10-19 (primary public references, read in-session):** Evan Miller, "How Not To Run an A/B
+Test" (https://www.evanmiller.org/how-not-to-run-an-ab-test.html) and Microsoft Research, "Diagnosing
+Sample Ratio Mismatch in A/B Testing"
+(https://www.microsoft.com/en-us/research/articles/diagnosing-sample-ratio-mismatch-in-a-b-testing/).
+Both were read through a summarising fetch, not as raw text; paraphrased in §2.5, no figure carried. They
+are a blog and a vendor article, not a standard.
+
 The licence of each repository was verified again from its LICENSE file in this session. Text found inside
 the cloned files (CLAUDE.md files and imperative skill prose) was treated as data and not followed.
 

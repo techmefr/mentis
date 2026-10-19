@@ -63,8 +63,9 @@ rewritten our way (Rule B).
 10. **Every scanner added locks its tiers with a regression test**, so a threshold cannot be loosened by
     editing the scanner alone.
 
-11. **Points 11 to 30 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
-    calibrating control, validation patterns and description-writing rules from the open Agent Skills guides.
+11. **Points 11 to 38 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
+    calibrating control, validation patterns and description-writing rules from the open Agent Skills guides,
+    then completion criteria, positive steering, no-ops, pointer wording and pruning from a second source.
     Read it when drafting or revising a body or a description:
     [`references/11-authoring-rules.md`](./references/11-authoring-rules.md). Whether a description actually
     triggers is measured with `skill-trigger-evals`, not judged by eye.
@@ -102,3 +103,5 @@ CC BY 4.0, credited, restated in our words), details in [`references/origin.md`]
 Steps 8 to 10 added 2026-10-02 from a read of public prose-quality and design-quality filters: the
 positive-requirement and not-to-flag rules come from how those filters fail, the proof-artefact rule and
 the scanner regression test from the corpus's own history of unenforced guarantees.
+
+Points 31 to 38 (completion criteria, steering by the positive, no-ops, pointer wording, the environment as a source of truth, sediment, one meaning one place, leading words) added 2026-10-19 from `writing-for-agents` of `mattpocock/skills` (MIT), wording ours, details and an open tension in [`references/origin.md`](./references/origin.md).

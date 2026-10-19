@@ -78,6 +78,12 @@ After `archi`, before `tdd`, inside the cycle's plan and tasks steps, with or wi
     ranked by cost. A plan that is fine gets `GO` in one line: inventing objections is the fault. It judges
     scope, structure and size, never naming or formatting.
 
+17. **Self-review pass, task size and blocking edges.** Before handing `tasks.md` over, run the planner's own
+    pass (name and type consistency across tasks, an Interfaces note per task), size each task, and write what
+    blocks each one. Read [`references/17-self-review-sizing-and-edges.md`](./references/17-self-review-sizing-and-edges.md)
+    when the task list is drafted or has to be cut or re-cut. It also records, as an open option and not a rule,
+    cutting tasks as vertical slices.
+
 ## Output / checkpoint
 `plan_done` + one tracked item per increment, in dependency order, recorded as the feature's `tasks.md`.
 
@@ -95,3 +101,5 @@ way.
 Steps 4 to 6 rewritten from the `writing-plans` skill of `superpowers` (MIT, 6.4.x), read 2026-10-02, and steps 8 to 10 from the same skill (file map, header, no placeholders, self-review, one plan per subsystem). Steps 0, 11, 12 and 13 come from the `make-plan` and `do` skills of `claude-mem` (Apache-2.0, read 2026-10-02): documentation discovery first, copy-from-documentation framing, the sub-worker report contract and the searchable anti-pattern list. Rewritten in our words; no text copied, so its NOTICE obligations do not apply. Step 7 comes from the cross-model plan-review workflow in `claude-code-best-practice` (MIT), same date.
 
 Steps 14 to 16 (brief traceability, speculative structure and dependency scrutiny, named trust boundaries, the GO/TRIM/RETHINK verdict from a fresh context, the five-finding cap) rewritten from the plan-check skill of abdian/claude-toolkit-laravel (MIT), read 2026-10-02. Rewritten in our words; no text copied. Nothing here relaxes the guard against automatic execution.
+
+The provenance of step 17 (`references/17-self-review-sizing-and-edges.md`) and the open decision it leaves to the owner are in [`references/origin.md`](./references/origin.md).

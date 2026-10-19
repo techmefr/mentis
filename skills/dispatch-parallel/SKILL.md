@@ -57,6 +57,10 @@ decomposes into sub-tasks that don't step on each other.
    artefact on disk, not the length of the reply.
 8. Every subagent produces its own trace (see the single template, pillar 7): no merged report
    that hides which agent said what.
+9. **Brief each worker to report one of four statuses** (`DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`,
+   `BLOCKED`) and handle each differently when it comes back:
+   [`references/01-worker-status-reports.md`](./references/01-worker-status-reports.md). Read it when writing the
+   brief and when a report arrives.
 
 ## Supervising dispatched workers
 
@@ -143,3 +147,5 @@ turn launch, aggregate-once-all-in, re-ask over relaunch — held exactly as wri
 round with no correction needed.
 
 Supervision rules added 2026-10-02 from the `orchestration.md` guide of `orca` (MIT), read that day: the four-field outcome, positive-proof-only stop and retry with live/unverifiable/exited verdicts, two-layer liveness and enqueue versus acknowledgement. Its CLI specifics are not carried over.
+
+The four-status report contract (`references/01-worker-status-reports.md`) was added 2026-10-19; its provenance is in [`references/origin.md`](./references/origin.md).

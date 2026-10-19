@@ -60,3 +60,33 @@ that delays the next click, a confirmation for something that could simply have 
 13. **Audit by forcing the states.** To check an interaction, render each of its states by forced classes
     (§3.11): rest, hover, focus, pressed, disabled, loading, success, failure. An interaction whose
     failure state was never drawn has not been designed (§3.3).
+14. **An exit is quicker than its entrance, and the two do not mirror.** Something arriving decelerates into
+    place; something leaving accelerates away and takes less time than it took to arrive. A dismissal that
+    lingers makes the interface feel slow to obey. The ratio belongs to the design system's tokens (§9.9), not
+    to this block.
+15. **A spinner that appears for a blink is worse than none.** When the work usually finishes fast, delay the
+    indicator so quick results never show it, and once shown keep it long enough to be read. Either rule
+    beats a flash that looks like a glitch. Where the wait is long enough to need it, say what is happening
+    rather than only that something is (§3.1).
+16. **One orchestrated entrance, shown once.** A page or a list may reveal itself in a single staggered
+    sequence with a bounded total, triggered by the element reaching the viewport, and it does not replay
+    when the person scrolls back or filters. Every section fading in on its own turns the page into a
+    perpetual show that never settles. Reveal-on-scroll uses the browser's intersection observation, not a
+    scroll listener (`skills/webperf` §2).
+17. **A transient layer never moves what is already on the page.** A toast, a banner or a popover stacks or
+    floats over the content; pushing the page down and letting it spring back moves the thing the person was
+    about to click. Several toasts stack in one corner, and the existing ones keep their place when a new
+    one arrives.
+18. **A ticking value is announced once, at its final value.** A counter that animates up to a figure, or a
+    result count that updates while typing, tells assistive technology the settled value after the movement
+    or the pause, not every intermediate step (§9.3). With reduced motion, the final value is shown at once.
+19. **Know which criterion a motion falls under, because the preference does not cover all of it.** The
+    accessibility standard's criterion on animation from interactions (2.3.3, level AAA) is about motion that
+    follows an interaction, such as parallax or things sliding as the person scrolls; essential animation is
+    exempt, and movement that merely brings new content into view when scrolling is allowed while extra
+    animation added to scrolling must be optional. The criterion on pause, stop, hide (2.2.2, level A) covers
+    movement that starts by itself, runs beyond five seconds and sits beside other content, and it counts
+    something that starts on hover, focus or on scrolling into view as starting by itself; auto-updating
+    content needs a control whatever its length. One animation can fall under both. A standalone loading
+    indicator that is not beside other content needs no control. The preference mechanics are in
+    `skills/accessibility` §7.8; this block only says to ask the question per animation.

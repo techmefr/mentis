@@ -56,7 +56,7 @@ code (Terraform, Ansible), or a monitoring/alerting config is written or modifie
 2. Post-mortem with no individual blame, focused on the systemic cause (what made the incident
    possible), not on who pressed what.
 
-### 5 to 7. Further sections, read when the task meets the trigger
+### 5 to 8. Further sections, read when the task meets the trigger
 
 Sections 1 to 4 stay above because every pipeline touches them. The rest live one file per section under
 `references/`; read the rows whose trigger the task actually meets, not the table.
@@ -66,6 +66,7 @@ Sections 1 to 4 stay above because every pipeline touches them. The rest live on
 | 5 | Transport security in operation: TLS everywhere, redirect, strict-transport rollout, certificate renewal, key custody | a proxy, load balancer, ingress, certificate, redirect or domain is configured | [`05-transport-and-certificates.md`](./references/05-transport-and-certificates.md) |
 | 6 | Safe schema and data migrations: compatibility during deploy, locks, online indexes, backfill, way back | a migration is added or edited, a large table altered, a backfill planned | [`06-safe-migrations.md`](./references/06-safe-migrations.md) |
 | 7 | Workloads on a container orchestrator: probes, resources, rollout, shutdown, least access, network, images | manifests for a container orchestrator are written or changed | [`07-container-orchestration.md`](./references/07-container-orchestration.md) |
+| 8 | The pipeline as an attack surface: pinned includes, images and actions, untrusted text in scripts, secrets and forks, job tokens, runner trust | a CI file is written or reviewed for what it executes, reads and who can trigger it | [`08-pipeline-attack-surface.md`](./references/08-pipeline-attack-surface.md) |
 
 ## Output / checkpoint
 Pipeline/infra compliant with the sections that apply, `plan`/`dry-run` read and cited before any real
@@ -82,5 +83,5 @@ Pipeline/infra compliant with the sections that apply, `plan`/`dry-run` read and
 
 ## Origin
 12-factor app, DORA metrics and established GitOps/IaC practice for §1 to §4; primary standards and
-documentation for §5 to §7 (added 2026-10-02). Full provenance, the protected-resource rule and the
+documentation for §5 to §7 (added 2026-10-02), the GitLab CI and GitHub Actions security documentation for §8 (added 2026-10-19). Full provenance, the protected-resource rule and the
 refresh log are in [`references/origin.md`](./references/origin.md).

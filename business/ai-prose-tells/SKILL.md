@@ -41,7 +41,7 @@ prose (axis 8 of `references/review-axes.md`).
 | File | Covers | Read it when |
 |---|---|---|
 | [`01-tells.md`](./references/01-tells.md) | Families 1 to 14, clusters, what not to flag, human signs, the positive requirement | every audit |
-| [`02-more-tells.md`](./references/02-more-tells.md) | Families 15 to 43, production residue, checks a count settles, the register test | the draft still reads as machine-made after `01`, or it is an MR description, README or caption |
+| [`02-more-tells.md`](./references/02-more-tells.md) | Families 15 to 45, production residue, checks a count settles, the register test | the draft still reads as machine-made after `01`, or it is an MR description, README or caption |
 | [`03-french.md`](./references/03-french.md) | The same mechanisms with French instances and French false positives | the text is in French |
 
 ### Severity: four tiers, one blocker

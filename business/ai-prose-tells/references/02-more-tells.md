@@ -108,6 +108,17 @@ whether it is a tell or just a sentence.
     Test: remove the noun; if the sentences become identical, none of them carried information.
 43. **Re-statement of the title.** The first sentence repeats the heading in prose. Start with the first
     thing the heading did not say.
+44. **Arguing with no one.** A sentence that rejects an objection or an option nobody raised: "this is not
+    mainly about X", "I am not saying Y", "a tempting approach would be Z, but", "you might think". Usually
+    a leftover from an earlier draft, or a rival invented so the real point can win. Test: does the text
+    attribute the objection to someone, or would a reader really weigh the rejected option? If not, delete
+    the defence and, if it hid a claim, state the claim. Keep an objection that is attributed and answered
+    in full, and an option the reader truly faces. Several unrelated rejections in a row are a stronger sign
+    than one.
+45. **Hyphen in every position.** A compound modifier hyphenated after its noun as well as before it ("the
+    plan is long-term", "the process is well-documented"). Test: the hyphen belongs before the noun and is
+    usually dropped after; words that are always hyphenated keep it everywhere. Weak alone; only a cluster
+    counts, and a house style that hyphenates throughout overrides it.
 
 ## 3. Checks a count can settle
 
