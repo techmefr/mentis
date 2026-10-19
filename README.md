@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-353-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-361-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-32-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20571%20checks-1a7f37?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20663%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
   <a href="./LICENSING.md"><img alt="licence" src="https://img.shields.io/badge/licence-AGPL--3.0--or--later%20%2B%20commercial-1a7f37?style=flat-square"></a>
 </p>
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **353** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **361** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **32** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -983,7 +983,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 
 ## Maintaining this repo
 
-**Thirteen suites, 571 checks**, listed once in `bin/pre-push`:
+**Thirteen suites, 663 checks**, listed once in `bin/pre-push`:
 
 | Suite | Covers |
 |---|---|
@@ -1091,11 +1091,22 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 353 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 361 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 32 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
+
+**Since the last round** (2026-10-19): the install guard `hooks/block-installs.sh` now refuses most of its
+known bypasses (python -m pip, installers by path, bare yarn, uv sync, piped scripts, installs inside
+containers; the hooks suite is at 441 checks, the remaining gaps are listed in
+[`hooks/README.md`](./hooks/README.md)); Rule E makes the spec-kit cycle the one spec process
+([`skills/speckit`](./skills/speckit)); an exporter turns blocks into `AGENTS.md` or Cursor rules
+([`export/README.md`](./export/README.md), not yet tried in a real Cursor); an applied override is
+recorded for whoever decides instead of being applied silently; the legal and finance layer gained
+method-only blocks read from the official texts (GDPR breach, DPIA and transfers, NIS2, DORA, AI Act and
+its omnibus, e-invoicing, VAT, CRA scope, none a substitute for a lawyer or accountant); and the dotnet,
+react, laravel, vue/nuxt, go, python and flutter conventions each got a dogfood pass on a real toolchain.
 
 **Written with no internal production experience on the stack**, so their remarks are phrased as
 questions rather than statements: `boromir` (Go), `theoden` (.NET), `samwise` (Python), `faramir`
