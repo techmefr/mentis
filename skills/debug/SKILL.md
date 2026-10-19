@@ -37,6 +37,9 @@ The error surfaces deep in the stack; the instinct is to fix it there, which fix
    guessing: log the parameters, the surrounding context, and a captured stack trace, immediately
    before the failing call. In tests, write to stderr — a logger may be suppressed, and then you're
    debugging your own silence.
+6. **When the failure crosses several components** (a pipeline, API then service then database) and the loop is
+   red but no stage is named, instrument every boundary once and read the one trace to find the failing layer
+   before tracing inside it: `references/06-component-boundaries.md`.
 
 ### 3. Fix at the source, then make the class of bug impossible
 Fixing the origin removes this bug. Adding checks along the path removes the next one of its kind.
@@ -102,3 +105,5 @@ guardrails, and `neo`/`morpheus`/`trinity`'s), so it's caught before the diff, n
 disappears, the same "written instruction + hook" pairing as `gate`'s evidence rule.
 
 Section 5 (`references/05-feedback-loop-first.md`: the feedback loop first, minimising, tagged logs, the correct-seam rule) was added 2026-10-19; its provenance and the reconciliation with the single-hypothesis rule are in [`references/origin.md`](./references/origin.md).
+
+Section 6 (`references/06-component-boundaries.md`: instrument each component boundary once, locate the failing layer from the evidence) was added 2026-10-19; its provenance and what it deliberately does not duplicate are in [`references/origin.md`](./references/origin.md).

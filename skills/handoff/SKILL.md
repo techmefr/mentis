@@ -43,7 +43,8 @@ completed task.
 
 ## Output / checkpoint
 A handover document exists, cites every artefact by its exact path/URL (no duplicated content),
-and explicitly names the next step/skill to resume at.
+and explicitly names the next step/skill to resume at. The six reboot questions (`when-stuck` §5.10) can each be answered
+from it without the incoming agent asking anyone.
 
 ## Guardrails
 **Never hand over a premise as a finding.** What was observed in this session and what was inferred or assumed
@@ -62,3 +63,5 @@ The discarded-attempts rubric, the current-hypothesis section and the addressed-
 from the `handoff` skill of `claude-mem` (Apache-2.0, read 2026-10-02); the findings-versus-premises split from
 the working method of `slopless` (MIT, same date). Rewritten in our words, no text copied, so the NOTICE
 obligations of the Apache licence do not apply.
+
+The reboot-checkpoint line in the output section comes from the six-question reboot test of `planning-with-files` (MIT, read 2026-10-19); its provenance is in `skills/when-stuck/references/origin.md`.
