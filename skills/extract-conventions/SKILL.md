@@ -15,7 +15,7 @@ them. Always at a human's request.
 
 ## Steps
 1. Read the real code — a structural index first where one is installed (an AST search such as
-   `claude-mem`'s `smart-explore`, or a graph artefact such as `graphify`), and targeted reading
+   `claude-mem`'s `smart-explore`, or a graph artefact such as `graphify`, whose freshness is checked per `skills/archi` step 1), and targeted reading
    in every case: structure, recurring patterns, naming, backend responses, frontend components,
    design tokens actually used, test patterns. The index only tells you where to look; a
    convention is observed in the code, never inferred from a symbol list. On a small codebase

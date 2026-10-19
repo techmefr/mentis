@@ -5,8 +5,7 @@
 
 **Status: 🟡.** Written from documentation, never run by us. No app was built and no device or emulator was used.
 
-**Fold-in note.** Meant to be folded into `kotlin-android-conventions` (or a Compose reference next to
-`compose-correctness`) when PR 118 lands.
+**Overlap note.** Overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (read 2026-10-08, rewritten, no text copied)
 

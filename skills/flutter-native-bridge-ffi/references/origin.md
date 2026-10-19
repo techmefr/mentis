@@ -4,10 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No bridge was generated, no library
-built and no hook run while writing it. This block is meant to be folded into the same-topic reference of
-`flutter-conventions` (a native-interop section next to its platform error-code point) when the extended
-version of that block, on the unmerged branch of PR 118, lands; until then it stands alone so nothing cites a
-section that is not on the main branch.
+built and no hook run while writing it. Overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

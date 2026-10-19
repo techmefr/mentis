@@ -42,6 +42,5 @@ a config file and never run is not verified.
 ## Origin
 Rewritten from the Go release notes, command and package documentation, the fuzzing and vulnerability
 guides, the race detector article (CC-BY-4.0 text, BSD-3 code), the goleak README (MIT), the gofumpt README
-(BSD-3), the gosec README and rule list, and the Uber Go Style Guide (Apache-2.0), read 2026-10-08. Meant to
-be folded into `go-conventions` when the extended version of that block lands. 🟡: never run by us; open
+(BSD-3), the gosec README and rule list, and the Uber Go Style Guide (Apache-2.0), read 2026-10-08. Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open
 points are in [`references/origin.md`](./references/origin.md).

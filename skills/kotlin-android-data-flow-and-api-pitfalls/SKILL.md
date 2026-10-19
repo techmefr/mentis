@@ -42,6 +42,5 @@ hierarchy the UI handles exhaustively, and each new function names its semantic 
 
 ## Origin
 Rewritten from the Now in Android architecture guide (Apache-2.0) and the Kotlin API design skill of the
-chrisbanes skills repository (Apache-2.0), read 2026-10-16. Meant to be folded into the Kotlin language block when
-the extended language blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open
+chrisbanes skills repository (Apache-2.0), read 2026-10-16. Overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open
 points are in [`references/origin.md`](./references/origin.md).

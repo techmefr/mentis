@@ -94,6 +94,19 @@ try:
     check("empty range says so, rather than pretending to review",
           "nothing to review" in r.stdout, r.stdout[-120:])
 
+    r = subprocess.run([sys.executable, f"{BIN}/prefetch_local.py", "main..feat"],
+                       cwd=repo, capture_output=True, text=True, env=env)
+    check("a descending explicit range is accepted", r.returncode == 0, r.stderr[:120])
+    r = subprocess.run([sys.executable, f"{BIN}/prefetch_local.py", "feat..main"],
+                       cwd=repo, capture_output=True, text=True, env=env)
+    check("a non-descending range is rejected", r.returncode != 0 and "ancestor" in r.stderr, r.stderr[:160])
+    r = subprocess.run([sys.executable, f"{BIN}/prefetch_local.py", "feat..feat"],
+                       cwd=repo, capture_output=True, text=True, env=env)
+    check("an empty range is rejected", r.returncode != 0 and "empty range" in r.stderr, r.stderr[:160])
+    r = subprocess.run([sys.executable, f"{BIN}/prefetch_local.py", "feat"],
+                       cwd=repo, capture_output=True, text=True, env=env)
+    check("a base equal to the branch tip is an empty range, rejected", r.returncode != 0, r.stderr[:160])
+
     r = subprocess.run([sys.executable, f"{BIN}/prefetch_local.py"],
                        cwd=tempfile.gettempdir(), capture_output=True, text=True, env=env)
     check("outside a git repo: clean error, no traceback",

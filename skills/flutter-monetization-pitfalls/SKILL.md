@@ -46,6 +46,5 @@ offline owner, a failed restore and a no-fill is not verified.
 
 ## Origin
 Rewritten from the ads-and-iap-monetization skill of the Flutter-Skills repository (MIT: its rules, its two
-references and its release-gate script), read 2026-10-16. Meant to be folded into the Flutter block when the
-extended language blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open
+references and its release-gate script), read 2026-10-16. Overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open
 points are in [`references/origin.md`](./references/origin.md).

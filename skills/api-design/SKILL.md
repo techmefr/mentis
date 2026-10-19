@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: "Use when designing a new API or interface (REST, tRPC, GraphQL) before implementing it: contract-first, Hyrum's law, extension rather than breakage."
+description: "Use when designing a new API or interface (REST, tRPC, GraphQL, gRPC) before implementing it: contract-first, Hyrum's law, extension rather than breakage, protobuf evolution, the OpenAPI description, problem details."
 ---
 
 # api-design
@@ -23,13 +23,15 @@ already exists" (by then it's too late to steer the design).
 
 **Read only the section the task actually needs.** The rules live one file per section under
 `references/`; §1 is a new contract, §2 is what the contract exposes, §3 is any change to one that
-already ships.
+already ships, §4 and §5 are what those become on a protobuf wire and on an HTTP/OpenAPI one.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
 | 1 | Contract-first | designing a new endpoint, route or procedure | [`01-contract-first.md`](./references/01-contract-first.md) |
 | 2 | Hyrum's law: whatever is observable will be depended on | deciding what an interface exposes | [`02-hyrums-law.md`](./references/02-hyrums-law.md) |
 | 3 | Extension rather than breakage | an existing contract has to change | [`03-extension.md`](./references/03-extension.md) |
+| 4 | Schema-first RPC: protobuf evolution, names, deadlines, retries, status codes, pagination | the contract is a `.proto` file or a gRPC service | [`04-grpc-protobuf.md`](./references/04-grpc-protobuf.md) |
+| 5 | HTTP contracts: the OpenAPI description and its lint, problem details, idempotency, pagination, rate limits | the contract is an HTTP API described in OpenAPI | [`05-http-openapi.md`](./references/05-http-openapi.md) |
 
 ## Output / checkpoint
 Final verification checklist cleared before shipping the contract: pagination consistent with the

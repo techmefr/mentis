@@ -44,6 +44,5 @@ not verified.
 ## Origin
 Rewritten from the Dart website's pub documentation (CC BY 4.0 for prose, BSD-3-Clause for code samples:
 workspaces, automated publishing, publishing and security advisories pages) and the Melos documentation
-(Apache-2.0, getting-started page), read 2026-10-16. Meant to be folded into the Flutter or Dart block when the
-extended language blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open points
+(Apache-2.0, getting-started page), read 2026-10-16. Overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points
 are in [`references/origin.md`](./references/origin.md).

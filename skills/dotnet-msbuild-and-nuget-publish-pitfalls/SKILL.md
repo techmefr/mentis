@@ -46,6 +46,5 @@ not finished until the user has created the policy on nuget.org and one publish 
 
 ## Origin
 Rewritten from the dotnet/skills repository (MIT: the MSBuild anti-pattern catalogue, the trimming-compatibility
-skill and the NuGet trusted-publishing skill), read 2026-10-16. Meant to be folded into the .NET language block
-when the extended language blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us;
+skill and the NuGet trusted-publishing skill), read 2026-10-16. Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us;
 open points are in [`references/origin.md`](./references/origin.md).

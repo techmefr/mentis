@@ -1,6 +1,6 @@
 ---
 name: seo-crawl-control-pitfalls
-description: "Use when a robots.txt or a sitemap is written, changed or debugged: which rule wins (longest pattern, rule order irrelevant), a crawler-specific group replacing the star group, where groups start and end, crawler token matching, wildcards and the end anchor, case-sensitive paths, percent-encoding, the index file shortcut of Allow, tolerated typos, a byte order mark and long lines, testing a file against real URLs with Google's reference matcher, and sitemap size limits."
+description: "Use when a robots.txt or a sitemap is written, changed or debugged: which rule wins (longest pattern, rule order irrelevant), a crawler-specific group replacing the star group, where groups start and end, crawler token matching, wildcards and the end anchor, case-sensitive paths, percent-encoding, the index file shortcut of Allow, tolerated typos, a byte order mark and long lines, testing a file against real URLs with Google's reference matcher, and sitemap size limits. Page-level meta, structured data and the audit of a built site are seo."
 ---
 
 # seo-crawl-control-pitfalls
@@ -10,7 +10,7 @@ Step 6 of the pipeline (`WORKFLOW.md`), for the file that decides what a crawler
 errors are not typos but wrong beliefs about precedence. The two sections share one premise: **a robots.txt is
 read by a matcher with fixed rules, and the only way to know what a file does is to ask that matcher about real
 URLs**. The rules below were read from the source of Google's open-source matcher (`robots.cc` and `robots.h`),
-so they describe that parser; another crawler can differ, and each statement says where it comes from.
+so they describe that parser; another crawler can differ, and each statement says where it comes from. The sitemap at page level is `seo` §4 and the crawl health of a built site is `seo` §5; this block does not restate them.
 
 ## When
 - Writing or editing a `robots.txt`, or a block in it for one crawler.

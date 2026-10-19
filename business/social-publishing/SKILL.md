@@ -62,6 +62,12 @@ posted by hand or by a tool.
 6. **Check the links from a logged-out session.** A link that works for you because you're authenticated
    is the classic broken launch post.
 7. **Read it once as a hostile reader.** Not to soften it, to find the sentence that will be quoted back.
+8. **Gate the send itself.** Resolve the account or recipient identifier, then assert both the target and
+   the exact text before the call, never after. A test send on a real dispatch path is a publication:
+   rehearse against a sink or the platform's draft mode. Visibility is set explicitly and never left to a
+   public default.
+9. **Grep the draft before it leaves** for IP addresses, local file paths, host names and the names of
+   keys or tokens, including inside screenshots' alt text and captions.
 
 ### 4. If it's automated, automate the drafting only
 1. **Draft-and-schedule with a human gate is fine. Post-without-review is not**, whatever the tooling
@@ -95,6 +101,7 @@ data cleared, disclosures where required, links checked logged-out, and someone 
 - **Never publish personal data, a customer name or a logo without written agreement.**
 - **Never post about an incident before the affected customers have been informed.**
 - **Never hide a paid relationship.**
+- **Never test-send on a real dispatch path, and never default to public** (§3.8).
 - Never store or log a platform token, and never let posting credentials outlive the person who owned
   the account.
 - Where a company already has a communications or brand owner, they decide; this block is the fallback.

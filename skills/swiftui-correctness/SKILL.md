@@ -54,5 +54,4 @@ was only read, or only previewed in one size and one language, is not verified.
 ## Origin
 Rewritten from the Apple documentation pages for SwiftUI state, observation, navigation, presentation, `ForEach`,
 tasks, accessibility and localisation, from two MIT-licensed SwiftUI review skills, and from the SwiftData
-CloudKit page (all read 2026-10-08). 🟡: never run by us; meant to be folded into the same-topic block
-(`swift-conventions`) when PR 118 lands; open points are in [`references/origin.md`](./references/origin.md).
+CloudKit page (all read 2026-10-08). 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md). Overlaps with `skills/swift-conventions` (2026-10-19); cross-referenced, not merged.

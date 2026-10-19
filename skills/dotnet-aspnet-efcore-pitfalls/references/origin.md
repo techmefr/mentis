@@ -5,8 +5,7 @@
 
 **Status: 🟡.** Written from documentation and reading, never run by us.
 
-This block is meant to be folded into the same-topic sections of `dotnet-conventions` (web and EF
-sections) when the branch `feat/antislop-lot` (PR 118) lands.
+Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

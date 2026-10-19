@@ -44,6 +44,5 @@ that produced it is not verified.
 
 ## Origin
 Rewritten from two skills of the claude-code-java repository (MIT: the Java migration skill and the Maven
-dependency audit skill), read 2026-10-16. Meant to be folded into the Java language block when the extended
-language blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open points are in
+dependency audit skill), read 2026-10-16. Overlaps with `skills/java-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

@@ -4,9 +4,7 @@
 > freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No MySQL server was used while
-writing it. This block is meant to be folded into section 7 (engine notes) of `sql-conventions` and into the
-safe-migrations reference of `devops-conventions`, both on the unmerged branch `feat/antislop-lot` (PR 118),
-when PR 118 lands; until then it stands alone.
+writing it. Overlaps with `skills/sql-conventions` §7 and `skills/devops-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

@@ -21,6 +21,14 @@ At the start of any task. Also mid-task, when you notice you're improvising a st
    of it is worse than the text of it.
 4. **No block fits?** That's either out of scope, or a gap to record — not a licence to invent a step
    silently (`skills/writing-skills`).
+5. **The threshold for invoking is low.** If there is even a small chance a block applies, read it: reading
+   a block that turns out not to fit costs a minute; skipping one that did fit costs the step.
+6. **Process blocks go before implementation blocks.** When several apply, the one that decides how to proceed
+   (`brainstorm`, `bug-triage`, `debug`) runs first and the stack's conventions carry out the work second.
+7. **A worker dispatched for one specific task does not run this entry block.** It executes its brief; the
+   controller that dispatched it has already chosen the blocks.
+8. **Before any sentence that says something works, is fixed or is done**, the command that shows it has been run
+   in this turn and its output read (`skills/gate` §8). A status without that is a guess dressed as a report.
 
 ### 2. The order, and where each step ends
 | # | Block | Ends at |
@@ -38,7 +46,7 @@ At the start of any task. Also mid-task, when you notice you're improvising a st
 | 10 | `ship` | draft MR pushed → `awaiting_human`. **The agent stops here.** |
 | 11 | `finish` | worktree removed, base branch updated |
 
-A reported bug enters at `bug-triage` before `debug`. Not every task needs every step — a one-line fix
+A reported bug enters at `bug-triage` before `debug`. A restructure with no behaviour change goes through `safe-refactor`, feedback on your own change through `receiving-review`, and a written plan is carried out by delegated workers only through `execute-plan`, on the operator's explicit decision for that run. Not every task needs every step — a one-line fix
 gets no brainstorm — but the **direction** is not optional: never review before the gate, never gate work
 you're still writing.
 
@@ -49,6 +57,10 @@ you're still writing.
    state and let the blocks decide the method. **Method ≠ state.**
 3. **But no block requires it.** Every block must work with plain git and no extra tooling — that's rule B
    applied to ourselves, and `start-feature` had to be corrected for breaking it.
+
+### 4. When you are reasoning your way out of a block
+`references/04-excuses-and-red-flags.md` holds the excuses that tend to come before skipping a block and the signs that
+the discipline has slipped. Read it when you notice the reasoning, not before.
 
 ## Output / checkpoint
 The pipeline entered at the right step, each step's checkpoint recorded as it clears, and the task stopped
@@ -68,3 +80,7 @@ Internal. The "announce the block, then follow it" discipline is taken from the 
 responds to, where it's the entry-point rule; the step table is ours and mirrors `WORKFLOW.md` §2 rather
 than restating it. Rewritten 2026-08-06 to remove a hard dependency on a local orchestrator's MCP tools,
 which had made the entry point itself undistributable.
+
+Steps 1.5 to 1.8 and §4 were added 2026-10-02 from the `using-superpowers` skill of `superpowers` (MIT, read that
+day): the low threshold for invoking, process before implementation, the exemption for a dispatched worker, the
+table of excuses. Rewritten in our words; no text copied. The excuses are predicted, not yet recorded from a run.

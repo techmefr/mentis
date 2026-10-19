@@ -1,6 +1,6 @@
 ---
 name: webperf-measurement-and-budget-pitfalls
-description: "Use when web performance is measured, reported or gated: which evidence answers which question (field data, first-party RUM, one trace, a lab run, source reading), p75 and the combined pass, missing field data, collecting vitals with the web-vitals library (callbacks that fire twice or never, delta and id, beacons, soft navigations, the payload), Lighthouse CI (runs, aggregation, assertions, presets, runner, static server, per-URL assertions, shallow clones, public storage) and a JavaScript size budget with size-limit."
+description: "Use when web performance is measured, reported or gated: which evidence answers which question (field data, first-party RUM, one trace, a lab run, source reading), p75 and the combined pass, missing field data, collecting vitals with the web-vitals library (callbacks that fire twice or never, delta and id, beacons, soft navigations, the payload), Lighthouse CI (runs, aggregation, assertions, presets, runner, static server, per-URL assertions, shallow clones, public storage) and a JavaScript size budget with size-limit. Finding the cause of a poor vital is cwv-diagnosis-pitfalls; the causes of a slow page are in webperf."
 ---
 
 # webperf-measurement-and-budget-pitfalls
@@ -11,7 +11,7 @@ question, how a field metric is collected without double counting, or how a budg
 The three sections share one premise: **a performance number is only as good as the instrument that produced
 it, so a claim names the evidence type, the scope and the conditions**. The causes of a slow page and the phone
 rules are in `webperf` and in `skills/webperf/references/01-responsive-touch-interface.md`; the Core Web Vitals
-page rules are in `seo` §3. Diagnosing a single vital from a trace is not covered by any block yet.
+page rules are in `seo` §3. Diagnosing a single vital from a trace is in `cwv-diagnosis-pitfalls`.
 
 ## When
 - Reporting a performance result, or deciding from one trace that a page is fast or slow.

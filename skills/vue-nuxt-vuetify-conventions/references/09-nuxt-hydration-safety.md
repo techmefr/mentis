@@ -121,3 +121,22 @@
     to trust still fires for it; the tell is that the mismatch is on an attribute the app never sets and
     disappears in a clean profile — worth a quick check before assuming the fetched data or the primitive
     choice is at fault.
+25. **Gate a fetch that depends on something not yet known with `enabled`, not with `immediate: false` and a
+    hand-written guard (Nuxt 4.5 and later).** `enabled` takes a boolean, a ref or a getter. While it is false
+    every execution is blocked: the first fetch, `execute`/`refresh`, and watcher-triggered refetches. Turning
+    it from true to false cancels a request in flight without clearing `data`, and turning it back on does not
+    refetch by itself, so call `refresh` or `execute` when the gate opens if the data is due. `immediate:
+    false` only skips the first call: a watcher or a stray `refresh` still fires, which is how a request for
+    "no id yet" reaches the server. Use `enabled` for a selected id, a signed-in user, a feature switch or a
+    prerequisite query; use `immediate: false` for "wait for the user to click", which is what `execute` and
+    the `idle` status are for. Pass the handler's abort signal on to the request, as the documentation's
+    examples do, so that a cancellation can abort the underlying request. Calls that share a key may
+    differ in `enabled`, but they still share one `data` (point 16). The `serialize` and `middleware` options
+    seen in the current documentation carry a later version badge (4.6) than the 4.5 stable line this block is
+    pinned to: do not use them until the installed version has them.
+26. **Awaiting a lazy fetch does not wait for it on a client navigation.** `await useLazyFetch(...)` or
+    `await useFetch(..., { lazy: true })` still blocks the server render, but on the client the await resolves
+    at once with `data` at its default, so the template must handle `status` (idle, pending, success, error).
+    If the navigation should wait for the data, drop `lazy`; do not rely on the await. Also: the handler must
+    return a defined value, because a handler returning nothing can make the request run again on the client,
+    and it should be free of side effects (use `callOnce` for a one-time effect, point 18).

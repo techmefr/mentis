@@ -1,0 +1,98 @@
+{
+  "@angular/core": {
+    "blocks": [
+      "angular-conventions"
+    ],
+    "note": "Angular 22 pin"
+  },
+  "@nestjs/core": {
+    "blocks": [
+      "nestjs-node-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "@playwright/test": {
+    "blocks": [
+      "frontend-testing"
+    ],
+    "note": "references/01-playwright.md"
+  },
+  "@sveltejs/kit": {
+    "blocks": [
+      "svelte-conventions"
+    ],
+    "note": "SvelteKit 3 pin"
+  },
+  "@tanstack/react-query": {
+    "blocks": [
+      "data-fetching-state-conventions"
+    ],
+    "note": "TanStack Query v5 documentation"
+  },
+  "alpinejs": {
+    "blocks": [
+      "htmx-alpine-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "astro": {
+    "blocks": [
+      "astro-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "htmx.org": {
+    "blocks": [
+      "htmx-alpine-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "lit": {
+    "blocks": [
+      "web-components-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "next": {
+    "blocks": [
+      "react-nextjs-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "pinia": {
+    "blocks": [
+      "data-fetching-state-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "solid-js": {
+    "blocks": [
+      "solid-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  },
+  "svelte": {
+    "blocks": [
+      "svelte-conventions"
+    ],
+    "note": "Svelte 5 pin"
+  },
+  "tailwindcss": {
+    "blocks": [
+      "tailwind-conventions"
+    ],
+    "note": "Tailwind 4 pin"
+  },
+  "vite": {
+    "blocks": [
+      "vite-bundler-conventions"
+    ],
+    "note": "Vite 8 pin"
+  },
+  "vue": {
+    "blocks": [
+      "vue-nuxt-vuetify-conventions"
+    ],
+    "note": "pin read 2026-10-02"
+  }
+}

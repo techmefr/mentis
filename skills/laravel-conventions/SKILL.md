@@ -1,6 +1,6 @@
 ---
 name: laravel-conventions
-description: "Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture, failures. The framework layer above skills/php-patterns."
+description: "Use when writing or reviewing Laravel: where behaviour lives, authorisation, data model and queries, naming and typing, HTTP surface, config and commands, jobs, tests, architecture, failures, production configuration, safe migrations. The framework layer above skills/php-patterns."
 ---
 
 # laravel-conventions
@@ -45,6 +45,8 @@ trigger the diff meets, not the whole table.
 | 9 | Tests and static analysis | tests are written, or Larastan/Pint is in play | [`09-tests-static-analysis.md`](./references/09-tests-static-analysis.md) |
 | 10 | Architecture | the change spans layers, or a new one is proposed | [`10-architecture.md`](./references/10-architecture.md) |
 | 11 | Failures | an operation can fail, an exception is thrown, caught or mapped to a response | [`11-failures.md`](./references/11-failures.md) |
+| 12 | Production configuration | an environment file, a session, cache, queue or mail driver, the proxy and host settings, a debugging tool or the deploy steps | [`12-production-configuration.md`](./references/12-production-configuration.md) |
+| 13 | Safe migrations on a live database | a migration touches a table that holds data in production, renames, drops, indexes, constrains or backfills | [`13-safe-migrations.md`](./references/13-safe-migrations.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above, formatter clean, and no new static-analysis finding introduced by the

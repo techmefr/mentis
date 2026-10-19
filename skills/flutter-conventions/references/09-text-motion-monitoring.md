@@ -122,3 +122,8 @@
     a fixed-height row of icons or a single-line label that genuinely breaks past a given multiplier is
     clamped locally, at that widget, with the reason written down — clamping globally reintroduces the exact
     failure point 17 exists to prevent, for every reader who actually needs the larger text.
+28. **No user-visible string outside the presentation layer.** The domain, data and application layers carry
+    no copy and no localisation: they return enums, sealed failure types or value objects, and the screen
+    maps them to localised text. This keeps the logic testable (assert the enum, not the sentence), removes
+    the need for a build context in a service, and stops a copy change from touching the logic. §1 of this
+    section already forbids literals in a widget; this extends it down the layers.

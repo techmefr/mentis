@@ -66,3 +66,16 @@ Router plus sections: 1,005 → 4,217.
 **Status.** Unchanged. There is still no internal UX-writing expertise and no tone-of-voice reference
 behind this block, and the depth does not change that — it makes the mechanical cases arguable, which is
 what a developer needs in order to defend a string in review, and leaves voice where it belongs.
+
+**Links, instructions, plain language, inclusive wording and culture, 2026-10-02.** New §6 and §5.14-5.16.
+Triggered by the owner's direction that the framework serves more than one agent harness and carries as
+much neutral content as is publishable. Facts come from primary standards, not from any checklist: WCAG 2.2
+success criteria 1.3.3, 1.4.5, 1.4.13 (cited in the interface-design microinteraction section), 2.4.4, 2.4.6,
+2.4.9, 2.5.3, 3.1.3, 3.1.4, 3.1.5 and 3.2.4, with their conformance levels, read at the W3C recommendation
+on 2026-10-02. The mechanisms (identical link text to different targets, sensory-only instructions, the
+plain-language goal, the locale decision for pictures) were also suggested by the public
+`Front-End-Checklist` repository (README declares MIT, no licence file; read 2026-10-02); none of its wording is used and the points are written from the standards. Points that
+rest on convention rather than a standard (§5.15 ellipsis, §6.21 flags, §6.23 mirroring) are written
+without a cited criterion and are to be confirmed against the target platform's and the W3C
+internationalisation guidance when applied; inclusive vocabulary is deliberately not listed, because such
+lists change (§6.17).

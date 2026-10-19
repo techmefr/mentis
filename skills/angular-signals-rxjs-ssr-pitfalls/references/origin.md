@@ -6,10 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real application by us. No Angular
 project was built or started while writing it.
 
-**Merge intent.** A broader Angular conventions block exists only on the unmerged branch of the frontend
-sourcing pull request (118). This block was written standalone, with a name that cannot collide, to hold the
-gaps found in a comparison against it. It is meant to be merged into the same-named framework block when that
-pull request lands, section by section, and then removed.
+**Overlap note.** A broader Angular conventions block now exists as `skills/angular-conventions`. This block was written standalone to hold the gaps found in a comparison against it. Overlaps with `skills/angular-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

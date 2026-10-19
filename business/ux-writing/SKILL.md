@@ -41,6 +41,7 @@ apply to every string in a product that already has strings.
 | 3 | Empty states | a list, table, search or dashboard region can come back with nothing | [`03-empty-states.md`](./references/03-empty-states.md) |
 | 4 | One product, one voice | writing a string in a product that already has strings | [`04-one-voice.md`](./references/04-one-voice.md) |
 | 5 | Mechanics that keep it consistent | adding a string to a translation file, or assembling one from parts | [`05-mechanics.md`](./references/05-mechanics.md) |
+| 6 | Links, instructions, plain language, inclusive wording, culture | a link is added, an instruction points at the screen, or text for a wide or multilingual audience is written | [`06-links-and-inclusive-wording.md`](./references/06-links-and-inclusive-wording.md) |
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: every new user-facing string has a next action
@@ -56,6 +57,8 @@ product. Where the wording carries brand or legal weight, it goes to whoever own
 - **Never build a sentence by concatenating fragments** (§5.3), and never put markup in a translated
   string (§5.8).
 - **Never show an empty state where a request failed** (§3.3).
+- **Never write a link as "click here" or "read more" alone** (§6.1), and **never point at the screen by
+  colour or position alone** (§6.7).
 - Never let humour into an error path: the person reading it is already having a problem (§1.11).
 - This block doesn't own tone of voice or brand vocabulary. Where it conflicts with them, they win.
 

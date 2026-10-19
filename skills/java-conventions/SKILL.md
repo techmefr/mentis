@@ -59,9 +59,36 @@ As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
    the association on every fetch of the owning entity whether the caller needs it or not, and a
    collection mapped `LAZY` but iterated inside a loop is the classic N+1 — load it explicitly (a fetch
    join, an entity graph, or a dedicated query) at the call site that actually needs it.
+5. **A persisted enum is mapped by name, never by ordinal**: reordering the constants silently reinterprets
+   every stored row. Collections on an entity are initialised, never null, and an entity changes through
+   behaviour methods rather than public setters.
+6. **Reads that need a collection use a fetch join, an entity graph or a projection** chosen at the call
+   site; a read-only view returns a projection, not a managed entity.
+7. **A transaction wraps the business unit at the service boundary.** The read-only flag is a hint, not
+   write protection or authorisation. A participating call joins the outer transaction: an inner failure
+   marks it rollback-only even if caught, and the outer commit then throws. A call to a transactional method
+   of the same class bypasses the proxy and runs without it. A requires-new call takes a second connection
+   (mind the pool) and is for records that must survive a rollback, such as an attempt log, not a success
+   row for work that was rolled back. A local transaction does not make a write to another database or an
+   HTTP provider atomic.
+8. **Grouped settings bind to a typed, validated properties record**: registered explicitly, with units in
+   durations and sizes, startup failing on a missing credential or endpoint, and no secret as a record
+   component (a generated string form would print it). Test binding with an application-context runner,
+   including an invalid value.
+
+### 5. Tests
+1. Three levels, readable from the file name: unit (one class, collaborators stubbed), integration (the
+   container context, or a real database or cache in a container) and component (a whole module, only other
+   modules stubbed).
+2. **A component of the module under test is never mocked in a component test**: a mock asserts your guess
+   about its behaviour and lets wiring bugs through. A store or client is tested against the real engine in a
+   container, not a mocked driver, since atomicity and null handling are what a mock cannot have.
+3. Method names read `method_whenCondition_shouldResult`, and the result names observable behaviour, not an
+   implementation call. One test, one scenario; assertions with a fluent assertion library.
+4. Test helper classes do not carry the suffix the test runner scans for, or the runner executes them.
 
 ## Output / checkpoint
-Code compliant with the four sections above (section 4 only if Spring), and SpotBugs/Error Prone with no
+Code compliant with the five sections above (section 4 only if Spring), and SpotBugs/Error Prone with no
 new finding introduced by the diff. Checked by `gate` (7) and `review` (8).
 
 ## Guardrails
@@ -83,3 +110,11 @@ singleton items were left out: the first is already covered generically, cross-l
 `design-patterns`' object-construction entry condition; the second is a niche idiom with no real case
 behind it yet in any stack this roster serves. §4.4 (JPA lazy loading / N+1) closes the same gap
 `python-conventions` §7.3-4 already covers for its ORM — Java/Spring had nothing on it.
+
+**Extended, 2026-10-02** (§4.5-8, §5): rewritten from the MIT-licensed `rrezartprebreza/spring-boot-skills`
+(persistence, transaction, configuration and test-pyramid skills of the Boot 3 set) and
+`dmitriy-iliyov/java-agent-skills` (test-style), both read in full that day. Their test-layer percentage split,
+given-when-then comments in tests and Lombok usage are left out (the first has no cited norm, the others clash
+with the house no-comment rule). Sources target the Spring Boot 3 line: read the version in the build file
+before applying §4 and §5 (`skills/source-freshness`). Not taken: package-level null-safety annotations
+(version-dependent, not re-read), virtual threads and Maven audit (not read).

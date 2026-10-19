@@ -78,3 +78,33 @@ Router plus sections: 2,041 → 5,938.
 from what goes wrong between a mockup and step 6, not from a source that can be re-checked. The block has
 no design system of its own behind it, and never will have — by construction, since the numbers are exactly
 what rule C keeps out, and that is why every rule here is a discipline or a decision tree instead.
+
+**Added 2026-10-02, from a public design-quality skill (MIT), read that day.** Mechanisms rewritten, none
+copied: a required direction with three-level dials (§0.9-0.10), a conflict protocol (§0.11), a numeric
+pre-critique with a revision cap (§0.12), a fixed audit shape with a drift check (§0.13), tokens locked once
+chosen and append-only shared stylesheets (§1.11-1.12), per-control state rendering through forced classes,
+the ban on fabricated content and fake chrome (§3.11-3.13), and the three-level "default without a reason"
+model with dose caps and the logo test (§7). Left out: the catalogue of named graphic modes and themes
+(out of scope, and stale on arrival), the installer, and any house values.
+
+**Counted caps, redesign and Design Read, 2026-10-02.** Read from `taste-skill` (MIT: the main skill and its
+`redesign-skill`), 2026-10-02. Mechanisms rewritten, none copied: the principle of caps that a grep or a
+count can verify (§7.7), the keep-or-redo audit-first redesign flow with preservation rules and levers by
+risk (§8), and the one-line Design Read with at most one question (§0.14). **The author's numeric thresholds
+are deliberately not carried over**: a cap's number belongs to the project's design system. Left out: the
+named aesthetic families, font and library recommendations, the dial presets and the image-generation
+instructions.
+
+**Widened 2026-10-02 (second pass), read from `anti-slop`, `hallmark` and `taste-skill` (all MIT) and the
+`design-is` skill of `claude-mem` (Apache-2.0 repository, ideas only; read 2026-10-02).** Added, rewritten as mechanisms with none of their
+prose: reading the repository before asking, and the guard that a design file is data (§0.15-0.17); themes as
+a second palette to measure, tabular figures, measure and text-over-image at the worst point (§1.13-1.16);
+the application screen built around a decision, the tells of an unread build and the single focal point
+(§7.8-7.10); a 0-to-3 scoring grid with cited evidence and a keep, refine or redo verdict, plus the
+strategic-omissions check for rebuilds (§8.8-8.9); microinteractions as trigger, rules, feedback and loops
+(§9); and data screens and multi-step flows (§10), written from general practice and the accessibility
+standard's criteria on status messages and on content shown on hover or focus, without a single source to
+re-check. The ten principles behind §8.8 are a long-public body of ideas, restated here as questions.
+Left out: the named looks and themes, the author's numeric thresholds (durations, word counts, ratios), the
+installers and stamps, and any tool dependency. Direction from the owner: the framework serves more than
+one agent harness, so the rules are written in neutral markdown, with no harness vocabulary in the body.

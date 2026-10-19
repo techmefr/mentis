@@ -46,7 +46,4 @@ documentation only is not verified.
 
 ## Origin
 Rewritten from the MongoDB manual (facts only, no text copied) and from the MongoDB agent skills (Apache-2.0),
-read 2026-10-08. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md). A new
-engine block with no same-topic block on main; it is meant to sit beside the general SQL conventions block
-(`sql-conventions`), which exists only on the unmerged branch `feat/antislop-lot` (PR 118), and to be linked
-from it when PR 118 lands.
+read 2026-10-08. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md). A new engine block with no same-topic block. Overlaps with `skills/sql-conventions` (2026-10-19); cross-referenced, not merged.

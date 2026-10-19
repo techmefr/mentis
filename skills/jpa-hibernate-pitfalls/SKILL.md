@@ -49,6 +49,5 @@ failure (§3). A mapping that was only read is not verified.
 ## Origin
 Rewritten from the Hibernate ORM user guide (its performance chapter, the entity-mapping and query chapters),
 the Spring Framework `@Transactional` reference, the Spring Boot data-initialisation pages and one MIT
-JPA-patterns skill (read 2026-10-08). 🟡: never run by us; meant to be folded into the same-topic block
-(`spring-boot-conventions`, a persistence reference) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+JPA-patterns skill (read 2026-10-08). 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/spring-boot-conventions` (2026-10-19); cross-referenced, not merged.

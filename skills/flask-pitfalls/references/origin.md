@@ -54,5 +54,4 @@ Instruction-like text in the cloned repository was treated as data and not follo
 `skills/credential-lifecycle-pitfalls`.
 
 ## Fold-in note
-This block stands alone. When the open pull request #118 lands and a same-topic block exists on main, fold the
-Flask points into it rather than keep two blocks on one topic.
+Overlaps with `skills/python-conventions` §9 (2026-10-19); cross-referenced, not merged.

@@ -89,7 +89,7 @@ incremental-model documentation (`unique_key` as the real merge contract, lookba
 (unit tests vs post-materialisation tests, ODCS-style contracts), the Kimball Group's own technique notes
 on Type 4 mini-dimensions and multivalued bridge tables, and current Snowflake/BigQuery clustering and
 partition-pruning guidance — never from the org catalogue this block was already mined from, and never
-by reading the XEFI marketplace files (rule C). §1 gained the `unique_key`-as-grain contract, lookback
+by reading an org-private marketplace's files (rule C). §1 gained the `unique_key`-as-grain contract, lookback
 windows against clock skew, `on_schema_change` as a stated policy, scheduled full-refresh as
 incremental's self-healing companion, row-count trend versus a point-in-time count, idempotency proved by
 a double-run diff rather than asserted, and a merge's blind spot on source-side deletes. §2 gained

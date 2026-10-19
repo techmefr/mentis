@@ -48,4 +48,4 @@ followed.
 ## Related blocks
 `skills/laravel-conventions`, `skills/laravel-date-via-localised-accessors`,
 `skills/laravel-precognitive-request-scoping`, `skills/accessibility`, `skills/csp-and-sanitiser-pitfalls`.
-Fold into the same-topic block when #118 lands.
+Overlaps with `skills/laravel-conventions` §6 (2026-10-19); cross-referenced, not merged.

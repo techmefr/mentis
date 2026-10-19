@@ -43,11 +43,12 @@ No external source: this is `skills/laravel-conventions` §1.2 extracted to its 
 
 ## accessibility
 
-When: Use when writing or reviewing a frontend page or app, technical accessibility checklist: HTML semantics, focus and keyboard, contrast, ARIA, forms. Sourced from WCAG 2.2 level AA.
+When: Use when writing or reviewing a frontend page or app, technical accessibility checklist: HTML semantics, focus and keyboard, contrast, ARIA, forms. Sourced from WCAG 2.2 level AA. Lint wiring of the accessibility plugins is a11y-lint-wiring-pitfalls; hiding content and simple data tables are a11y-hiding-and-tables-pitfalls.
 
 Step 6 of the pipeline (`WORKFLOW.md`), complementing
 `vue-nuxt-vuetify-conventions`/`react-nextjs-conventions`: applies to every page/component meant for
-real users (not to internal scripts or dev-only tooling). Every rule below holds in a repo with
+real users (not to internal scripts or dev-only tooling). The rules are written against the web standards
+(HTML, WAI-ARIA, WCAG), not against a framework or an assistant. Every rule below holds in a repo with
 **nothing installed** (`CONVENTIONS.md`, rule A).
 
 **Boundary with an org design catalogue.** Where one exists, its accessibility skill checks a **mockup**
@@ -71,7 +72,8 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
 
 **Read only the sections the diff actually touches.** The rules live one file per section under
 `references/`; an interactive element or a layer is §1, a custom widget is §1 and §2, colours or a
-zoom-sensitive layout are §3, and anything with a field in it is §4.
+zoom-sensitive layout are §3, and anything with a field in it is §4, a table, list or embed is §6, audio, video or motion is §7, and a
+tabs, accordion, carousel or other composite widget is §8.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -80,6 +82,11 @@ zoom-sensitive layout are §3, and anything with a field in it is §4.
 | 3 | Contrast and visual perception | colours, sizes, a theme, or a zoom-sensitive layout | [`03-contrast-perception.md`](./references/03-contrast-perception.md) |
 | 4 | Forms | a field, a validation path, a multi-step flow, an authentication screen | [`04-forms.md`](./references/04-forms.md) |
 | 5 | RGAA — the French legal standard, its test methodology, and the déclaration d'accessibilité | the project is French/public-sector, or a French client is above the private-sector threshold, or an accessibility declaration is requested | [`05-rgaa.md`](./references/05-rgaa.md) |
+| 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | [`06-document-structure.md`](./references/06-document-structure.md) |
+| 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | [`07-media-motion.md`](./references/07-media-motion.md) |
+| 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | [`08-aria-validity-widgets.md`](./references/08-aria-validity-widgets.md) |
+
+For wiring the lint plugins so a green run means something, see `skills/a11y-lint-wiring-pitfalls`; for the three mechanisms of hiding content and the markup of a simple data table, see `skills/a11y-hiding-and-tables-pitfalls` (§6 here keeps the diff-level table rules).
 
 ### Output / checkpoint
 The sections reviewed on the diff touched; for a broader audit of a page/site already in production
@@ -116,7 +123,7 @@ the 2026-08-10 WCAG 2.2 re-check and the refresh log are in
 2. Tab order follows the logical visual order: never a positive `tabindex` that breaks the DOM's natural
    order; `tabindex="-1"` only to deliberately remove an element from the flow. A positive value does
    not reorder locally — it lifts the element above every natural stop on the page, so one such value
-   reorders the entire document and the effect is invisible until someone tabs through it.
+   reorders the entire document and the effect is invisible until someone tabs through it. The same split appears without any `tabindex`: CSS that reorders boxes (`order`, reversed flex or grid placement, absolute positioning) moves what the eye sees and leaves the keyboard on the DOM sequence, so tab order is the DOM order and a visual order that disagrees with it is fixed in the markup (§6.19).
 3. Visible focus (`:focus-visible`) never removed by an `outline: none` with no replacement: a keyboard
    user must always see where they are. Without it the page is not degraded, it is unusable: activation
    becomes guesswork, and the reader's only recovery is to tab back to something they recognise and count
@@ -238,7 +245,9 @@ the 2026-08-10 WCAG 2.2 re-check and the refresh log are in
 1. Text/background contrast ≥ 4.5:1 (normal text) or 3:1 (large text ≥ 18px bold/24px): WCAG AA level,
    checked against the design system's real colours, not eyeballed. Eyeballing fails in one direction
    consistently — on the display it was designed on, in the light it was designed in — and the readers
-   it fails are the ones on a phone outdoors or a cheap monitor, who are not in the room.
+   it fails are the ones on a phone outdoors or a cheap monitor, who are not in the room. The ratio
+   is a fixed formula over two colours, so compute it: `bin/contrast_check.py` takes two hex colours and
+   prints the ratio, and the threshold it is compared with still comes from the standard.
 2. Information is never carried by colour alone (e.g. red = error): always doubled with text, an icon or
    a pattern. The reader affected is not only someone who cannot distinguish the hues: the same failure
    applies to a printed or greyscale copy of the screen, and to a chart whose legend is a row of
@@ -265,7 +274,7 @@ the 2026-08-10 WCAG 2.2 re-check and the refresh log are in
    them or hunts by hovering.
 8. **Text over an image or a gradient has no single contrast ratio.** It passes over part of the
    background and fails over the rest, which is why it cannot be checked with a colour picker and why
-   the reliable answer is a solid or scrim layer behind the text rather than a measurement.
+   the reliable answer is a solid or scrim layer behind the text rather than a measurement. When a measurement is still wanted, it is taken over the worst-case zone under the text (the lightest patch behind light text, the darkest behind dark text, at every breakpoint where the text sits over a different part of the picture), never over the average or the part the designer looked at. Every delivered theme, the dark one included, is a second palette measured on its own.
 9. **Honour a reduced-motion preference.** Transitions, parallax and large movement cause real symptoms
    for some readers — not a preference about taste — and the platform already exposes the setting, so
    ignoring it is a decision rather than an oversight. The reduced variant is not "no feedback": it is
@@ -480,3 +489,289 @@ test procedure and a legal packaging. Concretely:
   2023 decree; it has not been cross-checked line-by-line against the décret/ordonnance's legal text.
   Treat every number above as "confirm before it lands in a contract or a legal document", not as
   settled.
+
+### Part 6: Document structure and embedded content
+
+> Section 6 of `skills/accessibility`. Read it when a diff adds a table, a list, a definition list, an
+> embedded frame or object, an image that carries text or sits next to its own caption, or generates
+> identifiers. Each native structure has a minimal contract; the contract is what assistive technology and
+> a stylesheet-less reader rely on. Names and landmarks are §1 and §2, form wiring is §4.
+
+### Tables
+
+1. **A table is for data with two axes; layout belongs to CSS.** A table used to position content is read
+   cell by cell as if it were data. If a legacy layout table cannot be removed, strip its semantics
+   (`role="presentation"`) and keep it free of header cells and captions.
+2. **A data table names itself and its headers.** A `caption` gives the table its name (the nearest
+   native way; the old `summary` attribute is obsolete). Every header cell is a `th`, and `scope`
+   (`col`, `row`, `colgroup`, `rowgroup`) states which cells it heads. A `th` with no data cells under or
+   beside it is a mistake, and a first column of labels written as `td` is the usual way tables lose
+   their row headers.
+3. **Irregular tables use `headers`, and only then.** A table with merged cells where `scope` cannot say
+   which headers apply gives each header an `id` and each data cell a `headers` list of those ids. The
+   ids must exist in the same table (HTML Living Standard, tabular data). When a table needs this much,
+   first try to split it into simple tables.
+4. **Two tables on a page do not share a name.** Identical captions or labels make the page's tables
+   indistinguishable in a table list; the name says which table.
+5. **A sortable or interactive header exposes its state.** The sort direction is `aria-sort` on the
+   header, the control inside it is a button (§1.1), and the change is announced (§2.3). Small-screen
+   presentation of a wide table is `skills/responsive-layout`.
+
+### Lists and definition lists
+
+6. **A list is marked up as a list.** A group of peer items is `ul` or `ol`; a sequence whose order
+   matters is `ol`. The direct children of `ul` and `ol` are only `li` (plus script-supporting elements);
+   a `div` between them is invalid and breaks the count a reader hears. Do not use lists to indent.
+7. **A definition list holds term and description groups.** `dl` contains `dt` and `dd`, optionally grouped
+   in a `div` per pair, and a `dt` or `dd` outside a `dl` is invalid. It suits metadata (label and
+   value), glossaries and key-value summaries, and it replaces a two-column table that has no real
+   headers.
+8. **Styling can strip list semantics.** Some engine and reader combinations stop announcing a list when
+   its markers are removed with CSS; after restyling a navigation or a tag list, check in a screen
+   reader and restore the role explicitly if it is lost (the one case where a redundant `role` is right,
+   §2.1).
+
+### Identifiers
+
+9. **An `id` is unique in its document.** Duplicates break label association (`for`), in-page links, and
+   every ARIA reference (`aria-labelledby`, `aria-describedby`, `aria-controls`, `aria-owns`), where the
+   browser silently picks the first match. The recurring source is a component rendered many times with a
+   hard-coded `id`; generate one per instance. A reference whose target does not exist is the same defect
+   (§8.4). A reference cannot cross a shadow-root boundary.
+
+### Frames, objects and image inputs
+
+10. **Every embedded document has a name.** An `iframe` or `frame` carries a `title` that says what it
+    contains; an `object` carries a text alternative or fallback content; an `input type="image"`
+    carries `alt` describing the action, not the picture; an `area` of an image map carries `alt`.
+    Third-party embeds are the usual offender (§2.2 for the name rule; `skills/webperf` §4.5 for their
+    cost).
+11. **Meaningful and decorative images are told apart, and neither is described twice.** A decorative image
+    has `alt=""` (or is CSS). An informative one has an alternative that states its purpose, without
+    "image of". An image inside a link or button next to the same words gets `alt=""` so the name is not
+    read twice (`skills/seo` §2.4 for the indexing view).
+12. **Text is text.** Information in the pixels of an image cannot be resized, recoloured, translated,
+    searched or read aloud; use real text, with the image purely decorative. Logos are the standing
+    exception, and so is an image where the exact rendering is the content (WCAG 1.4.5, Images of Text).
+    The same rule serves translation: a localised string baked into an image is a string the i18n
+    pipeline never reaches. An image with a gesture, a symbol or a convention that means something
+    different elsewhere is chosen or varied per locale rather than reused everywhere.
+13. **A caption belongs to its figure.** `figure` with `figcaption` ties an image, chart or code sample to
+    its legend; the caption supplements the alternative text and does not replace it.
+
+### Things not done without a reason
+
+14. **No `meta http-equiv="refresh"` redirect or reload.** A timed refresh moves or replaces the page
+    under a reader, which fails WCAG 2.2.1 (Timing Adjustable) unless the visitor can control it;
+    redirect with an HTTP status (`skills/seo` §5).
+15. **No `accesskey`.** The shortcuts collide with those of browsers and assistive technology, and their
+    modifier differs per platform; offer a visible control and, where warranted, a documented,
+    remappable shortcut (WCAG 2.1.4).
+16. **`autofocus` only where moving focus is the point.** On a page load it skips the page's start, a
+    reader's context and the skip link (§1.10); acceptable in an opened dialog or on a page whose sole
+    purpose is one field.
+17. **No empty headings, links or buttons.** An element with no text and no accessible name is announced
+    as nothing, and `href="#"` or a `javascript:` URL is a button disguised as a link (§1.1). Template
+    conditionals that remove the text but keep the tag are the usual cause.
+18. **One visible label per control.** Several `label` elements for one input are announced inconsistently;
+    combine them into one or move the extra text into a description (§4.1).
+19. **The content still reads without its stylesheet.** The source order is a sensible reading and tab
+    order; disabling styles and reading top to bottom is a legitimate test. Visual reordering with CSS
+    (`order`, reversed flex or grid placement, absolute positioning) changes what the eye sees and
+    nothing about what the keyboard does, so focus order and reading order follow the DOM, and any
+    reordering that disagrees with it is fixed in the markup (WCAG 1.3.2, 2.4.3, and the CSS Flexbox
+    note on reordering).
+
+### Mechanical checks
+
+Hints for a person to read: an empty result proves nothing (`skills/security-hardening` §5.9).
+
+```
+grep -rnP '<(iframe|frame)\b(?![^>]*\btitle=)' src
+grep -rnP '<img\b(?![^>]*\balt=)' src
+grep -rnP '<input[^>]*type="image"(?![^>]*\balt=)' src
+grep -rnE 'http-equiv=.refresh|\baccesskey=|\bautofocus\b' src
+grep -rnP '<h[1-6][^>]*>\s*</h[1-6]>|<a\b[^>]*>\s*</a>|href="(#|javascript:[^"]*)?"' src
+grep -rLE '<th[ >]' $(grep -rl '<table' src)
+grep -rL '<caption' $(grep -rl '<table' src)
+```
+
+- Duplicate identifiers: extract every `id="..."` from each rendered page, sort, and print repeats; also
+  extract the targets of `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` and `aria-owns` and
+  confirm each exists in that page (about thirty lines of script).
+- List and definition-list structure, table headers, frame titles and duplicate ids are covered by an
+  accessibility engine run over the rendered HTML (axe-core has rules for each); the output is read, not
+  trusted as a verdict (§2.12).
+- A stylesheet-less pass: load the page with styles disabled and read it top to bottom.
+
+### Part 7: Media, motion and orientation
+
+> Section 7 of `skills/accessibility`. Read it when a diff adds audio or video, an autoplaying or moving
+> element, scroll-driven effects, or anything that depends on screen orientation. The general
+> reduced-motion rule is §3.9; this section names the cases it does not spell out. Success-criterion
+> numbers are cited so the exact conditions are read at the standard (WCAG 2.2), never from memory.
+
+### Prerecorded and live media
+
+1. **Video with speech or meaningful sound has synchronised captions** (1.2.2). Use a `track` element of
+   kind `captions` with a language, on the native `video`; auto-generated captions are a draft to correct,
+   not a deliverable. Captions carry speaker changes and non-speech sound that matters.
+2. **Meaningful visuals are described.** A video whose visuals carry information that the soundtrack does
+   not gets an audio description track or a text alternative that covers it (1.2.3, 1.2.5). Audio-only
+   content gets a transcript (1.2.1); live content gets live captions where the criterion at the target
+   level asks for them (1.2.4).
+3. **Controls are real and reachable.** The native `controls` attribute is keyboard-operable and named.
+   A custom player owes the whole contract (§1, §2.8): play, pause, volume, captions toggle, progress,
+   fullscreen, all focusable with visible state.
+4. **No sound starts by itself.** Audio that plays automatically is a barrier for anyone using a screen
+   reader, who cannot hear their reader over it; the criterion (1.4.2) requires a way to stop or control it
+   independently of system volume. Autoplay on the web is also gated by the browser; a muted, looping
+   background clip is the allowed form, and it still needs a visible pause when it lasts (2.2.2).
+5. **A video has a poster.** The `poster` attribute shows a frame before playback; it also reserves the
+   space and gives a still image to the reader (and prevents a layout shift, `skills/seo` §3.2). Lazy
+   media is covered in `skills/webperf` §5.7.
+
+### Flashes and moving content
+
+6. **Nothing flashes past the limit.** Content that flashes more than the standard allows can trigger
+   seizures (2.3.1); the exact general-flash and red-flash thresholds are read from the criterion, never
+   from a recalled number. Animated GIFs, video clips, canvas effects and CSS animations all count; the
+   simplest policy is no flashing at all, and a tool that analyses a recording is the check.
+7. **Moving, scrolling or auto-updating content can be paused, stopped or hidden** when it starts without
+   the visitor's action and continues past the criterion's duration (2.2.2). Carousels, tickers,
+   background videos and live feeds are the cases; the control is the first thing in the component
+   (§8.11).
+8. **Large motion follows the preference.** `prefers-reduced-motion: reduce` is honoured for parallax,
+   zoom, large translation and scroll-triggered animation, not only for transitions (§3.9; 2.3.3 at the
+   higher level). The reduced variant keeps the information and the feedback and removes the movement.
+9. **Smooth scrolling is opt-in by preference.** `scroll-behavior: smooth` is applied inside a
+   `prefers-reduced-motion: no-preference` condition, so anchor jumps are instant for people who asked for
+   less motion. Scroll-linked and parallax effects are built the same way, with the static layout as the
+   default and the movement as the enhancement (`skills/webperf` §2.8 for the cost side). A scroll
+   behaviour that replaces the native one is §1.14.
+
+### Orientation and input modality
+
+10. **The layout does not lock the orientation.** Content works in portrait and landscape unless one
+    orientation is essential, as for a piano keyboard or a cheque scan (1.3.4). Do not call the
+    orientation-lock API, do not set an orientation in an installed-app manifest without that need, and
+    do not hide content with an `orientation` media condition.
+11. **Do not assume a modality.** A feature that needs a gesture, a hover or a physical keyboard has an
+    alternative (§1.7, §1.12); `pointer` and `hover` media features describe the primary input and are
+    used for layout adaptation in `skills/responsive-layout`, never to remove a capability.
+
+### Mechanical checks
+
+```
+grep -rnP '<video\b(?![^>]*\bposter=)' src
+grep -rL '<track' $(grep -rl '<video' src)
+grep -rnE '\bautoplay\b' src
+grep -rnE 'scroll-behavior:\s*smooth' src
+grep -rLE 'prefers-reduced-motion' $(grep -rlE 'scroll-behavior:\s*smooth|@keyframes' src)
+grep -rnE 'screen\.orientation\.lock|"orientation"\s*:|@media[^{]*orientation' src public
+```
+
+- Each `autoplay` hit is read for `muted`, `loop`, `playsinline` and a reachable pause.
+- A count of `@keyframes` is a reading list, never a verdict.
+- Captions, descriptions and flashes are judged on the media itself, by a person, on the real file.
+
+### Part 8: ARIA validity and component recipes
+
+> Section 8 of `skills/accessibility`. Read it after §2 has decided that ARIA is needed: first to make
+> the markup valid, then when building one of the recipes below. §2 says when ARIA is allowed; this section
+> says what a valid use looks like and how the common composite widgets are assembled. Role and attribute
+> tables are not copied here: they live in the standards and they change.
+
+### Validity
+
+1. **The standards are the source of truth.** Which roles exist, which states and properties each role
+   supports, and what each requires is in WAI-ARIA (the version the project targets) and, for which role an
+   HTML element may take, in ARIA in HTML. A checker that implements those tables is the efficient
+   reader; reading the tables from this block would be reading a copy that can fall behind
+   (`skills/source-freshness`).
+2. **A role is one the element may take.** An invented value, an abstract role, or a role that the HTML
+   mapping forbids on that element (`role="button"` on a heading, `role="presentation"` on a focusable
+   element) is wrong ARIA and worse than none (§2.1). Redundant roles on elements that already have them
+   are noise; the exception is the list case in §6.8.
+3. **Required context and children are present.** Some roles only make sense inside or around others: a
+   `tab` inside a `tablist`, a `menuitem` inside a `menu` or `menubar`, a `treeitem` inside a `tree` or
+   `group`, a `listitem` inside a `list`, rows and cells inside a `grid` or `table`, an `option` inside a
+   `listbox`. The role without its owner, or the owner empty, breaks navigation in assistive technology.
+4. **Attributes are supported, required, and valid.** An `aria-*` attribute is used only on roles that
+   support it; roles with required properties carry them (a custom checkbox exposes `aria-checked`, a
+   slider its value and range, a heading given a role its level); values are of the right type (a
+   boolean, a token from the allowed set, a number); and every ID reference (`aria-labelledby`,
+   `aria-describedby`, `aria-controls`, `aria-owns`, `aria-activedescendant`) points at an element that
+   exists in the same tree (§6.9). A state that is not kept in sync with the interface is a lie (§2.5).
+5. **Deprecated and unsupported roles are replaced.** When the standard marks a role or attribute
+   deprecated, or an engine or reader ignores it, use the native element or the current form. The status
+   is read from the standard at the time of writing.
+6. **Some roles must be named.** A `dialog`, `alertdialog`, `meter`, `progressbar`, `tooltip` or `tree`
+   (and the items of one) has an accessible name from the author, by a visible heading
+   (`aria-labelledby`) or by `aria-label` (§2.2); command and toggle controls and input fields need names
+   as in §2.2 and §4.1.
+7. **`aria-hidden` is never on the `body`**, nor on an ancestor of anything focusable (§2.7). Hiding a
+   page to reveal a layer is done with the native modal dialog or with the `inert` attribute on the
+   background (§1.4), not with `aria-hidden` on the root.
+
+### Recipes
+
+Each recipe is a floor, not a design. In every case the native element comes first (§2.9), the
+keyboard map is part of the component (§2.8), and the state is exposed (§4.10).
+
+8. **Tabs.** A `tablist` holding `tab` buttons, each controlling a `tabpanel` (`aria-controls`), with
+   `aria-selected` on the active one and the panel labelled by its tab. One tab stop for the list (roving
+   `tabindex`); arrow keys move between tabs, `Home` and `End` jump; activation follows focus when the
+   panels render instantly and waits for `Enter` or `Space` when they do not. A panel with no focusable
+   content is itself focusable. If the pieces are plain links to separate pages, it is navigation, not
+   tabs.
+9. **Accordion.** A heading (the right level for its place in the outline, §1.9) containing a native
+   `button` whose `aria-expanded` mirrors the open state, with `aria-controls` pointing at the panel.
+   `details` and `summary` do this natively and are the default; a custom accordion is justified only by
+   a requirement the native one cannot meet. Avoid giving every panel a `region` role in a long list.
+10. **Tooltip.** A short, non-interactive description tied to its trigger with `aria-describedby`, shown
+    on focus as well as hover, dismissible without moving the pointer (`Escape`), persistent while the
+    pointer is over it, and never the only place an essential instruction lives (WCAG 1.4.13;
+    §1.12). A control that needs a name gets a name, not a tooltip (§2.10).
+11. **Carousel.** A region labelled as a carousel, with a pause control as the first control and
+    previous and next buttons that are real buttons, each slide labelled with its position. Automatic
+    rotation is off by default or stops on focus and hover, the live region announces politely only when
+    the visitor drives the change, and the content never moves faster than it can be read (§7.7).
+12. **Breadcrumb.** A `nav` labelled "Breadcrumb", an ordered list of links, with the current page last and
+    `aria-current="page"` on it. The structured-data twin of this trail is `skills/seo` §6; the visible
+    one and the data say the same thing.
+13. **Pagination.** A `nav` labelled for what it paginates, a list of links, `aria-current="page"` on the
+    present page, previous and next with names that say what they do, and an unavailable direction
+    rendered as disabled text rather than a dead link. The page position is announced; infinite scroll
+    is not the only way to reach content (§1.14).
+14. **Search.** A search landmark (the `search` element or `role="search"`) around a field with a visible
+    label, `type="search"`, and a submit button; results state their count through a polite live region
+    (§2.3). Several `nav` or `search` landmarks on one page each get a distinct label so a landmark list
+    tells them apart.
+15. **File upload.** The native `input type="file"` with a visible label, whatever the custom styling; the
+    chosen file names appear as text; progress, success and error go through a live region and the error
+    sits next to the field (§4.8, §4.13). Drag-and-drop is an addition to the button, never a replacement
+    (§1.7).
+16. **Custom element.** A web component exposes the semantics a native element would: role and states set
+    through the element's internals, focus delegated to the interior control, form participation
+    through the form-associated mechanism rather than a copy of the value. Shadow boundaries break ID
+    references, so labels and descriptions are inside the same root or passed as properties. Prefer
+    extending nothing and styling a native element first.
+
+### Mechanical checks
+
+```
+grep -rnE '<body[^>]*aria-hidden' src
+grep -rnP 'role="(dialog|alertdialog)"(?![^>]*aria-(label|labelledby))' src
+grep -rnE 'role="(tab|tabpanel|treeitem|menuitem|option)"' src
+grep -rnE '<nav\b' src
+grep -rnE 'type="file"' src
+```
+
+- For each `tab`, `treeitem`, `menuitem` and `option` hit, confirm the owning role exists in the same
+  file.
+- When several `nav` appear, each has a distinct label.
+- The validity rules of points 2 to 6 are implemented by an accessibility engine run over the rendered
+  page (axe-core's `aria-*` rules, for example); filter its report by rule identifier, read the nodes,
+  and treat a clean report as the floor, not a verdict (§2.12).
+- Keyboard maps and live announcements are checked by hand, with a keyboard and a screen reader.

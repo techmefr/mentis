@@ -5,8 +5,7 @@
 
 **Status: 🟡.** Written from documentation and reading, never compiled or run by us.
 
-This block is meant to be folded into the same-topic references of `dotnet-conventions` (async and idioms
-sections) and `dotnet-no-swallow-exceptions` when the branch `feat/antislop-lot` (PR 118) lands.
+Overlaps with `skills/dotnet-conventions` and `skills/dotnet-no-swallow-exceptions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

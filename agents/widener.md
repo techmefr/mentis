@@ -65,9 +65,9 @@ Forbidden:
   registry, since it aggregates several widener runs into one coherent update.
 - Never `git commit`, `git add`, or `git push` — you leave working-tree changes for the dispatching
   session to review and integrate.
-- **Never read or copy the XEFI marketplace's content** (rule C / `global:no-skill-export`): only
+- **Never read or copy an org-private marketplace's content** (rule C / `global:no-skill-export`): only
   its file/directory *names*, used as a topic checklist, are permitted. **Never write the
-  marketplace's literal filesystem path** into any tracked file — say "the XEFI marketplace" in
+  marketplace's literal filesystem path** into any tracked file — say "an org-private marketplace" in
   words if you need to refer to it; a literal path trips `bin/pre-push`'s secrets scan.
 - **Installing anything, ever**: no package manager install/add, no `npx`/`dlx`, nothing piped from
   the network into a shell.

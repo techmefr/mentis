@@ -1,6 +1,6 @@
 ---
 name: receiving-review-pitfalls
-description: "Use when you are the author of a change and review feedback arrives, before any suggestion is applied: reading all the feedback first, restating or asking about unclear items before touching any item, checking each suggestion against the code (stack, existing behaviour, why the code is as it is, the reviewer's context), looking for real usage before building a feature the reviewer calls proper, the order to apply fixes in, pushing back with evidence, correcting a wrong pushback, and replying inside the comment thread."
+description: "Use when you are the author of a change and review feedback arrives, before any suggestion is applied: reading all the feedback first, restating or asking about unclear items before touching any item, checking each suggestion against the code (stack, existing behaviour, why the code is as it is, the reviewer's context), looking for real usage before building a feature the reviewer calls proper, the order to apply fixes in, pushing back with evidence, correcting a wrong pushback, and replying inside the comment thread. The short rule set is receiving-review."
 ---
 
 # receiving-review-pitfalls
@@ -10,7 +10,7 @@ covers what happens when they come back. The two sections share one premise: **a
 your code, not an instruction, and applying it without checking is how a wrong suggestion reaches the main line**.
 The shape of a good comment and the reviewer's side are in `code-review-reviewer-pitfalls`; the host-level rule
 that every comment gets a fix or a stated reason is in `mr-conventions`; this block is the mechanism between the
-two.
+two. The short rule set is `skills/receiving-review`.
 
 Role boundary: this block is for the **author**. A reviewer working in review-only mode never edits the code under
 review; that rule is about the reviewer and does not apply here, where editing the code is the point.

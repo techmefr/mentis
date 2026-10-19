@@ -45,5 +45,4 @@ not followed.
 `skills/api-design`, `skills/credential-lifecycle-pitfalls`, `skills/source-freshness`.
 
 ## Fold-in note
-This block stands alone. When the open pull request #118 lands and a same-topic block exists on main, fold it
-into that block rather than keep two blocks on one topic.
+Overlaps with `skills/vue-nuxt-vuetify-conventions` §13 (2026-10-19); cross-referenced, not merged.

@@ -1,6 +1,6 @@
-# react-nextjs-conventions §11 — Rendering and runtime performance
+# react-nextjs-conventions §16 — Rendering and runtime performance
 
-> Section 11 of `skills/react-nextjs-conventions`. Read it when a list grows, an interaction feels heavy, a scroll or input handler is added, or a component re-renders more than it should. The other sections and the guardrails stay in `SKILL.md`. Measure first (`skills/webperf`): every point below is a candidate cause, not a routine pass.
+> Section 16 of `skills/react-nextjs-conventions`. Read it when a list grows, an interaction feels heavy, a scroll or input handler is added, or a component re-renders more than it should. The other sections and the guardrails stay in `SKILL.md`. Measure first (`skills/webperf`): every point below is a candidate cause, not a routine pass.
 
 1. **A state update that is not urgent goes in a transition.** Typing in a search box and filtering ten thousand
    rows from it are two updates of different priority; putting both in plain `setState` makes the keystroke wait

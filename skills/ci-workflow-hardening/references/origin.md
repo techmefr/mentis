@@ -6,10 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real repository by us. No workflow was
 executed and nothing was installed while writing it.
 
-This block is meant to be folded into the same-topic block when PR 118 lands: its dependency supply-chain
-section (§3) overlaps the Python supply-chain section that PR adds to `python-conventions`, which is not on
-main and is not cited here. No block on main covers workflow hardening today. `devops-conventions` §1 holds the generic pipeline rules and `security-hardening`
-§4 the dependency decision, and both are cross-linked rather than repeated.
+Overlaps with `skills/devops-conventions` §1, `skills/security-hardening` §4 and the Python supply-chain section of `skills/python-conventions` (2026-10-19); cross-referenced, not merged. Its dependency supply-chain section (§3) is the part that overlaps most. `devops-conventions` §1 holds the generic pipeline rules and `security-hardening` §4 the dependency decision, and both are cross-linked rather than repeated.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

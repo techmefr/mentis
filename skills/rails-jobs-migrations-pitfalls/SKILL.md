@@ -40,6 +40,5 @@ interface it is checked against.
 
 ## Origin
 Rewritten from the Rails 8.1 Active Job sources, the Solid Queue README (1.7.0), the GoodJob README (4.21.1),
-the strong_migrations README (2.8.0) and a community RSpec style guide (CC BY 3.0), read 2026-10-08. Meant to be
-folded into `rails-conventions` when the extended version of that block lands. 🟡: never run by us; open points
+the strong_migrations README (2.8.0) and a community RSpec style guide (CC BY 3.0), read 2026-10-08. Overlaps with `skills/rails-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points
 are in [`references/origin.md`](./references/origin.md).

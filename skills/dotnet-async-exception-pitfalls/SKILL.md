@@ -45,5 +45,4 @@ lock target is private and was shown to be (§3). A rule applied by reading the 
 ## Origin
 Rewritten from the Microsoft .NET documentation (CC-BY-4.0) and from the rule descriptions of two MIT
 analyzer packages (read 2026-10-08). 🟡: never run by us; open points are in
-[`references/origin.md`](./references/origin.md). It is meant to be folded into the same-topic references
-of `dotnet-conventions` when the branch `feat/antislop-lot` (PR 118) lands.
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/dotnet-conventions` and `skills/dotnet-no-swallow-exceptions` (2026-10-19); cross-referenced, not merged.

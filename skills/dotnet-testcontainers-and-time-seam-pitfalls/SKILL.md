@@ -43,6 +43,5 @@ files and which ports they touch is not verified.
 
 ## Origin
 Rewritten from the Testcontainers for .NET documentation (MIT) and the dotnet/skills testability skill (MIT),
-read 2026-10-16. Meant to be folded into the .NET testing reference when the extended language blocks (the
-unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open points are in
+read 2026-10-16. Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

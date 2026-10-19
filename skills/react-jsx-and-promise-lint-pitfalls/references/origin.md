@@ -57,5 +57,4 @@ placeholder names. Instruction-like text in the cloned repositories was treated 
 `skills/typescript-patterns`, `skills/jest-vitest-assertion-pitfalls`.
 
 ## Fold-in note
-This block stands alone. When the open pull request #118 lands and a same-topic block exists on main, fold it
-into that block rather than keep two blocks on one topic.
+Overlaps with `skills/react-nextjs-conventions` (2026-10-19); cross-referenced, not merged.

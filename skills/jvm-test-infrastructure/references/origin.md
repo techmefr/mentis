@@ -6,9 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real project by us. No container was
 started and no Spring test was run while writing it.
 
-**Fold-in note.** This block is meant to be folded into the tests reference of `spring-boot-conventions`
-(Spring and Testcontainers parts) and into `java-conventions` (the Clock part) when PR 118 lands. It is
-standalone only so that it does not depend on a block that is not yet on main.
+**Overlap note.** Overlaps with `skills/spring-boot-conventions` and `skills/java-conventions` (2026-10-19); cross-referenced, not merged. It was written as a standalone block while the same-topic block was still on a branch; both are now on main.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

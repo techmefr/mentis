@@ -181,5 +181,51 @@ try:
 finally:
     os.unlink(formatted_file)
 
+check("markTestSkipped added to an existing test", 2,
+      edit("tests/Feature/FooTest.php", "it('works', function () {", "it('works', function () {\n    $this->markTestSkipped('later');"))
+check("Pest ->todo() chained onto a test", 2,
+      edit("tests/Feature/FooTest.php", "it('works', fn () => expect(1)->toBe(2));", "it('works', fn () => expect(1)->toBe(2))->todo();"))
+check("jest it.skip introduced", 2, edit("src/foo.test.ts", "it('a', () => {", "it.skip('a', () => {"))
+check("pytest skip marker added", 2, edit("tests/test_foo.py", "def test_a():", "@pytest.mark.skip\ndef test_a():"))
+check("go t.Skip added", 2, edit("pkg/foo_test.go", "func TestA(t *testing.T) {", "func TestA(t *testing.T) {\n\tt.Skip()"))
+check("assertTrue(true) added", 2,
+      edit("tests/FooTest.php", "$this->assertSame(1, $x);", "$this->assertSame(1, $x);\n$this->assertTrue(true);"))
+check("expect(true)->toBeTrue() added", 2,
+      edit("tests/Feature/FooTest.php", "});", "    expect(true)->toBeTrue();\n});"))
+check("pytest assert True added", 2, edit("tests/test_foo.py", "def test_a():\n    pass", "def test_a():\n    assert True"))
+check("self-comparing assertSame added", 2,
+      edit("tests/FooTest.php", "$this->assertSame(1, $x);", "$this->assertSame(1, $x);\n$this->assertSame($y, $y);"))
+check("a meaningful new assertion is allowed", 0,
+      edit("tests/FooTest.php", "$this->assertSame(1, $x);", "$this->assertSame(1, $x);\n$this->assertSame(3, $y);"))
+check("a skip marker already present and left alone is allowed", 0,
+      edit("tests/test_foo.py", "x = 1\n@pytest.mark.skip\ndef test_a(): pass", "x = 2\n@pytest.mark.skip\ndef test_a(): pass"))
+
+PHP_BODY = ("<?php\nclass FooTest {\n    public function test_a() { $this->assertSame(1, 1 + 0); }\n"
+            "    public function test_b() { $this->assertSame(2, 1 + 1); }\n}\n")
+with tempfile.NamedTemporaryFile(suffix="Test.php", delete=False) as f:
+    f.write(PHP_BODY.encode())
+    php_file = f.name
+try:
+    check("removing a test method is refused", 2,
+          write(php_file, PHP_BODY.replace("    public function test_b() { $this->assertSame(2, 1 + 1); }\n", "")))
+    check("emptying a test file is refused", 2, write(php_file, ""))
+    check("adding a test method is allowed", 0,
+          write(php_file, PHP_BODY[:-2] + "    public function test_c() { $this->assertSame(3, 2 + 1); }\n}\n"))
+finally:
+    os.unlink(php_file)
+
+
+def bash(command):
+    return json.dumps({"tool_input": {"command": command}})
+
+
+check("sed -i on a test file is refused", 2, bash("sed -i 's/1/2/' tests/FooTest.php"))
+check("rm of a test file is refused", 2, bash("rm tests/Feature/FooTest.php"))
+check("git checkout of a test file is refused", 2, bash("git checkout HEAD -- tests/FooTest.php"))
+check("redirect into a test file is refused", 2, bash("echo '' > tests/FooTest.php"))
+check("running a test file is allowed", 0, bash("vendor/bin/phpunit tests/FooTest.php"))
+check("rm of a build directory next to a test run is allowed", 0, bash("rm -rf build && vendor/bin/phpunit tests/FooTest.php"))
+check("shell edit allowed under the explicit override", 0, bash("rm tests/FooTest.php"), allow="1")
+
 print(f"\n{ok} passed, {fail} failed")
 sys.exit(1 if fail else 0)

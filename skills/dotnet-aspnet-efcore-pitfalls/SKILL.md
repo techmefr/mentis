@@ -45,5 +45,4 @@ the migration deploy step ran from a clean database (§3), the query was inspect
 ## Origin
 Rewritten from the ASP.NET Core and EF Core documentation (CC-BY-4.0), cross-checked against MIT skill
 files (read 2026-10-08). 🟡: never run by us; open points are in
-[`references/origin.md`](./references/origin.md). It is meant to be folded into the same-topic sections of
-`dotnet-conventions` when the branch `feat/antislop-lot` (PR 118) lands.
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged.

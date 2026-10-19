@@ -90,3 +90,6 @@
     not this point; a maintainer's on-the-record "won't fix, out of scope" is a legitimate answer to link
     and keep the local code for; and a genuinely abandoned package (no releases, no response to issues in
     years) is a fork-or-replace decision to raise explicitly, not a workaround to write quietly.
+21. **Do not patch sources with a script.** A `sed` or a generated rewrite over vendor or generated files
+    changes code nobody reviewed and leaves no diff of intent; when a fix is warranted it is a tracked
+    patch or an upstream change (points 16 to 19).

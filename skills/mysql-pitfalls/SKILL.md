@@ -46,7 +46,4 @@ checked by reading documentation only is not verified.
 ## Origin
 Rewritten from the MySQL 8.4 Reference Manual (facts only, no text copied), the gh-ost documentation and the
 strong_migrations README (MIT), read 2026-10-08. 🟡: never run by us; open points are in
-[`references/origin.md`](./references/origin.md). The general SQL conventions block (`sql-conventions`, whose
-section 7 touches MySQL) and the safe-migrations reference of `devops-conventions` exist only on the unmerged
-branch `feat/antislop-lot` (PR 118); this block is meant to be folded into the same-topic sections of those when
-PR 118 lands, and stands alone until then.
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/sql-conventions` §7 and `skills/devops-conventions` (2026-10-19); cross-referenced, not merged.

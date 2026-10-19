@@ -39,5 +39,5 @@ whether it is read at build time or at boot.
 ## Origin
 Rewritten from the Ecto 3.14.2 and Oban 2.24.1 source documentation and guides (Apache-2.0), the Elixir 1.20.4
 `Config`, `Application` and release documentation (Apache-2.0) and the Phoenix SSL guide (MIT), read 2026-10-08.
-Meant to be folded into `elixir-phoenix-conventions` when the extended version of that block lands. 🟡: never
+Overlaps with `skills/elixir-phoenix-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never
 run by us; open points are in [`references/origin.md`](./references/origin.md).

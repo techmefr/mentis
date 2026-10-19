@@ -51,6 +51,5 @@ layout inspector during an animation and stayed flat (§2), and a list was reord
 Rewritten from the Android developer pages on Compose state, state hoisting, side effects, phases,
 performance best practices, lists, stability and strong skipping (last updated 2026-10-01 on the pages read),
 and four Apache-2.0 Compose performance skills (derivedStateOf, deferring state reads, flow collection,
-effects), read 2026-10-08. 🟡: never run by us; meant to be folded into the same-topic block
-(`kotlin-android-conventions`, a Compose reference) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+effects), read 2026-10-08. 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged.

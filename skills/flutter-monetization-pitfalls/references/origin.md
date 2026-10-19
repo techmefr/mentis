@@ -4,9 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from reading, never run by us. No ad SDK was integrated, no purchase made and no store
-submission checked while writing it. This block is meant to be folded into the Flutter block when the extended
-language blocks (the unmerged PR 118 branch) land; until then it stands alone and cites only blocks that exist on
-the main branch.
+submission checked while writing it. Overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-16, rewritten in our own words, no text copied)
 

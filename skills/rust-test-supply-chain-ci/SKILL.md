@@ -44,6 +44,4 @@ that "CI checks dependencies" without saying which checks deny and which warn is
 ## Origin
 Rewritten from the nextest documentation, the proptest book, the cargo-mutants book, the loom README, the
 cargo-deny book, the cargo-semver-checks README, the cargo-hack README, the Cargo book and the Microsoft Rust
-guidelines (all MIT or MIT OR Apache-2.0 repositories), read 2026-10-08. Meant to be folded into the Rust
-language block when the extended systems-language blocks (the unmerged PR 118) land; until then it stands
-alone. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).
+guidelines (all MIT or MIT OR Apache-2.0 repositories), read 2026-10-08. Overlaps with `skills/rust-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).

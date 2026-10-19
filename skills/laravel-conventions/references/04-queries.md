@@ -225,3 +225,13 @@
     mid-migration on N+1s might want missing-attribute and mass-assignment strictness on immediately while
     still triaging lazy-loading violations separately, and the split toggle is what makes that partial
     adoption possible instead of all-or-nothing.
+39. **Select only the columns the operation needs, but only when it buys something.** Leaving out large text,
+    binary or JSON columns on a list is a real saving; narrowing every query is noise. When you do narrow, keep
+    every key Eloquent matches on: for a `belongsTo`, the foreign key on the parent query and the owner key on the
+    related one; the parent's local key and the related foreign key for a `hasMany`, otherwise the eager
+    load silently returns nothing.
+40. **`toQuery()` on a non-empty Eloquent collection of one model type builds a bulk query from the loaded
+    models, and a bulk update through it fires no per-model events**, exactly as any other bulk update. It is the
+    tidy replacement for a hand-built `whereIn($collection->modelKeys())`, and the wrong tool when a listener,
+    an audit trail or a cache invalidation hangs on the model's own update event (`skills/laravel-pruning-fires-delete-events`
+    makes the same point for deletion).

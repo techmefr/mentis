@@ -4,11 +4,7 @@
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No build was made, no store upload
-attempted and no CI job run while writing it. Folding targets: §1 and the accessibility part of §4 into the
-performance and accessibility-testing points of `flutter-conventions` (main branch sections, any time); §2
-into the release block and §3, §4 into the Dart-habits and testing sections that exist only on the
-unmerged branch of PR 118. Until then this block stands alone so nothing cites a section that is not on the
-main branch.
+attempted and no CI job run while writing it. Overlaps with `skills/flutter-conventions` and `skills/mobile-release` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

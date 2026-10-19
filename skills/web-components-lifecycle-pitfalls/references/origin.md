@@ -6,10 +6,7 @@
 **Status: 🟡.** Written from standards text and reading, never run in a browser by us. No element was defined
 or constructed while writing it.
 
-**Merge intent.** A broader web-components conventions block (written around one template library) exists only
-on the unmerged branch of the frontend sourcing pull request (118). This block was written standalone, with a
-name that cannot collide, to hold the native-platform gaps found in a comparison against it. It is meant to be
-merged into the same-named framework block when that pull request lands, section by section, and then removed.
+**Overlap note.** A broader web-components conventions block now exists as `skills/web-components-conventions`. This block was written standalone, with a name that cannot collide, to hold the gaps found in a comparison against it. Overlaps with `skills/web-components-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

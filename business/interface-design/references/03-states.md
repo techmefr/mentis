@@ -62,3 +62,16 @@ code-side blocks own the mechanics (`flutter-conventions` §4, `react-nextjs-con
 A mockup showing only the populated screen is an incomplete mockup, not a mockup plus details: these
 states are where the implementation questions come from, and leaving them out means they get answered by
 guesswork at step 6.
+
+11. **A control has its own states, and each is drawn.** Default, hover, focus-visible, active, disabled,
+    loading, error and success, where the control can reach them. Render each through a forced class
+    (for example a `.is-hover` twin of `:hover`) so every state exists on the page at once and can be
+    audited in a single pass instead of by hunting with a pointer. The forced classes share their rules
+    with the real pseudo-classes; they must not become a second copy.
+12. **Fabricated content is a defect.** Invented statistics and deltas, mock personal names, links that go
+    nowhere, and "trusted by" claims with no customer behind them mislead whoever reads the mockup. Use real
+    content, or a placeholder that is plainly labelled as one. A figure that looks real and is not will be
+    quoted.
+13. **Do not draw fake chrome.** A hand-drawn browser bar, a phone frame or a window shell around a screen
+    is decoration pretending to be evidence. Use a real screenshot of the real thing inside a `<figure>`
+    with a caption, or show the screen bare.

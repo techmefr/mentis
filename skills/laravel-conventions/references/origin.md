@@ -327,7 +327,7 @@ Sourcing: every new point is either a mechanism already present in `laravel-conv
 serialisation) or synthesised fresh from Laravel's public documentation for the mechanism named (contextual
 binding, `Macroable`, deferred providers, config caching, command signatures, scheduling, `Attribute::make`,
 custom casts, `morphWith`, rate limiters, conditional resource attributes) — never read, copied or paraphrased
-from the XEFI marketplace, whose file contents were not opened for this pass. `02-authorisation.md`, `05-naming-typing-style.md`,
+from an org-private marketplace, whose file contents were not opened for this pass. `02-authorisation.md`, `05-naming-typing-style.md`,
 `08-jobs-realtime.md` and `09-tests-static-analysis.md` were left untouched, already widened in the prior
 passes above.
 
@@ -358,7 +358,7 @@ prefer-the-framework's-own-mechanism argument) or is synthesised fresh from Lara
 for the mechanism named (service container contextual binding, deferred providers, middleware group
 ordering, package auto-discovery, facade resolution, queued-job `failed()`, `Http::fake()`,
 `ValidationException`, rate limiting) — `laravel.com/docs/12.x/{container,rate-limiting,http-client}`, read
-2026-09-10 — never the XEFI marketplace, whose file contents were not opened for this pass.
+2026-09-10 — never an org-private marketplace, whose file contents were not opened for this pass.
 
 **Widening, 2026-09-10 — troisième pass.** The five thinnest remaining files after the first two same-day
 passes — `05-naming-typing-style.md`, `08-jobs-realtime.md`, `09-tests-static-analysis.md`,
@@ -393,8 +393,7 @@ queues (job middleware, batching, unique/overlapping jobs), database testing and
 service container (`singleton`/`scoped` lifetimes), configuration and the scheduler
 (`laravel.com/docs/{12.x,13.x}/{queues,database-testing,container,configuration,scheduling}`) — plus
 Larastan's own documented level/extension model for the PHPStan-facing points, all read 2026-09-10; the
-rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. The XEFI
-marketplace's file contents were never opened for this pass.
+rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. An org-private marketplace's file contents were never opened for this pass.
 
 **Widening, 2026-09-10 — quatrième pass.** The five thinnest files remaining after the first three same-day
 passes — `02-authorisation.md` (2,040 words after its own earlier pass this same day), `10-architecture.md`
@@ -453,7 +452,7 @@ public documentation for the mechanism named — authorization (`Gate::after`, `
 `before()`), the service container and providers, migrations (`foreignId`/`constrained`, named foreign
 keys), the query builder (`upsert`, `chunkById`, `joinSub`, `withExists`), and controllers/routing
 (`apiResource`, resource action filtering, route model binding by column) — `laravel.com/docs/12.x/
-{authorization,providers,migrations,queries,controllers}`, read 2026-09-10. The XEFI marketplace's file
+{authorization,providers,migrations,queries,controllers}`, read 2026-09-10. An org-private marketplace's file
 contents were never opened for this pass.
 
 **Widening, 2026-09-10 — cinquième pass.** The five thinnest files by an actual `wc -w` measurement at the
@@ -514,7 +513,7 @@ batch `add()`, `Concurrency`), PHP 8.3/8.4 language features (typed class consta
 Pest/PHPUnit fakes (`Bus`, `Event`, `Http`, `Queue`, `Mail`, `Storage`), and console/config tooling (Laravel
 Prompts, typed config accessors, the scheduler, `artisan about`, cache-clearing commands) —
 `laravel.com/docs/12.x/{errors,broadcasting,queues,console-tests,http-tests,mocking,artisan,prompts,configuration,scheduling}`
-plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. The XEFI marketplace — referred to here only
+plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. An org-private marketplace — referred to here only
 as "the marketplace XEFI" — was never opened for this pass: no file under it was read, only the fact that a
 content gap existed was known going in.
 
@@ -803,3 +802,22 @@ a call belongs in a registered provider, and a seeder's fallback to inline gener
 stated as the source's own explicit behaviour change. The extracted narrow-trigger satellite is
 `skills/laravel-faker-provider-extensions`. Word count re-measured with `bin/measure_depth.py` after the
 edit.
+
+**Production configuration, safe migrations and the verification block, 2026-10-02.** §12, §13 and the new
+`skills/laravel-verification` block are new. Idea taken from the public ECC repository (MIT licence, read
+2026-10-02): its Laravel security skill (production settings), its Laravel verification skill (the ordered
+phases) and its PHP and database-migration rules (the matrix called the production configuration absent and
+the migration checklist partial: expand and contract existed, the lock, backfill, rollback and
+production-shaped-data parts did not). Mechanisms rewritten in our terms. Differences on purpose: no
+`strict_types` mandate (`laravel-strict-types-default` stands), no generic repository and no response
+envelope (the upstream patterns file proposes both), no coverage percentage, no fixed list of header values
+(those belong to `skills/security-hardening`), and the production checks are asserted on the target
+environment, not read from the repository (§12.1). The facts come from the framework documentation (the
+deployment, session, trusted-proxy, queue, scheduling, health-route, maintenance-mode and migration pages)
+and from the vendor documentation of the major relational engines on online DDL and concurrent index builds,
+written from knowledge of them and **not re-fetched on the day**. Engine-specific statements in §13.4,
+§13.5 and §13.15 depend on engine and version and must be re-read against the one in use. Left out as a
+third-party runtime dependency (rule B): the upstream plugin-discovery skill that calls an external package
+directory.
+
+**Widening, 2026-10-02 (Laravel and PHP lot).** Points 39 and 40 of §4 and points 43 to 46 of §10 come from the `db-performance`, `collections` and `architecture` rule files of Laravel Boost (`laravel/boost`, MIT, cloned 2026-10-02), mechanisms only, rewritten in our words; its `eloquent` advice to use local scopes is left out because the house rule against model scopes wins. New narrow blocks from the same lot: `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament`, `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`.

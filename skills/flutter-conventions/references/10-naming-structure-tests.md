@@ -28,7 +28,7 @@
    the place where the real one would have been, and it reports success for ever.
 7. **Fake every boundary the widget does not own** — network, storage, permissions, the clock, the platform
    channels. A widget test that reaches a real network is slow, fails on someone else's connection, and
-   fails for a reason that has nothing to do with the widget; a suite with a few of those is a suite people
+   fails for causes unrelated to the widget; a suite with a few of those is a suite people
    learn to re-run rather than read.
 8. **Freeze time and randomness.** A test reading the real clock fails at midnight, on the first of the
    month, in a different timezone, or on a leap day — and it fails in CI, where nobody is watching, which
@@ -116,3 +116,10 @@
     a widget-level `Timer` is invisible to the animation-ticker fast-fail path, so a screen that owns one
     needs an explicit `tester.pump(duration)` for a known interval instead of `pumpAndSettle`, and reaching
     for `pumpAndSettle` there is not just slow, it is nondeterministic.
+26. **A widget that tests drive owns its keys.** Every interactive or assertable element of a screen carries a
+    key declared once as a constant on the widget, named after the widget and the element; tests locate by
+    that key, never by rendered text or tooltip, so a translation or a copy change does not break them.
+27. **Put screen interaction behind a robot.** A small class per screen holds the finders privately and
+    exposes named actions and expectations (`enterEmail`, `expectErrorShown`); the test body reads as the
+    user story, and a change to the screen is fixed in one place. A robot can compose a child robot for a
+    shared component. An infinite animation never gets a settle-everything pump; pump a bounded duration.

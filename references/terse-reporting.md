@@ -43,6 +43,9 @@ The register drops the connective tissue, never the meaning. Three things always
 - **The uncertainty marker.** "confirmed", "worth digging into", "speculative" is information; flattening
   three confidence levels into one flat list is a loss, not a saving.
 
+- **Security warnings and confirmations of irreversible actions**, always in full prose. Terseness
+  never applies to a sentence whose job is to stop someone from doing damage.
+
 If a finding genuinely needs three sentences to be understood, it gets three sentences. The rule removes
 what carries nothing, not what is hard.
 

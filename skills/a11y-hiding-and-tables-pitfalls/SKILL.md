@@ -1,6 +1,6 @@
 ---
 name: a11y-hiding-and-tables-pitfalls
-description: "Use when content has to be hidden from sighted users but kept for screen readers (a label for an icon-only control, a skip link), hidden from assistive technology only, or hidden from everyone, and when a data table is marked up: the clip pattern for visually hidden text, making a hidden focusable element appear on focus, display none versus aria-hidden versus the hidden attribute, table captions, and th cells with scope for column and row headers."
+description: "Use when content has to be hidden from sighted users but kept for screen readers (a label for an icon-only control, a skip link), hidden from assistive technology only, or hidden from everyone, and when a data table is marked up: the clip pattern for visually hidden text, making a hidden focusable element appear on focus, display none versus aria-hidden versus the hidden attribute, table captions, and th cells with scope for column and row headers. The general semantics, ARIA and keyboard rules are accessibility."
 ---
 
 # a11y-hiding-and-tables-pitfalls
@@ -10,7 +10,7 @@ reader. The first is how content is hidden: there are three different audiences 
 only, sighted users only) and each has a different mechanism. The second is the markup of a simple data table.
 Both come from two short how-to posts of the A11y Project, read at the commit stamped in `references/origin.md`.
 The wider rules (names and roles, keyboard order, focus, `aria-hidden` on something focusable, landmarks and
-skip links) are in `skills/accessibility` and are not repeated here. Complex tables with spanned or multi-level
+skip links) are in `skills/accessibility` (its §6 also covers tables, at diff level) and are not repeated here. Complex tables with spanned or multi-level
 headers are not covered by the source and are not covered here.
 
 ## When

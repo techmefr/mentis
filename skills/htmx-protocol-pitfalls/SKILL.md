@@ -1,6 +1,6 @@
 ---
 name: htmx-protocol-pitfalls
-description: "Use when a server sends HTML fragments to htmx 2.x (response headers HX-Redirect, HX-Location, HX-Trigger, HX-Refresh, HX-Retarget, HX-Reswap, the lost headers on 3xx redirects, polling with every Ns and the 286 status, load polling), when an htmx request needs UX around it (htmx-indicator, hx-disabled-elt against double submit, hx-preserve, attribute inheritance leaking hx-confirm or hx-target to children), or when htmx meets other code (htmx.onLoad and htmx.process for widgets, Vary and ETag for fragment versus full-page responses, history restore, CORS exposed headers, a pinned CDN script with an integrity hash)."
+description: "Use when a server sends HTML fragments to htmx 2.x (response headers HX-Redirect, HX-Location, HX-Trigger, HX-Refresh, HX-Retarget, HX-Reswap, the lost headers on 3xx redirects, polling with every Ns and the 286 status, load polling), when an htmx request needs UX around it (htmx-indicator, hx-disabled-elt against double submit, hx-preserve, attribute inheritance leaking hx-confirm or hx-target to children), or when htmx meets other code (htmx.onLoad and htmx.process for widgets, Vary and ETag for fragment versus full-page responses, history restore, CORS exposed headers, a pinned CDN script with an integrity hash). Which tool owns what, swap targets, escaping and Alpine state are htmx-alpine-conventions."
 ---
 
 # htmx-protocol-pitfalls
@@ -14,9 +14,8 @@ it only wires up what is in the DOM when it looks**. Each rule says what you see
 material of unclear version scope (an `hx-partial` swap command, form validation on by default in a later
 line); none of it is used here, and every rule below applies to 2.0 only. Check the installed version before relying on a point.
 
-Standalone block, written because the broader htmx and Alpine conventions block exists only on an unmerged
-branch. It is meant to be merged into the same-named framework block when that lands (see
-[`references/origin.md`](./references/origin.md)). Until then it cites only blocks present on the main branch.
+Overlaps with `skills/htmx-alpine-conventions`, which owns which tool does what, swap targets, escaping and Alpine state;
+this block owns the HTTP exchange. Cross-referenced, not merged (see [`references/origin.md`](./references/origin.md)).
 
 ## When
 - A server endpoint answers an htmx request, redirects after a form post, or has to tell the page to do

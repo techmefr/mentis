@@ -1,6 +1,6 @@
 ---
 name: cwv-diagnosis-pitfalls
-description: "Use when a Core Web Vital is poor or a performance trace is being read: splitting INP into input delay, processing and presentation delay before touching a handler, yielding long work so the visible update can paint, attributing long tasks to scripts, reading a layout shift score and its shifted nodes, reserving slots for banners, consent and validation messages, font fallback metrics, animating without layout, and finding which LCP subpart dominates before preloading anything."
+description: "Use when a Core Web Vital is poor or a performance trace is being read: splitting INP into input delay, processing and presentation delay before touching a handler, yielding long work so the visible update can paint, attributing long tasks to scripts, reading a layout shift score and its shifted nodes, reserving slots for banners, consent and validation messages, font fallback metrics, animating without layout, and finding which LCP subpart dominates before preloading anything. Which instrument supports a number and CI budgets are webperf-measurement-and-budget-pitfalls; a slow page with no vital named starts at webperf."
 ---
 
 # cwv-diagnosis-pitfalls
@@ -9,7 +9,7 @@ Step 6 of the pipeline (`WORKFLOW.md`), for the moment a vital is red and a fix 
 states the three page rules (reserve space, prioritise the LCP image, no long task on interactions) and
 `webperf-measurement-and-budget-pitfalls` says which instrument may support a claim; neither says how to find the
 cause. The three sections share one premise: **each vital is a sum of parts, and a fix applied to the part that
-is not dominant changes nothing, so the trace decides before the code does**.
+is not dominant changes nothing, so the trace decides before the code does**. A page that is slow with no vital named starts at `webperf`, whose §4 and §5 hold the loading and image levers; this block only finds which part of a vital dominates.
 
 ## When
 - Field INP, CLS or LCP is poor, or a trace shows a slow interaction, a layout shift or a late hero image.

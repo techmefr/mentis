@@ -4,9 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No image was built and no process
-was started while writing it. This block is meant to be folded into `go-conventions` when the extended
-version of that block (the branch that takes it to nine sections) lands; until then it stands alone so
-nothing cites a section that is not on the main branch.
+was started while writing it. Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

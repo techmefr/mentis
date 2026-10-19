@@ -46,4 +46,4 @@ followed.
 
 ## Related blocks
 `skills/mysql-pitfalls`, `skills/laravel-conventions`, `skills/rails-jobs-migrations-pitfalls`.
-Fold into the same-topic block when #118 lands.
+Overlaps with `skills/symfony-conventions` and `skills/laravel-conventions` §13 (2026-10-19); cross-referenced, not merged.

@@ -53,6 +53,5 @@ was only previewed is not verified.
 ## Origin
 Rewritten from the Android developer pages on window insets in Compose, edge-to-edge setup and system bars, the
 WindowInsetsRulers page and the Android 15, 16 and 17 behaviour-change pages, and from one Apache-2.0 Android agent
-skill on edge-to-edge (read 2026-10-08). 🟡: never run by us; meant to be folded into the same-topic block
-(`kotlin-android-conventions`, or a Compose reference next to `compose-correctness`) when PR 118 lands; open points
-are in [`references/origin.md`](./references/origin.md).
+skill on edge-to-edge (read 2026-10-08). 🟡: never run by us; open points
+are in [`references/origin.md`](./references/origin.md). Overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged.

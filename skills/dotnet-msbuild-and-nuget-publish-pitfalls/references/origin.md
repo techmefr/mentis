@@ -4,8 +4,7 @@
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from reading, never run by us. Nothing was built, packed or published while writing it.
-This block is meant to be folded into the same-topic .NET block when the extended language blocks (the unmerged
-PR 118 branch) land; until then it stands alone and cites only blocks that exist on the main branch.
+Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-16, rewritten in our own words, no text copied)
 

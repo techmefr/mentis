@@ -21,6 +21,12 @@ After `spec`, before `/PLAN`. Systematic as soon as we touch shared code or an e
       form has a staleness problem the index form does not have at all: a graph directory is right
       the day it is generated and quietly wrong afterwards, and refreshing it costs a whole pass.
       (`claude-mem`'s `smart-explore` is the index form here, `graphify` the artefact form.)
+      When a stored graph is used anyway, check its freshness: resolve the stored commit hash
+      (`git rev-parse --verify`), then list the project's changes since it with
+      `git diff --name-only <hash> HEAD -- .`. The `-- .` pathspec keeps a commit in a sibling project
+      of a monorepo from staling this graph. A different hash with an empty diff is not stale. Ignore the
+      graph's own output folder in every command. A hash that does not resolve is a warning, never a
+      block.
    2. **Do not narrow the scan to the module you are touching.** It is cheaper and it removes the
       one thing this step exists to prevent: the near-duplicate that lives in *another* module is
       exactly the one nobody finds, and scoping the map to your own module makes step 2 blind
@@ -78,3 +84,5 @@ Point added 2026-09-07: the org catalogue this repo was measured against carries
 stack"* rule, and it was the one generic rule with no mentis home. Its content is that org's own stack
 choice, which rule C keeps out of here — what generalises is the shape of the mistake it prevents, so
 that is what the guardrail states instead of a stack name.
+
+The graph freshness check was rewritten from the `understand-diff` skill of `Understand-Anything` (MIT), read 2026-10-02.

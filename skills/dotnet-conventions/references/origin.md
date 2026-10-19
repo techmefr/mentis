@@ -616,3 +616,24 @@ sandbox, are still not the real production .NET codebase this file is waiting fo
 question register. What this pass adds to the 2026-09-09 one is coverage of §3 and the options/hosted-
 service half of §2 that the console-only shape never touched, and one more mechanical defect a compiler (on
 a different target framework this time) could surface that reading never would have.
+
+**Testing section, 2026-10-02.** §10 is new. Idea taken from the public ECC repository (MIT licence, read
+2026-10-02): its C# testing rule and testing skill, which name xUnit, a substitution library, container-backed
+integration tests and an in-process web host as the stack. The mechanism was kept and rewritten in our terms;
+what was **not** taken is its shape: no mandated assertion library (the one it recommends changed licence terms
+at a major version, so §10.6 says to read the licence instead), no fixed coverage percentage (§10.24), and the
+in-memory EF provider it uses for the host fixture (§10.16 says why that is the wrong test double). The facts
+come from the primary documentation, written from knowledge of it and **not re-fetched on the day**: the xUnit
+lifecycle and parallelism model (instance per test, collection fixtures), the ASP.NET Core integration-testing
+guide (the web host factory, `ConfigureTestServices`, the public `Program` requirement), the EF Core testing
+guidance on the in-memory provider, and the framework's fake time provider and fake logger testing packages.
+Re-verify those API names against the target framework before this section moves out of 🟡.
+
+**Extended, 2026-10-02 (§11, §12, §10.26-28).** Rewritten, not copied, from the MIT-licensed `dotnet/skills`
+repository read that day (build-organisation, build anti-pattern, test-gap-analysis and web-API skills) and
+the minimal-API skill of the MIT-licensed `codewithmukesh/dotnet-claude-kit` (listed, not read in depth).
+Left out on purpose: its XML-doc-comment rule on request types (clashes with the house no-comment rule),
+its CRAP-score and coverage-interpretation skills, binary-log analysis and build-performance baselines, and
+anything pinned to a platform release (target-framework migrations), which goes stale. The conversion of an
+existing solution to central package management was not read. Status unchanged; platform-line facts in §12.8
+to be re-read per `skills/source-freshness`.

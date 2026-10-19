@@ -55,6 +55,13 @@ rewritten our way (Rule B).
    the "lost in the middle" effect applies to a skill file exactly as it does to any other long context. When
    a section passes roughly ten points, that's the signal to re-sort it (common case first) rather than to
    keep appending, not a hard line to enforce mechanically.
+8. **A filter block states a positive requirement.** A block that only forbids produces empty output; say
+   what the result must contain. Every detection block also carries a mandatory section on what not to
+   flag, because a detector without one drifts into false positives.
+9. **A rule names the artefact that proves it was applied**, or it becomes a hook. Adding a canon without
+   cutting the sources it absorbed reproduces the duplication it was meant to remove.
+10. **Every scanner added locks its tiers with a regression test**, so a threshold cannot be loosened by
+    editing the scanner alone.
 
 ## Output / checkpoint
 A complete `skills/<name>/SKILL.md` file following the template, referenced in `CATALOG.md` and
@@ -81,3 +88,7 @@ copied, the mechanism was already familiar from long-context work and is stated 
 Concrete trigger for writing it now rather than leaving it as a general instinct: several blocks in this
 repo (`vue-nuxt-vuetify-conventions`, `react-nextjs-conventions`) grew past 10 points per section across
 this session's re-checks, each addition appended at the bottom of its list.
+
+Steps 8 to 10 added 2026-10-02 from a read of public prose-quality and design-quality filters: the
+positive-requirement and not-to-flag rules come from how those filters fail, the proof-artefact rule and
+the scanner regression test from the corpus's own history of unenforced guarantees.

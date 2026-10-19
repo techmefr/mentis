@@ -48,3 +48,20 @@
 12. **Never ship a placeholder.** "Lorem ipsum", "TODO", "test" and a bare "Error" all reach production
     eventually, because the string that was obviously temporary is the one nobody re-reads — and the
     reader who finds it cannot tell whether the feature behind it works.
+13. **Never invent a figure to make a string concrete.** A count, a percentage, a duration ("usually takes
+    two minutes", "used by 10,000 teams") or a before-and-after delta that nobody measured is a promise the
+    product made up. Interpolate the real value, or leave the claim out; an example number in a draft
+    string is a placeholder and falls under point 12.
+14. **Use the typographic character, in the language's own convention.** The ellipsis is one character,
+    not three full stops; apostrophes and quotation marks follow the language (guillemets with the spacing
+    French expects, low-and-high quotes where a language uses them); a non-breaking space keeps a number
+    with its unit and, in French, a high punctuation mark with the word before it. Straight quotes and
+    triple dots in a finished interface read as unfinished, and a break between "10" and "MB" reads as a
+    typo. Where a stack or a file format forbids the character, say so once and keep the plain one.
+15. **An ellipsis on a command means more input is needed first.** A menu entry or button ending in an
+    ellipsis tells the reader that choosing it opens a step before anything happens; without more input
+    expected, no ellipsis. This is a platform convention, so read the target platform's guideline before
+    relying on it (`skills/source-freshness`).
+16. **Punctuation and case on short strings are decided once.** Labels and buttons take no final full
+    stop; full sentences do. Mixed styles inside one list make a reader wonder what the difference
+    means. Record the decision with the other conventions (`04-one-voice.md`).

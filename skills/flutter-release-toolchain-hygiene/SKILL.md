@@ -47,9 +47,5 @@ A claim without its build attached is not verified.
 ## Origin
 Rewritten from the Flutter website's build-modes, UI-performance, app-size, Android and iOS deployment and
 accessibility-testing pages, the Dart site's pub and analysis pages, the agent-plugins package-conflict,
-static-analysis and coverage skills, and the Android and Apple release pages, read 2026-10-08. The
-store-and-version material (§2) and the pub and gate material (§3, §4) are meant to be folded into the
-same-topic sections (the mobile release block and the Dart habits and testing sections of
-`flutter-conventions`) when the extended versions of those blocks land; §1 and the accessibility part of §4
-can be folded into the main-branch sections on performance and accessibility testing at any time. 🟡: never
+static-analysis and coverage skills, and the Android and Apple release pages, read 2026-10-08. Overlaps with `skills/flutter-conventions` and `skills/mobile-release` (2026-10-19); cross-referenced, not merged. 🟡: never
 run by us; open points are in [`references/origin.md`](./references/origin.md).

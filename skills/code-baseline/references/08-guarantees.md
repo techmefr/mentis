@@ -80,3 +80,19 @@ protection — it's a claim the next reader will trust. Wire it or delete it.
     cheapest habit in this section, and the one that turns a declaration into an enforcement: run the path,
     read what came back, and let the test hold it (§6.3), because a check with no red test is a check that
     may already have stopped firing.
+12. **A placeholder implementation is a body its author knew was unwritten.** Look in the diff for the marks that
+    prove it: a comment standing in for code that was elided ("existing code here", "rest unchanged"), a body
+    that only throws "not implemented", a TODO sitting over an empty or constant return. An agent that runs out
+    of road leaves exactly these. A bare `return []` or an empty method is **not** evidence on its own: default
+    hooks and null objects are written that way on purpose, and an empty body with no mark of unfinished
+    work is left alone. The fix is to write the body or to cut the declaration (point 2), never to leave the mark.
+13. **A suppression carries its reason or it is a finding.** A static-analysis ignore (`@phpstan-ignore`,
+    `@psalm-suppress`, `phpcs:ignore`, `@SuppressWarnings`) with nothing after it hides a decision nobody can
+    review. A suppression followed by a reason of a few words is a reviewed decision and is left alone: the
+    rule is the missing reason, never the count, otherwise people delete the explanation instead of the ignore.
+    This is point 3 pointed at the analyser; the stack blocks hold the per-language spellings.
+14. **Copy-paste drift: a body nearly identical to its sibling, differing where a copy goes wrong.** When two
+    methods match except for a missing guard, a flipped comparison or the wrong class constructed, the
+    difference is more likely an unfinished copy than a variation. Read both; the majority form is usually the
+    right one, but "usually" is a reason to look, not a verdict. Near-duplicates whose difference is the point
+    (two handlers for two cases) are not drift.

@@ -60,3 +60,23 @@
 16. An error crossing a public boundary is part of that boundary's contract, and gets the same care as a
     return type. That includes being tested (§6.1): the failure path is asserted, or the first refactor
     quietly turns the throw into a returned error object and nothing anywhere goes red.
+17. **A catch that swallows survives only if it passes four tests, and the reason is written down.** All four, not
+    three of them: the failure is **expected and frequent** (a parse of an optional field, a probe for a free
+    port, a check for a repository that may not exist); logging it would **drown the signal** because the path is
+    hot; there is **explicit recovery** in the handler (a named fallback, a retry with a bound, a defined
+    degradation); and the reason is **specific and technical**, stated in a sentence that names the failure and
+    the recovery. "Not important", "happens sometimes", "works without logging" and "optional" fail the test:
+    if the error did not matter there would be no catch, and an optional thing that fails still needs to be
+    visible somewhere. Where the language has a way to mark a deliberate discard (point 7), use it to carry the
+    reason.
+18. **Never override on the paths that carry the product** (persistence, the main write path, the agent or worker
+    loop, authentication). There the error is visible (logged with context) or fatal (thrown); catch-and-continue
+    is not available as an exception. When in doubt, fail loudly: a visible crash is a bug found, a silent
+    continue is a bug kept.
+19. **Triaging a codebase full of them is a procedure, not a sweep.** Find every site mechanically (a scan for
+    empty or log-free catches); sort by path, critical first; for each site choose exactly one of four fixes:
+    log it properly, mark it as an approved override with the written reason of point 17, remove the try so the
+    error propagates, or narrow the caught type so only the expected failure is caught. Work one at a time, re-run
+    the scan after each batch, and track the count down. This applies to a cleanup the operator asked for;
+    without that request, `SKILL.md` §0 says to leave existing sites alone and report them.
+

@@ -4,9 +4,7 @@
 > freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. Nothing was compiled and no Zig
-toolchain was run while writing it. This block is meant to be folded into the Zig language block when the
-extended systems-language blocks (the unmerged PR 118 branch) land; until then it stands alone and does not
-cite any section that exists only on that branch.
+toolchain was run while writing it. Overlaps with `skills/zig-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 
@@ -19,8 +17,8 @@ cite any section that exists only on that branch.
 ## Removed in the verification pass (no page supporting them)
 - "A catch that discards needs a named reason": no page says it; kept only as the `catch unreachable`
   assertion rule the reference does state.
-- "Re-pin the style reference to a current release": the style reference belongs to the unmerged language block
-  and cannot be edited here; the drift rule (§4.4) covers the idea.
+- "Re-pin the style reference to a current release": the style reference belongs to the `skills/zig-conventions`
+  block and cannot be edited here; the drift rule (§4.4) covers the idea.
 - "Comptime for types and constants, not to hide runtime cost": the second half is not on any page; kept in §3.2
   as a labelled own-guidance line.
 - "Test blocks use the testing allocator so leaks fail": kept, but only as the documented behaviour of
