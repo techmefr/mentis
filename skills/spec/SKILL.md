@@ -1,13 +1,29 @@
 ---
 name: spec
-description: Use when locking down the scope of a feature before the plan, clarification interview, explicit scope + out-of-scope, CONTEXT.md and ADR.
+description: "Use when the content of a feature's framing is being decided, the clarification interview, explicit scope and out-of-scope, CONTEXT.md vocabulary, ADRs and verifiable acceptance criteria. It supplies the substance that goes into the spec-kit artefacts; the process and the files are `speckit`'s."
 ---
 
 # spec
 
 Step 2 of the pipeline (`WORKFLOW.md`). Lock down *what* we're building, with a shared
-vocabulary and traced decisions. Every rule below holds in a repo with **nothing installed**
-(`CONVENTIONS.md`, rule A).
+vocabulary and traced decisions. **This block is not a second spec process.** The one process is the spec-kit
+cycle (`skills/speckit`, `CONVENTIONS.md` Rule E); this block is the substance that fills its artefacts: the
+interview, the scope and out-of-scope list, the vocabulary and ADRs, and the verifiable criteria `tdd`
+consumes. Its output is written into the cycle's files, never into a document of its own. Every rule below
+holds in a repo with **nothing installed** (`CONVENTIONS.md`, rule A).
+
+| This block | Spec-kit step | Lands in |
+|---|---|---|
+| §1 interview | specify, then clarify | `spec.md` and its clarifications section |
+| §2 `CONTEXT.md` | specify (key entities), constitution (project-wide terms) | `spec.md` key entities, `CONTEXT.md` beside it |
+| §3 acceptance criteria | specify | acceptance scenarios and success criteria of `spec.md` |
+| §4 out of scope | specify | the exclusions and assumptions of `spec.md` |
+| §5 ADRs | plan | the decisions of `research.md`, plus an ADR file for a structural one |
+| §6 fresh-context review | clarify | a check on `spec.md` before the operator reads it |
+| §7 feasibility verdict | specify | an assumption or a stated blocker in `spec.md` |
+
+The full mapping, with `plan` and `archi`, is `skills/speckit` reference 04. Where the project's own template
+or constitution differs from this block's wording, the project's wins and the guardrails below still apply.
 
 Upstream of this block, `business/product-ownership` owns whether the thing should exist at all and what
 the story says; this block turns a ready story into the technical contract the rest of the pipeline works
@@ -16,8 +32,8 @@ from. Downstream, §3's criteria are what `tdd` writes failing tests against.
 ## When
 After `brainstorm`, before `/PLAN`. Or as soon as the scope / acceptance criteria are unclear.
 
-**If the project is a spec-kit workspace (a `.specify/` directory) or the operator asked for it, use
-`skills/speckit` first**; this block then only covers what it leaves out (`speckit` reference 04).
+Run it **inside the spec-kit cycle** (`skills/speckit`), at its specify and clarify steps, with or without the
+tool installed (the same artefacts are written by hand, `speckit` reference 01).
 
 ## Steps
 
@@ -37,7 +53,7 @@ content.
 
 ## Output / checkpoint
 `spec_done` + `CONTEXT.md` + ADR(s), plus the numbered acceptance criteria and the explicit out-of-scope
-list. What it owes: a scope a third party could implement without asking a blocking question, and no
+list, all recorded in the feature's `specs/<NNN>-<name>/` artefacts. What it owes: a scope a third party could implement without asking a blocking question, and no
 invented rule anywhere in it.
 
 ## Guardrails

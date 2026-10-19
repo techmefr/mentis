@@ -1,16 +1,19 @@
 ---
 name: plan
-description: Use when the architecture is set, before writing tests or code, break the feature into atomic testable tasks.
+description: "Use when the architecture is set and the breakdown into atomic testable tasks is being written or reviewed, before tests or code. It supplies the discipline of the plan and tasks steps of the spec-kit cycle (discovery, ordering, review focus, proportion); the files are `speckit`'s."
 ---
 
 # plan
 
 Step 4 of the pipeline (`WORKFLOW.md`). Turn the target architecture into deliverable
-increments.
+increments. **This is not a second breakdown format.** The one process is the spec-kit cycle
+(`skills/speckit`, `CONVENTIONS.md` Rule E): the increments are the cycle's `tasks.md`, step 0's discovery fills
+`research.md`, and this block keeps its review rules (Review Focus, proportion, trust boundaries, verdict) on
+top of them. Where the project's own template differs from this block's wording, the project's wins.
 
 ## When
-After `archi`, before `tdd`. In a spec-kit workspace (`.specify/` present, or asked for), the breakdown
-is `skills/speckit`'s tasks step; use it first and keep this block for step 0 and the Review Focus.
+After `archi`, before `tdd`, inside the cycle's plan and tasks steps, with or without the tool installed
+(`skills/speckit` reference 01).
 
 ## Steps
 0. **Documentation discovery, before anything is planned.** Find out what actually exists: read the
@@ -76,7 +79,7 @@ is `skills/speckit`'s tasks step; use it first and keep this block for step 0 an
     scope, structure and size, never naming or formatting.
 
 ## Output / checkpoint
-`plan_done` + one tracked item per increment, in dependency order.
+`plan_done` + one tracked item per increment, in dependency order, recorded as the feature's `tasks.md`.
 
 ## Guardrails
 No automatic execution of the whole plan (**no `/build auto`**: see `WORKFLOW.md`, auto-mode

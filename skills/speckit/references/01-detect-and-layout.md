@@ -37,12 +37,13 @@ Decide first whether the project is a spec-kit workspace, then find the feature 
    worktree: `start-feature`).
 
 ## 1.4 When spec-kit is not installed
-The block works with nothing installed (`CONVENTIONS.md`, rule A). Three cases.
+The process is one (`CONVENTIONS.md`, Rule E); the tool is a convenience. With nothing installed the agent
+produces **the same artefacts by hand** and invents no other format (rule A). Three cases.
 
 | Case | What the agent does |
 |---|---|
-| No `.specify/`, operator did not ask | Not a spec-kit project: use `skills/spec` and `skills/plan` as they are |
-| No `.specify/`, operator asked for spec-kit | Say once that the tool is not set up; give the operator the install route (`uv tool install specify-cli`, then `specify init` in the project, per the project README) to run in their own terminal after reading it; meanwhile follow `skills/spec` and write its outputs in the shape of reference 02 (a `spec.md` of stories, requirements and criteria) so nothing is lost when the tool arrives |
+| No `.specify/`, nothing asked | The process is still the cycle: write `specs/<NNN>-<name>/spec.md`, then `plan.md` and `tasks.md`, in the shape of references 02 and 03, and say once that the tool is not set up |
+| No `.specify/`, operator asked for spec-kit | Say once that the tool is not set up; give the operator the install route (`uv tool install specify-cli`, then `specify init` in the project, per the project README) to run in their own terminal after reading it; meanwhile write the same artefacts by hand (a `spec.md` of stories, requirements and criteria, per reference 02) so nothing is lost when the tool arrives |
 | `.specify/` exists but the slash commands are not available in this agent | Work from the files already in `.specify/templates/` as structure, follow references 02 and 03 by hand, and tell the operator the agent integration is not registered |
 
 1. **The agent never installs it** (`hooks/block-installs.sh` is the enforcement; the rule would hold without

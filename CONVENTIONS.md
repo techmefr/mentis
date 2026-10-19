@@ -1,7 +1,7 @@
 # mentis: conventions for writing the building blocks
 
 > Governance for every block in the workflow (skills, commands, agents, tools).
-> Two founding rules, then the **single writing template**.
+> Five rules (A to E), then the **single writing template**.
 
 ## Rule A: test the complete approach first
 
@@ -87,11 +87,57 @@ one short **adaptation note** at the end of the block. In the body, say "the age
 "the operator", "a check that runs on every edit", not the name of a product's tool, command or config file.
 A reader on another harness should lose nothing but the note.
 
+## Rule E: one spec process, spec-kit is the source of truth
+
+Every feature's specification, plan and task list follows **one process: the spec-kit cycle and its
+artefacts** (`.specify/`, then `specs/<NNN>-<name>/spec.md`, `plan.md`, `tasks.md` and the files the cycle
+adds). There is no parallel spec format, no second place a requirement or a task list may live, and no
+"use this one or that one" choice per project. The source of truth of a feature is its `specs/<NNN>-<name>/`
+folder.
+
+**Why:**
+- **One process beats two.** With two formats, a requirement is written in one and a task in the other, and
+  within a week nobody knows which copy is current (the same failure as two sources for one rule,
+  `WORKFLOW.md` §4).
+- **Artefacts a team can share and diff.** The cycle's files are plain markdown in the repo, in a layout every
+  contributor and every tool that reads spec-kit already understands.
+- **The project owns its process.** A project's constitution and templates are the contract its team agreed;
+  a block of ours is general advice and has to give way to it.
+
+**How it applies:**
+1. **The cycle is the process**: constitution, specify, clarify, plan, tasks, analyze, implement
+   (`skills/speckit`). The `spec`, `plan`, `archi` and `tdd` blocks supply the substance that goes into those
+   artefacts and the checks around them; they never produce a different document.
+2. **Contradiction: the project wins.** When a mentis block and the project's own spec-kit template or
+   constitution disagree on a format, a section or a step, the project's template wins and the block adapts.
+   The one thing that does not give way is a block's default = failure guardrail (never invent a rule, never
+   leave an unlabelled hypothesis): where a template would hide that, say so to the operator instead of
+   dropping the guardrail.
+3. **Rule A (works with nothing installed).** The process is one; the **tool** is a convenience. `specify-cli`
+   is what an operator installs to get the slash commands and scripts. Without it, the agent produces the
+   **same artefacts by hand**, from the templates in `.specify/templates/` when they exist and from the
+   shape `skills/speckit` describes when they do not. It does not invent another process, and it does not
+   fake the tool's tree (`skills/speckit` reference 01).
+4. **Rule B (no runtime dependency).** Nothing in mentis calls `specify-cli`; the rules are rewritten in our
+   words and stand alone. Installing the tool is the operator's decision, in their own terminal, and the
+   agent never does it (`hooks/block-installs.sh`, and the no-install rule under the form rules below).
+
+**Consequence for each block:**
+- `speckit` is the canonical process block, and the only one that says in what order the artefacts are made.
+- `spec` is the substance of the specify, clarify and constitution steps (interview, vocabulary and ADRs,
+  numbered acceptance criteria, out-of-scope); its output goes into `spec.md` and the project's memory, not
+  into a second document.
+- `plan` supplies the discipline of the plan and tasks steps (documentation discovery, review focus,
+  proportion); its breakdown is `tasks.md`, not a separate list.
+- `tdd`, `gate` and `review` cite the criteria and tasks where the cycle wrote them.
+- A new block that needs a feature's requirements or tasks reads and writes the cycle's artefacts. It does not
+  introduce its own format.
+
 ## The second layer: `business/`
 
 Blocks for the company's other functions (legal, UI/UX, marketing, sales, communication, product) live in
 `business/`, follow the **same template**, and carry an **explicitly weaker contract**: no fresh-context
-judge, no cited evidence, they never gate anything, and 🟡 is their maturity ceiling. Rules A/B/C apply
+judge, no cited evidence, they never gate anything, and 🟡 is their maturity ceiling. Rules A to E apply
 unchanged. The reasoning, and the honesty rule specific to that layer, are in `business/README.md` — read
 it before adding one.
 
