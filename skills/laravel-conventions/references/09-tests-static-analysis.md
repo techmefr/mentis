@@ -226,3 +226,13 @@
     request is what makes point 28's "read what changed" possible to actually do; a hash-only comparison
     still needs the underlying output stored somewhere human-readable, or the red test answers nothing beyond
     "something is different."
+49. **At Larastan level 8 a fresh Laravel model fails on four things the point 26 extension does not infer on its
+    own, and each has one fix.** (a) A model that declares its casts in the `casts()` method rather than the
+    `$casts` property is read as its raw column type (an enum-cast `status` reads as `string`, a `datetime` as
+    `string`) until `parseModelCastsMethod: true` is set in `phpstan.neon`. (b) A relation method needs its
+    generics (`/** @return BelongsTo<User, $this> */`) and `HasFactory` needs `/** @use HasFactory<OrderFactory> */`:
+    these are the docblocks point 5 permits, because the signature cannot state them, and without them the
+    relation reads as a bare `Model|null`. (c) A `belongsTo` accessor is typed nullable even over a non-null
+    foreign key, so `$order->user->email` is flagged; read it with `?->` rather than silencing the rule.
+    (d) `$this->artisan()` returns `PendingCommand|int`, so `->assertSuccessful()` (§7 point 78) is flagged;
+    in a level-8 suite assert `Artisan::call('name')` against `0` instead.
