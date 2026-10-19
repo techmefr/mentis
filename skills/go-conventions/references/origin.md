@@ -35,3 +35,14 @@ cobra, viper), linter configuration, profiler troubleshooting, and a table of ve
 which goes stale: §8.5 states the mechanism (read the module's `go` directive) instead, per
 `skills/source-freshness`. No numeric threshold is stated. Status stays 🟡: not yet confronted with a real
 project.
+
+**Dogfooded again, 2026-10-19.** Scenario not covered by the 2026-09-10 pass: an order-lookup HTTP service
+(Go 1.24 module, stdlib only), built outside this repo with a consumer-side `Store` interface and an
+in-memory implementation (RWMutex, lazily created map, defensive copies of the `Items` slice), a sentinel
+`ErrNotFound` and a typed `*ValidationError` inspected with `errors.Is`/`errors.As`, `%w` wrapping, `errors.Join`
+over a bounded stdlib worker pool cancelled through `context.WithCancel` (no errgroup), `net/http` handlers
+mapping errors to status codes with the detail kept in `slog`, a server with the four timeouts, signal-driven
+graceful shutdown via `run() error` and `context.WithoutCancel`, and table tests plus an `httptest` server
+test. `go build`, `go vet`, `gofmt -l` (empty) and `go test -race` all passed. Clean, nothing found: no rule
+needed adjusting. Not exercised: golangci-lint and the vulnerability checker (third-party tools, not available),
+database/sql (§6), goroutine-leak checking (§1.11).
