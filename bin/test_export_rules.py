@@ -45,6 +45,11 @@ check("AGENTS.md keeps the 'when' line", "When: Use when a model needs to react"
 check("source title line is replaced by the section heading", "\n# laravel-no-observers" not in agents)
 check("body headings are demoted one level", "\n### " in agents and "\n## When" not in agents)
 
+check("links to inlined references become in-document pointers",
+      "](./references/01-" not in agents and "(Part 1, below)" in agents)
+check("a reference that is not inlined stays reported", "accessibility" in warnings
+      and "./references/origin.md" in warnings["accessibility"])
+
 mdc = files["cursor"][".cursor/rules/laravel-no-observers.mdc"]
 check("cursor file opens with frontmatter", mdc.startswith("---\ndescription: \""))
 check("cursor file carries the manifest globs", "\nglobs: app/**/*.php\n" in mdc)

@@ -39,6 +39,7 @@ REPO = Path(__file__).resolve().parent.parent
 MANIFEST = REPO / "export" / "manifest.json"
 GOLDEN = REPO / "export" / "golden"
 TARGETS = ("agents-md", "cursor")
+LARGE_OUTPUT = 20000
 LINK = re.compile(r"\]\((\.{0,2}/?[^)\s#]+\.md)(?:#[^)]*)?\)")
 BARE_REPO_DOC = re.compile(r"`((?:WORKFLOW|CONVENTIONS|CATALOG)\.md)`")
 
@@ -113,19 +114,22 @@ def read_block(entry: dict) -> tuple[str, str, str, list[str]]:
     if fields["name"] != name:
         raise ExportError(f"{name}: frontmatter name is {fields['name']!r}")
     body = drop_title(body)
-    inlined: set[str] = set()
+    inlined: dict[str, str] = {}
     if entry.get("references") == "inline":
         extra = []
         for ref in sorted((REPO / "skills" / name / "references").glob("[0-9][0-9]-*.md")):
             ref_lines = ref.read_text(encoding="utf-8").strip("\n").split("\n")
-            title = re.sub(r"^# (?:.*? )?§ ?(\d+) — ", r"Part \1: ", ref_lines[0])
-            if title == ref_lines[0]:
+            match = re.match(r"^# (?:.*? )?\u00a7 ?(\d+) \u2014 (.*)$", ref_lines[0])
+            if not match:
                 raise ExportError(f"{name}: {ref.name} first line is not a reference title")
+            title = f"Part {match.group(1)}: {match.group(2)}"
             rest = "\n".join(ref_lines[1:]).strip("\n")
             extra.append(f"## {title}\n\n{rest}")
-            inlined.add(f"./references/{ref.name}")
+            inlined[f"./references/{ref.name}"] = f"Part {match.group(1)}"
         body = body + "\n\n" + "\n\n".join(extra)
-    dangling = sorted((set(LINK.findall(body)) | set(BARE_REPO_DOC.findall(body))) - inlined)
+        for target, label in inlined.items():
+            body = re.sub(r"\[([^\]]*)\]\(" + re.escape(target) + r"\)", lambda m, l=label: f"{m.group(1)} ({l}, below)", body)
+    dangling = sorted((set(LINK.findall(body)) | set(BARE_REPO_DOC.findall(body))) - set(inlined))
     return name, fields["description"], body, dangling
 
 
@@ -207,6 +211,11 @@ def main(argv: list[str]) -> int:
         if args.check:
             return check()
         files, warnings = render_all()
+        for target_name, rendered in files.items():
+            for rel, text in rendered.items():
+                if len(text) > LARGE_OUTPUT:
+                    print(f"warning: {rel} is {len(text)} characters; an agent reads it in full each session, "
+                          f"so keep the blocks short or drop \"references\": \"inline\"", file=sys.stderr)
         for name, dangling in warnings.items():
             print(f"warning: {name} links outside the export: {', '.join(dangling)}", file=sys.stderr)
         if args.write_golden:

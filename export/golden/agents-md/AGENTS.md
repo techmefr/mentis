@@ -77,14 +77,14 @@ tabs, accordion, carousel or other composite widget is §8.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
-| 1 | Semantics and keyboard navigation | an interactive element, a layer, or anything a keyboard reaches | [`01-semantics-keyboard.md`](./references/01-semantics-keyboard.md) |
-| 2 | ARIA: only when native HTML isn't enough | before adding any `role` or `aria-*`, or building a custom widget | [`02-aria.md`](./references/02-aria.md) |
-| 3 | Contrast and visual perception | colours, sizes, a theme, or a zoom-sensitive layout | [`03-contrast-perception.md`](./references/03-contrast-perception.md) |
-| 4 | Forms | a field, a validation path, a multi-step flow, an authentication screen | [`04-forms.md`](./references/04-forms.md) |
-| 5 | RGAA — the French legal standard, its test methodology, and the déclaration d'accessibilité | the project is French/public-sector, or a French client is above the private-sector threshold, or an accessibility declaration is requested | [`05-rgaa.md`](./references/05-rgaa.md) |
-| 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | [`06-document-structure.md`](./references/06-document-structure.md) |
-| 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | [`07-media-motion.md`](./references/07-media-motion.md) |
-| 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | [`08-aria-validity-widgets.md`](./references/08-aria-validity-widgets.md) |
+| 1 | Semantics and keyboard navigation | an interactive element, a layer, or anything a keyboard reaches | `01-semantics-keyboard.md` (Part 1, below) |
+| 2 | ARIA: only when native HTML isn't enough | before adding any `role` or `aria-*`, or building a custom widget | `02-aria.md` (Part 2, below) |
+| 3 | Contrast and visual perception | colours, sizes, a theme, or a zoom-sensitive layout | `03-contrast-perception.md` (Part 3, below) |
+| 4 | Forms | a field, a validation path, a multi-step flow, an authentication screen | `04-forms.md` (Part 4, below) |
+| 5 | RGAA — the French legal standard, its test methodology, and the déclaration d'accessibilité | the project is French/public-sector, or a French client is above the private-sector threshold, or an accessibility declaration is requested | `05-rgaa.md` (Part 5, below) |
+| 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | `06-document-structure.md` (Part 6, below) |
+| 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | `07-media-motion.md` (Part 7, below) |
+| 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | `08-aria-validity-widgets.md` (Part 8, below) |
 
 For wiring the lint plugins so a green run means something, see `skills/a11y-lint-wiring-pitfalls`; for the three mechanisms of hiding content and the markup of a simple data table, see `skills/a11y-hiding-and-tables-pitfalls` (§6 here keeps the diff-level table rules).
 
