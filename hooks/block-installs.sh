@@ -28,6 +28,14 @@
 # boundary is not widened: `echo 'npm install x'` and `grep "npm install" notes.md` carry the words as
 # arguments and pass.
 #
+# Indirect spellings (2026-10-19): the first word is normalised before matching (absolute or relative
+# path, .cmd/.exe, `python -m pip`, `corepack pnpm`, bare `yarn`); sudo/env/doas flags that take a value
+# (`sudo -u user`) are skipped; docker/podman/kubectl/sail/su carry an inner command that is judged too;
+# `echo <install> | sh` and `sh <<< '<install>'` are judged; `curl | sudo bash` and a piped interpreter are
+# remote execution; a clone followed by make install or an install script in one command is refused; inline
+# `node -e` / `python -c` code that shells out to an installer is refused. Not covered: a script
+# downloaded in an earlier call then run with `bash install.sh`, and clone and install split over two calls.
+#
 # Fail-closed on the guarded path only: a command with no package-manager word in it exits 0
 # without needing a parser, so a machine with no python3 still works normally. If the tool call
 # itself cannot be read as JSON while it mentions one, it is BLOCKED, since a guard that fails open
@@ -40,7 +48,7 @@ payload=$(cat)
 
 # --- Fast path, parser-free -----------------------------------------------------------
 # Nothing that could possibly be an install? Then this hook has no business here.
-if ! printf '%s' "$payload" | grep -qEi '(npm|pnpm|yarn|bun|deno|npx|bunx|pip|pipx|uv|gem|cargo|go|composer|brew|apt|apt-get|dnf|yum|pacman|apk|choco|scoop|winget|curl|wget|iwr|rustup|nvm|asdf)'; then
+if ! printf '%s' "$payload" | grep -qEi '(npm|pnpm|yarn|bun|deno|npx|bunx|corepack|clone|pip|pipx|uv|gem|cargo|go|composer|brew|apt|apt-get|dnf|yum|pacman|apk|choco|scoop|winget|curl|wget|iwr|rustup|nvm|asdf)'; then
   exit 0
 fi
 
@@ -78,6 +86,24 @@ SHELLS = {'sh', 'bash', 'zsh', 'dash', 'ksh'}
 SSH_ARG_FLAGS = {'-p', '-i', '-l', '-o', '-F', '-J', '-L', '-R', '-D', '-b', '-c', '-e', '-E', '-I',
                  '-m', '-O', '-Q', '-S', '-w', '-W'}
 MAX_DEPTH = 5
+WRAPPER_ARG_FLAGS = {
+    'sudo': {'-u', '-g', '-h', '-p', '-C', '-D', '-R', '-T', '-U'},
+    'doas': {'-u', '-C'},
+    'env': {'-u', '-C'},
+    'nice': {'-n'},
+    'timeout': {'-s', '-k'},
+    'stdbuf': {'-i', '-o', '-e'},
+    'xargs': {'-I', '-n', '-P', '-d', '-E', '-L', '-s', '-a'},
+}
+MANAGERS = {'npm', 'pnpm', 'yarn', 'bun', 'deno', 'npx', 'bunx', 'pnpx', 'corepack', 'pip', 'pip3', 'pipx',
+            'uv', 'uvx', 'gem', 'cargo', 'go', 'composer', 'brew', 'apt', 'apt-get', 'dnf', 'yum', 'pacman',
+            'apk', 'choco', 'scoop', 'winget', 'rustup', 'nvm', 'asdf', 'volta', 'fnm', 'sdk', 'curl', 'wget'}
+CARRIERS = {'docker', 'podman', 'nerdctl', 'kubectl', 'sail', 'docker-compose', 'devbox', 'distrobox', 'toolbox'}
+INLINE_CODE = re.compile(
+    r'\b(?:node|nodejs|bun|deno|python[0-9.]*|py|perl|ruby)\b\s+(?:-\S+\s+)*?(?:-e|-c|-p|--eval|--print)\s+(["\'])(.*?)\1',
+    re.S)
+EXEC_HINT = re.compile(r'child_process|exec|spawn|system|popen|subprocess|`|shell_exec|passthru', re.I)
+MANAGER_WORD = re.compile(r'\b(npm|pnpm|yarn|bun|pip3?|pipx|uv|gem|cargo|composer|apt-get|apt|brew|npx|bunx|dnf|yum|apk)\b', re.I)
 
 INSTALL = [
     (r'\b(npm|pnpm|yarn|bun)\b.*\b(install|add|i|ci|create|init|link|update|upgrade|dlx)\b',
@@ -86,6 +112,10 @@ INSTALL = [
      'a one-shot package runner (it downloads and executes)'),
     (r'\b(pip|pip3|pipx)\b.*\binstall\b', 'a python package install'),
     (r'\buv\b.*\b(pip|add|tool)\b.*\b(install|add)?', 'a uv package install'),
+    (r'\buv\s+(?:-\S+\s+)*sync\b|\buvx\b|\buv\s+(?:-\S+\s+)*run\b.*\s--with\b',
+     'a uv sync or one-shot runner (it downloads packages)'),
+    (r'\bdeno\s+(?:-\S+\s+)*(install|add)\b|\bdeno\s+run\b.*\bhttps?://',
+     'a deno install or remote run'),
     (r'\b(gem)\b.*\binstall\b', 'a ruby gem install'),
     (r'\bcargo\b.*\binstall\b', 'a cargo install'),
     (r'\bgo\b\s+(install|get)\b', 'a go module install'),
@@ -100,12 +130,23 @@ INSTALL = [(re.compile(r'^(?:' + p + ')', re.I), why) for p, why in INSTALL]
 PRIVILEGED = re.compile(r'^(?:apt|apt-get|dnf|yum|pacman|apk|brew)\b', re.I)
 
 REMOTE_EXEC = [
-    (r'\b(curl|wget)\b[^\n]*\|\s*(ba)?sh', 'a script piped from the network straight into a shell'),
+    (r'\b(curl|wget)\b[^\n]*\|\s*(?:(?:sudo|doas|env)\s+(?:-\S+\s+)*)*(?:\S*/)?(?:ba|z|da|k)?sh\b',
+     'a script piped from the network straight into a shell'),
+    (r'\b(curl|wget)\b[^\n]*\|\s*(?:(?:sudo|doas|env)\s+(?:-\S+\s+)*)*(?:\S*/)?(python[0-9.]*|perl|ruby|node)(?:\s+-)?\s*(?:$|[;&|)\n])',
+     'a script piped from the network straight into an interpreter'),
     (r'\b(ba)?sh\b\s*<\(\s*(curl|wget)', 'a script substituted from the network into a shell'),
     (r'(ba)?sh\s+-c\s+.{0,20}\$\((curl|wget)', 'a network fetch executed inside sh -c'),
     (r'\b(iwr|invoke-webrequest)\b[^\n]*\|\s*iex', 'a PowerShell download piped into iex'),
     (r'\b(curl|wget)\b[^\n]*(-o|>)[^\n]*\.(sh|ps1)\b', 'downloading a script to run it'),
+    (r'\bwget\b[^\n]*\.(sh|ps1)\b|\bcurl\b[^\n]*\s-[A-Za-z]*O[A-Za-z]*\b[^\n]*\.(sh|ps1)\b',
+     'downloading a script to run it'),
 ]
+_CLONE = r'\b(git|hg)\s+clone\b|\bgh\s+repo\s+clone\b'
+_BUILD = r'(&&|;|\|\|)[^\n]*(\bmake\b[^\n]*\binstall\b|\./\S*(install|setup|bootstrap)\S*|\b(ba)?sh\s+\S*\.sh\b)'
+CLONE_THEN_BUILD = re.compile('(?:' + _CLONE + r')[^\n]*' + _BUILD, re.I)
+PIPED_SHELL = re.compile(
+    r'(?:^|[;&\n(])\s*(?:echo|printf)\s+(.*?)\|\s*(?:(?:sudo|doas|env)\s+(?:-\S+\s+)*)*(?:\S*/)?(?:ba|z|da|k)?sh\b(?:\s+-\S+)*\s*(?:$|[;&|)\n])',
+    re.I)
 
 
 def is_env_assignment(tok):
@@ -124,16 +165,60 @@ def strip_leaders(toks):
             if base in ('sudo', 'doas'):
                 privileged = True
             i += 1
+            argflags = WRAPPER_ARG_FLAGS.get(base, set())
             while i < len(toks) and (toks[i].startswith('-') or is_env_assignment(toks[i])
                                      or (base == 'timeout' and re.match(r'^\d', toks[i]))):
-                i += 1
+                i += 2 if toks[i] in argflags else 1
         else:
             break
     return toks[i:], privileged
 
 
+def normalize(toks):
+    if not toks:
+        return toks
+    first = re.sub(r'\.(cmd|exe|ps1)$', '', os.path.basename(toks[0]), flags=re.I)
+    if first in MANAGERS or first in CARRIERS:
+        toks = [first] + toks[1:]
+    while toks and toks[0] == 'corepack' and len(toks) > 1:
+        toks = toks[1:]
+    if toks and re.match(r'^(python[0-9.]*|py)(\.exe)?$', os.path.basename(toks[0]), re.I):
+        i = 1
+        while i < len(toks) and toks[i].startswith('-') and toks[i] != '-m':
+            i += 1
+        if i + 1 < len(toks) and toks[i] == '-m' and toks[i + 1] in ('pip', 'pip3', 'pipx', 'uv'):
+            toks = toks[i + 1:]
+    if toks and toks[0] == 'yarn' and all(t.startswith('-') for t in toks[1:]) \
+            and not set(toks[1:]) & {'--version', '-v', '--help', '-h', '-V'}:
+        toks = ['yarn', 'install'] + toks[1:]
+    return toks
+
+
+def code_installs(code):
+    if not EXEC_HINT.search(code):
+        return None
+    for m in MANAGER_WORD.finditer(code):
+        sub = re.sub(r'[\'",\[\]]', ' ', code[m.start():])
+        hit = install_hit(sub)
+        if hit:
+            return hit
+    return None
+
+
 def inner_commands(toks):
     out = []
+    if toks and os.path.basename(toks[0]) in CARRIERS:
+        for k in range(1, len(toks)):
+            if os.path.basename(toks[k]) in MANAGERS | SHELLS:
+                out.append(shlex.join(toks[k:]))
+                break
+    if toks and os.path.basename(toks[0]) == 'su':
+        for j in range(1, len(toks) - 1):
+            if toks[j] in ('-c', '--command'):
+                out.append(toks[j + 1])
+                break
+    if toks and os.path.basename(toks[0]) in SHELLS and '<<<' in toks[:-1]:
+        out.append(toks[toks.index('<<<') + 1])
     for k, tok in enumerate(toks):
         if os.path.basename(tok) in SHELLS:
             for j in range(k + 1, len(toks) - 1):
@@ -165,6 +250,7 @@ def views(chunk, depth=0):
             yield seg, False
             continue
         rest, privileged = strip_leaders(toks)
+        rest = normalize(rest)
         if not rest:
             continue
         yield ' '.join(rest), privileged
@@ -186,6 +272,22 @@ def install_hit(chunk):
 for pat, why in REMOTE_EXEC:
     if re.search(pat, text, re.I):
         print('REMOTE|' + why + '|' + text.strip()[:160]); sys.exit(0)
+
+for m in INLINE_CODE.finditer(text):
+    h = code_installs(m.group(2))
+    if h:
+        print('INSTALL|an install run from inline interpreter code|' + h[1][:160]); sys.exit(0)
+
+if CLONE_THEN_BUILD.search(text):
+    print('REMOTE|a clone of third-party code followed by its installer or build|' + text.strip()[:160]); sys.exit(0)
+
+for m in PIPED_SHELL.finditer(text):
+    try:
+        echoed = ' '.join(shlex.split(m.group(1)))
+    except ValueError:
+        echoed = m.group(1)
+    if install_hit(echoed):
+        print('INSTALL|an install fed to a shell through a pipe|' + text.strip()[:160]); sys.exit(0)
 
 hit = install_hit(text)
 if hit:
