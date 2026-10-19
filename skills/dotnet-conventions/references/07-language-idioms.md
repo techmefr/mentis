@@ -168,9 +168,9 @@
     test-and-bind applies: when the null check and the single write are the whole statement, one expression
     removes a branch that added no information.
 32. **A partial constructor or partial event pairs a declaring part with an implementing part, the split
-    partial properties have (point 21's sibling).** The declaring part states the signature — parameters,
+    partial properties have (point 04.21's sibling).** The declaring part states the signature — parameters,
     or the event's type and name — and a generator or hand-written second file supplies the body, under
-    point 21's discipline: the hand-written half never reaches into what the generated half owns, and the
+    point 04.21's discipline: the hand-written half never reaches into what the generated half owns, and the
     generated half is never hand-edited because the next build discards the edit. Use it when a
     constructor's real body is generated (a source generator wiring injected fields) and the declaring part
     is what the type's file wants to show a reader not looking for generator output.

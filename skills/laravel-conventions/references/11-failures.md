@@ -122,7 +122,7 @@
     `render()` on one exception.** `render()` answers "what does *this* exception look like"; `respond()`
     answers "what does *every* response coming out of this handler look like" — adding a header, wrapping
     every error body in one envelope. Reaching for `render()` on every exception class to add the same
-    wrapper is point 18's per-caller duplication wearing a different shape.
+    wrapper is point 8's per-caller duplication wearing a different shape.
 25. **`dontReportDuplicates()` collapses one exception reported twice in the same request into one entry.**
     A validation failure re-thrown after being caught and re-raised with context (point 3), or a job that
     reports a failure and then rethrows it for `failed()` to see, doubles the tracker volume for a single

@@ -137,7 +137,7 @@
     defeats the pooling in point 22 and loses the circuit breaker's memory between calls.** A breaker's
     open/closed state lives on the pipeline instance, so a pipeline constructed per request starts every
     request closed and the breaker of point 4 never opens — each failure is the first its own short-lived
-    pipeline sees. Build the pipeline once per named client at the composition root, where point 19
+    pipeline sees. Build the pipeline once per named client at the composition root, where point 02.19
     registers the `HttpClient` it wraps, and reuse it.
 26. **Telemetry from a resilience pipeline reports the strategy's own name, and an unnamed pipeline reports
     nothing useful across more than one of them.** Pipelines built without an explicit name emit
@@ -149,7 +149,7 @@
     execution APIs take a `CancellationToken` so an external cancellation (the caller's own deadline, a
     shutdown per point 20) stops the retry loop between attempts; calling with `CancellationToken.None`
     because "the operation itself doesn't need cancelling" also disables the caller's ability to give up on
-    the whole sequence of retries, a different promise than the one point 9 makes about a token with no
+    the whole sequence of retries, a different promise than the one point 01.9 makes about a token with no
     cancellable meaning.
 28. **A downstream `429` carries its own `Retry-After` header, and a retry strategy that ignores it in
     favour of its own backoff schedule is guessing at a number the response already gave it.** The standard

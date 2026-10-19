@@ -137,11 +137,11 @@
     no setter.** The middle ground between `readonly` (points 21, 33) and a fully public property: use it on
     a property that changes only through the class's own methods, such as a status with a `transitionTo()`.
 38. **A PHP 8.4 property hook (`public string $status { get => ...; set => ...; }`) replaces a
-    get/set-Attribute pair for a plain object the way point 18's `Attribute::make` does for an Eloquent model,
+    get/set-Attribute pair for a plain object the way §3 point 18's `Attribute::make` does for an Eloquent model,
     and the two are not interchangeable.** `Attribute::make` serves Eloquent's own attribute pipeline — it
     runs through `$casts` and the model's dirty-tracking; a property hook is a language feature that works
     on any class, including a value object or a DTO with no model machinery. A hook on an Eloquent
-    attribute bypasses the cast pipeline (point 17), while `Attribute::make` on a plain PHP class does
+    attribute bypasses the cast pipeline (§3 point 17), while `Attribute::make` on a plain PHP class does
     nothing. [PHP 8.4 property hooks
     RFC, wiki.php.net/rfc/property-hooks, read 2026-09-10.]
 39. **A property hook's `set` clause validates or normalises on assignment, which moves a guard out of the

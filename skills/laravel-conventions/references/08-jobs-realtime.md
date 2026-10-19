@@ -194,9 +194,9 @@
     middleware, actually checks. Declaring `SkipIfBatchCancelled` on the job is what turns "the batch was
     cancelled" into "this specific job bails out before doing its work," rather than every job in the batch
     needing its own hand-written `if ($this->batch()?->cancelled())` at the top of `handle()`.
-38. **`queue:prune-batches` (and `queue:prune-failed` for point 16's `failed_jobs` table) has to be scheduled,
+38. **`queue:prune-batches` (and `queue:prune-failed` for point 5's `failed_jobs` table) has to be scheduled,
     not merely known about, or the batches table grows without bound.** Point 23's batch bookkeeping and point
-    16's failed-job store both persist a row per batch and per failure indefinitely by default; a project that
+    5's failed-job store both persist a row per batch and per failure indefinitely by default; a project that
     added batching or job monitoring without also adding the corresponding prune command to the schedule
     (`skills/laravel-conventions` §7 point 11) is accumulating a table nobody is watching until a query against
     it gets slow.

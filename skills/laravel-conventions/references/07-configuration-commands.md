@@ -162,7 +162,7 @@
 39. **`artisan db:seed --class=` runs one seeder in isolation, without re-running the `DatabaseSeeder`'s full
     chain** — the tool for populating just the reference data a single feature needs during development,
     separate from point 12's rule that the seeder stays idempotent however it's invoked. It also makes
-    point 11's "ship the seed data in the same change" checkable: run the new seeder alone against a fresh
+    §9 point 11's "ship the seed data in the same change" checkable: run the new seeder alone against a fresh
     database.
 40. **A command's class name and its artisan signature name are two different identifiers, and
     `make:command --command=` sets the second without touching the first.** `php artisan make:command
@@ -207,7 +207,7 @@
     own `rand(0, 1) ? null : …`.
 48. **`Faker\Provider\Base` is the extension point, registered once through `$faker->addProvider(new
     ...)` in a service provider's `boot()`, never called from inside a factory, a seeder or a test.**
-    Point 5 of `skills/laravel-conventions` §1 already forbids a lifecycle closure doing this kind of
+    Point 2 of `skills/laravel-conventions` §1 already forbids a lifecycle closure doing this kind of
     one-time setup from anywhere but a provider; a factory registering its own provider in every
     `definition()` call re-registers it on every row, and a test registering one in `setUp()` leaks it
     into every later test in the same process, asked for or not.

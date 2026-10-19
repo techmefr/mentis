@@ -146,7 +146,7 @@
 33. **A `CancellationTokenSource.CancelAfter` timer is disposed with its source, and forgetting it leaks like
     point 19's linked source, with one extra trap.** `CancelAfter` schedules an internal timer; disposing
     the source before it fires cancels the callback, but a source never disposed keeps the timer (and its own
-    resources) alive as long as anything references it. It is point 24's disposal rule applied to a source
+    resources) alive as long as anything references it. It is point 05.1's disposal rule applied to a source
     with a timer.
 34. **`Task.WhenEach` streams completions instead of collecting them, which changes point 7's "compose,
     don't loop" advice.** `WhenAll` (point 13) and a manual loop both wait for the slowest item;

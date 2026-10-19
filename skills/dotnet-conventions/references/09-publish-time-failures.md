@@ -139,7 +139,7 @@
     that works under the JIT build goes through the generator's code path the moment `PublishAot` (or
     trimming) is enabled — a handler shape the generator can't express (one built from a runtime-computed
     delegate, for instance) surfaces as a build-time diagnostic rather than a run-time trim warning.
-26. **A pre-compiled EF Core query (point 21's compiled model taken one step further) needs the same
+26. **A pre-compiled EF Core query (point 06.21's compiled model taken one step further) needs the same
     "regenerate when the model changes" discipline, and skipping it produces a stale artefact that still
     builds.** Pre-compiled queries generate the SQL and materialisation code for a specific LINQ expression
     at build time so nothing depends on reflecting over the model at run time — what makes them viable
