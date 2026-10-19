@@ -53,6 +53,14 @@ a due-diligence request from a prospective investor.
    `business/incident-communication` takes toward customers during an outage applies to investors during
    a real setback — silence gets filled with worse assumptions than the truth usually is.
 
+### 4. Decide whether the deck is read or presented
+Settle this before designing a single slide, because the two are different documents. A deck presented
+live is carried by the speaker: one idea per slide, a few words, the detail said aloud. A deck sent ahead
+or read alone has no speaker, so each slide must stand by itself with its numbers, labels and sources. A
+deck asked to do both usually does neither; when the need is mixed, choose the nearer case (live pitch
+leans speaking, a deck circulated for async review leans reading) and make the other version separately.
+When a reading slide overflows, split it rather than shrinking the type.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: a reconciled deck,
 cap table, financials, forecast and use-of-funds before outreach, a data room scoped to the round's
@@ -74,3 +82,7 @@ sensitive material: published startup-fundraising and due-diligence guidance. Th
 `business/data-analytics`'s single-source-of-truth rule and `business/incident-communication`'s
 honest-update posture are ours — this block is those same mechanisms applied to the investor
 relationship specifically. Stamped 2026-08-11.
+
+Widened 2026-10-19: step 4 (reading deck or speaking deck) rewrites, in our words, the density-mode idea of
+a slide-generator skill (frontend-slides, MIT, LICENSE file read; SKILL.md lines 1-140 and the density
+sections read). Its HTML runtime, style presets and deploy script were not taken.

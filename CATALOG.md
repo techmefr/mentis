@@ -715,7 +715,7 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
 | project-management | 10 / 14,536 | 2 / 15,810 | +1,274 | x0.92 |
-| bi, design, xefi | 16 / 17,306 | 4 / 30,466 | +13,160 | x0.57 |
+| bi, design, xefi | 16 / 17,306 | 4 / 30,603 | +13,297 | x0.57 |
 | global | 18 / 20,280 | 6 / 35,771 | +15,491 | x0.57 |
 | react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
 
@@ -750,7 +750,7 @@ global: code-baseline 10,384, security-hardening 10,753, api-design 6,723, docum
 project-management: product-ownership 9,378, spec 6,432
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,154
-bi, design, xefi: data-analytics 4,587, interface-design 10,984, ux-writing 5,934, accessibility 8,961
+bi, design, xefi: data-analytics 4,724, interface-design 10,984, ux-writing 5,934, accessibility 8,961
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
