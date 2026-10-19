@@ -73,7 +73,7 @@
     index on `(tenant_id, status)` serves a filter on `tenant_id` alone and on both columns together, but not a
     filter on `status` alone — the leftmost-prefix rule, not which columns "belong together", decides the order. A
     multi-column unique constraint is the same index doing double duty as a business rule, and belongs in
-    the schema because a uniqueness check in PHP loses the race point 4.11 describes.
+    the schema because a uniqueness check in PHP loses the race §4 point 11 describes.
 20. **A foreign key's `onDelete` action is a decision about the child's fate, not a default to leave alone.**
     `cascade` is point 5's forbidden default; `restrict` (the safer default) blocks the parent's delete until the
     child is handled explicitly; `set null` silently detaches the child from a parent that no longer exists,

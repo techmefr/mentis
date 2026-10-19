@@ -49,7 +49,7 @@
 12. **A data-carrying type (DTO, wire payload, command/query payload, value object) defaults to a `sealed`
     positional record**, or a `readonly record struct` for a small value type — value equality and
     immutability come from the language instead of hand-rolled `Equals`/`GetHashCode`/mutable setters. This
-    is also where a primary constructor is the right tool (point 1's carve-out): a record's parameters
+    is also where a primary constructor is the right tool (point 02.1's carve-out): a record's parameters
     become public init-only properties, not a hidden mutable field.
 13. **File-scoped namespaces** (`namespace Foo;` on its own line) on every new file, never the braced
     wrapper — one indentation level saved on every type, no loss of information.

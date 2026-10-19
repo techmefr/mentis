@@ -134,7 +134,7 @@
     blanket `Event::fake()` further up the same test class, quietly stops updating it, and the assertion
     passes for a row the real listener would have changed. `Event::fake(except: [...])` keeps the listeners
     the test is not actually exercising switched on.
-33. **`Http::fake()` accepts a sequence of responses for the same URL, and that is how a suite proves point
+33. **`Http::fake()` accepts a sequence of responses for the same URL, and that is how a suite proves §11 point
     11's five outcomes are handled rather than only the happy path.**
     `Http::fake(['api.example.com/*' => Http::sequence()->push($ok)->push($rateLimited)->pushStatus(500)])`
     exercises a retry path end to end in one test, which is what point 26 asks a fake to model — a fake
@@ -192,8 +192,7 @@
 43. **`RefreshDatabase`'s per-test transaction (point 24) does not survive `artisan()` calls that manage their
     own database connection**, such as a command wrapping its own work in `DB::transaction()` on a *different*
     connection name than the test's default — the command's writes commit for real even inside a test using
-    `RefreshDatabase`, because the trait only wraps the connection it knows about. Point 21's "test a command
-    by invoking it" (`skills/laravel-conventions` §7) still applies; the trap is assuming the wrapping
+    `RefreshDatabase`, because the trait only wraps the connection it knows about. `skills/laravel-conventions` §7 point 21's "test a command by invoking it" still applies; the trap is assuming the wrapping
     transaction makes every side effect of that invocation disposable when a second connection is in play.
 44. **A PHPStan or Larastan baseline generated with `--generate-baseline` records today's findings so the
     build stays green while the tool is first adopted on an existing codebase — it is not a target to keep
@@ -216,7 +215,7 @@
     driver working in CI; it earns its place only for the behaviour a `TestResponse` genuinely cannot observe.
 47. **A command's own test asserts the questions it actually asks, not just its final exit code, when the
     command is interactive.** `expectsQuestion($question, $answer)` (`skills/laravel-conventions` §7 point 42)
-    scripts the prompt so the invoke-only test of point 21 exercises the real confirmation and choice logic —
+    scripts the prompt so the invoke-only test of §7 point 21 exercises the real confirmation and choice logic —
     a command tested only via `assertExitCode(0)` with no interaction scripted either has no prompts at all,
     or the test happens to pass by luck of a default the framework silently supplied, which is indistinguishable
     from the prompt never having been checked.

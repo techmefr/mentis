@@ -158,7 +158,7 @@
     change is visible to `Equals`; `init`-only properties keep that from happening silently.** A record
     property with a plain `set` instead of `init` can be mutated after construction outside a `with`
     expression, so two records equal at one point can drift apart with no copy ever made — the value
-    semantics point 7 ascribes to `with` hold only while every property stays `init`-only; a settable one
+    semantics point 07.7 ascribes to `with` hold only while every property stays `init`-only; a settable one
     makes the record a class with generated equality members riding on state they no longer compare.
 34. **`[MemberNotNull]` and `[MemberNotNullWhen]` tell the compiler what a guard method already proves;
     without them a validation helper resets the flow analysis point 3 depends on at every call site.** A
@@ -227,7 +227,7 @@
     object's method because "the reference is still not null" is wrong about what that guarantees once
     finalization has started, which is why the pattern splits managed and unmanaged cleanup into two
     branches instead of one body from both entry points.
-45. **`IAsyncDisposable`'s `DisposeAsync` returns a `ValueTask`, which is single-consumption as point 1
+45. **`IAsyncDisposable`'s `DisposeAsync` returns a `ValueTask`, which is single-consumption as point 01.20
     (async, cancellation, threading) states — awaiting it twice, or after checking `IsCompleted`, is
     undefined for the same reason.** A double-dispose guard `if (!_disposed) { await DisposeAsync(); }` on a
     resource whose `DisposeAsyncCore` (point 14) returns a pooled `ValueTask` is safe only if the guard

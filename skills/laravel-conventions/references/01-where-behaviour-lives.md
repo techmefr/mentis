@@ -169,7 +169,7 @@
    it on without `Model::reguard()` immediately after — reopens the gap §2 point 6 names for a route-level
    permission that authorises the write but not the fields, for every model in the app.
 33. **A collection method that returns a new collection, and one that returns a scalar or mutates in place,
-   read alike at the call site unless the chain is named — point 18's naming-the-steps advice applies before
+   read alike at the call site unless the chain is named — §5 point 18's naming-the-steps advice applies before
    the pipeline gets long enough to need it.** `$collection->each(fn ($item) => $item->save())` returns the
    original collection and reads as if it built something; naming the step (`$saved = ...`) only where a
    value is produced keeps a side-effecting `each()` visibly different from `map()` in a diff.
