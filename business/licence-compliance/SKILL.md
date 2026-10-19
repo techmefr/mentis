@@ -38,6 +38,9 @@ version.
      actual terms, and check whether our situation crosses their threshold.
 3. **Check the transitive dependencies**, not just the one you typed. The lock file is the real
    inventory, and a permissive package can pull a copyleft one.
+4. **For a scanner or a CI check** (four verdicts including "unknown", a checked-in review file, what
+   fails the build, dev-only dependencies): read
+   [`references/05-dependency-verdicts.md`](./references/05-dependency-verdicts.md).
 
 ### 2. Escalate rather than interpret
 Take to legal, don't decide alone: anything strong-copyleft in a shipped product, any custom or
@@ -82,3 +85,8 @@ shaped as "recognise the category, then escalate" rather than as interpretations
 angles are ours: the lock file as the real inventory, generating notices instead of maintaining them,
 copied snippets carrying their source's licence, and the symmetry with rule C for our own code leaving
 the company.
+
+`references/05-dependency-verdicts.md` (added 2026-10-16, 🟡 never dogfooded) takes the verdict states
+and the review-file pattern from the `licenseal` documentation (Apache-2.0), and its compatibility
+statements from the FSF licence list and the SPDX list, read 2026-10-16; it flags which sentences are
+ours.

@@ -1,0 +1,6 @@
+{
+  "blocks": [
+    { "name": "laravel-no-observers", "globs": ["app/**/*.php"] },
+    { "name": "accessibility", "references": "inline", "globs": ["**/*.vue", "**/*.tsx", "**/*.html"] }
+  ]
+}

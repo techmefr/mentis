@@ -11,7 +11,7 @@ to be green.
 
 ```mermaid
 flowchart LR
-    A["🍴 fork or branch"] --> B["✏️ commit"] --> C["🧪 <code>bash bin/pre-push</code><br/>nine suites, all green"] --> D["🔀 pull request"] --> E["✅ merge"]
+    A["🍴 fork or branch"] --> B["✏️ commit"] --> C["🧪 <code>bash bin/pre-push</code><br/>ten suites, all green"] --> D["🔀 pull request"] --> E["✅ merge"]
     C -. "red" .-> B
     classDef s fill:#f6f8fa,stroke:#8c959f,color:#0d1117
     classDef g fill:#dafbe1,stroke:#1a7f37,color:#0d1117
@@ -35,7 +35,7 @@ to give one), but **the PR itself, and the trail it leaves, is mandatory**.
 bash bin/pre-push
 ```
 
-Nine suites, 216 checks. A red suite is a red PR — the gate refuses the push
+Ten suites, 234 checks. A red suite is a red PR — the gate refuses the push
 locally, before CI ever sees it. `bash bin/install-git-hooks.sh` wires it once per
 clone.
 

@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-158-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-352-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
-  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-24-6e7781?style=flat-square">
-  <img alt="hooks" src="https://img.shields.io/badge/hooks-4-bf8700?style=flat-square">
-  <img alt="tests" src="https://img.shields.io/badge/tests-9%20suites%20%C2%B7%20216%20checks-1a7f37?style=flat-square">
+  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-32-6e7781?style=flat-square">
+  <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
+  <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20571%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
   <a href="./LICENSING.md"><img alt="licence" src="https://img.shields.io/badge/licence-AGPL--3.0--or--later%20%2B%20commercial-1a7f37?style=flat-square"></a>
 </p>
@@ -31,11 +31,11 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **158** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **352** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
-| 💼 **Business blocks** — the company's other functions | **24** | 🟡 by contract, they never gate ([why](./business/README.md)) |
+| 💼 **Business blocks** — the company's other functions | **32** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
-| 🧪 **`bin/`** — review transports + repo self-checks | **12 suites** | 🟢 run on every push (`bin/pre-push`) |
+| 🧪 **`bin/`** — review transports + repo self-checks | **13 suites** | 🟢 run on every push (`bin/pre-push`) |
 
 **Maturity legend** — 🟢 has run on real work · 🟡 written, reviewed, never run.
 The line-by-line breakdown is [`CATALOG.md`](./CATALOG.md); the summary is [Status](#status).
@@ -387,6 +387,204 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `loop-design` | Before building an agent loop: decidable goal, external judge, attempt cap, human keeps the last switch |
 | `session-postmortem` | Why a session went wrong, from its transcripts, every finding cited path:line |
 | `responsive-layout` | Breakpoints where content breaks, fluid sizing, dvh, overflow, fixed bars, mobile keyboard |
+| `nestjs-reliability` | Idempotency keys, locks on several replicas, outbox and inbox, outbound resilience |
+| `node-async-performance` | Cancellation, bounded concurrency, diagnosing Node performance from a measurement |
+| `jwt-verification` | Verify a JWT with a pinned algorithm, issuer and audience, never just decode it |
+| `nestjs-di-traps` | Injection tokens, duplicate providers, cycles and service locators in Nest |
+| `node-container-runtime` | Node container image, runtime configuration and how TypeScript is executed |
+| `nestjs-integration-patterns` | Transports, versioning, webhooks, queues, rate limits and request logging in Nest |
+| `prisma-ops-and-test-hygiene` | Prisma pool, migrations and queries in production; test hygiene, property and mutation testing |
+| `angular-signals-rxjs-ssr-pitfalls` | Angular signals and RxJS interop, SSR and hydration, zoneless, template mistakes |
+| `htmx-protocol-pitfalls` | htmx responses, polling, request UX and inheritance, integration |
+| `solid-ownership-pitfalls` | Solid ownership, control flow, stores, SSR and testing traps |
+| `astro-images-templates-pitfalls` | Astro images, templates, scripts and project setup |
+| `web-components-lifecycle-pitfalls` | Custom element constructor, callbacks and registration traps |
+| `ci-workflow-hardening` | Pinned actions, token permissions, required checks and dependency supply chain for CI |
+| `python-container-runtime` | Python container image with uv: build, locked sync, non-root, process start |
+| `python-testing-strictness` | Strict pytest and coverage configuration, fixtures and event loops |
+| `python-sqlalchemy-fastapi-pitfalls` | SQLAlchemy sessions and pools, FastAPI handlers, the pydantic boundary |
+| `python-hygiene-pitfalls` | Python construct traps, logs and messages, threads and cleanup |
+| `dotnet-async-exception-pitfalls` | .NET exception hygiene, async traps and runtime hygiene |
+| `dotnet-aspnet-efcore-pitfalls` | ASP.NET Core request context, security configuration, EF Core, clients, caching and JSON |
+| `dotnet-blazor-conventions` | Blazor lifecycle and prerender, JS interop, state, forms and services |
+| `dotnet-container-runtime` | .NET image build, memory and GC settings, globalization and tzdata |
+| `polly-resilience-pitfalls` | Polly strategy misuse, registration and context |
+| `jvm-pitfalls` | Java traps found by Error Prone, interrupts and futures, null analysis |
+| `jpa-hibernate-pitfalls` | JPA and Hibernate mapping, fetching, queries, transactions and schema creation |
+| `jvm-test-infrastructure` | Testcontainers, Spring test slices and context cache, Awaitility, a fixed Clock |
+| `jvm-resilience-observability` | Resilience4j and timeouts, MDC, Micrometer tags, probes and graceful shutdown |
+| `compose-correctness` | Jetpack Compose state, effects, stability and lazy lists |
+| `go-container-runtime` | Go image build, GOMAXPROCS and GOMEMLIMIT in containers, graceful shutdown |
+| `go-http-resilience-pitfalls` | Go HTTP server and client timeouts, limits, deadlines and retries |
+| `go-performance` | Go performance: measure first, allocation, garbage collector |
+| `go-tooling-testing-security` | Go tool gate, test extras (goleak, synctest, fuzz) and security extras (os.Root, crypto/rand) |
+| `flutter-agent-loop` | Driving a Flutter app with the Dart and Flutter MCP tools: edit loop, hot reload, vetting packages |
+| `flutter-startup-error-hooks` | Flutter startup sequence, error hooks and state-library startup |
+| `flutter-notifications-background` | Local and push notifications, background handlers, links and entry delivery |
+| `flutter-native-bridge-ffi` | Platform channels, Pigeon, FFI and native-asset build hooks |
+| `flutter-release-toolchain-hygiene` | Flutter measuring, versions and release facts, pub and codegen hygiene, CI gates |
+| `swiftui-correctness` | SwiftUI state, identity, navigation, accessibility and layout |
+| `swift-testing` | Swift Testing and XCTest, async and time, parallelism |
+| `android-edge-to-edge-insets` | Android edge-to-edge window setup, insets applied once, the keyboard, Android 16 and 17 window changes |
+| `android-security-hardening` | Android exported components and intent redirection, PendingIntent, Play Integrity, Keystore |
+| `android-agp9-r8-gradle` | AGP 9 migration, R8 keep rules and Gradle hygiene |
+| `zig-pitfalls` | Zig errors and defer, allocators, comptime, build and test drift |
+| `systems-assertion-discipline` | Assertions and bounds in systems code: what to assert, release behaviour |
+| `rust-async-unsafe-pitfalls` | Rust cancellation safety, locks and blocking in async, unsafe depth |
+| `rust-test-supply-chain-ci` | Rust test tooling, supply chain checks and CI gates |
+| `cpp-build-and-lifetime-pitfalls` | C++ static storage and thread_local, CMake targets, presets, sanitizers, dependencies |
+| `persona-ux-audit` | 8 (complement) | Replay each critical journey as four contrasting personae, verify in source, produce a scored report |
+| `six-thinking-hats` | 1 (complement) | Structured parallel thinking through six fixed perspectives for a decision with trade-offs |
+| `sql-server-tsql-types-and-queries` | 6 (new 2026-10-08) | T-SQL type choices and query traps: datetime2, N-literals, non-sargable predicates, implicit conversion, parameter sniffing |
+| `sql-server-transactions-and-operations` | 6 (new 2026-10-08) | SQL Server transactions, error handling, dynamic SQL, schema health, backups and restore testing |
+| `mysql-pitfalls` | 6 (new 2026-10-08) | MySQL 8 JSON, collation, partitioning, replica lag, online DDL and gh-ost prerequisites |
+| `mongodb-conventions` | 6 (new 2026-10-08) | MongoDB embedding vs referencing, validation, ESR index order, aggregation placement |
+| `clickhouse-conventions` | 6 (new 2026-10-08) | ClickHouse ORDER BY and partition choices, insert batching, mutations, ReplacingMergeTree |
+| `bash-pitfalls-and-bats` | 6 (new 2026-10-08) | Bash traps that lose variables or exit statuses silently, and bats tests that assert nothing |
+| `powershell-conventions` | 6 (new 2026-10-08) | PowerShell error semantics, secrets and dynamic code, function design |
+| `rails-jobs-migrations-pitfalls` | 6 (new 2026-10-08) | Rails background job failures, strong_migrations patterns, RSpec doubles |
+| `elixir-ecto-oban-pitfalls` | 6 (new 2026-10-08) | Ecto uniqueness and upserts, Oban production settings, configuration timing |
+| `dockerfile-build-pitfalls` | 6 (new 2026-10-15) | Dockerfile traps that still build green: stale apt index, hidden pipe failures, build secrets, pinning, shell-less images |
+| `docker-compose-file-pitfalls` | 6 (new 2026-10-15) | Docker Compose traps: depends_on health, sidecar healthchecks, secrets, socket proxy, down -v data loss |
+| `kubernetes-workload-pitfalls` | 6 (new 2026-10-15) | Pod runtime behaviour: probes, graceful shutdown, requests and limits, rollout and image tags |
+| `kubernetes-availability-config-pitfalls` | 6 (new 2026-10-15) | PDBs, spread, HPA, config reload and secrets, selectors, deprecated APIs, manifest linting |
+| `oauth-oidc-client-pitfalls` | 6 (new 2026-10-15) | Login through an external identity provider: state and PKCE, callback checks, session fixation, CSRF and CORS |
+| `auth-gateway-proxy-pitfalls` | 6 (new 2026-10-15) | Authenticating reverse proxy configuration: trusted proxies, header trust, path exemptions, redirect allow-list |
+| `credential-lifecycle-pitfalls` | 6 (new 2026-10-15) | Password hashing, reset and verification tokens, TOTP and recovery codes, token entropy |
+| `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
+| `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
+| `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `elasticsearch-mapping-and-reindex-pitfalls` | 6 (new 2026-10-15) | Elasticsearch field types, mapping explosion, reindex, bulk loading, Serverless differences |
+| `rabbitmq-delivery-pitfalls` | 6 (new 2026-10-15) | RabbitMQ acknowledgements and prefetch, publisher confirms, dead-lettering, connections and channels |
+| `kafka-delivery-semantics-pitfalls` | 6 (new 2026-10-15) | Kafka delivery guarantees, durability settings, transactions, compaction and deletes |
+| `airflow-dag-authoring-pitfalls` | 6 (new 2026-10-15) | Airflow re-runnable tasks, DAG parsing cost, data passing, sensors, testing and upgrades |
+| `dbt-cli-and-model-versioning-pitfalls` | 6 (new 2026-10-15) | dbt build vs run, selectors, model versions, contracts and access, unit tests, DAG checks |
+| `terraform-state-and-secrets-pitfalls` | 6 (new 2026-10-15) | Terraform state and backend baseline, locking, migrate-state vs reconfigure, keeping secrets out of state |
+| `terraform-refactor-identity-pitfalls` | 6 (new 2026-10-15) | count vs for_each identity, moved/import/removed blocks, version floors, pinning, what mocked tests prove |
+| `terraform-ci-delivery-pitfalls` | 6 (new 2026-10-15) | Applying the reviewed plan file, policy gates, OIDC trust, concurrency and locks, drift detection |
+| `otel-collector-config-pitfalls` | 6 (new 2026-10-15) | OpenTelemetry Collector YAML traps: unwired components, memory_limiter, OTTL, exporter queues, removed components |
+| `telemetry-sampling-and-cardinality-pitfalls` | 6 (new 2026-10-15) | Sampling vs RED metrics, tail-sampling topology, cardinality, temporality |
+| `playwright-e2e-pitfalls` | 6 (new 2026-10-15) | Playwright E2E traps: role-first locators, web-first assertions, isolation and auth, CI config and lint |
+| `testing-library-query-pitfalls` | 6 (new 2026-10-15) | Testing Library queries, async and user-event traps, structure and lint |
+| `jest-vitest-assertion-pitfalls` | 6 (new 2026-10-15) | Jest and Vitest assertions that never run or prove nothing: async expect, focus and skip, snapshots, mocks |
+| `flaky-test-triage-pitfalls` | 6 (new 2026-10-15) | Flaky test classes, reproduction, retry meaning, quarantine lifecycle with owner and expiry |
+| `i18n-message-format-pitfalls` | 6 (new 2026-10-15) | Plurals and selectors, whole messages with named placeholders, translator context, ICU syntax hygiene |
+| `i18n-catalog-workflow-pitfalls` | 6 (new 2026-10-15) | Static extraction, CI health check, generated vs explicit IDs, BCP 47 fallback, pseudo-locale, translator QA |
+| `locale-negotiation-and-switcher-pitfalls` | 6 (new 2026-10-15) | Locale resolution order, root-only redirect, locale cookie, hreflang inputs, switcher markup, dates and time zones |
+| `webperf-measurement-and-budget-pitfalls` | 6 (new 2026-10-15) | Field vs lab evidence, p75, RUM with web-vitals, Lighthouse CI noise, size budgets |
+| `agent-mcp-trust-pitfalls` | 6 (new 2026-10-15) | Trust in an agent's MCP servers, proxies and tokens: confused deputy, token passthrough, tool poisoning, toxic flow |
+| `agent-sandbox-egress-pitfalls` | 6 (new 2026-10-15) | Agent code and shell isolation: dual filesystem and network isolation, egress allowlists, escalation paths |
+| `mcp-server-design-pitfalls` | 6 (new 2026-10-15) | MCP server tool contract: names, annotations, schemas, results and errors, exposure and drift |
+| `agent-hook-guard-pitfalls` | 6 (new 2026-10-15) | Guard hooks for coding agents: signalling, per-guard fail policy, overrides, matcher traps, replay testing |
+| `llm-eval-regression-pitfalls` | 6 (new 2026-10-15) | Measuring a prompt, skill or model change: baselines, assertions, judge biases, errors and retries |
+| `blameless-incident-review-pitfalls` | 6 (new 2026-10-15) | Blameless incident reviews: contributing factors over one root cause, no counterfactuals, evidenced timelines, scoped action items |
+| `internal-comms-async-pitfalls` | 6 (new 2026-10-15) | Async team communication: channel by purpose, decisions in writing, message and meeting hygiene |
+| `decision-proposal-review-pitfalls` | 6 (new 2026-10-16) | Writing and reviewing decision proposals: RFC, KEP and ADR shapes |
+| `recurring-update-writing-pitfalls` | 6 (new 2026-10-16) | Recurring internal and investor updates: structure, honesty, cadence |
+| `learning-mode-exercise-pitfalls` | 6 (new 2026-10-16) | Opt-in learning mode: short exercises after the work, without nagging |
+| `training-objectives-and-formative-assessment-pitfalls` | 6 (new 2026-10-16) | Training objectives and formative assessment for instructors |
+| `incident-comms-pitfalls` | 6 (new 2026-10-15) | Customer-facing communication while an incident runs: criteria, first message, cadence, wording, roles |
+| `customer-escalation-pitfalls` | 6 (new 2026-10-15) | Handling an escalated customer problem: first response, executive brief, repair step, internal ask |
+| `troubleshooting-kb-article-pitfalls` | 6 (new 2026-10-15) | Writing troubleshooting and error-reference pages from clustered evidence |
+| `release-notes-writing-pitfalls` | 6 (new 2026-10-15) | Release notes and changelogs: net outcomes, breaking entries, honest versions, claim-to-diff gate |
+| `support-queue-design-pitfalls` | 6 (new 2026-10-16) | Support queues and triage: priorities, ownership, stale handling, confidence gating |
+| `security-advisory-comms-pitfalls` | 6 (new 2026-10-16) | Communicating a vulnerability fix: advisory content, embargo notices, disclosure timing |
+| `security-questionnaire-answer-pitfalls` | 6 (new 2026-10-16) | Answering customer security questionnaires honestly, and what only the owner can answer |
+| `deprecation-notice-pitfalls` | 6 (new 2026-10-16) | Announcing API and feature deprecations: notice content, timelines, headers, migration paths |
+| `community-moderation-ladder-pitfalls` | 6 (new 2026-10-15) | Procedure after a report: reporting channels, warning-to-ban ladder, appeal vs reinstatement, large attacks, moderator rotation |
+| `marketing-claim-substantiation-pitfalls` | 6 (new 2026-10-15) | Claim-by-claim check before marketing ships: verdicts with named proof, statistic checks, reuse re-verification |
+| `messaging-audit-pitfalls` | 6 (new 2026-10-15) | Audit of existing positioning before a rewrite: seven checks, risks first, patch-or-rebuild decision |
+| `image-alt-text-writing-pitfalls` | 6 (new 2026-10-16) | Writing image alt text: purpose over description, complex images, automation limits |
+| `social-publish-approval-gate-pitfalls` | 6 (new 2026-10-16) | Approval gates before publishing or replying on social channels, crisis escalation |
+| `ai-content-disclosure-and-provenance-pitfalls` | 6 (new 2026-10-16) | Disclosing AI-assisted content and keeping provenance honest |
+| `community-and-social-metrics-pitfalls` | 6 (new 2026-10-16) | Community and social metrics: responsiveness, pattern analysis, scoring, moderation prevalence |
+| `prometheus-rules-and-promql-pitfalls` | 6 (new 2026-10-16) | PromQL and rule-file traps: counters and ranges, rate before sum, recording-rule naming, absent and for, pint |
+| `telemetry-sensitive-data-pitfalls` | 6 (new 2026-10-16) | What must never enter spans, metrics or logs, and the layers that keep it out |
+| `terraform-hcl-authoring-pitfalls` | 6 (new 2026-10-16) | HCL authoring traps: encode functions, dynamic blocks, rule resources, lifecycle, provisioners, image tags |
+| `grafana-dashboard-pitfalls` | 6 (new 2026-10-16) | Dashboard-as-code lint traps: rate interval, matchers, variables, panel metadata, exclusions |
+| `elasticsearch-query-and-triage-pitfalls` | 6 (new 2026-10-16) | Elasticsearch query tuning, relevance levers and read-only non-green cluster triage |
+| `search-index-sync-pitfalls` | 6 (new 2026-10-16) | Keeping an Elasticsearch or OpenSearch index in step from a framework: reindex triggers, consistency, zero-downtime reimport |
+| `redis-security-and-observability-pitfalls` | 6 (new 2026-10-16) | Redis hardening (auth, TLS, ACL, exposure) and monitoring signals |
+| `datastore-broker-alerting-signals` | 6 (new 2026-10-16) | Engine-specific alert signals with hold and severity for Redis, Elasticsearch, RabbitMQ and Kafka |
+| `queue-worker-runtime-pitfalls` | 6 (new 2026-10-16) | BullMQ and Graphile Worker runtime traps: connections, job ids, shutdown, stalled jobs, lock windows |
+| `search-engine-index-settings-pitfalls` | 6 (new 2026-10-16) | Meilisearch and Redis Search indexing: settings that force a reindex, keys, rebuild behind an alias, query dialects |
+| `release-changelog-pitfalls` | 6 (new 2026-10-16) | release-please mechanics, Keep a Changelog 2.0.0 differences, build provenance attestations |
+| `dotnet-msbuild-and-nuget-publish-pitfalls` | 6 (new 2026-10-16) | MSBuild project-file smells, duplicate project instances, IL warnings, NuGet trusted publishing |
+| `dotnet-testcontainers-and-time-seam-pitfalls` | 6 (new 2026-10-16) | Testcontainers rules and TimeProvider seams for .NET tests |
+| `java-upgrade-and-maven-audit-pitfalls` | 6 (new 2026-10-16) | JDK, Spring Boot and Hibernate upgrade path, Maven dependency audit |
+| `kotlin-android-data-flow-and-api-pitfalls` | 6 (new 2026-10-16) | Offline-first data flow, sealed UI state, Kotlin API ownership and multiplatform boundaries |
+| `flutter-monetization-pitfalls` | 6 (new 2026-10-16) | Ads and in-app purchase flow: rewarded outcomes, caps, entitlement gate, release gate |
+| `dart-pub-workspace-and-publish-pitfalls` | 6 (new 2026-10-16) | Dart pub workspaces with Melos, tag-triggered publishing, retraction and advisories |
+| `csp-and-sanitiser-pitfalls` | 6 (new 2026-10-16) | CSP and Helmet header traps, DOMPurify sanitiser traps |
+| `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
+| `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
+| `dsar-handling-pitfalls` | 6 (new 2026-10-16) | Handling data subject access requests: the clock, case record, package delivery. Not legal advice |
+| `cra-exploited-vulnerability-clock` | 6 (new 2026-10-16) | Cyber Resilience Act reporting clock for exploited vulnerabilities, scope to be confirmed by counsel. Not legal advice |
+| `contract-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a contract before signature: completeness, our side, quoted findings, triage against a playbook. Not legal advice |
+| `dpa-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a data processing agreement against GDPR Article 28 with a signing gate. Not legal advice |
+| `nda-triage-pitfalls` | 6 (new 2026-10-16) | Routing an NDA to standard approval, counsel review or full legal review. Not legal advice |
+| `oss-compliance-programme` | 6 (new 2026-10-16) | A standing open-source compliance programme: roles, decision log, component list, intake, training |
+| `ledger-pending-and-batch-ordering-pitfalls` | 6 (new 2026-10-16) | Ledger pending transfers, order-dependent batches, event versus recording time |
+| `journal-entry-review-pitfalls` | 6 (new 2026-10-16) | Reviewing manual journal entries: what each carries, approvals, recurring errors |
+| `financial-model-integrity-checks-pitfalls` | 6 (new 2026-10-16) | Arithmetic integrity checks on a financial model: formula scan, period identities, circularity |
+| `vendor-claims-and-scoring-pitfalls` | 6 (new 2026-10-16) | Scoring vendors: gates, weights first, evidence types, claim statuses, challenge pass |
+| `variance-analysis-pitfalls` | 6 (new 2026-10-16) | Variance analysis: volume and price split, bridges, narrative anti-patterns, forecast bias |
+| `month-end-close-sequencing-pitfalls` | 6 (new 2026-10-16) | Month-end close as a dependency graph, soft and hard close, plus cash forecast pitfalls |
+| `unknown-payment-outcome-pitfalls` | 6 (new 2026-10-16) | A payment timeout is unknown, not failed: attempt records, idempotency, resolution by evidence |
+| `money-arithmetic-and-rounding-pitfalls` | 6 (new 2026-10-16) | Money as integer minor units, ISO 4217 exponents, largest-remainder splits, named rounding policy |
+| `gl-subledger-reconciliation-pitfalls` | 6 (new 2026-10-16) | Reconciling ledger to subledger: keys, cut-off, break buckets, aged items, role separation |
+| `accounts-payable-duplicate-and-match-pitfalls` | 6 (new 2026-10-16) | Accounts payable: duplicate detection, three-way match wording, credits, approval gates, bank-detail changes |
+| `flask-pitfalls` | 6 (new 2026-10-16) | Flask traps: async views, contexts across workers, debug mode, limits, proxy headers |
+| `vue-router-pitfalls` | 6 (new 2026-10-16) | Vue Router traps: params with path, navigation failures, guards, reused components, history fallback |
+| `vue-test-utils-pitfalls` | 6 (new 2026-10-16) | Vue Test Utils traps: awaiting updates, Suspense, stubs, teleport, fake timers |
+| `ofetch-client-pitfalls` | 6 (new 2026-10-16) | ofetch traps: retries on writes, timeouts, error data, interceptors, create defaults |
+| `react-jsx-and-promise-lint-pitfalls` | 6 (new 2026-10-16) | JSX and promise lint rules that catch real defects, and typed linting |
+| `saas-metric-definition-pitfalls` | 6 (new 2026-10-16) | Defining MRR, ARR, churn, NRR, GRR, LTV, CAC and active users before quoting them |
+| `data-contract-quality-rules-pitfalls` | 6 (new 2026-10-16) | Open Data Contract Standard 3.2.0 quality rules, SLA properties and status lifecycle |
+| `semantic-layer-metric-pitfalls` | 6 (new 2026-10-16) | dbt Core 1.12 semantic layer: spec versions, parse before validate, entities and dimensions |
+| `api-change-classification-pitfalls` | 6 (new 2026-10-16) | Whether an API change is breaking: source, wire and semantic compatibility |
+| `prose-lint-gate-pitfalls` | 6 (new 2026-10-16) | Prose linting as a gate: severities, overrides, scoped disables, planted-violation tests |
+| `customer-email-review-pitfalls` | 6 (new 2026-10-16) | Reviewing a customer email draft against its source: accuracy, the ask, bad news, chasers |
+| `webauthn-passkey-pitfalls` | 6 (new 2026-10-16) | Server-side WebAuthn: challenges, origin and RP ID checks, second-factor credentials, counters |
+| `visual-snapshot-pitfalls` | 6 (new 2026-10-16) | Screenshot and snapshot baselines: environment, thresholds, masking, updates |
+| `testcontainers-node-pitfalls` | 6 (new 2026-10-16) | Testcontainers for Node: mapped ports, wait strategies, cleanup, reuse, rootless runtimes |
+| `a11y-hiding-and-tables-pitfalls` | 6 (new 2026-10-16) | Hiding content for assistive tech and simple accessible data tables |
+| `php-architecture-test-pitfalls` | 6 (new 2026-10-16) | Deptrac and PHPat layering tests: default-deny rulesets, baselines, registered tests |
+| `doctrine-migrations-pitfalls` | 6 (new 2026-10-16) | doctrine/migrations traps: implicit DDL commits, diff dropping tables, dry run, version names |
+| `laravel-mysql-to-postgres-pitfalls` | 6 (new 2026-10-16) | Moving a Laravel app from MySQL to Postgres: sequences, ILIKE, booleans, strict GROUP BY |
+| `mobile-crash-symbolication-pitfalls` | 6 (new 2026-10-16) | Symbolicating iOS and Android crash reports: UUID matching, address arithmetic, stop rules |
+| `laravel-blade-view-pitfalls` | 6 (new 2026-10-16) | Blade views: attribute merging, stacks, escaping in context, CSRF, date casts |
+| `laravel-feature-test-pitfalls` | 6 (new 2026-10-16) | PHPUnit HTTP tests: endpoint cases, tenant 404 vs 403, permission matrix, fakes |
+| `regex-validation-pitfalls` | 6 (new 2026-10-16) | Regex as a validation gate: full-match, anchors per platform, ReDoS |
+| `helm-chart-pitfalls` | 6 (new 2026-10-16) | Helm chart authoring traps: names, namespace in templates, values layout and types, selectors |
+| `kubernetes-access-and-exposure-pitfalls` | 6 (new 2026-10-16) | RBAC escalation paths, who can read Secrets, Pod Security Standards, NetworkPolicy deny-all |
+| `gha-trust-boundary-pitfalls` | 6 (new 2026-10-16) | GitHub Actions trust-boundary traps: spoofable actor, ref confusion, GITHUB_ENV, cache poisoning |
+| `nginx-proxy-pitfalls` | 6 (new 2026-10-16) | nginx and container reverse-proxy traps: headers and HSTS lock-in, file denial, caching, limits, TLS policy |
+| `docker-destructive-guardrails-pitfalls` | 6 (new 2026-10-16) | Guardrails for Docker destructive commands: prune family, rm -f scope, scoped alternatives |
+| `experiment-design-pitfalls` | 6 (new 2026-10-16) | A/B test design and readout: pre-registered hypothesis, sample size, analyse once, SRM check, honest null results |
+| `analysis-validation-pitfalls` | 6 (new 2026-10-16) | Pre-delivery check of an analysis: review groups, three-level verdict, calculation and logic traps |
+| `metric-movement-diagnosis-pitfalls` | 6 (new 2026-10-16) | Explaining a metric move or two disagreeing numbers: confirm, decompose, test hypotheses, reconcile |
+| `premortem-review-pitfalls` | 6 (new 2026-10-16) | Stress-testing a hard-to-undo decision with an independent attacker, risk cards and a red-team |
+| `assumption-validation-pitfalls` | 6 (new 2026-10-16) | Discovery-stage testing of assumptions: criteria and budget first, smallest disconfirming test |
+| `okr-scoring-pitfalls` | 6 (new 2026-10-16) | Scoring OKRs honestly: objective types, no retroactive edits, guardrails, evidence confidence |
+| `ai-feature-acceptance-pitfalls` | 6 (new 2026-10-16) | Acceptance bar for model-driven features: eval set as spec, imbalance, error-cost asymmetry, thresholds |
+| `frontend-ux-antipattern-review-pitfalls` | 6 (new 2026-10-16) | Reviewing UI state and recovery defects: feedback, errors, input handling, focus, wizards |
+| `chart-choice-pitfalls` | 6 (new 2026-10-16) | Chart choice and encoding: distributions, baselines, colour scales, heatmaps, pies |
+| `event-tracking-plan-pitfalls` | 6 (new 2026-10-16) | Analytics event plans: naming, auto-collected events, selectors, verification |
+| `funnel-and-cohort-definition-pitfalls` | 6 (new 2026-10-16) | Funnel and cohort definitions that can be compared: steps, windows, denominators, immature cohorts |
+| `skill-trigger-eval-pitfalls` | 6 (new 2026-10-16) | Skill trigger evals: should-trigger and near-miss queries, repeated runs, train/validation optimisation, description limit |
+| `agent-run-limits-and-guardrail-pitfalls` | 6 (new 2026-10-16) | Run limits and guardrail boundaries for agent loops: limit kinds, guardrail placement, approvals, trace redaction |
+| `multi-agent-design-pitfalls` | 6 (new 2026-10-16) | Multi-agent design: baseline first, tool vs handoff, filters vs redaction, consensus, delegated-agent failure modes |
+| `agent-context-hygiene-pitfalls` | 6 (new 2026-10-16) | Context hygiene for long agent sessions: degradation patterns, diagnosis, recovery, write/select/compress/isolate |
+| `receiving-review-pitfalls` | 6 (new 2026-10-16) | Author-side handling of review feedback: restate, verify against the code, usage check, reasoned pushback |
+| `code-review-reviewer-pitfalls` | 6 (new 2026-10-16) | Reviewer-side mechanics: approval bar, severity labels, speed, change size, refusing later cleanups |
+| `python-patching-and-time-pitfalls` | 6 (new 2026-10-16) | pytest monkeypatch and tmp_path traps, freezegun traps |
+| `api-contract-and-schema-fuzz-pitfalls` | 6 (new 2026-10-16) | Pact HTTP contract tests and Schemathesis schema fuzzing: destructive probes, baselines, CI gating |
+| `international-input-pitfalls` | 6 (new 2026-10-16) | Name, phone, address, email and date fields that work outside one country |
+| `cwv-diagnosis-pitfalls` | 6 (new 2026-10-16) | Diagnosing INP, CLS and LCP from a trace: phases, shift victims, font metrics, LCP subparts |
+| `rtl-and-bidi-layout-pitfalls` | 6 (new 2026-10-16) | Right-to-left locales and bidirectional text: dir per locale, logical properties, isolating values |
+| `a11y-lint-wiring-pitfalls` | 6 (new 2026-10-16) | Wiring jsx-a11y and vuejs-accessibility so a green run means something |
+| `seo-crawl-control-pitfalls` | 6 (new 2026-10-16) | How a robots.txt is actually matched and tested, plus sitemap limits |
 | `accessibility` | Technical a11y checklist (semantics, keyboard, contrast, ARIA), sourced from WCAG 2.2 |
 | `observability-instrumentation` | What to log, which metric, which label; complements `devops-conventions` at code level |
 | `devops-conventions` | CI/CD, IaC, monitoring/alerting and incident response, TLS and certificates, safe database migrations, container orchestration |
@@ -776,7 +974,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 
 ## Maintaining this repo
 
-**Twelve suites**, listed once in `bin/pre-push`:
+**Thirteen suites, 571 checks**, listed once in `bin/pre-push`:
 
 | Suite | Covers |
 |---|---|
@@ -790,6 +988,7 @@ produced diff. If that ever fails, the two transports have drifted and every rea
 | `test_contrast_check.py` | The contrast-ratio script used by the design blocks |
 | `test_freshness_lock.py` | `bin/check_freshness_lock.py`: the tracked-package list and the lock agree, a moved version is reported |
 | `test_routing.py` | That a plain-language request ranks the block meant for it first, from block descriptions alone |
+| `test_export_rules.py` | The rule exporter against its golden files in `export/golden/` |
 
 <details>
 <summary><b>Four of them exist because of a specific failure</b>, and all four are worth stating</summary>
@@ -883,11 +1082,11 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 158 | 🟢 9 marked real production use; the rest 🟡 |
-| 💼 Business blocks | 24 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| 🧩 Skills | 352 | 🟢 9 marked real production use; the rest 🟡 |
+| 💼 Business blocks | 32 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
-| 🧪 `bin/` | 9 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
+| 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
 **Written with no internal production experience on the stack**, so their remarks are phrased as
 questions rather than statements: `boromir` (Go), `theoden` (.NET), `samwise` (Python), `faramir`

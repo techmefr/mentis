@@ -29,6 +29,10 @@ live one file per section under `references/`.
 | 4 | The loading path: blocking scripts and styles, hints, fonts, third parties, deferred code, long tasks, back-forward cache, budgets | late first render or largest element, a long task during load, or a script, font, stylesheet or third-party origin is being added | [`04-loading-path.md`](./references/04-loading-path.md) |
 | 5 | Images, vector graphics, animated clips | the page ships rasters, an icon set, an illustration or a GIF-like clip | [`05-images.md`](./references/05-images.md) |
 | 6 | Delivery: time to first byte, compression, caching by file name, content types, source maps | slow before anything arrives, assets re-downloaded, or a build is about to ship | [`06-delivery.md`](./references/06-delivery.md) |
+| 7 | Responsive, touch and interface rules: motion, touch targets, safe areas and the on-screen keyboard, typography, images and fonts, theming, URL state, phone forms | the screen is used on a touch device or a narrow viewport, or an animation, an image, a long text block or a dark theme is added; correctness rules, they apply without a prior measurement | [`01-responsive-touch-interface.md`](./references/01-responsive-touch-interface.md) |
+
+For React-specific rendering costs (transitions, `content-visibility`, listeners), see
+`skills/react-nextjs-conventions` §16.
 
 ## Output / checkpoint
 A before number, the identified cause, the change, and an after number measured the same way. No

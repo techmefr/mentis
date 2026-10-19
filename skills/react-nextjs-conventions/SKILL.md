@@ -54,6 +54,7 @@ trigger the diff meets, not the whole table.
 | 13 | Further security surface | a link opens a new window, inline data is shipped to the browser, an outside object is merged, a third-party script or widget is added, or the production build is configured | [`13-security-surface-extra.md`](./references/13-security-surface-extra.md) |
 | 14 | Next.js 16 Cache Components | `cacheComponents` is on, a route sets `dynamic`/`revalidate`/`fetchCache`, `"use cache"` appears, or a 15 app moves to 16 | [`14-cache-components.md`](./references/14-cache-components.md) |
 | 15 | The Server Action result contract and idempotency | a Server Action is written or reviewed: its return type, how it reports failure, what a second run does, what a deployment does to an open form | [`15-server-action-contract.md`](./references/15-server-action-contract.md) |
+| 16 | Rendering and runtime performance | a list grows, an interaction lags, a scroll or input handler is added, or something re-renders too often | [`16-rendering-runtime-performance.md`](./references/16-rendering-runtime-performance.md) |
 
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and by

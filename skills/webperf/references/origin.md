@@ -28,3 +28,5 @@ Deliberately not taken: a hosted measurement service named as a tool (rule B), a
 checklist (infrastructure, `skills/devops-conventions`), minification and unused-CSS removal (owned by the
 bundler), numeric size and time thresholds (recalled figures, `skills/source-freshness`), and speculative
 or experimental loading features (the list moves faster than this block).
+
+Responsive and interface rules, 2026-10-08. `references/01-responsive-touch-interface.md` was written from Vercel's public Web Interface Guidelines (MIT, `vercel-labs/web-interface-guidelines`), filtered to the rules that hold outside any framework, plus the viewport, safe-area and keyboard cases that guide leaves out.

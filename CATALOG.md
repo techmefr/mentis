@@ -30,7 +30,7 @@ crossed over (rule C).
 | Laravel | `laravel` (45) | **`skills/laravel-conventions`** (new): thin models, events over observers, permissions not roles, no DB enums, no cascade, no queries in loops, validation, typing, naming, config, seeders, soft-delete pruning, job ordering, REST shape, test tiers. `php-patterns` stays on the language below it |
 | Flutter | `flutter` (37) | **`skills/flutter-conventions`** (new): context across async gaps, disposal, decomposition, constraints, the four async states, routing, forms, state management, secure storage, permissions, tests |
 | Vue/Nuxt | `nuxt` (21) | `skills/vue-nuxt-vuetify-conventions`, rewritten self-contained (13 sections) |
-| React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (10 sections) |
+| React | `react` (36) | `skills/react-nextjs-conventions`, rewritten self-contained (11 sections) |
 | Python | `python` (20) | `skills/python-conventions`, rewritten self-contained (8 sections) |
 | C#/.NET | `csharp` (15 at mining, 37 at the 2026-09-07 bodies pass) | `skills/dotnet-conventions`, rewritten self-contained (7 sections: §7 and 10 points added 2026-09-07; sectioned into `references/` and deepened 2026-09-08, 3,167 → 6,976 words of rules, every section and point number preserved, none added; **dogfooded once 2026-09-09** on a small .NET 9 solution in the SDK container, 36 tests green, which closed five gaps the *build* found rather than a reading: CA1822 turning a stateless collaborator into a static class with no position in the block (§2.15), `ValidateOnStart` validating nothing without a registered validator and its own package (§2.16), §4.15's explicit enum numbering plus §7.8's missing fallback arm failing to compile under warnings-as-errors (§7.10), `InvariantGlobalization` turning §6.5's human-facing half from a wrong result into an exception (§6.13), and CA1707 making every underscored test name an error, i.e. the analyser scoping the guardrail implied and never stated; **widened against the current platform 2026-09-09**, two new sections — §8 resilience and throttling, §9 what only breaks at publish — plus nine points from the vendor's own current documentation, 7,490 → 9,727 words, x7.57 → **x5.83**); **widened 2026-09-09**, §9 gained three points against current public Native AOT/trimming guidance (suppressed warnings, AOT's inability to generate code at run time, reading a package's own compatibility from publish warnings rather than assuming it), 9,727 → 9,957 words, x5.83 → **x5.7**); **widened again 2026-09-09**, §8 gained two points against
 current public HTTP-resilience/rate-limiting guidance (never stack more than one resilience handler
@@ -238,6 +238,204 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | sql-conventions | 6 | PostgreSQL manual, SQLite documentation, MySQL manual (idea only), Timescale `pg-aiguide` (Apache-2.0), Supabase and PlanetScale skills (MIT), OWASP cheat sheet (CC BY-SA, idea only) | 🟡 (written 2026-10-02, never run) |
 | terraform-conventions | 6 | `terraform-skill` and `terraform-best-practices` (Apache-2.0), HashiCorp documentation (idea only) | 🟡 (written 2026-10-02, never run) |
 | messaging-conventions | 6 | Apache Kafka repository documentation and configuration source (Apache-2.0), RabbitMQ website-repository documentation (Apache-2.0 or MPL-2.0), rewritten | 🟡 (written 2026-10-02, never run) |
+| nestjs-reliability | 6 (new 2026-10-08) | the Nest 12 documentation repo (MIT: idempotency, locks, outbox, resilience, task scheduling, http client chapters, read in full), cross-checked against three MIT agent-skill catalogues (amirtaherkhani, HoangNguyen0403, Dankosik); idea-only repos used for topic cross-checks, never phrased from; one source conflict recorded in `references/origin.md` (uncaught error in a scheduled handler) | 🟡 (written from documentation, nothing installed or run) |
+| node-async-performance | 6 (new 2026-10-08) | the Node.js and undici documentation, mcollina/skills, Dankosik/fastify-backend-skills, amirtaherkhani/nestjs-agent-skills, mkosir/typescript-style-guide (all MIT); idea-only: goldbergyoni/nodebestpractices, trailofbits/skills, Kadajett; unverified claims listed in `references/origin.md` | 🟡 (written, not dogfooded yet) |
+| jwt-verification | 6 (new 2026-10-08) | RFC 8725 and RFC 7519 (public standards), the Nest 12 documentation and two MIT agent-skill catalogues; CC-BY-SA repos idea-only | 🟡 (written, not dogfooded yet; no library option name stated on purpose) |
+| nestjs-di-traps | 6 (new 2026-10-08) | the Nest 12 documentation (MIT) and amirtaherkhani/nestjs-agent-skills (MIT) | 🟡 (written, not dogfooded yet) |
+| node-container-runtime | 6 (new 2026-10-08) | the Nest 12 documentation and nodejs/docker-node best practices (MIT), the Node.js documentation; unverified version claims listed in `references/origin.md` | 🟡 (written from documentation, nothing run) |
+| nestjs-integration-patterns | 6 (new 2026-10-08) | the Nest 12 documentation (MIT; the deprecation chapter is CC BY 4.0, attributed in `references/origin.md`) and three MIT agent-skill catalogues; the rate-limiter failure policy and two OpenAPI/request-id rules are our own judgement and labelled so | 🟡 (written from documentation, nothing run) |
+| prisma-ops-and-test-hygiene | 6 (new 2026-10-08) | the Prisma documentation and an MIT migration-review skill; MIT testing catalogues; Stryker and fast-check documentation; CC-BY-SA repos idea-only | 🟡 (written, not dogfooded yet; Prisma version boundaries noted in `references/origin.md`) |
+| angular-signals-rxjs-ssr-pitfalls | 6 (new 2026-10-08) | the Angular and angular-eslint repositories (MIT) and the Angular documentation, plus an MIT agent-skill catalogue; a counter-example catalogue with harmful rules was read and ruled out; merge-intent into the `angular` block when PR 118 lands | 🟡 (written from documentation, nothing built; doc snapshot is main-branch, versions to check) |
+| htmx-protocol-pitfalls | 6 (new 2026-10-08) | the htmx repository (BSD Zero-Clause, v2.0.x only; no `hx-partial` material used) cross-checked in docs and source | 🟡 (written, not dogfooded yet) |
+| solid-ownership-pitfalls | 6 (new 2026-10-08) | the Solid documentation, eslint-plugin-solid (MIT) and one MIT agent-skill catalogue; scoped to Solid 1.x (2.0 is still a pre-release) | 🟡 (several rules rest on the MIT source alone, listed in `references/origin.md`) |
+| astro-images-templates-pitfalls | 6 (new 2026-10-08) | the Astro documentation, astro-doctor and incluud skills (MIT); an upgrade checklist for a superseded major was dropped | 🟡 (written, not dogfooded yet) |
+| web-components-lifecycle-pitfalls | 6 (new 2026-10-08) | WHATWG and MDN custom-elements documentation and eslint-plugin-wc (MIT) | 🟡 (written, not dogfooded yet) |
+| ci-workflow-hardening | 6 (new 2026-10-08) | an MIT Python agent-skill catalogue (Paldom), the GitHub Actions, CODEOWNERS and Dependabot documentation, the uv and pip-audit documentation; several settings rest on the MIT source alone, listed in `references/origin.md`; merge-intent into `devops-conventions`/`security-hardening` when PR 118 lands | 🟡 (written from documentation, nothing run) |
+| python-container-runtime | 6 (new 2026-10-08) | the uv Docker guide and uv-docker-example (Apache-2.0 or MIT), the Python and Docker documentation | 🟡 (nothing built) |
+| python-testing-strictness | 6 (new 2026-10-08) | the pytest, pytest-asyncio (Apache-2.0) and ruff documentation and an MIT catalogue; all coverage.py settings from the MIT source only | 🟡 (written, not dogfooded yet) |
+| python-sqlalchemy-fastapi-pitfalls | 6 (new 2026-10-08) | the SQLAlchemy, FastAPI, pydantic, anyio and Starlette documentation (MIT/BSD) and an MIT catalogue; pool-budget reasoning is ours | 🟡 (written, not dogfooded yet) |
+| python-hygiene-pitfalls | 6 (new 2026-10-08) | the Google Python style guide (CC-BY-3.0, attributed in `references/origin.md`), the Python documentation and an MIT catalogue | 🟡 (written, not dogfooded yet) |
+| dotnet-async-exception-pitfalls | 6 (new 2026-10-08) | the Microsoft .NET documentation (CC-BY-4.0) and analyzer rule pages (Meziantou.Analyzer, ErrorProne.NET, vs-threading rule titles); idea-only sources were not phrased from; merge-intent into `dotnet-conventions` when PR 118 lands | 🟡 (verification pass 2026-10-08; removed and still-unverified lists in `references/origin.md`; nothing compiled) |
+| dotnet-aspnet-efcore-pitfalls | 6 (new 2026-10-08) | the ASP.NET Core and EF Core documentation (CC-BY-4.0) and an MIT .NET agent-skill catalogue; merge-intent into `dotnet-conventions` when PR 118 lands | 🟡 (verification pass 2026-10-08; nothing compiled) |
+| dotnet-blazor-conventions | 6 (new 2026-10-08) | the ASP.NET Core Blazor documentation (CC-BY-4.0) and dotnet/skills (MIT); mentis had no Blazor block | 🟡 (verification pass 2026-10-08; own guidance marked in `references/origin.md`) |
+| dotnet-container-runtime | 6 (new 2026-10-08) | the .NET GC, runtime configuration and Docker documentation (CC-BY-4.0) and the dotnet-docker samples (MIT) | 🟡 (verification pass 2026-10-08; nothing built) |
+| polly-resilience-pitfalls | 6 (new 2026-10-08) | the Polly documentation (BSD-3-Clause) | 🟡 (API names read from the docs, not compiled) |
+| jvm-pitfalls | 6 (new 2026-10-08) | the Error Prone documentation and skydoves-style skills (Apache-2.0), NullAway (MIT); merge-intent into `java-conventions` when PR 118 lands | 🟡 (version stamps and not-verified list in `references/origin.md`; nothing compiled) |
+| jpa-hibernate-pitfalls | 6 (new 2026-10-08) | the Hibernate 7 and Spring Framework/Boot documentation and an MIT Spring catalogue; Flyway/Liquibase specifics deliberately not written; merge-intent into `spring-boot-conventions` when PR 118 lands | 🟡 (version stamps in `references/origin.md`) |
+| jvm-test-infrastructure | 6 (new 2026-10-08) | the Testcontainers (MIT), Spring Framework test and Awaitility documentation | 🟡 (Testcontainers docs read from repo head, not a release) |
+| jvm-resilience-observability | 6 (new 2026-10-08) | the Resilience4j (Apache-2.0), Micrometer and Spring Boot actuator documentation; several rules are our own guidance and marked so | 🟡 (Resilience4j names unconfirmed for Boot 4) |
+| compose-correctness | 6 (new 2026-10-08) | the Android Jetpack Compose documentation and four skydoves skills (Apache-2.0); merge-intent into `kotlin-android-conventions` when PR 118 lands | 🟡 (Compose docs as of 2026-10-01) |
+| go-container-runtime | 6 (new 2026-10-08) | go.dev release notes 1.22 to 1.27, the Go GC guide and `net/http`, `runtime`, `os/signal` package docs (BSD-3); thockin/go-build-template (Apache-2.0), uber-go/automaxprocs (MIT); merge-intent into `go-conventions` when PR 118 lands | 🟡 (Go version stamps and not-verified list in `references/origin.md`; nothing built) |
+| go-http-resilience-pitfalls | 6 (new 2026-10-08) | the `net/http`, `context` and `database/sql` package docs and Go source doc comments; retry and backoff rules are our own guidance and labelled so; merge-intent into `go-conventions` | 🟡 (written from documentation, nothing run) |
+| go-performance | 6 (new 2026-10-08) | go.dev diagnostics, GC guide and release notes, `testing` and `runtime` docs; idea-only sources (go-perfbook CC-BY-SA, 100-go-mistakes) not phrased from, stated in `references/origin.md` | 🟡 (written from documentation, nothing run) |
+| go-tooling-testing-security | 6 (new 2026-10-08) | go.dev fuzzing, race-detector and vulnerability guides, `testing/synctest`, `os`, `crypto/rand`, `html/template` docs; uber-go/goleak (MIT), securego/gosec (Apache-2.0), mvdan/gofumpt (BSD), uber-go/guide (Apache-2.0) | 🟡 (govulncheck and `os.Root` limits not fully verified) |
+| flutter-agent-loop | 6 (new 2026-10-08) | the Dart and Flutter MCP server documentation and an MIT Flutter skill catalogue (rolandtolnay; its private-widget-method checklist deliberately not adopted); server read from its README, not a running server | 🟡 (written from documentation, nothing run) |
+| flutter-startup-error-hooks | 6 (new 2026-10-08) | the Flutter and Dart documentation (CC-BY) and the Riverpod docs; the zone question is left to the crash SDK's own guide because two MIT sources disagree; extends `flutter-conventions` §9 and §7 | 🟡 (written from documentation, nothing run) |
+| flutter-notifications-background | 6 (new 2026-10-08) | the Flutter, Firebase and Android documentation, the notification plugin README (v22.3.1) and deep-link cookbooks; platform site terms not read, facts only; OEM background-kill and numeric budget rules dropped | 🟡 (several figures taken from fetch summaries, listed in `references/origin.md`) |
+| flutter-native-bridge-ffi | 6 (new 2026-10-08) | the `dart:ffi`, platform channel and Pigeon documentation and the Flutter native-assets docs (BSD/CC-BY); merge-intent into `flutter-conventions` when PR 118 lands | 🟡 (written from documentation, nothing run) |
+| flutter-release-toolchain-hygiene | 6 (new 2026-10-08) | the Flutter and pub.dev documentation, flutter/agent-plugins (BSD-3), Apple and Google Play documentation for release facts; store-policy items dropped for lack of a page read; §2-§4 fold into `mobile-release` and the toolchain and CI-gate sections of `flutter-conventions` when PR 118 lands | 🟡 (some figures from fetch summaries) |
+| swiftui-correctness | 6 (new 2026-10-08) | the SwiftUI and Swift documentation (facts only, Apple text not copied), twostraws and AvdLee SwiftUI skill repositories (MIT) and rusel95/ios-agent-skills; opinionated single-source recipes (TCA, snapshot, VIPER) not written; merge-intent into `swift-conventions` when PR 118 lands | 🟡 (Swift 6.4 interoperability thresholds not verified; nothing built) |
+| swift-testing | 6 (new 2026-10-08) | the Swift Testing and XCTest documentation (facts only) and the AvdLee and rusel95 skill repositories (MIT); merge-intent into `swift-conventions` | 🟡 (several rules rest on one skill repository and are marked so in `references/origin.md`) |
+| android-edge-to-edge-insets | 6 (new 2026-10-08) | the developer.android.com edge-to-edge, insets, keyboard and Android 16/17 behaviour-change pages (facts only, re-verified from full page text) and the Apache-2.0 Android agent skill | 🟡 (skill-only rules marked as such; source tension on `contentPadding` kept) |
+| android-security-hardening | 6 (new 2026-10-08) | the developer.android.com exported-component, intent-redirection, PendingIntent, Play Integrity and Keystore pages (facts only, re-verified); OWASP mastg was not phrased from (CC BY-SA); merge-intent into `security-hardening` | 🟡 (several manifest and token-decryption points still unverified, listed in `references/origin.md`) |
+| android-agp9-r8-gradle | 6 (new 2026-10-08) | the Android Gradle plugin 9, R8 optimisation and Gradle documentation (facts only, re-verified); AGP 9.1 to 9.4 release notes not read; merge-intent into `kotlin-android-conventions` and `mobile-release` | 🟡 (nothing built) |
+| zig-pitfalls | 6 (new 2026-10-08) | the Zig 0.17.0 language reference, release notes and build system pages (read from ziglang.org); two self-contradictions in those docs are flagged in `references/origin.md`; merge-intent into the `zig` block when PR 118 lands | 🟡 (nothing compiled; check the pinned toolchain) |
+| systems-assertion-discipline | 6 (new 2026-10-08) | TigerBeetle's TIGER_STYLE (Apache-2.0), the Rust and C/C++ assertion documentation (facts only); figures of the source are its own and marked so | 🟡 (nothing compiled) |
+| rust-async-unsafe-pitfalls | 6 (new 2026-10-08) | the Rust async book (MIT), Tokio sources (MIT), the Rustonomicon (MIT OR Apache-2.0), Clippy and Miri documentation and the Microsoft Rust guidelines (MIT); a Rustonomicon disagreement between two chapters is reconciled as own guidance and labelled; merge-intent into the `rust` block when PR 118 lands | 🟡 (nothing compiled or run under Miri) |
+| rust-test-supply-chain-ci | 6 (new 2026-10-08) | the nextest, proptest, cargo-mutants, loom, cargo-deny, cargo-semver-checks and cargo-hack documentation and the Cargo book (MIT or Apache-2.0); an instruction aimed at an LLM found in one repository file was treated as data | 🟡 (some tool flags not read, listed in `references/origin.md`) |
+| cpp-build-and-lifetime-pitfalls | 6 (new 2026-10-08) | the C++ working draft, CMake 4.4 manual, GCC and Clang sanitizer documentation, the Google C++ style guide (CC BY 3.0, attributed) and cmake_template (Unlicense); the C++ Core Guidelines, cppbestpractices and c-style are idea-only and not phrased from | 🟡 (nothing configured or built) |
+| persona-ux-audit | 8 (complement) | own guidance from a persona-based QA audit prompt (owner-supplied) | 🟡 (never dogfooded) |
+| six-thinking-hats | 1 (complement) | Edward de Bono method, summary read 2026-10-14 at manager-go.com | 🟡 (never dogfooded) |
+| sql-server-tsql-types-and-queries | 6 (new 2026-10-08) | SQL Server docs (facts only), tsqllint (MIT), Brent Ozar First Responder Kit (MIT) | 🟡 (never dogfooded) |
+| sql-server-transactions-and-operations | 6 (new 2026-10-08) | SQL Server docs (facts only), First Responder Kit (MIT), tsqllint (MIT) | 🟡 (never dogfooded) |
+| mysql-pitfalls | 6 (new 2026-10-08) | MySQL 8.4 manual (facts only), gh-ost (MIT), strong_migrations (MIT) | 🟡 (never dogfooded) |
+| mongodb-conventions | 6 (new 2026-10-08) | MongoDB manual (facts only), mongodb/agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
+| clickhouse-conventions | 6 (new 2026-10-08) | ClickHouse docs (facts only), ClickHouse/agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
+| bash-pitfalls-and-bats | 6 (new 2026-10-08) | bats-core (MIT), Google shell style guide (CC BY 3.0, rewritten with credit), bahamas10 style guide (idea only) | 🟡 (never dogfooded) |
+| powershell-conventions | 6 (new 2026-10-08) | Microsoft Learn about pages (facts only), PSScriptAnalyzer (MIT) | 🟡 (never dogfooded) |
+| rails-jobs-migrations-pitfalls | 6 (new 2026-10-08) | Rails (MIT), Solid Queue (MIT), GoodJob (MIT), strong_migrations (MIT) | 🟡 (never dogfooded) |
+| elixir-ecto-oban-pitfalls | 6 (new 2026-10-08) | Ecto (Apache-2.0), Oban (Apache-2.0), Elixir (Apache-2.0) | 🟡 (never dogfooded) |
+| dockerfile-build-pitfalls | 6 (new 2026-10-15) | Docker docs, docker/skills, dockle, distroless (Apache-2.0) | 🟡 (never dogfooded) |
+| docker-compose-file-pitfalls | 6 (new 2026-10-15) | docker/skills, Docker docs, Tecnativa docker-socket-proxy (Apache-2.0) | 🟡 (never dogfooded) |
+| kubernetes-workload-pitfalls | 6 (new 2026-10-15) | Learnk8s (MIT), kubernetes-skill (MIT), kube-score (MIT), kube-linter (Apache-2.0) | 🟡 (never dogfooded) |
+| kubernetes-availability-config-pitfalls | 6 (new 2026-10-15) | Learnk8s (MIT), kubernetes-skill (MIT), kube-score (MIT), kube-linter and Reloader (Apache-2.0) | 🟡 (never dogfooded) |
+| oauth-oidc-client-pitfalls | 6 (new 2026-10-15) | Copenhagen Book (MIT), oauth2-proxy docs (MIT) | 🟡 (never dogfooded) |
+| auth-gateway-proxy-pitfalls | 6 (new 2026-10-15) | oauth2-proxy docs (MIT) | 🟡 (never dogfooded) |
+| credential-lifecycle-pitfalls | 6 (new 2026-10-15) | Copenhagen Book (MIT), libsodium-doc (ISC) | 🟡 (never dogfooded) |
+| secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
+| package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
+| redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| elasticsearch-mapping-and-reindex-pitfalls | 6 (new 2026-10-15) | elastic/agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
+| rabbitmq-delivery-pitfalls | 6 (new 2026-10-15) | rabbitmq-website docs (Apache-2.0 option of the dual licence) | 🟡 (never dogfooded) |
+| kafka-delivery-semantics-pitfalls | 6 (new 2026-10-15) | Apache Kafka design docs (Apache-2.0), single source | 🟡 (never dogfooded) |
+| airflow-dag-authoring-pitfalls | 6 (new 2026-10-15) | Apache Airflow best practices, Astronomer agents (Apache-2.0) | 🟡 (never dogfooded) |
+| dbt-cli-and-model-versioning-pitfalls | 6 (new 2026-10-15) | dbt-agent-skills, dbt-project-evaluator (Apache-2.0) | 🟡 (never dogfooded) |
+| terraform-state-and-secrets-pitfalls | 6 (new 2026-10-15) | terrashark (MIT), terraform-skill (Apache-2.0) | 🟡 (never dogfooded) |
+| terraform-refactor-identity-pitfalls | 6 (new 2026-10-15) | terrashark (MIT), terraform-skill (Apache-2.0), terramate agent-skills (MIT) | 🟡 (never dogfooded) |
+| terraform-ci-delivery-pitfalls | 6 (new 2026-10-15) | terrashark (MIT), terraform-skill (Apache-2.0) | 🟡 (never dogfooded) |
+| otel-collector-config-pitfalls | 6 (new 2026-10-15) | otelcol-doctor, o11y-dev opentelemetry-skill, dash0 agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
+| telemetry-sampling-and-cardinality-pitfalls | 6 (new 2026-10-15) | dash0 agent-skills, otelcol-doctor, o11y-dev (Apache-2.0), SigNoz agent-skills (MIT) | 🟡 (never dogfooded) |
+| playwright-e2e-pitfalls | 6 (new 2026-10-15) | Playwright docs (Apache-2.0), eslint-plugin-playwright, TestDino playwright-skill, Currents best-practices skill, Goldberg JS testing guide (MIT) | 🟡 (never dogfooded) |
+| testing-library-query-pitfalls | 6 (new 2026-10-15) | eslint-plugin-testing-library (MIT), Goldberg JS testing guide (MIT) | 🟡 (never dogfooded) |
+| jest-vitest-assertion-pitfalls | 6 (new 2026-10-15) | eslint-plugin-jest, eslint-plugin-vitest, Goldberg JS testing guide (MIT) | 🟡 (never dogfooded) |
+| flaky-test-triage-pitfalls | 6 (new 2026-10-15) | qa-skills test-reliability, Currents, pytest-randomly, pytest-retry, TestDino (MIT), Playwright retries page (Apache-2.0) | 🟡 (never dogfooded) |
+| i18n-message-format-pitfalls | 6 (new 2026-10-15) | Lingui (MIT), Fluent (Apache-2.0), next-intl (MIT), vue-i18n docs (MIT), formatjs lint docs (facts only) | 🟡 (never dogfooded) |
+| i18n-catalog-workflow-pitfalls | 6 (new 2026-10-15) | Lingui (MIT), i18n-tasks (MIT), vue-i18n (MIT), Pontoon (BSD), formatjs lint (facts only) | 🟡 (never dogfooded) |
+| locale-negotiation-and-switcher-pitfalls | 6 (new 2026-10-15) | next-intl (MIT), nuxt-modules/i18n (MIT), GOV.UK Design System (MIT), Vercel web-interface-guidelines (MIT) | 🟡 (never dogfooded) |
+| webperf-measurement-and-budget-pitfalls | 6 (new 2026-10-15) | web-vitals (Apache-2.0), Lighthouse CI (Apache-2.0), size-limit (MIT), addyosmani web-quality-skills (MIT) | 🟡 (never dogfooded) |
+| agent-mcp-trust-pitfalls | 6 (new 2026-10-15) | modelcontextprotocol docs (mixed licence, attribution only), snyk agent-scan (Apache-2.0), trailofbits mcp-context-protector (Apache-2.0), slowmist MCP-Security-Checklist (MIT) | 🟡 (never dogfooded) |
+| agent-sandbox-egress-pitfalls | 6 (new 2026-10-15) | anthropics/sandbox-runtime (Apache-2.0), huggingface/smolagents (Apache-2.0) | 🟡 (never dogfooded) |
+| mcp-server-design-pitfalls | 6 (new 2026-10-15) | MCP spec (mixed licence, attribution only), PrefectHQ/fastmcp (Apache-2.0), github-mcp-server (MIT), muratcankoylan context-engineering (MIT) | 🟡 (never dogfooded) |
+| agent-hook-guard-pitfalls | 6 (new 2026-10-15) | 0xKalel/claude-code-guard-hooks, karanb192/claude-code-hooks, Butanium/claude-code-hooks (all MIT) | 🟡 (never dogfooded) |
+| llm-eval-regression-pitfalls | 6 (new 2026-10-15) | agentskills docs (CC-BY-4.0, credited), inspect_ai (MIT), muratcankoylan advanced-evaluation (MIT) | 🟡 (never dogfooded) |
+| blameless-incident-review-pitfalls | 6 (new 2026-10-15) | PagerDuty incident-response-docs (Apache-2.0), adhorn IncidentReviewTemplate (MIT) | 🟡 (never dogfooded) |
+| internal-comms-async-pitfalls | 6 (new 2026-10-15) | GitHub Engineering communication guide (CC-BY-4.0, attributed), amatlack (CC-BY-4.0, README only), Clef handbook (CC0) | 🟡 (never dogfooded) |
+| decision-proposal-review-pitfalls | 6 (new 2026-10-16) | rust-lang/rfcs (MIT or Apache-2.0), kubernetes/enhancements (Apache-2.0), adr/madr (MIT or CC0) | 🟡 (never dogfooded) |
+| recurring-update-writing-pitfalls | 6 (new 2026-10-16) | anthropics/skills internal-comms (Apache-2.0), Pitchdrive, ir-kit, emotix, board-deck-builder (MIT) | 🟡 (never dogfooded) |
+| learning-mode-exercise-pitfalls | 6 (new 2026-10-16) | DrCatHicks learning-opportunities (CC-BY-4.0) | 🟡 (never dogfooded) |
+| training-objectives-and-formative-assessment-pitfalls | 6 (new 2026-10-16) | Carpentries instructor-training (CC-BY-4.0), idstack (MIT) | 🟡 (never dogfooded) |
+| incident-comms-pitfalls | 6 (new 2026-10-15) | PagerDuty incident-response-docs (Apache-2.0), thefgxdev incident-response-runbook (Apache-2.0, young repo, attributed), durrello runbooks (MIT, cross-check only) | 🟡 (never dogfooded) |
+| customer-escalation-pitfalls | 6 (new 2026-10-15) | CSPulse customer-success-skills (MIT, young repo, idea source) | 🟡 (never dogfooded) |
+| troubleshooting-kb-article-pitfalls | 6 (new 2026-10-15) | samber developer-relations-skills (MIT) | 🟡 (never dogfooded) |
+| release-notes-writing-pitfalls | 6 (new 2026-10-15) | samber developer-relations-skills (MIT), keep-a-changelog (MIT) | 🟡 (never dogfooded) |
+| support-queue-design-pitfalls | 6 (new 2026-10-16) | samber developer-relations-skills (MIT), github/docs (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| security-advisory-comms-pitfalls | 6 (new 2026-10-16) | ossf oss-vulnerability-guide (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| security-questionnaire-answer-pitfalls | 6 (new 2026-10-16) | plainanswer security-questionnaire-answers (CC0, idea source), hangljoe AI-PreSales-Skills (MIT) | 🟡 (never dogfooded) |
+| deprecation-notice-pitfalls | 6 (new 2026-10-16) | zalando restful-api-guidelines, microsoft api-guidelines, kubernetes website (all CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| community-moderation-ladder-pitfalls | 6 (new 2026-10-15) | opensource.guide code of conduct (CC-BY-4.0, attributed), GitHub appeal and reinstatement policy (CC0), Kubernetes community moderation (Apache-2.0), social-media-skills (MIT, young repo) | 🟡 (never dogfooded) |
+| marketing-claim-substantiation-pitfalls | 6 (new 2026-10-15) | pmalliance claim-check, ContentForge fact-checker and claim-library spec, chrisrodde audit mode (all MIT, young repos) | 🟡 (never dogfooded) |
+| messaging-audit-pitfalls | 6 (new 2026-10-15) | chrisrodde positioning-and-messaging, pmalliance message-consistency-check (MIT, young repos) | 🟡 (never dogfooded, second human read advised) |
+| image-alt-text-writing-pitfalls | 6 (new 2026-10-16) | a11yproject (Apache-2.0), Microsoft style guide (CC-BY-4.0) | 🟡 (never dogfooded) |
+| social-publish-approval-gate-pitfalls | 6 (new 2026-10-16) | samalyxx socialbu-social-media-skills (MIT), social-media-skills (MIT) | 🟡 (never dogfooded) |
+| ai-content-disclosure-and-provenance-pitfalls | 6 (new 2026-10-16) | c2pa-org specifications UX recommendations (CC-BY-4.0), contentforge (MIT) | 🟡 (never dogfooded) |
+| community-and-social-metrics-pitfalls | 6 (new 2026-10-16) | opensource.guide (CC-BY-4.0), CHAOSS (MIT), social-media-skills (MIT), TeachingTrustSafety (CC0) | 🟡 (never dogfooded) |
+| prometheus-rules-and-promql-pitfalls | 6 (new 2026-10-16) | Prometheus docs practices pages (Apache-2.0), cloudflare/pint checks (Apache-2.0) | 🟡 (never dogfooded) |
+| telemetry-sensitive-data-pitfalls | 6 (new 2026-10-16) | Dash0 agent-skills sensitive-data rule, o11y-dev OpenTelemetry skill anti-patterns (Apache-2.0) | 🟡 (never dogfooded) |
+| terraform-hcl-authoring-pitfalls | 6 (new 2026-10-16) | Terramate agent-skills (MIT), terraform-skill (Apache-2.0) | 🟡 (never dogfooded) |
+| grafana-dashboard-pitfalls | 6 (new 2026-10-16) | Grafana dashboard-linter docs (Apache-2.0) | 🟡 (never dogfooded) |
+| elasticsearch-query-and-triage-pitfalls | 6 (new 2026-10-16) | elastic/agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
+| search-index-sync-pitfalls | 6 (new 2026-10-16) | ankane/searchkick (MIT), matchish/laravel-scout-elasticsearch (MIT) | 🟡 (never dogfooded) |
+| redis-security-and-observability-pitfalls | 6 (new 2026-10-16) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| datastore-broker-alerting-signals | 6 (new 2026-10-16) | samber/awesome-prometheus-alerts (CC BY 4.0, credit and changes in origin) | 🟡 (never dogfooded) |
+| queue-worker-runtime-pitfalls | 6 (new 2026-10-16) | BullMQ docs (MIT), Graphile Worker docs (MIT) | 🟡 (never dogfooded) |
+| search-engine-index-settings-pitfalls | 6 (new 2026-10-16) | meilisearch documentation (MIT), redis agent-skills redis-search (MIT) | 🟡 (never dogfooded) |
+| release-changelog-pitfalls | 6 (new 2026-10-16) | release-please (Apache-2.0), Keep a Changelog 2.0.0 (MIT), attest-build-provenance (MIT) | 🟡 (never dogfooded) |
+| dotnet-msbuild-and-nuget-publish-pitfalls | 6 (new 2026-10-16) | dotnet/skills (MIT) | 🟡 (never dogfooded) |
+| dotnet-testcontainers-and-time-seam-pitfalls | 6 (new 2026-10-16) | dotnet/skills (MIT), testcontainers-dotnet docs (MIT) | 🟡 (never dogfooded) |
+| java-upgrade-and-maven-audit-pitfalls | 6 (new 2026-10-16) | decebals/claude-code-java (MIT) | 🟡 (never dogfooded) |
+| kotlin-android-data-flow-and-api-pitfalls | 6 (new 2026-10-16) | android/nowinandroid (Apache-2.0), chrisbanes/skills (Apache-2.0) | 🟡 (never dogfooded) |
+| flutter-monetization-pitfalls | 6 (new 2026-10-16) | zakariaf/Flutter-Skills (MIT) | 🟡 (never dogfooded) |
+| dart-pub-workspace-and-publish-pitfalls | 6 (new 2026-10-16) | dart-lang/site-www (CC-BY-4.0 prose, BSD-3 code), melos (Apache-2.0) | 🟡 (never dogfooded) |
+| csp-and-sanitiser-pitfalls | 6 (new 2026-10-16) | Helmet README (MIT), DOMPurify README (Apache-2.0) | 🟡 (never dogfooded) |
+| threat-modeling-lite | 6 (new 2026-10-16) | Threat Modeling Manifesto (CC-BY-4.0, attributed), Threagile docs (MIT) | 🟡 (never dogfooded) |
+| crypto-usage-pitfalls | 6 (new 2026-10-16) | libsodium docs (ISC), age (BSD-3-Clause) | 🟡 (never dogfooded) |
+| dsar-handling-pitfalls | 6 (new 2026-10-16) | GDPR Article 12 (EUR-Lex, original OJ text), inthhq dsar (Apache-2.0) | 🟡 (never dogfooded) |
+| cra-exploited-vulnerability-clock | 6 (new 2026-10-16) | Regulation (EU) 2024/2847 Articles 14 and 71 (EUR-Lex, original OJ text), crawatch (MIT) | 🟡 (never dogfooded) |
+| contract-review-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), evolsb claude-legal-skill (MIT) | 🟡 (never dogfooded) |
+| dpa-review-pitfalls | 6 (new 2026-10-16) | The-Data-Galaxy dpa-review-skill (Apache-2.0), anthropics knowledge-work-plugins (Apache-2.0), GDPR Article 28 (EUR-Lex, original OJ text) | 🟡 (never dogfooded) |
+| nda-triage-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), evolsb claude-legal-skill (MIT) | 🟡 (never dogfooded) |
+| oss-compliance-programme | 6 (new 2026-10-16) | OpenChain Reference-Material (CC0-1.0) | 🟡 (never dogfooded) |
+| ledger-pending-and-batch-ordering-pitfalls | 6 (new 2026-10-16) | TigerBeetle docs (Apache-2.0), pgledger (MIT) | 🟡 (never dogfooded) |
+| journal-entry-review-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
+| financial-model-integrity-checks-pitfalls | 6 (new 2026-10-16) | anthropics financial-services (Apache-2.0) | 🟡 (never dogfooded) |
+| vendor-claims-and-scoring-pitfalls | 6 (new 2026-10-16) | procurement-skills (MIT), buyer-eval-skill (MIT) | 🟡 (never dogfooded) |
+| variance-analysis-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
+| month-end-close-sequencing-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0) | 🟡 (never dogfooded) |
+| unknown-payment-outcome-pitfalls | 6 (new 2026-10-16) | payments-platform (Apache-2.0), TigerBeetle docs (Apache-2.0) | 🟡 (never dogfooded) |
+| money-arithmetic-and-rounding-pitfalls | 6 (new 2026-10-16) | payments-platform (Apache-2.0), TigerBeetle docs (Apache-2.0), pgledger (MIT), ISO 4217 list one (SIX) | 🟡 (never dogfooded) |
+| gl-subledger-reconciliation-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), anthropics financial-services (Apache-2.0), pgledger (MIT) | 🟡 (never dogfooded) |
+| accounts-payable-duplicate-and-match-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), procurement-skills (MIT) | 🟡 (never dogfooded) |
+| flask-pitfalls | 6 (new 2026-10-16) | pallets/flask docs (BSD-3-Clause) | 🟡 (never dogfooded) |
+| vue-router-pitfalls | 6 (new 2026-10-16) | vuejs/router docs (MIT) | 🟡 (never dogfooded) |
+| vue-test-utils-pitfalls | 6 (new 2026-10-16) | vuejs/test-utils docs (MIT) | 🟡 (never dogfooded) |
+| ofetch-client-pitfalls | 6 (new 2026-10-16) | unjs/ofetch README (MIT, v2 alpha) | 🟡 (never dogfooded) |
+| react-jsx-and-promise-lint-pitfalls | 6 (new 2026-10-16) | eslint-plugin-react (MIT), typescript-eslint (MIT) | 🟡 (never dogfooded) |
+| saas-metric-definition-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded) |
+| data-contract-quality-rules-pitfalls | 6 (new 2026-10-16) | bitol Open Data Contract Standard v3.2.0 docs (Apache-2.0) | 🟡 (never dogfooded) |
+| semantic-layer-metric-pitfalls | 6 (new 2026-10-16) | dbt-labs dbt-agent-skills (Apache-2.0), dbt Core 1.12 | 🟡 (never dogfooded) |
+| api-change-classification-pitfalls | 6 (new 2026-10-16) | Google AIP 180 and 185 (CC-BY-4.0, attributed), Microsoft api-guidelines (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| prose-lint-gate-pitfalls | 6 (new 2026-10-16) | elastic vale-rules (Apache-2.0), grafana writers-toolkit (Apache-2.0), errata-ai packages (MIT), get-alex alex (MIT) | 🟡 (never dogfooded) |
+| customer-email-review-pitfalls | 6 (new 2026-10-16) | CSPulse customer-success-skills email-critic (MIT) | 🟡 (never dogfooded) |
+| webauthn-passkey-pitfalls | 6 (new 2026-10-16) | Copenhagen Book webauthn (MIT), SimpleWebAuthn (MIT) | 🟡 (never dogfooded) |
+| visual-snapshot-pitfalls | 6 (new 2026-10-16) | Playwright docs (Apache-2.0), jest-image-snapshot (Apache-2.0), goldbergyoni nodejs-testing-best-practices (MIT) | 🟡 (never dogfooded) |
+| testcontainers-node-pitfalls | 6 (new 2026-10-16) | testcontainers-node docs (MIT) | 🟡 (never dogfooded) |
+| a11y-hiding-and-tables-pitfalls | 6 (new 2026-10-16) | A11y Project posts (Apache-2.0 repository, rephrased) | 🟡 (never dogfooded) |
+| php-architecture-test-pitfalls | 6 (new 2026-10-16) | deptrac (MIT), phpat (MIT) | 🟡 (never dogfooded) |
+| doctrine-migrations-pitfalls | 6 (new 2026-10-16) | doctrine/migrations (MIT) | 🟡 (never dogfooded) |
+| laravel-mysql-to-postgres-pitfalls | 6 (new 2026-10-16) | majdghithan agent-skills (MIT) | 🟡 (never dogfooded) |
+| mobile-crash-symbolication-pitfalls | 6 (new 2026-10-16) | majdghithan agent-skills (MIT) | 🟡 (never dogfooded) |
+| laravel-blade-view-pitfalls | 6 (new 2026-10-16) | laravel/boost (MIT) | 🟡 (never dogfooded) |
+| laravel-feature-test-pitfalls | 6 (new 2026-10-16) | laravel/boost (MIT), dotnet/skills (MIT) | 🟡 (never dogfooded) |
+| regex-validation-pitfalls | 6 (new 2026-10-16) | OpenSSF Best Practices WG regex guide (CC-BY-4.0, attributed) | 🟡 (never dogfooded) |
+| helm-chart-pitfalls | 6 (new 2026-10-16) | helm/helm-www (MIT) | 🟡 (never dogfooded) |
+| kubernetes-access-and-exposure-pitfalls | 6 (new 2026-10-16) | Kubernetes docs (CC-BY-4.0, attributed), network-policy-recipes (Apache-2.0), kube-linter (Apache-2.0) | 🟡 (never dogfooded) |
+| gha-trust-boundary-pitfalls | 6 (new 2026-10-16) | zizmor docs (MIT) | 🟡 (never dogfooded) |
+| nginx-proxy-pitfalls | 6 (new 2026-10-16) | h5bp/server-configs-nginx (MIT), caddy-docker-proxy (MIT) | 🟡 (never dogfooded) |
+| docker-destructive-guardrails-pitfalls | 6 (new 2026-10-16) | docker/skills (Apache-2.0) | 🟡 (never dogfooded) |
+| experiment-design-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT), product-on-purpose pm-skills (Apache-2.0), anthropics knowledge-work-plugins (Apache-2.0), phuryn pm-skills (MIT), RefoundAI lenny-skills (MIT, principles only, second-hand) | 🟡 (never dogfooded, young sources) |
+| analysis-validation-pitfalls | 6 (new 2026-10-16) | anthropics knowledge-work-plugins (Apache-2.0), nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded, young sources) |
+| metric-movement-diagnosis-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded, young source) |
+| premortem-review-pitfalls | 6 (new 2026-10-16) | kharmanskyi open-steps (MIT), phuryn pm-skills (MIT) | 🟡 (never dogfooded, young sources) |
+| assumption-validation-pitfalls | 6 (new 2026-10-16) | shinpr claude-code-discover (MIT) | 🟡 (never dogfooded, young source) |
+| okr-scoring-pitfalls | 6 (new 2026-10-16) | product-on-purpose pm-skills measure-okr-grader (Apache-2.0) | 🟡 (never dogfooded) |
+| ai-feature-acceptance-pitfalls | 6 (new 2026-10-16) | TayaIntelligence prd-review (MIT) | 🟡 (never dogfooded) |
+| frontend-ux-antipattern-review-pitfalls | 6 (new 2026-10-16) | cassiozen UX-antipatterns (MIT) | 🟡 (never dogfooded) |
+| chart-choice-pitfalls | 6 (new 2026-10-16) | cxli233 FriendsDontLetFriends (MIT), plugin87 data-dashboard (MIT) | 🟡 (never dogfooded) |
+| event-tracking-plan-pitfalls | 6 (new 2026-10-16) | jtrackingai analytics-tracking-automation (Apache-2.0), product-on-purpose measure-instrumentation-spec (Apache-2.0) | 🟡 (never dogfooded) |
+| funnel-and-cohort-definition-pitfalls | 6 (new 2026-10-16) | nimrodfisher data-analytics-skills (MIT) | 🟡 (never dogfooded) |
+| skill-trigger-eval-pitfalls | 6 (new 2026-10-16) | agentskills docs (CC-BY-4.0, credited), skill-validator (MIT) | 🟡 (never dogfooded) |
+| agent-run-limits-and-guardrail-pitfalls | 6 (new 2026-10-16) | inspect_ai docs (MIT), openai-agents-python docs (MIT) | 🟡 (never dogfooded) |
+| multi-agent-design-pitfalls | 6 (new 2026-10-16) | inspect_ai (MIT), openai-agents-python (MIT), muratcankoylan multi-agent-patterns (MIT, figures dropped), cc-safe-setup failure-modes doc (MIT, promotional, taxonomy only) | 🟡 (never dogfooded) |
+| agent-context-hygiene-pitfalls | 6 (new 2026-10-16) | muratcankoylan context-degradation (MIT) | 🟡 (never dogfooded) |
+| receiving-review-pitfalls | 6 (new 2026-10-16) | obra/superpowers receiving-code-review (MIT) | 🟡 (never dogfooded) |
+| code-review-reviewer-pitfalls | 6 (new 2026-10-16) | google/eng-practices (CC-BY-3.0, attributed), mgreiler/code-review-checklist (MIT) | 🟡 (never dogfooded) |
+| python-patching-and-time-pitfalls | 6 (new 2026-10-16) | pytest docs (MIT), spulec/freezegun (Apache-2.0) | 🟡 (never dogfooded) |
+| api-contract-and-schema-fuzz-pitfalls | 6 (new 2026-10-16) | pact-js docs (MIT), schemathesis docs (MIT) | 🟡 (never dogfooded) |
+| international-input-pitfalls | 6 (new 2026-10-16) | GOV.UK Design System patterns (MIT, rephrased, UK-specific parts dropped) | 🟡 (never dogfooded) |
+| cwv-diagnosis-pitfalls | 6 (new 2026-10-16) | addyosmani web-quality-skills core-web-vitals references (MIT) | 🟡 (never dogfooded) |
+| rtl-and-bidi-layout-pitfalls | 6 (new 2026-10-16) | Impeccable (Apache-2.0), A11y Project (rephrased, no content licence), MessageFormat 2 spec (facts only), Lingui and Nuxt i18n (MIT), Pontoon (BSD, facts only), GOV.UK (MIT) | 🟡 (never dogfooded, thin sourcing) |
+| a11y-lint-wiring-pitfalls | 6 (new 2026-10-16) | eslint-plugin-jsx-a11y (MIT), eslint-plugin-vuejs-accessibility (MIT) | 🟡 (never dogfooded) |
+| seo-crawl-control-pitfalls | 6 (new 2026-10-16) | google/robotstxt (Apache-2.0), web-quality-skills seo (MIT) | 🟡 (never dogfooded) |
 | domain-modeling | 3 | a recognised market skill author (`domain-modeling`) + DDD staples; states-not-flags is ours | 🟡 (written, not dogfooded yet) |
 | deprecation-migration | cross-cutting | a market generalist dev skill catalogue (5 questions + 4 patterns) | 🟢 (direct rewrite, mechanism taken as-is) |
 | api-design | 3 | a market generalist dev skill catalogue (Hyrum's law, One-Version Rule); **sectioned and deepened 2026-09-08** — the three inline sections moved to one file each under `references/` and the router became a table of triggers (375 → 2,392 words of rules). This was the thinnest block counted in the depth table, for the same reason `spec` was: a checklist of principles an experienced reader already agrees with and cannot apply under pressure, because the pressure comes from a change that looks compatible and is not — so the depth is a catalogue of those: **loosening is compatible and tightening is not**, widening a type breaking every parser written against the narrower promise, renaming being removal plus addition, a change to a field's *meaning* being breaking with the type unchanged, a default value being part of the contract, consumers depending on our *failures* so a changed status code turns careful retry handling into a duplicated write, an unspecified ordering being a choice made once by accident, and compatibility being verified by comparing the two schemas rather than remembered | 🟢 (direct rewrite) |
@@ -445,7 +643,7 @@ linters, orchestration frameworks, etc. on the market).
 | market Claude Code agent catalogue | architecture-documenter / contract-testing-expert / runbook-generator | / | ✕ (low confidence, occasional use, no recurring signal) |
 | market Claude Code agent catalogue | core/code-reviewer, core/debugger, core/refactorer, core/architect, security-auditor, devsecops-engineer, ux-designer, ui-components-expert, code-documenter, orchestrators/*, postgresql-expert, redis-expert, graphql-expert, cypress-expert, jest-expert, e2e-testing-expert, operational/*, industry/* | / | ✕ (redundant with the existing roster or outside the confirmed stack) |
 | market multi-agent orchestration framework | generalist org-chart (who talks to whom) | multi-agent dispatch | ✕ (no forced fresh context and no evidence/verdict mechanism; off topic for the GATE gap, stays a separate 🔎 architecture lead) |
-| market React skill catalogue | `react-best-practices` (AGENTS.md) (perf/rendering/waterfall patterns with before/after code) | react-nextjs-conventions | ✅ |
+| market React skill catalogue | `react-best-practices` (AGENTS.md) (perf/rendering/waterfall patterns with before/after code) | react-nextjs-conventions | ✅ (re-read 2026-10-08, against the public Vercel agent-skills repo: gap pass added §11 and four §7 points) |
 | market React/Node skill catalogue | `redux-toolkit/SKILL.md` (typed createSlice, typed hooks, createAsyncThunk, memoised selectors) | react-nextjs-conventions | ✅ |
 | market shadcn skill catalogue | `skills/shadcn/SKILL.md` (composition through a wrapper, cn(), folder structure) | react-nextjs-conventions | ✅ |
 | market React linter | `oxlint-plugin-react-doctor`, ~780 deterministic rules (state/effects, perf, security, a11y), `error`-severity subset excluding niche frameworks taken into section 4 | react-nextjs-conventions | ✅ (content rewritten; the tool itself stays a separate 🔎 candidate for a future React CI gate, not installed, the operator has no React repo) |
@@ -499,7 +697,7 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
 | bi, design, xefi | 16 / 17,306 | 4 / 29,680 | +12,374 | x0.58 |
 | global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
-| react | 36 / 9,302 | 1 / 16,841 | +7,539 | x0.55 |
+| react | 36 / 9,302 | 1 / 18,937 | +9,635 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -531,7 +729,7 @@ nuxt: vue-nuxt-vuetify-conventions 25,052
 global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,795
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 16,841
+react: react-nextjs-conventions 18,937
 bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,857
 ```
 
