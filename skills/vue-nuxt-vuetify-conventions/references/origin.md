@@ -314,3 +314,12 @@ instruction-like text inside a source, so it was read as data and nothing was in
 stated:** the Vuetify 3 peer and browser matrix (only its support dates are known), the Nuxt module's own
 documentation (a separate site), the Vuetify component-by-component API pages, and the blueprints.
 
+
+**Dogfooded, 2026-10-19.** Built a Nuxt 4.6.2 + Vuetify 4.2.6 + Pinia slice in `~/dogfood/nuxt` (layout, three pages, a
+`defineModel`/`defineProps`/`defineEmits` form, one setup store, `useFetch` with an explicit key behind a
+composable, a `<ClientOnly>` clock with a sized fallback, manual Vuetify wiring per §8.26 to §8.28, semantic
+elements, a typed key catalogue standing in for `@nuxtjs/i18n`, which was absent). `nuxt prepare` and `nuxt build`
+ran (prerender of `/`, SSR of the three routes checked by `curl`: fetched data in the payload, fallback text in
+the server HTML). `vue-tsc --noEmit` did not run (see §3.23). Three gaps fixed: §1.24 (destructured `defineProps`
+is legal on 3.5, with the `watch()` build error, verified with `@vue/compiler-sfc`), §5.22 (`"type": "module"`),
+§3.23 (`vue-tsc` against TypeScript 7). Not exercised: browser hydration, tests, eslint.

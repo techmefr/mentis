@@ -95,3 +95,8 @@
     of `extends` but left on disk still ships in the repository, still gets modified by someone who finds
     it while searching, and still shows up in a dependency audit as installed — treat an unused layer the
     way an unused dependency is treated: removed, not merely unwired.
+22. **A Nuxt project's `package.json` declares `"type": "module"`.** A project initialised with the package
+    manager's defaults carries `"type": "commonjs"`, and a `nuxt.config.ts` that imports an ES-only package (the
+    Vuetify build plugin, for one) then prints an `ERROR ... Failed to load the ES module` line on every
+    `nuxt prepare` and `nuxt build`. The config still loads through the fallback loader, so the build succeeds
+    and the error reads as noise that nobody fixes; set the field once. Seen on Nuxt 4.6 under Node 24, 2026-10-19.
