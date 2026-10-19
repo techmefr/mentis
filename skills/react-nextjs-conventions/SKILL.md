@@ -15,11 +15,13 @@ generic default. Two house conventions in particular genuinely split across real
 `interface` for object shapes, and where tests live — and this block says "pick one and apply it uniformly"
 rather than pretending there's a universal answer.
 
-**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
-report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
-broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
-real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
-no rule anywhere actually resolves the case — never as a general alarm.
+**An applied override is recorded, not hidden.** Write the code the governing rule actually requires, and
+leave one short neutral trace addressed to whoever can decide (a line in the PR description, the task summary
+or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing. Raise one specific, named question to the decider only when no rule anywhere actually resolves the
+case.
 
 **On a Laravel + Inertia.js app with React pages, there is no Next.js runtime** (no App Router, no
 Next data fetching) — a page there is a plain component wired by Inertia. This block's Next-specific
@@ -66,8 +68,7 @@ Code compliant with the sections above. No dedicated checkpoint: compliance is c
 No comments in the code produced. Never modify a generated component file in place: always go through a
 wrapper. Don't duplicate an existing hook or selector before checking that no nearby one covers the need.
 This block writes code, it doesn't review diffs; for the review, that's `legolas`. Where an org catalogue is
-installed and disagrees with a rule here, **it wins** — say so explicitly rather than silently applying
-either one. When in doubt about a rule covered by neither, escalate rather than guess.
+installed and disagrees with a rule here, **it wins** — apply it and leave the short neutral trace described at the top, never a silent override. When in doubt about a rule covered by neither, escalate rather than guess.
 
 ## Origin
 Rules mined from market catalogues, linters and internal review feedback, rewritten in the house

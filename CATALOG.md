@@ -455,7 +455,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | testing-blocks | cross-cutting (meta) | a market skills repository (`testing-skills-with-subagents`: RED/GREEN/REFACTOR on behaviour, pressure taxonomy, record the rationalisation verbatim) | 🟡 (written; the obvious next move is to run it on itself) |
 | distributing-blocks | cross-cutting | a market skills repository (`pulling-updates-from-skills-repository` + `sharing-skills`) | 🟡 (written; answers README stages 3-4, no consumer yet) |
 | maintaining-blocks | cross-cutting (meta) | a market skills repository (`meta/gardening-skills-wiki`); the checks themselves are this repo's own past bugs | 🟡 (written; the first real run is the reference audit before a tagged release) |
-| design-patterns | 3 / 6 | the Gang of Four catalogue as published on `refactoring.guru` (22 patterns, re-verified 2026-08-10, all 22 now carry an explicit verdict — subtracted, dismissed, entry-conditioned or escape-valve); the catalogue pages carry **no overuse caution**, which is the whole gap — recognise-don't-apply, the second-real-case threshold, the framework-already-does-it subtraction and the Repository-over-ORM verdict are ours; §4 grew 3 more entries 2026-08-11 (value object, pipeline, transaction boundaries) from the real, installed org catalogue's design-patterns plugin, which had grown from 4 to 7 skills since the original mining pass — these are real recurring shapes outside the 22-pattern GoF set, not a gap in that set; **sectioned and deepened 2026-09-08** — the five sections that lived inline in `SKILL.md` moved to one file each under `references/`, a sixth was added, the router became a table of triggers (2,347 → 6,333 words of rules, x5.19 → x1.92); **widened against the org catalogue's own stack-specific implementation files 2026-09-09** — three points in §4.7 (flush-not-commit, savepoints, model events firing inside the boundary), seven more points in §4, and a brownfield rule in §1, 6,333 → 7,369 words, x1.92 → **x1.65**. §4 kept its number and every point inside it, since `business/fintech-compliance` cites §4.5 and `laravel-conventions` cites the transaction rule at §4.7 twice; §2's bullets became numbered points, text unchanged. The new §6 (when a pattern stops earning its place) closes a structural gap rather than an oversight: the source catalogue, and every section here, was about whether to *add* a pattern, and nothing said when to take one out — hence the deletion test, the interface whose second implementation was decommissioned, the pool justified by a measurement on a runtime since upgraded, the pattern grown to fit a case that does not share its axis, the suite with a test per implementation and none for the dispatch, and the ADR line that outlives the structure and gets the pattern reimplemented from the document. Two stale references into this block were fixed in the same pass: `laravel-conventions` §4 and §8 both cited a §7 this block has never had; **widened 2026-09-10** via a background pass on §1 recognise/don't-apply, §2 framework-already-does-it, §3 where-they-earn-their-place, §5 use-the-name-correctly and §6 when-it-stops-earning — sourced from public code-smell literature (Beck/Fowler, the rule of three) and the classic GoF pattern definitions as generally documented — 7,369 → 9,393 words, taking `design-patterns` from x1.65 to x1.3); **widened a second time 2026-09-10**, a background pass over §3 where-they-earn-their-place (Iterator, Factory Method vs named constructors, Specification, Proxy at a real access boundary, Observer beyond the event bus), §5 use-the-name-correctly (a pattern name in a log/error message never a user-facing string, an IDE rename invalidating an ADR, blame stability) and §6 when-it-stops-earning (knowledge erosion as the removal trigger, a cosmetic rename to dodge the deletion test, a public/cross-repo contract meaning deprecation not immediate removal) — sourced from GoF/refactoring.guru and internal conventions, 9,393 → 10,965 words, taking `design-patterns` from x1.3 to **x1.11** | 🟡 |
+| design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the queue framing is native Claude Code (`/loop`/`/schedule`, proactive loops); the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
 | product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives; **sectioned and deepened 2026-09-08** — the nine sections that lived inline in `SKILL.md` moved to one file each under `references/` and the router became a table of triggers (2,952 → 7,616 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `spec`). §6 to §8 kept their numbers, since `references/README.md` and this file both cite that range. No section was added: the nine already covered the subject, and what they lacked was the mechanism and what the reader actually sees — a request phrased as a solution smuggling in a decision nobody took, an ordering that optimises for whoever asked loudest, a refusal naming no alternative coming back unchanged next week, a criterion nobody can build a fixture for, a "done" resting on somebody's memory of the conversation, and an estimate given without the code being an estimate of the story's wording; **widened 2026-09-10** via a background pass on §3 saying-no, §4 acceptance-criteria and §5 ready-and-done (plus `skills/spec` §1 the-interview and §4 out-of-scope, same pass) — sourced from public product-ownership/agile literature (prioritisation frameworks, three amigos, MoSCoW's won't-have vs deferred, anchoring/confirmation bias in interviews), taking `project-management` from x1.26 to x1.07); **widened again 2026-09-10**, a background pass over §9 author-is-the-builder — three points added: rereading the story as a stranger before merge as the substitute for §7's missing second reader, scope creep during implementation held to the same one-line justification a real scope change gets, a slipping estimate written down the moment it is known rather than absorbed silently — sourced from this repo's own single-role pipeline experience, no external catalogue involved, taking `project-management` from x1.07 to **x1.01**, closing the last tracked gap | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
@@ -689,16 +689,16 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 50,658 | −29,167 | x1.58 |
-| csharp | 37 / 56,718 | 1 / 34,180 | −22,538 | x1.66 |
-| design-patterns | 7 / 12,179 | 1 / 10,965 | −1,214 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 23,318 | +2,546 | x0.89 |
-| nuxt | 21 / 19,869 | 1 / 25,052 | +5,183 | x0.79 |
-| python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
-| project-management | 10 / 14,536 | 2 / 15,391 | +855 | x0.94 |
-| bi, design, xefi | 16 / 17,306 | 4 / 29,717 | +12,411 | x0.58 |
-| global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
-| react | 36 / 9,302 | 1 / 18,979 | +9,677 | x0.49 |
+| laravel | 65 / 79,825 | 3 / 50,777 | −29,048 | x1.57 |
+| csharp | 37 / 56,718 | 1 / 34,209 | −22,509 | x1.66 |
+| design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
+| flutter | 40 / 20,772 | 1 / 23,347 | +2,575 | x0.89 |
+| nuxt | 21 / 19,869 | 1 / 25,088 | +5,219 | x0.79 |
+| python | 20 / 22,097 | 2 / 24,444 | +2,347 | x0.9 |
+| project-management | 10 / 14,536 | 2 / 15,426 | +890 | x0.94 |
+| bi, design, xefi | 16 / 17,306 | 4 / 30,000 | +12,694 | x0.58 |
+| global | 18 / 20,280 | 6 / 34,930 | +14,650 | x0.58 |
+| react | 36 / 9,302 | 1 / 19,015 | +9,713 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -722,16 +722,16 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 36,401, php-patterns 7,139, inertia-conventions 7,118
-csharp: dotnet-conventions 34,180
-python: python-conventions 18,879, data-pipeline-conventions 5,468
-flutter: flutter-conventions 23,318
-nuxt: vue-nuxt-vuetify-conventions 25,052
-global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
-project-management: product-ownership 9,343, spec 6,048
-design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 18,979
-bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,894
+laravel: laravel-conventions 36,437, php-patterns 7,175, inertia-conventions 7,165
+csharp: dotnet-conventions 34,209
+python: python-conventions 18,908, data-pipeline-conventions 5,536
+flutter: flutter-conventions 23,347
+nuxt: vue-nuxt-vuetify-conventions 25,088
+global: code-baseline 10,384, security-hardening 9,912, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
+project-management: product-ownership 9,378, spec 6,048
+design-patterns: design-patterns 10,994
+react: react-nextjs-conventions 19,015
+bi, design, xefi: data-analytics 4,587, interface-design 10,518, ux-writing 5,934, accessibility 8,961
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every

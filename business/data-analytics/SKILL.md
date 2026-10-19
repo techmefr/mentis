@@ -15,10 +15,13 @@ questions and defaults that keep an AI-assisted query from being confidently wro
 it can't see in full. Where the company has a documented schema, a data dictionary or a governance
 policy, that wins outright.
 
-**Applying an override is silent.** Write what the company's own documentation or governance policy
-requires and move on — never report "a conflict between mentis and the house rules" to whoever's
-watching. Surface it as a specific, named question only when no rule anywhere actually resolves the
-case.
+**An applied override is recorded, not hidden.** Write what the company's own documentation or governance
+policy requires, and leave one short neutral trace addressed to whoever can decide (a line in the PR
+description, the task summary or an ADR): which rule was overridden, by what, and that it is a resolved case.
+Never phrase it as "a conflict between mentis and the house rules" to a non-technical stakeholder — that
+framing reads as broken even when the case is a normal, resolved one, and has already caused a real project to
+get abandoned and restarted over nothing. Raise one specific, named question to the decider only when no rule
+anywhere actually resolves the case.
 
 ## When
 As soon as a task touches reporting, a dashboard, a KPI, an extraction or a consolidation across more

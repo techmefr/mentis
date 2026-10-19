@@ -10,10 +10,13 @@ interface consumed by others (frontend, third-party service, another team): not 
 function with no public contract. Every rule below holds in a repo with **nothing installed**
 (`CONVENTIONS.md`, rule A).
 
-**Applying an override is silent.** Where an org catalogue or a house API convention governs a rule
-here, write what it requires and move on — never report "a conflict between mentis and the house rules"
-to whoever's watching. Surface it as a specific, named question only when no rule anywhere resolves the
-case.
+**An applied override is recorded, not hidden.** Where an org catalogue or a house API convention governs a
+rule here, write what it requires, and leave one short neutral trace addressed to whoever can decide (a line
+in the PR description, the task summary or an ADR): which rule was overridden, by what, and that it is a
+resolved case. Never phrase it as "a conflict between mentis and the house rules" to a non-technical
+stakeholder — that framing reads as broken even when the case is a normal, resolved one, and has already
+caused a real project to get abandoned and restarted over nothing. Raise one specific, named question to the
+decider only when no rule anywhere actually resolves the case.
 
 ## When
 Before implementing a new endpoint/route/procedure: never after the fact by "documenting what

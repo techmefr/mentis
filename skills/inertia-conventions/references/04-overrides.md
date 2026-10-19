@@ -60,10 +60,10 @@
 7. **This whole section resolves the case, so apply it and keep going — don't tell a non-technical
    stakeholder "there's a conflict between mentis and the house rules."** That framing reads as broken,
    and a CdP with no way to judge it themselves has already responded to exactly that framing by
-   deleting the whole setup and starting over. There's a resolution stated above; use it silently. The
-   distinction to hold on to: a **resolved** case is applied without narration, and only a case where no
-   rule anywhere decides the answer is worth raising — as one specific named question, never as a general
-   alarm about two rule sets disagreeing.
+   deleting the whole setup and starting over. There is a resolution stated above; apply it and leave one short neutral trace
+   (a line in the PR description, task summary or ADR: which rule was overridden, by what, "resolved case").
+   Only a case where no rule anywhere decides the answer is raised — to the decider, as one specific named
+   question, never as a general alarm about two rule sets disagreeing.
 8. **An installed house catalogue wins on its own subject, and this section is not a subject it covers.**
    Where a company ships its own versioned catalogue for Laravel or for the frontend framework, that
    catalogue is the authority on its house style and overrides this block wherever the two differ (§4.6

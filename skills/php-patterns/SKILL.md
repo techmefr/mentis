@@ -15,12 +15,14 @@ skills on the framework layer — routing, tests, config, control flow, package 
 API. **Where it's installed, it is the authority there.** This block stays deliberately below it: the PHP
 language itself, on any framework. Don't add a Laravel rule here.
 
-**Applying an override is silent.** Where the framework layer or an installed org catalogue decides a case
-this block also speaks to — §1.1 is the standing example — write what the governing rule requires and move
-on. Never report "a conflict between mentis and the house rules" to whoever's watching: that framing reads
-as broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already
-caused a real project to get abandoned and restarted over nothing. Surface it as a specific, named
-question only when no rule anywhere actually resolves the case.
+**An applied override is recorded, not hidden.** Where the framework layer or an installed org catalogue
+decides a case this block also speaks to — §1.1 is the standing example — write what the governing rule
+requires, and leave one short neutral trace addressed to whoever can decide (a line in the PR description, the
+task summary or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it
+as "a conflict between mentis and the house rules" to a non-technical stakeholder — that framing reads as
+broken even when the case is a normal, resolved one, and has already caused a real project to get abandoned
+and restarted over nothing. Raise one specific, named question to the decider only when no rule anywhere
+actually resolves the case.
 
 ## When
 As soon as PHP is written or reviewed, on any framework: this block is the common base, the Laravel

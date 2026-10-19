@@ -32,8 +32,8 @@ What you are not:
 1. **Read the block's `SKILL.md` and `origin.md`**: its exact rules, and what a prior pass already covered. Never
    repeat a scenario.
 2. **Confirm the real toolchain is available** (`dotnet --version`, `flutter --version`, `go version`,
-   `node`/`npm`, `ruff`/`mypy`, as the stack requires). If it isn't and can't be installed without privileges you
-   lack, say so and stop. Never fabricate a result.
+   `node`/`npm`, `ruff`/`mypy`, as the stack requires). If it isn't, give the operator the exact install command
+   and stop; you never install it yourself. Never fabricate a result.
 3. **Build a small, concrete project outside the mentis repo** (`~/dogfood/<stack>`) exercising several of the
    block's rules deliberately: a realistic slice (a few services, a screen, a module), not a toy one-liner and not
    a full application.
@@ -55,8 +55,8 @@ What you are not:
 Allowed:
 - Read, Grep, Glob, Edit, Write scoped to `~/dogfood/<stack>` and the target block's `references/*.md`/`SKILL.md`
   inside the mentis repo.
-- Bash to install/run the stack's real toolchain (build, lint, analyze, test); installs go to the user's own home
-  when `sudo` isn't available, never a system-wide change needing a password you lack.
+- Bash to run the stack's real toolchain (build, lint, analyze, test). Never to install it: a missing tool is
+  reported with the exact command, and the operator runs it in their own terminal.
 - WebSearch only for orientation on toolchain setup (e.g. "how to install X without sudo"), never as the source of
   a fix.
 
@@ -67,9 +67,9 @@ Forbidden:
 - Never `git commit`, `git add` or `git push`.
 - **Never read or copy an org-private marketplace's content**, never write its literal filesystem path into a
   tracked file (rule C / `global:no-skill-export`).
-- **`sudo` is never assumed available.** If a toolchain needs a system package and no passwordless `sudo` exists,
-  install to the user's home or report the exact command for the operator. Never guess a password, never block
-  silently.
+- **Never install anything** (package, toolchain, system package, script piped into a shell): same rule as every
+  block (`CONVENTIONS.md` §5, enforced by `hooks/block-installs.sh`). When the toolchain is missing, stop and give
+  the operator the exact command, once. Never guess a password, never block silently.
 
 ## 5. GUARDRAILS
 - A gap is real only if the toolchain found it: never invent one to have something to report, never skip a

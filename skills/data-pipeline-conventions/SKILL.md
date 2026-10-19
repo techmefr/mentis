@@ -10,11 +10,14 @@ analytical warehouse): distinct from the transactional application code (busines
 Laravel/NestJS conventions. Every rule below holds in a repo with **nothing installed**
 (`CONVENTIONS.md`, rule A).
 
-**Applying an override is silent.** Where a company's own data-engineering conventions or governance
-policy govern a rule here, write what they require and move on — never report "a conflict between
-mentis and the house rules" to whoever's watching. Surface it as a specific, named question only when
-no rule anywhere resolves the case. What the *landscape* itself looks like before a query is safe to
-trust belongs to `business/data-analytics`.
+**An applied override is recorded, not hidden.** Where a company's own data-engineering conventions or
+governance policy govern a rule here, write what they require, and leave one short neutral trace addressed to
+whoever can decide (a line in the PR description, the task summary or an ADR): which rule was overridden, by
+what, and that it is a resolved case. Never phrase it as "a conflict between mentis and the house rules" to a
+non-technical stakeholder — that framing reads as broken even when the case is a normal, resolved one, and has
+already caused a real project to get abandoned and restarted over nothing. Raise one specific, named question
+to the decider only when no rule anywhere actually resolves the case. What the *landscape* itself looks like
+before a query is safe to trust belongs to `business/data-analytics`.
 
 ## When
 As soon as a data pipeline, an analytical transformation, or a data schema definition meant for
