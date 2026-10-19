@@ -84,6 +84,16 @@
     `prefetch` on a link also prefetches cached content that depends on its URL data, at the cost of a server
     invocation per link. Do not enable it on long lists.
 
+21. **Set `partialPrefetching` next to `cacheComponents`.** Enabling the flag alone logs a build warning
+    (confirmed on 16.4.2): set `partialPrefetching: true` for a new app, `false` only while migrating an app that
+    adopted Cache Components before the option existed. The `instant = false` opt-out of rule 17 is accepted by
+    16.4.2.
+22. **A `GET` route handler is prerendered when nothing it awaits is uncached I/O.** With the flag on, a handler
+    that returns in-memory or already-resolved data is built once and served as static (shown as static in the
+    route table, confirmed on 16.4.2), so it freezes at build time and looks correct locally; the same handler
+    awaiting a real uncached read (database, timer, network) is dynamic. Do not infer the mode from the code
+    path: read the route table after the build, and cache or mark the handler deliberately.
+
 ## Mechanical checks
 
 ```

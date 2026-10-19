@@ -702,7 +702,7 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 15,426 | +890 | x0.94 |
 | bi, design, xefi | 16 / 17,306 | 4 / 30,000 | +12,694 | x0.58 |
 | global | 18 / 20,280 | 6 / 34,930 | +14,650 | x0.58 |
-| react | 36 / 9,302 | 1 / 19,015 | +9,713 | x0.49 |
+| react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -734,7 +734,7 @@ nuxt: vue-nuxt-vuetify-conventions 25,088
 global: code-baseline 10,384, security-hardening 9,912, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 9,378, spec 6,048
 design-patterns: design-patterns 10,994
-react: react-nextjs-conventions 19,015
+react: react-nextjs-conventions 19,154
 bi, design, xefi: data-analytics 4,587, interface-design 10,518, ux-writing 5,934, accessibility 8,961
 ```
 

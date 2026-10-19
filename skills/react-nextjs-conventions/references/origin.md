@@ -170,3 +170,18 @@ Transitions) and four points at the end of §7 (`React.cache`, `after()`, module
 RSC props). Mechanisms rewritten with the symptom a reader sees, no copied text; the React 19.2 and Next
 APIs cited (`Activity`, `after()`, `ViewTransition`) are version-gated: check the project's React and Next versions before applying them. `react-native-skills` was deliberately left out: mobile on this stack is
 responsive web, and the layout/touch rules that transfer live in `skills/webperf/references/`.
+
+**Dogfooded, 2026-10-19.** Second real pass, on Next 16.4.2, React 19.3, TypeScript 7.0.2 (`~/dogfood/react`,
+outside this repo): a slice with a root layout and a Suspense-wrapped server component fetching with
+`Promise.all` (§7.1-2), a dynamic `[id]` page awaiting `params` with `notFound()` (§7.4, §7.7), a GET route
+handler with named export (§7.10), a `React.cache` session reader over `cookies()` with `server-only` modules
+(§7.5, §7.18-19), a client form using `useActionState` against a Server Action returning a shared result union,
+validating first and ordering invalidate then `redirect` (§15.1-6), strict `tsc --noEmit` (with
+`noUncheckedIndexedAccess`) and `next build`, first without then with `cacheComponents`. ESLint was not run:
+typescript-eslint is not installed, so no config could parse the files. `tsc` and the first build were clean once
+the demo's own `"type": "commonjs"` was fixed (tooling noise). With the flag on, the build rejected the `[id]`
+page for awaiting `params` outside a boundary, exactly what §14.3 and §14.12 predict; fixed by a Suspense wrapper.
+Two real gaps, both added to §14 (rules 21-22): the missing `partialPrefetching` option, which the build warns
+about, and a GET route handler that becomes static when its awaited data resolves instantly. `instant = false`,
+marked `[verify]` before, was accepted by 16.4.2. Not exercised: `use cache`, `cacheLife`, tags, tests, an
+idempotency key.
