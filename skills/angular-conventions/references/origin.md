@@ -14,6 +14,7 @@ the package registry that day):
 |---|---|
 | §1, §2.5-2.8, §2.12, §1.10-1.11 | the official style guide (`best-practices/style-guide`) |
 | §2 (standalone, inputs, control flow, images), §3.4, §3.10 | the framework's machine-readable best-practice file served from angular.dev, plus the component, input, host-element and control-flow guides |
+| §2.18 (output and input naming) | the angular-eslint rule documentation for the native-output, `on`-prefix and input-rename rules, MIT (holder James Henry), read 2026-10-19 |
 | §3 | the signals, `linkedSignal`, `effect` and `resource` guides; the forms comparison page |
 | §4 | the DI, injection-context, services, interceptors, route-guards, loading-strategies and data-resolver guides |
 | §5 | the error-handling best practice, the `@boundary` guide, the security guide, the runtime-performance pages (subtrees, zone pollution, slow computations), the zoneless guide, the `@defer` guide, the accessibility page |
@@ -43,3 +44,5 @@ verification or an edit.
 development, not applications. Community Angular rule collections without a licence were not read (idea only,
 none used). Angular Material, the CDK and SSR hydration details beyond the points above were not read and are
 not covered: a gap, stated.
+
+**Added 2026-10-19 (🟡):** §2.18 from the angular-eslint documentation above. The rule configuration (the input-rename allow-list) was not taken; nothing was run.
