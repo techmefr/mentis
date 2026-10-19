@@ -92,3 +92,9 @@
     caller to narrow inside the body regardless of which shape they actually passed; declared as two
     overload signatures, the return type and the internal narrowing are resolved at the call site instead
     of pushed onto every consumer.
+23. **Check that the type checker can run before relying on a green type-check step.** `vue-tsc` loads the
+    JavaScript `typescript` package's `lib/tsc` entry. With the native TypeScript 7 package installed it stops
+    at once with `ERR_PACKAGE_PATH_NOT_EXPORTED`, although `vue-tsc` declares `typescript >=5.0.0` as its peer,
+    so a range that resolves to 7 breaks the gate without any code being wrong. Pin `typescript` below 7 until
+    the checker's release notes say otherwise, and treat "the type-check did not run" as a failure, not a pass.
+    Seen with `vue-tsc` 3.3.13 and `typescript` 7.0.2, 2026-10-19.

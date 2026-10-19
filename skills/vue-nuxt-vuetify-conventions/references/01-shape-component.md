@@ -82,3 +82,10 @@
     helper imported only to be called once during setup. That is convenient, not free: an import used
     purely for a side effect at the top of the script still shows up as if it were template-usable state,
     which is a small but real readability cost when scanning the script for what actually renders.
+24. **On Vue 3.5 and later, point 9 holds for a `props` object, not for the destructure of `defineProps()` itself.**
+    `const { disabled = false } = defineProps<{ disabled?: boolean }>()` is compiled to reads of the props
+    object, stays reactive, and is the place a default is written; destructuring from a `props` variable
+    (`const props = defineProps(...)` then `const { disabled } = props`) is still the trap. The compiler
+    refuses one shape: a destructured prop passed bare to `watch()` is a build error ("should not be passed
+    directly to watch(). Pass a getter () => disabled instead"), so pass a getter, and wrap it in `toRef` or
+    a getter likewise before handing it to a composable that expects a ref. Seen in a real compile, 2026-10-19.
