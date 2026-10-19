@@ -20,9 +20,13 @@ without ever passing through a mockup: validation messages, error states, transa
 concatenated strings. A dedup audit on 2026-08-06 confirmed the overlap is real; this is the resolution,
 and the two must not diverge on a shared rule.
 
-**Applying an override is silent.** Write what the governing wording rules require and move on — never
-report "a conflict between mentis and the house rules" to whoever's watching. Surface it as a specific,
-named question only when no rule anywhere actually resolves the case.
+**An applied override is recorded, not hidden.** Write what the governing wording rules require, and leave one
+short neutral trace addressed to whoever can decide (a line in the PR description, the task summary or an
+ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing. Raise one specific, named question to the decider only when no rule anywhere actually resolves the
+case.
 
 ## When
 As soon as a diff adds or changes text a user sees: a field label, a button, a validation message, an

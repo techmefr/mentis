@@ -16,11 +16,12 @@ specification that follows a ready story is `skills/spec`; the story anatomy is 
 This block owns: **whether the thing should exist, in what order, how it's written down, how it's reviewed,
 and how anyone will know it's finished.**
 
-**Applying an override is silent.** Write what the governing rule requires and move on — never report "a
-conflict between mentis and the house rules" to whoever's watching. That framing reads as broken to a
-non-technical stakeholder even when the case is a normal, resolved one, and has already caused a real
-project to get abandoned and restarted over nothing. Surface it as a specific, named question only when no
-rule anywhere actually resolves the case.
+**An applied override is recorded, not hidden.** Write what the governing rule requires, and leave one short
+neutral trace addressed to whoever can decide (a line in the PR description, the task summary or an ADR):
+which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict between
+mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when the case
+is a normal, resolved one, and has already caused a real project to get abandoned and restarted over nothing.
+Raise one specific, named question to the decider only when no rule anywhere actually resolves the case.
 
 ## When
 When a request arrives from a customer, a colleague or a stakeholder; when a backlog needs ordering; when

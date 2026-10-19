@@ -14,12 +14,13 @@ is the authority on **its** house style — its approved package list, its archi
 broadcaster, its MCP tooling — and overrides this block wherever the two differ. The rules below are the
 generic form, with the internal package and product names removed (rule C).
 
-**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
-report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
-broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
-real project to get abandoned and restarted over nothing (the Inertia/REST-package case in §6 and
-`skills/inertia-conventions` is exactly that: a resolved case, not a real disagreement). Surface it as a
-specific, named question only when no rule anywhere actually resolves the case — never as a general alarm.
+**An applied override is recorded, not hidden.** Write the code the governing rule actually requires, and
+leave one short neutral trace addressed to whoever can decide (a line in the PR description, the task summary
+or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing (the Inertia/REST-package case in §6 and `skills/inertia-conventions` is exactly that: a resolved case, not a real disagreement).
+Raise one specific, named question to the decider only when no rule anywhere actually resolves the case.
 
 ## When
 As soon as a controller, model, migration, job, listener, policy, FormRequest, command, seeder or factory is
@@ -56,8 +57,7 @@ diff. Checked by `gate` (7) and `review` (8).
 No comments in the code produced. These rules govern **new** code; existing fat models, observers and magic
 strings stay until migrated deliberately (`skills/simplify`, not this block). Never widen a permission or
 skip an authorisation check to make something work — that's a security decision, and it goes to
-`skills/security-hardening`. Where an org catalogue is installed and disagrees, **it wins**, and say so
-explicitly rather than silently applying either one.
+`skills/security-hardening`. Where an org catalogue is installed and disagrees, **it wins** — apply it and leave the short neutral trace described at the top, never a silent override.
 
 ## Origin
 Rules mined from market catalogues, linters and internal review feedback, rewritten in the house

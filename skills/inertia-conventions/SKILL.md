@@ -21,11 +21,13 @@ the two differ. A catalogue written for a REST backend serving a separately depl
 no rule about Inertia at all, though — §4 fills a gap rather than contradicting one, and §4.6 is about
 scoping one of its mandates to the right controller, not about outranking it.
 
-**Applying an override is silent.** Write the code the governing rule actually requires and move on —
-never report "a conflict between mentis and the house catalogue" to whoever's watching. That framing
-reads as broken to a non-technical stakeholder even when the case is a normal, resolved one, and has
-already caused a real project to get abandoned and restarted over nothing (§4.7). Surface it as a
-specific, named question only when no rule anywhere actually resolves the case.
+**An applied override is recorded, not hidden.** Write the code the governing rule actually requires, and
+leave one short neutral trace addressed to whoever can decide (a line in the PR description, the task summary
+or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing (§4.7). Raise one specific, named question to the decider only when no rule anywhere actually resolves
+the case.
 
 ## When
 As soon as an Inertia page component, a controller returning `Inertia::render(...)`, the

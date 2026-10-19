@@ -19,11 +19,13 @@ deployment targets — and overrides this block wherever the two differ. Several
 strict prohibitions; they come from a real house style and are stated as such, because "allowed but rare" is
 not a reviewable rule.
 
-**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
-report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
-broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
-real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
-no rule anywhere actually resolves the case — never as a general alarm.
+**An applied override is recorded, not hidden.** Write the code the governing rule actually requires, and
+leave one short neutral trace addressed to whoever can decide (a line in the PR description, the task summary
+or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing. Raise one specific, named question to the decider only when no rule anywhere actually resolves the
+case.
 
 ## When
 As soon as C#/.NET code is written or modified, during `code` (6) or `tdd` (5).

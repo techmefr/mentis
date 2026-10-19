@@ -14,9 +14,13 @@ the decision trees, never the numbers**: where a design system exists, its token
 value here overrides one. Where none exists, the rule is "pick a scale and never leave it", which is the part
 that actually holds across projects (rule C: nothing named, no house values).
 
-**Applying an override is silent.** Where a design system's tokens or components govern, write what they
-require and move on — never report "a conflict between mentis and the house rules" to whoever's watching.
-Surface it as a specific, named question only when no rule anywhere actually resolves the case.
+**An applied override is recorded, not hidden.** Where a design system's tokens or components govern, write
+what they require, and leave one short neutral trace addressed to whoever can decide (a line in the PR
+description, the task summary or an ADR): which rule was overridden, by what, and that it is a resolved case.
+Never phrase it as "a conflict between mentis and the house rules" to a non-technical stakeholder — that
+framing reads as broken even when the case is a normal, resolved one, and has already caused a real project to
+get abandoned and restarted over nothing. Raise one specific, named question to the decider only when no rule
+anywhere actually resolves the case.
 
 **Boundaries.** How text is exposed to assistive technology and to the keyboard, in the shipped code →
 `skills/accessibility`. The words themselves → `business/ux-writing`. What the screen is for → `skills/spec`

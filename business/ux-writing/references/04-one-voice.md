@@ -42,5 +42,5 @@
 11. **This block does not own tone of voice or brand vocabulary.** Where a brand reference or an org
     design catalogue's UX-writing skill exists, it is the authority and this section defers to it; what
     remains here is the requirement that whatever it decides is applied to the strings that reach a diff
-    without passing through a mockup. Applying that override is silent — write what the governing rule
-    requires and move on.
+    without passing through a mockup. Applying that override is recorded, not hidden — write what the governing rule
+    requires and leave one short neutral trace for whoever can decide (PR description, task summary or ADR).

@@ -15,11 +15,13 @@ layout — and it overrides this block on any point where the two differ. This b
 not a competitor: it states the rule and the reason, so an agent can apply it on a project that has no
 catalogue at all, and can recognise a house override as an override rather than as a contradiction.
 
-**Applying an override is silent.** Write the code the governing rule actually requires and move on — never
-report "a conflict between mentis and the house catalogue" to whoever's watching. That framing reads as
-broken to a non-technical stakeholder even when the case is a normal, resolved one, and has already caused a
-real project to get abandoned and restarted over nothing. Surface it as a specific, named question only when
-no rule anywhere actually resolves the case — never as a general alarm.
+**An applied override is recorded, not hidden.** Write the code the governing rule actually requires, and
+leave one short neutral trace addressed to whoever can decide (a line in the PR description, the task summary
+or an ADR): which rule was overridden, by what, and that it is a resolved case. Never phrase it as "a conflict
+between mentis and the house rules" to a non-technical stakeholder — that framing reads as broken even when
+the case is a normal, resolved one, and has already caused a real project to get abandoned and restarted over
+nothing. Raise one specific, named question to the decider only when no rule anywhere actually resolves the
+case.
 
 **On a Laravel + Inertia.js app, there is no Nuxt runtime** (no Nuxt routing/auto-imports/`useFetch`/SSR
 server) — a Vue page there is a plain SFC wired by Inertia, not a Nuxt page. This block's Nuxt-specific
@@ -65,8 +67,7 @@ Code compliant with the sections above. No dedicated checkpoint: compliance is c
 No comments in the code produced. Don't reinvent a component the UI toolkit already provides. Don't duplicate
 an existing composable before checking that no nearby one covers the need. Where the project ships a typed
 client for its API, don't open a second path to a resource that already has a model. `technical/` never imports
-`functional/`. Where an org catalogue is installed and disagrees with a rule here, **it wins** — say so
-explicitly rather than silently applying either one. When in doubt about a rule covered by neither, escalate
+`functional/`. Where an org catalogue is installed and disagrees with a rule here, **it wins** — apply it and leave the short neutral trace described at the top, never a silent override. When in doubt about a rule covered by neither, escalate
 rather than guess.
 
 ## Origin
