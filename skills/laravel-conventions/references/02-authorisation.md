@@ -170,7 +170,7 @@
     2026-09-10.]
 32. **Batch-checking several abilities at once (`Gate::any()`/`Gate::none()`, or `@canany` in a Blade view)
     is a single decision about "may this caller do at least one of these," not a shortcut for looping over
-    `can()` and stopping at the first pass.** A hand-rolled loop reintroduces point 18's risk; the batch helper's argument list is the enumeration, so
+    `can()` and stopping at the first pass.** A hand-rolled loop reintroduces the risk of an enumeration hidden in control flow; the batch helper's argument list is the enumeration, so
     a missing ability is visible at the call site. [Laravel authorization
     documentation, laravel.com/docs/12.x/authorization, read 2026-09-10.]
 33. **A Sanctum token's `currentAccessToken()` returns `null` for a request authenticated through the web

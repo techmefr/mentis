@@ -128,7 +128,7 @@
 25. **`Conditionable`'s `when()`/`unless()` on a query builder keeps a conditional filter inside the query
    it modifies**, instead of an `if`/`else` that duplicates every line that doesn't change between
    branches. `Model::query()->when($filter, fn ($q) => $q->where(...))` reads as "this query, conditionally
-   narrowed"; an external `if` around near-identical query blocks is point 6's defect.
+   narrowed"; an external `if` around near-identical query blocks is the duplication it avoids.
 26. **A queued job's `handle()` method is where behaviour lives for the asynchronous case, and it takes its
    collaborators the same way an action does: through method injection, resolved from the container per
    run**, not through a constructor argument serialised alongside the job's data. A constructor-injected

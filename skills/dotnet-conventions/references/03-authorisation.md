@@ -214,7 +214,7 @@
     single policy runs that combination on every request, not once at startup.** Where `[Authorize]` is
     stacked with a resource-based check or a point-41 requirement attribute, the provider folds them into
     one result each time; one that recomputes an expensive combination per request instead of caching by the
-    exact attribute set pays on the hot path, which point 3's "read it by eye at review" doesn't catch
+    exact attribute set pays on the hot path, which point 11's "read it by eye at review" doesn't catch
     because nothing about the attributes looks like a performance decision.
 43. **`RequireAuthorization()` chained through nested `MapGroup` calls accumulates as point 35 describes
     for one group and one endpoint, and nesting hides how many layers stacked.** An endpoint in a group

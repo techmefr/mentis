@@ -160,7 +160,7 @@
 29. **A file-based app (`dotnet run app.cs`, .NET 10) publishes Native AOT by default, which means a script
     nobody meant to harden against this section inherits every one of its rules the day it's published
     rather than merely run.** `dotnet publish` on it turns on
-    `PublishAot` without being asked — so the first sign of points 1, 7 or 15 is the publish step itself,
+    `PublishAot` without being asked — so the first sign of points 1, 7 or 16 is the publish step itself,
     for a file never reviewed as an AOT target.
 30. **Packing a .NET tool as self-contained, trimmed or Native AOT (.NET 10) exposes the same failures this
     section already describes, the day the packaging choice changes rather than the day the code does.** A
