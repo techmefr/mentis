@@ -18,6 +18,8 @@ spend an afternoon being creative about a problem that needed a measurement.
 | "It has to be done this way" and nobody can say why | §2 invert the assumptions |
 | Works here, unclear whether it survives production | §3 push the scale to the extremes |
 | The same problem keeps reappearing in different places | §4 name the pattern once |
+| The same action keeps failing, findings are being lost, or work resumes after a gap | §5 [`references/05-repeated-failure.md`](./references/05-repeated-failure.md) |
+| A task too vague or too big to say what the first move is | §6 [`references/06-unblock-card.md`](./references/06-unblock-card.md) |
 | Something behaves wrongly, with a traceable cause | not here → `debug` |
 | Blocked on information only a human has | not a technique → ask |
 
@@ -77,6 +79,10 @@ When the same shape keeps reappearing:
    if the list is long, they weren't the same problem.
 4. Then apply §1's line count before building anything.
 
+### 5 and 6. In `references/`
+§5 holds the rules around any attempt (never repeat a failed action, escalate after three, write findings to disk,
+the reboot checkpoint); §6 holds the unblock card for a task too vague to start. Read them from the table at the top.
+
 ## Output / checkpoint
 No checkpoint of its own: it feeds back into whichever step was stuck. What it owes is a decision —
 the technique applied, what it revealed, and what changes — not a page of exploration.
@@ -125,3 +131,5 @@ to do when the awkward case's "fit" comes from fixing an unrelated bug rather th
 abstraction itself — without separating the two, the bugfix's line savings get silently absorbed into
 step 4's count, making a non-viable unification look better than it is. No other step needed
 correction; §2/§3/§4 were not exercised in this pass.
+
+Sections 5 and 6 (`references/05-repeated-failure.md`, `references/06-unblock-card.md`) were added 2026-10-19; their sources, the choices that are ours and what was not read are in [`references/origin.md`](./references/origin.md).

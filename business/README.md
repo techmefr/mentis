@@ -62,6 +62,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `ai-prose-tells` | communication | a README, MR description, release note or changelog is drafted or reviewed and might read as machine-written |
 | `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
 | `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
+| `evidence-appraisal` | research / decisions | a decision, estimate or recommendation leans on someone else's benchmark, study or report |
 | `sales-support` | sales | engineering is pulled into a proposal, scoping call, demo, or RFP response |
 | `release-communication` | communication | a change ships that someone outside the team can notice |
 | `incident-communication` | communication | something user-visible is broken or degraded in production |

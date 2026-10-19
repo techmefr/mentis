@@ -58,6 +58,11 @@ Contact details, address, hours, listings and social profiles are claims too. Re
 product or company has a physical location, a service area, public listings or profiles, or a page that
 prints such details.
 
+### 5. Verifying a claim against its source
+When a draft cites sources and each one has to be confirmed, read
+[`references/02-claim-verification-procedure.md`](./references/02-claim-verification-procedure.md) §5: fetched
+in this run, passage recorded, primary over recap, echo clusters counted once.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer). What it owes: the four positioning sentences, and a source
 attached to every factual claim, with the technical ones confirmed by someone who built it. Any claim
@@ -82,6 +87,10 @@ marketing expertise** and with no access to a brand or campaign reference, so it
 where engineering can be useful and be held to something. The claim-needs-a-source discipline and its
 framing as `default = failure` applied outside code are ours, as is the rule that technical claims are
 read by a builder before shipping.
+
+Widened 2026-10-19: `references/02-claim-verification-procedure.md` rewrites, in our words, the verification
+method of the blog-factcheck skill of claude-blog (MIT, LICENSE file read; SKILL.md read in full). Scoring
+numbers and the script-level URL checks were not taken.
 
 Widened 2026-10-02: `references/01-local-and-profile-presence.md` rewrites, as claim discipline, the
 public guidance of a search provider on local business structured data, on keeping a business listing

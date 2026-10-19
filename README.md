@@ -520,6 +520,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
 | `dsar-handling-pitfalls` | 6 (new 2026-10-16) | Handling data subject access requests: the clock, case record, package delivery. Not legal advice |
+| `feature-flag-lifecycle` | 6 (new 2026-10-19) | Typing a flag, giving it an owner and expiry at creation, proving the kill switch before the ramp, testing both states, removing it after a quiet period, and auditing flag debt |
+| `slo-design` | 6 (new 2026-10-19) | Choosing the SLI from what users feel, setting the target as a product decision, writing the error budget policy first, and alerting on burn rate over two windows |
+| `chaos-experiment` | 6 (new 2026-10-19) | Planning and writing up a deliberate failure experiment: steady-state hypothesis, one realistic fault, bounded blast radius, abort criteria written first, a way back, and what was learned |
 | `session-retro` | 6 (new 2026-10-19) | End-of-session retro that proposes environment fixes: a deterministic check for anything mechanical, a written rule only for a judgement call; proposes, never applies |
 | `prototype` | 6 (new 2026-10-19) | Throwaway prototype discipline: name the one question, pick logic demo or UI variants, keep it disposable, and decide what is lifted, kept on a side branch or deleted; never merged as is |
 | `reuse-before-write` | 6 (new 2026-10-19) | Author-side ladder before writing code (needed at all, already here, language or platform, installed dependency, one line, minimum) and the guards that keep the shortcut from cutting what must stay |

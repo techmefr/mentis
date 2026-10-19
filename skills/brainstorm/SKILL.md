@@ -41,6 +41,10 @@ Right after `start-feature`, before `/SPEC`. As soon as the real need isn't 100%
    stage.
 7. For a decision with several credible answers and no obvious winner, run the structured dissent of
    `references/01-structured-dissent.md` before choosing.
+8. When the reason to build rests on "people want this" and no evidence is on the table, run
+   `references/02-demand-and-premises.md` between steps 1 and 2: demand evidence, the status quo as the real
+   competitor, the premises put to the owner for agree or disagree, and one assignment at the end. Skip it for a
+   bug, an obligation or a need already evidenced.
 
 ## Output / checkpoint
 No formal checkpoint: a written summary of the intent and the options weighed, kept where the task's trail
@@ -70,3 +74,5 @@ steps 5-6, the guardrail and the table come from the `brainstorming` skill of `s
 2026-10-02): the three-path triage, the hard gate, the one-way ratchet. Rewritten in our words; its visual
 companion (a local server and a browser) is not taken, since it is a runtime dependency. The structured dissent is
 from the `council` skill of `ECC` (MIT, same date).
+
+Section 2 of the references (`references/02-demand-and-premises.md`: demand evidence, the status quo, the premises, the assignment) was added 2026-10-19 from the `office-hours` skill of `gstack` (MIT, read the same day); its provenance and what was not taken are in [`references/origin.md`](./references/origin.md).
