@@ -46,6 +46,5 @@ having run (§2). A Dockerfile that was only linted is not verified.
 
 ## Origin
 Rewritten from the uv Docker integration guide and the uv Docker example repository (MIT or Apache-2.0) and
-the FastAPI deployment documentation (MIT), read 2026-10-08. This block is meant to be folded into the
-same-topic container or deployment block when PR 118 lands. 🟡: never run by us; open points are in
+the FastAPI deployment documentation (MIT), read 2026-10-08. Overlaps with `skills/dockerfile-build-pitfalls` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

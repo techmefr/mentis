@@ -43,5 +43,5 @@ Dockerfile that was only linted is not verified.
 ## Origin
 Rewritten from a Go build template (Apache-2.0), the automatic-GOMAXPROCS library README (MIT), and the
 Go garbage collector guide, release notes and package documentation (CC-BY-4.0 text), read 2026-10-08.
-Meant to be folded into `go-conventions` when the extended version of that block lands. 🟡: never run by
+Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by
 us; open points are in [`references/origin.md`](./references/origin.md).

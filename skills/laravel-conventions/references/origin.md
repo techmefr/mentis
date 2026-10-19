@@ -327,7 +327,7 @@ Sourcing: every new point is either a mechanism already present in `laravel-conv
 serialisation) or synthesised fresh from Laravel's public documentation for the mechanism named (contextual
 binding, `Macroable`, deferred providers, config caching, command signatures, scheduling, `Attribute::make`,
 custom casts, `morphWith`, rate limiters, conditional resource attributes) — never read, copied or paraphrased
-from the XEFI marketplace, whose file contents were not opened for this pass. `02-authorisation.md`, `05-naming-typing-style.md`,
+from an org-private marketplace, whose file contents were not opened for this pass. `02-authorisation.md`, `05-naming-typing-style.md`,
 `08-jobs-realtime.md` and `09-tests-static-analysis.md` were left untouched, already widened in the prior
 passes above.
 
@@ -358,7 +358,7 @@ prefer-the-framework's-own-mechanism argument) or is synthesised fresh from Lara
 for the mechanism named (service container contextual binding, deferred providers, middleware group
 ordering, package auto-discovery, facade resolution, queued-job `failed()`, `Http::fake()`,
 `ValidationException`, rate limiting) — `laravel.com/docs/12.x/{container,rate-limiting,http-client}`, read
-2026-09-10 — never the XEFI marketplace, whose file contents were not opened for this pass.
+2026-09-10 — never an org-private marketplace, whose file contents were not opened for this pass.
 
 **Widening, 2026-09-10 — troisième pass.** The five thinnest remaining files after the first two same-day
 passes — `05-naming-typing-style.md`, `08-jobs-realtime.md`, `09-tests-static-analysis.md`,
@@ -393,8 +393,7 @@ queues (job middleware, batching, unique/overlapping jobs), database testing and
 service container (`singleton`/`scoped` lifetimes), configuration and the scheduler
 (`laravel.com/docs/{12.x,13.x}/{queues,database-testing,container,configuration,scheduling}`) — plus
 Larastan's own documented level/extension model for the PHPStan-facing points, all read 2026-09-10; the
-rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. The XEFI
-marketplace's file contents were never opened for this pass.
+rest restates a mechanism already present in `laravel-conventions`/`php-patterns` at a new angle. An org-private marketplace's file contents were never opened for this pass.
 
 **Widening, 2026-09-10 — quatrième pass.** The five thinnest files remaining after the first three same-day
 passes — `02-authorisation.md` (2,040 words after its own earlier pass this same day), `10-architecture.md`
@@ -453,7 +452,7 @@ public documentation for the mechanism named — authorization (`Gate::after`, `
 `before()`), the service container and providers, migrations (`foreignId`/`constrained`, named foreign
 keys), the query builder (`upsert`, `chunkById`, `joinSub`, `withExists`), and controllers/routing
 (`apiResource`, resource action filtering, route model binding by column) — `laravel.com/docs/12.x/
-{authorization,providers,migrations,queries,controllers}`, read 2026-09-10. The XEFI marketplace's file
+{authorization,providers,migrations,queries,controllers}`, read 2026-09-10. An org-private marketplace's file
 contents were never opened for this pass.
 
 **Widening, 2026-09-10 — cinquième pass.** The five thinnest files by an actual `wc -w` measurement at the
@@ -514,7 +513,7 @@ batch `add()`, `Concurrency`), PHP 8.3/8.4 language features (typed class consta
 Pest/PHPUnit fakes (`Bus`, `Event`, `Http`, `Queue`, `Mail`, `Storage`), and console/config tooling (Laravel
 Prompts, typed config accessors, the scheduler, `artisan about`, cache-clearing commands) —
 `laravel.com/docs/12.x/{errors,broadcasting,queues,console-tests,http-tests,mocking,artisan,prompts,configuration,scheduling}`
-plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. The XEFI marketplace — referred to here only
+plus `php.watch`'s coverage of PHP 8.3/8.4, all read 2026-09-10. An org-private marketplace — referred to here only
 as "the marketplace XEFI" — was never opened for this pass: no file under it was read, only the fact that a
 content gap existed was known going in.
 

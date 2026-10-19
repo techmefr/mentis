@@ -1,6 +1,6 @@
 ---
 name: webperf
-description: "Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend (a script, a font, an image, a third-party tag, a route): diagnose from a measurement rather than from intuition, then pull the loading, image and delivery levers in cost order."
+description: "Use when a page or a screen feels slow, or before shipping a feature that adds weight to the frontend (a script, a font, an image, a third-party tag, a route): diagnose from a measurement rather than from intuition, then pull the loading, image and delivery levers in cost order. Tracing one poor Core Web Vital is cwv-diagnosis-pitfalls; choosing an instrument or a budget is webperf-measurement-and-budget-pitfalls."
 ---
 
 # webperf
@@ -32,7 +32,7 @@ live one file per section under `references/`.
 | 7 | Responsive, touch and interface rules: motion, touch targets, safe areas and the on-screen keyboard, typography, images and fonts, theming, URL state, phone forms | the screen is used on a touch device or a narrow viewport, or an animation, an image, a long text block or a dark theme is added; correctness rules, they apply without a prior measurement | [`01-responsive-touch-interface.md`](./references/01-responsive-touch-interface.md) |
 
 For React-specific rendering costs (transitions, `content-visibility`, listeners), see
-`skills/react-nextjs-conventions` §16.
+`skills/react-nextjs-conventions` §16. Fonts and image loading appear twice on purpose: §4 and §5 are the measured levers, pulled after §1 names the cost, and `references/01-responsive-touch-interface.md` holds the correctness rules that apply without a measurement. A red Core Web Vital to trace to its dominant part is `skills/cwv-diagnosis-pitfalls`; which instrument may support a number, and budgets in CI, are `skills/webperf-measurement-and-budget-pitfalls`.
 
 ## Output / checkpoint
 A before number, the identified cause, the change, and an after number measured the same way. No

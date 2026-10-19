@@ -6,9 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real Compose app by us. No composable
 was written, no layout inspector was opened and no compiler report was read while writing it.
 
-**Fold-in note.** This block is meant to be folded into a Compose reference of `kotlin-android-conventions`
-(that block exists only on the unmerged branch) when PR 118 lands. It is standalone only so that it does not
-depend on a block that is not yet on main.
+**Overlap note.** Overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged. It was written as a standalone block while the same-topic block was still on a branch; both are now on main.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

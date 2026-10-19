@@ -1,6 +1,6 @@
 ---
 name: seo
-description: "Use when writing or reviewing a frontend page or app meant to be indexed, or auditing a built public site before launch or migration: meta tags, HTML semantics, Core Web Vitals, structured data and dates, social previews, crawl health (redirects, canonical, sitemap, link graph, URL form), content trust signals and local presence."
+description: "Use when writing or reviewing a frontend page or app meant to be indexed, or auditing a built public site before launch or migration: meta tags, HTML semantics, Core Web Vitals, structured data and dates, social previews, crawl health (redirects, canonical, sitemap, link graph, URL form), content trust signals and local presence. The matching rules of robots.txt and sitemap limits are seo-crawl-control-pitfalls; diagnosing a poor vital is cwv-diagnosis-pitfalls."
 ---
 
 # seo
@@ -29,6 +29,8 @@ a share card adds §6.
 | 5 | Crawl and index health of a built site: statuses, redirects, canonical and directive conflicts, sitemap, link graph, URL form | before a launch or migration, a URL change, or a site audit | [`05-crawl-health.md`](./references/05-crawl-health.md) |
 | 6 | Structured data types, dates and social previews | JSON-LD is added, a date or an author is published, or a page is meant to be shared | [`06-structured-data-social.md`](./references/06-structured-data-social.md) |
 | 7 | Content trust signals and local presence | a site publishes advice or articles, a sensitive subject, or a physical location | [`07-content-trust-local.md`](./references/07-content-trust-local.md) |
+
+How a `robots.txt` is actually matched, and the sitemap size limits, are in `skills/seo-crawl-control-pitfalls`; finding the cause of a poor vital is `skills/cwv-diagnosis-pitfalls`, and §3 here stays the page rules.
 
 ## Output / checkpoint
 The sections reviewed on the diff touched; for a broader audit of a site already in production

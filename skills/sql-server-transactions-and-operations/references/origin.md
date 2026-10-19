@@ -4,9 +4,7 @@
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No SQL Server instance was used while
-writing it. This block is meant to be folded into the same-topic sections of `sql-conventions` (transactions
-and locking, DDL) and of the safe-migrations reference of `devops-conventions`, both on the unmerged branch
-`feat/antislop-lot` (PR 118), when PR 118 lands; until then it stands alone.
+writing it. Overlaps with `skills/sql-conventions` and `skills/devops-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

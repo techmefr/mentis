@@ -45,5 +45,4 @@ treated as data and not followed.
 
 ## Related blocks
 `skills/testing-anti-patterns`, `skills/laravel-permissions-not-roles`, `skills/laravel-conventions`,
-`skills/run-generated-tests`, `skills/laravel-tenant-context-by-default`. Fold into the same-topic block when
-#118 lands.
+`skills/run-generated-tests`, `skills/laravel-tenant-context-by-default`. Overlaps with `skills/laravel-conventions` §9 (2026-10-19); cross-referenced, not merged.

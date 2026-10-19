@@ -45,6 +45,4 @@ reading code only is not verified.
 ## Origin
 Rewritten from the SQL Server documentation (CC-BY-4.0), the tsqllint rule documents and the Brent Ozar First
 Responder Kit check lists and code (MIT), read 2026-10-08. 🟡: never run by us; open points are in
-[`references/origin.md`](./references/origin.md). The general SQL conventions block (`sql-conventions`) lives
-only on the unmerged branch `feat/antislop-lot` (PR 118); this block is meant to be folded into the same-topic
-sections of that block when PR 118 lands, and stands alone until then.
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/sql-conventions` (2026-10-19); cross-referenced, not merged.

@@ -1,6 +1,6 @@
 ---
 name: accessibility
-description: "Use when writing or reviewing a frontend page or app, technical accessibility checklist: HTML semantics, focus and keyboard, contrast, ARIA, forms. Sourced from WCAG 2.2 level AA."
+description: "Use when writing or reviewing a frontend page or app, technical accessibility checklist: HTML semantics, focus and keyboard, contrast, ARIA, forms. Sourced from WCAG 2.2 level AA. Lint wiring of the accessibility plugins is a11y-lint-wiring-pitfalls; hiding content and simple data tables are a11y-hiding-and-tables-pitfalls."
 ---
 
 # accessibility
@@ -45,6 +45,8 @@ tabs, accordion, carousel or other composite widget is §8.
 | 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | [`06-document-structure.md`](./references/06-document-structure.md) |
 | 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | [`07-media-motion.md`](./references/07-media-motion.md) |
 | 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | [`08-aria-validity-widgets.md`](./references/08-aria-validity-widgets.md) |
+
+For wiring the lint plugins so a green run means something, see `skills/a11y-lint-wiring-pitfalls`; for the three mechanisms of hiding content and the markup of a simple data table, see `skills/a11y-hiding-and-tables-pitfalls` (§6 here keeps the diff-level table rules).
 
 ## Output / checkpoint
 The sections reviewed on the diff touched; for a broader audit of a page/site already in production

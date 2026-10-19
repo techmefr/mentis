@@ -6,7 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real service by us. No image was built
 and no process was started while writing it.
 
-This block is meant to be folded into the same-topic container or deployment block when PR 118 lands. It
+Overlaps with `skills/dockerfile-build-pitfalls` (2026-10-19); cross-referenced, not merged. It
 cross-links only blocks that exist on main.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)

@@ -49,6 +49,5 @@ request on one process is not verified.
 
 ## Origin
 Rewritten from the SQLAlchemy, FastAPI, Starlette and AnyIO documentation, the FastAPI and Pydantic
-repositories' own agent skills (MIT), read 2026-10-08. This block is meant to be folded into the same-topic
-ORM, web-API and FastAPI sections when PR 118 lands. 🟡: never run by us; open points are in
+repositories' own agent skills (MIT), read 2026-10-08. Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

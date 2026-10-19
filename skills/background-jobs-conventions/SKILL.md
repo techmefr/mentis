@@ -1,13 +1,13 @@
 ---
 name: background-jobs-conventions
-description: Use when writing or changing anything that runs outside the request cycle (a queued job, a worker, a scheduled task, a message consumer), to keep async work from failing silently.
+description: "Use when writing or changing anything that runs outside the request cycle (a queued job, a worker, a scheduled task, a message consumer), to keep async work from failing silently. Retries across replicas, locks, outbox and outbound call policy of a Node or NestJS service are nestjs-reliability."
 ---
 
 # background-jobs-conventions
 
 Step 6 of the pipeline (`WORKFLOW.md`), for work that happens after the response has been sent.
 The defining property of a background job is that **no user is watching when it fails**: there's no
-red screen, no failed request, no one to report it. Every rule here exists because of that.
+red screen, no failed request, no one to report it. Every rule here exists because of that. For a Node or NestJS service on several replicas (idempotency keys, leases and fencing, outbox and inbox, outbound call policy), see `skills/nestjs-reliability`; §1 below states the principle and that block the mechanisms.
 
 ## When
 As soon as a diff adds or changes: a queued job, a worker, a scheduled/cron task, a message

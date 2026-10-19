@@ -4,9 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and source reading, never run by us. No Rails application, job
-backend or database was run. This block is meant to be folded into `rails-conventions` when the extended
-version of that block (the unmerged PR 118 branch) lands; until then it stands alone and cites only sections
-that exist on the main branch or in this block.
+backend or database was run. Overlaps with `skills/rails-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

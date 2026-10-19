@@ -79,7 +79,7 @@ Forbidden:
   was a subagent delegating to its own nested `Agent` call and returning a fabricated report.
 - Never edit `CATALOG.md` or `README.md` — the dispatching session owns those.
 - Never `git commit`, `git add`, or `git push`.
-- **Never read or copy the XEFI marketplace's content**, never write its literal filesystem path
+- **Never read or copy an org-private marketplace's content**, never write its literal filesystem path
   into a tracked file (rule C / `global:no-skill-export`).
 - **`sudo` is never assumed available.** If a toolchain needs a system package and no
   passwordless `sudo` exists, install to the user's own home directory or report the exact command

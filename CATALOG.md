@@ -245,43 +245,43 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | node-container-runtime | 6 (new 2026-10-08) | the Nest 12 documentation and nodejs/docker-node best practices (MIT), the Node.js documentation; unverified version claims listed in `references/origin.md` | 🟡 (written from documentation, nothing run) |
 | nestjs-integration-patterns | 6 (new 2026-10-08) | the Nest 12 documentation (MIT; the deprecation chapter is CC BY 4.0, attributed in `references/origin.md`) and three MIT agent-skill catalogues; the rate-limiter failure policy and two OpenAPI/request-id rules are our own judgement and labelled so | 🟡 (written from documentation, nothing run) |
 | prisma-ops-and-test-hygiene | 6 (new 2026-10-08) | the Prisma documentation and an MIT migration-review skill; MIT testing catalogues; Stryker and fast-check documentation; CC-BY-SA repos idea-only | 🟡 (written, not dogfooded yet; Prisma version boundaries noted in `references/origin.md`) |
-| angular-signals-rxjs-ssr-pitfalls | 6 (new 2026-10-08) | the Angular and angular-eslint repositories (MIT) and the Angular documentation, plus an MIT agent-skill catalogue; a counter-example catalogue with harmful rules was read and ruled out; merge-intent into the `angular` block when PR 118 lands | 🟡 (written from documentation, nothing built; doc snapshot is main-branch, versions to check) |
+| angular-signals-rxjs-ssr-pitfalls | 6 (new 2026-10-08) | the Angular and angular-eslint repositories (MIT) and the Angular documentation, plus an MIT agent-skill catalogue; a counter-example catalogue with harmful rules was read and ruled out; overlaps with `skills/angular-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (written from documentation, nothing built; doc snapshot is main-branch, versions to check) |
 | htmx-protocol-pitfalls | 6 (new 2026-10-08) | the htmx repository (BSD Zero-Clause, v2.0.x only; no `hx-partial` material used) cross-checked in docs and source | 🟡 (written, not dogfooded yet) |
 | solid-ownership-pitfalls | 6 (new 2026-10-08) | the Solid documentation, eslint-plugin-solid (MIT) and one MIT agent-skill catalogue; scoped to Solid 1.x (2.0 is still a pre-release) | 🟡 (several rules rest on the MIT source alone, listed in `references/origin.md`) |
 | astro-images-templates-pitfalls | 6 (new 2026-10-08) | the Astro documentation, astro-doctor and incluud skills (MIT); an upgrade checklist for a superseded major was dropped | 🟡 (written, not dogfooded yet) |
 | web-components-lifecycle-pitfalls | 6 (new 2026-10-08) | WHATWG and MDN custom-elements documentation and eslint-plugin-wc (MIT) | 🟡 (written, not dogfooded yet) |
-| ci-workflow-hardening | 6 (new 2026-10-08) | an MIT Python agent-skill catalogue (Paldom), the GitHub Actions, CODEOWNERS and Dependabot documentation, the uv and pip-audit documentation; several settings rest on the MIT source alone, listed in `references/origin.md`; merge-intent into `devops-conventions`/`security-hardening` when PR 118 lands | 🟡 (written from documentation, nothing run) |
+| ci-workflow-hardening | 6 (new 2026-10-08) | an MIT Python agent-skill catalogue (Paldom), the GitHub Actions, CODEOWNERS and Dependabot documentation, the uv and pip-audit documentation; several settings rest on the MIT source alone, listed in `references/origin.md`; overlaps with `skills/devops-conventions` and `skills/security-hardening` (2026-10-19); cross-referenced, not merged | 🟡 (written from documentation, nothing run) |
 | python-container-runtime | 6 (new 2026-10-08) | the uv Docker guide and uv-docker-example (Apache-2.0 or MIT), the Python and Docker documentation | 🟡 (nothing built) |
 | python-testing-strictness | 6 (new 2026-10-08) | the pytest, pytest-asyncio (Apache-2.0) and ruff documentation and an MIT catalogue; all coverage.py settings from the MIT source only | 🟡 (written, not dogfooded yet) |
 | python-sqlalchemy-fastapi-pitfalls | 6 (new 2026-10-08) | the SQLAlchemy, FastAPI, pydantic, anyio and Starlette documentation (MIT/BSD) and an MIT catalogue; pool-budget reasoning is ours | 🟡 (written, not dogfooded yet) |
 | python-hygiene-pitfalls | 6 (new 2026-10-08) | the Google Python style guide (CC-BY-3.0, attributed in `references/origin.md`), the Python documentation and an MIT catalogue | 🟡 (written, not dogfooded yet) |
-| dotnet-async-exception-pitfalls | 6 (new 2026-10-08) | the Microsoft .NET documentation (CC-BY-4.0) and analyzer rule pages (Meziantou.Analyzer, ErrorProne.NET, vs-threading rule titles); idea-only sources were not phrased from; merge-intent into `dotnet-conventions` when PR 118 lands | 🟡 (verification pass 2026-10-08; removed and still-unverified lists in `references/origin.md`; nothing compiled) |
-| dotnet-aspnet-efcore-pitfalls | 6 (new 2026-10-08) | the ASP.NET Core and EF Core documentation (CC-BY-4.0) and an MIT .NET agent-skill catalogue; merge-intent into `dotnet-conventions` when PR 118 lands | 🟡 (verification pass 2026-10-08; nothing compiled) |
+| dotnet-async-exception-pitfalls | 6 (new 2026-10-08) | the Microsoft .NET documentation (CC-BY-4.0) and analyzer rule pages (Meziantou.Analyzer, ErrorProne.NET, vs-threading rule titles); idea-only sources were not phrased from; overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (verification pass 2026-10-08; removed and still-unverified lists in `references/origin.md`; nothing compiled) |
+| dotnet-aspnet-efcore-pitfalls | 6 (new 2026-10-08) | the ASP.NET Core and EF Core documentation (CC-BY-4.0) and an MIT .NET agent-skill catalogue; overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (verification pass 2026-10-08; nothing compiled) |
 | dotnet-blazor-conventions | 6 (new 2026-10-08) | the ASP.NET Core Blazor documentation (CC-BY-4.0) and dotnet/skills (MIT); mentis had no Blazor block | 🟡 (verification pass 2026-10-08; own guidance marked in `references/origin.md`) |
 | dotnet-container-runtime | 6 (new 2026-10-08) | the .NET GC, runtime configuration and Docker documentation (CC-BY-4.0) and the dotnet-docker samples (MIT) | 🟡 (verification pass 2026-10-08; nothing built) |
 | polly-resilience-pitfalls | 6 (new 2026-10-08) | the Polly documentation (BSD-3-Clause) | 🟡 (API names read from the docs, not compiled) |
-| jvm-pitfalls | 6 (new 2026-10-08) | the Error Prone documentation and skydoves-style skills (Apache-2.0), NullAway (MIT); merge-intent into `java-conventions` when PR 118 lands | 🟡 (version stamps and not-verified list in `references/origin.md`; nothing compiled) |
-| jpa-hibernate-pitfalls | 6 (new 2026-10-08) | the Hibernate 7 and Spring Framework/Boot documentation and an MIT Spring catalogue; Flyway/Liquibase specifics deliberately not written; merge-intent into `spring-boot-conventions` when PR 118 lands | 🟡 (version stamps in `references/origin.md`) |
+| jvm-pitfalls | 6 (new 2026-10-08) | the Error Prone documentation and skydoves-style skills (Apache-2.0), NullAway (MIT); overlaps with `skills/java-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (version stamps and not-verified list in `references/origin.md`; nothing compiled) |
+| jpa-hibernate-pitfalls | 6 (new 2026-10-08) | the Hibernate 7 and Spring Framework/Boot documentation and an MIT Spring catalogue; Flyway/Liquibase specifics deliberately not written; overlaps with `skills/spring-boot-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (version stamps in `references/origin.md`) |
 | jvm-test-infrastructure | 6 (new 2026-10-08) | the Testcontainers (MIT), Spring Framework test and Awaitility documentation | 🟡 (Testcontainers docs read from repo head, not a release) |
 | jvm-resilience-observability | 6 (new 2026-10-08) | the Resilience4j (Apache-2.0), Micrometer and Spring Boot actuator documentation; several rules are our own guidance and marked so | 🟡 (Resilience4j names unconfirmed for Boot 4) |
-| compose-correctness | 6 (new 2026-10-08) | the Android Jetpack Compose documentation and four skydoves skills (Apache-2.0); merge-intent into `kotlin-android-conventions` when PR 118 lands | 🟡 (Compose docs as of 2026-10-01) |
-| go-container-runtime | 6 (new 2026-10-08) | go.dev release notes 1.22 to 1.27, the Go GC guide and `net/http`, `runtime`, `os/signal` package docs (BSD-3); thockin/go-build-template (Apache-2.0), uber-go/automaxprocs (MIT); merge-intent into `go-conventions` when PR 118 lands | 🟡 (Go version stamps and not-verified list in `references/origin.md`; nothing built) |
-| go-http-resilience-pitfalls | 6 (new 2026-10-08) | the `net/http`, `context` and `database/sql` package docs and Go source doc comments; retry and backoff rules are our own guidance and labelled so; merge-intent into `go-conventions` | 🟡 (written from documentation, nothing run) |
+| compose-correctness | 6 (new 2026-10-08) | the Android Jetpack Compose documentation and four skydoves skills (Apache-2.0); overlaps with `skills/kotlin-android-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (Compose docs as of 2026-10-01) |
+| go-container-runtime | 6 (new 2026-10-08) | go.dev release notes 1.22 to 1.27, the Go GC guide and `net/http`, `runtime`, `os/signal` package docs (BSD-3); thockin/go-build-template (Apache-2.0), uber-go/automaxprocs (MIT); overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (Go version stamps and not-verified list in `references/origin.md`; nothing built) |
+| go-http-resilience-pitfalls | 6 (new 2026-10-08) | the `net/http`, `context` and `database/sql` package docs and Go source doc comments; retry and backoff rules are our own guidance and labelled so; overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (written from documentation, nothing run) |
 | go-performance | 6 (new 2026-10-08) | go.dev diagnostics, GC guide and release notes, `testing` and `runtime` docs; idea-only sources (go-perfbook CC-BY-SA, 100-go-mistakes) not phrased from, stated in `references/origin.md` | 🟡 (written from documentation, nothing run) |
 | go-tooling-testing-security | 6 (new 2026-10-08) | go.dev fuzzing, race-detector and vulnerability guides, `testing/synctest`, `os`, `crypto/rand`, `html/template` docs; uber-go/goleak (MIT), securego/gosec (Apache-2.0), mvdan/gofumpt (BSD), uber-go/guide (Apache-2.0) | 🟡 (govulncheck and `os.Root` limits not fully verified) |
 | flutter-agent-loop | 6 (new 2026-10-08) | the Dart and Flutter MCP server documentation and an MIT Flutter skill catalogue (rolandtolnay; its private-widget-method checklist deliberately not adopted); server read from its README, not a running server | 🟡 (written from documentation, nothing run) |
 | flutter-startup-error-hooks | 6 (new 2026-10-08) | the Flutter and Dart documentation (CC-BY) and the Riverpod docs; the zone question is left to the crash SDK's own guide because two MIT sources disagree; extends `flutter-conventions` §9 and §7 | 🟡 (written from documentation, nothing run) |
 | flutter-notifications-background | 6 (new 2026-10-08) | the Flutter, Firebase and Android documentation, the notification plugin README (v22.3.1) and deep-link cookbooks; platform site terms not read, facts only; OEM background-kill and numeric budget rules dropped | 🟡 (several figures taken from fetch summaries, listed in `references/origin.md`) |
-| flutter-native-bridge-ffi | 6 (new 2026-10-08) | the `dart:ffi`, platform channel and Pigeon documentation and the Flutter native-assets docs (BSD/CC-BY); merge-intent into `flutter-conventions` when PR 118 lands | 🟡 (written from documentation, nothing run) |
-| flutter-release-toolchain-hygiene | 6 (new 2026-10-08) | the Flutter and pub.dev documentation, flutter/agent-plugins (BSD-3), Apple and Google Play documentation for release facts; store-policy items dropped for lack of a page read; §2-§4 fold into `mobile-release` and the toolchain and CI-gate sections of `flutter-conventions` when PR 118 lands | 🟡 (some figures from fetch summaries) |
-| swiftui-correctness | 6 (new 2026-10-08) | the SwiftUI and Swift documentation (facts only, Apple text not copied), twostraws and AvdLee SwiftUI skill repositories (MIT) and rusel95/ios-agent-skills; opinionated single-source recipes (TCA, snapshot, VIPER) not written; merge-intent into `swift-conventions` when PR 118 lands | 🟡 (Swift 6.4 interoperability thresholds not verified; nothing built) |
-| swift-testing | 6 (new 2026-10-08) | the Swift Testing and XCTest documentation (facts only) and the AvdLee and rusel95 skill repositories (MIT); merge-intent into `swift-conventions` | 🟡 (several rules rest on one skill repository and are marked so in `references/origin.md`) |
+| flutter-native-bridge-ffi | 6 (new 2026-10-08) | the `dart:ffi`, platform channel and Pigeon documentation and the Flutter native-assets docs (BSD/CC-BY); overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (written from documentation, nothing run) |
+| flutter-release-toolchain-hygiene | 6 (new 2026-10-08) | the Flutter and pub.dev documentation, flutter/agent-plugins (BSD-3), Apple and Google Play documentation for release facts; store-policy items dropped for lack of a page read; overlaps with `skills/mobile-release` and `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (some figures from fetch summaries) |
+| swiftui-correctness | 6 (new 2026-10-08) | the SwiftUI and Swift documentation (facts only, Apple text not copied), twostraws and AvdLee SwiftUI skill repositories (MIT) and rusel95/ios-agent-skills; opinionated single-source recipes (TCA, snapshot, VIPER) not written; overlaps with `skills/swift-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (Swift 6.4 interoperability thresholds not verified; nothing built) |
+| swift-testing | 6 (new 2026-10-08) | the Swift Testing and XCTest documentation (facts only) and the AvdLee and rusel95 skill repositories (MIT); overlaps with `skills/swift-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (several rules rest on one skill repository and are marked so in `references/origin.md`) |
 | android-edge-to-edge-insets | 6 (new 2026-10-08) | the developer.android.com edge-to-edge, insets, keyboard and Android 16/17 behaviour-change pages (facts only, re-verified from full page text) and the Apache-2.0 Android agent skill | 🟡 (skill-only rules marked as such; source tension on `contentPadding` kept) |
-| android-security-hardening | 6 (new 2026-10-08) | the developer.android.com exported-component, intent-redirection, PendingIntent, Play Integrity and Keystore pages (facts only, re-verified); OWASP mastg was not phrased from (CC BY-SA); merge-intent into `security-hardening` | 🟡 (several manifest and token-decryption points still unverified, listed in `references/origin.md`) |
-| android-agp9-r8-gradle | 6 (new 2026-10-08) | the Android Gradle plugin 9, R8 optimisation and Gradle documentation (facts only, re-verified); AGP 9.1 to 9.4 release notes not read; merge-intent into `kotlin-android-conventions` and `mobile-release` | 🟡 (nothing built) |
-| zig-pitfalls | 6 (new 2026-10-08) | the Zig 0.17.0 language reference, release notes and build system pages (read from ziglang.org); two self-contradictions in those docs are flagged in `references/origin.md`; merge-intent into the `zig` block when PR 118 lands | 🟡 (nothing compiled; check the pinned toolchain) |
+| android-security-hardening | 6 (new 2026-10-08) | the developer.android.com exported-component, intent-redirection, PendingIntent, Play Integrity and Keystore pages (facts only, re-verified); OWASP mastg was not phrased from (CC BY-SA); overlaps with `skills/security-hardening` (2026-10-19); cross-referenced, not merged | 🟡 (several manifest and token-decryption points still unverified, listed in `references/origin.md`) |
+| android-agp9-r8-gradle | 6 (new 2026-10-08) | the Android Gradle plugin 9, R8 optimisation and Gradle documentation (facts only, re-verified); AGP 9.1 to 9.4 release notes not read; overlaps with `skills/kotlin-android-conventions` and `skills/mobile-release` (2026-10-19); cross-referenced, not merged | 🟡 (nothing built) |
+| zig-pitfalls | 6 (new 2026-10-08) | the Zig 0.17.0 language reference, release notes and build system pages (read from ziglang.org); two self-contradictions in those docs are flagged in `references/origin.md`; overlaps with `skills/zig-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (nothing compiled; check the pinned toolchain) |
 | systems-assertion-discipline | 6 (new 2026-10-08) | TigerBeetle's TIGER_STYLE (Apache-2.0), the Rust and C/C++ assertion documentation (facts only); figures of the source are its own and marked so | 🟡 (nothing compiled) |
-| rust-async-unsafe-pitfalls | 6 (new 2026-10-08) | the Rust async book (MIT), Tokio sources (MIT), the Rustonomicon (MIT OR Apache-2.0), Clippy and Miri documentation and the Microsoft Rust guidelines (MIT); a Rustonomicon disagreement between two chapters is reconciled as own guidance and labelled; merge-intent into the `rust` block when PR 118 lands | 🟡 (nothing compiled or run under Miri) |
+| rust-async-unsafe-pitfalls | 6 (new 2026-10-08) | the Rust async book (MIT), Tokio sources (MIT), the Rustonomicon (MIT OR Apache-2.0), Clippy and Miri documentation and the Microsoft Rust guidelines (MIT); a Rustonomicon disagreement between two chapters is reconciled as own guidance and labelled; overlaps with `skills/rust-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (nothing compiled or run under Miri) |
 | rust-test-supply-chain-ci | 6 (new 2026-10-08) | the nextest, proptest, cargo-mutants, loom, cargo-deny, cargo-semver-checks and cargo-hack documentation and the Cargo book (MIT or Apache-2.0); an instruction aimed at an LLM found in one repository file was treated as data | 🟡 (some tool flags not read, listed in `references/origin.md`) |
 | cpp-build-and-lifetime-pitfalls | 6 (new 2026-10-08) | the C++ working draft, CMake 4.4 manual, GCC and Clang sanitizer documentation, the Google C++ style guide (CC BY 3.0, attributed) and cmake_template (Unlicense); the C++ Core Guidelines, cppbestpractices and c-style are idea-only and not phrased from | 🟡 (nothing configured or built) |
 | persona-ux-audit | 8 (complement) | own guidance from a persona-based QA audit prompt (owner-supplied) | 🟡 (never dogfooded) |
@@ -695,9 +695,9 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 25,052 | +5,183 | x0.79 |
 | python | 20 / 22,097 | 2 / 24,347 | +2,250 | x0.91 |
 | project-management | 10 / 14,536 | 2 / 15,138 | +602 | x0.96 |
-| bi, design, xefi | 16 / 17,306 | 4 / 29,680 | +12,374 | x0.58 |
+| bi, design, xefi | 16 / 17,306 | 4 / 29,717 | +12,411 | x0.58 |
 | global | 18 / 20,280 | 6 / 34,629 | +14,349 | x0.59 |
-| react | 36 / 9,302 | 1 / 18,937 | +9,635 | x0.49 |
+| react | 36 / 9,302 | 1 / 18,979 | +9,677 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -729,8 +729,8 @@ nuxt: vue-nuxt-vuetify-conventions 25,052
 global: code-baseline 10,355, security-hardening 9,844, api-design 6,655, documentation-adr 2,909, observability-instrumentation 3,907, run-generated-tests 959
 project-management: product-ownership 9,343, spec 5,795
 design-patterns: design-patterns 10,965
-react: react-nextjs-conventions 18,937
-bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,857
+react: react-nextjs-conventions 18,979
+bi, design, xefi: data-analytics 4,520, interface-design 10,451, ux-writing 5,852, accessibility 8,894
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every
@@ -2006,7 +2006,7 @@ Two background subagents, dispatched to go faster on "worst-ratio-first" widenin
 each other: one widened `dotnet-conventions`' three thinnest sections (§7, §1, §4 — 10,432 → 11,762
 words, x5.44 → x4.82), the other widened `laravel-conventions`' three thinnest sections (§2, §5, §8 —
 15,419 → 16,839 words, taking `laravel` from x3.13 to x2.99). Both stayed inside the same constraint as
-every widening pass: no XEFI marketplace content read, only public official documentation (Microsoft
+every widening pass: no org-private marketplace content read, only public official documentation (Microsoft
 Learn for .NET, Laravel's own docs for Sanctum/broadcasting/notifications) synthesised in mentis's own
 voice, and neither agent touched `CATALOG.md`/`README.md` or committed — that integration stayed in the
 main session. `bin/check_citations.py` stayed at 0 unresolved after both passes. Six widening passes total
@@ -2021,7 +2021,7 @@ previous round (5 files per stack instead of 2-3, 500-700 words each): `csharp` 
 §9 of `dotnet-conventions`, x4.82 → x3.97), `laravel` (§1, §3, §4, §6, §7, §10, §11 of
 `laravel-conventions`, x2.99 → x2.69) and `python` (§1, §2, §3, §5, §6 of `python-conventions`,
 x1.88 → x1.52). All three sourced only from public official documentation (Microsoft Learn,
-Laravel's own docs, PEP/stdlib docs) plus this repo's own existing text — no XEFI marketplace
+Laravel's own docs, PEP/stdlib docs) plus this repo's own existing text — no org-private marketplace
 content read. One of the three background attempts (the first `laravel` dispatch) delegated to a
 nested sub-agent instead of doing the work directly and reported success with zero files changed;
 caught by checking `git status` before trusting the report, and re-dispatched with an explicit
@@ -2036,7 +2036,7 @@ Continuing worst-ratio-first: `csharp` (x3.97 → x3.31, 5 more sections of `dot
 `laravel` (x2.69 → x2.48, 5 more sections of `laravel-conventions`, all files in that block now
 widened at least once) and `flutter` (x1.82 → x1.48, 5 sections of `flutter-conventions`, its
 first widening pass). All three sourced from public official documentation only (Microsoft
-Learn/.NET Blog, Laravel docs, flutter.dev/dart.dev) — no XEFI marketplace content read, and this
+Learn/.NET Blog, Laravel docs, flutter.dev/dart.dev) — no org-private marketplace content read, and this
 round's agent prompts explicitly forbade writing the marketplace's literal filesystem path into
 any file (an earlier pass had written it into `origin.md` and tripped the secrets-scan suite in
 `bin/pre-push`). `bin/check_citations.py` stayed at 0 unresolved. `csharp` and `laravel` remain
@@ -2048,7 +2048,7 @@ Continuing worst-ratio-first: `design-patterns` (x1.65 → x1.3, first widening 
 its five thinnest sections), `nuxt` (x1.57 → x1.37, five sections of `vue-nuxt-vuetify-conventions`)
 and `csharp` (x3.31 → x2.88, a fourth pass on `dotnet-conventions`, now every section widened at
 least twice). All sourced from public documentation only (refactoring.guru/GoF-style pattern
-literature, vuejs.org/vuetifyjs.com, Microsoft Learn/.NET Blog) — no XEFI marketplace content
+literature, vuejs.org/vuetifyjs.com, Microsoft Learn/.NET Blog) — no org-private marketplace content
 read, no literal marketplace path written anywhere. `bin/check_citations.py` stayed at 0
 unresolved; one agent introduced a self-citation typo (`§8` where the block has no §8) and caught
 and fixed it itself before reporting. `laravel` and `csharp` remain the two worst ratios, both
@@ -2061,7 +2061,7 @@ Continuing worst-ratio-first: `csharp` (x2.88 → x2.43, a fifth pass on `dotnet
 (x1.26 → x1.07, first widening pass, split across `business/product-ownership` and `skills/spec`
 — now within a thousand words of parity, the closest any under-parity stack has come). All
 sourced from public documentation only (Microsoft Learn/.NET Blog/Polly docs, Laravel 12.x docs,
-public product-ownership/agile literature) — no XEFI marketplace content read, no literal
+public product-ownership/agile literature) — no org-private marketplace content read, no literal
 marketplace path written. `bin/check_citations.py` stayed at 0 unresolved. `laravel` and `csharp`
 remain the two worst ratios by a wide margin (both still five-figure word deficits); every other
 tracked stack is now under x1.55.
@@ -2074,7 +2074,7 @@ second pass, this time on the three sections the first pass hadn't reached). The
 dispatch found nothing left to add — it correctly detected that a prior pass in this same session
 had already widened its five assigned files and reported that honestly instead of duplicating
 content, so it was re-dispatched at the three untouched files instead. All sourced from public
-documentation only — no XEFI marketplace content read, no literal marketplace path written.
+documentation only — no org-private marketplace content read, no literal marketplace path written.
 `bin/check_citations.py` stayed at 0 unresolved. `laravel` and `csharp` are now both just above
 x2, the closest they've been; every other stack is under x1.5.
 
@@ -2085,7 +2085,7 @@ Continuing worst-ratio-first: `csharp` (x2.12 → x1.89, a seventh pass on `dotn
 second pass on `flutter-conventions`, its five previously-untouched sections). This is the first
 time either `csharp` or `laravel` has been below x2 since this widening programme started — both
 began the day at x5+ (`csharp` x5.83, `laravel` x3.13 as tracked earlier in this log). All sourced
-from public documentation only — no XEFI marketplace content read, no literal marketplace path
+from public documentation only — no org-private marketplace content read, no literal marketplace path
 written. `bin/check_citations.py` stayed at 0 unresolved (one agent introduced a stale
 self-citation off-by-one, `§1.40` where the section only reached point 39, and caught and fixed
 it before reporting). Every tracked stack is now under x2; `python` (x1.39), `nuxt` (x1.37) and
@@ -2095,7 +2095,7 @@ it before reporting). Every tracked stack is now under x2; `python` (x1.39), `nu
 
 Continuing worst-ratio-first: `laravel` (x1.96 → x1.81, a seventh pass), `csharp` (x1.89 → x1.70,
 an eighth pass) and `python` (x1.39 → x1.21, a third pass, its five original files re-widened).
-All sourced from public documentation only — no XEFI marketplace content read, no literal
+All sourced from public documentation only — no org-private marketplace content read, no literal
 marketplace path written. `bin/check_citations.py` stayed at 0 unresolved across all three. Every
 tracked stack is now under x1.85; `nuxt` (x1.37), `flutter` (x1.27), `design-patterns` (x1.3) and
 `project-management` (x1.07) are the remaining gaps, all under 6,000 words each.
@@ -2119,7 +2119,7 @@ require for the default case.
 
 Continuing worst-ratio-first: `laravel` (x1.81 → x1.69, an eighth pass on 01/02/03/05/10), `csharp`
 (x1.70 → x1.55, a ninth pass on 02/03/04/05/09) and `nuxt` (x1.37 → x1.18, a second pass on
-02/03/05/06/07). All sourced from public documentation only — no XEFI marketplace content read, no
+02/03/05/06/07). All sourced from public documentation only — no org-private marketplace content read, no
 literal marketplace path written. `bin/check_citations.py` stayed at 0 unresolved across all three.
 Remaining gaps: `flutter` (x1.27), `python` (x1.21), `design-patterns` (x1.3), `project-management`
 (x1.07).
@@ -2130,7 +2130,7 @@ Continuing worst-ratio-first on the last three real gaps: `flutter` (x1.27 → x
 01/02/04/06/09), `python` (x1.21 → x1.05, a fourth pass — the four untouched `data-pipeline-conventions`
 files plus `python-conventions` §5, the one section never widened in a dedicated pass) and
 `design-patterns` (x1.3 → x1.11, a second pass on §3/§5/§6). All sourced from public documentation only
-— no XEFI marketplace content read, no literal marketplace path written. `bin/check_citations.py` stayed
+— no org-private marketplace content read, no literal marketplace path written. `bin/check_citations.py` stayed
 at 0 unresolved across all three (design-patterns' pass caught and fixed two bad local self-citations,
 `§9`/`§10` corrected to `§6.9`/`§6.10`, before reporting). Every tracked stack is now at or under x1.18;
 `project-management` (x1.07) is the only one left above parity, by a 922-word margin.
@@ -2139,7 +2139,7 @@ at 0 unresolved across all three (design-patterns' pass caught and fixed two bad
 
 Solo pass (no parallel agents needed for a single stack): `skills/spec` §5 (ADR) and §2 (CONTEXT.md), then
 `business/product-ownership` §9 (author-is-the-builder) — sourced from public ADR/requirements-vocabulary
-practice and this repo's own pipeline experience, no XEFI marketplace content read. `project-management`
+practice and this repo's own pipeline experience, no org-private marketplace content read. `project-management`
 goes from x1.07 to **x1.01** (−84 words, effectively parity). `bin/check_citations.py` stayed at 0
 unresolved. **Every tracked stack in the depth table is now at or under x1.18, and most are within a few
 percent of parity** — this closes the worst-ratio-first widening programme run across this session, which

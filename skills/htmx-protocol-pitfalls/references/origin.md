@@ -6,10 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run against a real server by us. No request was
 sent and no page was loaded while writing it.
 
-**Merge intent.** A broader htmx and Alpine conventions block exists only on the unmerged branch of the
-frontend sourcing pull request (118). This block was written standalone, with a name that cannot collide, to
-hold the gaps found in a comparison against it. It is meant to be merged into the same-named framework block
-when that pull request lands, section by section, and then removed.
+**Overlap note.** A broader htmx and Alpine conventions block now exists as `skills/htmx-alpine-conventions`. This block was written standalone to hold the gaps found in a comparison against it. Overlaps with `skills/htmx-alpine-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Version scope
 **htmx 2.0.x.** The repository checkout read is the 2.0.11 release commit; its package version and the

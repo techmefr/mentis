@@ -4,9 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. Nothing was configured, built or run
-under a sanitizer while writing it. This block is meant to be folded into the C++ language block when the
-extended systems-language blocks (the unmerged PR 118 branch) land; until then it stands alone and cites only
-sections that exist on the main branch or in this block.
+under a sanitizer while writing it. Overlaps with `skills/cpp-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

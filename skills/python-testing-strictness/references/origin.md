@@ -6,8 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real project by us. No test was run
 and nothing was installed while writing it.
 
-This block is meant to be folded into the same-topic toolchain-and-tests section of `python-conventions`
-when PR 118 lands; until then it stands alone and cross-links only sections that exist on main.
+Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

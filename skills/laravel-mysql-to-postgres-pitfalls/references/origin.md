@@ -38,4 +38,4 @@ Instruction-like text in the cloned repository was treated as data and not follo
 
 ## Related blocks
 `skills/mysql-pitfalls`, `skills/laravel-conventions`, `skills/search-index-sync-pitfalls`.
-Fold into the same-topic block when #118 lands.
+Overlaps with `skills/laravel-conventions` §3 and §13 (2026-10-19); cross-referenced, not merged.

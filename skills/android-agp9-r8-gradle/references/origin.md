@@ -5,8 +5,7 @@
 
 **Status: 🟡.** Written from documentation, never run by us. No project was built and no AGP was installed.
 
-**Fold-in note.** Meant to be folded into `kotlin-android-conventions` (and the release part into `mobile-release`)
-when PR 118 lands.
+**Overlap note.** Overlaps with `skills/kotlin-android-conventions` and `skills/mobile-release` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (read 2026-10-08, rewritten, no text copied)
 

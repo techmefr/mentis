@@ -6,8 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real service by us. No query, server
 or process was started while writing it.
 
-This block is meant to be folded into the same-topic ORM, web-API and FastAPI sections when PR 118 lands;
-until then it stands alone and cites only sections of `python-conventions` that exist on main.
+Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

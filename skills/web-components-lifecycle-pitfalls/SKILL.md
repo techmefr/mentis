@@ -13,9 +13,8 @@ an order you did not write**. Each rule says what you see when it is missed.
 Applies to elements written directly against the platform; a library that wraps the class (such as a template
 library) hides parts of this, so check what the wrapper already does before adding a guard.
 
-Standalone block, written because the broader web-components conventions block exists only on an unmerged
-branch. It is meant to be merged into the same-named framework block when that lands (see
-[`references/origin.md`](./references/origin.md)). Until then it cites only blocks present on the main branch.
+Standalone block, written while the broader web-components conventions block was still on a branch; both are now on main. Overlaps with `skills/web-components-conventions` (2026-10-19); cross-referenced, not merged. (see
+[`references/origin.md`](./references/origin.md)).
 
 ## When
 - Writing or reviewing a class that extends `HTMLElement`.

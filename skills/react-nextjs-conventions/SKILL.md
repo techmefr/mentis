@@ -56,6 +56,8 @@ trigger the diff meets, not the whole table.
 | 15 | The Server Action result contract and idempotency | a Server Action is written or reviewed: its return type, how it reports failure, what a second run does, what a deployment does to an open form | [`15-server-action-contract.md`](./references/15-server-action-contract.md) |
 | 16 | Rendering and runtime performance | a list grows, an interaction lags, a scroll or input handler is added, or something re-renders too often | [`16-rendering-runtime-performance.md`](./references/16-rendering-runtime-performance.md) |
 
+§16 overlaps §5 (when to memoise), §10 (what a dependency adds to the bundle) and §12 (lazy-loading a heavy component): the rule stays in the section that owns it, and §16 keeps only the runtime cost of rendering. Measure first with `skills/webperf`.
+
 ## Output / checkpoint
 Code compliant with the sections above. No dedicated checkpoint: compliance is checked by `gate` (7) and by
 `legolas` at review time in the `review` step (8).

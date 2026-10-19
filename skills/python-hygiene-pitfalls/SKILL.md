@@ -49,5 +49,4 @@ one under test (§3.3). A diff that was only read is not verified.
 ## Origin
 Rewritten from the Python style guide published by Google (CC-BY-3.0, attribution kept in
 [`references/origin.md`](./references/origin.md)) and the rule documentation of the Ruff linter (MIT), read
-2026-10-08. This block is meant to be folded into the same-topic sections of `python-conventions` when
-PR 118 lands. 🟡: never run by us; open points are in the origin file.
+2026-10-08. Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in the origin file.

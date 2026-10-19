@@ -38,5 +38,4 @@ without building a second provider (§2). A pipeline that was only read is not v
 
 ## Origin
 Rewritten from the Polly documentation (BSD-3-Clause) read 2026-10-08. 🟡: never run by us; open points
-are in [`references/origin.md`](./references/origin.md). It is meant to be folded into the resilience
-section of `dotnet-conventions` when the branch `feat/antislop-lot` (PR 118) lands.
+are in [`references/origin.md`](./references/origin.md). Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged.

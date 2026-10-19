@@ -1,6 +1,6 @@
 ---
 name: release-notes-writing-pitfalls
-description: "Use when release notes or a CHANGELOG file are written from commits and pull requests: reducing the history to net outcomes, selecting entries by what a consumer can observe, working from the diff and not from titles, entry wording, breaking entries (what breaks, who is hit, what to do), keeping the version number honest, announcing deprecations, tiering a release by reader impact, a verification gate that maps each claim to a diff, small note files kept with the code, and the Keep a Changelog baseline."
+description: "Use when release notes or a CHANGELOG file are written from commits and pull requests: reducing the history to net outcomes, selecting entries by what a consumer can observe, working from the diff and not from titles, entry wording, breaking entries (what breaks, who is hit, what to do), keeping the version number honest, announcing deprecations, tiering a release by reader impact, a verification gate that maps each claim to a diff, small note files kept with the code, and the Keep a Changelog baseline. Release-pull-request tooling and generated changelogs are release-changelog-pitfalls."
 ---
 
 # release-notes-writing-pitfalls
@@ -10,7 +10,7 @@ a different one**. Generated lists fail in two directions, entries with no sourc
 entry, and the damage that is hard to undo is a sentence describing a change the code did not make.
 
 `business/release-communication` is the short overview of who needs to be told what. This block is the
-writing craft: selecting, wording, versioning and checking. The mechanics of removing something that is in use
+writing craft: selecting, wording, versioning and checking. Release-pull-request tooling, squash-merge and generated changelogs are `release-changelog-pitfalls`. The mechanics of removing something that is in use
 are `deprecation-migration`; observable behaviour as an API contract is in `api-design`.
 
 ## When

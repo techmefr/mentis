@@ -4,9 +4,7 @@
 > its source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No container was started and no test
-was run while writing it. This block is meant to be folded into the .NET testing reference when the extended
-language blocks (the unmerged PR 118 branch) land; until then it stands alone and cites only blocks that exist
-on the main branch.
+was run while writing it. Overlaps with `skills/dotnet-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-16, rewritten in our own words, no text copied)
 

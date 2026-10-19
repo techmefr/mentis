@@ -3,9 +3,7 @@
 > Provenance of `skills/systems-assertion-discipline`. Read it when a rule has to be traced to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
-**Status: 🟡.** Written from documentation and reading, never run by us. This block is meant to be folded into
-the Zig, Rust, C and C++ language blocks when the extended systems-language blocks (the unmerged PR 118 branch)
-land; until then it stands alone and cites only sections that exist on the main branch or in this block.
+**Status: 🟡.** Written from documentation and reading, never run by us. Overlaps with `skills/zig-conventions` and `skills/rust-conventions` and `skills/c-conventions` and `skills/cpp-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

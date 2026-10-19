@@ -4,9 +4,7 @@
 > for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. No ClickHouse server was used while
-writing it. This is a new engine block with no same-topic block on main; it is meant to sit beside the general
-SQL conventions block (`sql-conventions`, on the unmerged branch `feat/antislop-lot`, PR 118) and be linked
-from it when PR 118 lands.
+writing it. A new engine block with no same-topic block. Overlaps with `skills/sql-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

@@ -47,6 +47,5 @@ setup step and the first step's cleanup was observed (§3). A setting that was o
 
 ## Origin
 Rewritten from the pytest and pytest-asyncio documentation, one MIT agent-skill repository for pytest and
-coverage setup and one BSD scientific-Python template's pytest guide (read 2026-10-08). This block is meant
-to be folded into the same-topic toolchain-and-tests section when PR 118 lands. 🟡: never run by us; open
+coverage setup and one BSD scientific-Python template's pytest guide (read 2026-10-08). Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open
 points are in [`references/origin.md`](./references/origin.md).

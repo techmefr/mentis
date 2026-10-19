@@ -15,9 +15,8 @@ says what you see when it is missed.
 a 7.x release. The version-6 upgrade list from the review was not written, because it targets an older major
 than the current one; check each rule against the installed version.
 
-Standalone block, written because the broader Astro conventions block exists only on an unmerged branch. It is
-meant to be merged into the same-named framework block when that lands (see
-[`references/origin.md`](./references/origin.md)). Until then it cites only blocks present on the main branch.
+Standalone block, written while the broader Astro conventions block was still on a branch; both are now on main. Overlaps with `skills/astro-conventions` (2026-10-19); cross-referenced, not merged. (see
+[`references/origin.md`](./references/origin.md)).
 
 ## When
 - A page uses `<img>`, `<Image>` or `<Picture>`, or an image comes from `public/` or from another host.

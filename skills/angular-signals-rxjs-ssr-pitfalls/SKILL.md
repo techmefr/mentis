@@ -10,10 +10,8 @@ leak, flicker, double-fetch or go stale. The sections share one premise: **a sig
 Observable is a subscription, and the server render is a different runtime from the browser one; each
 rule below names what you see when it is missed**.
 
-Standalone block, written because the broader Angular conventions block exists only on an unmerged branch.
-It is meant to be merged into the same-named framework block when that lands (see
-[`references/origin.md`](./references/origin.md)). Until then it stands alone and cites only blocks present
-on the main branch.
+Standalone block, written while the broader Angular conventions block was still on a branch; both are now on main. Overlaps with `skills/angular-conventions` (2026-10-19); cross-referenced, not merged. (see
+[`references/origin.md`](./references/origin.md)).
 
 ## When
 - A component or service turns an Observable into a signal, a signal into an Observable, or subscribes by hand.

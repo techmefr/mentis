@@ -46,4 +46,4 @@ followed.
 
 ## Related blocks
 `skills/no-catch-all-layer`, `skills/archi`, `skills/domain-modeling`, `skills/php-patterns`.
-Fold into the same-topic block when #118 lands.
+Overlaps with `skills/laravel-conventions` §9 and §10 (2026-10-19); cross-referenced, not merged.

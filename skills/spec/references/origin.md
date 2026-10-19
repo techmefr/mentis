@@ -75,7 +75,7 @@ points added after the existing numbering: §5 (ADR) and §2 (`CONTEXT.md`). Sou
 prototype's decisions not surviving into production, attributing a reason to a person rather than a
 constraint) for §5; public requirements/vocabulary practice (borrowed synonyms across features, explicit
 range boundaries, entity-identity questions, role-dependent term splits, rule exceptions kept with the
-rule, units on numbers) for §2 — both synthesised into this block's own voice, no XEFI marketplace content
+rule, units on numbers) for §2 — both synthesised into this block's own voice, no org-private marketplace content
 read or referenced.
 
 **Widening, 2026-10-02: §6 and §7.** §6 (the fresh-context review of the written spec) is the mechanism of the

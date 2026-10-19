@@ -1,6 +1,6 @@
 ---
 name: receiving-review
-description: "Use when feedback on your own change arrives (a reviewer's comments, a list of findings, a bot report) and before acting on any of it: verify each point against the code, stop on an unclear one, answer with substance instead of agreement."
+description: "Use when feedback on your own change arrives (a reviewer's comments, a list of findings, a bot report) and before acting on any of it: verify each point against the code, stop on an unclear one, answer with substance instead of agreement. The detailed mechanics (order of fixes, pushback, thread replies) are receiving-review-pitfalls."
 ---
 
 # receiving-review
@@ -8,6 +8,8 @@ description: "Use when feedback on your own change arrives (a reviewer's comment
 The author's side of `review` (step 8 of `WORKFLOW.md`) and of `mr-conventions` §4. A reviewer judges a diff; this block
 decides what the author does with the judgement. The failure it prevents runs in both directions: implementing a
 suggestion that was wrong, and performing agreement instead of doing the work.
+
+The longer treatment (reading order, applying fixes, pushback with evidence, thread replies) is `skills/receiving-review-pitfalls`; this block stays the short rule set.
 
 ## When
 Any time a comment, a findings list or a bot summary about your change reaches you, from a human, a fresh-context

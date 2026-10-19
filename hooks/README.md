@@ -38,6 +38,8 @@ guarding against. A test run whose output nobody opened is a green tick, not a v
 `brew`, `apt`, `dnf`, `pacman`, `winget`, `choco`; toolchain installers (`nvm`, `rustup`, `asdf`, `volta`); and
 the whole `curl … | bash` family, including `bash <(curl …)`, a downloaded `.sh`, and `iwr … | iex`.
 
+**Known gaps (checked 2026-10-19).** It is a tripwire on command shapes, not a sandbox. Shapes that still pass: `curl ... | sudo bash`, `python3 -m pip install`, an installer called by absolute or relative path (`/usr/bin/npm install`), `sudo -u user npm i`, a bare `yarn`, `uv sync`, `corepack pnpm add`, `deno install`, an install hidden inside `node -e`, `echo npm i x | sh`, a downloaded script run with `bash install.sh`, `docker run ... npm i`, and `git clone ... && make install`. Closing them one by one is open work; the real boundary is the person at the keyboard reading what runs.
+
 **Command boundary (2026-10-02).** A word counts only where a command starts: the start of the text, or after a newline, `;`, `&`, `|`, parentheses or a backtick, once `sudo`, `env`, `VAR=value`, `time` or `xargs` are peeled off. The command inside `ssh host "..."`, `sh -c` or `bash -lc` is unwrapped and judged the same way. `echo 'npm install x'` and `grep "npm install" notes` carry the words as arguments and pass. A shell-quoting error inside the command never blocks by itself.
 
 **What it lets through**: `npm run`, `pnpm test`, `bun run dev`, `make`, `git`, `docker compose`, a plain

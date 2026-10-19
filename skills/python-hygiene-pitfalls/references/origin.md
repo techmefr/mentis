@@ -6,8 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run by us. No code was executed and nothing was
 installed while writing it.
 
-This block is meant to be folded into the same-topic sections of `python-conventions` when PR 118 lands; it
-cites only sections that exist on main.
+Overlaps with `skills/python-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Attribution
 

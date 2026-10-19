@@ -47,6 +47,5 @@ set, compiler and build type is not verified.
 ## Origin
 Rewritten from the Google C++ style guide (CC BY 3.0, attribution: Google), the C++ working draft, the CMake
 4.4.4 reference manual, the GCC and Clang sanitizer documentation and the cmake_template repository
-(Unlicense), read 2026-10-08. Meant to be folded into the C++ language block when the extended systems-language
-blocks (the unmerged PR 118) land; until then it stands alone. 🟡: never run by us; open points are in
+(Unlicense), read 2026-10-08. Overlaps with `skills/cpp-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

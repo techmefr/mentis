@@ -51,6 +51,5 @@ verified.
 
 ## Origin
 Rewritten from the Error Prone bug-pattern pages (Apache-2.0), the NullAway README (MIT) and one MIT
-Java concurrency-review skill (read 2026-10-08). 🟡: never run by us; meant to be folded into the
-same-topic block (`java-conventions`) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+Java concurrency-review skill (read 2026-10-08). 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/java-conventions` (2026-10-19); cross-referenced, not merged.

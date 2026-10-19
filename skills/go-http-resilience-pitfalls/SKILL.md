@@ -40,6 +40,5 @@ healthy one. `go vet ./...` is clean, and `go-conventions` §3 and §4 still hol
 
 ## Origin
 Rewritten from the Go `net/http` package documentation and release notes (CC-BY-4.0 text, BSD-3 code) and
-the gosec rule list (Apache-2.0), read 2026-10-08. Meant to be folded into `go-conventions` when the
-extended version of that block lands. 🟡: never run by us; open points are in
+the gosec rule list (Apache-2.0), read 2026-10-08. Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

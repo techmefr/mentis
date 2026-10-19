@@ -44,4 +44,4 @@ followed.
 
 ## Related blocks
 `skills/debug`, `skills/observability-instrumentation`, `skills/android-security-hardening`,
-`skills/source-freshness`. Fold into the same-topic block when #118 lands.
+`skills/source-freshness`. Overlaps with `skills/debug` and `skills/observability-instrumentation` (2026-10-19); cross-referenced, not merged.

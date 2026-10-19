@@ -42,6 +42,5 @@ The build ran from clean on the new AGP with the Gradle and JDK it requires (§1
 
 ## Origin
 Rewritten from the Android developer pages on AGP 9.0 release notes, built-in Kotlin migration and app optimisation
-with R8, and from the Gradle best-practices page (read 2026-10-08). 🟡: never run by us; meant to be folded into
-`kotlin-android-conventions` (and `mobile-release` for the release part) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+with R8, and from the Gradle best-practices page (read 2026-10-08). 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/kotlin-android-conventions` and `skills/mobile-release` (2026-10-19); cross-referenced, not merged.

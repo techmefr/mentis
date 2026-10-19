@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # mentis: no agent installs anything (PreToolUse on Bash)
 #
-# Refuses every command that fetches and runs third-party code: package installs, one-shot
-# package runners, and the curl|bash family. The human runs those themselves, in their own
+# Refuses the common commands that fetch and run third-party code: package installs, one-shot
+# package runners, and the curl|bash family. A tripwire, best effort: it matches command
+# shapes, so it does not stop a determined or indirect route (see hooks/README.md, known gaps). The human runs those themselves, in their own
 # terminal, having read what they are running.
 #
 # Why this is a hook and not a rule: the instruction to install something rarely comes from

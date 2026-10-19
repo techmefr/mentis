@@ -42,7 +42,5 @@ verified.
 ## Origin
 Rewritten from the TigerBeetle style document (Apache-2.0; read at commit c95d7a5, 2026-10-06 tree), the Zig
 0.17.0 language reference (MIT), the Rust standard library macro documentation (MIT OR Apache-2.0) and
-cppreference pages for `assert` and `static_assert` (facts only, no text reused), read 2026-10-08. Meant to be
-folded into the Zig, Rust, C and C++ language blocks when the extended systems-language blocks (the unmerged
-PR 118) land; until then it stands alone. 🟡: never run by us; open points are in
+cppreference pages for `assert` and `static_assert` (facts only, no text reused), read 2026-10-08. Overlaps with `skills/zig-conventions` and `skills/rust-conventions` and `skills/c-conventions` and `skills/cpp-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

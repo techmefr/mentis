@@ -6,9 +6,7 @@
 **Status: 🟡.** Written from documentation and reading, never run on a real service by us. No breaker was
 configured, no probe was queried and no application was started while writing it.
 
-**Fold-in note.** This block is meant to be folded into the actuator reference of `spring-boot-conventions`
-(the Spring parts) and into `observability-instrumentation` (the operating part) when PR 118 lands. It is
-standalone only so that it does not depend on a block that is not yet on main.
+**Overlap note.** Overlaps with `skills/spring-boot-conventions` and `skills/observability-instrumentation` (2026-10-19); cross-referenced, not merged. It was written as a standalone block while the same-topic block was still on a branch; both are now on main.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

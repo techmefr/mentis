@@ -45,6 +45,4 @@ inside it leaves behind, and Miri was run on the tests that reach it (or the cha
 ## Origin
 Rewritten from the Rust async book (MIT), the Tokio crate documentation (MIT), the Rustonomicon (MIT OR
 Apache-2.0), the standard library documentation, the Miri README (MIT OR Apache-2.0), the Clippy lint
-documentation (MIT OR Apache-2.0) and the Microsoft Rust guidelines (MIT), read 2026-10-08. Meant to be folded
-into the Rust language block when the extended systems-language blocks (the unmerged PR 118) land; until then it
-stands alone. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).
+documentation (MIT OR Apache-2.0) and the Microsoft Rust guidelines (MIT), read 2026-10-08. Overlaps with `skills/rust-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).

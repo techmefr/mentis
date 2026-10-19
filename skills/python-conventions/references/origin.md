@@ -112,7 +112,7 @@ none/failures/exceptions, §5 structure/style) each gained 500-700 words as 6-7 
 after their existing ones — nothing renumbered, nothing already stated repeated. Sourced from PEP 484/526/604
 /695/612 (`ParamSpec`), the `contextvars`, `weakref`, `contextlib`, `itertools`, `dataclasses` and `logging`
 stdlib docs, and the CPython exception-group / `except*` documentation — never from the org catalogue this
-block was already mined from, and never by reading the XEFI marketplace files. §6 gained `contextvars` over
+block was already mined from, and never by reading an org-private marketplace's files. §6 gained `contextvars` over
 thread-locals for per-request state, runtime-parameterised factories, lazy-singleton race conditions, weak
 references for unowned caches, health checks resolving the real pooled binding, container-seam test overrides,
 and per-request scope teardown. §3 gained multi-parameter generic naming under PEP 695, `__all__` as the
@@ -135,7 +135,7 @@ existing ones, nothing renumbered. Sourced from the `asyncio` stdlib docs (`asyn
 pooling, autogenerate's documented limitations, naming conventions, branched migration heads), and the
 pytest and Hypothesis documentation (fixture scope, parametrize composition, property-based testing,
 `conftest.py` discovery rules) — never from the org catalogue this block was already mined from, and never
-by reading the XEFI marketplace files. §4 gained `asyncio.timeout()` as a block-scoped deadline, backpressure
+by reading an org-private marketplace's files. §4 gained `asyncio.timeout()` as a block-scoped deadline, backpressure
 via a bounded `asyncio.Queue`, `to_thread` versus a process for genuinely CPU-bound work, `shield`'s narrower
 guarantee, signal handlers unable to `await`, subprocess reaping, and an unbounded retry loop as timeout
 point 10 failing one level up. §7 gained `pool_pre_ping`'s mid-transaction blind spot, autogenerate as a
@@ -154,7 +154,7 @@ ones, nothing renumbered, nothing already stated repeated. Sourced from the `typ
 associated PEPs (698 `@override`, 742 `TypeIs`, 728 closed `TypedDict`), the `asyncio` stdlib docs (`Future`,
 locks, comprehensions, `anyio` versus raw structured concurrency), the exception and pytest-fixture
 documentation, and general naming/DI reasoning already used elsewhere in this block — never from the org
-catalogue this block was already mined from, and never by reading the XEFI marketplace files. §1 gained
+catalogue this block was already mined from, and never by reading an org-private marketplace's files. §1 gained
 `@override`, `TypeIs` versus `TypeGuard`, closed `TypedDict`s, stub-file contracts, generic bounds, `NewType`,
 and callable `Protocol`s. §2 gained `raise ... from None`'s deliberate-hiding claim, exception hierarchies as
 a selective-catch tool, a library's exceptions as part of its public contract, tuple- versus stacked-`except`
@@ -176,8 +176,7 @@ against `bin/measure_depth.py`'s parity target. §5 gained roughly 425 words as 
 appended after its existing 24, nothing renumbered, nothing already stated repeated. Sourced from PEP 735
 (dependency groups in `pyproject.toml`) and its accompanying `peps.python.org` text, current packaging
 guidance on `[build-system]` and lockfiles, and reasoning already established elsewhere in this section —
-never from the org catalogue this block was already mined from, and never by reading the XEFI
-marketplace files. §5 gained `[dependency-groups]` as the one standardised place for non-production
+never from the org catalogue this block was already mined from, and never by reading an org-private marketplace's files. §5 gained `[dependency-groups]` as the one standardised place for non-production
 dependencies over a tool-specific table, the distinction between an optional extra (shippable to a
 consumer) and a dependency group (deliberately excluded from the distribution), group composition to
 avoid duplicating a shared dependency across groups, a committed lockfile as what makes "the same code"

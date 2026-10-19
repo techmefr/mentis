@@ -1,6 +1,6 @@
 ---
 name: htmx-alpine-conventions
-description: "Use when writing or reviewing server-rendered pages enhanced with htmx and Alpine.js: which tool owns what, swap targets and response codes, history and caching of partial responses, escaping and the htmx security switches, Alpine state scope, x-html and the content-security build, and keeping the page working without JavaScript."
+description: "Use when writing or reviewing server-rendered pages enhanced with htmx and Alpine.js: which tool owns what, swap targets and response codes, history and caching of partial responses, escaping and the htmx security switches, Alpine state scope, x-html and the content-security build, and keeping the page working without JavaScript. Response headers, polling, request UX and integration traps of htmx 2.x are htmx-protocol-pitfalls."
 paths: "**/*.html, **/*.jinja, **/*.j2, **/*.twig, **/*.blade.php, **/*.erb, **/*.njk, **/*.templ"
 ---
 
@@ -12,6 +12,8 @@ no in-house project behind it yet (same status as `go-conventions`). Pinned to *
 (read 2026-10-02; registry latest that day: htmx.org 2.0.11, alpinejs 3.17.4). The server templating language is
 not covered; escaping and CSRF are the server stack's (`skills/security-hardening`, `skills/laravel-conventions`,
 `skills/django-conventions`).
+
+The response headers, polling, request UX and integration traps of htmx 2.0 are in `skills/htmx-protocol-pitfalls`; this block does not restate them.
 
 ## When
 As soon as a template carries an `hx-*` attribute, an `x-data` or other `x-` directive, a fragment endpoint is

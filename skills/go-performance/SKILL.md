@@ -39,5 +39,4 @@ not verified.
 ## Origin
 Rewritten from the Go diagnostics guide, garbage collector guide, release notes, `testing`, `strings` and
 `sync` package documentation, the slices article and the language specification (CC-BY-4.0 text, BSD-3
-code), read 2026-10-08. Meant to be folded into `go-conventions` when the extended version of that block
-lands. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).
+code), read 2026-10-08. Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).

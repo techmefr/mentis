@@ -44,6 +44,5 @@ change description that was not checked against that toolchain's documentation i
 
 ## Origin
 Rewritten from the Zig 0.17.0 language reference, the 0.17.0 release notes and the build system page on
-ziglang.org (MIT-licensed documentation and code), read 2026-10-08. Meant to be folded into the Zig language
-block when the extended systems-language blocks (the unmerged PR 118) land; until then it stands alone. 🟡:
+ziglang.org (MIT-licensed documentation and code), read 2026-10-08. Overlaps with `skills/zig-conventions` (2026-10-19); cross-referenced, not merged. 🟡:
 never run by us; open points are in [`references/origin.md`](./references/origin.md).

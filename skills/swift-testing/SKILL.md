@@ -53,6 +53,5 @@ verified.
 ## Origin
 Rewritten from the Apple documentation pages for Swift Testing (migrating from XCTest, expectations,
 asynchronous code, confirmations, parallelisation) and XCTest expectations, and one MIT-licensed iOS testing skill
-for the points the pages do not state (read 2026-10-08). 🟡: never run by us; meant to be folded into the
-same-topic block (`swift-conventions`) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+for the points the pages do not state (read 2026-10-08). 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/swift-conventions` (2026-10-19); cross-referenced, not merged.

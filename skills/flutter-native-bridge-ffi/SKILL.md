@@ -48,7 +48,5 @@ others.
 ## Origin
 Rewritten from the Flutter platform-channels page, the Pigeon README, the Dart ffigen and native-assets
 skills of the Flutter agent plugins, the Dart site's hooks page and the `dart:ffi` API reference, read
-2026-10-08. Meant to be folded into the same-topic section of `flutter-conventions` (platform channels and
-native interop, alongside its section 8 error-code point) when the extended version of that block lands; until
-then it stands alone so nothing cites a section that is not on the main branch. 🟡: never run by us; open
+2026-10-08. Overlaps with `skills/flutter-conventions` (2026-10-19); cross-referenced, not merged. 🟡: never run by us; open
 points are in [`references/origin.md`](./references/origin.md).

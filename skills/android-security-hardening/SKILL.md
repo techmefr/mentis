@@ -44,5 +44,4 @@ request details first (§3). A manifest read only in the source tree, without th
 
 ## Origin
 Rewritten from the Android developer pages on `android:exported`, intent redirection, pending intents, Play Integrity
-verdicts and the Keystore (read 2026-10-08). 🟡: never run by us; meant to be folded into `security-hardening` when
-PR 118 lands; open points are in [`references/origin.md`](./references/origin.md).
+verdicts and the Keystore (read 2026-10-08). 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md). Overlaps with `skills/security-hardening` (2026-10-19); cross-referenced, not merged.

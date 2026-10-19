@@ -49,6 +49,4 @@ request and finished it (§2). Configuration that was only read is not verified.
 ## Origin
 Rewritten from the Resilience4j user guide (retry, circuit breaker, bulkhead, time limiter, Spring Boot
 starter), the Spring Boot actuator, logging, observability and graceful-shutdown pages, the Micrometer naming
-page and the HikariCP readme (read 2026-10-08). 🟡: never run by us; meant to be folded into the same-topic
-blocks (`spring-boot-conventions` actuator reference, and `observability-instrumentation` for the
-operating part) when PR 118 lands; open points are in [`references/origin.md`](./references/origin.md).
+page and the HikariCP readme (read 2026-10-08). 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md). Overlaps with `skills/spring-boot-conventions` and `skills/observability-instrumentation` (2026-10-19); cross-referenced, not merged.

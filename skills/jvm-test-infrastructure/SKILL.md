@@ -52,6 +52,5 @@ the clock set to the awkward instant (§3). A test that was only read is not ver
 ## Origin
 Rewritten from the Spring Boot testing and Testcontainers pages, the Spring Framework context-caching page,
 the Testcontainers for Java documentation (MIT), the Awaitility usage page and the `java.time.Clock` API page
-(read 2026-10-08). 🟡: never run by us; meant to be folded into the same-topic block (`spring-boot-conventions`
-tests reference, and `java-conventions` for the Java parts) when PR 118 lands; open points are in
-[`references/origin.md`](./references/origin.md).
+(read 2026-10-08). 🟡: never run by us; open points are in
+[`references/origin.md`](./references/origin.md). Overlaps with `skills/spring-boot-conventions` and `skills/java-conventions` (2026-10-19); cross-referenced, not merged.

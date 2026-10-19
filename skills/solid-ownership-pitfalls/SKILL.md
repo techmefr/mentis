@@ -15,9 +15,8 @@ missed.
 as a release candidate. A 2.0 migration section was therefore not written; a 2.0 project needs its own source
 read first (see the origin notes).
 
-Standalone block, written because the broader Solid conventions block exists only on an unmerged branch. It is
-meant to be merged into the same-named framework block when that lands (see
-[`references/origin.md`](./references/origin.md)). Until then it cites only blocks present on the main branch.
+Standalone block, written while the broader Solid conventions block was still on a branch; both are now on main. Overlaps with `skills/solid-conventions` (2026-10-19); cross-referenced, not merged. (see
+[`references/origin.md`](./references/origin.md)).
 
 ## When
 - A form or a widget inside a `Show`, `Switch` or `Match` keeps the previous record's state, or a child

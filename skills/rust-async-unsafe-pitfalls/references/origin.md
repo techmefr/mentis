@@ -4,9 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from documentation and reading, never run by us. Nothing was compiled, no Miri run was
-made. This block is meant to be folded into the Rust language block when the extended systems-language blocks
-(the unmerged PR 118 branch) land; until then it stands alone and cites only sections that exist on the main
-branch or in this block.
+made. Overlaps with `skills/rust-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)
 

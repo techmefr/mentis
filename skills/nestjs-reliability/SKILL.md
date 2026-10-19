@@ -1,6 +1,6 @@
 ---
 name: nestjs-reliability
-description: "Use when a Node or NestJS service has to survive retries, several replicas and slow dependencies: idempotency keys on a request or a message handler, scheduled jobs or locks across replicas (leases, fencing tokens), a transactional outbox with a consumer inbox, and outbound call policy (timeouts, retries, circuit breaker, bulkhead, unknown outcome after a timeout)."
+description: "Use when a Node or NestJS service has to survive retries, several replicas and slow dependencies: idempotency keys on a request or a message handler, scheduled jobs or locks across replicas (leases, fencing tokens), a transactional outbox with a consumer inbox, and outbound call policy (timeouts, retries, circuit breaker, bulkhead, unknown outcome after a timeout). What a job must do once it runs (guards, payload, failure reporting) is background-jobs-conventions."
 ---
 
 # nestjs-reliability
