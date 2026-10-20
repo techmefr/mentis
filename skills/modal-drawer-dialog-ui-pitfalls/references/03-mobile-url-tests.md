@@ -9,7 +9,7 @@ Own craft knowledge; platform behaviours are remembered, not re-checked (see ori
 4. **Overscroll and pull-to-refresh behind the sheet are disabled** while it is open; rubber-banding of the page under it is a bug.
 5. **Safe areas**: keep actions out of the home indicator and notch zones (`safe-area` env values).
 6. **Touch targets** of at least the size your accessibility rule sets (`accessibility` §1), with space between close and primary action.
-7. **Hardware or gesture back closes the layer first** (§3.4), not the page.
+7. **Hardware or gesture back closes the layer first** (§3.4), not the page. In a browser this works through a history entry. In a native shell around the web app (a hybrid or webview wrapper) the back button is handled by the shell: check that the app registers a back handler and that it closes the open layer before leaving the page; a sheet that is not history-based and has no handler stays open or is left behind when the user presses back. If the shell has no such plugin or handler, say so. Any other input handler that ignores open dialogs (remote, key shortcuts) has the same gap.
 8. **Test on a real device or emulator, with the keyboard open**, not only at a narrow desktop width.
 
 ## 3.2 Orientation and zoom

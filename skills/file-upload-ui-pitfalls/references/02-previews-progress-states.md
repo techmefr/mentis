@@ -31,6 +31,7 @@ Sources: own craft; no source text taken.
 6. **A form with an uploader submits only when uploads are ready,** or submits references to completed uploads; never the raw files twice. If the form is long, the uploader state persists across steps (`long-and-multistep-form-pitfalls`).
 7. **Total and per-file limits both exist:** state both ("up to 10 files, 25 MB each") before selection.
 8. **Replace, add and remove are different actions** in a single-file field (avatar): replacing keeps the old file until the new one is ready.
+9. **A batch must not lose its finished files on one failure.** Symptom: files are uploaded one after another inside one try block, so the first failure aborts the rest and the already-uploaded files are dropped. Check where the error handler sits: it belongs per file, with the batch continuing and the outcome of each reported (item 4).
 
 ## 2.4 Error and retry states
 1. **Render each failure differently:** rejected before upload (type, size), network lost (retrying, paused), server refused (permission, quota, scan failed), server error (try again), expired (start over), cancelled by the user.

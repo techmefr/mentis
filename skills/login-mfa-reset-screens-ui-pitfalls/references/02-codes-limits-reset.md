@@ -1,5 +1,7 @@
 # login-mfa-reset-screens-ui-pitfalls §2 — Codes, limits and reset
 
+Applicability: §2.1 to §2.3 apply only when the product has a typed one-time code or a second factor. §2.4 and §2.5 apply to any reset or emailed-link flow and any limit message.
+
 Own craft knowledge; the server rules are in other blocks and are linked, not repeated (see origin.md).
 
 ## 2.1 One-time-code entry
@@ -30,8 +32,8 @@ Own craft knowledge; the server rules are in other blocks and are linked, not re
 
 ## 2.4 Reset flow screens
 1. **Request screen**: one field, the neutral confirmation of §1.1, and no hint whether the address exists.
-2. **The link screen reads the token from the URL, then shows the new-password form**; if the token is bad or expired, say "this link is no longer valid" with a way to request a new one, and do not say why more than that.
-3. **Do not leave the token in the address bar or history after use**: redirect to a clean URL when the page loads, and keep it out of third-party requests (`security-hardening` §6 on referrer).
+2. **The link screen reads the token from the URL, then shows the new-password form**; if the token is bad or expired, say "this link is no longer valid" with a way to request a new one, and do not say why more than that. If the product has an emailed sign-in link (single use), a distinct "already used" message is a deliberate trade: it helps a user who clicked twice and tells only someone who holds the token; decide it once and write it down, and do not apply the same distinction to a reset or code screen where the extra information has a cost.
+3. **Do not leave the token in the address bar or history after use**: redirect to a clean URL when the page loads, and keep it out of third-party requests (`security-hardening` §6 on referrer). Check: the page reads the token from the query and never replaces the address (grep for the query read with no history replace), and the responses carry a restrictive referrer policy; this applies to emailed sign-in links as much as to reset links.
 4. **The new-password form has the new-password token and rules shown in advance (§1.4)**, and a confirmation field only if the product wants one; a show-password button often replaces it.
 5. **On success, say so and go to sign-in (or sign in directly if the product decided)**, and state that other sessions were ended when that is true.
 6. **A reset while signed in is a different screen** (change password) and asks for the current password or a fresh login (§3.2).

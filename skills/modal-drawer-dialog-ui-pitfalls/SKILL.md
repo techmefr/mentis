@@ -18,6 +18,8 @@ buttons sit under the keyboard. Generic focus and ARIA rules are in `accessibili
 - A user reports "I could tab behind the popup", "Escape closed everything", "my text is gone", "back left the page", "the page jumps when it opens".
 - A dialog is opened from another dialog, from a menu, or by a link that should be shareable.
 
+**Skip when** the project has no layer over the page (no modal, drawer, sheet or confirm prompt). Then say "not applicable: no overlay layer" rather than invent a finding; the same goes for a section whose situation is absent (no URL-addressable dialog, no native shell).
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.
@@ -41,6 +43,7 @@ run in an application.
 - Ask before discarding typed data (§2.3). Never close a dirty form on a backdrop click without a confirm.
 - Close only the topmost layer on Escape (§1.3, §2.1). Never let one key press tear down a stack.
 - Use a page, not a dialog, for long or multi-step work or content that needs its own URL (§1.1). Never nest a workflow in a modal because it was quick to build.
+- Check how many places build the same dialog markup (§1.6). Never fix a dismissal or focus defect in one copy and leave the others.
 - Facts about a browser feature or library are for the date in `references/origin.md`; re-read before relying.
 
 ## Origin

@@ -19,6 +19,8 @@ widget accessibility is in `accessibility`.
 - A page has no data yet, or filters return nothing, and its empty state is written.
 - A user reports "it asks me again", "I cannot get the checklist back", "demo data is in my numbers", "the page is just blank".
 
+**Skip when** a part does not exist in the project: no checklist (§1.2), no sample data (§1.6), no tour (§1.5), no invitations (§1.7), no analytics (§2.5). Say "not applicable: none exists" in one line per part rather than spend effort confirming absence or inventing a finding. The empty-state rules (§2.1) apply to any screen that lists data.
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.
@@ -29,14 +31,14 @@ widget accessibility is in `accessibility`.
 | 2 | Empty states, accessibility, performance, measurement, tests, framework pointers | an empty state, the UI of the flow or its tests are written | [`02-empty-states-access-tests.md`](./references/02-empty-states-access-tests.md) |
 
 ## Output / checkpoint
-A change is done when: first-run is decided from stored state, not a client flag; each checklist step is derived from
+A change is done when: first-run of an account is decided from stored state, not a client flag (pre-account intro screens may use a local flag, §1.1.8); each checklist step is derived from
 real data or stored once per user with an explicit rule; progress survives devices and reloads; every step can be
 skipped and resumed; sample data is flagged, excluded from real totals and removable in one action; each empty state
 names its cause and offers one next action; and the tests in §2.6 exist. No checkpoint is written: a craft block, 🟡,
 nothing here was run in an application.
 
 ## Guardrails
-- Decide first-run from server state and re-check on every entry (§1.1). Never trust a local flag alone.
+- Decide first-run from server state and re-check on every entry once an account exists (§1.1). Never trust a local flag alone for state that belongs to a signed-in user; the one exception is a screen shown before any account exists (§1.1.8).
 - Derive a checklist step from the data it describes where possible (§1.2). Never let a step stay ticked after the data was deleted.
 - Make skip a first-class, reversible action (§1.4). Never trap the user in a flow with no way out or back.
 - Flag sample data on the record and keep it out of real aggregates (§1.6). Never mix it with real rows without a marker.

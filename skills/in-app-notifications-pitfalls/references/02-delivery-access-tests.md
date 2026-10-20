@@ -13,11 +13,12 @@ Sources: Lexical documentation on live-region announcements (MIT, read 2026-10-2
 8. **A logged-out user stops receiving.** Close the connection on sign-out and on a tenant switch; otherwise the next person on a shared machine hears the previous user's inbox.
 
 ## 2.2 States of the inbox
-1. **Render separately**: loading, empty (nothing yet), empty-filtered (nothing unread), error with retry, offline, and partial (older page failed). Never show "no notifications" for a failed request (`data-table-ui-pitfalls` §2.1).
+1. **A failed load is not an empty inbox.** Symptom: the fetch's error handler sets the list to empty and the count to zero, so a network error clears the badge and shows the "all read" state. Check: grep the loader's catch branch; it must keep the previous data or show an error with retry, and never write zero. Render separately: loading, empty (nothing yet), empty-filtered (nothing unread), error with retry, offline, and partial (older page failed). Never show "no notifications" for a failed request (`data-table-ui-pitfalls` §2.1).
 2. **Paginate with a cursor** on created time and id, since new items arrive at the top while the user reads; offset would repeat rows (`data-table-ui-pitfalls` §1.2).
 3. **Do not reorder under the pointer.** New items during reading show as a "2 new" control, not a jump.
 4. **Filter by unread, by type category and by target**, and keep the count of each honest (§1.3).
 5. **A toast is a different object from an inbox item.** It auto-dismisses, so anything that needs action must also exist in the inbox; never make a toast the only place a decision is shown.
+6. **Relative times ("5 min ago") are built with the platform's relative-time formatter and re-rendered on a timer** (`locale-value-formatting-pitfalls` §3.2); a label computed once at render goes stale while the page stays open.
 
 ## 2.3 Accessibility
 1. **The badge needs text.** Give the bell button an accessible name that includes the count ("Notifications, 3 unread"); a bare number inside an icon has no name. Do not rely on colour alone for unread (`accessibility`).

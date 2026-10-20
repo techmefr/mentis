@@ -4,6 +4,8 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from a specification read plus our own knowledge of the ECMAScript Intl API, never run
+
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: duplicate formatters with different input units, UTC-day grouping and today limits, runtime-default locale search recipe, checkpoint scoped to changed screens, skip-when line.
 by us. No formatter was called, no page rendered, no locale tested while writing it.
 
 ## Sources (read 2026-10-20, rewritten in our own words, no text copied)

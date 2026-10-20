@@ -23,6 +23,8 @@ repeated. Isolating a formatted value inside right-to-left text is `rtl-and-bidi
 - A form must accept a number or a date typed by the user.
 - A list of items is joined with a comma in code, or a relative time ("3 days ago") is written by hand.
 
+**Skip when** the project shows no date, time, number, money, unit or list to users (then "not applicable: nothing formatted for display"), or a part is absent (no money, no typed numbers: skip §2.3 and §3.3). A project that already routes display through one locale-aware helper still gets §1.2, §3.2 and the duplicate-formatter check of §3.2.6: the defects are usually exceptions to the helper, so grep for the call sites that bypass it. Say "not applicable: reason" rather than invent a finding.
+
 ## Steps
 
 **Read only the section the task meets.** They are independent.
@@ -38,7 +40,7 @@ Each rule was exercised, not read off the file: every formatted value on the cha
 least three locales that differ in separators, order and clock (for example English (United States), German,
 and one with non-Latin digits or a non-Gregorian default), with a value that exposes the common bugs (a day
 above 12, a number above one thousand with a fraction, a price in a currency that differs from the locale's,
-a zero-decimal currency). A screen checked in one locale is not verified.
+a zero-decimal currency). A screen checked in one locale is not verified. Apply this to the screens a change touches, not to the whole product; a review done by reading code alone says "static read, not rendered in any locale" and lists its findings as unconfirmed.
 
 ## Guardrails
 - Never build a date, number or price by concatenation or a hand-written pattern; call the locale-aware

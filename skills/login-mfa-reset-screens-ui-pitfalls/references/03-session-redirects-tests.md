@@ -4,7 +4,7 @@ Own craft knowledge; the token and cookie mechanics are in `auth-session-convent
 
 ## 3.1 Session expiry in the interface
 1. **Symptom: the user clicks Save after twenty minutes and is thrown to a login page, or sees a vague error and a blank table.** Cause: the request got an unauthenticated answer and the client has no plan for it.
-2. **One place in the client handles the unauthenticated response**: the HTTP layer, not each screen. It decides between a silent refresh, a re-authentication prompt and a redirect.
+2. **One place in the client handles the unauthenticated response**: the HTTP layer, not each screen. It decides between a silent refresh, a re-authentication prompt and a redirect. Check what that handler does on a 401: a handler that only marks the user signed out and navigates to the login page drops both the intended destination and any unsaved work (§3.2, §3.3.1), and one that fires on a background request (a polling refresh) throws the user out while they are not acting. Grep the handler for where it stores the current path and for whether it ignores background calls.
 3. **Distinguish unauthenticated (session over) from forbidden (signed in but not allowed).** The first asks to sign in; the second shows "you do not have access" and keeps the session (`security-hardening` §3).
 4. **Warn before expiry only when the product has a fixed idle timeout**, with a short, accessible notice and a way to stay signed in; do not warn for refresh-token sessions that renew themselves.
 5. **A background request that fails because of expiry must not toast an error on a page the user is not looking at**; defer until they act.
@@ -20,7 +20,7 @@ Own craft knowledge; the token and cookie mechanics are in `auth-session-convent
 7. **Cookie or storage cleared mid-session** looks like expiry; handle it the same way.
 
 ## 3.3 Redirects after login
-1. **Symptom: the user opens a deep link, signs in and lands on the home page.** Keep the intended destination through the login (a path stored server side or in a short-lived parameter) and go there after success.
+1. **Symptom: the user opens a deep link, signs in and lands on the home page, or is bounced from an expired session to the login and, after signing in again, lands on the default page.** Keep the intended destination through the login (a path stored server side or in a short-lived parameter, validated per §3.3.2) on both entries: the guard that sends a signed-out visitor to the login, and the expiry handler of §3.1. Check that every sign-in success path (password, emailed link, code) reads it, not only one.
 2. **Allow only relative paths of your own application** as the destination; an absolute URL, a protocol-relative URL or a script scheme in the value is an open redirect and a phishing aid.
 3. **Do not redirect to the login page for an API call**; a page request redirects, an API request returns an authentication error that the client handles (§3.1).
 4. **After sign-out, go to a public page and clear the history entries that show private content**; the back button must not display a cached private page (`security-hardening` §6 on caching).

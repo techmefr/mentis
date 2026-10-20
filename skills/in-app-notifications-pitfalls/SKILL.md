@@ -18,6 +18,8 @@ mechanics (paging, states) follow `data-table-ui-pitfalls`, and widget accessibi
 - A user reports "the count is wrong", "I get duplicates", "I muted it and still get it", "it only shows after reload".
 - A new event type, channel or preference setting is added, or realtime delivery is introduced or removed.
 
+**Skip when** a part is absent: a bell that links straight to a page has no popover, so the seen state of §1.2 is meaningless (say so and drop it); an application with no realtime or digest skips §2.1.4 to §2.1.6 and §1.4.4; a toast-only application skips the data model. Say "not applicable: reason" rather than invent a finding.
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.
@@ -34,7 +36,7 @@ re-authorised when opened; and the tests in §2.6 exist. No checkpoint is writte
 run in an application.
 
 ## Guardrails
-- Store one row per recipient and event, and keep read state on that row (§1.1). Never share one read flag between users.
+- Store one row per recipient and event, and keep read state on that row (§1.1). Never share one read flag between users by accident; a role or shared inbox is allowed only when its read semantics are stated (§1.1.6).
 - Derive the badge from the stored unread rows, and refresh it on focus and reconnect (§1.3, §2.1). Never keep it only as a client counter that pushes increment.
 - Check the user's preferences when sending, for every channel, with a mandatory class that cannot be muted (§1.6). Never filter only in the interface.
 - Re-check access to the target when the notification is opened (§2.4). Never trust that access held when it was sent.

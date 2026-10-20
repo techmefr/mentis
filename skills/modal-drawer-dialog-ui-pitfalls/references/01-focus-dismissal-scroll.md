@@ -20,12 +20,12 @@ Platform facts are recalled from public HTML and WAI-ARIA material and not re-re
 1. **Escape closes the top layer only.** Symptom: a combobox list open inside a dialog, Escape closes the dialog and loses the form. Fix: the innermost open layer consumes the key (`combobox-autocomplete-ui-pitfalls` §2.2).
 2. **A visible close control with a name** ("Close", "Cancel") is always present; a swipe or backdrop click alone is not the only way out.
 3. **Backdrop click closes only simple, non-dirty dialogs.** A form with typed data, a running upload or a required decision does not close on a stray click (§2.3).
-4. **A press that starts inside the dialog and ends on the backdrop is not a backdrop click.** Symptom: selecting text and releasing outside closes it. Test the press and release targets together.
+4. **A press that starts inside the dialog and ends on the backdrop is not a backdrop click.** Symptom: selecting text and releasing outside closes it. Test the press and release targets together. Fix: record the target of the press (pointer down) and close on release only if both the press and the release were on the backdrop itself; a bare click handler on the backdrop element is not enough, because the click event fires on the common ancestor of press and release, which is the backdrop.
 5. **A required decision has no hidden exit**: if the dialog cannot be dismissed, say why and provide the explicit button.
 
 ## 1.4 Trap and inert page
 1. **Symptom: Tab walks into the page behind a modal and a screen reader reads it.** A dark overlay hides nothing from assistive technology.
-2. **Prefer the platform**: the native dialog element opened as a modal makes the rest of the document inert, gives Escape and a backdrop, and manages the top layer. Check its support and its behaviours in the browsers you target before choosing a hand-built one.
+2. **Prefer the platform**: the native dialog element opened as a modal makes the rest of the document inert, gives Escape and a backdrop, and manages the top layer. Check its support and its behaviours in the browsers you target before choosing a hand-built one. For an app that ships inside a webview shell, state the oldest webview version it targets and check the element against that, not against a desktop browser; if the version cannot be established, say so and treat the choice as unverified.
 3. **A hand-built modal needs three things**: the page siblings marked inert (or hidden from the accessibility tree), a focus trap that wraps Tab and Shift+Tab at the ends, and the dialog role with `aria-modal`.
 4. **The trap must handle content that changes**: a field that appears, a button that becomes disabled, and an empty dialog (focus the container).
 5. **Live regions and toasts outside the dialog** are not reached; show errors for the dialog's actions inside it.
@@ -45,10 +45,12 @@ Platform facts are recalled from public HTML and WAI-ARIA material and not re-re
 3. **Animation must not delay focus**: move focus on open, not at the end of the transition, and honour reduced motion (`accessibility` §7).
 4. **Remove the layer fully on close**, including listeners and the scroll lock, or the next open inherits stale state.
 5. **Reset the form state on close** unless the user asked to keep a draft (§2.3).
+6. **One component per dialog shape.** Symptom: the same backdrop, container and role markup is copied into many files, so a fix to dismissal, focus or scroll has to be made many times and is missed in some. Check: count the places that build the backdrop-and-container pair; more than one means a shared component is due.
 
 ## Checks
 ```
 Keyboard only: open the dialog, Tab through it, Shift+Tab back, Escape; focus lands on the trigger and never in the page behind.
 Screen reader: the dialog is announced with its name; the page behind is not readable.
 Open with a long page scrolled to the middle: the page does not move; close it: the same position.
+Select text inside the dialog and release the pointer on the backdrop: the dialog stays open.
 ```

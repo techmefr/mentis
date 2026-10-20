@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No notification centre was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: role inbox read semantics against the per-user rule, capped list against full count, failed load shown as empty, grouping race and idempotent increment, seen state only with a popover, skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No dialog was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: press-and-release backdrop fix, webview target check for the native element, native-shell back handler, shared-component check, skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

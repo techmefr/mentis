@@ -9,7 +9,7 @@ Source: own craft knowledge, no external source (see origin.md).
 4. **Autosave on text commits on blur or after a pause, never on every keystroke**, and never on a value that has not passed validation.
 5. **A failed autosave reverts the control or marks it as unsaved with the reason.** Symptom: the toggle stays on and the server says off. Revert to the last confirmed value, or keep the edit and mark it clearly.
 6. **Order the requests**: two quick changes to one setting must arrive in order. Send the full value with a version token, or serialise per setting (`long-and-multistep-form-pitfalls` for the token pattern).
-7. **Explicit save needs a dirty indicator, a Cancel that restores the stored values, and a warning when leaving with unsaved changes.** Disable Save only when nothing changed, not while validating, or the user cannot tell why it is dead.
+7. **Explicit save needs a dirty indicator, a Cancel that restores the stored values, and a warning when leaving with unsaved changes.** Disable Save only when nothing changed, not while validating, or the user cannot tell why it is dead. If one page carries an explicit-Save group and instant-save toggles, label each group with its model (§1.1.2).
 8. **A change with a side effect (re-index, email to all members, billing change) is never autosaved.** Put it behind explicit save and a sentence naming the effect.
 
 ## 1.2 Defaults
@@ -17,10 +17,11 @@ Source: own craft knowledge, no external source (see origin.md).
 2. **Distinguish "not set" from "set to the default value".** Without that, reset cannot work and a default change cannot tell who chose.
 3. **Defaults are code or a versioned file, not UI constants**, and the interface reads them from the same place as the server (§1.3).
 4. **Safe, private and quiet defaults**: notifications limited to what matters, sharing off, telemetry per policy. A default that exposes data is a defect, not a convenience (`security-hardening`).
-5. **A default change is a release note item** when it affects existing users who never chose (`release-notes-writing-pitfalls`).
+5. **Check for the default resolved in more than one layer.** Symptom: changing a default means editing the client, the API and a query. Check: search the code for the fallback idiom of the stack (a nullish-coalescing default, a coalesce in SQL, a default argument) on setting reads; each setting's default has exactly one source and every other layer reads it.
+6. **A default change is a release note item** when it affects existing users who never chose (`release-notes-writing-pitfalls`).
 
 ## 1.3 A registry of settings
-1. **Keep one registry**: key, type, allowed values or range, default, scope, who may change it, whether it needs a restart or a reload, whether it is dangerous, whether it is searchable. The page, the API validation and the docs are generated from it or checked against it.
+1. **Keep one registry** (on a small page with a handful of settings, a single shared constants file holding keys, allowed values and defaults is enough; do not build more): key, type, allowed values or range, default, scope, who may change it, whether it needs a restart or a reload, whether it is dangerous, whether it is searchable. The page, the API validation and the docs are generated from it or checked against it.
 2. **Validate on the server against the registry.** An unknown key is rejected, not stored; a stored key without a registry entry is a migration to write.
 3. **Type the values**, with enums for choices and ranges for numbers. Symptom: "yes", "true" and 1 in the same column.
 4. **Version the schema.** Renaming or splitting a setting needs a migration of stored values; keep reading the old key until the migration has run, then drop it (`api-change-classification-pitfalls`).

@@ -26,6 +26,7 @@
    and join with the list formatter set to the unit type, never with literal letters.
 5. **Never mix "today" logic with zones you did not choose.** "Today" and "yesterday" depend on the viewer's
    zone and on a day boundary; compute the day difference in the chosen zone.
+6. **Two formatters with one name and different input units.** Symptom: a duration shows as "83:20" because a shared helper takes seconds and some call sites pass milliseconds, or the reverse; a second, hand-built helper with the same name in a utility file shadows or duplicates the locale-aware one. Check: search for every definition of each shared formatter (duration, size, relative time) and list the unit its input takes; then check each call site passes that unit, and delete the duplicate or rename it to carry the unit. Name the unit in the parameter or the function.
 
 ## 3.3 Reading a typed value back
 1. **There is no inverse of the formatter in the standard library.** A global number parser reads `1,5` as 1

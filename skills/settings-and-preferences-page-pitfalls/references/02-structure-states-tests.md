@@ -13,7 +13,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 8. **Do not bury essentials**: sign-out, language, notification mute and data export are reachable in two steps from anywhere.
 
 ## 2.2 States of the page
-1. **Render separately**: loading (skeleton with the page shape), loaded, saving, saved, error with retry, offline, and no-permission. Never show defaults while the stored values are still loading; the control then flips under the user's finger.
+1. **Render separately**: loading (skeleton with the page shape), loaded, saving, saved, error with retry, offline, and no-permission. Never show defaults while the stored values are still loading; the control then flips under the user's finger. Symptom: a reader that returns a default (all switches on) until the first response arrives. Check the reader's not-loaded branch and show a skeleton or a disabled neutral state instead.
 2. **Disabled controls say why**: "Managed by your organisation", "Requires the Pro plan", with the link to act. A silent grey control reads as a bug.
 3. **A failed load blocks editing.** Saving over values that never loaded would overwrite them with defaults.
 4. **Concurrent edit**: a stale tab saving old values over newer ones needs a version token and a refresh prompt (`long-and-multistep-form-pitfalls`).

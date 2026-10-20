@@ -20,6 +20,8 @@ tables and filters belong to the data-table blocks, not here.
 - A person reports a lost entry, an error they cannot find, or "someone else's change disappeared".
 - A wizard is built, or a long form is split into steps after the fact.
 
+**Skip when** the form is short and single-purpose (a handful of fields, one request, nothing to lose): then only §1.1 and §1.3.5 to §1.3.7 matter, and the draft, dirty-state, step and conflict parts are "not applicable: short single-request form". Say so rather than invent a finding.
+
 ## Steps
 
 **Read only the section the task meets.** §3 is the entry point for any "my data disappeared" report.
@@ -31,10 +33,13 @@ tables and filters belong to the data-table blocks, not here.
 | 3 | Concurrency (version token, conditional update, conflict screen) and accessibility of errors and steps | a record can be edited by several people, or errors and steps are announced | [`03-concurrency-and-accessibility.md`](./references/03-concurrency-and-accessibility.md) |
 
 ## Output / checkpoint
-No pipeline checkpoint. A reviewed form owes: the validation timing written per rule class (§1), a table of
-server error shapes and where each one is shown (§1), what is persisted as a draft and when it is discarded
-(§2), the version token carried by the edit form and what the server answers on mismatch (§3), and a keyboard
-and screen-reader pass on the error and step flows (§3).
+No pipeline checkpoint. A reviewed form is done when the review states, in one line each: for every rule
+class, when it is validated and where its error appears (§1); for every server error shape found in the code,
+which field or step shows it, or that none does (§1); how many requests a submit makes and what exists after
+each one fails (§1.3.8); what is persisted as a draft, where, and what discards it (§2); the version token the
+edit form carries and the answer on mismatch, or "no shared editing" (§3); and whether a keyboard and
+screen-reader pass was run or only read from code. A line that cannot be filled is reported as unverified, not
+guessed.
 
 ## Guardrails
 - Validate again on the server for every rule the client checks, and show the server's answer next to the field.

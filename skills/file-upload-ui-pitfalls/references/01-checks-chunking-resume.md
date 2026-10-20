@@ -11,7 +11,9 @@ Sources: tus resumable upload protocol 1.0.0 (MIT, commit stamped in origin.md, 
 6. **The `accept` attribute only filters the picker dialog.** A drop, a paste and a script bypass it; re-check on drop and paste.
 7. **Reject early with a message per file:** which file, which rule, what is allowed ("report.exe: this type is not allowed, use PDF, DOCX or PNG"). Keep the other valid files.
 8. **Zero-byte files, duplicate names and very long names are cases:** decide the rule, test it, and never use the client name as a storage path.
-9. **Quota is a server rule too:** per user, per record and in total, refused with a clear message, and shown before upload where cheap.
+9. **An allow-list by type prefix is not an allow-list.** Symptom: the server accepts any type that starts with `image/`, which includes the vector format that can carry script, and the type is the one the client declared. Check: grep the upload handler for a prefix test on the declared type; replace it with an explicit list of types, decided after inspecting the bytes, and see §3.2.3 for how they are served.
+10. **A limit that truncates silently is a defect.** Symptom: a picker keeps only the first N selected files and says nothing. Say the limit before selection and name the files that were dropped.
+11. **Quota is a server rule too:** per user, per record and in total, refused with a clear message, and shown before upload where cheap.
 
 ## 1.2 Through the server or direct to storage
 1. **Through the application server is simplest and keeps one control point,** but it ties up workers for the whole transfer and hits request size and timeout limits of proxies.
@@ -19,7 +21,8 @@ Sources: tus resumable upload protocol 1.0.0 (MIT, commit stamped in origin.md, 
 3. **A direct upload needs a completion step:** the client tells the application the object exists, and the server then verifies it (size, type by content, scan) before the record becomes visible. Symptom otherwise: records pointing at missing or unchecked objects.
 4. **Never put storage credentials in the browser,** only signed, scoped, expiring grants; and never let the client pick the destination key.
 5. **Configure storage cross-origin rules narrowly** (the application origin, the needed methods) and test the pre-flight, a common reason a direct upload works locally and fails in production.
-6. **Unreferenced objects accumulate:** upload then abandon leaves orphans. Use a pending state and a cleanup job (§1.6, `background-jobs-conventions`).
+6. **Files stored in the database** (a binary column, chunks reassembled by a query) need the same limits as any other store: a maximum size enforced while reading, memory bounded when assembling or serving, and a note on backup size; check that assembling a chunked upload does not hold the whole file in one string or buffer.
+7. **Unreferenced objects accumulate:** upload then abandon leaves orphans. Use a pending state and a cleanup job (§1.6, `background-jobs-conventions`).
 
 ## 1.3 Chunking
 1. **Symptom: uploads of large files fail with gateway timeouts or request-too-large errors.** Cause: one request for the whole file crossing a proxy or platform limit.

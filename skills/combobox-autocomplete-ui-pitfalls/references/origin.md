@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No field was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: select-only variant section (keys, active option, Tab, empty options, Escape in a dialog), skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |
@@ -22,5 +24,6 @@ Library-specific option names and install steps; styling of the popup; virtual-l
 ## Not verified
 1. **ARIA attributes and the keyboard model** were recalled from the public specification, not re-read. Re-read before relying.
 2. **The 16 CSS pixel zoom behaviour on iOS** is remembered browser behaviour, not re-checked.
-3. **Framework pointers** (headless libraries, Vuetify, htmx, Livewire) name features from memory; no version was checked.
-4. **No performance number** is stated; none was measured.
+3. **The select-only keyboard model** (§2.6.3 and §2.6.4, including whether Tab commits) was recalled from the authoring practices, not re-read; the unverified part is which keys each assistive technology exposes.
+4. **Framework pointers** (headless libraries, Vuetify, htmx, Livewire) name features from memory; no version was checked.
+5. **No performance number** is stated; none was measured.

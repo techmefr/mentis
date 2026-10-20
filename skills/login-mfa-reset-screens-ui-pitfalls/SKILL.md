@@ -20,20 +20,22 @@ validation, rate-limit keys, lockout and reset-token handling on the server are 
 - A user reports "my password manager does not fill it", "I never got the code", "it says too many attempts", "I lost my form when it logged me out", "the link is invalid".
 - An error message names a cause that the server should keep private.
 
+**Skip when** a part does not exist: if the product has no one-time-code or second-factor screen, skip §2.1, §2.2 (code resend) and §2.3 and write "not applicable: no code or second factor"; a sign-in by emailed link, a device pairing code or a PIN keypad is a different surface, covered by §1.1, §2.4, §2.5, §3 and §1.6, not by the code rules. Say "not applicable: reason" rather than invent a finding.
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
-| 1 | Messages without account enumeration, field attributes, password managers, paste, show password, error placement | a sign-in, sign-up or reset-request screen is written | [`01-messages-fields-managers.md`](./references/01-messages-fields-managers.md) |
+| 1 | Messages without account enumeration, field attributes, password managers, paste, show password, error placement, custom keypads | a sign-in, sign-up or reset-request screen is written | [`01-messages-fields-managers.md`](./references/01-messages-fields-managers.md) |
 | 2 | One-time-code entry, resend and timers, recovery codes, rate-limit and lockout feedback, expired links | a code, a challenge, a limit or a reset link is shown | [`02-codes-limits-reset.md`](./references/02-codes-limits-reset.md) |
 | 3 | Session expiry and re-authentication, redirects after login, multi-tab, sign-out, tests, framework pointers | the user can be logged out, bounced or tested | [`03-session-redirects-tests.md`](./references/03-session-redirects-tests.md) |
 
 ## Output / checkpoint
 A change is done when: failed sign-in, reset request and sign-up give the same visible message whether or not the
 account exists (§1.1); every field carries its autocomplete token and accepts paste (§1.3, §1.4); a rate limit says
-when to try again without revealing more (§2.5); a code can be entered by keyboard and paste and resent safely
+when to try again without revealing more (§2.5); a code, where the product has one, can be entered by keyboard and paste and resent safely
 (§2.1, §2.3); an expired session returns the user to their place with their work kept (§3.1, §3.2); and the tests in
 §3.6 exist. No checkpoint is written: a craft block, 🟡, nothing here was run in an application.
 

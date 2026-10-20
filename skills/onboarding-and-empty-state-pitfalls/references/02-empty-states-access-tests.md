@@ -3,7 +3,7 @@
 Source: own craft knowledge, no external source (see origin.md). Accessibility points are recalled public practice (see origin.md, Not verified).
 
 ## 2.1 Kinds of empty
-1. **Symptom: "No results" shown while the request failed or is still running.** Render separately: loading, first-use empty (nothing created yet), filtered empty (data exists, filters hide it), permission empty (data exists, the user cannot see it), error with retry, offline. Each has its own copy and action (`data-table-ui-pitfalls` §2.1).
+1. **Symptom: "No results" shown while the request failed or is still running.** Render separately: loading, first-use empty (nothing created yet), filtered empty (data exists, filters hide it), permission empty (data exists, the user cannot see it), error with retry, offline. Each has its own copy and action (`data-table-ui-pitfalls` §2.1). Check: a length-is-zero test with no separate loaded flag renders the empty state before the first response; a catch block that sets the list to empty renders it after a failure. Grep for both, and note which screens guard and which do not.
 2. **First-use empty teaches and offers one primary action**: what this area is for, the single next step, and a secondary link to import or learn. Three equal buttons are a menu, not guidance.
 3. **Filtered empty says what is filtered and how to clear it**: "No invoices match 'overdue' and 'Berlin'" with a clear-filters action, and keeps the filter controls visible (`filters-search-and-saved-views-pitfalls`).
 4. **Permission empty must not leak**: "Nothing to show" and a request-access path, not "3 items hidden", which reveals that data exists (`field-and-row-permission-ui-api-pitfalls`).
@@ -22,7 +22,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 6. **Keep tone consistent with the rest of the product** and with the UX-writing rules of the team's design system where they exist.
 
 ## 2.3 Accessibility
-1. **The empty state is real content in the reading order**, in the region the list would occupy, with a heading at the right level, not a pseudo-element or a background image.
+1. **The empty state is real content in the reading order**, in the region the list would occupy, with a heading at the right level (a styled paragraph is not a heading), not a pseudo-element or a background image.
 2. **Announce the change to empty** after a filter or search: one polite live region with the result ("No invoices match your filters"), without moving focus (`in-app-notifications-pitfalls` §2.3 for the pattern).
 3. **The primary action is a native button or link** with an accessible name that stands alone; the illustration has empty alt text if decorative (`accessibility`, `01-semantics-keyboard`).
 4. **A checklist is a list**: each step has a name, a status stated in text (not only a tick colour), and the progress is exposed as text ("3 of 5 done"), with a progress element only if it carries the same value.
