@@ -1,0 +1,70 @@
+# maps-and-geo-component-pitfalls §1 — Data, clustering, providers and privacy
+
+Source: own craft knowledge, no external source (see origin.md). Provider terms are not stated here; read the provider's current terms for your use.
+
+## 1.1 Coordinates and data
+1. **Symptom: every pin is in the ocean off Africa, or mirrored across a diagonal.** Cause: latitude and longitude swapped, since libraries and formats disagree on the order. Fix one stored order (two named fields, never an untyped pair), convert at the library boundary only, and test with a place whose two values differ clearly.
+2. **Name the datum and projection.** Web map libraries usually draw in a spherical mercator projection and exchange geographic degrees; data from surveys or national systems can use another. Convert once at ingest and store degrees in one datum.
+3. **Validate ranges on write**: latitude within its limits, longitude within its limits, no null island (0, 0) from a failed geocode stored as a real place. Reject or flag, never default to zero.
+4. **Store precision on purpose.** Excess decimals imply a precision you do not have and leak exact position; too few put the pin in the wrong building. Decide per use (city, street, door) and round at write for coarse uses.
+5. **Keep the geocode source and confidence** with the coordinates (typed by user, geocoded, device, imported) so a bad pin can be explained and re-run.
+6. **Handle the antimeridian and the poles**: bounds that cross the 180-degree line break simple min-max boxes; a route or area spanning it needs splitting or a library that supports it.
+7. **Use spatial indexes in the database** for radius and bounding-box queries, with the distance computed on the right model (great-circle for geographic points), not by comparing raw degree differences, which skew with latitude.
+8. **Units are explicit**: distances in metres or kilometres in the API, converted for display by the user's locale (`locale-value-formatting-pitfalls`).
+9. **Polygons and lines are data with size**: simplify before sending, limit the vertex count per feature, and serve heavy layers as tiles or by viewport rather than one giant document.
+10. **Time zones follow the place** for opening hours and deliveries; use the place's zone from data, not the browser's (`booking-and-scheduling-app-pitfalls`).
+
+## 1.2 Clustering and large sets
+1. **Symptom: the page freezes or the map stutters past a few hundred or thousand markers.** Cause: one DOM or draw object per point. Cluster nearby points at low zoom, or query only the points in the current bounds, or render points on a canvas or from a vector layer instead of as separate elements.
+2. **Choose where clustering runs.** Client-side clustering suits a modest set loaded once; server-side clustering or tiles suits large or changing sets, with the viewport and zoom sent to the API and the count capped.
+3. **Fetch by viewport with care**: debounce on move end, cancel the previous request, include zoom and bounds, and keep the old markers until the new set arrives to avoid flicker (`data-fetching-state-conventions`).
+4. **A cluster shows a count and opens by zoom or by list**, and its marker is large enough to tap; clicking should zoom to its members, or, at the maximum zoom with true overlaps, show a list of them (spiderfy or a side list).
+5. **Overlapping identical coordinates** (many units in one building) need a list popup, not a cluster that zooms forever.
+6. **Cluster counts must match the list.** Symptom: the cluster says 120 and the side list shows 80. Both read the same filtered query, and the filter state is part of the request (`filters-search-and-saved-views-pitfalls`).
+7. **Marker identity is stable**: key markers by id so updates move or restyle them instead of recreating every marker.
+8. **Decide the maximum**: when a result set is too large even to cluster usefully, say so and ask for a filter rather than silently truncating (`data-table-ui-pitfalls`).
+9. **Icons are sprites or symbols**, not one image request per marker, and not heavy per-point HTML.
+10. **Heatmaps and density layers** answer different questions than pins; choose by the question (where is it dense, against where is this one place) (`chart-choice-pitfalls`).
+
+## 1.3 Tiles, basemaps and attribution
+1. **Treat the basemap provider as a service with terms.** Before launch, read for your exact use: whether the free or public tile server may be used by an application at your volume, whether caching or offline storage is allowed, whether you need an account key, and what the attribution wording must be. A public community tile server is not a production backend by default.
+2. **Show the required attribution, visibly and readable**, on every map and in screenshots or exports where the terms ask for it; do not hide it behind a control that stays closed or crop it on small screens. Data licences of the underlying map data usually need credit too.
+3. **Never scrape, bulk-download or pre-seed tiles** unless the terms say so. Offline use needs a provider or a self-hosted source that allows it.
+4. **Keep the key out of the repository** and restrict it by referrer or application where the provider supports it; a leaked key is a billing incident (`credential-lifecycle-pitfalls`, `secret-leak-response-pitfalls`).
+5. **Cost and quota are a design input**: map loads, tile requests, geocode calls and route calls are metered differently; estimate from traffic and set a budget alert (`llm-cost-latency-control-pitfalls` for the alerting habit, `spend-guard-fail-closed`).
+6. **Self-hosting tiles** (vector tiles from open data) moves the cost and the upkeep to you and still requires the data's credit; decide knowingly.
+7. **Provider lock-in**: keep the map behind a thin component with your own data model, so switching library or provider means changing the adapter, not every screen.
+8. **Dark mode and print** need a matching style or a provider option; check that attribution and legibility survive both.
+9. **CSP and privacy**: the map library, tile and API origins must be allowed in the content security policy, and loading third-party tiles discloses the user's IP and viewed area to that provider, which belongs in your privacy notice (`csp-and-sanitiser-pitfalls`).
+10. **Fail soft**: if tiles fail to load, the markers and the list still work, with a message, not a grey square.
+
+## 1.4 Geocoding and address autocomplete
+1. **Distinguish the operations**: geocoding (address to coordinates), reverse geocoding (coordinates to address), autocomplete (suggestions as typing), and places search. Each has its own quota, price and terms.
+2. **Symptom: the quota is gone by noon, or the bill spikes.** Cause: a request on every keystroke, or on every page view for static data. Debounce autocomplete, require a minimum input length, cancel superseded requests, and geocode a stored address once at write, not at every display.
+3. **Check what the terms allow you to store.** Some providers forbid storing their results beyond a short period or require displaying them on their map only; others allow storage with credit. Read for your case before caching results in your database, and keep the source recorded (§1.1).
+4. **Session or token discipline**: where autocomplete and the final lookup are billed as a session, pass the session token the provider documents, or you pay per keystroke.
+5. **Autocomplete is a combobox**: keyboard navigation, announced result count and the selection by Enter, with the typed text still editable (`accessibility`, `02-aria`, `08-aria-validity-widgets`).
+6. **A suggestion is not a validated address.** Keep the user's ability to correct and to enter an address the provider does not know, and show the resolved address for confirmation before saving.
+7. **Ambiguity is shown, not guessed**: several matches for one name offer a choice with context (region, country), and bias results by the user's country or the map view, not blindly.
+8. **Low-confidence or approximate results are marked** (a street centroid is not the door) and the use decides whether that is acceptable (delivery needs more than a store locator).
+9. **Rate-limit your own endpoint and keep the provider key server-side** when the provider allows server calls, so a script cannot drain the quota through your page (`oauth-oidc-client-pitfalls` for the secret-handling habit, `nginx-proxy-pitfalls` for limits).
+10. **Failures degrade to typed text**: if geocoding fails, the form accepts the address as text and queues a retry, instead of blocking the user (`international-input-pitfalls`).
+11. **Batch geocoding** of an import runs as a job with a rate limit, resumable, with a report of rows that failed or came back low-confidence (`csv-xlsx-import-export-pitfalls`, `background-jobs-conventions`).
+
+## 1.5 Routing, distance and areas
+1. **Straight-line distance is not travel distance.** A "within 5 km" filter by radius can include places across a river; state which you mean in the label, or use a routing service for travel time.
+2. **Routing calls are costly and slow**: compute lazily, cache per origin-destination within the terms, and show a spinner and a fallback (straight line, labelled) on failure.
+3. **Areas and geofences**: define them as polygons with a documented rule for points on the border, and index them for lookup, not by testing every polygon per request.
+4. **Travel-time estimates carry uncertainty**; show them as estimates, and never as a promise in a delivery slot without margin.
+
+## 1.6 Consent and location privacy (method, not legal advice)
+1. **Location is personal data and often sensitive in effect**: a trail shows home, work, health and habits. Whether and how you may collect it depends on your jurisdiction, your purpose and your users; take that question to your adviser, and this block is not legal advice (`dsar-handling-pitfalls`, `llm-pii-and-data-handling-pitfalls` for the handling habits).
+2. **Ask for device location only after a user action** ("Use my location"), in context, with a sentence on the purpose. Symptom: a permission prompt on page load, denied by reflex, after which the browser will not ask again and the feature looks broken.
+3. **Work when denied or unavailable**: a typed address or a place search must reach the same result, and the denied state says how to change it in the browser or device settings.
+4. **Request the least precision and the shortest duration** the feature needs: a one-time position for a locator, not continuous tracking; approximate for a city-level default.
+5. **Do not store the exact position unless the feature needs the history.** If stored, state the purpose, the retention and who sees it, and delete on schedule (`laravel-pruning-fires-delete-events` for the pruning habit).
+6. **IP-based location is a coarse hint, not a fact**: it is wrong for VPN, mobile and corporate networks; use it for a default centre only, and never for a decision that matters.
+7. **Do not send positions to analytics or logs at full precision** (`telemetry-sensitive-data-pitfalls`, `event-tracking-plan-pitfalls`); round or bucket, or drop.
+8. **Third-party map and geocode providers receive viewed areas and queries**; list them in your privacy notice, and keep user identifiers out of the requests (§1.3).
+9. **Minors, safety and sensitive places**: do not show another person's live or home location to others without an explicit, revocable choice, and give a visible way to stop sharing.
+10. **Mobile**: foreground and background location are different permissions with different review and justification; ask for background only when the feature cannot work without it, and re-read the platform's current rules (`flutter-conventions`, `android-security-hardening`).
