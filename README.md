@@ -672,6 +672,7 @@ without internal expertise in that function.
 | `community-and-social-metrics-pitfalls` | 📊 data | Community and social numbers read in order, with their filters, severity and missing-versus-zero handling |
 | `community-moderation-ladder-pitfalls` | 🗣️ communication | The procedure after a report: private route, reporter protection, warning-to-ban ladder, appeal |
 | `evidence-appraisal` | 📊 data | Judging someone else's benchmark or study before a decision leans on it |
+| `price-change-and-billing-pitfalls` | 📣 marketing | Staged price-change rollout, grandfathering with an end date, customer notice, discount and annual-plan discipline, billing mechanics checklist, honest total and reference prices; method only, not legal advice |
 | `podcast-publishing-pitfalls` | 📣 marketing | Stable feed identity, fetched enclosure, measured and sourced loudness, transcript and traced show notes, voice and music rights as method, and a pass, fail or unknown pre-publish list |
 | `pricing-and-packaging-pitfalls` | 📣 marketing | Designing price structure: three decisions in order, value metric, tier fences, survey limits |
 | `email-campaign-measurement-and-testing-pitfalls` | 📣 marketing | Opens and clicks as fetches, conversion from the system of record, holdout baselines, metric-first email tests, engagement segments; method only |
