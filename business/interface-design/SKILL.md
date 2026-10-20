@@ -47,7 +47,7 @@ answer one question is waste.
 | 6 | Gathering references | looking for prior art before designing a screen | [`06-references.md`](./references/06-references.md) |
 | 7 | A default without a reason, and counted caps per page | choosing a visual treatment, or auditing a finished screen | [`07-default-without-reason.md`](./references/07-default-without-reason.md) |
 | 8 | Redesigning what exists | the screen or product already exists and is being restyled or rebuilt | [`08-redesign.md`](./references/08-redesign.md) |
-| 9 | Microinteractions | one small interaction: a toggle, a delete, a save, a tooltip, a hover, a transition | [`09-microinteractions.md`](./references/09-microinteractions.md) |
+| 9 | Microinteractions | one small interaction: a toggle, a delete, a save, a tooltip, a hover, a transition; a product's motion character (§9.20); a motion that feels wrong, reviewed by symptom (§9.23); the browser side of animation tooling is `skills/web-animation-pitfalls` | [`09-microinteractions.md`](./references/09-microinteractions.md) |
 | 10 | Data screens and multi-step flows | a dashboard, a table, a filtered list, or a wizard | [`10-data-and-flows.md`](./references/10-data-and-flows.md) |
 
 ## Output / checkpoint

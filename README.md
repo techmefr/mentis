@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-370-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-371-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-35-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **370** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **371** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **35** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -520,6 +520,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `threat-modeling-lite` | 6 (new 2026-10-16) | One-session threat model: four questions, trust-boundary sketch, recorded decision per threat |
 | `crypto-usage-pitfalls` | 6 (new 2026-10-16) | Crypto usage in application code: nonces and limits, rekeying, randomness, KDF contexts |
 | `dsar-handling-pitfalls` | 6 (new 2026-10-16) | Handling data subject access requests: the clock, case record, package delivery. Not legal advice |
+| `web-animation-pitfalls` | 6 (new 2026-10-20) | Choosing the cheapest animation tool, checking acceleration instead of assuming it, tearing down what a component starts, and reading what a library's reduced-motion switch really removes |
 | `feature-flag-lifecycle` | 6 (new 2026-10-19) | Typing a flag, giving it an owner and expiry at creation, proving the kill switch before the ramp, testing both states, removing it after a quiet period, and auditing flag debt |
 | `slo-design` | 6 (new 2026-10-19) | Choosing the SLI from what users feel, setting the target as a product decision, writing the error budget policy first, and alerting on burn rate over two windows |
 | `chaos-experiment` | 6 (new 2026-10-19) | Planning and writing up a deliberate failure experiment: steady-state hypothesis, one realistic fault, bounded blast radius, abort criteria written first, a way back, and what was learned |
@@ -1110,7 +1111,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 370 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 371 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 35 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
