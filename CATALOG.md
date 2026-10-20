@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| helpdesk-ticketing-app-build-pitfalls | 6 (new 2026-10-20) | none read (craft knowledge, stated in origin.md) | 🟡 (never dogfooded) |
+| booking-and-scheduling-app-pitfalls | 6 (new 2026-10-20) | none read (craft knowledge, stated in origin.md) | 🟡 (never dogfooded) |
+| hr-leave-and-time-tracking-app-pitfalls | 6 (new 2026-10-20) | none read (craft knowledge, stated in origin.md) | 🟡 (never dogfooded) |
 | admin-back-office-pitfalls | 6 (new 2026-10-20) | none read, craft knowledge (no source credited) | 🟡 (never dogfooded) |
 | task-tracker-app-build-pitfalls | 6 (new 2026-10-20) | none read, craft knowledge (no source credited) | 🟡 (never dogfooded) |
 | document-file-management-pitfalls | 6 (new 2026-10-20) | none read, craft knowledge (no source credited) | 🟡 (never dogfooded) |
