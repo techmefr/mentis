@@ -306,6 +306,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| release-strategy-and-progressive-delivery-pitfalls | 6 (new 2026-10-20) | MicrosoftDocs/architecture-center (CC BY 4.0), own guidance | 🟡 (never dogfooded) |
+| delivery-metrics-definition-pitfalls | 6 (new 2026-10-20) | own guidance, no source read | 🟡 (never dogfooded) |
 | game-engine-loop-and-lifecycle-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
 | embedded-firmware-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
 | kotlin-multiplatform-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
@@ -770,7 +772,7 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
 | project-management | 10 / 14,536 | 2 / 16,550 | +2,014 | x0.88 |
-| bi, design, xefi | 16 / 17,306 | 4 / 31,173 | +13,867 | x0.56 |
+| bi, design, xefi | 16 / 17,306 | 4 / 32,052 | +14,746 | x0.54 |
 | global | 18 / 20,280 | 6 / 35,771 | +15,491 | x0.57 |
 | react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
 
@@ -805,7 +807,7 @@ global: code-baseline 10,384, security-hardening 10,753, api-design 6,723, docum
 project-management: product-ownership 10,118, spec 6,432
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,154
-bi, design, xefi: data-analytics 4,724, interface-design 11,554, ux-writing 5,934, accessibility 8,961
+bi, design, xefi: data-analytics 4,724, interface-design 11,554, ux-writing 5,934, accessibility 9,840
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every

@@ -136,3 +136,7 @@ HTML (role validity, required owned elements, required names), the W3C ARIA Auth
 stated in these sections; flash limits and durations are deferred to the criteria. Not taken:
 vendor-specific audit rule counts, tool names as requirements, and the checklist's generic verification
 text.
+
+**Section 9 added 2026-10-20 (manual audit pass).** Own guidance from general craft knowledge, no source read: it turns
+the existing statement that a tooled audit is not enough (§2.12, §3.11) into a procedure. It adds no threshold and
+no numeric claim. Not verified: screen reader and browser pairings were not run; re-test before relying.
