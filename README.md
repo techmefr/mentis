@@ -672,6 +672,8 @@ without internal expertise in that function.
 | `community-and-social-metrics-pitfalls` | 📊 data | Community and social numbers read in order, with their filters, severity and missing-versus-zero handling |
 | `community-moderation-ladder-pitfalls` | 🗣️ communication | The procedure after a report: private route, reporter protection, warning-to-ban ladder, appeal |
 | `evidence-appraisal` | 📊 data | Judging someone else's benchmark or study before a decision leans on it |
+| `email-campaign-measurement-and-testing-pitfalls` | 📣 marketing | Opens and clicks as fetches, conversion from the system of record, holdout baselines, metric-first email tests, engagement segments; method only |
+| `email-deliverability-and-sender-requirements-pitfalls` | 📣 marketing | Sender authentication and alignment, DMARC rollout order, one-click unsubscribe, streams, complaint rate, suppression, diagnosis order; method only, not legal advice, no Microsoft requirement |
 | `paid-media-decision-pitfalls` | 📣 marketing | Reading a paid ad account and deciding: evidence states, small numbers, one call per review |
 | `ad-measurement-pitfalls` | 📣 marketing | Tagging, conversion definition and attribution for paid media, and why platform numbers differ |
 | `ad-creative-testing-and-policy-pitfalls` | 📣 marketing | Creative as falsifiable hypotheses, fatigue read from a time series, an ad win is a candidate not page proof, platform policy review order with approval kept apart from legal clearance |
