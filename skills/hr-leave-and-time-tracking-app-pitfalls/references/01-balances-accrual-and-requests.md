@@ -1,7 +1,7 @@
 # hr-leave-and-time-tracking-app-pitfalls §1 — Balances, accrual and requests
 
 > Part 1 of `skills/hr-leave-and-time-tracking-app-pitfalls`. Read it when a schema or the balance write path is
-> designed. Craft knowledge, no external source read. Not legal advice: no entitlement, rate or limit is stated.
+> designed. Mostly craft knowledge; points 2 and 6 carry facts from an open-source data model (Apache-2.0), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Not legal advice: no entitlement, rate or limit is stated.
 
 1. **A balance is a ledger.** Symptom: a number on the employee row that people edit, and nobody can say why it
    dropped. Fix: an insert-only table of entries (employee, leave type, signed amount in the policy unit,
@@ -13,7 +13,7 @@
    balance, whether it needs approval, whether it needs a document, whether it is paid, and a visibility level
    for its label. Symptom: sick leave and annual leave sharing one counter, or hours stored in a days column.
    Fix: the unit is a property of the type, amounts are stored in the smallest unit the type uses, and
-   conversion between units happens at the edge by a stated rule.
+   conversion between units happens at the edge by a stated rule. The reference ERP data model keeps leave types as data, in a hierarchy through a parent type, and keeps the reason for a leave in a separate type table (source 1). The unit as a property of the type is our own guidance. The same model has leave records with a start, an end, an approver and a status but no balance, accrual or carry-over table (none found in the file read), so points 1, 3 and 4 rest on our own guidance alone.
 3. **Accrual is a policy run once per period.** The policy (how much, how often, from when, prorated for part
    periods, capped or not) is written by HR and versioned with an effective date. Symptom: a scheduled job that
    runs twice after a deploy and grants twice, or a new joiner who gets nothing for the first month. Fix: the
@@ -38,7 +38,7 @@
    cancelled by approver, taken. Symptom: a request that is "approved" but nobody can say whether the days were
    deducted. Fix: a transition table, a ledger usage entry at approval (or at submission as a reservation, by
    policy), reversed on cancel or reject, and the same function for the day count. See
-   `skills/laravel-recognise-state-machine-or-pipeline`. Insufficient balance either blocks or warns by type
+   `skills/laravel-recognise-state-machine-or-pipeline`. The reference leave record carries the approver and a status beside its date range (source 1). Insufficient balance either blocks or warns by type
    policy, and negative balances are allowed only where the policy says so.
 7. **Overlap and coverage.** Reject overlapping requests for one person, across types. Team coverage ("at most
    two people away") is a warning for the approver, not a hard rule, unless the business says so; show who else is

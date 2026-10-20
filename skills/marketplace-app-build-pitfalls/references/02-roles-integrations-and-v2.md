@@ -1,7 +1,7 @@
 # marketplace-app-build-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/marketplace-app-build-pitfalls`. Read it when onboarding, a provider integration or the
-> first release are planned. Craft knowledge, no external source read. Not legal advice.
+> first release are planned. Mostly craft knowledge; point 2 carries facts from the payment platform pages in `references/origin.md` (sources 3 and 4), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Roles are abilities per scope.** Typical shape: platform admin, platform support, seller owner, seller
    staff, buyer. Platform support sees orders and disputes but not payout bank details; a seller staff member
@@ -13,8 +13,8 @@
    transfer and payout references on your records, treat webhooks as untrusted until verified with the
    provider's signature scheme, handle events out of order and more than once (see
    `skills/unknown-payment-outcome-pitfalls`), and reconcile on a schedule. Keep keys in a secret store, never
-   in the repository. Check the provider's current documentation for the split-payment and payout features
-   before design; it was not read here, so re-read before relying.
+   in the repository. That platform's webhook documentation confirms the handling: verify the signature against the raw request body, answer with a success status before slow work, expect the same event twice and keep the ids of processed events, do not rely on delivery order or on the creation timestamp to order events, and expect retries for days (source 4). Check the provider's current documentation for the split-payment and payout features
+   before design; only one platform's pages were read here (§1 point 14), so re-read before relying on any other provider.
 3. **Moderation is a queue with actions and an audit.** Listings, reviews, messages and sellers can each be
    flagged by users or rules. Symptom: a removed listing leaves no trace and the seller cannot appeal. Fix: a
    flag record, a moderation decision with reason and actor, a notice to the affected user stating the reason

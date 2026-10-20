@@ -1,13 +1,13 @@
 # admin-back-office-pitfalls §2 — Roles, support workflows and v2 regrets
 
 > Part 2 of `skills/admin-back-office-pitfalls`. Read it when staff permissions, support tooling or the first
-> release are planned. Craft knowledge, no external source read.
+> release are planned. Mostly craft knowledge; point 1 carries a fact from the Django documentation (BSD-3-Clause) in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Every staff member has a named account and least privilege.** Symptom: a shared admin login, nobody
    accountable, a departed employee still able to sign in. Fix: individual accounts with second factor,
    abilities rather than a single "admin" flag (see `skills/laravel-permissions-not-roles`), a small number of
    roles built from abilities (support read, support edit, finance, super admin), a review of who holds what on
-   a schedule, and deactivation (never deletion) on departure so the audit rows keep their author. Break-glass
+   a schedule, and deactivation (never deletion) on departure so the audit rows keep their author. The Django authentication documentation gives the same advice for its active flag: set it to false instead of deleting an account, so foreign keys to the user do not break (source 1). Break-glass
    access for emergencies is time-boxed, logged and reviewed afterwards.
 2. **Support sees what it needs, not everything.** Symptom: first-line support can read payment details or full
    documents. Fix: field-level masking by ability (last digits only, redacted body) as in

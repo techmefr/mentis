@@ -9,7 +9,7 @@ A defensive block for building the application that receives requests and tracks
 tools fail in familiar ways: a reply creates a new ticket instead of joining the thread, an auto-reply talks to
 another auto-reply forever, an internal note is emailed to the customer, an SLA clock keeps running while the
 ticket waits on the customer, a merge loses a message, and a status is a free-text field nobody trusts. The
-content is craft knowledge with no external source read (see `references/origin.md`). Designing the support
+content is mostly craft knowledge; some points are checked against an open-source helpdesk schema and two mail standards (see `references/origin.md`). Designing the support
 process and its queue (labels, capacity, first-response promise) is in `skills/support-queue-design-pitfalls`;
 one escalated customer is in `skills/customer-escalation-pitfalls`; the help article a repeated question deserves
 is in `skills/troubleshooting-kb-article-pitfalls`; the list screen is in `skills/data-table-ui-pitfalls` and
@@ -55,6 +55,6 @@ message. Nothing here was run by us.
   (§2, point 4).
 
 ## Origin
-Written from craft knowledge of building ticketing and helpdesk applications; no open-source helpdesk
-documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building ticketing and helpdesk applications, then checked on 2026-10-20 against the
+Chatwoot database schema (MIT) and two IETF mail standards, credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

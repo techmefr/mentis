@@ -1,7 +1,7 @@
 # inventory-stock-app-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/inventory-stock-app-pitfalls`. Read it when permissions, an integration or the first
-> release are planned. Craft knowledge, no external source read.
+> release are planned. Mostly craft knowledge; point 5 carries facts from the data model in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Abilities per action and location.** Receive, ship, transfer, adjust, count, approve adjustment, see cost,
    edit item master, change units, export, archive. Symptom: a picker can adjust stock or see purchase
@@ -28,7 +28,7 @@
    posts movements in one transaction; a movement refers to its document line; cancelling a posted document
    posts a reversal. Keep the immutability and numbering rules of
    `skills/light-erp-document-flow-pitfalls`. Symptom of direct movement writes from screens: stock that no
-   document explains.
+   document explains. The ERP model's detail rows point to the order, shipment, issuance, receipt or return that caused them (source 1).
 6. **Alerts and reorder are derived, not stored.** Reorder point, safety stock and lead time are policy
    fields per item and location; a low-stock alert is a computed query over available quantity and open
    purchase orders, not a stored flag. Forecasting numbers are not stated here; take them from the business.

@@ -1,7 +1,7 @@
 # light-erp-document-flow-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/light-erp-document-flow-pitfalls`. Read it when permissions, an integration or the first
-> release are planned. Craft knowledge, no external source read.
+> release are planned. Mostly craft knowledge; point 5 carries a fact from the Apache-2.0 data model read 2026-10-20 (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance.
 
 1. **Permissions are abilities per document type and action.** Create, edit draft, confirm, post, void, approve,
    see prices, see costs, export, change bank details. Symptom: everyone who can create can also post and
@@ -22,7 +22,7 @@
 5. **Integrations carry ids and run twice safely.** Payment, bank, shipping, e-commerce, accounting export and
    e-invoicing platforms each have their own ids; store the external id and a sync state on the document,
    make inbound webhooks idempotent by event id, queue outbound calls and retry with backoff, and show failed
-   syncs to a person instead of looping. Structured e-invoicing obligations are in
+   syncs to a person instead of looping. The reference order header holds an external id and a separate sync status, which is the same pair (source 1). Structured e-invoicing obligations are in
    `skills/e-invoicing-obligations-pitfalls`; do not hard-code a format.
 6. **Accounting export is an interface, not a second ledger.** Decide whether the app only exports
    documents to the accountant's tool or posts journal entries itself; the second needs a chart of accounts,

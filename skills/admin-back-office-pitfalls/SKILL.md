@@ -9,8 +9,7 @@ A defensive block for building the internal tool that staff use to see and chang
 built in a hurry fails in familiar ways: the admin screens share a session with the public app, a staff member
 edits a record and nobody can say who or why, "login as user" leaves no trace and lets support do things the
 customer never could, a bulk action runs on a filter that matched ten times more rows than expected, and one
-mis-click on a delete button cannot be undone. The content is craft knowledge with no external source read
-(see `references/origin.md`). Flag lifecycle (owner, expiry, removal) is in `skills/feature-flag-lifecycle`;
+mis-click on a delete button cannot be undone. The content is mostly craft knowledge; some points are checked against the Django admin documentation (see `references/origin.md`). Flag lifecycle (owner, expiry, removal) is in `skills/feature-flag-lifecycle`;
 this block covers only flags as an admin screen. Field and row visibility is in
 `skills/field-and-row-permission-ui-api-pitfalls`, role design in `skills/laravel-permissions-not-roles`,
 tables in `skills/data-table-ui-pitfalls`, import and export files in `skills/csv-xlsx-import-export-pitfalls`,
@@ -53,6 +52,6 @@ hidden button. Nothing here was run by us.
 - Never use a shared super-user account; give every staff member their own named, audited login (§2, point 1).
 
 ## Origin
-Written from craft knowledge of building admin and support tools; no open-source admin framework documentation
-was read, so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md).
+Written from craft knowledge of building admin and support tools, then checked on 2026-10-20 against the Django admin
+documentation (BSD-3-Clause), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md).
 🟡: never run by us.

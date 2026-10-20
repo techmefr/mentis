@@ -9,7 +9,7 @@ A defensive block for building the application that records who is absent, who w
 and time tools fail in familiar ways: a balance is a number someone edits, an accrual runs twice, a half day
 counts as a whole one, a holiday is counted as a day off taken, an approver is on holiday and the request
 sits, a cancelled request does not give the days back, a timesheet is edited after payroll took it, and sick
-leave reasons are visible to the whole team. The content is craft knowledge with no external source read (see
+leave reasons are visible to the whole team. The content is mostly craft knowledge; a few points are checked against an open-source data model and the iCalendar standard (see
 `references/origin.md`). **Employment law differs by country, sector and contract: this block gives a method
 for modelling and testing, states no statutory entitlement, rate, carry-over limit, rest rule or overtime
 threshold, and is not legal advice. The rules are owned by HR and legal, written with a date.** Time-zone and
@@ -61,6 +61,7 @@ was run by us, and the rules were not checked with HR or legal.
 - Never delete a request, entry or balance row with history; reverse it (§1, point 8).
 
 ## Origin
-Written from craft knowledge of building leave and time-tracking applications; no open-source HR or
-timesheet documentation and no labour-law text was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building leave and time-tracking applications, then checked on 2026-10-20 against
+the Apache OFBiz data model (Apache-2.0) and the iCalendar standard, credited in the origin file; no labour-law
+text was read and no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

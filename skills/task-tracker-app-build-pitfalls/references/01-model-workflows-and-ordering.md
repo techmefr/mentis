@@ -1,7 +1,7 @@
 # task-tracker-app-build-pitfalls §1 — Model, workflows, ordering and dependencies
 
-> Part 1 of `skills/task-tracker-app-build-pitfalls`. Read it when a schema or a write path is designed. Craft
-> knowledge, no external source read. Each point gives the symptom, the check and the fix.
+> Part 1 of `skills/task-tracker-app-build-pitfalls`. Read it when a schema or a write path is designed. Mostly
+> craft knowledge; points 3, 4, 6, 9, 10 and 15 carry facts from an open-source tracker's code (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
 
 1. **Minimal model, each entity with one owner.** Workspace or tenant, project (a container with members and a
    workflow), task (a unit of work in one project), subtask (a task with a parent, one level or a bounded
@@ -18,7 +18,7 @@
    no estimate. Fix: a transition table (from, to, optional guard), checked in one place (see
    `skills/laravel-recognise-state-machine-or-pipeline`), with guards that are data checks (assignee present,
    blockers done, required field filled), and a default of "any to any" only where the team wants it, stated
-   openly. Stage history is rows (task, from, to, actor, time), never an overwritten column.
+   openly. Stage history is rows (task, from, to, actor, time), never an overwritten column. The reference tracker records each column move as an inserted row with the user, the source column, the destination column, the time and the time spent in the source column (source 1), and its move function does nothing for a closed task unless told to, which is a guard of the kind this point asks for.
     Check on an existing code base: grep every statement that updates the status column, in application code and in
     migrations, and count the writers. More than one is the symptom: each writer must go through the one transition
     function, and each update must carry a from-state guard (update only where the current status is an allowed
@@ -29,7 +29,7 @@
     another repair. Repair migrations are one-off and idempotent, never the mechanism.
 4. **Done and reopen are explicit.** Symptom: a reopened task keeps its old completion date and shows as both
    done and active. Fix: set completion time on entry to a done category, clear it on reopen while keeping the
-   history row, and let reports use the history for "completed in period".
+   history row, and let reports use the history for "completed in period". The reference tracker closes a task by switching an active flag off and writing the completion time, reopens it by switching the flag on and resetting that time to zero, and closes all its subtasks when the parent closes (source 1); the last behaviour is a parent and child rule that point 10 asks you to choose on purpose.
 5. **Priority and type are small enumerations with stable ids.** Same rule as statuses: a renamed label must not
    rewrite history, and sorting by priority sorts by an order column, not alphabetically.
 6. **Manual ordering uses a sparse key.** Symptom: dragging a card rewrites the position of every row below it,
@@ -39,7 +39,7 @@
    neighbours the client saw; when keys get too close or too long, rebalance that list in one background
    job; resolve ties by id so order is deterministic. Order is per list (project backlog, a status column, a
    saved view), so keep the list identity in the key's scope. Re-read before relying: the exact precision limit
-   depends on the database type; test it.
+   depends on the database type; test it. The reference tracker is the dense-integer counter-example: it keeps integer positions per column and swimlane and, on every move, reads the other open tasks in order and rewrites each one's position, ties broken by id (source 1). That confirms the symptom (one drag writes every row of the list) and the id tie-break; the sparse key itself is our own guidance.
 7. **A move changes status and position together.** Symptom: a card dropped into another column keeps its old
    status until a refresh, or lands but is refused later. Fix: one server operation takes target status and
    neighbours, validates the transition (point 3), writes status, position and history in one transaction, and
@@ -55,12 +55,11 @@
    dependency table (blocker, blocked, type), a uniqueness rule, a self-edge ban, a cycle check on insert that
    walks the existing edges in the same transaction (lock the affected rows to stop two concurrent inserts
    forming a loop), and a clear rule for what a blocked task may do (may start but cannot close, or may not
-   start). Cross-project edges need the permission of both projects. Deleting or archiving a blocker releases
+   start). The reference tracker stores a link as a pair of rows, one per direction, each with an opposite link id and a unique index; no cycle check was found in the link model read (source 1), so the check is our own addition. Cross-project edges need the permission of both projects. Deleting or archiving a blocker releases
    its dependants with a history row, not silently.
 10. **Parent and child completion has a rule.** Symptom: a parent shows 100 percent while a subtask is open, or
     the reverse. Fix: choose one rule (parent derived from children, or parent closed manually with a guard that
-    children are done), store derived progress as a computed value rather than a second editable field, and
-    cap nesting depth.
+    children are done), store derived progress as a computed value rather than a second editable field, and cap nesting depth. (See point 4 for the reference tracker's choice of closing every subtask with its parent.)
 11. **Dates: decide date-only versus instant, and the time zone.** Symptom: a task due "Friday" shows overdue
     on Thursday evening for a colleague in another zone, or a daylight-saving change moves a reminder. Fix: a
     date-only due date is stored as a date with no zone and compared in the viewer's or project's zone by a

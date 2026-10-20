@@ -1,7 +1,7 @@
 # lms-app-build-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/lms-app-build-pitfalls`. Read it when permissions, an integration or the first release are
-> planned. Craft knowledge, no external source read.
+> planned. Mostly craft knowledge; point 3 carries facts from the xAPI specification in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Visibility is a rule on the query, by role.** Typical shape: an admin sees all, an instructor sees their
    courses and learners, a manager sees their team's progress but not free-text answers, a learner sees their
@@ -16,8 +16,7 @@
 3. **Standards are a decision, not a default.** Packaged content (SCORM, xAPI, cmi5) and learning-tool
    launch protocols bring player quirks, a runtime to host and a reporting format. Decide whether the product
    plays third-party packages at all; if yes, isolate the player in a sandboxed frame, store the raw statements
-   it sends, and map them to your own events rather than letting them become your model. Re-read the specs
-   before relying; none was read here.
+   it sends, and map them to your own events rather than letting them become your model. The xAPI specification was read for the points above (§1 points 3, 5 and 6: statements are immutable, voided by a later statement, and keep their own ids); SCORM, cmi5 and learning-tool launch protocols were not read, so re-read those specs before relying.
 4. **Video and files are served through the platform.** Use storage with signed, expiring links and a
    transcoding step you do not block the request on (see `skills/document-file-management-pitfalls`,
    `skills/file-upload-ui-pitfalls`). Symptom: a course video reachable by a copied link after the learner is

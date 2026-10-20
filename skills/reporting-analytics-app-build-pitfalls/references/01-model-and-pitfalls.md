@@ -1,7 +1,7 @@
 # reporting-analytics-app-build-pitfalls §1 — Minimal model and its pitfalls
 
 > Part 1 of `skills/reporting-analytics-app-build-pitfalls`. Read it when a schema or a metric is designed.
-> Craft knowledge, no external source read. Each point gives the symptom, the check and the fix.
+> Craft knowledge; no fact in this part was matched to a source (`references/origin.md` lists what was read for part 2). Each point gives the symptom, the check and the fix.
 
 1. **A metric is defined once, in a governed place.** Symptom: "active customers" is 1,204 on the home
    dashboard and 1,187 in the report, because each carries its own query and its own idea of active. Check:

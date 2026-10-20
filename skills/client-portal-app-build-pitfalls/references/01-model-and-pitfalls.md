@@ -1,7 +1,7 @@
 # client-portal-app-build-pitfalls §1 — Model and pitfalls
 
 > Part 1 of `skills/client-portal-app-build-pitfalls`. Read it when a schema or an access rule is designed.
-> Craft knowledge, no external source read. Each point gives the symptom, the check and the fix. Not legal advice.
+> Mostly craft knowledge; points 1, 3, 4 and 5 carry facts from an open-source commerce framework's documentation (MIT), the OpenID Connect core specification and a payment platform's portal page, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 to 4). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix. Not legal advice.
 
 1. **An invitation is a short-lived, single-use, address-bound token.** Symptom: a forwarded invitation lets a
    stranger claim the account, or an old link still works after the user was re-invited. Check: use the link
@@ -10,7 +10,7 @@
    organisation and role granted, an expiry, a used-at time and the inviter; on use, require the sign-in or
    sign-up to match the invited address or confirm it by a code, mark it used in the same transaction as the
    account creation, make a new invitation revoke the previous one, and show the inviter the state (sent,
-   opened, accepted, expired, revoked). A resend creates a new token, it never extends the old one.
+   opened, accepted, expired, revoked). A resend creates a new token, it never extends the old one. The reference framework's invitation records are bound to an email address, carry an expiry set by a configurable validity duration and an accepted flag, and its refresh operation both renews the expiry and issues a new token (source 1). It signs the token instead of storing a hash of a random one, which is a different design from the one asked for here.
 2. **Client organisation, client user and staff user are different entities.** Symptom: a client user is a row
    in the staff table with a flag, so a staff query leaks clients or a client query leaks staff notes. Fix: a
    client organisation (the unit of isolation), client users belonging to it through a membership with a role,
@@ -24,21 +24,21 @@
    request) used by every read and write path (see `skills/laravel-scope-dont-check-after-fetch` and
    `skills/laravel-tenant-context-by-default`), the organisation id on every table including join tables and
    files, the same boundary in the search index and in file storage paths, and a test per path. Answer a
-   forbidden record with the same response as a missing one so ids cannot be probed.
+   forbidden record with the same response as a missing one so ids cannot be probed. The reference framework shows the other side of the trade-off: it lets a guest read an order by its random id with no sign-in, so that the confirmation page works, treating the id as the credential, while listing a customer's orders requires authentication (source 2). That is acceptable only for a flow with no accounts; a portal of invited clients should authenticate every read.
 4. **Authentication fits clients, not staff.** Symptom: shared client logins, password resets that reveal whether
    an address exists, or clients locked out with no recovery. Fix: one login per person, sign-in methods chosen
    for the audience (email link, password plus second factor, passkey, or single sign-on for larger clients; see
    `skills/auth-session-conventions`, `skills/oauth-oidc-client-pitfalls` and `skills/webauthn-passkey-pitfalls`),
    neutral reset responses, session lifetime and device list shown to the user, and a documented recovery path
    handled by staff with identity checks. Client single sign-on maps external identities to memberships by a
-   stable subject, not by email alone.
+   stable subject, not by email alone. The OpenID Connect core specification states why: only the issuer and subject claims together are a stable identifier for a person, since the subject is unique and never reassigned within an issuer, whereas an issuer may reuse an email value for different people over time and a person's email may change (source 3).
 5. **Shared documents are versioned, scoped and delivered through short links.** Symptom: staff replace a file
    after the client viewed or approved it, a public link is forwarded, or a file is reachable by guessing its
    storage path. Fix: a document record with versions (each immutable: file, checksum, uploader, time), a
    current-version pointer, a visibility field (internal, shared with client), storage that is private with
    downloads through an authorised, expiring link issued after the scope check (see `skills/file-upload-ui-pitfalls`
    for the upload side and `skills/document-file-management-pitfalls` for the internal side), file type and size
-   checks and malware scanning on upload from clients, and a record of who viewed or downloaded which version.
+   checks and malware scanning on upload from clients, and a record of who viewed or downloaded which version. A payment platform's hosted portal page gives the same short-lived-link idea: its portal sessions are temporary, a new session expires after a few minutes if unused and, once used, ends after an hour of inactivity (source 4).
    Check: upload, share, replace, then confirm the earlier version and any approval on it are unchanged.
 6. **Folders and shares inherit one rule.** Symptom: a sub-folder is shared more widely than its parent, or
    moving a document exposes it. Fix: access is decided by the organisation and the document's visibility, not

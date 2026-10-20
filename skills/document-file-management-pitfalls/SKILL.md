@@ -9,8 +9,7 @@ A defensive block for building the application that stores, versions and shares 
 company's documents. A file store built in a hurry fails in familiar ways: the filename is the storage key so
 two uploads collide, a new version overwrites the old one, a shared folder exposes a file its owner meant to
 keep private, an uploaded file is served with a type that lets a browser run it, a "deleted" document is still
-on disk for years, and previews are generated inline until a large file takes the server down. The content is
-craft knowledge with no external source read (see `references/origin.md`). The upload and viewer screens are UI
+on disk for years, and previews are generated inline until a large file takes the server down. The content is mostly craft knowledge; the upload and download points are checked against an open-source resumable upload protocol and a storage vendor's documentation (see `references/origin.md`). The upload and viewer screens are UI
 components covered by their own blocks; this block covers the data, storage and rules behind them. Tenant
 boundaries are in `skills/laravel-tenant-context-by-default`, role design in `skills/laravel-permissions-not-roles`,
 visibility in `skills/field-and-row-permission-ui-api-pitfalls`, background work in `skills/background-jobs-conventions`
@@ -57,6 +56,7 @@ downloadable. Nothing here was run by us.
 - Never delete with a database cascade; remove bytes in an audited job (§2, point 4).
 
 ## Origin
-Written from craft knowledge of building document and file-management applications; no open-source document
-system documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building document and file-management applications, then checked on 2026-10-20
+against the tus resumable upload protocol (MIT) and two pages of a storage vendor's documentation (facts only),
+credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

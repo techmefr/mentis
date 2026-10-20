@@ -8,8 +8,7 @@ description: "Use when a booking, appointment or scheduling application is desig
 A defensive block for building the application that lets people reserve time on a person, a room or a thing.
 Booking tools fail in familiar ways: a slot appears at the wrong hour after a clock change, two customers get the
 same slot, a held slot is never released, a recurring appointment drifts by an hour in winter, a cancellation
-frees a slot that was already paid, and a calendar sync creates duplicates. The content is craft knowledge with
-no external source read (see `references/origin.md`). Time handling in tests is in
+frees a slot that was already paid, and a calendar sync creates duplicates. The content is mostly craft knowledge; some points are checked against the iCalendar standard and the IANA time zone notes (see `references/origin.md`). Time handling in tests is in
 `skills/python-patching-and-time-pitfalls` and `skills/dotnet-testcontainers-and-time-seam-pitfalls`; date display
 is in `skills/laravel-date-via-localised-accessors`; scheduled jobs are in `skills/laravel-scheduling`; idempotent
 writes are in `skills/laravel-idempotent-jobs`; money is in `skills/money-arithmetic-and-rounding-pitfalls`;
@@ -58,6 +57,6 @@ test that a recurring series keeps its local hour across a clock change; for a r
 - Never compute availability only in the browser; the server decides (§1, point 5).
 
 ## Origin
-Written from craft knowledge of building booking and scheduling applications; no open-source scheduling
-documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building booking and scheduling applications, then checked on 2026-10-20 against the
+iCalendar standard and the IANA time zone database notes, credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

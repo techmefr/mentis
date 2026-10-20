@@ -9,7 +9,7 @@ A defensive block for building the application, not for designing a good course.
 in familiar ways: an instructor edits a lesson and the learners who finished it are silently back at 60 percent,
 "completed" means video watched in one place and quiz passed in another, a certificate cannot be proven or
 withdrawn, a cohort deadline lands a day early for half the group, and every learner can see the others' grades.
-The content is craft knowledge with no external source read (see `references/origin.md`). Writing objectives
+The content is mostly craft knowledge; some points are checked against the xAPI specification (see `references/origin.md`). Writing objectives
 and checking learning are in `skills/training-objectives-and-formative-assessment-pitfalls` and
 `business/learning-development`; file storage is in `skills/document-file-management-pitfalls`; upload screens in
 `skills/file-upload-ui-pitfalls`; roles in `skills/laravel-permissions-not-roles`; tenants in
@@ -51,6 +51,6 @@ through the list, the export and the certificate page. Nothing here was run by u
 - Never cascade a delete from a course to learners' records (§1, point 9).
 
 ## Origin
-Written from craft knowledge of building learning platforms; no open-source LMS documentation was read, so no
-source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡: never run
+Written from craft knowledge of building learning platforms, then checked on 2026-10-20 against the xAPI
+specification (Apache-2.0), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md). 🟡: never run
 by us.

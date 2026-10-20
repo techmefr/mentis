@@ -1,14 +1,19 @@
 # crm-app-build-pitfalls §1 — Minimal model and its pitfalls
 
-> Part 1 of `skills/crm-app-build-pitfalls`. Read it when a schema or a write path is designed. Craft knowledge,
-> no external source read. Each point gives the symptom, the check and the fix.
+> Part 1 of `skills/crm-app-build-pitfalls`. Read it when a schema or a write path is designed. Mostly craft
+> knowledge; points 1 and 5 carry facts from the Atomic CRM documentation (MIT), read 2026-10-20 and restated in
+> our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point
+> gives the symptom, the check and the fix.
 
 1. **Duplicates are stopped at write time.** Symptom: the same company and the same person exist several
    times, each with part of the history. Check: create the same contact twice, once with different case,
    spacing or a plus-tag in the email. Fix: store a normalised key beside the display value (lowercased and
    trimmed email, digits-only phone with country, a company key from website domain or registration number),
    put a unique index on the key within the tenant, and on collision offer "open existing" or "merge", never
-   silently create. Treat a name match alone as a suggestion, not a key.
+   silently create. Treat a name match alone as a suggestion, not a key. Compute the key for every address and phone a contact
+   holds, not only the first: the reference CRM stores several typed emails and phones per contact. The same
+   documentation lists three usual causes of duplicates, which are the three paths to guard: overlapping CSV
+   imports, mail that creates a contact for an unseen address, and manual entry without a lookup (source 1).
 2. **Minimal model, each entity with one owner.** Account (a company or household), contact (a person, possibly
    linked to several accounts through a role record), deal (an opportunity on one account, with an amount, a
    currency, a pipeline and a stage), activity (a call, mail, meeting or note attached to contact, account or
@@ -29,7 +34,10 @@
    one transaction repoint every child to the survivor, resolve field conflicts by a visible rule (survivor
    wins unless empty, or the user picks), keep the absorbed record as archived with a pointer to the survivor,
    and write a merge event listing who, when and what moved. Merge must also be reversible within a window or
-   at least reconstructable from the event.
+   at least reconstructable from the event. The reference CRM is smaller than this: it moves the source contact's
+   data to the target, keeps the target's value when both have one, and deletes the source (source 1). The
+   conflict rule is confirmed as a common choice; the archive, redirect and event are our own guidance, because a
+   deleted source leaves old links and history with no trace.
 6. **The timeline is append-only.** Symptom: a salesperson edits or removes a logged call and a dispute cannot
    be resolved. Fix: activity rows and stage changes are inserted, never updated; a correction is a new entry
    referencing the old one; record the actor, the time the event happened and the time it was written

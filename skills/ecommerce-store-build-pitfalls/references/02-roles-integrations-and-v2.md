@@ -1,13 +1,13 @@
 # ecommerce-store-build-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/ecommerce-store-build-pitfalls`. Read it when permissions, an integration or the first
-> release are planned. Craft knowledge, no external source read. Not legal advice.
+> release are planned. Mostly craft knowledge; points 1 and 3 carry facts from the sources in `references/origin.md` (sources 1 and 2), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Guests and accounts both work.** Symptom: a forced account loses buyers, or a guest cannot find their
    order. Fix: guest checkout with an order lookup by a signed link or order number plus email, an optional
    account created after purchase that adopts earlier orders by verified email, and no change to the order when
    the account is created. Account pages show only the logged-in customer's orders; check by id guess (see
-   `skills/laravel-scope-dont-check-after-fetch`).
+   `skills/laravel-scope-dont-check-after-fetch`). The reference framework makes a deliberate trade-off here: it lets anyone holding a valid order id read that order without signing in, so that a guest sees the confirmation page, and relies on random ids as the credential, while listing a customer's orders requires authentication; it documents how to add stricter rules when guest checkout is not offered (source 1). A signed link or order number plus email, as in this point, is the stronger choice.
 2. **Staff roles are abilities.** Typical shape: owner, catalogue editor, order handler, support agent,
    read-only finance. Symptom: anyone with a back-office login can refund. Fix: named abilities (edit price,
    refund, cancel, export customers, change stock) checked in one place (see `skills/laravel-permissions-not-roles`),
@@ -15,8 +15,7 @@
    changes with actor and time.
 3. **Webhooks and provider events are untrusted and repeatable.** Verify the signature scheme the provider
    documents, accept events out of order, key processing by the event id, return success only after the work is
-   stored, and keep the raw payload for a short period. Re-read the provider's current documentation before
-   relying on any detail; it was not read here.
+   stored, and keep the raw payload for a short period. One payment platform's webhook documentation was read (source 2): verify the signature against the raw request body, return success before slow work, keep processed event ids because an event can arrive twice, and do not order events by their creation time. Re-read the current documentation of the provider you use before relying on any detail.
 4. **Carriers, tax services and ERP sync are matched by stable ids.** Store the external id on shipment, tax
    result and synced order; make a retry safe; treat an outage as a pending state shown to staff, not as a
    silent skip. Shipping rates are a quote with an expiry stored on the checkout, not a number recalculated at

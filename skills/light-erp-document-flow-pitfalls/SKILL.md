@@ -9,8 +9,7 @@ A defensive block for building the document backbone of a small ERP: the chain f
 to invoice on the sales side, and from purchase order to receipt to supplier bill on the purchase side. Such
 tools fail in familiar ways: an edited invoice changes last year's total, numbers skip or repeat, a converted
 order can be delivered twice, a price change rewrites old lines, and one customer's documents leak into
-another tenant's list. The content is craft knowledge with no external source read (see
-`references/origin.md`). Invoicing specifics are in `skills/invoicing-app-build-pitfalls`, stock movements in
+another tenant's list. The content is mostly craft knowledge; a few points are checked against two open-source ERP and billing sources (see `references/origin.md`). Invoicing specifics are in `skills/invoicing-app-build-pitfalls`, stock movements in
 `skills/inventory-stock-app-pitfalls`, the customer side in `skills/crm-app-build-pitfalls`, money in
 `skills/money-arithmetic-and-rounding-pitfalls`, VAT handling in `skills/vat-handling-in-software-pitfalls`.
 Reconciling the ledger to its subledgers is in `skills/gl-subledger-reconciliation-pitfalls`.
@@ -51,6 +50,7 @@ unchanged. Nothing here was run by us.
 - Never apply the tenant filter only in the screen (§1, point 10).
 
 ## Origin
-Written from craft knowledge of building document-driven business applications; no open-source ERP data-model
-documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building document-driven business applications, then checked on 2026-10-20
+against the Apache OFBiz data model and the Kill Bill documentation (both Apache-2.0), credited in the origin
+file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

@@ -8,8 +8,7 @@ description: "Use when a two-sided marketplace application is designed or built:
 A defensive block for building the application, not for growing a marketplace. A marketplace fails in familiar
 ways: a seller is also a buyer and the account model cannot say so, a fee rate changes and old orders re-price,
 a payout is sent twice or before a refund window ends, a dispute has no deadline and no evidence, reviews are
-written by the seller's cousin, and the two parties swap phone numbers on the first message. The content is
-craft knowledge with no external source read (see `references/origin.md`). Single-merchant store mechanics
+written by the seller's cousin, and the two parties swap phone numbers on the first message. The content is mostly craft knowledge; some points are checked against one payment platform's documentation (see `references/origin.md`). Single-merchant store mechanics
 (cart, checkout, returns) are in `skills/ecommerce-store-build-pitfalls`; store quality audits are in
 `business/ecommerce-store-quality-pitfalls`. Money arithmetic is `skills/money-arithmetic-and-rounding-pitfalls`,
 an unknown payment result is `skills/unknown-payment-outcome-pitfalls`, tax on sales is
@@ -55,6 +54,6 @@ Nothing here was run by us.
 - Never store money as a float or without a currency (§1, point 5).
 
 ## Origin
-Written from craft knowledge of building marketplace-style applications; no open-source marketplace
-documentation or payment-provider documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building marketplace-style applications, then checked on 2026-10-20 against four pages
+of one payment platform's documentation (facts only), credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

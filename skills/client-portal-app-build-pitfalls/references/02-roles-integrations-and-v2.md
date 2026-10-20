@@ -1,7 +1,7 @@
 # client-portal-app-build-pitfalls §2 — Roles, notifications, integrations and v2
 
 > Part 2 of `skills/client-portal-app-build-pitfalls`. Read it when permissions, notifications, an integration or
-> the first release are planned. Craft knowledge, no external source read. Not legal advice.
+> the first release are planned. Mostly craft knowledge; point 5 carries a fact from the OpenID Connect core specification in `references/origin.md` (source 3), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Roles are abilities inside a client organisation.** Typical shape: client admin (invites and removes users,
    sees everything of the organisation), client member (works with documents and messages), client viewer
@@ -28,8 +28,7 @@
    `skills/unknown-payment-outcome-pitfalls`.
 5. **Single sign-on and provisioning are per client.** A larger client may bring its own identity provider:
    verify the issuer and subject, map groups to portal roles by a visible rule, handle a user removed at the
-   provider (deactivate here too), and keep a break-glass admin. Check the provider flow against the library's
-   current documentation; it was not read here.
+   provider (deactivate here too), and keep a break-glass admin. The specification fact for the identity key is in §1 point 4 (source 3). Check the provider flow against the library's current documentation; the library's documentation was not read here.
 6. **Imports and exports follow the same scope and are logged.** Bulk client or user creation is staged,
    previewed and idempotent (see `skills/csv-xlsx-import-export-pitfalls`); sending many invitations at once is
    rate-limited and reviewed. A client exporting their own data gets the same scope as the screens, an async job

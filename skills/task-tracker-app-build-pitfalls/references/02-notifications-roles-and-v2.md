@@ -1,13 +1,13 @@
 # task-tracker-app-build-pitfalls §2 — Notifications, roles, recurrence and v2 regrets
 
 > Part 2 of `skills/task-tracker-app-build-pitfalls`. Read it when notifications, permissions, an import or the
-> first release are planned. Craft knowledge, no external source read.
+> first release are planned. Mostly craft knowledge; point 1 carries a fact from the code in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Notifications come from events, with a matrix.** Symptom: people are notified of things they caused, or
    miss the one that matters. Fix: write a matrix of event (assigned, mentioned, status changed, comment added,
    due soon, blocker cleared) against recipient (assignee, creator, watchers, mentioned user) and channel
    (in-app, email, push); never notify the actor of their own action; every send goes through the notification
-   layer (see `skills/laravel-mail-via-notifications`).
+   layer (see `skills/laravel-mail-via-notifications`). The reference tracker lets each user choose a notification filter (all tasks, only those assigned to me, only those created by me, or both) and a set of projects, and its recipient query accepts a user id to exclude (source 1).
 2. **Coalesce, then send.** Symptom: one edit session produces six emails, or a bulk move sends hundreds.
    Check: change five fields on a task in a minute and bulk-move fifty tasks. Fix: emit one event per user
    action, not per field; delay sending a short window and merge events on the same task; a bulk operation

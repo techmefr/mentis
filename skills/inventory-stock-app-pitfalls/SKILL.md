@@ -8,8 +8,7 @@ description: "Use when an inventory or stock application is designed or built: i
 A defensive block for building the application that knows how much of what is where. Stock tools fail in
 familiar ways: the quantity is a number someone edits and nobody can say why it changed, two orders take the
 last unit, a transfer loses units in transit, a count overwrites history, units of measure mix, and a marketplace
-sync sets the quantity to a stale value. The content is craft knowledge with no external source read (see
-`references/origin.md`). The purchase and sales documents that move stock are in
+sync sets the quantity to a stale value. The content is mostly craft knowledge; some points are checked against an open-source ERP data model and an open-source commerce framework's documentation (see `references/origin.md`). The purchase and sales documents that move stock are in
 `skills/light-erp-document-flow-pitfalls`; invoicing is in `skills/invoicing-app-build-pitfalls`; exact
 quantities and money are in `skills/money-arithmetic-and-rounding-pitfalls`; an e-commerce store's catalogue
 and checkout are in `business/ecommerce-store-quality-pitfalls`; idempotent writes are in
@@ -53,6 +52,7 @@ difference as a movement. Nothing here was run by us.
 - Never mix units in one quantity column; store a base unit and convert at the edge (§1, point 6).
 
 ## Origin
-Written from craft knowledge of building inventory and stock applications; no open-source inventory or ERP
-documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building inventory and stock applications, then checked on 2026-10-20 against the
+Apache OFBiz data model (Apache-2.0) and the Medusa inventory documentation (MIT), credited in the origin file;
+no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

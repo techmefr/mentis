@@ -1,7 +1,7 @@
 # document-file-management-pitfalls §1 — Metadata, storage, versions and safety
 
 > Part 1 of `skills/document-file-management-pitfalls`. Read it when a schema, a storage layout or an upload
-> path is designed. Craft knowledge, no external source read. Each point gives the symptom, the check and the
+> path is designed. Mostly craft knowledge; points 9 and 11 and the new point 15 carry facts from an open-source upload protocol (MIT) and two pages of a storage vendor's documentation, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 and 2). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the
 > fix.
 
 1. **Metadata and bytes are two things.** Symptom: moving or renaming a file rewrites the stored object, or a
@@ -45,7 +45,7 @@
 9. **Serve files through an authorised path.** Symptom: a public bucket or a long-lived URL leaks files, or
    the app streams large downloads and exhausts workers. Fix: keep storage private; for each download check
    authorisation, then redirect to a short-lived signed URL or stream via the web server's offload feature;
-   set cache headers so a private file is never stored by a shared cache; log the download.
+   set cache headers so a private file is never stored by a shared cache; log the download. The storage vendor's documentation confirms that a presigned link works for whoever holds it until it expires (source 2), which is why the authorisation check comes before the redirect and the link is short-lived.
 10. **Do not trust the type, serve safely.** Symptom: an upload named `.jpg` is HTML, opens inline and runs
     script on the application's origin. Check: upload an HTML file renamed to an image and a script inside an
     SVG, then open them. Fix: detect the type from content (magic bytes), compare with an allow-list per
@@ -58,7 +58,7 @@
     proxy, the application and the storage policy with the same numbers (chosen by policy), a per-user and
     per-tenant quota (§2, point 7), chunked or direct-to-storage uploads for large files with a server-issued
     permission and a completion call that verifies size and checksum, and cleanup of abandoned partial
-    uploads by a scheduled job.
+    uploads by a scheduled job. The resumable upload protocol shows the pieces: the client asks the server for the current byte offset and continues from it; a chunk whose offset differs from the server's is refused with a conflict status and nothing is changed; the server may announce a maximum size, may verify a checksum per chunk, may let unfinished uploads expire after which they cannot be resumed, and may let the client terminate an upload to free its resources (source 1). The storage vendor recommends a lifecycle rule that aborts incomplete multipart uploads to keep their storage cost down (source 2).
 12. **Scan on a quarantine path and gate release.** Symptom: an infected file is shared before the scanner
     finishes, or the scanner is down and files pass. Check: upload a harmless standard antivirus test file and
     stop the scanner. Fix: new uploads land in a quarantine location with state `pending`; a queued job scans
@@ -72,3 +72,9 @@
 14. **Every record belongs to a tenant from the first migration.** Tenant column on files, versions, folders,
     shares and scan rows, one default scope (see `skills/laravel-tenant-context-by-default`), storage prefix
     from the tenant, and a test per path.
+15. **A signed link cannot outlive the credentials that signed it.** Symptom: a link meant to last a day stops working after
+    an hour, or a link believed to be short lives as long as the signer's credentials. Check: create a link with the
+    longest lifetime your policy allows using the same credentials the application really runs with, and measure when it
+    stops. Fix: choose the lifetime knowing that the vendor's presigned link expires when the temporary role session that
+    signed it expires, even if a longer lifetime was requested (source 2); refresh the link on demand from an authorised
+    request instead of storing it.

@@ -1,7 +1,7 @@
 # hr-leave-and-time-tracking-app-pitfalls §2 — Approvals, timesheets and v2
 
 > Part 2 of `skills/hr-leave-and-time-tracking-app-pitfalls`. Read it when approvals, time entry, privacy or the
-> first release are planned. Craft knowledge, no external source read. Not legal advice.
+> first release are planned. Mostly craft knowledge; point 2 and the new point 12 carry facts from an open-source data model (Apache-2.0) and the iCalendar standard, read 2026-10-20 (`references/origin.md`, sources 1 and 2). Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Approval chains need a fallback.** Symptom: a request waits for weeks because the manager is away or has left.
    Fix: the approver is derived from a reporting line effective at submission, with a delegate that the approver
@@ -15,7 +15,7 @@
    Fix: validation of daily and weekly totals against stated warnings, duplicates detected, entries on leave days
    flagged, submission freezing the entries for the employee, approval by the line, and a lock at the payroll
    cut-off that allows no edit. Durations in minutes as integers, not decimal hours (see
-   `skills/money-arithmetic-and-rounding-pitfalls` for the same rounding trap).
+   `skills/money-arithmetic-and-rounding-pitfalls` for the same rounding trap). The reference model has the period and the entry shape: a timesheet for a person over a date range with a status and an approver, and entries with a start, an end, a decimal hours value, a rate type and a link to a task and to the timesheet; an entry can also point to the invoice line that billed it (source 1). It stores decimal hours, so the integer-minutes advice is our own and stays marked.
 3. **Corrections after lock are new records.** Symptom: payroll and the tool disagree because someone fixed an old
    entry in place. Fix: a correction row that references the entry, carries a reason, an actor and the period it
    will be paid in, and appears in the next export as an adjustment; the original stays visible.
@@ -59,3 +59,8 @@
     `skills/laravel-tenant-context-by-default`) and policies per ability. In Nuxt: preview the charged amount from
     the server's day-count function, show balances with their as-of date, mask restricted fields from the
     payload rather than hiding them in the client, and never decide an entitlement in the browser.
+12. **A calendar export of leave needs an exclusive end date.** Symptom: an all-day leave exported to a calendar ends a day
+    early, or a one-day leave shows as zero days. Check: export a Monday-to-Wednesday leave and open it in a calendar.
+    Fix: for whole-day events the standard defines the end as non-inclusive, so a leave through Wednesday is written with
+    the end on Thursday; convert at the export edge only and keep the stored end date inclusive or exclusive by one
+    stated rule (source 2).
