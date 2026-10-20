@@ -89,6 +89,19 @@ not a certified implementation.
    vendor that will hold personal data specifically; that block covers assessing and tracking the
    vendor relationship generally.
 
+### 5. Email marketing: three questions, no default answer
+A marketing list is personal data with a channel attached, and three questions recur in every conversation about
+it. This block answers none of them; the person who owns data protection does, for the countries concerned,
+from the regulator's current published guidance.
+1. **What evidence of consent do we hold for each address?** Who gave it, when, in what words and for which
+   purpose, and whether we can show it later. A list without that record is a list nobody can defend.
+2. **How long may the suppression list be kept?** It exists so a person is never mailed again, which argues for
+   keeping it; the same person's data should not outlive its purpose, which argues for a limit. The answer is
+   a decision with a named owner, not "forever" and not "delete with the rest".
+3. **What applies to business-to-business mail?** A work address belongs to a person; whether it changes what is
+   required before mailing them is a question for legal, not an assumption.
+For the design of the flows themselves, see `business/lifecycle-email-program-design-pitfalls`.
+
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: the field list with a
 purpose each, the questions routed to the DPO/legal with their answers when they come back, the
@@ -110,6 +123,9 @@ expertise**, deliberately shaped as "which questions must reach a lawyer" rather
 engineering consequences — logs and URLs, search indexes and backups surviving a deletion, exception
 reporters exporting data unnoticed, non-production copies — are ours, and are the part this block adds
 that a legal summary wouldn't.
+
+**Email-marketing questions added 2026-10-20** (§5): three questions named from an email-marketing review,
+with no law restated and no source of ours for any answer.
 
 **Sectioned 2026-09-29**, following the split already used by `business/interface-design`,
 `business/product-ownership` and `business/data-analytics`: this file is now the router, and two

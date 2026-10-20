@@ -63,6 +63,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
 | `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
 | `evidence-appraisal` | research / decisions | a decision, estimate or recommendation leans on someone else's benchmark, study or report |
+| `lifecycle-email-program-design-pitfalls` | marketing | designing, auditing or launching an automated email flow, or adding a program to an audience that already receives one |
 | `price-change-and-billing-pitfalls` | marketing | a price changes for customers who already pay, or a discount, annual plan, proration or "was / now" price is being set up |
 | `podcast-publishing-pitfalls` | marketing | publishing, rescheduling, moving or withdrawing a podcast episode, or checking its feed, loudness, transcript, show notes, voice consent and music licences before release |
 | `pricing-and-packaging-pitfalls` | marketing | designing or reviewing plans, a value metric, a free-to-paid shape, a pricing page or a willingness-to-pay survey |
