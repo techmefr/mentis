@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| react-native-expo-pitfalls | 6 (new 2026-10-20) | expo/skills (MIT) | 🟡 (never dogfooded) |
+| postgres-operations-and-exposed-api-pitfalls | 6 (new 2026-10-20) | supabase/agent-skills (MIT) | 🟡 (never dogfooded) |
+| serverless-edge-worker-pitfalls | 6 (new 2026-10-20) | cloudflare/skills (Apache-2.0) | 🟡 (never dogfooded) |
 | elasticsearch-mapping-and-reindex-pitfalls | 6 (new 2026-10-15) | elastic/agent-skills (Apache-2.0) | 🟡 (never dogfooded) |
 | rabbitmq-delivery-pitfalls | 6 (new 2026-10-15) | rabbitmq-website docs (Apache-2.0 option of the dual licence) | 🟡 (never dogfooded) |
 | kafka-delivery-semantics-pitfalls | 6 (new 2026-10-15) | Apache Kafka design docs (Apache-2.0), single source | 🟡 (never dogfooded) |
