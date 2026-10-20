@@ -66,6 +66,7 @@ checklist assembled from public sources, not professional advice, and each one s
 | `paid-media-decision-pitfalls` | marketing | reading, reporting on or changing a paid ad account, or acting on a cost spike, a partial report or a benchmark |
 | `ad-measurement-pitfalls` | marketing | tagging campaign links, deciding what counts as the conversion, or reconciling platform, analytics and CRM numbers and attribution models |
 | `ad-creative-testing-and-policy-pitfalls` | marketing | planning, testing or refreshing ad creative, proposing a landing-page change from an ad result, or checking an ad against platform policy before launch |
+| `video-brief-and-storyboard` | marketing | planning an explainer, launch, demo or promo video before it is built, or reviewing its brief, storyboard or source material |
 | `sales-support` | sales | engineering is pulled into a proposal, scoping call, demo, or RFP response |
 | `release-communication` | communication | a change ships that someone outside the team can notice |
 | `incident-communication` | communication | something user-visible is broken or degraded in production |
