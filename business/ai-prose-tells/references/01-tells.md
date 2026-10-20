@@ -11,15 +11,24 @@ Judge families, not words. Each entry names the mechanism, so a new variant is r
    replace it? If yes, replace it; if no, delete it.
 2. **Scope inflation.** A small change dressed as a milestone: "a pivotal step toward a better developer
    experience" for a renamed flag. Test: does the sentence size match the diff? The same family covers the
-   profound-sounding sentence with no claim in it; ask which precise statement is hiding inside.
+   profound-sounding sentence with no claim in it; ask which precise statement is hiding inside. It also
+   appears at section scale: a stock "challenges and outlook" section that names a difficulty only to
+   declare that the subject keeps thriving, and an "awards and recognition" heading over a list of
+   mentions. Test: end on the last concrete fact, and keep a real plan only if the source states it.
 3. **Vague attribution.** "Experts agree", "it is widely known", "best practices suggest". Name who or
-   cut it.
+   cut it. Two forms hide in plain sight: a run of prestigious outlets or follower counts standing in for
+   what was said, and one or two sources presented as a widely held view. Test: name the one source and
+   what it said, or cut. A sweeping "every", "always" or "nobody" doing vague work gets the same test:
+   which case, exactly? (An absolute in a spec, "never log secrets", is a rule, not a tell.)
 4. **Chatbot closure.** "I hope this helps", "let me know if you have questions", "feel free to". It
-   belongs to a conversation; a README is not one.
+   belongs to a conversation; a README is not one. Certain tier (`SKILL.md`) once the text has no
+   reader to answer; a support section that says where to write is a convention (section 3).
 5. **Announced plans.** "In this section we will explore", "Let's dive in", "Below is an overview".
    Start with the content.
 6. **Rule of three.** Triplets used as rhythm: "fast, reliable, and scalable". One triplet is normal; a
-   triplet in every paragraph is a template.
+   triplet in every paragraph is a template. The same shape exists at paragraph scale: three parallel
+   examples followed by a sentence that states the lesson. Test: does each example add a distinct idea?
+   Merge the ones that do not and let the strongest carry the point.
 7. **Negative parallelism.** "Not just X, but Y", "It is not about X, it is about Y". The frame creates a
    contrast nobody asked for. It also comes split over two sentences ("This is not a rewrite. It is a
    refactor."), as a negative tail, and as an objection nobody raised ("I am not saying X", "a tempting
@@ -57,6 +66,9 @@ Families 15 onward, and the checks a count can settle, are in
   source, never a synonym.
 - A clean paragraph next to a flagged one is evidence the author can write; fix the flagged one in that
   voice.
+- Exception: the certain tier in `SKILL.md` counts on one sighting. And weak-alone families (dashes,
+  hyphens, passive, hedge stacks, extended filler, heading decoration) never count by themselves.
+- Judging by feel is unreliable, for readers as for tools; the cluster rule is the safeguard.
 
 ## 3. Do NOT flag (false positives)
 
@@ -72,6 +84,16 @@ This section is mandatory in a detection block; do not delete it to shorten.
 - **Quoted text**, error messages, command output, code.
 - **A hedge that carries real uncertainty** and names it.
 - **Bold used for the one warning** that must not be missed.
+- **A support line that gives a channel**: "let me know if you hit issues, open a ticket" in a support
+  section is a convention. Family 4 needs a text with nobody to answer and a closing that belongs to a chat.
+- **Salutations and sign-offs.** They predate chatbots by centuries.
+- **Text written before late 2022.** A file whose history shows it predates public chatbots is not
+  generated; check the history before the audit.
+- **Watched phrases that are the subject**: inside a quotation, a title, a proper name, or a passage that
+  discusses the phrase.
+- **Polish is not a sign.** Correct grammar, a mix of casual and formal register, bland prose, formal
+  vocabulary, correct complex formatting and unsourced claims all occur in human text and prove nothing.
+- **"Honestly" or "look" in the middle of a casual sentence.** The tell is the standalone opener.
 
 ## 4. Signs of human writing to preserve
 
@@ -80,6 +102,8 @@ This section is mandatory in a detection block; do not delete it to shorten.
 - Admitted limits: "this does not handle X yet".
 - Uneven rhythm: a long sentence next to a short one because the idea needed it.
 - Names, dates, numbers, links to the actual issue.
+- A first-person choice the writer can explain ("I kept the old flag because the CLI scripts read it").
+- Era-bound slang and a real aside or self-correction.
 
 Editing must not sand these off. If the audit would remove a human sign, the audit is wrong.
 

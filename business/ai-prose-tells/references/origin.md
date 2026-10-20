@@ -49,3 +49,45 @@ formatting artefact of editors, not a writing tell, and the source itself calls 
 voice-preservation list matches the existing preservation section and added nothing. Not read: the rest of
 the source's pattern texts (only titles) and the Wikipedia page it cites. The 2026-10-19 maketime review
 listed this block as new; it already existed from 2026-10-02, so it was extended, not recreated.
+
+**Extended 2026-10-20 (recheck of the same lineage plus two forks and a public reference).** Sources, all
+re-read in that session:
+
+- `humanizer` (MIT, 2025 Siqi Chen, LICENSE head read, commit 8c307f3): the whole skill file, for the
+  voice-by-kind-of-text idea, file mode, the strength ordering of patterns, the paragraph-scale triad, the
+  section-scale stock outlook, the prestige-list form of borrowed authority, decorative headings, and the
+  second half of the audit (a rewrite can drop a claim, a ranking or a simultaneity word).
+- `jooray/humanizer` (fork, MIT, same copyright line, commit 79ab0c1, version 2.13.1 of its skill file): the
+  patterns on performed rigor and candor, reasoning-chain leaks, residue strings, structural uniformity with
+  its reshuffle test, the treadmill, the count-a-cluster-once rule, detect mode, and its thesis that
+  non-English generated text is often a translated English draft. Its Slovak and Czech section was read for
+  that thesis only; none of its language-specific content is carried.
+- `adelaidasofia/humanizer` (fork, MIT, same copyright line, commit 9c764db): the rules never to apply the
+  English library silently and to treat code-switching as voice, and the idea of ranking tells by how
+  rarely a careful writer makes them. Its Spanish phrase lists informed the families in
+  `04-other-languages.md` §4; the examples there are ours. Its tier names, its per-100-words density
+  figures and its voice-fingerprint score are not carried.
+- `hardikpandya/stop-slop` (MIT, 2025 Hardik Pandya, commit 8da1f03): SKILL file and its references,
+  for the lazy-extreme test and the paragraph-ending variation; its scoring table and its absolute bans
+  are not carried.
+- `stephenturner/skill-deslop` (MIT, 2026 Stephen D. Turner, commit a906154): its tropes file, for the
+  listicle in prose, invented concept labels, the patronising analogy, fractal summaries and one-point
+  dilution. That file says it reproduces a public catalogue by another author whose licence was not read, so
+  only mechanisms that also appear in the other sources are carried, in our words.
+- Wikipedia, "Signs of AI writing" (CC BY-SA), fetched 2026-10-20 as model-written digests, not the raw
+  page (the page is long and the digests cover it in three parts): facts and ideas only, no wording kept
+  and no structure mirrored. Used for: which residue strings exist and that a tracking parameter shows a tool
+  produced a link and not that it wrote the text; that wordy phrases and plain verbs appear among signs
+  of human writing, which is why family 36 is now weak alone; the list of signs that prove nothing; and the
+  heading and markup signs behind family 55.
+
+Added: the certain tier and the weak-alone list; the residue-string scan; families 46 to 52 and 55 (53 and
+54, the colon-reveal and the hedged-enumeration opener, are left free on purpose: folded into 5 and 15 if
+ever needed); the third audit question; file and detect modes; voice by text kind; `04-other-languages.md`
+with a Spanish section that no native speaker has reviewed. Edited: families 2, 3, 4, 6, 28 and 36, the
+false-positive and human-sign lists, and the calque rule in `03-french.md`. Rewritten as mechanisms with
+our own examples; no sentence or before-and-after pair copied. Not carried: any numeric score, density
+figure or quota, absolute bans (no adverbs, no dashes), the invention of reactions to give a text "soul",
+curly quotes as a tell, per-platform citation marker lists beyond a stable example or two, per-model
+vocabulary, every script and hook in the sources. Not verified: any claim about detector accuracy or
+corpus statistics in the sources, and any idiom in German, Italian or Portuguese.
