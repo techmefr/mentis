@@ -8,8 +8,7 @@ description: "Use when a client or customer portal is designed or built: invitat
 A defensive block for building the portal, not for running client relationships. A client portal built in a hurry
 fails in familiar ways: an invitation link works for anyone who finds it, one client sees another client's file by
 changing an id, a document is replaced and the client signs the old one, a notification email shows the content of a
-private message, a staff member "logs in as" a client with no trace, and an ex-client keeps access for years. The
-content is craft knowledge with no external source read (see `references/origin.md`). Internal document handling
+private message, a staff member "logs in as" a client with no trace, and an ex-client keeps access for years. The content is mostly craft knowledge; some points are checked against an open-source commerce framework's documentation, the OpenID Connect core specification and a payment platform's portal page (see `references/origin.md`). Internal document handling
 is `skills/document-file-management-pitfalls`; uploads are `skills/file-upload-ui-pitfalls`; comments and threads are
 `skills/comments-and-activity-feed-pitfalls`; notifications are `skills/in-app-notifications-pitfalls`; sign-in is
 `skills/auth-session-conventions`, `skills/oauth-oidc-client-pitfalls` and `skills/webauthn-passkey-pitfalls`;
@@ -53,6 +52,7 @@ an earlier approval; and a test that a notification body carries no private cont
 - Never leave a departed client user or organisation with access; offboarding is a defined job (§1, point 9).
 
 ## Origin
-Written from craft knowledge of building client-portal-style applications; no open-source portal documentation was
-read, so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
+Written from craft knowledge of building client-portal-style applications, then checked on 2026-10-20 against the
+Medusa documentation (MIT), the OpenID Connect core specification and a payment platform's portal page (facts only),
+credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
 never run by us.

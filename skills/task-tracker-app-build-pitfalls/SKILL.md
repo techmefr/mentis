@@ -8,8 +8,7 @@ description: "Use when a project or task tracker application is designed or buil
 A defensive block for building the application that tracks work, not for running projects with it. A tracker
 built in a hurry fails in familiar ways: every team wants its own statuses and reports break, a reordered column
 is overwritten by the next drag, a dependency loop freezes two tasks forever, a reassigned task keeps notifying
-its old owner, and a busy project sends forty emails an hour until everyone mutes them. The content is craft
-knowledge with no external source read (see `references/origin.md`). Board, calendar and file-upload screens are
+its old owner, and a busy project sends forty emails an hour until everyone mutes them. The content is mostly craft knowledge; some points are checked against an open-source tracker's code (see `references/origin.md`). Board, calendar and file-upload screens are
 UI components covered by their own blocks; this block covers the data behind them. State-machine design is in
 `skills/laravel-recognise-state-machine-or-pipeline`, tenant boundaries in `skills/laravel-tenant-context-by-default`,
 roles in `skills/laravel-permissions-not-roles`, notifications in `skills/laravel-mail-via-notifications`, tables
@@ -55,6 +54,6 @@ cannot read its tasks through the list, the search and the notification link. No
 - Never store due dates without deciding date-only versus instant and the time zone rule (§1, point 11).
 
 ## Origin
-Written from craft knowledge of building task and project trackers; no open-source tracker documentation was
-read, so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md).
+Written from craft knowledge of building task and project trackers, then checked on 2026-10-20 against the Kanboard
+source (MIT), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md).
 🟡: never run by us.

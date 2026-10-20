@@ -1,7 +1,7 @@
 # helpdesk-ticketing-app-build-pitfalls §2 — Roles, automation and v2
 
 > Part 2 of `skills/helpdesk-ticketing-app-build-pitfalls`. Read it when permissions, rules or the first release
-> are planned. Craft knowledge, no external source read.
+> are planned. Mostly craft knowledge; points 2 and 3 carry facts from the open-source helpdesk schema in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Assignment is explicit and observable.** Symptom: tickets nobody owns, or two agents answer one ticket. Fix:
    one assignee and an optional group per ticket, assignment as an event, round-robin or load-based routing
@@ -12,11 +12,11 @@
    reviewed like any template and uses placeholders that fail loudly when empty (symptom: "Hello ,"). Rules
    (on create, on update, on a timer) run in a stated order, carry a condition and an action list, write an
    event each time, cannot re-trigger themselves without a depth limit, and can be switched off without a
-   deploy. Check: a rule that sets a field that another rule watches must not loop.
+   deploy. Check: a rule that sets a field that another rule watches must not loop. The reference schema stores a rule as an event name, a condition list and an action list with an active flag and an optional delay, and a macro as a named action list with a visibility setting (source 1); the loop guard and the order are our own guidance.
 3. **Satisfaction surveys are sent once, after solve, to a requester.** Symptom: a survey on every reply, or a
    survey after a merged duplicate. Fix: send on solve only, one per ticket, suppressed for internal users and
    for tickets closed by rule, with a signed link and no login; store the score next to the ticket and the
-   agent, read results as a distribution, and never use a single low score to discipline anyone.
+   agent, read results as a distribution, and never use a single low score to discipline anyone. The reference schema keeps the rating with the conversation, the contact and the assigned agent, behind a per-inbox switch for the survey, and allows only one response per survey message (source 1).
 4. **Roles and visibility are a matrix.** Requester (own tickets, plus the organisation's if allowed),
    collaborator, agent (own group, all groups), supervisor, admin, auditor (read only). Abilities: view
    internal notes, reply, change priority, merge, delete, export, see requester contact data, edit rules.

@@ -8,8 +8,7 @@ description: "Use when an invoicing or billing application is designed or built:
 A defensive block for building the application that issues invoices and collects what they ask for. These tools
 fail in familiar ways: an issued invoice is edited and no longer matches the PDF, the monthly run bills a
 customer twice after a crash, a partial payment is applied to the wrong invoice, a prorated amount rounds
-differently on screen and in the export, and a webhook replay marks an invoice paid twice. The content is craft
-knowledge with no external source read (see `references/origin.md`). The document backbone shared with orders
+differently on screen and in the export, and a webhook replay marks an invoice paid twice. The content is mostly craft knowledge; some points are checked against open-source billing sources and a payment vendor's documentation (see `references/origin.md`). The document backbone shared with orders
 is in `skills/light-erp-document-flow-pitfalls`; money arithmetic is in
 `skills/money-arithmetic-and-rounding-pitfalls`; VAT handling in code is in `skills/vat-handling-in-software-pitfalls`;
 structured e-invoicing obligations are in `skills/e-invoicing-obligations-pitfalls`; the tax and ledger side of
@@ -52,6 +51,7 @@ by us.
 - Never delete an issued invoice or a customer who has one; archive (§1, point 9).
 
 ## Origin
-Written from craft knowledge of building invoicing and billing applications; no open-source invoicing
-documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building invoicing and billing applications, then checked on 2026-10-20 against
+the Kill Bill documentation and the Apache OFBiz data model (both Apache-2.0) and three pages of a payment
+vendor's documentation (facts only), credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

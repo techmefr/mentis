@@ -9,7 +9,7 @@ A defensive block for building the tool that lets other people make forms, not f
 building one form screen. A builder made in a hurry fails in familiar ways: someone renames a question after 400
 answers and the export columns shift, a logic rule points at a question that was deleted, "anonymous" results
 identify a respondent in a group of three, a respondent who reloads loses everything, and a bot fills the form
-a thousand times. The content is craft knowledge with no external source read (see `references/origin.md`).
+a thousand times. The content is mostly craft knowledge; some points are checked against the SurveyJS form library documentation (see `references/origin.md`).
 Wording and sampling of a survey are in `business/customer-interview-synthesis-pitfalls` and
 `business/learning-development`; a single long form screen is in `skills/long-and-multistep-form-pitfalls`;
 file questions in `skills/file-upload-ui-pitfalls`; exports in `skills/csv-xlsx-import-export-pitfalls`;
@@ -50,6 +50,6 @@ export of an anonymous form carries no identifying column. Nothing here was run 
 - Never write an export cell that starts with a formula character unquoted (§2, point 4).
 
 ## Origin
-Written from craft knowledge of building form and survey tools; no open-source form-builder documentation was
-read, so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
+Written from craft knowledge of building form and survey tools, then checked on 2026-10-20 against the SurveyJS
+documentation (MIT), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
 never run by us.

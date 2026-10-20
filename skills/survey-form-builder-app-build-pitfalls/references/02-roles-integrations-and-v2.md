@@ -1,13 +1,13 @@
 # survey-form-builder-app-build-pitfalls §2 — Public endpoint, roles, exports and v2
 
 > Part 2 of `skills/survey-form-builder-app-build-pitfalls`. Read it when a share link, an export, a webhook or
-> the first release are planned. Craft knowledge, no external source read.
+> the first release are planned. Mostly craft knowledge; point 1 carries facts from the SurveyJS documentation in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **The public endpoint is untrusted input.** Symptom: a crafted request submits an answer to a hidden
    question, a value outside the options, a ten-megabyte text, or an answer to a closed form. Fix: validate the
    whole submission server-side against the version's schema (types, option ids, lengths, required after
    recomputing visibility), reject unknown question ids, check the form is open and within its dates, and
-   never trust a value computed in the browser, such as a quiz score. Return field-level errors by question id.
+   never trust a value computed in the browser, such as a quiz score. Return field-level errors by question id. The SurveyJS documentation recommends the same stance for its Node backend: rebuild the form model from the stored definition on the server, load the posted data into it and clear values that do not fit, instead of storing what the browser sent, and its server validation hook returns errors keyed by question name (source 1).
 2. **Spam and duplicates are handled in layers.** A rate limit per address and per form, a honeypot field, a
    challenge on forms that need it, a submission time lower bound, a duplicate check per mechanism from §1
    point 9. Symptom: results skewed by a script. Fix: store a flag per submission instead of silently

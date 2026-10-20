@@ -1,7 +1,7 @@
 # invoicing-app-build-pitfalls §2 — Runs, integrations and v2
 
 > Part 2 of `skills/invoicing-app-build-pitfalls`. Read it when a recurring run, an integration or the first
-> release are planned. Craft knowledge, no external source read.
+> release are planned. Mostly craft knowledge; points 2, 3, 5 and 7 carry facts from the sources in `references/origin.md` (sources 1, 4 and 5), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **A billing run is idempotent per customer and period.** Symptom: a crash and a rerun bill some customers
    twice, or skip some. Fix: a run record with a period and a status, a unique key of subscription plus
@@ -12,13 +12,13 @@
    produces an amount nobody can explain. Fix: store the period boundaries, the quantity and the unit price
    as invoice lines with a description of the period, use the same calendar rule everywhere (days in the
    period or a fixed month; the choice is a commercial policy), round once under the rule from §1 point 6,
-   and keep raw usage events with ids so a dispute can be recomputed. Late usage goes on the next invoice or
+   and keep raw usage events with ids so a dispute can be recomputed. The billing engine's docs show recurring lines with a start and end date, a plan change producing a negative item for the unused part of the old line and a new line for the rest of the period, and fixed one-off lines never prorated (source 1). Late usage goes on the next invoice or
    a credit, never into an issued one.
 3. **Payment-provider webhooks are verified, deduplicated and replayable.** Symptom: a replayed event pays an
    invoice twice or a forged call marks it paid. Fix: check the signature with the provider's documented
    method, store the event id and ignore a seen one, return quickly and process in a queue, handle events
    arriving out of order by reading the object's current state from the provider, and log the raw event for a
-   limited time. Keys and secrets live in a vault and are rotated.
+   limited time. Keys and secrets live in a vault and are rotated. The payment vendor's documentation confirms the points one by one: verify the signature against the raw request body, so a framework that rewrites the body breaks it; return a success status before any slow work; the same event can arrive more than once, so log processed event ids, and two distinct events can describe the same object, so also compare the object id and event type; delivery order is not guaranteed and the creation timestamp must not order events; failed deliveries are retried for days with backoff; and a signing secret can be rolled with an overlap period (source 4). The same vendor documents idempotency keys on write requests, with the first result saved and replayed, including errors, and a mismatch of parameters on key reuse refused (source 5).
 4. **Dunning is a schedule with state, not a loop.** Reminders are driven by due date, settlement state and a
    per-customer pause flag; each reminder is a row so it is not sent twice; a payment or dispute stops the
    sequence; tone and timing are commercial choices and some jurisdictions restrict collection practice, so
@@ -33,7 +33,7 @@
 7. **Imports.** Customers, opening balances and historic invoices come in through staging with a preview,
    duplicate control on the customer key, counts of create, update and skip, and an import id for undo.
    Historic invoices import as already issued with their original numbers, dates and totals, bypassing the
-   issue step on purpose and flagged as imported; never renumber them. Spreadsheet traps are in
+   issue step on purpose and flagged as imported; never renumber them. The billing engine does the same for migrated invoices: an imported invoice is flagged and carries a zero balance (source 1). Spreadsheet traps are in
    `business/spreadsheet-data-cleaning-pitfalls`.
 8. **Exports and structured formats.** An accountant export is a read of stored totals, with the same
    scoping, an audit entry and quoted formula-starting cells. A structured e-invoice or a tax-portal file is

@@ -1,7 +1,7 @@
 # document-file-management-pitfalls §2 — Retention, previews, quotas and v2 regrets
 
 > Part 2 of `skills/document-file-management-pitfalls`. Read it when retention, previews, quotas, an integration
-> or the first release are planned. Craft knowledge, no external source read. Retention and records law is not
+> or the first release are planned. Craft knowledge, no external source read for this part: the sources in `references/origin.md` bear on §1 only. Retention and records law is not
 > legal advice.
 
 1. **Retention is a rule attached to a class of document, not a global setting.** Symptom: everything is kept

@@ -9,7 +9,7 @@ A defensive block for building the CMS, not for writing content or for building 
 built in a hurry fails in familiar ways: an editor changes a content type and 2,000 entries lose a field, a
 draft is edited while the live page changes under it, a publish overwrites a colleague's work, a preview link
 leaks unpublished text, a translated page points at a deleted original, and a renamed slug breaks every
-inbound link. The content is craft knowledge with no external source read (see `references/origin.md`).
+inbound link. The content is mostly craft knowledge; some points are checked against the Payload documentation (see `references/origin.md`).
 Rich text editing is in `skills/rich-text-editor-pitfalls`; files and storage in
 `skills/document-file-management-pitfalls` and `skills/file-upload-ui-pitfalls`; admin screens in
 `skills/admin-back-office-pitfalls`; search sync in `skills/search-index-sync-pitfalls`; translation workflow
@@ -52,6 +52,6 @@ preview token. Nothing here was run by us.
 - Never serve uploaded files from a path that executes them (§1, point 7).
 
 ## Origin
-Written from craft knowledge of building content management systems; no open-source CMS documentation was read,
-so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
+Written from craft knowledge of building content management systems, then checked on 2026-10-20 against the Payload
+documentation (MIT), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
 never run by us.

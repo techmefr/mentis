@@ -9,7 +9,7 @@ A defensive block for building the reporting product, not for choosing a chart o
 app built in a hurry fails in familiar ways: two dashboards show different revenue because each chart carries
 its own query, a saved report breaks when a column is renamed, a scheduled export mails every row to someone
 who should see a subset, a cached figure looks live and is a day old, and one heavy query slows the whole
-application. The content is craft knowledge with no external source read (see `references/origin.md`). Chart
+application. The content is mostly craft knowledge; part 2 is partly checked against the Apache Superset documentation (see `references/origin.md`). Chart
 and layout choices are in `skills/chart-choice-pitfalls` and `skills/dashboard-ui-pitfalls`; filters and saved
 views on a screen in `skills/filters-search-and-saved-views-pitfalls`; tables in `skills/data-table-ui-pitfalls`;
 a dashboard tool's own pitfalls in `skills/grafana-dashboard-pitfalls`; defining delivery metrics in
@@ -51,6 +51,6 @@ renamed column through a mapping or fails loudly. Nothing here was run by us.
 - Never let a user query run unbounded: set a timeout, a row cap and a cost guard (§1, point 8).
 
 ## Origin
-Written from craft knowledge of building reporting and analytics products; no open-source BI documentation was
-read, so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
+Written from craft knowledge of building reporting and analytics products, then checked on 2026-10-20 against the
+Apache Superset documentation (Apache-2.0), credited in the origin file; no text was taken. See [`references/origin.md`](./references/origin.md). 🟡:
 never run by us.

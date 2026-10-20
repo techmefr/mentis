@@ -8,8 +8,7 @@ description: "Use when a single-merchant online store application is designed or
 A defensive block for building the store application, not for auditing or marketing one. A store built in a
 hurry fails in familiar ways: the cart shows a price that is no longer true, two buyers pay for the last item, a
 payment succeeds and no order exists, an order changes when the catalogue is edited, a refund is typed as a
-negative order, and tax is recomputed on old orders. The content is craft knowledge with no external source read
-(see `references/origin.md`). The audit side (catalogue and feed quality, checkout friction, price display) is
+negative order, and tax is recomputed on old orders. The content is mostly craft knowledge; some points are checked against an open-source commerce framework's documentation and one payment platform's webhook page (see `references/origin.md`). The audit side (catalogue and feed quality, checkout friction, price display) is
 `business/ecommerce-store-quality-pitfalls`; opening the store to third-party sellers is
 `skills/marketplace-app-build-pitfalls`. Stock mechanics are in `skills/inventory-stock-app-pitfalls`, invoices in
 `skills/invoicing-app-build-pitfalls`, an unknown payment result in `skills/unknown-payment-outcome-pitfalls`, tax in
@@ -50,6 +49,7 @@ and a test that editing a product leaves past orders unchanged. Nothing here was
 - Never store money as a float or without a currency (§1, point 2).
 
 ## Origin
-Written from craft knowledge of building online-store applications; no open-source e-commerce documentation or
-payment-provider documentation was read, so no source is credited and no text was taken. See
+Written from craft knowledge of building online-store applications, then checked on 2026-10-20 against the Medusa
+documentation (MIT) and one payment platform's webhook page (facts only), credited in the origin file; no text was
+taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

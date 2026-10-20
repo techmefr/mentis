@@ -1,7 +1,7 @@
 # survey-form-builder-app-build-pitfalls §1 — Minimal model and its pitfalls
 
 > Part 1 of `skills/survey-form-builder-app-build-pitfalls`. Read it when a schema or a write path is designed.
-> Craft knowledge, no external source read. Each point gives the symptom, the check and the fix.
+> Mostly craft knowledge; points 2, 4 and 5 carry facts from the SurveyJS form library documentation (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
 
 1. **A form with responses is versioned, never edited in place.** Symptom: the owner removes a question or
    changes a scale from five to seven points after answers exist, and the old answers become meaningless or
@@ -12,7 +12,7 @@
 2. **A question has a stable id, separate from label and position.** Symptom: renaming "Team" to "Squad"
    splits one column in two, or reordering changes which answer belongs to which question. Fix: generate an
    opaque id at creation, never reuse it, key answers by it, and treat the label and the order as display
-   fields. For a choice question give each option its own id too, so relabelling an option keeps its answers.
+   fields. For a choice question give each option its own id too, so relabelling an option keeps its answers. The SurveyJS documentation draws the same line: a question's name must be unique across the form and is the key under which the answer is stored, while the title is only what the respondent reads, and a choice item has a unique value apart from its display text (source 1).
 3. **Minimal model.** Form, form version (schema document plus settings), question (inside the version, with an
    id, a type, a required flag and constraints), submission (version, started, submitted, status, respondent
    reference if allowed), answer (submission, question id, typed value). Keep the schema as one validated
@@ -23,11 +23,11 @@
    form silently shows everything. Fix: a small rule grammar (source question id, operator, value, action show
    or skip to), evaluated by one engine shared by browser and server, and a publish-time check that every
    reference exists, points earlier in the flow, and that the dependency graph has no cycle. Test with a table
-   of answers and expected visible questions.
+   of answers and expected visible questions. The SurveyJS documentation shows why the publish-time check is needed: loading a form definition does not report a visibility expression that names a missing question, and a separate static linter finds misspelled references, conditions that can never be true, and cycles among calculated values and triggers (source 1).
 5. **Hidden means not required and not stored.** Symptom: a respondent answers a branch, goes back, changes
    the branch, and the stale hidden answers remain and enter the results; or a required question that is hidden
    blocks submission. Fix: on submit, recompute visibility on the server, drop answers to hidden questions,
-   skip required checks for them, and keep the visibility result with the submission for audit.
+   skip required checks for them, and keep the visibility result with the submission for audit. The SurveyJS documentation exposes the same choice as a setting with four modes: keep hidden values, clear them when the question is hidden, clear them when its page or panel is hidden, or clear them only on completion, which is its default (source 1). Only the last two leave stale values in place until the end, so decide the mode and still recompute on the server.
 6. **Partial responses are first-class.** Symptom: a long form lost on reload or a session timeout. Fix: a
    submission row in a draft status created on first answer, saved on each section or on blur, resumable by an
    unguessable token or the logged-in user, with an expiry and a clear rule on whether partials are counted in

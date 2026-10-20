@@ -1,7 +1,7 @@
 # booking-and-scheduling-app-pitfalls §2 — Policies, sync and v2
 
 > Part 2 of `skills/booking-and-scheduling-app-pitfalls`. Read it when policies, integrations or the first
-> release are planned. Craft knowledge, no external source read. No fee or refund rule is stated.
+> release are planned. Mostly craft knowledge; point 4 carries facts from the iCalendar standard (`references/origin.md`, source 1), read 2026-10-20. Everything not marked as sourced is our own guidance. No fee or refund rule is stated.
 
 1. **Cancellation is a state, not a delete.** Booking states: held, confirmed, cancelled by customer, cancelled
    by provider, completed, no-show. Symptom: a deleted booking leaves a paid invoice with nothing behind it.
@@ -22,7 +22,7 @@
    external event id and a sync token or etag; import external busy time as blocks without details;
    push changes through a queued job with an idempotency key; handle the external system's own zone
    representation on the way in; show a failed push to a person. Invitations carry a stable event id so an
-   update replaces rather than duplicates, and a cancel sends a cancel.
+   update replaces rather than duplicates, and a cancel sends a cancel. The standard confirms the mechanism: a component has a unique identifier, and a sequence number that starts at zero and is increased by the organiser at each significant revision, so a receiver can tell the current version from an older one (source 1). A recurring series is updated per instance through the recurrence identifier of §1 point 4.
 5. **Reminders are scheduled from the stored time.** Symptom: reminders at the wrong hour after a clock change
    or after a reschedule. Fix: compute the send instant from the booking's instant at schedule time, store the
    reminder rows with their own state, recompute them on reschedule, cancel them on cancel, and send in the

@@ -8,8 +8,7 @@ description: "Use when a CRM or customer-tracking application is designed or bui
 A defensive block for building the application, not for running sales with it. A CRM built in a hurry fails in
 familiar ways: the same company exists four times, a deal has a stage nobody can define, a merge destroys the
 history of the record it absorbs, a salesperson sees every customer's data, an import doubles the database, and
-custom fields multiply until no report can be trusted. The content is craft knowledge with no external source
-read (see `references/origin.md`). Cleaning and reporting on the data of an existing CRM, stage evidence and
+custom fields multiply until no report can be trusted. The content is mostly craft knowledge; a few points are checked against open-source CRM documentation (see `references/origin.md`). Cleaning and reporting on the data of an existing CRM, stage evidence and
 dedupe as a sales-ops practice, are in `business/outbound-sales-and-crm-hygiene-pitfalls`. Money fields are in
 `skills/money-arithmetic-and-rounding-pitfalls`, tenant boundaries in `skills/laravel-tenant-context-by-default`,
 role design in `skills/laravel-permissions-not-roles`, personal data duties in `business/data-protection`.
@@ -50,6 +49,6 @@ team's record through the list, the search and the export. Nothing here was run 
 - Never store money as a float or without a currency (§1, point 9).
 
 ## Origin
-Written from craft knowledge of building CRM-style applications; no open-source CRM documentation was read,
-so no source is credited and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡: never
+Written from craft knowledge of building CRM-style applications; checked on 2026-10-20 against the Atomic CRM
+documentation (MIT), credited in the origin file, and no text was taken. See [`references/origin.md`](./references/origin.md). 🟡: never
 run by us.

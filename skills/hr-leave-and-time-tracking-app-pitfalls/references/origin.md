@@ -3,19 +3,29 @@
 > Provenance of `skills/hr-leave-and-time-tracking-app-pitfalls`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
-**Status: 🟡.** Written from craft knowledge on 2026-10-20, never run by us: no application was built and no test
-was executed.
+**Status: 🟡.** Written from craft knowledge, then checked on 2026-10-20 against an open-source data model and the iCalendar standard. Never run by us: no application was built and no test was executed.
 
-## Sources (read date 2026-10-20)
+## Sources (read date 2026-10-20, restated in our own words, no text copied)
 
-| Source | Licence | What it gave |
-|---|---|---|
-| None read | not applicable | Written from general craft knowledge of leave and time-tracking applications. No open-source HR or timesheet code or documentation was opened, no labour-law text was read, and no LICENSE file was read because no source was used. |
+| # | Source | Licence | What it gave |
+|---|---|---|---|
+| 1 | Apache OFBiz (`apache/ofbiz-framework`, commit `bccb166`): entity definitions in `applications/datamodel/entitydef/humanres-entitymodel.xml` (leave, leave type, leave reason type) and `workeffort-entitymodel.xml` (timesheet, time entry) | Apache-2.0: file `LICENSE` read | Leave records with range, approver and status, hierarchical leave types, a separate reason type, no accrual or balance table, timesheet period with status and approver, entries with decimal hours linked to a task, a timesheet and an invoice line |
+| 2 | RFC 5545, iCalendar (IETF, 2009), the end-date property of an event | IETF standard text, read for facts only and restated | End of an event is non-inclusive |
 
 Neighbouring blocks of this repository were read to avoid duplication: `skills/inventory-stock-app-pitfalls`
 (the ledger pattern), `skills/booking-and-scheduling-app-pitfalls` (clock handling), `skills/laravel-scheduling`,
 `skills/laravel-idempotent-jobs`, `skills/field-and-row-permission-ui-api-pitfalls`. None covers designing a
 leave or time-tracking application, so a new block was justified.
+
+## Verified
+1. §1 points 2 and 6 (leave types as data, request with approver and status) and §2 point 2 (timesheet, entry shape): source 1.
+
+## Corrected
+1. §1: the block now says plainly that the data model read has no balance, accrual or carry-over structure, so the
+   ledger, accrual and carry-over points are not confirmed by any source.
+
+## Added
+1. §2 point 12, exclusive end date of a leave exported as an all-day event: source 2.
 
 ## Removed
 1. **Every statutory rule:** entitlements, accrual rates, carry-over limits, rest periods, overtime thresholds and
@@ -25,9 +35,11 @@ leave or time-tracking application, so a new block was justified.
 3. **Named HR and payroll products and their APIs:** not used.
 
 ## Not verified
-1. **All points are our own guidance** and were not compared with an open-source HR schema or checked with HR or
-   legal.
-2. **Employment law by jurisdiction** was not read; re-read the owner's rules before relying on any default.
+1. **Still our own guidance:** the balance ledger, accrual run and carry-over (§1 points 1, 3, 4), the day-count function
+   (point 5), overlap, cancel and contract changes (points 7 to 9), and in §2 approval chains, lock and corrections,
+   overtime ownership, timers, privacy, roles, payroll export, build order and v2 regrets. No permissive source states them.
+2. **Employment law by jurisdiction** was not read; re-read the owner's rules before relying on any default. No other permissive HR or
+   timesheet documentation was identified (searched: the data model files above).
 3. **Nothing was run.** The ledger, accrual-twice, day-count, overlap and lock tests named in the checkpoint were
    not written or executed.
 4. **Framework pointers** were not checked against a current release; re-read before relying.
