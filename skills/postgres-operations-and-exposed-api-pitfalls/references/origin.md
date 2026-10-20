@@ -6,6 +6,8 @@
 **Status: 🟡.** Written from documentation-style skill files, never run by us against a PostgreSQL server or a
 Supabase project. No statement, setting or policy was executed while writing it.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: step to decide from a repository whether a data API is exposed (§3.0), applicability gate for managed or proxied databases, timeouts with a tiny pool, static timeout check.
+
 ## Sources (read 2026-10-20, rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

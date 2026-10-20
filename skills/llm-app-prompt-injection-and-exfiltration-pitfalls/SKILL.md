@@ -20,6 +20,8 @@ content security policy are in `csp-and-sanitiser-pitfalls`; retrieved documents
 - A model can call tools that send, write, delete, pay or fetch.
 - Adding a prompt-injection filter, or deciding whether a red-team tool result means the app is safe.
 
+**Skip when** no model is called, or no text an outsider can write ever reaches a model and the output is neither rendered, stored nor acted on. Say "not applicable: <reason>" for the block and do not invent a finding. A call with no tools, no rendering of links or images and no secret in context is not exempt: sections 2.1 to 2.4 are closed by construction, and the work moves to integrity (section 2.0).
+
 ## Steps
 
 **Read only the section the task meets.** They are independent.
@@ -33,7 +35,7 @@ content security policy are in `csp-and-sanitiser-pitfalls`; retrieved documents
 ## Output / checkpoint
 For each model call there is a written statement of which inputs an outsider can write to, what the output can
 reach (screen, link, store, tool, another model) and which of those reaches is closed by construction (§1, §2).
-A test document holding planted instructions went through the real pipeline and the result states what was
+Write it per call in three lines: "outsider can write: ...", "output reaches: ...", "closed by construction: ... / open: ...". A test document holding planted instructions went through the real pipeline and the result states what was
 observed at the outbound path, not what the model said (§1, §3). Any scanner in the path is listed with what
 it does not catch (§3.4). A filter with no such list is not a control.
 
@@ -46,6 +48,9 @@ it does not catch (§3.4). A filter with no such list is not a control.
 - Never pass model output to a shell, query, template or another system as if it were trusted input (§2).
 - Never count a prompt-injection classifier as the control; it lowers the odds and misses rephrasings (§3).
 - Never put secrets, keys or other users' data in a context a model reads next to outside text (§2).
+- Never rely on a tag or delimiter around outside text as the boundary; neutralise the closing delimiter inside the text and treat the wrapper as lowering the odds (section 1.6).
+- Never let a second model that judges the first one's output be the only barrier, and never read its failure as a pass (section 2.6).
+- When only a fake or canned provider exists, say the behavioural test was not run (§1.5, §3.1).
 - This block is idea-level guidance from the sources in [`references/origin.md`](./references/origin.md), read on
   the date there. No tool was run and no attack was executed while writing it, and no attack text is reproduced.
 

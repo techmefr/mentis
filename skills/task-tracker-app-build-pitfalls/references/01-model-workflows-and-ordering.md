@@ -19,6 +19,14 @@
    `skills/laravel-recognise-state-machine-or-pipeline`), with guards that are data checks (assignee present,
    blockers done, required field filled), and a default of "any to any" only where the team wants it, stated
    openly. Stage history is rows (task, from, to, actor, time), never an overwritten column.
+    Check on an existing code base: grep every statement that updates the status column, in application code and in
+    migrations, and count the writers. More than one is the symptom: each writer must go through the one transition
+    function, and each update must carry a from-state guard (update only where the current status is an allowed
+    source), otherwise a repeat call re-runs side effects or overwrites a later state. Fix: route every writer
+    through that function and add the guard.
+    A repair migration (an update that moves rows stuck in a status) in the history is evidence of missing
+    transitions or missing guards: read it, name the path that stranded them, and close the path before adding
+    another repair. Repair migrations are one-off and idempotent, never the mechanism.
 4. **Done and reopen are explicit.** Symptom: a reopened task keeps its old completion date and shows as both
    done and active. Fix: set completion time on entry to a done category, clear it on reopen while keeping the
    history row, and let reports use the history for "completed in period".
@@ -71,6 +79,7 @@
     history rows for status, assignee, dates, priority and parent changes with actor, old and new value and
     time; comments are separate and can be edited with an "edited" marker and a kept previous version when the
     team needs it. Staff-level audit is in `skills/admin-back-office-pitfalls`.
-15. **Every row belongs to a tenant from the first migration.** Tenant column on all tables including join
+15. **Status history records from and to.** Symptom: a log line says "validated" but not from which state, so a stuck item cannot be traced. Fix: one history row per transition with from, to, actor and time (point 14), written by the same function as point 3.
+16. **Every row belongs to a tenant from the first migration.** Tenant column on all tables including join
     tables, one default scope (see `skills/laravel-tenant-context-by-default`), and a test per path (list,
     search, notification link, attachment URL).

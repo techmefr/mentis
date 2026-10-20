@@ -6,6 +6,8 @@
 **Status: 🟡.** Written from craft knowledge on 2026-10-20, never run by us: no application was built and no test
 was executed.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: applicability gate for rule-only schedules, concrete clock-change test set per zone, offline device-clock evaluation check.
+
 ## Sources (read date 2026-10-20)
 
 | Source | Licence | What it gave |

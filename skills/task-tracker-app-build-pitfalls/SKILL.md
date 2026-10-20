@@ -21,6 +21,8 @@ files in `skills/document-file-management-pitfalls`, audit of staff actions in `
 - An existing tool gains custom statuses, drag ordering, dependencies, recurring tasks or notifications.
 - A feature touches assignment, due dates, ordering or deletion of tasks.
 
+**Skip when** the application has no tasks, projects or workflow to track. A code base with no such feature gets "not applicable: no task feature" for every point. If one entity there has a status that moves through stages (an order, a review, a recording), §1 points 3, 4, 13 and 14 may be applied by analogy to that entity only, and the report says it is an analogy.
+
 ## Steps
 
 **Read the part you need before the schema or the migration is written.**
@@ -32,13 +34,14 @@ files in `skills/document-file-management-pitfalls`, audit of staff actions in `
 
 ## Output / checkpoint
 Before building: the entity list with an owner for each, the workflow per project with status categories and
-allowed transitions, the ordering scheme and its conflict behaviour, the dependency rules (cycle check, what a
+allowed transitions and the one place that holds them (a count of the writers of the status column), the ordering scheme and its conflict behaviour, the dependency rules (cycle check, what a
 blocked task may do), the assignment and watcher rules, and the notification matrix by event and recipient.
 Evidence is a test that an invalid transition is refused, two concurrent reorders that both survive, a cycle
 attempt that is rejected, a reassignment that moves notifications, and a test that a user outside a project
 cannot read its tasks through the list, the search and the notification link. Nothing here was run by us.
 
 ## Guardrails
+- Never write a status from several places; keep one transition table and one function that applies it (§1, point 3).
 - Never let a status be free text, and never let the reports read the status label; map each status to a fixed
   category (§1, point 2).
 - Never store position as a dense integer rewritten for every row on each drag; use a sparse key and rebalance

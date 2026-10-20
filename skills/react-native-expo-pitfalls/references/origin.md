@@ -6,6 +6,8 @@
 **Status: 🟡.** Written from documentation-style skill files, never run by us on a device, simulator or EAS
 build. No Expo project was created, built or updated while writing it.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: applicability gate for projects without the framework, web-view secret storage check, catch-all offline handling, device-clock caution, bundle search without a fixed path.
+
 ## Sources (read 2026-10-20, rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

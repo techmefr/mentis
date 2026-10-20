@@ -1,6 +1,6 @@
 ---
 name: react-native-expo-pitfalls
-description: "Use when writing or reviewing a React Native app built with Expo: project layout and Expo Router, installing packages against the SDK, data fetching and offline states, token and key-value storage, EXPO_PUBLIC variables, development builds against Expo Go, SDK upgrades, and over-the-air updates with runtime versions and channels."
+description: "Use when writing or reviewing a React Native app built with Expo, or, for §2 only, any mobile app that wraps web code or JavaScript (React Native without Expo, a web view shell) and persists a token, caches data or falls back offline: project layout and Expo Router, installing packages against the SDK, data fetching and offline states, token and key-value storage, EXPO_PUBLIC variables, development builds against Expo Go, SDK upgrades, and over-the-air updates with runtime versions and channels."
 ---
 
 # react-native-expo-pitfalls
@@ -12,9 +12,12 @@ update that no installed build can receive. Store submission is in `mobile-relea
 
 ## When
 - A project has an `expo` dependency, or the request names Expo, EAS or an `expo-*` package.
+- No Expo dependency, but the app is a mobile shell around JavaScript code and stores a token or key, reads a cache when the network fails, or decides on a device clock: read §2 only.
 - A package is added, an SDK is upgraded, or a screen that loads data is written.
 - A secret, a token or a persisted flag is stored.
 - A change is meant to ship without a new binary.
+
+**Skip when** the project has no `expo` dependency and no mobile shell at all (a plain web app). Where there is no Expo dependency, say "not applicable: no Expo dependency" for §1 and §3 and do not invent a finding there; §2 is framework-neutral and still applies to a shell around web code.
 
 ## Steps
 
@@ -32,11 +35,12 @@ version-specific advice, packages came in through the SDK-aware installer, no se
 no screen decides on unhydrated state, and every update claim names the platform and runtime version it covers.
 
 ## Guardrails
-- Install packages with the SDK-aware installer, never with a bare package-manager add (§1.2). Never pin a version from memory.
-- Put nothing but routes in the routes folder (§1.3).
+- Expo projects only: install packages with the SDK-aware installer, never with a bare package-manager add (§1.2). Never pin a version from memory.
+- Expo projects only: put nothing but routes in the routes folder (§1.3).
 - Never store a token in plain key-value storage, and never put a secret in a public variable (§2, storage and public variables).
-- Publish to a production channel only on an explicit request that names channel, platform and runtime version (§3.4).
-- Never promise that an update can add native code to an installed build (§3.3).
+- Expo projects only: publish to a production channel only on an explicit request that names channel, platform and runtime version (§3.4).
+- Expo projects only: never promise that an update can add native code to an installed build (§3.3).
+- When a check does not apply, write "not applicable: <reason>" and stop; never invent a finding to fill a section.
 - Facts are given for the SDK range named in each section at the stamped commit; nothing here was run on a device (🟡).
 
 ## Origin

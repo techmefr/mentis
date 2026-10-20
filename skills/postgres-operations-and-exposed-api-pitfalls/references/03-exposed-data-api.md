@@ -2,6 +2,13 @@
 
 Sources: the security checklist of the `supabase` skill and the `security-rls-basics`, `security-rls-performance` and `security-privileges` rules of the `supabase-postgres-best-practices` skill in supabase/agent-skills at c9be0e9, read 2026-10-20. Vendor-specific names (`anon`, `authenticated`, the user-id function) are those of that platform; the principles hold for any API generated from a PostgreSQL schema.
 
+## 3.0 Is a data API exposed at all? (own guidance)
+1. **Find the host the application connects to.** Read the connection variable names and the example configuration, never a real secret. A host belonging to a platform that generates a REST or GraphQL layer from the schema is a candidate; a plain database host reached only through the application's own server routes is not.
+2. **Look for the exposure setting.** In the platform's configuration file or project settings, find whether the data API is enabled, which schemas it serves, and which keys the clients ship. No API section, or an API switched off, plus no client holding a database key, means no exposed schema.
+3. **Check what the browser or app calls.** Grep the client code for direct calls to the data API host or for a client library of the platform used to read tables. Calls only to the application's own routes close the question.
+4. **Write the verdict with its evidence:** "exposed: schema, key shipped to clients" (go on with §3.1) or "not exposed: <what you read>" (stop). Absence of policies in the migrations is correct for a database only the server reaches and a finding for an exposed one; the verdict decides which.
+5. **Identity-only use does not expose data.** A platform used just for sign-in, with its service key on the server, is not an exposed schema; check that the service key never reaches a client (§3.4, point 4).
+
 ## 3.1 Two separate locks: reach and rows
 1. **A table can be reachable or not (grants), and rows can be visible or not (row-level security).** They are independent: an inaccessible table is a missing grant, an empty result on an accessible table is usually a policy. Check which one before editing either.
 2. **A newly created table may not be exposed automatically,** depending on the project's API settings. When a SQL-created table is "not found" by the API, look at the exposure setting and the explicit grants to the API roles before suspecting the code.

@@ -23,6 +23,7 @@
    guidance).
 8. **Re-run it as part of a model swap,** since resistance does not transfer between models
    (`model-migration-pitfalls` §2.2).
+9. **A fake or canned provider cannot test model behaviour.** If the repository only has one (a stub that returns fixed output), tests with it cover the code around the model and nothing else. State "behavioural test not run: no real provider here" instead of reporting a clean set.
 
 ## 3.2 Success criteria
 1. **Define success as an observed effect at the outbound path:** a request to the marker host, a tool

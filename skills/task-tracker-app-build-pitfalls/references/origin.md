@@ -6,6 +6,8 @@
 **Status: 🟡.** Written from craft knowledge on 2026-10-20, never run by us: no application was built and no test
 was executed.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: applicability gate (no feature means analogy only), one place for the transition table with a writer-count check and from-state guards, repair migrations as evidence.
+
 ## Sources (read date 2026-10-20)
 
 | Source | Licence | What it gave |
