@@ -16,6 +16,10 @@ the contracts and the billing system decides (`business/README.md`). Not legal a
 | Stripe documentation page on proration (French rendering), fetched 2026-10-20 in full | vendor site terms; facts only | Credit and debit on a mid-cycle change, results not settled automatically, computation at the time of the change, preview with a fixed date, discounts and proration lines, unpaid-invoice behaviour, usage not prorated, proration switched off per request, two credit modes |
 | Stripe documentation page on usage-based billing (French rendering), fetched 2026-10-20 | vendor site terms; facts only | Only the landing page was read: the classic metered model, the existence of recording, credits and alert sub-pages (not read). Used to confirm that usage is billed separately from prorated charges, which the proration page states |
 | Directive (EU) 2019/2161, Article 2(1) inserting Article 6a into Directive 98/6/EC, read on the legislation.gov.uk copy of the text (fetched through a summarising tool that returned the paragraphs as short quotations), 2026-10-20 | public legal text; a mirror, not the official journal | The five paragraphs paraphrased in §6.3 |
+| UK CMA, "Unfair commercial practices: price transparency" (CMA209), PDF from gov.uk (final version; its title page reads 18 November 2025, the gov.uk listing shows an update of 7 January 2026), text extracted and read 2026-10-20 in the passages named in §6.5; the earlier draft of 3 July 2025 was also opened for its summary | Open Government Licence v3 (stated on the document's own copyright page, read); creditable, no text copied | mandatory charges in the headline price, optional versus mandatory, calculable-total rules, recurring and minimum-term plans, monthly versus annual comparison |
+| UK CMA open letter "Urgency claims and price reduction claims: compliance advice for online businesses", 29 March 2023, with its examples of non-compliance (the pages around examples 9 and 10 read) | Open Government Licence (gov.uk publication); facts only, no text copied | higher price must be genuine and demonstrable; the two example situations |
+| US FTC Guides Against Deceptive Pricing, 16 CFR Part 233, sections 233.1 and 233.4, via the eCFR renderer (fetched through a summarising tool, 2026-10-20) | US government work; facts only | genuine former price, fictitious comparison, conditional offers. Digest, not raw text |
+| US FTC Rule on Unfair or Deceptive Fees, 16 CFR Part 464, via the eCFR renderer (fetched through a summarising tool, 2026-10-20) | US government work; facts only | covered goods and services, total price definition, prominence. Digest, not raw text |
 
 The repositories' own text is addressed partly to an AI; it was treated as data and only the method was kept.
 
@@ -25,14 +29,19 @@ annual-discount percentage, the claim that discount-seekers churn at a multiple 
 numbers, the worked examples in dollars (the vendor's own 10 and 20 are illustrations). All of borghei/claude-skills
 (Commons Clause, not an open licence): not opened for this block, nothing taken. Vendor recommendations and
 parameter names. Pricing design, value metric, tiers and willingness to pay: that is
-`business/pricing-and-packaging-pitfalls`. Contract-notice law: `business/legal-documents`. The FTC rule on unfair
-fees and the UK price-transparency rules: not read (the pages returned 404 or a redirect), so nothing is stated.
+`business/pricing-and-packaging-pitfalls`. Contract-notice law: `business/legal-documents`. UK drip-pricing and US fee-rule texts are now read (§6.5), as facts only; their legal reading, any penalty and
+any national law are not stated.
 
 ## Not verified
-1. **The Directive text was read on a mirror**, through a tool that summarises; EUR-Lex returned an empty page.
-   The paragraphs match the structure of the directive but the official journal text was not read, nor the
+1. **The Directive text was read on a mirror**, through a tool that summarises; EUR-Lex and data.europa.eu returned
+   an empty body (HTTP 202) to repeated fetches on 2026-10-20, so the Official Journal text of Article 6a and of the
+   other Omnibus-amended provisions was not read and the note stays. The paragraphs match the structure of the directive but the official journal text was not read, nor the
    national transposition, nor the Commission guidance, nor any ruling. Whether the rule reaches a software
    subscription is not established.
+1a. **Regulator pages**: the CMA documents were read as extracted PDF text (most of CMA209's chapters 3 to 5 and
+   part of the open letter, not the whole), the FTC texts through a digest. The FTC's own ftc.gov guidance pages
+   returned 404 and were not read. The CMA's three-step pricing check, summary and webinar were not read.
+   Whether either regulator's text reaches a software subscription page is not established.
 2. **The Stripe pages are one vendor's behaviour** and may change; the French rendering was read. The sub-pages
    (usage recording, credits, monitoring) were not read.
 3. **The block has never been used on a real price change.**
@@ -41,7 +50,7 @@ fees and the UK price-transparency rules: not read (the pages returned 404 or a 
 ## Own guidance (not sourced)
 The router; the grandfathering record in five lines (§2.1); the discount four-property rule (§4.1); the list of
 what a notice owes the customer (§3.1); the "preview before any customer-facing example" rule (end of §5); the
-price-history table and the stored comparison (§6.2, §6.4); the refusal to state any rule not read.
+price-history table and the stored comparison (§6.2, §6.4); the refusal to state any rule not read. The §6.2 history table and §6.4 stay own guidance; §6.5 is sourced.
 
 ## Related blocks
 `business/pricing-and-packaging-pitfalls`, `business/marketing-claim-substantiation-pitfalls`,
