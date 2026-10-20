@@ -28,6 +28,8 @@ Touching §3.1 points 5 to 8: the promptfoo red-team drift page (MIT, commit b49
 No numeric value from the sources is carried over (no latency, threshold, benchmark or score). No payload,
 template or regular expression of the sources is reproduced; the probes are described by what they test.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: applicability gate, delimiter breakout (section 1.6), no-stripping check, fake-provider limit, judge-model taint (section 2.6), no-tools fast path (section 2.0), per-call statement template.
+
 ## Not verified
 1. **Tool behaviour** (garak probe targets, PyRIT scorer options, llm-guard defaults) was read from source and
    documentation, not run. Re-read before relying on any option name.

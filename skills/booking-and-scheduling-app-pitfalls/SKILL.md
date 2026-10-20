@@ -24,6 +24,8 @@ SLA windows in `skills/helpdesk-ticketing-app-build-pitfalls` and leave dates in
 - Bookings are synchronised with an external calendar or taken from several channels.
 - A hold, a deposit, a cancellation rule or a recurrence is added.
 
+**Skip when** nothing in the application reserves time. If it only decides whether now falls inside a rule (open hours, an access window, a quiet period) and has no slots, holds or bookings, apply §1 points 1 to 4 and the rule that the server decides (point 5) only, and say "not applicable: no reservation" for points 5 to 9 and for §2.
+
 ## Steps
 
 **Read the part you need before the time model or the reservation write path is written.**
@@ -39,7 +41,7 @@ the resource, service and availability entities; the conflict rule and where it 
 the buffer and lead-time rules; the cancellation, reschedule and no-show policies (owned by the business); the
 calendar source of truth; the reminder schedule. Evidence is a test across a spring-forward and a fall-back date
 in two zones, a parallel test where N customers take one slot, a test that an expired hold frees the slot, and a
-test that a recurring series keeps its local hour across a clock change. Nothing here was run by us.
+test that a recurring series keeps its local hour across a clock change; for a rule-only schedule, the same spring-forward and fall-back test on a window edge, and a statement of what the device clock may and may not decide offline. Nothing here was run by us.
 
 ## Guardrails
 - This block states no cancellation fee, refund, deposit or no-show penalty; the business sets them and writes

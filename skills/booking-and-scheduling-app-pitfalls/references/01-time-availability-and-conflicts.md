@@ -18,6 +18,14 @@
    non-existent local times, label the repeated hour with its offset or generate by instant for that day,
    and treat a day as 23 or 25 hours long in duration maths. Never add 24 hours to get "tomorrow": add one
    calendar day in the zone. Test dates are fixed in the test, not read from the real clock.
+   Concrete test set for any schedule or window (a rule of the form "open from 09:00 to 17:00 local", not only
+   bookings): for a zone with a spring-forward day, a window edge inside the skipped hour and one just after it;
+   for the fall-back day, an edge inside the repeated hour; a window that crosses midnight on both days; and one
+   zone with a half-hour offset and one with no clock change. Look the dates up for the zones in use (the last
+   Sunday of March and of October for most of Europe, the second Sunday of March and the first of November for
+   most of the United States; re-check, rules change by decree) and write the expected result down before
+   running. State what the code does for a local time that does not exist (shift forward, or reject) rather than
+   leaving it unspecified.
 4. **Availability is rules plus exceptions.** Model weekly working hours per resource (several intervals per
    day), date exceptions (holiday, leave, one-off opening), and existing bookings as the last subtraction.
    Symptom: rules overwritten by an exception edit and lost. Fix: exceptions are separate rows that override a
@@ -49,3 +57,5 @@
 9. **Past, now and lead time.** Reject bookings in the past using the server clock, apply a minimum lead time so
    nobody books the next minute, and show a "now" computed in the viewer's zone only for display. Edits to a
    past booking are corrections with an audit trail, not silent changes.
+10. **A rule-only schedule needs no slot generator,** only points 1 to 3 and "the server decides". If the application evaluates only whether now is inside a weekly window (an access or opening rule), keep the window as local times plus a zone name, derive instants for the day asked, and do not build slots, holds or buffers.
+11. **Offline or cached evaluation on the device uses the device clock.** Symptom: a rule that is strict online is bypassed offline by moving the clock, or a cached "open until" outlives its real end. Check: find any place the browser or app evaluates the same rule from a cache with the local clock. Fix: say plainly that the server decides; when an offline fallback must exist, store the last server time with the cache, refuse a device clock earlier than it, expire the cache after a stated lifetime, and record that the offline result is advisory and reconciled on reconnect. Where that guarantee matters, deny rather than allow when the cache is stale.

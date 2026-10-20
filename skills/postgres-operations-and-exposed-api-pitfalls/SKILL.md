@@ -17,6 +17,8 @@ in `sql-conventions`; migration tooling is in `devops-conventions`; this block s
 - A table is exposed through an auto-generated REST or GraphQL layer, or authorization reads token claims.
 - A team asks whether to partition a table.
 
+**Skip when** there is no PostgreSQL in production, or, for §1 and §3, when the database is managed or proxied by a provider and the repository cannot reach the server (no statistics views, no settings, no exposure setting). Say "not applicable: <reason>" for those parts and apply only what the repository shows (§2.4, point 4). §3 applies only if §3.0 finds a data API generated from the schema; a database reached only through the application's own server routes has no exposed schema.
+
 ## Steps
 
 **Read only the section the task meets.** They are independent.
@@ -25,16 +27,17 @@ in `sql-conventions`; migration tooling is in `devops-conventions`; this block s
 |---|---|---|---|
 | 1 | Statistics, autovacuum and bloat, finding costly queries, partitioning | performance drifted, tables bloat, a table is called too big | [`01-maintenance-and-diagnosis.md`](./references/01-maintenance-and-diagnosis.md) |
 | 2 | Connection and memory budget, pooler role, timeouts | connections run out, sessions hang, the server runs out of memory | [`02-connections-and-timeouts.md`](./references/02-connections-and-timeouts.md) |
-| 3 | Grants against row-level security, claims, anonymous users, storage policies | a table is reachable through a generated API, or a policy reads a token | [`03-exposed-data-api.md`](./references/03-exposed-data-api.md) |
+| 3 | Grants against row-level security, claims, anonymous users, storage policies | a table might be reachable through a generated API (start at §3.0), or a policy reads a token | [`03-exposed-data-api.md`](./references/03-exposed-data-api.md) |
 
 ## Output / checkpoint
 Each section ends with its own checks. For a change touching this block: the diagnosis names the number that
 proves it (dead rows, estimated against actual rows, connections by state), no setting was changed before that
-number, and every table in an exposed schema has row-level security and a policy that names an owner.
+number, and, where §3.0 found an exposed schema, every table in it has row-level security and a policy that names an owner (otherwise the statement "no data API exposed, because <evidence>").
 
 ## Guardrails
 - Diagnose with the statistics views and the plan before changing a setting (§1.1, §1.3). Never tune from a guess.
 - Never raise the connection limit to cure exhaustion; shrink demand with a pooler first (§2.1).
+- Decide from the repository whether a data API is exposed before applying §3 (§3.0). Never invent a missing policy on a database only the server reaches.
 - Never use a claim the user can edit to authorize (§3.4).
 - Never add a privileged function to get past a permission error (`skills/sql-conventions` §6.6).
 - Vendor figures (percentages, sizes, thresholds) are not recited; measure instead (🟡, nothing here was run on a server).

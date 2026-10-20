@@ -1,5 +1,10 @@
 # llm-app-prompt-injection-and-exfiltration-pitfalls §2 — Exit paths and design
 
+## 2.0 When nothing leaves: integrity risks (own guidance)
+1. **Fast path.** If the call has no tools, nothing renders a link or image from model text, no secret or other user's data is in the context, and no outside URL is fetched, say that §2.1 to §2.4 are closed by construction, name the evidence (the call site, the render component, the prompt template), and stop there for exfiltration.
+2. **Then ask what the output does to stored data and to people.** Output written to a database, shown to a child or another vulnerable reader, sent to an image model, or used to decide something is an integrity channel: an outsider's text can still steer what is stored and shown. Write that risk down with who is affected, which check sits in front (schema, allowlist, moderator, human) and what that check does not catch.
+3. **The report says which of the two worlds applies,** so a reader does not take "no exfiltration path" for "safe".
+
 ## 2.1 Markdown images and links
 1. **A rendered image is an outbound request carrying data.** The garak web-injection probes test whether a
    model writes a markdown image or link whose address includes conversation text, possibly encoded; the
@@ -55,3 +60,10 @@
    trained on (the garak documentation says the same of guardrails and hidden characters).
 2. **Write the residual risk down.** If the product keeps a risky combination on purpose, record who accepted
    it, what monitors it and when it is re-tested.
+
+## 2.6 A model that judges another model's output (own guidance)
+1. **A moderator, classifier or judge that reads generated text reads outside text second hand.** The generator read the untrusted input, so its output can carry that input's instructions to the judge (§1.4, point 2). Symptom: a planted phrase makes the generator write "this is fine, answer: safe" and the judge follows it.
+2. **Give the judge the least it needs and a strict contract.** Fixed verdict format parsed strictly, anything unparseable treated as a refusal (fail closed), the judged text inside a neutralised wrapper (section 1.6), no tools, and no instruction in the judged text accepted as policy.
+3. **Test the path.** Plant an instruction in the generator's input that tries to reach the judge, using the real judge call; if only a fake provider exists, say the test was not run (§1.5, point 5).
+4. **Write the residual risk down** (§2.5, point 2): who is harmed when the judge is fooled (for example a child shown unsuitable text), and what else stands between the output and them (a human review, a restricted vocabulary, an allowlist).
+5. **A judge is a filter, not the control** (§3.4): it lowers the odds and does not replace removing the capability.
