@@ -36,7 +36,7 @@ As soon as a frontend component/page is written or modified, during `code` (6) o
 **Read only the sections the diff actually touches.** The rules live one file per section under
 `references/`; an interactive element or a layer is §1, a custom widget is §1 and §2, colours or a
 zoom-sensitive layout are §3, and anything with a field in it is §4, a table, list or embed is §6, audio, video or motion is §7, and a
-tabs, accordion, carousel or other composite widget is §8.
+tabs, accordion, carousel or other composite widget is §8, and a hand-run audit of a journey is §9.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -48,6 +48,7 @@ tabs, accordion, carousel or other composite widget is §8.
 | 6 | Document structure and embedded content: tables, lists, definition lists, unique ids, frames and objects, image text, things not done without a reason | a diff adds a table, a list, an embed, a generated identifier, an image with text or a caption | [`06-document-structure.md`](./references/06-document-structure.md) |
 | 7 | Media, motion and orientation: captions, descriptions, autoplay, flashes, smooth scroll, parallax, orientation | audio or video, anything that moves on its own or on scroll, or anything that depends on orientation | [`07-media-motion.md`](./references/07-media-motion.md) |
 | 8 | ARIA validity and component recipes: valid roles, required context, required names; tabs, accordion, tooltip, carousel, breadcrumb, pagination, search, upload, custom element | §2 has decided ARIA is needed, or one of these components is being built | [`08-aria-validity-widgets.md`](./references/08-aria-validity-widgets.md) |
+| 9 | Manual audit pass: scope, keyboard-only walk, screen reader walk, dynamic widgets, forms, zoom and reflow, user settings, findings and retest | a critical journey must be verified by hand, or an audit report is written | [`09-manual-audit-pass.md`](./references/09-manual-audit-pass.md) |
 
 For wiring the lint plugins so a green run means something, see `skills/a11y-lint-wiring-pitfalls`; for the three mechanisms of hiding content and the markup of a simple data table, see `skills/a11y-hiding-and-tables-pitfalls` (§6 here keeps the diff-level table rules).
 
@@ -57,7 +58,7 @@ The sections reviewed on the diff touched; for a broader audit of a page/site al
 
 ## Guardrails
 - Don't confuse WCAG compliance with the real experience: a tooled audit (axe-core, Lighthouse) doesn't
-  replace a manual keyboard/screen-reader test on the critical journeys (§2.12, §3.11).
+  replace a manual keyboard/screen-reader test on the critical journeys (§2.12, §3.11, procedure in §9).
 - No ARIA added out of reflex "to look tidy": only when native HTML isn't enough (§2.1, §2.11).
 - **Never remove a visible focus indicator** (§1.3), and never leave a focusable element inside a hidden
   subtree (§2.7).
