@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| oss-maintainer-operations-pitfalls | 6 (new 2026-10-20) | Open Source Guides by GitHub (CC BY 4.0) | 🟡 (never dogfooded) |
+| architecture-fitness-functions-pitfalls | 6 (new 2026-10-20) | ArchUnit user guide (Apache-2.0) | 🟡 (never dogfooded) |
+| release-provenance-and-sbom-pitfalls | 6 (new 2026-10-20) | CycloneDX specification (Apache-2.0); provenance part is own guidance, unverified | 🟡 (never dogfooded) |
 | cloud-iam-network-and-cost-pitfalls | 6 (new 2026-10-20) | awslabs/agent-plugins (Apache-2.0), huggingface/skills (Apache-2.0) | 🟡 (never dogfooded) |
 | ml-training-and-evaluation-pitfalls | 6 (new 2026-10-20) | huggingface/skills (Apache-2.0) | 🟡 (never dogfooded) |
 | desktop-webview-app-pitfalls | 6 (new 2026-10-20) | electron/electron docs (MIT), tauri-apps/tauri-docs (MIT) | 🟡 (never dogfooded) |
