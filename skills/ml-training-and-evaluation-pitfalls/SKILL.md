@@ -27,6 +27,7 @@ retrieval is in `rag-retrieval-quality-pitfalls`; the account and cost side of a
 |---|---|---|---|
 | 1 | Dataset format, splits, leakage, baselines, trivially perfect and unmoving metrics, pinned revisions | a dataset is chosen or split, or a score is read | [`01-data-splits-and-metrics.md`](./references/01-data-splits-and-metrics.md) |
 | 2 | Memory and NaN recovery order, hangs, best-checkpoint selection, ephemeral machines, timeouts, tokens, saving and loading | a run is configured, fails, or its output must survive | [`02-runs-failures-and-artifacts.md`](./references/02-runs-failures-and-artifacts.md) |
+| 3 | Training data hygiene for tuning: duplicates, personal data, label audit, data licence, contamination by evaluation items, synthetic data | a tuning set is collected, cleaned or shared | [`03-training-data-hygiene.md`](./references/03-training-data-hygiene.md) |
 
 ## Output / checkpoint
 Each section ends with its own checks. For a change touching this block: the split is disjoint and was made before
@@ -41,6 +42,7 @@ saved model was loaded from a fresh process.
 - Change one thing at a time when recovering from memory errors, in the order of §2.1. Never shrink the experiment (list length, sequence length) as if it were a memory knob.
 - Push outputs off the machine before the job ends and set a timeout longer than the run (§2.3). Never rely on an ephemeral disk.
 - Never put a token in a script or a log; pass it as a secret (§2.4).
+- Deduplicate, strip personal data and audit labels before tuning, and keep every evaluation item out of the training set (§3). Never tune on text whose licence or consent is unknown.
 - Library names, option names and defaults move between versions; re-read the version in use before relying on one (🟡, nothing here was run).
 
 ## Origin
