@@ -47,9 +47,16 @@ a ban list; a word list ages, the mechanism does not.
   commit message is a technical constraint.
 - **The dash.** The rule from `02-more-tells.md` (family 35) applies unchanged: avoid by default, follow the
   user's sample. French dialogue and enumerations use dashes by convention; those are untouched.
-- **Anglicisms and calques.** "adresser un problème", "supporter une fonctionnalité", "réaliser que"
-  (meaning "se rendre compte") are mistranslation, not machine tells; fix them only when the text is
-  yours to edit, and never as part of the tell audit.
+- **Anglicisms and calques: weak alone, strong as a cluster.** A lone "adresser un problème",
+  "supporter une fonctionnalité" or "réaliser que" (meaning "se rendre compte") is one person's
+  mistranslation, not a machine tell: fix it only when the text is yours to edit, and do not count it.
+  Several signs of an English draft in disguise, in one document, are a finding: a cluster of such calques,
+  English quotation marks instead of « », title-case headings, capitalised weekdays and months, English
+  word order that puts the new information first, hyphenated modifiers built the English way
+  (`04-other-languages.md` §2). Say the signal is a translated draft, not that a model wrote it: a
+  human translator leaves the same marks.
+- **Headings.** French headings are sentence case; title case is the English habit (family 55 in
+  `02-more-tells.md`).
 
 ## 3. Do not flag (French)
 
@@ -61,6 +68,10 @@ a ban list; a word list ages, the mechanism does not.
   optimisation, "performant" when a benchmark sits next to it).
 - **Quoted text**, error messages, output, code.
 - **Non-native or regional French.** Different from machine-made; do not correct a person.
+- **A non-breaking space before `:` `;` `!` `?`.** Correct typesetting; the invisible-character scan in
+  `02-more-tells.md` §3 never flags it.
+- **Code-switching.** A French text that keeps English technical terms where practitioners say them is
+  voice (`04-other-languages.md` §3).
 
 ## 4. Positive requirement
 

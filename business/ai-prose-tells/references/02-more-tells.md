@@ -51,7 +51,8 @@ whether it is a tell or just a sentence.
 27. **Trailing negations.** A negative clause tacked on for rhythm: "..., not a gimmick", "no guesswork,
     no friction, no surprises". Test: did anyone propose the thing being denied?
 28. **Repeated openers.** Three sentences in a paragraph starting with the same word or the same shape.
-    Count it per paragraph, not per document.
+    Count it per paragraph, not per document. The same holds one level up: the same closing beat after
+    every paragraph or section (a punchy line, a recap) is one tell repeated, however different the words.
 29. **Rhetorical question and answer.** A question the writer asks only to answer it: "The result? A faster
     build." Keep when the reader would plausibly ask it; cut when it only sets up the next line.
 30. **Staged constructions.** "By the time X, I was Y", a sentence opening with "So," or "Look,", a colon
@@ -80,7 +81,10 @@ whether it is a tell or just a sentence.
 
 36. **Extended filler.** "in order to", "it is important to note that", "due to the fact that", "at this
     point in time", "it should be noted". Test: delete the phrase; the sentence still parses and means
-    the same.
+    the same. This is editorial tightening, not evidence of a machine: wordy phrases of this kind, a
+    plain "is" or "has", a qualifier and a flat claim are all things the public reference on the subject
+    lists as more common in human writing. Weak alone, cluster only; a lone "in order to" is never
+    flagged as machine-made, and tightening it is a style edit offered, not a finding.
 37. **Speculative gap-filling.** The draft supplies a reason, motive, effect or timeline the source does
     not state: "which likely helped adoption", "probably because of the older API". It reads as insight
     and is invention. This is what audit question 2 in `SKILL.md` catches. Fix: state the gap ("the
@@ -132,6 +136,31 @@ These need no judgement, only a look. They are findings on their own, not cluste
 - **Symmetric pros and cons.** Equal numbers of items, equal lengths, every con softened by a "but".
 - **Same sentence per item.** Two or more list items whose text differs only by a noun.
 - **Passive concentration.** A paragraph where nearly every sentence is actorless passive (family 10).
+- **Residue strings** (below). These need no cluster: text that exists only because output was pasted
+  without a look. Scan for them before the final text is returned, and clean them in the final.
+  - *Unfilled placeholders*: a bracketed name, company or title ("[Your Name]", "[insert date]"), a date
+    written with letter stubs, a source address written as a placeholder.
+  - *Chatbot citation tokens*: markers of the form `contentReference[...]`, `turn0search0`, `oai_citation`,
+    `[cite: 1]`, bracketed source ids and similar machine syntax inside prose. Tools change the shape over
+    time, so recognise the idea (syntax meant for a renderer, left in the text) rather than a list.
+  - *Tracking parameters on links*: a query string such as `utm_source=chatgpt.com` added to an address.
+    Strip the parameter. It shows that a tool produced the link, not that it wrote the text.
+  - *Invisible characters*: zero-width space or joiner, a soft hyphen, a byte-order mark, stray
+    non-breaking spaces where an ordinary one belongs. Normalise to plain text.
+  - *Homoglyphs*: a Cyrillic or Greek letter standing in for a Latin one inside a word.
+  Legitimate cases the scan leaves alone: the non-breaking space before `:` `;` `!` `?` and inside « » in
+  French (`03-french.md` §2), and the same convention in other languages that set it; a zero-width joiner
+  inside emoji sequences and in scripts that need it; a soft hyphen in typeset print text; placeholders
+  that a template deliberately contains. Check the language and the file kind first, then flag. A text
+  that declares its provenance on purpose is a disclosure, not residue (family 41 and
+  `business/ai-content-disclosure-and-provenance-pitfalls`).
+
+## 3b. Tiers and weak-alone families
+
+How these families weigh (the table is in `SKILL.md`): certain on one sighting are 38, 49 and the
+residue strings; family 4 in `01-tells.md` joins them when the text has no reader to answer. Weak alone,
+cluster only: 10, 13, 35, 36, 45, 55. A weak signal that sits on a phrase already flagged by another
+family is counted once.
 
 ## 4. False positives for this file
 
@@ -152,6 +181,18 @@ Mandatory, as in `01-tells.md` §3.
 - **A symmetric comparison table** whose rows really are symmetric, because they compare the same
   attributes.
 - **Dashes the author uses.** If the user's sample uses them, they stay.
+- **A caveat that is stated.** "Caveat: the two runs used different context windows" is content; only a
+  sentence about where a caveat must sit, with no caveat in it, is family 46.
+- **Specific when specifics follow.** "The specific error is ENOSPC" names the error.
+- **Real steps.** A numbered procedure, an install, a runbook: "Step 1" there is the content (family 49).
+- **Real structure.** Sections of equal length because the content has equal parts; a list of two or of
+  five that really has that many; a symmetric comparison table (family 47).
+- **A real analogy for a reader who needs one.** A text aimed at non-specialists may explain by comparison
+  (family 52).
+- **A term the project defines.** A coined label that the project's own documents define and use
+  throughout is vocabulary, not family 51.
+- **A conclusion the document needs.** A short summary at the head of a long reference is navigation; the
+  tell is the same recap at every level (family 50).
 
 ## 5. The register test
 
@@ -159,3 +200,66 @@ Last step of the audit. Read the paragraph as if it were going to one of four pl
 release, a school essay, a work memo. If it sounds like any of the first three, find the sentence that gives
 it away and fix that sentence; the memo is the target for READMEs, MR descriptions and changelogs. The test
 settles registers the lists above leave open, and it needs no list.
+
+## 6. Further families, 46 to 55
+
+Same rule as the first section: mechanism and test, no word list. Numbers 53 and 54 are unassigned and
+stay free; 55 is placed where the source material put it.
+
+**Announced care, shape and loops**
+
+46. **Performed rigor and candor.** The writer certifies that they are being careful, fair or exact
+    instead of being so, in four shapes. A spoken certificate ("it is worth being precise here", "to be
+    fair", "the honest version is", "we will not undersell this"). An announced caveat written as a noun
+    phrase with no verb ("one caveat that has to sit up front"): the sentence rules on where a caveat goes
+    and leaves the caveat for the next one. Asserted specificity: "specific", "particular", "exact" used
+    in place of the specifics ("it differs in one specific way"). And a worth-saying certificate
+    ("it bears repeating", "worth noting") before or after a claim. Test: delete the announcement; if the
+    content stands, the announcement was the whole move, and if nothing is left, the sentence goes. It
+    differs from family 16 (a candour opener at one point), from 20 (a staged reaction) and from 36
+    (padding): here the writer vouches for their own integrity. A caveat that is stated stays.
+47. **Structural uniformity.** Sentences can be clean and the piece still gives itself away by its shape:
+    sections of near-identical length, every list the same number of items, a recap closing every
+    section. The reshuffle test: swap the second and fourth paragraphs. If nothing breaks, the piece is a
+    stack of interchangeable blocks and not a line of reasoning. Fix at the cause: give each section the
+    depth its content has, each list the length it really has (two is fine), and cut the closing recap.
+    Distinct from 42 (templated filler per item) and from the symmetric-lists check in section 3.
+48. **Treadmill.** A long section restates one idea in progressively different words; one metaphor is
+    beaten across the whole document; a stack of company or era analogies stands in for an argument; the
+    same paragraph appears twice. Test: what does this paragraph add that the one before did not? If the
+    answer is "nothing, but louder", merge the two and keep the clearest. Distinct from 26 (one thing
+    under three names) and 42 (the same sentence per item): here the idea, not the noun, is what repeats.
+49. **Reasoning-chain artifacts.** The writer's working-out has leaked into the text: "let me break this
+    down", "first I will look at X, then Y", "step 1", "now that we have established". The writer narrates
+    their own procedure as though it were the content. Delete the scaffold and keep the conclusion in the
+    author's voice. Keep numbered steps that are the content (an install, a procedure). Distinct from 5
+    (announces what the document will do) and from the production-narrative blocker (how the artifact
+    was made). Certain tier when the narrated procedure is the writer's own thinking, which matters most
+    in agent-written MR descriptions and commit messages.
+
+**Points, labels and teaching voice**
+
+50. **Listicle in prose.** Points dressed as continuous prose: "The first wall is...", "The second wall
+    is...", "The second takeaway is...", usually after someone asked for no lists. Its companion is the
+    fractal summary: announce, say and recap at every level. Test: replace "first / second / third" with
+    bullets; if nothing is lost, it is a list in costume (the mirror of family 34). The signposted
+    conclusion ("in conclusion", "to sum up") belongs with 11 (generic conclusion) and 5 (announced
+    plans): one marker is a habit; the same move at every level is the tell.
+51. **Invented concept labels.** Coined compounds built from a domain word and an abstract problem noun
+    (paradox, trap, creep, divide, vacuum, inversion) and used as if established. They name a thing and
+    skip the argument. Test: is the term defined, sourced, or used by anyone but this writer? If not,
+    say the mechanism in plain words. A term the project defines and uses throughout is vocabulary.
+52. **Patronising analogy and invitation to imagine.** "Think of it as...", "imagine a world where...",
+    "it's like a...", and the classroom register addressed to an expert ("let's break this down").
+    Test: is the analogy clearer than the plain statement, and does this reader need it? An analogy for a
+    non-specialist audience is a legitimate tool. Family 5 covers "let's explore"; this is the analogy and
+    the imagine-opener.
+55. **Heading and markup decoration.** Headings that capitalise every main word in a language whose norm
+    is sentence case; unicode arrows used as connectors; a horizontal rule between every section; a
+    document that opens with a top-level heading repeating its title; skipped heading levels or several
+    top-level headings; a heading written for effect ("The decision, on one screen") instead of naming
+    what the section holds ("How the six options compare"). Fix: sentence case where that is the
+    language's norm, one title, a rule only where there is a real break, a heading that names its
+    content. Weak alone, cluster only. Conventional headings (Installation, Usage, Added, Fixed) are not
+    flagged (`01-tells.md` §3); in French, sentence case is the norm and title case is the English-habit
+    signal (`03-french.md`, `04-other-languages.md`).
