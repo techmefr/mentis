@@ -41,5 +41,4 @@ in an emulator with a second user and an anonymous caller, and no administrator 
 - Platform limits, defaults and prices change; re-read the current documentation before relying on a name or a number (🟡, nothing here was deployed).
 
 ## Origin
-Own guidance, from the craft of securing client-direct backends; no source was read. Official platform
-documentation was not opened (licence not verified). See [`references/origin.md`](./references/origin.md).
+Own guidance, from the craft of securing client-direct backends, with the platform facts it lists checked on 2026-10-20 against the official documentation pages (no licence checked, facts only, rewritten). The rest stays labelled own guidance. See [`references/origin.md`](./references/origin.md).

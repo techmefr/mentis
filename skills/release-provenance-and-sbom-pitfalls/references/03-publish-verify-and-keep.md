@@ -2,7 +2,7 @@
 
 > Part 3 of `skills/release-provenance-and-sbom-pitfalls`. Read it when the release is published or a flaw is
 > announced. Source for the SBOM facts, read 2026-10-20: the CycloneDX specification JSON schema and README
-> (Apache-2.0). Everything else is own guidance and rests on no source read.
+> (Apache-2.0). The framework's verification page (digest match, see §2.2) backs point 1; everything else is own guidance and rests on no source read.
 
 1. **Match the published file to the shipped bytes.** Own guidance: after the release is public, download the
    artefact from the place users get it, hash it, and compare with the digest in the SBOM and the attestation.

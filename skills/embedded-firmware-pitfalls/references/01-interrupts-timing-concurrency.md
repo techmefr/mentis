@@ -1,10 +1,10 @@
 # embedded-firmware-pitfalls §1 — Interrupts, timing and concurrency
 
-Source: own craft knowledge; chip and library behaviour is to be re-read in the datasheet and documentation of the part in use.
+Source: own craft knowledge, with the points marked "Zephyr docs" checked on 2026-10-20 against the Zephyr documentation (Apache-2.0, rewritten in our words, nothing copied). Chip and library behaviour is to be re-read in the datasheet and documentation of the part in use.
 
 ## 1.1 Interrupt handlers
-1. **A handler sets a flag, copies a sample or advances a counter, and returns.** Parsing, formatting, logging, bus transactions and anything slow belong in the main loop or a task that the flag wakes.
-2. **Symptom: serial output garbles, a bus hangs, or the board resets when an input toggles.** Cause: the handler calls something that itself needs interrupts, takes a lock, or allocates. Fix: remove the call; check the platform's list of functions that are safe in a handler.
+1. **A handler sets a flag, copies a sample or advances a counter, and returns.** Parsing, formatting, logging, bus transactions and anything slow belong in the main loop or a task that the flag wakes. (Zephyr docs: a handler should run quickly and never block; time-consuming or blocking work is handed to a thread through a queue, a semaphore or the system work queue.)
+2. **Symptom: serial output garbles, a bus hangs, or the board resets when an input toggles.** Cause: the handler calls something that itself needs interrupts, takes a lock, or allocates. Fix: remove the call; check the platform's list of functions that are safe in a handler. (Zephyr docs: many kernel calls are thread-only; a zero-latency handler on the Cortex-M family must not call the kernel at all, its behaviour is undefined.)
 3. **On some chips, handler code must live in fast memory, and cannot run while flash is being written.** A handler that runs from flash while the flash is busy crashes. Mark it as the platform requires and keep its data in RAM.
 4. **Check:** read each handler and list every function it calls. The list should be short and every entry should be documented as handler-safe.
 
@@ -24,8 +24,8 @@ Source: own craft knowledge; chip and library behaviour is to be re-read in the 
 
 ## 1.4 Tasks under a real-time operating system
 1. **Share data between tasks through the system's queues, semaphores or event flags, not bare globals.** A global read by two tasks has the same torn-read problem as one shared with a handler.
-2. **Give each task a stack sized from a measurement.** Run the worst path and read the minimum free stack the system reports; a task with an unmeasured stack overflows on the one rare path.
-3. **Priority inversion hangs systems:** a high-priority task waiting on a lock held by a low-priority task that a medium one keeps preempting. Use the system's mutex with priority inheritance, not a binary semaphore, for resource locks.
+2. **Give each task a stack sized from a measurement.** Run the worst path and read the minimum free stack the system reports; a task with an unmeasured stack overflows on the one rare path. (Zephyr docs: with stack initialisation and stack info enabled, a call reports the unused bytes of a thread's stack by scanning it, and a runtime safety check can raise a handler when unused space falls below a threshold; protection regions may force power-of-two stack sizes and alignment on some memory-protection units.)
+3. **Priority inversion hangs systems:** a high-priority task waiting on a lock held by a low-priority task that a medium one keeps preempting. Use the system's mutex with priority inheritance, not a binary semaphore, for resource locks (own guidance: the Zephyr thread page read does not cover inheritance, and the FreeRTOS mutex page returned no text).
 4. **Never block inside a critical section or call a blocking function from a handler;** use the handler-safe variant of queue and semaphore calls the system provides.
 
 ## Checks

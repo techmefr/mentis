@@ -1,6 +1,6 @@
 # embedded-firmware-pitfalls §2 — Memory, resets, storage and power
 
-Source: own craft knowledge; limits, endurance figures and register behaviour are to be re-read in the datasheet of the part in use.
+Source: own craft knowledge, with the points marked "Zephyr docs" or "MCUboot docs" checked on 2026-10-20 against the Zephyr non-volatile-storage and device-management pages and the MCUboot design page (both Apache-2.0, rewritten in our words, nothing copied). Limits, endurance figures and register behaviour are to be re-read in the datasheet of the part in use.
 
 ## 2.1 Memory
 1. **Symptom: the device runs for days, then resets or misbehaves, and the fault is never in the same place.** Cause: heap fragmentation from allocate and free in a loop, a string class that grows, or a stack that overflows into data. Fix: allocate fixed buffers once at start-up, use fixed-size arrays and formatted writes with a length, and keep dynamic containers out of long-running paths.
@@ -17,9 +17,9 @@ Source: own craft knowledge; limits, endurance figures and register behaviour ar
 5. **Do not hide a crash with a watchdog reset and ship it.** Log it, count it, and treat a rising count as a defect.
 
 ## 2.3 Flash and non-volatile storage
-1. **Flash and emulated storage have limited erase cycles and erase in blocks.** Writing a counter or a log line on every event wears a sector out in the field. Write on a change that matters, batch writes, and use the platform's wear-levelling store.
-2. **Never write from a place that can lose power mid-write without a plan.** Write a new copy with a version or a checksum, then switch to it, so a power cut leaves either the old or the new record valid, never half of each.
-3. **A firmware update is a write too.** Keep two image slots or a recovery path, verify the image before switching, and confirm after boot that the new image is healthy, otherwise roll back.
+1. **Flash and emulated storage have limited erase cycles and erase in blocks.** Writing a counter or a log line on every event wears a sector out in the field. Write on a change that matters, batch writes, and use the platform's wear-levelling store. (Zephyr docs: flash erases in sectors, each page tolerates a limited number of erases, the store keeps one sector empty and copies still-valid entries before erasing, and it skips the write when the value is unchanged; the page gives a life formula in minutes from sector count, sector size, erase limit, writes per minute and data size, so estimate the life instead of hoping.)
+2. **Never write from a place that can lose power mid-write without a plan.** Write a new copy with a version or a checksum, then switch to it, so a power cut leaves either the old or the new record valid, never half of each. (Zephyr docs: the store writes the data first and the metadata with its checksum last, and ignores data that has no valid metadata at start-up.)
+3. **A firmware update is a write too.** Keep two image slots or a recovery path, verify the image before switching, and confirm after boot that the new image is healthy, otherwise roll back. (MCUboot docs: the candidate sits in a secondary slot and is swapped into the one that boots; in a test swap the new image reverts at the next reset unless it marks itself confirmed, in a permanent swap it stays; before the swap the loader checks the magic number, a SHA-256 hash and a signature covering the header, the body and the protected metadata.)
 4. **Settings need a schema version.** A new firmware reading an old record meets a missing field; apply defaults and migrate by version, as in any data store.
 5. **Check:** simulate power loss at random moments during a write in a test and confirm the device boots with a valid record each time.
 

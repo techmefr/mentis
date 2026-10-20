@@ -1,15 +1,16 @@
 # delivery-metrics-definition-pitfalls §2 — Reading and using the numbers
 
 > Part 2 of `skills/delivery-metrics-definition-pitfalls`. Read it when a number is compared, targeted or acted
-> on. Own guidance from general craft knowledge; no source read, and no benchmark is given.
+> on. Own guidance from general craft knowledge, except the points that cite the framework's metrics guide at
+> dora.dev (read 2026-10-20 for facts only, licence not verified, rewritten); no benchmark is given.
 
-1. **Compare a service with itself.** Symptom: a table ranks teams, the lowest one owns the oldest, most
+1. **Compare a service with itself.** The framework's guide says the same: the metrics are meant for one application or service at a time, not for comparing very different applications, and not as a contest between teams or organisations. Symptom: a table ranks teams, the lowest one owns the oldest, most
    regulated system. Fix: read the trend of one service over time against its own earlier definition; compare
    across services only to ask why, never to rank.
-2. **Speed and stability move together or the metric is wrong.** Symptom: frequency rises and failures rise too,
+2. **Speed and stability move together or the metric is wrong** (the framework's guide warns against relying on one metric and recommends several that pull against each other, grouped as throughput and instability). Symptom: frequency rises and failures rise too,
    reported as a win on the first. Fix: always show a throughput metric next to a stability metric, and read
    them as a pair.
-3. **A target invites gaming.** Symptom: deployments split into empty releases, failures reclassified as
+3. **A target invites gaming** (the framework's guide says not to set the metrics as goals, citing the law that a measure used as a target stops measuring). Symptom: deployments split into empty releases, failures reclassified as
    "not related", tickets closed early. Fix: use the number to locate a constraint in a retrospective; where a
    target is unavoidable, pair it with a counter-metric that the gaming would worsen, and review the definition
    for loopholes first.
@@ -30,7 +31,7 @@
 8. **Pair numbers with a story.** Symptom: a metric changed and the explanation is invented afterwards. Fix:
    when a number moves, read the underlying changes and incidents of that period before concluding
    (`skills/metric-movement-diagnosis-pitfalls`).
-9. **Do not import outside bands.** Own guidance: published performance bands are a snapshot of a surveyed
+9. **Do not import outside bands.** Own guidance (the bands were not read): published performance bands are a snapshot of a surveyed
    population, redefined between editions. Symptom: a slide says "we are in the top group" from a number built
    on a different definition. Fix: if a band is needed, re-read the current publication, quote it with its year,
    and check that your definitions match its own before comparing.

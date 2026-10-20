@@ -1,10 +1,10 @@
 # firebase-rules-and-client-trust-pitfalls §2 — Keys, admin credentials, claims and functions
 
-Source: own guidance throughout (no source was read; see origin). Names and defaults are the platform's; re-read before relying on them.
+Source: official platform documentation read 2026-10-20 for facts only, rewritten (API keys, custom claims, sessions); the rest is own guidance. Names and defaults are the platform's; re-read before relying on them.
 
 ## 2.1 Public configuration and abuse
-1. **The client configuration (project identifier, web key, sender identifier) is public by design;** it identifies the project, it does not grant access. Do not spend effort hiding it, and do not store a secret in the same file.
-2. **What protects the project is the rules (§1) plus an attestation service and key restrictions.** Restrict the web key to the app's own referrers or bundle identifiers, and turn on the platform's app attestation for the products that support it so that requests from copied clients are rejected.
+1. **The client configuration (project identifier, web key, sender identifier) is public by design;** it identifies the project, it does not grant access. Do not spend effort hiding it, and do not store a secret in the same file. Confirmed: the provider says such keys are fine in code and checked-in configuration, and warns not to rely only on restricting or hiding them (API keys page, read 2026-10-20). A key for a different service, such as a generative-model API, is not a client key and must stay server-side.
+2. **What protects the project is the rules (§1) plus an attestation service and key restrictions.** Restrict the web key to the app's own referrers or bundle identifiers, and turn on the platform's app attestation for the products that support it so that requests from copied clients are rejected. The provider names the three layers as rules for the data, app attestation for which apps may call, and cloud IAM for authorization; it also says Firebase-created keys are limited to Firebase APIs by default and that the password-sign-in endpoint quota can be tightened against brute force (API keys page).
 3. **Attestation is a brake, not a lock.** It reduces abuse by scripts; it does not replace rules.
 4. **Set quotas and budget alerts** on the project, because an open endpoint is paid for by you (own guidance).
 
@@ -17,9 +17,9 @@ Source: own guidance throughout (no source was read; see origin). Names and defa
 
 ## 2.3 Claims, roles and token freshness
 1. **Put authorization data (roles, plan, tenant) in custom claims set by a server, or in a document the rules read that clients cannot write.** Never in a profile field the user can edit.
-2. **A change of claims reaches the user's token only after the token refreshes.** Force a refresh in the client after the change, or tolerate the delay (an hour is the typical lifetime; re-read it).
-3. **Deleting or disabling a user does not invalidate tokens already issued** until they expire. Revoke refresh tokens, keep sensitive actions behind a recent-sign-in check, and for strict cases check in the rule or function that the account is still enabled.
-4. **Claims have a size limit;** keep them to identifiers and flags, not profiles.
+2. **A change of claims reaches the user's token only after the token refreshes.** Force a refresh in the client after the change, or tolerate the delay (an hour is the lifetime of an ID token, confirmed). Confirmed: claims appear in the token after a new sign-in, after the old token expires, or after a forced refresh on the client (custom claims page, read 2026-10-20).
+3. **Deleting or disabling a user does not invalidate tokens already issued** until they expire. Revoke refresh tokens, keep sensitive actions behind a recent-sign-in check, and for strict cases check in the rule or function that the account is still enabled. Confirmed: ID tokens are stateless, so ordinary verification does not notice a revoked one; the server check for revocation adds a network round trip, and the real-time database rules can compare the token's sign-in time with a revocation time stored under the user (session-management page, read 2026-10-20).
+4. **Claims have a size limit** (1000 bytes of payload, confirmed; larger throws an error); keep them to access-control identifiers and flags, not profiles, since the token travels with every request (custom claims page).
 5. **Tenant isolation is a rule on every path,** with the tenant taken from the trusted claim; a missed path is a cross-tenant leak.
 
 ## 2.4 Callable and triggered functions

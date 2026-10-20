@@ -43,4 +43,4 @@ freed object is freed through the engine's deferred path, and the change was run
 
 ## Origin
 Written from our own craft knowledge of game loops and scene-tree engines; engine behaviour is stated as general
-facts in our words. No source text was taken. See [`references/origin.md`](./references/origin.md).
+facts in our words, partly checked against the Godot Engine documentation (CC BY 3.0, read 2026-10-20). No source text was taken. See [`references/origin.md`](./references/origin.md).

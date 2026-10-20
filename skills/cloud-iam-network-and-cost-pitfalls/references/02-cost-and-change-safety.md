@@ -11,9 +11,9 @@ Sources: the `deploy` skill, the Elastic Beanstalk skill and the serverless depl
 ## 2.2 Defaults that fit the stage
 1. **Default to dev-sized (small instances, one zone, no replicas) unless production is stated.** The source says so explicitly; the cost of an over-sized default is paid every hour it runs.
 2. **Production differs in availability and in maintenance windows, not only in size:** several zones, rolling deployments with spare capacity, patching in a window.
-3. **A managed outbound gateway bills per hour and per gigabyte processed** (own guidance, re-read the current price). A worker that pulls large images or data through it every run can cost more than the instance. Use private endpoints for the provider's own storage and registry traffic.
-4. **Traffic between zones and out to the internet is billed** (own guidance): keep chatty components in the same zone when availability allows, and put a content cache in front of heavy downloads.
-5. **Logs and metrics cost by volume and by time kept.** Set a retention period on every log group when it is created; the default may be forever.
+3. **A managed outbound gateway bills per hour and per gigabyte processed** (confirmed, NAT gateway pricing page, read 2026-10-20; the amounts were not read). A worker that pulls large images or data through it every run can cost more than the instance. Use private endpoints for the provider's own storage and registry traffic: the same page advises gateway or interface endpoints when most traffic goes to services that support them.
+4. **Traffic between zones and out to the internet is billed** (cross-zone traffic through the gateway confirmed on the same page, so keep resources in the gateway's zone or one gateway per zone; internet egress pricing not read, own guidance): keep chatty components in the same zone when availability allows, and put a content cache in front of heavy downloads.
+5. **Logs and metrics cost by volume and by time kept.** Set a retention period on every log group when it is created; the default is forever (confirmed: log data is kept indefinitely unless a retention is set; events past it are deleted with a delay of up to about three days, CloudWatch Logs page, read 2026-10-20).
 
 ## 2.3 Stateful resources inside stacks
 1. **Keep stateful resources (databases, buckets with data, queues with messages) in a different stack from stateless ones,** and enable termination protection on the stateful stack. The source recommends this for its code-based stacks.
@@ -26,7 +26,7 @@ Sources: the `deploy` skill, the Elastic Beanstalk skill and the serverless depl
 1. **Read the change preview before every apply, and in CI on every change.** Look for lines that say replace or delete on anything stateful, and for any new inbound rule or new identity.
 2. **Do not deploy to production from a laptop with a direct command;** use a pipeline that runs the preview, the scan and the apply, with an approval for production (the source says to avoid direct production deploys).
 3. **Never mix two ways of managing the same resource** (a console edit on a stack-managed resource, two tools claiming one resource), because the next apply silently reverts or conflicts (own guidance).
-4. **Tear-down is part of the design.** Name or tag everything with an owner and an expiry for experiments, and list what survives a stack deletion: volumes, snapshots, fixed addresses, log groups, buckets with retained data (own guidance).
+4. **Tear-down is part of the design.** Name or tag everything with an owner and an expiry for experiments (tags also feed the cost-allocation reports, CloudWatch Logs tagging page), and list what survives a stack deletion: volumes, snapshots, fixed addresses, log groups, buckets with retained data (own guidance).
 5. **Set a budget alert before the first experiment,** at a low amount, to a channel somebody reads (own guidance).
 
 ## 2.5 Checks (own guidance)

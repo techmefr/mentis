@@ -3,7 +3,7 @@
 > Part 1 of `skills/backup-restore-drill-pitfalls`. Read it when a backup is designed or reviewed.
 > Sources, read 2026-10-20: mercari/production-readiness-checklist, "Automatic Datastore Backups" and the
 > pre-production checklist's data-storage section (MIT); Azure Architecture Center, "Design a ransomware-resilient
-> backup architecture by using Azure Backup" (CC BY 4.0). Sentences marked "own guidance" are ours.
+> backup architecture by using Azure Backup" (CC BY 4.0); the PostgreSQL manual chapter on continuous archiving (official documentation, facts only, read 2026-10-20), cited as "PostgreSQL docs". Sentences marked "own guidance" are ours.
 
 1. **List what must be recoverable, store by store.** Own guidance: databases, object storage, queues that hold
    work, search indexes that cannot be rebuilt, secrets and keys, infrastructure state and configuration, and
@@ -25,7 +25,7 @@
 5. **Keep the log or journal if you need a point in time.** Own guidance: a periodic full copy gives a recovery
    point at the time of the copy; recovering to a chosen moment needs a continuous stream of changes kept
    alongside it. Check that the stream is archived, complete and retained as long as the oldest copy you rely
-   on.
+   on. Confirmed on one engine (PostgreSQL docs): recovery to a moment needs a base copy plus an unbroken sequence of archived log files reaching back at least to the start of that copy, the archiving must be set up and tested before the first base copy, and log files older than the first one the oldest kept copy needs can be deleted only once the copy set is safely stored.
 6. **Design retention against how late damage is discovered.** The Azure guide calls for retention long enough
    to recover from an attack found days or weeks after it began, with short-term and longer-term layers. Own
    guidance: a corruption noticed after the oldest copy expired is unrecoverable; set the window from how late
@@ -48,3 +48,18 @@
     choose and how to try a second point if the first fails validation.
 12. **Treat a replica or failover as a different tool.** Own guidance: high availability keeps the service up
     through a node failure; it is not a backup, and it copies mistakes. Record both and test both.
+13. **Make a failing log archive loud.** PostgreSQL docs: the archive command signals success with a zero exit
+    status and the server retries a failure again and again; if the log volume fills while archiving is stuck,
+    the server shuts down with a panic (no committed transaction is lost, but it stays down until space is
+    freed), and a command killed by a signal or exiting above 125 stops the archiver without showing in the
+    archiver statistics view. Symptom: the volume holding the log fills overnight. Check: alert on the age of the
+    last archived file and on free space where the log accumulates, not on the job's exit alone. Fix: repair the
+    archive target first, never switch archiving off to make room, since switching it off only makes the log
+    accumulate.
+14. **Archive the history files, and pick a recovery point after the copy ended.** PostgreSQL docs: each
+    completed recovery starts a new timeline, whose small history file is archived with the log and should be
+    kept indefinitely; recovery defaults to the latest timeline and cannot enter one that branched before the base
+    copy; the chosen time must be later than the moment the base copy finished, so a moment during the copy is
+    not reachable. Symptom: a second recovery picks the wrong branch, or refuses a target inside the copy window.
+    Check: the drill's target time and timeline are written down. Fix: keep the history files with the log and
+    take copies often enough that the window you may need is covered.

@@ -3,7 +3,8 @@
 > Part 1 of `skills/load-and-capacity-testing-pitfalls`. Read it when a test is designed.
 > Sources, read 2026-10-20: Azure Architecture Center, "Continuous validation with Azure Load Testing and Azure
 > Chaos Studio" (CC BY 4.0); mercari/production-readiness-checklist, "Capacity Planning" (MIT). Sentences marked
-> "own guidance" are ours and rest on no source read.
+> "own guidance" are ours and rest on no source read, except where a sentence cites the Gatling documentation
+> (read 2026-10-20 for facts only).
 
 1. **Start from the question.** Own guidance: "will it hold at twice the launch traffic", "did this change slow
    the checkout path", "how long can it run before memory grows" are three different tests with different
@@ -26,8 +27,8 @@
    few very large payloads, deep pagination and a hot key, and compare the tail with the polite run.
 6. **Decide open or closed model on purpose.** Own guidance: a closed model (a fixed number of users, each
    waiting for a reply before the next request) slows its own offer when the server slows; an open model sends at
-   a set arrival rate whatever the server does. Real internet traffic is mostly open, so a closed test tends to
-   understate the tail under stress. Say which you used and why.
+   a set arrival rate whatever the server does (the Gatling documentation defines the two the same way: arrivals per second for open, concurrent users for closed, and notes that ramping a closed model down does not interrupt users already running). Real internet traffic is mostly open, so a closed test tends to
+   understate the tail under stress (own guidance: the documentation read does not say which model fits web traffic). Say which you used and why.
 7. **Model think time and sessions only where they exist.** Own guidance: a user journey has pauses and
    dependent calls (log in, then use the token); an API consumed by machines may have neither. Do not invent
    think time to make a number look kind.

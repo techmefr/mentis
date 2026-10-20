@@ -1,6 +1,6 @@
 ---
 name: delivery-metrics-definition-pitfalls
-description: "Use when defining, computing or reading software delivery and developer-experience metrics (deployment frequency, lead time for changes, change failure rate, time to restore, cycle time, review wait, toil, developer survey scores): a start or end event nobody pinned, a failure that is not counted because nobody linked it to a change, an average that hides the tail, a team comparison that measures process differences, and a target that gets gamed. Own guidance, no benchmark and no threshold; the source framework was not read."
+description: "Use when defining, computing or reading software delivery and developer-experience metrics (deployment frequency, lead time for changes, change failure rate, time to restore, cycle time, review wait, toil, developer survey scores): a start or end event nobody pinned, a failure that is not counted because nobody linked it to a change, an average that hides the tail, a team comparison that measures process differences, and a target that gets gamed. Own guidance plus one framework guide read for definitions, no benchmark and no threshold."
 ---
 
 # delivery-metrics-definition-pitfalls
@@ -54,7 +54,7 @@ definition. A number without its definition is not published.
   framework's current publication and date it (`skills/source-freshness`).
 
 ## Origin
-Own craft knowledge, flagged as such. The delivery-performance research framework these terms come from was
-**not read** (its licence was not confirmed as open) and no text was taken from it: the terms are used as common
-industry vocabulary. Provenance, what was removed and not verified:
+Own craft knowledge, flagged as such, with the metric names, grouping and cautions checked on 2026-10-20 against the
+framework's own metrics guide (read for facts only, licence not verified, no text taken, credited to dora.dev). The
+benchmark bands were not read. Provenance, what was removed and not verified:
 [`references/origin.md`](./references/origin.md). 🟡: never dogfooded.

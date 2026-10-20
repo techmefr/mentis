@@ -40,5 +40,5 @@ the runtime that ships, and a compatibility claim rests on a run of the real dep
 - Runtime flags, command names and compatibility levels move with each release; re-read the documentation of the version in use (🟡, nothing here was run).
 
 ## Origin
-Written from our own craft knowledge of Deno and Bun usage; behaviour is stated as general facts in our words. No
+Written from our own craft knowledge of Deno and Bun usage, with the permission, install-script, lockfile and compatibility points checked on 2026-10-20 against the Deno and Bun documentation (MIT repositories). Behaviour is stated as general facts in our words. No
 source text was taken. See [`references/origin.md`](./references/origin.md).

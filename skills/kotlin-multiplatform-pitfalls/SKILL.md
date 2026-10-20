@@ -41,5 +41,5 @@ coroutine scopes and dispatchers are injected, not created in common code.
 - Plugin, library and compiler versions move fast; re-read the release notes of the versions in use (🟡, nothing here was built).
 
 ## Origin
-Written from our own craft knowledge of Kotlin Multiplatform practice. No source text was taken. See
+Written from our own craft knowledge of Kotlin Multiplatform practice, with the source-set, interop and memory points checked on 2026-10-20 against the Kotlin documentation (Apache-2.0 repository). No source text was taken. See
 [`references/origin.md`](./references/origin.md).

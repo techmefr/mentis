@@ -46,6 +46,6 @@ what was not tested).
 
 ## Origin
 A hosted-platform architecture guide on continuous load validation (CC BY 4.0) and a production-readiness
-repository's capacity-planning notes (MIT), both read 2026-10-20 and restated, plus own guidance flagged in the
+repository's capacity-planning notes (MIT), plus the wrk2 (Apache-2.0) and HdrHistogram (public domain) READMEs, all read 2026-10-20 and restated, plus own guidance flagged in the
 references. Provenance, what was removed and not verified: [`references/origin.md`](./references/origin.md).
 🟡: never dogfooded.

@@ -3,7 +3,8 @@
 > Part 2 of `skills/release-strategy-and-progressive-delivery-pitfalls`. Read it when a rollout plan is written.
 > Facts about rings, stamps and blue-green come from the Azure Architecture Center articles on tenant update
 > strategies and on blue-green deployment of a cluster (CC BY 4.0), read 2026-10-20, restated in our words.
-> Sentences marked "own guidance" rest on no source read.
+> The Argo Rollouts documentation (Apache-2.0, read 2026-10-20, restated in our words) backs points 3 and 5 as
+> marked. Sentences marked "own guidance" rest on no source read.
 
 1. **Pick the exposure unit before the tool.** The source describes exposing a change to a subset of tenants, or
    to independent copies of the whole application (stamps), in sequence. Own guidance: the unit may be a
@@ -18,11 +19,15 @@
    read (error rate, latency, a business signal such as completed checkouts), the comparison (against the
    previous version at the same time, not against yesterday), the hold time long enough to see the slow
    failure, and who may halt. Symptom: the rollout goes on because nobody is sure. Fix: a written rule that
-   halts on its own, and a person who may halt without asking.
+   halts on its own, and a person who may halt without asking. (Argo Rollouts docs: a step list alternates weight
+   changes and pauses; a pause with a duration moves on after it, but a pause without one waits until someone
+   promotes it by hand, so a forgotten pause is a rollout stuck at a partial weight; a failing background analysis
+   aborts the rollout, and with traffic routing an abort can send traffic straight back because the stable copy
+   stays scaled up.)
 4. **Compare like with like.** Own guidance: a canary and the baseline must see similar traffic. Symptom: the
    canary looks better because it was routed the easy requests, or looks worse because it started cold.
-   Fix: route by a stable key, warm it first, compare at the same moment.
-5. **Blue-green means two full environments for a short time.** The source describes bringing the new version up
+   Fix: route by a stable key, warm it first, compare at the same moment. Granularity matters (Argo Rollouts docs): without a traffic router the weight is approximated by pod counts, so with ten replicas a ten percent step is one pod and 41 percent rounds to four, and a canary scale set apart from the traffic weight can skew the traffic if configured wrongly.
+5. **Blue-green means two full environments for a short time** (Argo Rollouts docs: old and new run together while only the old takes production traffic, the new can be tested first, traffic moves all at once so control is zero or full, and the failure blast radius is large compared with a canary). The source describes bringing the new version up
    next to the live one, bringing its state in line, validating, switching traffic, and only then removing the
    old one, keeping the two together for a limited period to bound cost. Pitfalls: the switch is instant while
    state is not (sessions, caches, queued work, the database), and the old environment is destroyed before the

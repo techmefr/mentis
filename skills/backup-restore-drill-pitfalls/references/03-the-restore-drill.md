@@ -5,7 +5,7 @@
 > using Azure Backup" (CC BY 4.0), for the restore-drill, validation and clean-environment points;
 > mercari/production-readiness-checklist, pre-production checklist (MIT), for the requirements that a recovery
 > procedure be defined, tested, described in the on-call playbook and practised on a schedule. Sentences
-> marked "own guidance" are ours.
+> marked "own guidance" are ours. The PostgreSQL manual page on backup verification (official documentation, facts only, read 2026-10-20) is cited as "PostgreSQL docs".
 
 1. **Run the drill, not a review of the procedure.** The checklist asks that recovery from backup be defined and
    tested, and, for the most critical level, practised on a schedule with the procedure in the on-call
@@ -34,7 +34,7 @@
    engineer who knows a flag. Fix: put it in the runbook.
 8. **Test the point-in-time path separately.** Own guidance: choose a target moment inside the retention window,
    including one just before a known change, and confirm the data reflects that moment. A full restore proving
-   good does not prove the log replay.
+   good does not prove the log replay. PostgreSQL docs: the engine's backup verifier checks the manifest, the file set, the file checksums and that the log records needed can be parsed, but it does not prove the server starts or reads the data, does not detect log records that are valid yet wrong, and its own page says to still perform test restores and confirm the data looks right: use it as the cheap integrity check of §2.7 and never as the drill.
 9. **Test restoring a copy from the isolated location.** The guide runs drills from both primary and secondary
    copies on a defined schedule. Own guidance: a copy never used for a restore is a copy of unknown quality;
    rotate which copy each drill uses.

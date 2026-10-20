@@ -43,5 +43,5 @@ was read.
 
 ## Origin
 Rewritten from the `awslabs/agent-plugins` repository (Apache-2.0, commit fbefb37) and the `huggingface/skills`
-repository (Apache-2.0, commit c3ff942, role discovery), read 2026-10-20. Points that come from our own experience
+repository (Apache-2.0, commit c3ff942, role discovery), read 2026-10-20, plus official AWS and Google Cloud pages read for facts (NAT pricing basis, S3 Block Public Access, log retention, default compute identity). Points that come from our own experience
 are labelled "own guidance" in the text. See [`references/origin.md`](./references/origin.md).

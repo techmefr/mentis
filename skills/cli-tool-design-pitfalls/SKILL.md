@@ -42,9 +42,8 @@ dry-run and a non-interactive confirmation flag (a directory the tool itself reg
 - Take secrets from a file, an environment variable or standard input, not from an argument (§2.3).
 - Give every destructive command on user data a preview and an explicit flag to skip confirmation (§2.4).
 - Once a flag, output format or exit code is published, change it only with a deprecation period (§2.6).
-- Conventions below are general practice from our own knowledge; no external guide was read (🟡, nothing here was run).
+- Conventions below are general practice from our own knowledge; only the colour variable and the base-directory defaults were checked against their specifications (🟡, nothing here was run).
 
 ## Origin
-Own guidance, from the craft of writing command-line tools; no source was read. The published guide
-named in the review file has no licence we verified, so it was not opened. See
+Own guidance, from the craft of writing command-line tools, plus two convention pages read for facts (no-colour, freedesktop base directories). The published command-line guide is CC BY-SA 4.0 (licence file read) and was not opened. See
 [`references/origin.md`](./references/origin.md).

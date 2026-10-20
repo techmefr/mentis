@@ -10,16 +10,17 @@ emulator or function was created or tested while writing it.
 
 | Source | Licence | What it gave |
 |---|---|---|
-| none | not applicable | Own guidance only. The review file named a PostgreSQL-platform skill collection (MIT licence file read); its security rules are already carried by `postgres-operations-and-exposed-api-pitfalls` §3 and were not rewritten here. No Firebase documentation was opened (licence not verified) |
+| Firebase documentation pages: Firestore get-started security, query rules, Realtime Database security, rules basics, API keys, custom claims, manage sessions | product documentation, no licence checked, facts only, rewritten, nothing copied, read 2026-10-20 | Locked versus test mode and the warning on allow-all (§1.1), queries all-or-nothing (§1.3), parent grant not revocable in the real-time database (§1.4), client keys not secret and the three protection layers (§2.1), claim size and refresh paths (§2.3), ID token lifetime and revocation checks (§2.3) |
+| PostgreSQL-platform skill collection named in the review | MIT (licence file read earlier) | Not rewritten here: carried by `postgres-operations-and-exposed-api-pitfalls` §3 |
 
 ## Removed
-- Nothing was copied or paraphrased from a source; there is nothing to remove.
+- No sentence of the documentation pages is carried; the facts are restated in our words.
 
 ## Not verified
-1. **Everything platform-specific.** Behaviours such as the development-mode expiry, parent-path cascade in the real-time database, rules-as-not-filters, lookup limits, claim size, token lifetime and administrator bypass are from our knowledge of the platform and were not checked against its current documentation. Re-read before relying on any.
+1. **Confirmed on 2026-10-20:** locked mode default and test mode wording, queries all-or-nothing, parent-path cascade in the real-time database, claim size and refresh paths, ID token lifetime, revocation behaviour, client keys not secret. **Still unverified:** the length of the development-mode period (the pages read gave none), the administrator SDK bypassing rules (not stated on the pages read), lookup limits per request, other products' path independence, email-existence disclosure, anonymous sign-in counting as signed in, authorized-domain behaviour.
 2. **Other client-direct backends.** Only the shape of the reasoning transfers; names and defaults do not. The PostgreSQL-based case is in the related block.
-3. **Own guidance, labelled in the text:** every point; there is no sourced point in this block.
-4. **Publication.** A later pass may credit official documentation once its licence file is read.
+3. **Own guidance, still labelled in the text:** every point not listed in item 1, and every "Checks" section.
+4. **Licence.** The documentation pages carry no licence we read; they were used for facts only.
 5. **No rule, command or function was executed.**
 
 ## Related blocks
