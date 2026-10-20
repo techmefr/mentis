@@ -672,6 +672,9 @@ without internal expertise in that function.
 | `community-and-social-metrics-pitfalls` | 📊 data | Community and social numbers read in order, with their filters, severity and missing-versus-zero handling |
 | `community-moderation-ladder-pitfalls` | 🗣️ communication | The procedure after a report: private route, reporter protection, warning-to-ban ladder, appeal |
 | `evidence-appraisal` | 📊 data | Judging someone else's benchmark or study before a decision leans on it |
+| `outbound-sales-and-crm-hygiene-pitfalls` | 📣 marketing | Stage definitions with entry and exit evidence, dedupe and merge rules, stale records, one shared sequence state where a reply stops every channel, one suppression list; consent and opt-out as method only, not legal advice |
+| `customer-interview-synthesis-pitfalls` | 📊 data | Past-behaviour questions, who is in the room, quote kept apart from inference, coding that can be redone, distinct people behind a theme, confidence labels, claims a small sample cannot carry |
+| `spreadsheet-data-cleaning-pitfalls` | 📊 data | Identifiers as text, dates and locale, keys and joins that fan out or miss, formula drift, raw file kept, change log and reconciliation totals |
 | `lifecycle-email-program-design-pitfalls` | 📣 marketing | Automated email flows: trigger, audience, suppression, exit, collisions, preference page, pre-launch read |
 | `price-change-and-billing-pitfalls` | 📣 marketing | Staged price-change rollout, grandfathering with an end date, customer notice, discount and annual-plan discipline, billing mechanics checklist, honest total and reference prices; method only, not legal advice |
 | `podcast-publishing-pitfalls` | 📣 marketing | Stable feed identity, fetched enclosure, measured and sourced loudness, transcript and traced show notes, voice and music rights as method, and a pass, fail or unknown pre-publish list |
