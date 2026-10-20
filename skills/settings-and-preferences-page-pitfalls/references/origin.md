@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No settings page was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: scale note (one constants module on a small page), single-source default check, mixed save models labelled, loading-default flip, skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

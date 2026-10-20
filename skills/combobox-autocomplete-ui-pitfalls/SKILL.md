@@ -17,6 +17,9 @@ state lives is in `data-fetching-state-conventions`; a search box with facets an
 - A field offers suggestions, a searchable select, a tag or recipient picker, or an address or entity lookup.
 - A user reports "I see the results of the previous word", "Enter sent the form", "my saved value shows blank", "I can't pick it with the keyboard".
 - A select grows beyond what is comfortable as a plain list (roughly: more than a screen of options, or options that come from a server).
+- A custom select built from a button and a list, with no text input, is reviewed: use §2.6 and the checks of §2.1.3, §2.1.4 and §2.2.3.
+
+**Skip when** the project has no field where the user types to find an option and no options loaded from a server: then §1, §2.2.5 and §3.3 to §3.5 are "not applicable: no typing and no async options", and only §2.6 (select-only) plus the shared parts of §2.1 to §2.4 apply to a custom select. Say "not applicable: reason" rather than invent a finding. A plain search box that filters a page's list is not a combobox.
 
 ## Steps
 
@@ -25,7 +28,7 @@ state lives is in `data-fetching-state-conventions`; a search box with facets an
 | § | Covers | Read it when | File |
 |---|---|---|---|
 | 1 | Async options, debounce, cancellation and races, minimum length, selected value outside the loaded page | options come from a server | [`01-async-options-and-races.md`](./references/01-async-options-and-races.md) |
-| 2 | Keyboard model, the combobox ARIA pattern, screen reader announcements, touch | the field is built or reviewed for access | [`02-keyboard-and-aria.md`](./references/02-keyboard-and-aria.md) |
+| 2 | Keyboard model, the combobox ARIA pattern, screen reader announcements, touch, the select-only variant | the field is built or reviewed for access | [`02-keyboard-and-aria.md`](./references/02-keyboard-and-aria.md) |
 | 3 | Empty, loading and error states, multi-select, creating options, tests, framework pointers | states, chips, "add new" or tests are written | [`03-states-multiselect-tests.md`](./references/03-states-multiselect-tests.md) |
 
 ## Output / checkpoint

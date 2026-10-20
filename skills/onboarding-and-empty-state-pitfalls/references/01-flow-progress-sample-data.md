@@ -11,6 +11,8 @@ Source: own craft knowledge, no external source (see origin.md).
 6. **Do not rely on "account created less than N days ago"** as the rule. Use explicit completion and dismissal state; age is a nudge condition, not a state.
 7. **Treat sign-in, sign-up and invite-accept as one funnel** for state purposes; a person arriving by social sign-in or passkey gets the same stored state (`auth-session-conventions`, `webauthn-passkey-pitfalls`).
 
+8. **Screens shown before any account exists need a local flag, and that is correct.** Symptom of getting it wrong in the other direction: intro slides or a welcome carousel shown before sign-up are held to the server-state rule, which cannot be met because there is no user yet. Keep a local flag for these (device storage, cleared on sign-out is not required), never use it to gate anything the account owns, and do not extend it to post-sign-up setup, which follows 1.1.1.
+
 ## 1.2 Checklist model
 1. **A checklist is a list of steps with a stored status each**: id, status (open, done, skipped, dismissed), time and, where it applies, the evidence. Keep ids stable across releases; renaming a step must not reset it.
 2. **Derive done from data when the data exists**: "Add a teammate" is done when a second member exists, whoever added them and however. A manually ticked step is for things the system cannot see.
@@ -23,7 +25,7 @@ Source: own craft knowledge, no external source (see origin.md).
 
 ## 1.3 Persistence and devices
 1. **Progress lives on the server**, keyed by user (and workspace where relevant). Local storage may cache it for speed, never own it.
-2. **Resume exactly**: store the current step and any draft input (`long-and-multistep-form-pitfalls` for draft handling), so closing the tab mid-flow loses nothing.
+2. **Resume exactly**: store the current step and any draft input (`long-and-multistep-form-pitfalls` for draft handling), so closing the tab mid-flow loses nothing. Symptom: the flow keeps its step and its list of already-created items in component state only, so a reload restarts at the first step with an empty list while the records already exist, and there is no way back in once the page is closed. Check: reload on each step, and close then return; the flow resumes from stored state or from what exists in the data.
 3. **Handle two tabs and two devices**: a step done in one shows in the other on focus or reconnect; last write does not undo a done status.
 4. **Resolve the user's locale and timezone at the start of the flow**, since the first screens set the tone (`locale-negotiation-and-switcher-pitfalls`).
 5. **Do not persist secrets in the progress object** (invite tokens, generated keys); store the fact that the step happened.
@@ -38,7 +40,7 @@ Source: own craft knowledge, no external source (see origin.md).
 6. **Back and forward work.** The browser back button inside a multi-step flow goes to the previous step, not out of the flow; the step is in the URL or the history state.
 
 ## 1.5 Tours and in-context hints
-1. **A tour is a feature with state**: seen, skipped, completed, with a version. A tour that replays after each release teaches users to ignore it; version it and show it only when its content changed meaningfully.
+1. **A tour is a feature with state**: seen, skipped, completed, with a version. A tour that replays after each release teaches users to ignore it; version it and show it only when its content changed meaningfully. A stored state limited to pending and done conflates skip, close and finish, and cannot re-offer a changed tour (§1.4.2): store skipped and completed apart, plus the version seen.
 2. **Anchor to elements that exist.** Symptom: a tooltip points to nothing because the target is behind a permission, a collapsed menu or a different viewport. Skip steps whose target is absent, and never throw.
 3. **Do not cover what the step asks the user to click.** A spotlight that blocks the control, a tooltip off the viewport on mobile, a step that needs a hover on a touch device are the usual faults.
 4. **Offer contextual hints at the moment of need** (an inline hint on first empty state, a tip on first use of a feature) rather than one front-loaded tour.

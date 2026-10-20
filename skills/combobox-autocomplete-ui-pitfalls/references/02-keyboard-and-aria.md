@@ -38,9 +38,21 @@ Facts about roles and attributes are recalled from the public WAI-ARIA specifica
 3. **A scroll in the list must not close it**; a tap outside must. Test with a real touch device or emulation, not a mouse.
 4. **Do not rely on hover** to reveal the clear button or any option detail.
 
+## 2.6 Select-only variant (button and list, no text input)
+Own guidance; the pattern facts are recalled, not re-read (see origin.md). Sections 2.1.5, 2.2.4, 2.2.5 and 2.2.6 assume a text input and do not apply; the rest of this file does.
+1. **Symptom: a custom select that looks like the native one and works only with a mouse.** The control is a focusable element with the combobox role (a button is the usual base), a listbox popup and options; there is no caret, so the keys differ from §2.2.
+2. **Focus stays on the control, and the active option is named by reference** exactly as in §2.1.2: `aria-activedescendant` on the control, an id on every option, `aria-expanded` and `aria-controls`. Symptom: the highlight is a CSS class only, so a screen reader hears nothing about the active option. Check: every option has an id and the control's reference points at an existing one.
+3. **Keys**: Space, Enter, Down and Up open the list; Down and Up move the active option; Home and End move it to the first and last option (they are not caret keys here); Enter or Space commits; Escape closes without changing the value; a typed character moves the active option to the next label starting with it, and a quick run of characters matches a longer prefix.
+4. **Tab closes the list**, and the control states whether the highlighted option is committed on Tab (the native select commits it); decide once. Symptom: a keyboard user tabs away and the list stays open over the page. Check: Tab with the list open.
+5. **Scroll the active option into view** (§2.1.4); a language or country list overflows its box.
+6. **Empty and missing cases**: arrow keys on an empty option list must not compute an index from a zero length (a modulo by zero gives an invalid index); a stored value that is not among the options shows a stated placeholder or the stored label, not a blank (§1, the selected value outside the loaded options); a disabled option is skipped, not committed.
+7. **Inside a dialog, Escape closes the list only.** A select handler that does not stop the key lets a container's own Escape listener close the dialog on the same press (§2.2.3). Check with a select in a dialog: first Escape closes the list, second closes the dialog.
+8. **Close on outside press and on focus loss**, with the same rules as §2.5.3.
+
 ## Checks
 ```
 Keyboard only: type, Down, Down, Enter, Tab; the value is set and no form was submitted early.
 Screen reader pass: the field reads its role, label and expanded state; a result count is spoken once after typing stops.
 Automated: every option id referenced by aria-activedescendant exists; no option sits outside a listbox.
+Select-only: Home, End, a typed letter and Tab behave as in 2.6; an empty option list does not throw.
 ```

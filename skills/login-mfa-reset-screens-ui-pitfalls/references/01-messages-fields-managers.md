@@ -5,8 +5,8 @@ Own craft knowledge; browser and HTML attribute facts are recalled, not re-read 
 ## 1.1 No account enumeration in the interface
 1. **Symptom: "No account with this email" or "wrong password" on the sign-in screen.** Anyone can now test which emails are registered. Fix: one message for every failed sign-in ("Email or password is incorrect"), the same wording, the same layout and the same status.
 2. **The reset request answers the same for known and unknown emails**: "If an account exists for this address, we sent a link." The screen never says "email not found".
-3. **The visible equality is not enough**: if the response is faster for unknown emails, or a different redirect, or the page differs by one element, it still leaks. The server side of this (equal work, queued mail) is in `security-hardening`; check the screen against the network response too.
-4. **Sign-up has the hardest case**: "this email is already used" reveals an account. Prefer the same neutral confirmation ("check your inbox") and send the real message to the address, with a sign-in or reset hint when the account exists. If the product must say it, accept that the screen leaks and rate limit it (§2.5).
+3. **The visible equality is not enough**: if the response is faster for unknown emails, or a different redirect, or the page differs by one element, it still leaks. The server side of this (equal work, queued mail) is in `security-hardening`; check the screen against the network response too. Concrete cause to look for: the code path for a known account does extra work the unknown one skips (a database write, a hash, an inline mail send while the unknown case returns at once). Check: time both cases several times, and read whether the mail is sent inline or queued and whether the unknown case waits for the same duration; a sign-in handler may be careful while the reset or emailed-link request next to it is not.
+4. **Sign-up has the hardest case**: "this email is already used" reveals an account. Prefer the same neutral confirmation ("check your inbox") and send the real message to the address, with a sign-in or reset hint when the account exists. If the product must say it, accept that the screen leaks and rate limit it (§2.5). Check the network response as well as the screen: a client that hides the conflict behind a generic message still lets anyone read the status and body of the response, so the leak is only hidden from people who do not open the network panel; and the same generic message then fails the user who simply mistyped (§1.2.4).
 5. **Do not leak through the shape of the flow**: a two-step login that asks for the email first and then shows "enter password" or "create account" tells the same thing. Use a neutral second step, or accept it knowingly for an SSO-routing screen.
 6. **Do not leak in the account state**: a locked, disabled or unverified account looks like a failed sign-in on the screen; the real reason goes to the email or to support, not the form (`admin-back-office-pitfalls` for the support side).
 7. **Keep the user helpful without leaking**: "Email or password is incorrect. You can reset your password." with the reset link next to it.
@@ -19,7 +19,7 @@ Own craft knowledge; browser and HTML attribute facts are recalled, not re-read 
 4. **Say what to do**: "Enter a valid email address", not "invalid input".
 5. **Validation that reveals rules is for new passwords only** (sign-up, change, reset), never for sign-in, which accepts whatever the user remembers.
 6. **Do not validate email format harshly on sign-in**; a legacy account may have an odd but valid address. Block only what cannot be an address.
-7. **Network errors are not credential errors**: "We could not reach the server, try again" is a different message and state from a failed login.
+7. **Network errors are not credential errors**: "We could not reach the server, try again" is a different message and state from a failed login. The same holds on the reset-request and sign-up screens: map a rate-limit response, a network failure and a validation failure to their own messages, not one generic failure for every non-success.
 
 ## 1.3 Fields that let browsers and password managers work
 1. **Symptom: the password manager does not offer to fill or save, or offers the wrong entry.** Fix: real form with real inputs, a username or email field and a password field in the same form, correct `type`, names that make sense, and autocomplete tokens.
@@ -49,6 +49,13 @@ Own craft knowledge; browser and HTML attribute facts are recalled, not re-read 
 5. **A sign-in screen shown in a dialog follows the dialog rules** (`modal-drawer-dialog-ui-pitfalls`), including returning focus after the session is re-established (§3.2).
 6. **Do not hide the reset link or the support route** on error; those are the way out.
 7. **Language and timezone**: messages and email subjects follow the user's language; times in "try again at 14:05" use the user's zone (`locale-value-formatting-pitfalls`).
+
+## 1.6 Custom keypads (PIN, device code)
+1. **A numeric keypad drawn by the app is an authentication screen too.** Symptom: buttons with no accessible name, a group that a screen reader reads as bare digits, no keyboard digit entry, a code that can be shoulder-surfed in the clear, or a lockout with no message.
+2. **Give the group a name and each key a name**, accept typed digits and Backspace from a physical keyboard, show entered digits as masked dots with a text equivalent of the count, and offer a way to clear.
+3. **Lockout and failure feedback follow §2.5**: a distinct announced state with the time to retry and a way out, never remaining-attempt counts.
+4. **Do not shuffle keys without telling the user**; if it is a deliberate defence, say so in the product's help.
+5. **Check**: complete the keypad flow with a keyboard only and with a screen reader, and trip the lockout.
 
 ## Checks
 ```

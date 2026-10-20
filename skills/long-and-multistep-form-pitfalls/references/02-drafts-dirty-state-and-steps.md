@@ -5,14 +5,14 @@
    copy of typed values (survives refresh, one device), a server-side draft attached to the person (survives a
    device change), and a half-complete real record flagged as incomplete. Symptom: a "draft" feature that is
    lost on another device, or that half-fills a list others can see. Fix: pick one, write down who can see it,
-   how long it lives and what discards it.
+   how long it lives and what discards it. Check each save path against the kind claimed: an autosave that writes only to browser storage while the server draft is written only on step change leaves two kinds in one feature, and a device change loses what was typed since the last step.
 2. **Save on a quiet moment, not on every keystroke.** Debounce while typing and save on blur, on step change
    and when the page is hidden. Symptom: a request per character, or nothing saved when the tab is closed. Fix:
-   debounce plus a save on the page visibility change; treat unload-time requests as best effort.
+   debounce plus a save on the page visibility change; treat unload-time requests as best effort. Also flush on unmount: a route change or a step change that cancels the pending debounce timer instead of running it drops the last edits. Check: grep for the timer clear in the unmount hook and confirm the pending save is run there, not only cancelled.
 3. **A draft must not bypass validation rules of the final record, and must not be validated by them.** Store
    it in a shape that accepts missing and invalid values; run the full rules only at submit.
 4. **Show the draft state.** "Saved at 14:32", "Saving...", "Could not save, your changes are kept on this
-   page". A silent autosave that has been failing for an hour is the worst case.
+   page". A silent autosave that has been failing for an hour is the worst case. Check that a failed save, a refused payload (size limit) and a false return value reach the person, and are not only logged to the console.
 5. **Drafts expire and drift.** Symptom: a draft restored weeks later against changed options (a removed
    category, a new required field). Fix: store a schema version with the draft, re-validate on restore, and
    drop or migrate values that no longer exist, telling the person which.

@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No uploader was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: type-prefix allow-list and served-type replay checks, search recipe for a hidden input behind a label, silent truncation and batch-failure checks, database-stored files, skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

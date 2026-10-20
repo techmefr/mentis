@@ -4,6 +4,8 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡 never dogfooded.** Written from craft knowledge; nothing was run and no form was built or tested while
+
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: multi-request save atomicity and retry duplication (1.3.8), flush of a pending autosave on unmount, draft kind check per save path, silent draft failure check, checkable output list, skip-when line.
 writing it.
 
 ## Sources (read date 2026-10-20)

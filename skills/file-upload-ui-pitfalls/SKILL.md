@@ -17,6 +17,8 @@ job handling after the upload is in `background-jobs-conventions`; semantics are
 - Files can be large, many at once, or uploaded over unreliable networks.
 - A user reports "it stuck at 99 percent", "it restarted from zero", "it accepted a wrong file", "I cannot attach with a keyboard".
 
+**Skip when** a part does not exist: if the project has no file upload, say "not applicable: no upload"; if it only sends small images from the client in one request, §1.3 to §1.5 (chunking, resume, integrity) are "not applicable: single small request", while §1.1, §2.1, §3.1 and §3.2 still apply, because the served-content and keyboard checks matter most for the simplest uploader. Say "not applicable: reason" rather than invent a finding.
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.

@@ -5,6 +5,8 @@
 
 **Status: 🟡 never dogfooded.** No onboarding flow was built, run or tested while writing it. Read date: 2026-10-20.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: pre-account local flag carve-out in the first-run guardrail, resume check for component-state-only flows, skip versus complete in tour state, loaded-flag and catch checks for empty states, skip-when line.
+
 ## Sources (rewritten in our own words, no text copied)
 
 | Source | Licence | What it gave |

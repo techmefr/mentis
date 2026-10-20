@@ -8,8 +8,11 @@ Source: own craft knowledge, no external source (see origin.md).
 3. **Dispatch after the transaction commits**, so a notification never points at a record that rolled back (`laravel-dispatch-after-commit`).
 4. **Store a reference and a small payload, not rendered text.** The reference (type, id) lets the text follow a rename and a locale change; the payload keeps what is needed when the target is later deleted ("Invoice 2024-0031 was deleted").
 5. **Render the message in the reader's locale at read time**, not the sender's at write time (`i18n-message-format-pitfalls`, `locale-value-formatting-pitfalls`).
+6. **A role inbox is a legitimate exception, and its semantics must be written down.** Symptom: rows with an empty or role-level recipient ("all parents", "all admins") share one read time, so when one member reads it the others lose their unread state and their badge. Whether that is wanted (a shared to-do that one person closes) or a defect (each person must see it) is a product decision. Check: search the send path for an empty or role recipient; for each kind, state whether reading is shared or per person; if per person, fan out one row per member of the role at send time, or keep a separate read table keyed by (row, member).
 
 ## 1.2 Seen against read
+This part applies only when the bell opens a panel or popover. If it links straight to the inbox page, there is no moment that means "seen": drop the seen state, keep read, and write that down.
+
 1. **Two states are not one.** Seen means the user opened the inbox and the badge may clear; read means the user opened the item. Collapsing them either leaves a badge that never clears or hides items that were never looked at.
 2. **Opening the inbox marks seen, not read.** Clicking an item, or an explicit control, marks read. A "mark all as read" control exists and applies to what the user can see, with the count in its confirmation.
 3. **Mark read on the server when the target is opened**, from the link, not from a separate client request that can be lost.
@@ -21,12 +24,13 @@ Source: own craft knowledge, no external source (see origin.md).
 2. **Compute the count from the rows** (a count over unread rows for the user, backed by an index on recipient and read time). If a cached counter is needed for scale, rebuild it from the rows on a schedule and on any bulk change, and treat it as a hint.
 3. **Cap the display and keep the real count honest** ("99+"), and never show a negative or a zero badge as a dot.
 4. **Counts exclude what the user can no longer open** or the list must show it as unavailable; pick one and apply it to both.
-5. **Several tabs and devices share one truth**: after a read in one tab, the others update on the next push or focus event (§2.1).
+5. **A capped list with an uncapped count disagrees.** Symptom: the list returns the newest 50 rows, the count covers every unread row, and a "mark all read" bound to the count acts on rows the user never saw. Fix: page the list by cursor (§2.2.2), and make "mark all read" act on what is listed or say how many it covers, with the count in its confirmation.
+6. **Several tabs and devices share one truth**: after a read in one tab, the others update on the next push or focus event (§2.1).
 
 ## 1.4 Grouping and digests
 1. **Symptom: 40 "new comment" rows for one busy thread.** Group by (type, target) within a window, show "Ana and 3 others commented on Invoice 31", and keep the latest actor and count on the group row.
 2. **A group is one read state.** Opening it marks the whole group read; a new event after that re-opens the group as unread with the new count.
-3. **Update a group in place, do not insert a new row**, and keep the position rule explicit (move to top on new activity, or stay).
+3. **Update a group in place, do not insert a new row**, and keep the position rule explicit (move to top on new activity, or stay). The update-then-insert idiom races: two parallel sends for one group both find nothing and both insert. Fix: a unique index on (recipient, group key) restricted to unread rows, and an upsert; and make the increment idempotent per event id, so a job retry does not count twice.
 4. **Digests are a channel choice, not a different table.** The same rows feed an hourly or daily mail; mark rows as digested so none is sent twice and none is dropped.
 5. **Do not group across different recipients' permission scope**: a group naming actors a reader cannot see leaks them (`field-and-row-permission-ui-api-pitfalls`).
 6. **Do not notify the actor of their own action**, and collapse duplicates of one action fired twice (double click, job retry) with the idempotency key from §1.1.

@@ -19,6 +19,8 @@ dangerous-action patterns are in `admin-back-office-pitfalls`; flags as a produc
 - A user reports "I changed it and it came back", "my setting is ignored", "I cannot find the option", "reset deleted my other choices".
 - A new setting, a new scope (per team, per device) or a default change is introduced.
 
+**Skip when** the application has only a handful of settings with a single scope (for example one account, a dozen switches): then only §1.1 (save model), §1.2.5 (one place for defaults) and §2.2 (states) apply, and the rest is "not applicable: <reason>" (no reset, no dangerous setting, no search, no layers). Say so instead of inventing a finding.
+
 ## Steps
 
 **Read the section the task meets.** Each ends with checks.
@@ -29,13 +31,13 @@ dangerous-action patterns are in `admin-back-office-pitfalls`; flags as a produc
 | 2 | Structure and search, states, accessibility, performance, tests, framework pointers | the page, its navigation or its tests are written | [`02-structure-states-tests.md`](./references/02-structure-states-tests.md) |
 
 ## Output / checkpoint
-A change is done when: each setting has one declared scope, default and owner in a registry; the save model is the
+A change is done when: each setting has one declared scope, default and owner in a registry (on a small page, one shared constants module is the registry); the save model is the
 same across the page and the user is told what is saved; the effective value and its source can be shown; reset says
 what it resets; dangerous settings are gated server-side and audited; and the tests in §2.6 exist. No checkpoint is
 written: a craft block, 🟡, nothing here was run in an application.
 
 ## Guardrails
-- Declare scope, default and owner for each setting in one registry (§1.3). Never scatter defaults across the interface, the API and the database.
+- Declare scope, default and owner for each setting in one registry, or in one shared constants module on a small page (§1.3). Never scatter defaults across the interface, the API and the database.
 - Pick one save model per page and show its state (§1.1). Never mix silent autosave and a Save button on the same screen.
 - Resolve the effective value server-side with a fixed precedence and say where it came from (§1.4). Never let a client merge layers on its own.
 - Make reset explicit about its target and reversible where possible (§1.5). Never reset the whole page behind a button named for one section.

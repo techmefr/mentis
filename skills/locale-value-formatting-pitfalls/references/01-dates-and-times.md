@@ -12,7 +12,7 @@ below is the ECMAScript formatter, listed as "re-read before relying" where mark
    date. Never mix a style with individual fields in one call: the standard formatter rejects the mix (re-read
    before relying).
 2. **Pass the locale explicitly.** A formatter called with no locale uses the runtime default, which on a server
-   is the machine, not the visitor. The locale comes from negotiation (`locale-negotiation-and-switcher-pitfalls`).
+   is the machine, not the visitor. The locale comes from negotiation (`locale-negotiation-and-switcher-pitfalls`). Check by search: a date or number formatter constructed with an undefined locale, and the locale-default convenience methods on dates and numbers called with no argument; each ignores a language the user picked inside the application whenever it differs from the device's.
 3. **The locale data describes a whole pattern per length, not words.** UTS #35 holds date, time and
    date-plus-time patterns per length and a set of available skeleton patterns; the formatter picks the
    closest. A requested combination that has no good pattern is assembled with a joining pattern, which can
@@ -27,10 +27,12 @@ below is the ECMAScript formatter, listed as "re-read before relying" where mark
    date-only string and format it with the zone set to UTC, or use a plain-date type where the platform has
    one. A date-only ISO string is read as UTC while a date-time string without an offset is read as local
    time in the standard `Date` parser (re-read before relying; the two differ and surprise).
-3. **Store the offset or the zone, not the display.** A future local time ("every Monday at 09:00 in Berlin")
+3. **Grouping and "today" by the UTC day is the same defect in another form.** Symptom: events are bucketed by cutting the first ten characters of an ISO instant (the UTC date), then the bucket's date string is formatted in the viewer's zone and "today" and "yesterday" are computed from UTC; west of UTC the heading shows the day before, east of UTC a late-evening event lands under the wrong day. Fix: derive the day in the chosen zone (format the instant with that zone to get year, month and day) and use that value for the bucket, the heading and the today test. Grep recipe: the idiom that converts a date to an ISO string and slices ten characters is almost always a UTC day taken for a local one.
+4. **A form's "today" limit (a maximum birth date, a minimum start date) built from the UTC date** rejects a valid local date shortly after local midnight east of UTC and accepts tomorrow in the evening west of it. Build it from the local calendar date in the user's zone.
+5. **Store the offset or the zone, not the display.** A future local time ("every Monday at 09:00 in Berlin")
    is a zone name plus a wall time; converting it to a UTC instant at creation time breaks it across a change
    of daylight saving. The zone choice between server and client is `locale-negotiation-and-switcher-pitfalls` §3.3.
-4. **Show the zone when the reader may be elsewhere.** An event shown in the viewer's zone says so, or shows
+6. **Show the zone when the reader may be elsewhere.** An event shown in the viewer's zone says so, or shows
    the event's own zone name; ask the formatter for the short or long zone name instead of writing "CET".
 
 ## 1.3 Date ranges and intervals
