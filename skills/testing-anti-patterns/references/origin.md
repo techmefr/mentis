@@ -57,3 +57,9 @@ on good tests; the revert-proof step and the deletion rule are ours. Differences
 target (the upstream testing rules prefer 80%), no mandated assertion style. The facts about reserved
 names and address ranges (RFC 2606, 6761, 5737, 3849) were written from the RFC texts as known, **not
 re-fetched on the day**.
+
+**§6 points 14 to 18, 2026-10-20.** Added after a check that this block and `skills/review` already covered
+most of the ground of reviewing agent-authored diffs: the five points (a diff wider than the request, a
+dependency that does not exist, expectations read off the implementation, removed lines, a description that
+outruns the diff) are own guidance from the craft. No source was read for them; the text marks them as such.
+Re-read before relying on them. The candidate sources named in the gap review were not opened for this extension.

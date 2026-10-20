@@ -66,3 +66,22 @@ patterns below recur often enough to be searched for on purpose.
     the fix to confirm it fails there, then against the fix. Coverage is not the measure: bugs cluster in the
     same few areas (authorisation, multi-path logic, state transitions), so the tests accumulate where the
     failures are, and the suite grows with what has actually broken.
+14. **A diff wider than the request.** Own guidance: an agent asked for one change also reformats a file, renames
+    a helper, bumps a dependency or "tidies" a neighbouring function, and the real change drowns. Compare the
+    list of touched files and hunks with the request; every hunk that the request does not need is reverted or
+    split into its own change, since the reviewer's attention is the scarce resource.
+15. **A package that does not exist, or is not the one meant.** Own guidance: the diff adds an import and a
+    manifest line for a name that the model produced from memory; either the registry has no such package, or it
+    has a look-alike published by someone else. Before the lock file is accepted, look each new dependency up on
+    the registry, read who publishes it and how old it is, and check it is the library the code needs
+    (`skills/package-manager-supply-chain-pitfalls`).
+16. **The expected values were read off the implementation.** Own guidance: a test written by the author of the
+    code, in the same pass, tends to compute its expectation the way the code does, so the two agree on a wrong
+    rule. Take the expected value from the specification, a worked example or a hand calculation, and write the
+    case before reading the body of the function when the author is the same.
+17. **Removed lines hide the risk.** Own guidance: read the deleted lines of a diff first. A dropped
+    authorisation check, a loosened validation, a raised timeout, a removed retry cap, a skipped test or a
+    disabled lint rule each shrinks a safeguard and rarely appears in the summary.
+18. **The description claims more than the diff does.** Own guidance: a confident summary ("handles all edge
+    cases", "added tests") can describe the intent, not the change. Open the diff, not the summary, and check
+    each claim against a hunk; a claim with no hunk behind it is either missing work or a wrong description.
