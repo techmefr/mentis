@@ -22,6 +22,17 @@ and is not relied on.
 | alphagov/govuk-design-system, `src/patterns/dates/index.md` (same commit) | MIT (same file) | The kinds of date, documents and cards, approximate and relative dates, calendar conditions, example date |
 | alphagov/govuk-design-system, `src/components/date-input/index.md`, first 70 lines (same commit) | MIT (same file) | Separate day, month and year inputs in a fieldset, month names, no automatic tabbing, birth date autocomplete values |
 
+### Added 2026-10-20 for §4
+
+| Source | Licence | What it gave |
+|---|---|---|
+| google/libphonenumber, `FAQ.md` and `README.md` (master, read 2026-10-20) | Apache-2.0 (LICENSE file read the same day) | Valid is not reachable, region-checked validation rarely right, formatting by country not language, short numbers apart, native-digit formatting gap, large-number precision loss in JavaScript, metadata ageing |
+| google/libaddressinput, `README.md` only (master, read 2026-10-20) | Apache-2.0 code, CC BY 4.0 data (README statement; LICENSE file read, data licence not independently checked) | That per-country metadata can drive the fields and validation of an address form |
+
+Not opened on purpose: the W3C internationalization article on personal names (licence not verified, so no
+reader was available), and the libaddressinput wiki and data files. The name and address points of §4 are own
+knowledge and say so.
+
 The licence was verified again from the repository's LICENSE file in this session (MIT text, copyright line
 "Crown Copyright (Government Digital Service)"). A search of the five pattern pages for the Open Government
 Licence found no mention in them; the review noted the licence on a few other pages of the site (footer and
@@ -57,5 +68,10 @@ quoting a rule as current.
 7. **Dropped as unverifiable from the review item:** none of its rules was dropped; the date item's "three fields"
    is sourced from the date input page, which the review had not listed.
 
+8. **§4 not run.** No library was called. Name rules, per-country address shape, local-script label practice and
+   the libphonenumber FAQ statements (including its description of native-digit formatting) are as of the read
+   date and marked "re-read before relying" where they vary by country or version.
+
 ## Related blocks
-`accessibility`, `webperf`, `i18n-message-format-pitfalls`, `vue-nuxt-vuetify-conventions`.
+`accessibility`, `webperf`, `i18n-message-format-pitfalls`, `vue-nuxt-vuetify-conventions`,
+`collation-and-locale-aware-search-pitfalls`.
