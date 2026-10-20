@@ -306,6 +306,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| translation-glossary-and-memory-pitfalls | 6 (new 2026-10-20) | Own knowledge of localisation practice; no external source read (overlap with i18n-catalog-workflow-pitfalls cross-linked) | 🟡 (never dogfooded) |
+| collation-and-locale-aware-search-pitfalls | 6 (new 2026-10-20) | Unicode LDML UTS #35 part 5 collation (facts only, Unicode terms); ECMAScript Intl and Unicode text processing from own knowledge, marked re-read before relying | 🟡 (never dogfooded) |
 | prompt-versioning-and-change-gating-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
 | llm-cost-latency-control-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
 | model-migration-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
