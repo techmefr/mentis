@@ -89,8 +89,9 @@ Spanish, long sentences with several clauses, and regional vocabulary.
 
 ## 5. German, Italian, Portuguese and the rest
 
-Nothing beyond sections 1 to 3. Idiom lists for these languages were not found in the sources read and are
-not invented here. Until a fluent reviewer writes a section, the method applies: mechanism over word,
+German has its own file, `05-german.md`, which a native reader has not yet reviewed. For Italian, Portuguese
+and the rest, nothing beyond sections 1 to 3: idiom lists for these languages were not found in the sources
+read and are not invented here. Until a fluent reviewer writes a section, the method applies: mechanism over word,
 sample first, no added fact, no dropped claim, native typography respected, and a clear statement that
 the audit stopped at what could be judged. The same holds for a multilingual product that ships six
 languages: audit each in its own language, with a reader of that language for the rewrite.

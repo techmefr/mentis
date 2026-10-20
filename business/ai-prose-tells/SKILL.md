@@ -52,7 +52,8 @@ prose (axis 8 of `references/review-axes.md`).
 | [`01-tells.md`](./references/01-tells.md) | Families 1 to 14, clusters, what not to flag, human signs, the positive requirement | every audit |
 | [`02-more-tells.md`](./references/02-more-tells.md) | Families 15 to 55, production residue, the residue-string scan and other checks a count settles, the register test | the draft still reads as machine-made after `01`, or it is an MR description, README or caption |
 | [`03-french.md`](./references/03-french.md) | The same mechanisms with French instances and French false positives | the text is in French |
-| [`04-other-languages.md`](./references/04-other-languages.md) | The method for any language that has no file of its own, the translated-draft signals, code-switching, a short Spanish section | the text is neither English nor French |
+| [`04-other-languages.md`](./references/04-other-languages.md) | The method for any language that has no file of its own, the translated-draft signals, code-switching, a short Spanish section | the text is neither English, French nor German |
+| [`05-german.md`](./references/05-german.md) | The families as they land in German, German-only translated-English signals, what not to flag. Not reviewed by a native speaker | the text is in German; say in the report that the section awaits a native reader |
 
 ### Severity: five tiers, two that act on one sighting
 
@@ -91,7 +92,7 @@ and why, plus any fact the draft needed and the source did not give, handed back
   source or leave the sentence plain.
 - **Never flag a weak tell alone**: flag the certain tier on one sighting and everything else as a
   cluster. Never flag what `01-tells.md` §3 lists as legitimate.
-- **Never apply the English lists to another language silently**; read `04-other-languages.md` and say
+- **Never apply the English lists to another language silently**; read `04-other-languages.md` (or `05-german.md` for German) and say
   which method was used.
 - **Never replace a flagged word mechanically**; read the sentence.
 - **Never degrade correct text** (introduce typos, vary rhythm on purpose) to dodge a detector. This block
