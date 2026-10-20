@@ -62,6 +62,19 @@
 6. **A single file is not a server.** It suits an embedded store, a local tool, a test fixture and a
    read-mostly dataset. A workload with many concurrent writers, or needing network access, wants a client-server
    engine; deciding that late is a migration.
+7. **Back up a live database with the engine's backup facility or a consistent snapshot command, never by
+   copying the file while it is open.** A plain copy can catch the main file without the log that holds recent
+   commits, or catch a write halfway; restore the copy into a scratch location and run the integrity check
+   before trusting it.
+8. **A long-lived read transaction stops the write-ahead log from being reset,** so the log file grows without
+   bound while a reader holds a snapshot (a cursor kept open, a transaction never closed). Symptom: a log file
+   many times the size of the database. Fix: end read transactions promptly and watch the log size.
+9. **Schema changes are narrower than in a server engine.** Some alterations (changing a column's type or
+   constraints, dropping some columns on older library versions) need a new table, a copy and a rename. Do it
+   in one transaction with foreign-key enforcement handled as the documentation prescribes, and rehearse it on
+   a copy; the bundled library version decides what is allowed.
+
+Points 7 to 9 are our own craft guidance, added 2026-10-20 (🟡 not checked against the manual in that pass: re-read before relying).
 
 **Sources:** the MySQL 8.4 manual (InnoDB isolation levels and locking, foreign keys, date and time types,
 character sets, SQL modes, EXPLAIN, online DDL), the vendor's published MySQL guidance (primary-key design,

@@ -306,6 +306,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| game-engine-loop-and-lifecycle-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
+| embedded-firmware-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
+| kotlin-multiplatform-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
+| deno-bun-runtime-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
+| host-config-ansible-nix-pitfalls | 6 (new 2026-10-20) | none (own craft knowledge, no source text taken) | 🟡 (never dogfooded) |
 | agent-memory-and-state-pitfalls | 6 (new 2026-10-20) | own guidance, no external source | 🟡 (never dogfooded) |
 | llm-pii-and-data-handling-pitfalls | 6 (new 2026-10-20) | protectai/llm-guard (MIT) | 🟡 (never dogfooded) |
 | ai-product-ux-pitfalls | 6 (new 2026-10-20) | own guidance, no external source | 🟡 (never dogfooded) |
