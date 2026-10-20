@@ -63,6 +63,8 @@ checklist assembled from public sources, not professional advice, and each one s
 | `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
 | `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
 | `evidence-appraisal` | research / decisions | a decision, estimate or recommendation leans on someone else's benchmark, study or report |
+| `paid-media-decision-pitfalls` | marketing | reading, reporting on or changing a paid ad account, or acting on a cost spike, a partial report or a benchmark |
+| `ad-measurement-pitfalls` | marketing | tagging campaign links, deciding what counts as the conversion, or reconciling platform, analytics and CRM numbers and attribution models |
 | `sales-support` | sales | engineering is pulled into a proposal, scoping call, demo, or RFP response |
 | `release-communication` | communication | a change ships that someone outside the team can notice |
 | `incident-communication` | communication | something user-visible is broken or degraded in production |
