@@ -26,6 +26,8 @@ the four terms was not opened, its licence was not confirmed as open, and the bl
 3. The survey and toil points were not compared with any published method.
 4. Nothing was run and no data was computed in writing this block.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; the block was found not applicable there and nothing was wrong in it; fix: a skip-when exit when no delivery metric exists and a guardrail against inventing one. The status stays 🟡.
+
 ## Related blocks
 `skills/saas-metric-definition-pitfalls`, `skills/semantic-layer-metric-pitfalls`,
 `skills/metric-movement-diagnosis-pitfalls`, `skills/slo-design`, `skills/blameless-incident-review-pitfalls`,

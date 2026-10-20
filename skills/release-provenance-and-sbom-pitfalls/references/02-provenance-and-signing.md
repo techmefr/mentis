@@ -35,7 +35,12 @@
    not mean the dependencies are free of flaws. State the scope, so a customer does not read "signed" as
    "audited".
 8. **Pin and review the tools that sign.** Own guidance: the signing step is itself part of the chain. Pin
-   actions and tools by digest, restrict who can change the release workflow, and review a change to it like a
+   actions and tools by digest (a full commit hash for an action, an image digest for a container), because a tag
+   such as `v4` is a pointer its owner or an attacker can move, so a pipeline that pins by tag runs whatever the tag
+   points to that day. A tag pin is a weaker, common choice: when you keep it, say so, restrict the pipeline's
+   token to the least it needs, and let an update bot propose digest bumps for review, which narrows the window
+   and does not close it. Check by listing every `uses:` line of every workflow and noting the form of each ref. Beyond that,
+   restrict who can change the release workflow, and review a change to it like a
    change to production code (`skills/ci-workflow-hardening`).
 9. **Score the repository's own hygiene separately.** Own guidance: automated checkers of a repository's
    practices (branch protection, pinned dependencies, reviews, signed releases) exist; none was read here, so

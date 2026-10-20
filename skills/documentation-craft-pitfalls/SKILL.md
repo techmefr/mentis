@@ -19,6 +19,8 @@ is a cost, not a gift.
 - Generated reference text (from comments or schemas) is about to be published.
 - A page is found out of date and the question is how to keep the next one true.
 
+**Skip when** there is no page to write or review, or the repository is a personal or one-maintainer project and the check needs a team: the owner is then the maintainer, and a step that does not fit is reported as "not applicable: reason", never as an invented finding. Reading existing pages for review is always in scope; only adding a file needs the owner's request.
+
 ## Steps
 
 | Part | Covers | Read it when | File |
@@ -35,7 +37,9 @@ could make false, each with the check that would notice.
 ## Guardrails
 - Ask whether a page is warranted before drafting it. Never add a documentation file unprompted; explain in the
   conversation, the commit message or the review instead, unless the owner asked for the page or the repository
-  already has one for this subject.
+  already has one for this subject. Reviewing, correcting or reading existing pages needs no such permission.
+- Check what a page says about privacy, security, tracking, versions and commands against the shipped code and
+  the other pages of the same repository. Never leave two pages that contradict each other (§3.15, §3.16).
 - Give each page one purpose and link to the others. Never merge a tutorial, a procedure and a specification
   because they share a subject.
 - Run every command and example in the page before it ships. Never publish a snippet that was only read.

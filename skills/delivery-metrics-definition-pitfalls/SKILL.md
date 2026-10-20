@@ -22,6 +22,8 @@ that shares the acronym DORA is `skills/dora-ict-risk-and-incident-pitfalls` and
 - A number is compared across teams, quarters or against an outside figure.
 - A target is attached to a delivery metric, or developer-experience feedback is being measured.
 
+**Skip when** no delivery or developer-experience metric is defined anywhere in the repository or its documents (no dashboard, no target, no report, no stated figure). Say "not applicable: no metric defined" and stop; never derive a lead time or a deployment frequency from a short commit history to have something to review. Product analytics events and a bundle-size budget are not delivery metrics.
+
 ## Steps
 
 **Read only the part the task meets.** They are independent.
@@ -47,6 +49,7 @@ definition. A number without its definition is not published.
 - Compare a service with its own past. Never rank teams on a raw number when their systems differ (§2.1).
 - Use a metric to find a constraint, not to grade people. Never attach a bonus or a target to one without a
   paired counter-metric (§2.3).
+- Review only a metric that exists. Never invent one to fill a report (see the Skip when line).
 - No benchmark, band or threshold is stated in this block. Never quote one from memory: read it from the
   framework's current publication and date it (`skills/source-freshness`).
 

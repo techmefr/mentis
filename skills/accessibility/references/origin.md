@@ -140,3 +140,5 @@ text.
 **Section 9 added 2026-10-20 (manual audit pass).** Own guidance from general craft knowledge, no source read: it turns
 the existing statement that a tooled audit is not enough (§2.12, §3.11) into a procedure. It adds no threshold and
 no numeric claim. Not verified: screen reader and browser pairings were not run; re-test before relying.
+
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: dead section pointers in §9 explained, the contrast script given with its command and a fallback, a zoom pointer instead of an unstated figure, a "not tested" rule, steps 14 to 16 added (single-character shortcuts, removed focus ring on typed fields, unannounced state change), a skip-when line.

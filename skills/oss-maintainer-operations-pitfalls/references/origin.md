@@ -30,6 +30,8 @@ rewritten, restructured and reorganised into a pitfalls format; no endorsement b
 3. A single guide's view of governance; other foundations' rules were not read.
 4. No project was triaged, governed or paused using this block.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line with the one-person variants, scope versus ground rules (§1.11), a reply window for every channel (§1.12), a one-person project path (§2.12), unverifiable settings reported as such (§2.13), bots named in the contributing file (§3.10), silence as a signal (§3.11), and the empty claim about numeric examples removed. The status stays 🟡.
+
 ## Related blocks
 `skills/security-advisory-comms-pitfalls`, `skills/oss-compliance-programme`, `skills/code-review-reviewer-pitfalls`,
 `skills/release-changelog-pitfalls`, `skills/source-freshness`.

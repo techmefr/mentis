@@ -49,6 +49,13 @@
     disclosure and exploitability exchange documents among the supported uses; the schema's vulnerabilities
     field attaches findings to components. Own guidance: the useful move for a producer is to state, per
     announced flaw, whether the product is affected and why, so customers need not guess (§3.3).
+11. **A lockfile is not the list of what shipped.** Own guidance. Symptom: an SBOM or a "what are we exposed to"
+    answer is built from the lockfile, which lists every development tool and every package that never reaches the
+    output, while the shipped bundle contains only a subset, possibly with versions inlined at build time. Check:
+    list what the shipped bundle or image really contains (the build output, its bundler metadata, the image's
+    package database) and diff it against the lockfile: components only in the lockfile are build tooling, to be
+    left out or put under another scope (§1.7); components only in the bundle have no declared source and need one.
+    Fix: generate the document from the built output, and state when it was generated from the lockfile only.
 
 ## Checks (own guidance)
 1. The document names its lifecycle phase and the digest of the artefact it describes.
