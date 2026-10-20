@@ -1,0 +1,52 @@
+# calendar-and-scheduling-view-pitfalls §2 — Recurrence and direct editing
+
+Sources: own craft; no source text taken. Recurrence rule semantics are the public iCalendar standard (RFC 5545), recalled as facts and not re-read in this pass.
+
+## 2.1 Showing recurrence
+1. **Symptom: a recurring event appears only on its first date, or the view freezes on an unbounded series.** Cause: the client holds one row for the series and either never expands it or expands it forever.
+2. **Store a series as one master with a rule** (frequency, interval, weekdays, end by date or count, zone) and expand it for the visible range only.
+3. **Expand on the server, in one place,** so the list, the grid, reminders and exports agree. A second expansion in the client drifts on edge cases.
+4. **Always bound the expansion** by the requested range and by a hard cap on occurrences, and show "repeats weekly until..." in the details.
+5. **A rule's end date is a date in the series zone,** not an instant; "until the 31st" includes the 31st's occurrence at its local time.
+6. **Rules like "the 31st" and "last Friday" skip or shift in short months;** decide the behaviour (skip, or use the last day), state it in the form's summary sentence, and test February.
+7. **Show the rule as a sentence** ("Every 2 weeks on Monday and Wednesday") in the user's language, so the form can be checked at a glance.
+
+## 2.2 Editing one occurrence or the series
+1. **Symptom: the user moves one Tuesday and every Tuesday moves, or the reverse.** Cause: one edit path with no scope question.
+2. **Ask the scope for every edit and delete on a series:** this occurrence, this and following, or all. Name the options in plain words and preselect the least destructive.
+3. **An edited occurrence is an exception record** keyed by the master and the original start; it overrides fields and survives later edits of the master only where the user changed it.
+4. **"This and following" splits the series:** end the old master the day before and start a new master from the chosen date, so history stays intact.
+5. **Deleting one occurrence stores an excluded date,** not a removed row; the master still expands to the date unless excluded.
+6. **Editing the master's time re-bases occurrences that have no exception,** and keeps occurrences that have one; tell the user how many are kept.
+7. **Attendees and resources may differ per occurrence;** decide whether they follow the master and apply the same scope question.
+
+## 2.3 Drag to move and resize
+1. **Symptom: a dropped event lands a few minutes off, or on the wrong day near midnight.** Cause: pixel-to-time conversion without snapping and without regard for the zone and clock changes.
+2. **Snap to a fixed interval** (for example the slot length shown) and show the resulting time while dragging.
+3. **Resize changes the end; move keeps the duration.** Moving across the day boundary or between zones keeps the duration in the event's own terms.
+4. **Dragging an all-day bar changes dates only;** dragging between the all-day strip and the time grid changes the kind of event and needs a clear rule (ask for a time, or take the slot).
+5. **A drag on a recurring event asks the scope (§2.2) after the drop,** not before it, and the preview shows the single move.
+6. **Cancel with Escape and restore the original;** an outside drop is a cancel.
+7. **The write is optimistic with rollback and a visible reason** when the server refuses (`kanban-board-ui-pitfalls` §1.5 for the pattern). Moves of one event are serialized.
+8. **Past events and locked events are not draggable;** hide the affordance and refuse on the server.
+9. **Auto-scroll near the edge of the grid** when dragging across a long day or to another week; without it the target is unreachable.
+
+## 2.4 Overlapping events layout
+1. **Symptom: overlapping events draw on top of each other and one disappears.** Compute lanes: events whose time ranges overlap share the width in columns; a group is a connected set of overlaps.
+2. **Order lanes by start, then longer first,** with the event id as the final tiebreaker so the layout is stable between renders.
+3. **Cap the visible stack in dense cells** (month view) with a "+3 more" control that opens the list for that day; it is a button with a name and a count.
+4. **Do not let a short event shrink to unreadable;** give a minimum height and truncate the title with the full text in the accessible name.
+
+## 2.5 Conflicts and availability
+1. **The client may warn; the server decides.** Two concurrent bookings of one room both pass a client check.
+2. **Check overlap on half-open intervals in the resource's zone,** so back-to-back events (10:00 to 11:00 and 11:00 to 12:00) do not conflict.
+3. **Enforce exclusivity with a database constraint or a conditional write,** not a read followed by a write (`laravel-idempotent-jobs` for the retry-safe pattern).
+4. **Buffers, working hours and holidays are availability rules,** evaluated on the server and shown as non-bookable cells with a text reason.
+5. **A refused booking explains which rule and offers the next free slot,** not a generic failure.
+6. **A hold on a slot expires:** a picked slot is reserved briefly during checkout and released if unpaid; show the countdown as text and announce its end.
+
+## Checks
+- Editing one occurrence leaves the series untouched; "this and following" splits it; deleting one excludes one date.
+- A series ending on the 31st and starting on the 31st gives the intended occurrences in February.
+- A drag snaps to the slot and a keyboard move gives the same result.
+- Two parallel bookings of one room: exactly one succeeds.
