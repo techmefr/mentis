@@ -40,3 +40,10 @@
     Two copies drift at different speeds and the reader finds the stale one.
 12. **Say what was not verified.** Own guidance: "not tested on Windows" or "numbers from a 2024 run" in the page
     costs one line and saves the reader an afternoon.
+13. **Make the doc change part of the code change.** Own guidance: a behaviour change that leaves its page for
+    "later" ships a false page today. Check: the review of a change that alters a command, a default or an error
+    lists the pages it touches, or says none do. Fix: the page edit travels in the same change, reviewed by the
+    same person.
+14. **Review accuracy and wording as two passes.** Own guidance: a subject expert checks that the statements are
+    true, a reader far from the work checks that they can be followed, and one person doing both misses the
+    second. Symptom: a page that is correct and that nobody can follow. Fix: name which pass each reviewer owns.

@@ -63,6 +63,10 @@ checklist assembled from public sources, not professional advice, and each one s
 | `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
 | `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
 | `evidence-appraisal` | research / decisions | a decision, estimate or recommendation leans on someone else's benchmark, study or report |
+| `project-management-artefact-pitfalls` | project management | a plan, risk log, estimate, status report, change request or close-out is written, reviewed or handed on |
+| `accessible-documents-pitfalls` | communication | a PDF, office file, spreadsheet or deck is produced, exported, scanned or reviewed for accessibility |
+| `localisation-vendor-process-pitfalls` | communication | human translation is briefed, run, reviewed or scored with a vendor or in-house linguists |
+| `ecommerce-store-quality-pitfalls` | marketing | an online store's catalogue, feed, checkout, returns or price display is built, audited or changed |
 | `outbound-sales-and-crm-hygiene-pitfalls` | sales | an outbound sequence is designed or launched, or CRM stages, duplicates, stale records or opt-outs are defined, cleaned or reported |
 | `customer-interview-synthesis-pitfalls` | research | customer interviews are planned, run or turned into themes, personas or findings |
 | `spreadsheet-data-cleaning-pitfalls` | data | a spreadsheet or CSV is cleaned, merged, deduplicated, analysed or handed on |
