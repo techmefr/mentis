@@ -1,6 +1,6 @@
 # calendar-and-scheduling-view-pitfalls §1 — Time zones, all-day and ranges
 
-Sources: own craft; no source text taken.
+Sources: own craft, plus facts from the iCalendar standard (RFC 5545, read 2026-10-20, own words) where marked; no source text taken.
 
 ## 1.1 Two kinds of time
 1. **Symptom: a weekly 09:00 meeting shows at 10:00 for half the year.** Cause: it was stored as a UTC instant computed once in winter; after the clock change the offset differs but the stored instant did not move.
@@ -19,17 +19,17 @@ Sources: own craft; no source text taken.
 
 ## 1.3 All-day and multi-day events
 1. **Symptom: an all-day event shows on two days for users west of the author, or ends a day early.** Cause: it was saved as a midnight instant, and a different zone reads that instant as the previous or next local day.
-2. **An all-day event is a date or a date range with no time and no zone,** shown on the same calendar days for everyone.
-3. **Use an exclusive end date** for ranges (an event on the 5th ends on the 6th), the convention calendar standards use. Inclusive ends break at month boundaries and in sums of days. If the interface shows an inclusive end, convert at the edge and say so in the form.
+2. **An all-day event is a date or a date range with no time and no zone,** shown on the same calendar days for everyone. RFC 5545 §3.2.19 says the zone parameter must not be applied to date values, and §3.8.2.2 says the end value type must match the start (a date start needs a date end) and must be later than the start.
+3. **Use an exclusive end date** for ranges (an event on the 5th ends on the 6th), the convention calendar standards use (the pages of RFC 5545 read did not state the exclusive rule in words; only the later-than-start rule above was confirmed, so treat this as unverified against the standard). Inclusive ends break at month boundaries and in sums of days. If the interface shows an inclusive end, convert at the edge and say so in the form.
 4. **A timed event crossing midnight** is drawn as two segments in a day grid and as one bar in a month view; it keeps one identity for editing.
 5. **Multi-day bars wrap at the week start** and show their title again on the new row, with a visible "continues" edge.
 6. **Do not let an all-day toggle silently keep the old time:** switching to all-day drops the times, switching back asks for them.
 
 ## 1.4 Daylight saving edges
 1. **The spring gap does not exist and the autumn hour happens twice.** A local time of 02:30 on the gap day is invalid; 01:30 on the repeat day is ambiguous.
-2. **Decide the rule for each:** shift an invalid time forward, and pick the first or second occurrence of an ambiguous one, then apply it in one function and test it.
-3. **A recurring series on a gap day keeps its wall-clock rule** and moves to the nearest valid time that day; it does not shift all later occurrences.
-4. **Duration arithmetic differs from calendar arithmetic.** "Plus 24 hours" and "plus one day" are different on a clock-change day; scheduling intent is almost always "one day".
+2. **Decide the rule for each:** shift an invalid time forward, and pick the first or second occurrence of an ambiguous one, then apply it in one function and test it. RFC 5545 §3.3.5 (read 2026-10-20) fixes a default for zoned local times: a repeated time means the first occurrence, and a skipped time is read with the offset in force before the gap, so it lands after the gap. Use that default unless the product says otherwise.
+3. **A recurring series on a gap day keeps its wall-clock rule** and moves to the nearest valid time that day; it does not shift all later occurrences. Interchange caution: RFC 5545 §3.3.10 says recurrence instances falling on an invalid date or a nonexistent local time must be ignored and not counted, which differs from moving them; if the series is exported to calendar clients, expect the skip and decide which behaviour you show.
+4. **Duration arithmetic differs from calendar arithmetic.** "Plus 24 hours" and "plus one day" are different on a clock-change day; scheduling intent is almost always "one day". RFC 5545 §3.3.6 defines weeks and days as nominal (their length depends on the calendar) and hours, minutes and seconds as exact.
 5. **Day grids on a clock-change day have 23 or 25 hour rows;** do not hard-code 24 rows.
 
 ## 1.5 Ranges, weeks and formatting

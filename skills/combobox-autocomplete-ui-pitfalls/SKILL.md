@@ -43,8 +43,7 @@ tests in §3.7 exist. No checkpoint is written: a craft block, 🟡, nothing her
 - Keep real focus in the input and point at the active option by reference (§2.1). Never move focus into the list items.
 - Make Enter choose the highlighted option only when the list is open (§2.2). Never let it submit a form around an open list.
 - Render loading, no match and failure differently (§3.1). Never show "no results" for a failed request.
-- Facts about a standard or a library are for the date in `references/origin.md`; re-read before relying.
+- Facts about a standard or a library are for the date in `references/origin.md`; re-read before relying. A point in §2 that carries no credit to the authoring practices is still own guidance.
 
 ## Origin
-Own craft knowledge, with the pattern facts recalled from the public WAI-ARIA authoring practices without reading
-their pages. No permissive source was read for this block. Details in [`references/origin.md`](./references/origin.md).
+Own craft knowledge. The keyboard and attribute facts of §2 were checked on 2026-10-20 against the W3C ARIA authoring practices combobox pattern and its select-only example (facts only, credited, no text copied). No MIT, Apache-2.0 or CC BY source was read for this block. Details in [`references/origin.md`](./references/origin.md).

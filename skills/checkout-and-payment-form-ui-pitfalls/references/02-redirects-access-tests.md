@@ -1,11 +1,11 @@
 # checkout-and-payment-form-ui-pitfalls §2 — Redirects, accessibility, performance and tests
 
-Source: own craft knowledge, no external source (see origin.md). Accessibility points are recalled public practice (see origin.md, Not verified).
+Source: own craft knowledge, except the points marked with a citation, checked on 2026-10-20 (see origin.md). Unmarked points have no source.
 
 ## 2.1 3-D Secure and other redirects, and the return
 1. **Why it exists**: for many card payments the issuer may require the cardholder to authenticate, in a frame, a challenge window or a full redirect to the bank, after which the user comes back. Your UI must treat that as a normal branch, not an error. Which payments require it is decided by the issuer, the processor and the rules that apply; do not assume it will not happen.
 2. **Use the processor's confirm-and-handle-action call** so the library opens the challenge and resumes, rather than building the redirect by hand, unless a redirect payment method needs it.
-3. **The return URL is a hint, not proof.** Symptom: the user lands on the success page because the URL contains "success", or on "failed" because they closed the bank tab. On return, read the order or intent state from your server, which got it from the processor, and render by that state (§1.5).
+3. **The return URL is a hint, not proof.** Symptom: the user lands on the success page because the URL contains "success", or on "failed" because they closed the bank tab. On return, read the order or intent state from your server, which got it from the processor, and render by that state (§1.5). Stripe's documentation likewise has the page retrieve the intent status after the return and treats a still-pending authentication as an unfinished payment (Stripe, verifying payment status).
 4. **Return pages must work without the original page state**: a new tab, a different browser, a mobile app switching back, a cleared session. Identify the order by a signed, unguessable reference, and require sign-in or a verified link before showing personal details.
 5. **Make the return idempotent**: reloading it, or arriving twice, must not repeat any action; the page reads state and shows it.
 6. **Cancel and back from the bank page** return to a page that says nothing was charged only if the server knows that; otherwise show the pending or unknown path. Offer to retry or choose another method.
@@ -19,7 +19,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 ## 2.2 Page structure
 1. **Keep checkout short and linear**: contact, delivery, payment, review, or one page with those sections, with a visible summary at all times and no unrelated navigation (`long-and-multistep-form-pitfalls`).
 2. **Guest checkout is allowed unless the product needs an account**; ask for an account after payment, not before.
-3. **Autofill works**: correct autocomplete attributes on name, email, address and phone fields, and no tricks that defeat the browser's helpers (`international-input-pitfalls`).
+3. **Autofill works**: correct autocomplete attributes on name, email, address and phone fields, and no tricks that defeat the browser's helpers (`international-input-pitfalls`). The standard tokens include street-address, postal-code and country (a two-letter code; country-name for the name), prefixed shipping or billing, with an optional section-name prefix when a form holds two addresses (HTML Standard, autofill). Card tokens (cc-number, cc-exp, cc-csc) exist, but with hosted fields the processor owns them.
 4. **Payment method choice is stated and defaults sensibly**: show the methods available for this country and currency only.
 5. **The final button states the action and the amount** ("Pay 49.99 EUR"), and for subscriptions the recurrence, so the click is informed.
 6. **Terms and consent** are links the user can open without losing the form; the wording of required consents and withdrawal rights is a legal matter for your adviser, not this block, and not legal advice.
@@ -27,7 +27,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 
 ## 2.3 Accessibility
 1. **Hosted fields need accessible names**: a visible label tied to each field, and for frames a title that says what the field is; test that a screen reader reads the label and error for each, since the field lives in another document (`accessibility`, `04-forms`).
-2. **Errors are announced and linked**: an error summary at the top that takes focus on a failed submit, links to each field, and each field error is tied to its input; a decline message is announced in a live region without losing the typed values.
+2. **Errors are announced and linked**: an error summary at the top that takes focus on a failed submit, links to each field, and each field error is tied to its input; a decline message is announced in a live region without losing the typed values. The GOV.UK Design System places the summary at the top of the main area, above the page heading, moves focus to it on load and links each item to its field (GOV.UK, error summary). Status text that does not take focus is exposed by role (WCAG 2.2 SC 4.1.3).
 3. **The busy state is communicated**: the button announces "Paying", a status region announces processing and the result, and focus does not jump (`in-app-notifications-pitfalls` §2.3 for the live-region pattern).
 4. **The 3-D Secure frame or window is reachable and escapable**: focus moves into the challenge, returns on close, and a keyboard user can cancel; verify the processor's component, do not assume.
 5. **Do not rely on timeouts shorter than a person needs**: a session expiring mid-form warns first, extends easily, and preserves the cart.
@@ -62,6 +62,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 9. **No card data leak**: assert no request, log line or analytics event of your own contains the test card number or security code.
 10. **Accessibility**: assert names for hosted fields, the error summary with focus, the status announcement and a keyboard-only pass including the challenge; run an automated check (`playwright-e2e-pitfalls`).
 11. **Locale**: run the flow with a comma-decimal currency and a right-to-left locale (`rtl-and-bidi-layout-pitfalls`).
+12. **Return from a payment that needs more**: retrieve an intent that is still waiting for an authentication action, assert the page says the payment is not complete and offers the way back, not success (Stripe, verifying payment status).
 
 ## 2.7 Framework pointers (reference only)
 1. **Processor libraries** provide hosted-field components and a confirm call that handles authentication actions; read the current documentation for your processor and version before relying on any behaviour named here.

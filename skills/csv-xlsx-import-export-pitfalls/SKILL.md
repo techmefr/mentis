@@ -52,10 +52,9 @@ export spec naming columns, types, encoding, row scope and the injection guard (
   text into a spreadsheet cell as is, nor build a big export in the request (§3).
 - Apply the same row and column permissions to exports as to the screen. Never let an export reach what the
   list cannot (§3).
-- This block is craft knowledge with no licensed source behind it; status and unverified points are in
+- CSV format points are checked against RFC 4180 and sheet limits against the spreadsheet vendor's limits page; the rest is craft knowledge. Status and unverified points are in
   [`references/origin.md`](./references/origin.md). No file was parsed and no program was run.
 
 ## Origin
-Written from general practice in business import and export features and from the CSV format specification
-(facts only); no licensed text was read or copied. 🟡: never run by us. Details in
+Written from general practice in business import and export features and from the CSV format description (RFC 4180) and one vendor limits page, both read 2026-10-20, facts only and credited; no text was copied. 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

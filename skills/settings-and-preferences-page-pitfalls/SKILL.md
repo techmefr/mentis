@@ -45,5 +45,5 @@ written: a craft block, 🟡, nothing here was run in an application.
 - Facts about a library are for the date stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge; no permissive source on settings pages was read. Details in
+Own craft knowledge, with the accessibility points checked on 2026-10-20 against the W3C ARIA Authoring Practices switch and modal dialog patterns and WCAG 2.2 Understanding 4.1.3 (facts only, credited). Every other point stays unsourced. Details in
 [`references/origin.md`](./references/origin.md).

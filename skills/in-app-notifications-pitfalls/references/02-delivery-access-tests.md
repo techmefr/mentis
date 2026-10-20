@@ -1,6 +1,6 @@
 # in-app-notifications-pitfalls §2 — Delivery, access and tests
 
-Sources: Lexical documentation on live-region announcements (MIT, read 2026-10-20) for the one fact marked as such; the rest is own craft.
+Sources: Lexical documentation on live-region announcements (MIT, read 2026-10-20) and WCAG 2.2 understanding pages for SC 4.1.3 and SC 2.2.1 (read 2026-10-20, facts only) for the points marked as such; the rest is own craft.
 
 ## 2.1 Realtime against polling
 1. **Push is an optimisation over a truth you can always re-read.** The inbox endpoint returns the real state; a push only says "something changed, refetch" or carries one item. Symptom of the opposite: a missed push leaves the badge wrong until reload.
@@ -23,9 +23,9 @@ Sources: Lexical documentation on live-region announcements (MIT, read 2026-10-2
 ## 2.3 Accessibility
 1. **The badge needs text.** Give the bell button an accessible name that includes the count ("Notifications, 3 unread"); a bare number inside an icon has no name. Do not rely on colour alone for unread (`accessibility`).
 2. **Announce through one polite live region** that exists in the page at load, then change its text. A region inserted together with its message is often not announced. Lexical's accessibility documentation describes the same pattern: a visually hidden status region, polite by default, created once and reused (read 2026-10-20).
-3. **Do not announce every item.** Batch ("3 new notifications"), rate-limit, and do not announce the user's own actions. Use assertive only for what needs immediate action; a ticking inbox is not that.
+3. **Do not announce every item.** Batch ("3 new notifications"), rate-limit, and do not announce the user's own actions. Use assertive only for what needs immediate action; a ticking inbox is not that. WCAG 2.2 SC 4.1.3 (understanding page read 2026-10-20) asks that status messages be programmatically identifiable so assistive technology announces them without moving focus; it suggests the status role for results and state, the alert role only where focus does not move to the message, and the log role for sequential updates, and lists alert or assertive on unimportant content as a common failure.
 4. **Do not move focus** to a new notification or a toast. Focus stays where the user is working.
-5. **Toasts stay long enough to read and can be paused or dismissed by keyboard**; Escape closes them and the timer stops while they are hovered or focused. A toast with an action button needs to remain reachable.
+5. **Toasts stay long enough to read and can be paused or dismissed by keyboard**; Escape closes them and the timer stops while they are hovered or focused. A toast with an action button needs to remain reachable. An auto-dismissing toast is a time limit set by the content, so check it against WCAG 2.2 SC 2.2.1 (read 2026-10-20: turn off, adjust to at least ten times, or warn with at least 20 seconds to extend; exceptions for real-time and essential limits); applying that criterion to toasts is our reading, not a quote.
 6. **The inbox is a list of links or buttons with names**, the unread state stated in text for screen readers, a heading for each group, and a keyboard path from the bell to the first item and back to the bell on close.
 7. **The panel is a popover or a page, not a trap.** If it opens as a dialog, trap and restore focus; if it is a disclosure, it closes on Escape and outside focus. Check both with the keyboard only.
 8. **Respect reduced motion** for badge pulses and slide-in toasts.

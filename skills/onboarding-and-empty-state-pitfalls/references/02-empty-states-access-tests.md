@@ -1,6 +1,6 @@
 # onboarding-and-empty-state-pitfalls §2 — Empty states, accessibility, performance and tests
 
-Source: own craft knowledge, no external source (see origin.md). Accessibility points are recalled public practice (see origin.md, Not verified).
+Source: own craft knowledge, except the points marked with a citation, checked on 2026-10-20 (see origin.md). Unmarked points have no source.
 
 ## 2.1 Kinds of empty
 1. **Symptom: "No results" shown while the request failed or is still running.** Render separately: loading, first-use empty (nothing created yet), filtered empty (data exists, filters hide it), permission empty (data exists, the user cannot see it), error with retry, offline. Each has its own copy and action (`data-table-ui-pitfalls` §2.1). Check: a length-is-zero test with no separate loaded flag renders the empty state before the first response; a catch block that sets the list to empty renders it after a failure. Grep for both, and note which screens guard and which do not.
@@ -23,14 +23,15 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 
 ## 2.3 Accessibility
 1. **The empty state is real content in the reading order**, in the region the list would occupy, with a heading at the right level (a styled paragraph is not a heading), not a pseudo-element or a background image.
-2. **Announce the change to empty** after a filter or search: one polite live region with the result ("No invoices match your filters"), without moving focus (`in-app-notifications-pitfalls` §2.3 for the pattern).
+2. **Announce the change to empty** after a filter or search: one polite live region with the result ("No invoices match your filters"), without moving focus (WCAG 2.2 SC 4.1.3 lists a results message as a status message; `in-app-notifications-pitfalls` §2.3 for the pattern).
 3. **The primary action is a native button or link** with an accessible name that stands alone; the illustration has empty alt text if decorative (`accessibility`, `01-semantics-keyboard`).
 4. **A checklist is a list**: each step has a name, a status stated in text (not only a tick colour), and the progress is exposed as text ("3 of 5 done"), with a progress element only if it carries the same value.
-5. **Tours and coach marks are keyboard-operable**: next, back, skip and close by keyboard, focus moves into the step and returns on close, Escape closes, and the underlying page is inert only while a modal step is open (`a11y-hiding-and-tables-pitfalls`).
+5. **Tours and coach marks are keyboard-operable**: next, back, skip and close by keyboard, focus moves into the step and returns on close, Escape closes, and the underlying page is inert only while a modal step is open (modal dialog pattern: focus in, Tab trap, Escape, focus return; `a11y-hiding-and-tables-pitfalls`).
 6. **Do not time out guidance**: hints that vanish after a few seconds fail users who read slowly or use a screen reader.
 7. **Do not rely on colour, position or hover** to indicate the highlighted target; describe it in text ("the Share button in the toolbar").
 8. **Respect reduced motion** for spotlight animations, confetti and progress bars (`web-animation-pitfalls`).
 9. **Check touch targets and viewport on a phone**: tours are the most common overlay to break small screens (`responsive-layout`).
+10. **A welcome modal puts initial focus on a safe element.** Symptom: pressing Enter on arrival dismisses or accepts something the user did not read. Where the step ends in a hard-to-reverse choice, initial focus goes to the least destructive control (modal dialog pattern, destructive note).
 
 ## 2.4 Performance
 1. **Do not load the tour or checklist library on the critical path.** Load it after the first meaningful render, and only for users whose state needs it.

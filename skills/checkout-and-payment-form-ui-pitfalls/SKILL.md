@@ -47,5 +47,5 @@ nothing here was run against a processor.
 - Facts about a processor or library are for the date stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge; no permissive source on checkout interfaces was read. Details in
+Own craft knowledge, with points checked on 2026-10-20 against the payment processor Stripe's public documentation (idempotency, payment status lifecycle; facts only, credited), the HTML autofill field names, the GOV.UK Design System error summary and WCAG 2.2 Understanding 4.1.3. Every other point stays unsourced. Details in
 [`references/origin.md`](./references/origin.md).

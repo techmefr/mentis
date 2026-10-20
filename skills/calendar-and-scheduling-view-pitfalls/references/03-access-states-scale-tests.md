@@ -1,12 +1,12 @@
 # calendar-and-scheduling-view-pitfalls §3 — Accessibility, states, scale and tests
 
-Sources: own craft; no source text taken. Grid and date-picker accessibility patterns are public practice, recalled and not re-read in this pass.
+Sources: own craft, plus the W3C ARIA Authoring Practices date-picker dialog example (page read 2026-10-20, facts only, own words, credited) where marked; other grid points are public practice, recalled and not re-read.
 
 ## 3.1 Accessibility
 1. **Symptom: a calendar nobody can use with a keyboard or a screen reader.** A grid of positioned boxes has no structure and no operations (`accessibility` §1, §2).
 2. **Give the view real structure:** a heading with the visible range, previous, next and today as buttons with names ("Previous week"), a view switcher that exposes the selected view, and a table or grid for the days.
 3. **Name each event** with title, date and time range, all-day status, zone when different, and recurrence ("Planning, Monday 3 March, 9:00 to 10:00, repeats weekly"), through its text or accessible name, not colour or position.
-4. **Keyboard navigation in a date grid:** arrow keys move by day and week, Home and End to the row ends, Page Up and Page Down to the previous and next period, Enter opens the day or event. Roving focus, one tab stop for the grid.
+4. **Keyboard navigation in a date grid:** arrow keys move by day and week, Home and End to the row ends, Page Up and Page Down to the previous and next period, Enter opens the day or event. Roving focus, one tab stop for the grid. The W3C date-picker example (read 2026-10-20) confirms this shape and adds details: left and right move one day, up and down the same weekday in the adjacent week, Home and End the first and last day of the week, Page Up and Page Down the previous and next month on the same day number (the last day of the month when it does not exist), with Shift they move by year; Enter or Space selects and Escape closes, both returning focus to the opening button. Only one cell is in the tab sequence, the script moves it. The month heading is a polite live region so a month change is announced, and the grid is a table with the grid role named by that heading, with the full day name on abbreviated column headers. For an event grid Enter opens the event instead of selecting, which is our adaptation.
 5. **A list alternative:** an agenda view of the same data is the most usable form for screen reader and magnifier users. Offer it as a peer view, not a hidden fallback.
 6. **Every drag has a keyboard route:** an "Edit time" dialog or a move command with date and time fields, and the same server rules (`kanban-board-ui-pitfalls` §2.1 for the pattern). Announce the result in a polite live region.
 7. **Do not rely on colour for category, busy or today;** pair it with text, an icon or a pattern, at sufficient contrast in light and dark themes (`accessibility` §3).

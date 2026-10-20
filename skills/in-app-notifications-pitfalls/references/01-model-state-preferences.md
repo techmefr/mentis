@@ -1,6 +1,6 @@
 # in-app-notifications-pitfalls §1 — Model, state and preferences
 
-Source: own craft knowledge, no external source (see origin.md).
+Source: own craft knowledge, no external source read for this file (see origin.md; searched on 2026-10-20, nothing permissive found on notification data models).
 
 ## 1.1 One row per recipient
 1. **Symptom: marking a notification read for one user clears it for the team, or a second user cannot see it at all.** Cause: one event row with one read flag. Store one row per recipient and event, holding recipient id, type, target reference, actor, created time, seen time and read time.

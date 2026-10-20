@@ -39,8 +39,8 @@ checkpoint is written: a craft block, 🟡, nothing here was run in an applicati
 - Show that a comment was edited or deleted and keep the history for those who must audit (§1.3). Never rewrite a comment silently.
 - Keep the audit log apart from the feed that people read (§2.1). Never use the editable comment table as the audit record.
 - Page the feed by cursor and do not reorder what the reader is looking at (§2.2). Never load the whole history.
-- Facts about a library are for the date stamped in `references/origin.md`; re-read before relying.
+- Facts about a library are for the date stamped in `references/origin.md`; re-read before relying. Points without a credit in the reference files remain own guidance.
 
 ## Origin
-Own craft knowledge; no permissive source on comment systems was found and read. Details in
+Mostly own craft knowledge: no permissive source on comment systems was found. Only the feed and thread accessibility points (§2.2.8, §2.5) and the time element (§2.5.8) were checked, against the W3C ARIA authoring practices feed pattern (facts only, credited) and the HTML Standard (CC BY 4.0), read 2026-10-20. Details in
 [`references/origin.md`](./references/origin.md).

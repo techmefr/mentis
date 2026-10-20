@@ -1,6 +1,6 @@
 # checkout-and-payment-form-ui-pitfalls §1 — Boundary, totals, submit and errors
 
-Source: own craft knowledge, no external source (see origin.md). Processor facts are not stated here; check the processor's current documentation.
+Source: own craft knowledge, except the points marked with a citation, checked on 2026-10-20 against Stripe's documentation as one example processor (see origin.md). Other processors may differ; check yours.
 
 ## 1.1 The card-data boundary
 1. **Symptom: a card number shows up in a log, an error report, a session replay or a form-analytics tool.** Cause: card fields rendered by your own inputs. Use the processor's hosted fields, embedded frame or redirect page, so the values never exist in your page's memory or requests. The scope of your compliance duties depends on this choice; ask your adviser, this is not legal advice.
@@ -25,12 +25,14 @@ Source: own craft knowledge, no external source (see origin.md). Processor facts
 ## 1.3 Submit lifecycle and double submit
 1. **Symptom: two orders, two charges.** Causes: a double click, Enter pressed twice, a retry after a slow response, the back button replaying the POST, two tabs. Guard at three levels.
 2. **UI guard**: on first activation, disable the button, show a busy state and keep the label meaningful ("Paying..."), and ignore further submit events in code, not only visually.
-3. **Idempotency key per attempt**: generate it when the checkout session or the attempt begins, send it with the request, reuse it on every retry of that same attempt, and issue a new one only for a deliberately new attempt (`unknown-payment-outcome-pitfalls` for the server rules).
+3. **Idempotency key per attempt**: generate it when the checkout session or the attempt begins, send it with the request, reuse it on every retry of that same attempt, and issue a new one only for a deliberately new attempt (`unknown-payment-outcome-pitfalls` for the server rules). Stripe documents the same mechanism: a retry with the same key returns the saved first response, and a random string such as a v4 UUID is suggested (Stripe, idempotent requests).
 4. **Server-side uniqueness**: one open order or intent per cart; a second submit for it returns the existing state. The server owns this guarantee, the UI only avoids provoking it.
 5. **Make the submit a POST followed by a redirect to a GET result page** (post, redirect, get), so a reload or back does not resubmit.
 6. **Re-enabling the button after a timeout is a defect when the outcome is unknown.** Move to the pending state (§1.5) instead of offering another try that can double charge.
 7. **Prevent the page from changing under the attempt**: lock the cart and amounts while the payment runs; edits during it start a new attempt with a new key.
 8. **Two tabs**: the second one detects an order already paid for this cart and shows it instead of a form.
+9. **A key is not forever, and not a free-form value.** Symptom: a retry hours later creates a second charge, or the key carries an email address. In Stripe's API v1 keys may be pruned after 24 hours, after which the same key starts a new request, so a late retry must first look up the existing attempt; keys are at most 255 characters and should not contain personal data (Stripe, idempotent requests).
+10. **A changed cart needs a new key.** The same key with different parameters is rejected, not merged, so a coupon or quantity edit after a failed attempt starts a new attempt (Stripe, idempotent requests; see §1.3.7).
 
 ## 1.4 Errors and declines
 1. **Separate the kinds of failure** and word each for the action it needs: invalid input (fix the field), authentication required or failed (complete or retry the check), declined by the issuer (use another method or contact the bank), a temporary system fault (try again later, nothing was charged or we are checking), and a configuration or integration error (not the user's to fix; show a generic message, log the detail).
@@ -46,9 +48,10 @@ Source: own craft knowledge, no external source (see origin.md). Processor facts
 ## 1.5 Pending and unknown outcomes
 1. **Three honest states beyond success and failure**: processing (we sent it, waiting), action required (the user must complete a step), and unknown (we cannot tell yet). Each has its own screen and copy.
 2. **Symptom: the page says "payment failed" and an email later says "paid".** The UI showed failure for a timeout or a closed window. Show "We are checking your payment, do not pay again", and resolve through the server's evidence path (`unknown-payment-outcome-pitfalls`).
-3. **Update the page when the state resolves**: poll the order status endpoint with a gentle backoff or listen for a push, and stop at a sensible limit with a message and an email promise rather than spinning forever.
-4. **Never mark the order paid in the browser.** The paid state comes from the server after confirmation by the processor's signed notification or a lookup (`unknown-payment-outcome-pitfalls`, `laravel-http-client`).
+3. **Update the page when the state resolves**: poll your own order status endpoint with a gentle backoff or listen for a push, and stop at a sensible limit with a message and an email promise rather than spinning forever. Corrected on 2026-10-20: do not poll the processor in a tight loop; Stripe calls polling less reliable than webhooks and warns of request rate limits, so your endpoint reads what the signed notification stored (Stripe, verifying payment status).
+4. **Never mark the order paid in the browser.** The paid state comes from the server after confirmation by the processor's signed notification or a lookup (`unknown-payment-outcome-pitfalls`, `laravel-http-client`). Stripe's own guidance is not to fulfil on the client, since the customer can leave the page after paying, and to fulfil from the succeeded notification (Stripe, verifying payment status).
 5. **Send the confirmation by email and show it in the account**, so a user who left the page can still find the outcome (`laravel-mail-via-notifications`).
-6. **A delayed method** (bank transfer, voucher, some wallets) is pending by design; show the instructions, the deadline and where to see the status, and do not call it success until settled.
+6. **A delayed method** (bank transfer, voucher, some wallets) is pending by design; show the instructions, the deadline and where to see the status, and do not call it success until settled (Stripe: asynchronous methods stay in a processing state, up to several days for bank debits; Stripe, payment intents lifecycle).
 7. **Keep a support reference on every non-success screen**, and make it copyable, so staff can find the attempt without asking for card details.
 8. **Cart and stock during pending**: hold them for a stated time, release them on expiry, and tell the user what happens if payment arrives after release.
+9. **Map your screens to the processor's statuses, not to two booleans.** In Stripe's model, awaiting a method, awaiting an authentication action, processing and succeeded are distinct, and a failed attempt returns the same intent to the first state so the customer can retry on it. Check that each status has a screen and that a retry reuses the intent instead of creating another (Stripe, payment intents lifecycle).

@@ -10,7 +10,8 @@ library behaviour was run while writing it.
 
 | Source | Licence | What it gave |
 |---|---|---|
-| None read. No source with a LICENSE file read and verified as MIT, Apache-2.0 or CC BY was used. | n/a | n/a |
+| RFC 9110, HTTP Semantics, <https://www.rfc-editor.org/rfc/rfc9110>, read 2026-10-20 (status-code sections 15.5.2, 15.5.4, 15.5.5 only) | IETF Trust document; facts only, restated in own words | Meaning of 401, 403, 404, and that a server may answer 404 to hide a forbidden resource |
+| Permissive source on field and row permission design | n/a | No permissive source found, searched: OWASP and framework documentation known to the author; OWASP cheat sheets are CC BY-SA and were not opened, framework docs had no verified licence. |
 
 ## Rewrite notes
 Every rule is own guidance from general practice in access control for business applications. No text, example
@@ -23,8 +24,7 @@ verified).
 - Framework-specific policy and serializer calls: left to the stack blocks named in Related blocks.
 
 ## Not verified
-1. **Status-code choice** (401, 403, 404 for hidden records) is a convention with trade-offs; confirm it with the
-   API's own contract and consumers.
+1. **Verified 2026-10-20:** the meaning of 401, 403 and 404 and the permission to hide with 404 (RFC 9110). **Still unverified:** the recommendation to use 404 per resource and the enumeration trade-off; confirm with the API's own contract and consumers.
 2. **Timing and enumeration** advice is general; the cases where it matters depend on the product.
 3. **Retention and audit-log content** touches data protection law; this block gives method only and is not
    legal advice.
