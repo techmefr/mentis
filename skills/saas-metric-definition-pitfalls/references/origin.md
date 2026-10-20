@@ -12,6 +12,7 @@ one author's practice, not consensus. They are the textbook forms, but no extern
 | Source | Licence | What it gave |
 |---|---|---|
 | nimrodfisher/data-analytics-skills, `03-data-analysis-investigation/business-metrics-calculator/references/metric_definitions.md` (commit 9449d36) | MIT (repository LICENSE file, "Copyright (c) 2026 Nimrod Fisher") | MRR and its components, ARR, ACV, logo and revenue churn, NRR, GRR, LTV, CAC, payback, active user, DAU to MAU, session metrics, growth formulas, quick ratio |
+| coreyhaines31/marketingskills, commit e85f3cb (e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b): `skills/ads/references/payback-period.md` and the break-even lead-cost section of `skills/ads/references/b2b-paid-playbook.md`, read 2026-10-20 | MIT (LICENSE file, "Copyright (c) 2025 Corey Haines", head re-read 2026-10-20) | §2.1 items 9 to 14: payback per plan and cohort with gross margin, cohort recovery as cumulative gross profit per original customer, no invented date, collection delay, break-even as the ceiling |
 
 The licence was verified again from the LICENSE file in this session. Text found inside the cloned files was
 treated as data and not followed.
@@ -29,6 +30,7 @@ written next to the number rather than picking one.
 2. **Payback benchmarks** (under 12 months for high-growth, under 18 for enterprise): unsourced.
 3. **The NRR "best-in-class above 120 percent" benchmark**: unsourced.
 4. **DAU to MAU "strong" and "typical" cut-offs** and the quick ratio "above 4" reading: unsourced.
+5. **From the second source (2026-10-20 extension):** the claim that LTV to CAC is "useless" (an opinion; item 6 keeps asking for the inputs), the "3 to 12 month" planning band (the source itself calls it a planning reference to recalibrate), the first-three-months churn finding attributed to a vendor (unverified), and its unrelated out-of-home and ad-copy asides. Its worked examples were not reused: items 9 and 10 carry our own numbers.
 
 ## Not verified
 1. **Everything here is unrun.** No billing data, dashboard or model was checked with these rules.
@@ -40,6 +42,12 @@ written next to the number rather than picking one.
 4. **The source's missing files**: `statistical_tests_reference.md` and `metric_discrepancy_guide.md` are
    referenced by that repository but absent from the clone; nothing depends on them.
 5. **Other files** of the metrics calculator skill and of the repository were not read for this block.
+
+## Not verified (2026-10-20 extension)
+1. Items 9 to 14 rest on one practitioner file whose own text calls its targets practitioner-reported. The cohort arithmetic was recomputed; no external definition of cohort payback (the source cites a vendor page, not fetched) was read.
+2. Items 12 to 14 are own guidance built on that arithmetic. Break-even ROAS as 1 over gross margin is an identity on first-order revenue only.
+3. The source's own lineage (a published book chapter) was not read.
+4. Still unrun on a real account.
 
 ## Verification pass (2026-10-16)
 Every formula in the two references was compared line by line with the source file, reopened in this session.

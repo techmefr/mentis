@@ -23,7 +23,7 @@ moved is in `metric-movement-diagnosis-pitfalls`. This block only holds the defi
 | Part | Covers | Read it when | File |
 |---|---|---|---|
 | 1 | Revenue and retention: MRR components, ARR, ACV, logo against revenue churn, NRR, GRR | a recurring-revenue or retention figure is defined or checked | [`01-revenue-and-retention.md`](./references/01-revenue-and-retention.md) |
-| 2 | Unit economics, engagement and growth: LTV, CAC, payback, active user, stickiness, growth, quick ratio | a per-customer, per-user or growth figure is defined or checked | [`02-unit-economics-engagement-growth.md`](./references/02-unit-economics-engagement-growth.md) |
+| 2 | Unit economics, engagement and growth: LTV, CAC, payback (per plan and cohort, gross margin, break-even CPA as the ceiling, §2.1), active user, stickiness, growth, quick ratio | a per-customer, per-user or growth figure is defined or checked | [`02-unit-economics-engagement-growth.md`](./references/02-unit-economics-engagement-growth.md) |
 
 ## Output / checkpoint
 A metric is ready to quote when one line states its name, formula, every input with the period it covers, and
@@ -39,6 +39,8 @@ system: the check is a read of the text.
 - Never quote churn without saying whether it counts customers or revenue (part 1).
 - Never quote LTV or CAC without the inputs and the period stated beside it (part 2).
 - Never quote DAU or MAU before "active" is defined (part 2).
+- Never quote one blended payback, or call a cohort recovered from a single retention figure: compute it per
+  plan or cohort with gross margin, and say when a cohort has not recovered (part 2, §2.1).
 - Interpretation bands and benchmarks (what ratio is healthy, what payback is good) are not in this block: the
   source's were unsourced and were dropped; a threshold is a decision the team writes down (part 2).
 
