@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-399-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-404-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-50-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **399** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **404** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **50** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -455,6 +455,11 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `game-engine-loop-and-lifecycle-pitfalls` | 6 (new 2026-10-20) | Game engines: frame-rate independence, fixed versus variable steps, per-frame allocation and lookups, node lifecycle and deferred free, signal leaks, loading hitches, versioned atomic saves |
+| `embedded-firmware-pitfalls` | 6 (new 2026-10-20) | Microcontroller firmware: interrupt handlers and shared data, blocking and counter wrap, RTOS stacks and priority inversion, heap fragmentation, watchdog and reset cause, flash wear and power-loss safety, power and radio |
+| `kotlin-multiplatform-pitfalls` | 6 (new 2026-10-20) | Kotlin and Compose Multiplatform: source sets and target-complete libraries, injected dispatchers and iOS threading, Swift-facing API surface, shared UI decisions, per-target pipeline and symbols |
+| `deno-bun-runtime-pitfalls` | 6 (new 2026-10-20) | Deno and Bun: scoped permissions, no sandbox on Bun, pinned imports and enforced lockfiles, Node compatibility checks, native addons, speed claims, production pinning |
+| `host-config-ansible-nix-pitfalls` | 6 (new 2026-10-20) | Ansible idempotence, variable precedence, secrets and check runs, handlers and batched rollout; Nix pinning, secrets outside the store, tested activation and rollback |
 | `agent-memory-and-state-pitfalls` | 6 (new 2026-10-20) | Stored agent memory: write gating, poisoning, scope, expiry, forgetting, tests |
 | `llm-pii-and-data-handling-pitfalls` | 6 (new 2026-10-20) | Personal data in LLM apps: minimisation, placeholders, logs, vendor terms, deletion, isolation |
 | `ai-product-ux-pitfalls` | 6 (new 2026-10-20) | Interfaces for model output: trust display, control, failure states, over-reliance signals |
@@ -1154,7 +1159,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 399 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 404 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 50 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
