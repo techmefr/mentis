@@ -306,6 +306,10 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| settings-and-preferences-page-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
+| onboarding-and-empty-state-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
+| checkout-and-payment-form-ui-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
+| maps-and-geo-component-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
 | combobox-autocomplete-ui-pitfalls | 6 (new 2026-10-20) | own craft; W3C WAI-ARIA facts recalled, not opened (no permissive source read) | 🟡 (never dogfooded) |
 | modal-drawer-dialog-ui-pitfalls | 6 (new 2026-10-20) | own craft; W3C WAI-ARIA and HTML facts recalled, not opened (no permissive source read) | 🟡 (never dogfooded) |
 | login-mfa-reset-screens-ui-pitfalls | 6 (new 2026-10-20) | own craft; HTML autocomplete facts recalled, not opened (no permissive source read) | 🟡 (never dogfooded) |
