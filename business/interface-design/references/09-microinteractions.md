@@ -90,3 +90,37 @@ that delays the next click, a confirmation for something that could simply have 
     content needs a control whatever its length. One animation can fall under both. A standalone loading
     indicator that is not beside other content needs no control. The preference mechanics are in
     `skills/accessibility` §7.8; this block only says to ask the question per animation.
+20. **A product has one motion character, written down before the first animation.** One family of easings, a
+    short ladder of durations, one way things enter, and one stance on overshoot (none, rare, or playful on
+    purpose and stated). Mixed characters read as several products stitched together, and each new animation
+    is then a fresh argument. This is what §9.9 asks for as tokens, made a single page the team can point at;
+    the values stay the design system's. Where none exists, write the character first and the tokens after it
+    (§1.10). A conflict between this page and a one-off request is resolved by changing the page on purpose,
+    not by an exception that stays.
+21. **Order and direction are decided, not defaulted.** (Optional.) Within a group, the element the eye
+    should follow leads, the group shares one direction of entry, and the order on exit is the reverse of the
+    entrance rather than a replay. The total and the exit speed stay bounded by §9.16 and §9.14. Skip it for a
+    single element.
+22. **Anticipation and settle are for interactions that have weight.** (Optional.) A heavy or destructive action
+    may wind up before it happens or settle after it lands, because the weight is the message; a toggle, a
+    tab or a checkbox never does, because the wind-up is only delay (§9.2, §9.7). Where an interaction is short
+    enough that the wind-up would be longer than the action, drop it. The threshold is the design system's
+    figure, not this block's.
+23. **Review a motion that feels wrong by its symptom, then by its cause.** The symptom names the fix to try
+    first, and none of the fixes needs a number from this block:
+
+    | Symptom | Likely cause | First fix to try |
+    |---|---|---|
+    | Robotic | linear or uniform timing, everything starting and stopping together | an easing family from the tokens, small offsets between items |
+    | Slow | duration over budget, a symmetric ease where a decelerating one reads quicker, a long stagger | shorten at the token, decelerate on entrance (§9.14), bound the stagger (§9.16) |
+    | Flat | one property moving, no response in the neighbours | let a related element react, only where it explains something (§9.8) |
+    | Noisy | many things moving, two competing for the eye | one subject per moment, still the rest (§9.12) |
+    | Inconsistent | different easing, direction or duration for the same kind of change | fix at the tokens, not per component (§9.9, §9.20) |
+    | Janky | layout properties animating, too many elements at once | the compositor-friendly properties and fewer elements (`skills/webperf` §1, `skills/web-animation-pitfalls` §2) |
+
+    A symptom whose fix removes the effect is the "when in doubt, cut" of §9.12 and is a good outcome.
+24. **Dark surfaces and large areas amplify motion.** (Optional.) Bright elements moving on a dark background and
+    movement across most of the screen read stronger than the same motion on a small, light surface, and can
+    tire the eye sooner. Check the motion on the real surface it ships on, at its real size, and in both themes
+    where there are two (§1.13). This block gives no reduction: the source of the idea gave a percentage with no
+    basis, so none is carried.

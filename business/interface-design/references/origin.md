@@ -122,3 +122,21 @@ multipliers, and its default-on motion by page archetype and its bans on named l
 normative text word for word (the Understanding pages are informative); the "counts as automatic" clause is
 from the 2.2.2 page's own wording.
 
+
+**Motion character and review by symptom added 2026-10-20 (§9.20 to §9.24).** Ideas read in this session from
+`lottiefiles/motion-design-skill` (MIT, "Copyright (c) 2025 LottieFiles", commit
+f9a8a041b85185ee4881b3471d3415e939aac772, LICENSE re-read; its troubleshooting reference and the motion
+personality, choreography and narrative ideas as summarised in the review of the same day) and
+`heygen-com/hyperframes` (Apache-2.0, commit 0693839b52306cbe35ee508f7b4c4b6f914a4fae, LICENSE re-read; the
+doctrine that smooth beats bouncy, overshoot being an explicit exception). Rewritten as mechanisms, own
+wording, no sentence, table or number copied: the single written motion character (§9.20), order and direction
+(§9.21, optional), anticipation only where there is weight (§9.22, optional), the symptom-cause-fix table
+(§9.23) and the dark-surface check (§9.24, optional). **Deliberately not carried**: every duration, easing
+curve, stagger budget, overshoot percentage, the per-archetype personalities with fixed numbers, the
+emotion-to-motion mapping, the mobile and watch scalars and the dark-mode reduction percentage (unsourced), and
+the source's rule to never use opacity alone, which contradicts its own reduced-motion advice. Not verified: the
+lottie directory's other 12 files and the disney-principles, choreography and quality-checklist references were
+not read (read in part in the review); no primary text on motion in interfaces (Material, Apple guidelines) was
+read for these rules; §9.24 is general practice with no primary source, hence "check at the real surface".
+The browser side of animation (tool ladder, acceleration, lifecycle, reduced-motion switches) is
+`skills/web-animation-pitfalls`.
