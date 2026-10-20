@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-396-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-399-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-50-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **396** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **399** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **50** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -455,6 +455,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `agent-memory-and-state-pitfalls` | 6 (new 2026-10-20) | Stored agent memory: write gating, poisoning, scope, expiry, forgetting, tests |
+| `llm-pii-and-data-handling-pitfalls` | 6 (new 2026-10-20) | Personal data in LLM apps: minimisation, placeholders, logs, vendor terms, deletion, isolation |
+| `ai-product-ux-pitfalls` | 6 (new 2026-10-20) | Interfaces for model output: trust display, control, failure states, over-reliance signals |
 | `oss-maintainer-operations-pitfalls` | 6 (new 2026-10-20) | Public-project upkeep: written scope and expectations, the polite no, triage cadence and stale handling, roles and commit access, backup administrators, bots with visible rules, health signals, pausing and hand-over |
 | `architecture-fitness-functions-pitfalls` | 6 (new 2026-10-20) | Turning an architecture decision into a failing check: which rules, allow-lists, rules that select nothing, rule never seen red, freezing existing violations and ratcheting down, ignore lists, CI store permissions |
 | `release-provenance-and-sbom-pitfalls` | 6 (new 2026-10-20) | Producer-side evidence: SBOM stage, identity and version, stable identifiers, graph completeness, provenance and signing bound to a digest, matching published bytes, vulnerability answers, retention |
@@ -1151,7 +1154,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 396 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 399 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 50 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |

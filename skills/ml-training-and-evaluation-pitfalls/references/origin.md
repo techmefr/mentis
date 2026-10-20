@@ -13,6 +13,9 @@ hub. No model was trained, downloaded or pushed while writing it.
 | huggingface/skills at commit c3ff942: `skills/train-sentence-transformers/references/troubleshooting.md` | Apache-2.0 (`LICENSE` read 2026-10-20) | Out-of-memory order, NaN causes, flat metrics causes, evaluation hangs, best-checkpoint key mismatch, cached-loss conflict, perfect-score overlap, saturating output transform, inline module loading failure, pooling and wrong-base symptoms, authorization and tracker checks |
 | huggingface/skills at c3ff942: `skills/huggingface-llm-trainer/SKILL.md` | Apache-2.0 (same file) | Ephemeral machine and push requirement, timeout warning, dataset validation before paid runs, columns per method, secrets for tokens, asynchronous submission |
 
+## Extension 2026-10-20
+§3 (training data hygiene) is own guidance from craft knowledge; no source was read for it and no source text was taken.
+
 ## Removed (stated in the sources, not carried)
 - Every loss, evaluator, trainer-argument, hardware-tier and base-model recommendation and every numeric threshold or rate range (kept as the qualitative point only, marked re-read).
 - Tool-call syntax of the job runner, example scripts, cost tables and plan requirements.
