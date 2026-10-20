@@ -63,6 +63,11 @@ checklist assembled from public sources, not professional advice, and each one s
 | `interface-design` | UI/UX | designing or auditing a mockup, or deciding a UI element's shape before it's coded; microinteractions, data screens and flows |
 | `product-marketing` | marketing | before publishing a landing/pricing page, feature announcement, comparison, pitch, or case study; local and profile presence |
 | `evidence-appraisal` | research / decisions | a decision, estimate or recommendation leans on someone else's benchmark, study or report |
+| `grant-and-proposal-writing-pitfalls` | communication | a grant application, tender response or funding proposal is written, reviewed or submitted |
+| `content-brief-writing-pitfalls` | communication | a content brief is written, a content plan checked, or old pages reviewed for refresh or merge |
+| `b2b-go-to-market-pitfalls` | marketing | a B2B product or feature is taken to market, or a launch plan or result is reviewed |
+| `health-domain-caution-pitfalls` | communication | content, a feature or a message touches health, medicine or wellbeing |
+| `event-operations-pitfalls` | marketing | an event is chosen, hosted, sponsored, spoken at, attended or reported on |
 | `project-management-artefact-pitfalls` | project management | a plan, risk log, estimate, status report, change request or close-out is written, reviewed or handed on |
 | `accessible-documents-pitfalls` | communication | a PDF, office file, spreadsheet or deck is produced, exported, scanned or reviewed for accessibility |
 | `localisation-vendor-process-pitfalls` | communication | human translation is briefed, run, reviewed or scored with a vendor or in-house linguists |
