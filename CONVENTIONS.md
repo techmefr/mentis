@@ -34,6 +34,26 @@ reimplement the principle.
 4. Fill in `Origin` (where the idea comes from, honestly).
 5. **Zero external install**: the block lives in our repo. No network dependency.
 
+### A source with no open licence: clean room
+A repository with no `LICENSE` file, or a licence that is not open (non-commercial, no derivatives,
+Commons Clause), keeps all rights on its wording. Its ideas, methods and facts stay free. Such a source
+is used only through a clean room, in two separate roles:
+
+1. **Reader.** Reads the source and writes a method sheet: steps, rules, cases, facts. The sheet holds no
+   sentence, example, heading or section order of the source.
+2. **Writer.** Writes the block from the method sheet alone and never opens the source. The block uses
+   our words, our examples and our structure.
+
+Rules that hold for the whole process:
+- **No copied sentence, even edited.** If the method sheet carries a turn of phrase of the source, the
+  writer replaces it.
+- **No credit to a repository whose text was not taken.** `Origin` says the idea comes from public
+  sources and that no text was taken; the repository name, its licence and what was read stay in the
+  private review journal, which is the audit trail.
+- A source under an open licence (MIT, Apache-2.0, CC BY) does not need a clean room: it is credited as
+  before.
+- A block resting on a clean room says so in `Not verified`: the method sheet was written by one reader.
+
 ## Rule C: mentis stays publishable
 
 Rule C carries two loads, and the nearer one is the company, not the public. **Sharing inside a company
