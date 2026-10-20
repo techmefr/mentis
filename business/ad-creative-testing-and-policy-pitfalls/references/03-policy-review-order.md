@@ -55,6 +55,31 @@ is stated here (`re-read before relying`). It is not legal advice.
    policies updated continually, the English text controlling, and disapproval that can be fixed or appealed.
    Read as a digest; confirm on the page before relying. No individual Google policy page was read.
 
+## 3.4a Two more overview pages, read 2026-10-20 (re-read before relying)
+Read on LinkedIn's advertising policies page and TikTok's advertising policies overview page. Facts only, own
+words, no wording kept.
+1. **LinkedIn ads do not run until reviewed.** The page says ads are checked against its policies before they run,
+   with a stated aim of about a day; a rejection shows its reason in the campaign tool and by email, and the ad can
+   be edited and resubmitted. This backs §3.3 item 4: a fix has an owner and a re-review route. The same page says
+   the platform may approve, reject or remove an ad at its discretion, including after user feedback, so approval
+   today is not a lasting pass; and accounts that repeatedly violate may be suspended or ended.
+2. **LinkedIn sorts rules into prohibited, restricted, safety and privacy, and editorial groups.** Restricted means
+   allowed with conditions or prior authorisation. This matches the classes in §3.2 item 3, and shows a platform
+   can also have an editorial class (naming the platform, language and writing standards).
+3. **The landing page is inside the review.** LinkedIn's page asks that the domain in the displayed address match
+   the destination, that every clicker reach the same destination page, that the page open no pop-ups, that the
+   viewer can leave and come back with the browser's back button, and that pages collecting sensitive information
+   use a secure connection. Symptom: an ad disapproved with perfect copy. Check the destination against the list
+   on the platform's current page, per variant.
+4. **TikTok's overview groups its rules** into ad content and format, restricted products and services, conduct
+   and harm, rights and civic topics, and post-conversion and regional policies, with separate supporting pages
+   for advertiser eligibility, targeting and data (including housing, employment and credit), market-specific
+   rules and certificates for some industries. Its group on what happens after the click backs §3.2 item 5. The
+   overview page, as read, did not describe the review process, appeals or landing page rules; those were not read
+   (the review-process article address returned an error page).
+5. **Policy lists differ by platform and by place.** Compare the group names above with §3.4 item 3 (Google's four
+   areas): no two platforms share a taxonomy, so a finding carries the platform's own page, never a generic list.
+
 ## 3.5 Suggestions and generated variants are proposals
 1. **A platform's recommendation tab, an imported setting, an automatic creative variant and a
    machine-generated asset are untrusted proposals.** Review each against the same policy, business and change

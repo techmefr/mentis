@@ -11,8 +11,9 @@ in which to look, and the points where the public sources and the vendors' guide
 person who owns the sending domain: a marketer, a founder, the one who set up the provider.
 
 It states method, and platform facts only where a primary page was read on 2026-10-20 (marked `re-read before
-relying`: the pages change, and the fetch returned a digest, not the raw page). It states **no Microsoft
-requirement**: Microsoft's own page was not read. It carries no benchmark, no warm-up schedule, no bounce
+relying`: the pages change, and the fetch returned a digest, not the raw page). Microsoft's
+requirement is stated from its own announcement (read in full 2026-10-20), including the point that the post
+disagrees with itself on junk versus reject. It carries no benchmark, no warm-up schedule, no bounce
 band and no week count, because the sources contradict each other on them. It is not legal advice: what a
 message needs in law, how long consent evidence or a suppression list may be kept, and what applies to
 business-to-business mail go to `business/data-protection` and the person who owns that function. How to

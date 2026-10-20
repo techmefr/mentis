@@ -15,7 +15,9 @@ A discount given to close a deal and not written down becomes the price the cust
 An annual plan is a trade: the company receives cash earlier and a longer commitment, the customer pays less per
 month. Decide the trade on purpose:
 1. **What the customer gets**: how much less, and compared with which monthly price (the one that applies today,
-   not a retired one).
+   not a retired one). Make the two options comparable on the page: the UK CMA's price transparency guidance (CMA209
+   paragraph 3.25, read 2026-10-20) says a trader risks misleading if the cheaper option is not made clear, for example by
+   stating each option's total or the saving.
 2. **What happens on early cancellation**: refund, partial refund or none, said before purchase on the page and
    in the order. The billing mechanics of a refund or credit are §5.
 3. **What happens at renewal**: which price applies, how long before it the customer is told (§3), and whether

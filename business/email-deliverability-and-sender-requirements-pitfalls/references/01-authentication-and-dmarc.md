@@ -18,8 +18,8 @@ raw page: `re-read before relying`.
 5. **Unknown is not pass.** If you could not open a delivered message's headers, the authentication status of
    that sender is unknown, and the report says so.
 
-## 1.2 What the two mailbox providers ask
-Both pages carry enforcement dates and wording that change; read them again before quoting.
+## 1.2 What the mailbox providers ask
+The pages carry enforcement dates and wording that change; read them again before quoting.
 1. **All senders**: Google asks SPF or DKIM, valid forward and reverse DNS for the sending domain or IP, TLS,
    RFC 5322 message format, and no impersonation of Gmail From headers. Yahoo asks SPF or DKIM at minimum.
 2. **Bulk senders**: both ask SPF and DKIM and a published DMARC record, and both accept a policy of `none`.
@@ -31,9 +31,24 @@ Both pages carry enforcement dates and wording that change; read them again befo
    permanent was not confirmed on either primary page; do not repeat it.
 4. **Key size**: Google gives 1024 bits as the minimum and 2048 as the recommendation where the DNS provider
    supports it. Yahoo's page, as read, recommends at least 1024.
-5. **Microsoft**: nothing is stated here. Its page was not read, and third-party summaries disagree on
-   whether non-compliant mail is junked or rejected. If the audience is on Microsoft mailboxes, the owner
-   reads Microsoft's own post and the block waits for it.
+5. **Microsoft (Outlook)**, from Microsoft's own announcement for high-volume senders (Microsoft Community
+   Hub, Defender for Office 365 blog, published April 2025, updated 30 April 2025, read 2026-10-20 in full, re-read
+   before relying): the scope is domains sending more than 5,000 messages a day, and the post does not say how
+   the count is made. For that group SPF must pass for the sending domain, DKIM must pass, and DMARC must be
+   published at p=none at least and align with SPF or DKIM (both preferred). It also recommends a valid From or
+   Reply-To address that can receive replies, a working unsubscribe link, list hygiene and bounce handling, and
+   honest headers and consent.
+6. **The Microsoft post contradicts itself on the action.** Its update says non-passing mail is rejected with a
+   5.7.515 "sending domain does not meet the required authentication level" response, effective 5 May 2025; the
+   paragraph after it says routing to Junk begins on that date and rejection comes later, date to be announced.
+   Symptom: a sender reads one paragraph and plans for the wrong outcome. Check: the live post and the bounce
+   text actually returned by Outlook. Fix: do not state either outcome as current; send test mail and read the
+   response. The post also says the safe-sender list is not honoured for this check, and that a third-party
+   sending service still needs the records published in the sender's own domain.
+7. **SPF lookup limit and forwarding (same post).** Exceeding ten DNS lookups can make SPF fail; Microsoft
+   suggests reducing includes or flattening. It says forwarding can break DMARC alignment and recommends ARC for
+   forwarders and lists. It sends DMARC aggregate reports to the address in the record and says it does not plan
+   to send forensic reports. It advises moving none, then quarantine, then reject, gradually.
 
 ## 1.3 DMARC rollout starts by listing who sends
 1. **Publish a policy that takes no action, with a report address, first.** The point of that stage is not

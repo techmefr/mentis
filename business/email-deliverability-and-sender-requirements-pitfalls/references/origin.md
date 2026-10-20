@@ -18,6 +18,7 @@ certifies nothing, and the owner of the domain decides (`business/README.md`). N
 | alirezarezvani/claude-skills, commit 19392f7 (19392f7a08264ed00486a251f5b2098321771f94) | MIT (LICENSE file, 2025 Alireza Rezvani, head re-read) | Nothing taken |
 | Google email sender guidelines (support.google.com/a/answer/81126), fetched 2026-10-20 | Google site terms, not an open licence | Facts only, own wording: requirements for all senders and for the 5,000 a day group, alignment, key sizes, policy of none accepted, one-click and visible link, spam rate 0.10 target and 0.30 limit in Postmaster Tools with no denominator stated, content-type mixing, the 4.7.28 response, the phishing-test warning, no statement on counting or permanence |
 | Yahoo sender requirements (senders.yahooinc.com/best-practices/), fetched 2026-10-20 | Yahoo site terms | Facts only: SPF or DKIM for all, SPF and DKIM and DMARC at p=none for bulk, report address strongly recommended, one-click header and visible link, two-day processing, 0.3 percent computed on inbox-delivered mail, stream separation, feedback loop, no volume definition |
+| Microsoft Community Hub, "Strengthening Email Ecosystem: Outlook's New Requirements for High-Volume Senders" (techcommunity.microsoft.com, Defender for Office 365 blog; published 2 April 2025, modified 30 April 2025). The page body is script-rendered; its article text was read from the page's embedded structured data (the complete text, including FAQ), 2026-10-20 | Microsoft site terms, no open licence; facts only, own wording | the 5,000-a-day scope without a counting rule, SPF pass, DKIM pass, DMARC p=none with alignment, hygiene recommendations, the junk-versus-reject contradiction, the 5.7.515 response, no safe-sender bypass, ten-lookup SPF limit, ARC, rua yes and ruf no, gradual DMARC policy |
 | RFC 8058 (rfc-editor.org/rfc/rfc8058), fetched 2026-10-20 | IETF document; the IETF Trust notice was not read. Structure and facts only, own wording, no section text pasted | Digest quoting sections 1, 3.1, 3.2, 4 and 6: two headers and one HTTPS address, DKIM covering both headers, POST without cookies or authorization, no redirect, receiver consent, scanner background, opaque token. These points are confirmed in the digest's quotations of the RFC; not re-read as raw text |
 | RFC 9989 (rfc-editor.org/rfc/rfc9989), fetched 2026-10-20 in three parts covering characters 0 to 200000 of 208120 | same | Proposed Standard, obsoletes 7489 and 9091, evaluation rule, `t` tag, appendix "Removal of the pct Tag" with its stated reason, tags added and removed, general-purpose domains and p=reject. The last 8,120 characters, RFC 9990 and RFC 9991 were not read |
 
@@ -33,7 +34,11 @@ read). Cold-outbound infrastructure. BIMI and MTA-STS (specialised, facts expire
 Product lines and a vendor's tool surface.
 
 ## Not verified
-1. **Microsoft**: nothing is stated. Its post was not read; a fetch returned only a title.
+1. **Microsoft**: one page read (the April 2025 announcement, in its 30 April 2025 form). Not read: Microsoft's
+   sender support pages, its postmaster or smart-network-data tools, and any later post that may have set the
+   rejection date. The page's own text conflicts on junk versus reject, so the current behaviour is unverified.
+   Microsoft has no stated complaint-rate or one-click figure on this page, and the block gives none. Whether
+   one-click unsubscribe is required by Outlook is not stated on the page (it asks only for a functional link).
 2. **Digest, not raw page.** Every primary page came through a fetch tool that returns a model-written digest.
    The 0.10 and 0.30 percent split on Google's page, Yahoo's inbox denominator, and the RFC quotations should
    be re-read against the pages.
