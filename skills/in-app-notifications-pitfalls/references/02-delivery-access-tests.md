@@ -1,0 +1,59 @@
+# in-app-notifications-pitfalls §2 — Delivery, access and tests
+
+Sources: Lexical documentation on live-region announcements (MIT, read 2026-10-20) for the one fact marked as such; the rest is own craft.
+
+## 2.1 Realtime against polling
+1. **Push is an optimisation over a truth you can always re-read.** The inbox endpoint returns the real state; a push only says "something changed, refetch" or carries one item. Symptom of the opposite: a missed push leaves the badge wrong until reload.
+2. **Refetch on the events that prove staleness**: tab becomes visible, window focus, network back online, socket reconnect. This one rule removes most "it only shows after reload" reports.
+3. **Polling is a valid choice** for a business application with a few notifications per hour. Pick an interval from the product need, back off when the tab is hidden, and send a conditional request (an etag or a "since" id) so an unchanged answer is small. Do not poll from every open tab at full rate.
+4. **Realtime transports differ in cost.** A socket needs authentication at connect, reauthentication when the session ends, and a fallback when proxies drop it; server-sent events are one-way and enough for a bell. Choose the simplest that meets the need (`laravel-conventions` for broadcasting in the Laravel back end).
+5. **Authorise the channel per user.** A private channel name derived from the user id is not access control; the server must check that the subscriber is that user (`security-hardening`).
+6. **Sequence the items.** Give each row a monotonic id or time and ask "after id N" on reconnect, so a gap is detected and filled instead of assumed absent. Reorder by created time, not arrival time.
+7. **Deduplicate on the client by notification id**, since a push and a refetch can deliver the same item.
+8. **A logged-out user stops receiving.** Close the connection on sign-out and on a tenant switch; otherwise the next person on a shared machine hears the previous user's inbox.
+
+## 2.2 States of the inbox
+1. **Render separately**: loading, empty (nothing yet), empty-filtered (nothing unread), error with retry, offline, and partial (older page failed). Never show "no notifications" for a failed request (`data-table-ui-pitfalls` §2.1).
+2. **Paginate with a cursor** on created time and id, since new items arrive at the top while the user reads; offset would repeat rows (`data-table-ui-pitfalls` §1.2).
+3. **Do not reorder under the pointer.** New items during reading show as a "2 new" control, not a jump.
+4. **Filter by unread, by type category and by target**, and keep the count of each honest (§1.3).
+5. **A toast is a different object from an inbox item.** It auto-dismisses, so anything that needs action must also exist in the inbox; never make a toast the only place a decision is shown.
+
+## 2.3 Accessibility
+1. **The badge needs text.** Give the bell button an accessible name that includes the count ("Notifications, 3 unread"); a bare number inside an icon has no name. Do not rely on colour alone for unread (`accessibility`).
+2. **Announce through one polite live region** that exists in the page at load, then change its text. A region inserted together with its message is often not announced. Lexical's accessibility documentation describes the same pattern: a visually hidden status region, polite by default, created once and reused (read 2026-10-20).
+3. **Do not announce every item.** Batch ("3 new notifications"), rate-limit, and do not announce the user's own actions. Use assertive only for what needs immediate action; a ticking inbox is not that.
+4. **Do not move focus** to a new notification or a toast. Focus stays where the user is working.
+5. **Toasts stay long enough to read and can be paused or dismissed by keyboard**; Escape closes them and the timer stops while they are hovered or focused. A toast with an action button needs to remain reachable.
+6. **The inbox is a list of links or buttons with names**, the unread state stated in text for screen readers, a heading for each group, and a keyboard path from the bell to the first item and back to the bell on close.
+7. **The panel is a popover or a page, not a trap.** If it opens as a dialog, trap and restore focus; if it is a disclosure, it closes on Escape and outside focus. Check both with the keyboard only.
+8. **Respect reduced motion** for badge pulses and slide-in toasts.
+
+## 2.4 Permissions at open time
+1. **Access is checked when the item is opened**, not when it was sent. Symptom: a notification leads to a record the user lost access to, or leaks its title in the list after the permission was removed.
+2. **The list shows only what the user may still see.** Hide or redact the text of rows whose target is no longer authorised, and show "no longer available" on open.
+3. **Check tenant scope on the target**: a notification id from another tenant must return not found, not a different tenant's record (`laravel-tenant-context-by-default`).
+4. **Enforce per row on the server**; the client hiding a link is not a control (`field-and-row-permission-ui-api-pitfalls`).
+
+## 2.5 Mistakes of delivery
+1. **Mail and in-app for the same event must agree**: one notification, several channels, one preference check (`laravel-mail-via-notifications`). Two code paths drift.
+2. **A failing channel must not block the others**: a mail error does not stop the inbox row.
+3. **Do not notify during a bulk import or a migration** unless it is the point; add a suppress flag on the job.
+4. **Rate-limit per recipient** so a runaway loop cannot send a thousand messages; log the suppressed count.
+5. **Send a test notification to yourself** from the settings page; it is the cheapest end-to-end check a user can run.
+
+## 2.6 Tests
+1. **Per-recipient state**: create one event for two users; read it as one; assert the other is unread.
+2. **Count parity**: for a mix of read, unread, deleted and expired rows, assert the badge equals the unread rows the list returns.
+3. **Grouping**: fire three events on one target in the window; assert one group row with count 3, and a new event after read re-opens it.
+4. **Preferences**: muted category sends nothing on any channel; a mandatory type ignores the mute; assert each channel.
+5. **Idempotent fan-out**: run the fan-out job twice; assert no duplicate rows.
+6. **Gap recovery**: drop a push in a test, reconnect, assert the refetch brings the missing item.
+7. **Access at open**: remove the user's permission after the send and assert the open returns not available and the list redacts it.
+8. **Accessibility**: assert the bell name with count, a live-region update that does not move focus, and a keyboard-only pass over the panel; run an automated check.
+
+## 2.7 Framework pointers (reference only)
+1. **Laravel** has a notifications layer with database and broadcast channels; keep the channel list and preference check in one place and route mail through it (`laravel-mail-via-notifications`, `laravel-permissions-not-roles`).
+2. **React or Nuxt query layers**: key the inbox query by user and filter, invalidate it on push, focus and reconnect, keep previous data while loading (`data-fetching-state-conventions` §2).
+3. **Vuetify or similar kits** offer badge, snackbar and menu components; check their default live-region and focus behaviour against §2.3 instead of assuming it (`vue-nuxt-vuetify-conventions`).
+4. **Phone push** is a separate channel with its own permission prompt and token lifecycle (`flutter-notifications-background`).
