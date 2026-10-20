@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-410-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-413-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-55-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **410** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **413** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **55** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -455,6 +455,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `data-table-ui-pitfalls` | 6 (new 2026-10-20) | Data tables in business apps: sort, filter and page over one dataset, offset against keyset paging, row identity, selection and bulk actions on all matching rows, seven table states, column layout persistence, accessibility, large data and export, tests |
+| `filters-search-and-saved-views-pitfalls` | 6 (new 2026-10-20) | Filters and search: one filter model for controls, URL, count and export, URL state, saved and shared views with versioning, server against client filtering, debounce and stale responses, facet counts, filter semantics, empty results, tests |
+| `dashboard-ui-pitfalls` | 6 (new 2026-10-20) | Dashboards: one definition per metric, drill-down matching the counted set, time ranges and zones, freshness and cache scope, per-widget states, role-scoped numbers, refresh cost, accessibility, tests |
 | `crm-app-build-pitfalls` | 6 (new 2026-10-20) | Duplicate keys at write time, defined stage transitions, merge with redirect, append-only timeline, archive versus erasure, query-level visibility, staged imports, split order and v2 regrets; not legal advice |
 | `light-erp-document-flow-pitfalls` | 6 (new 2026-10-20) | Status tables, numbering allocated at posting, conversion with remaining quantity, line snapshots, posted documents immutable, tenant and entity ids, approvals as data; no accounting or tax rule, not legal advice |
 | `invoicing-app-build-pitfalls` | 6 (new 2026-10-20) | Numbering at issue, issued invoices immutable, credit notes, snapshots, one rounding rule, explicit payment allocation, idempotent runs, signed deduplicated webhooks; no invoice or tax rule, not legal advice |
@@ -1170,7 +1173,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 410 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 413 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 55 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
