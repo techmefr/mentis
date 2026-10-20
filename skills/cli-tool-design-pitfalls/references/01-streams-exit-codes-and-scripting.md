@@ -8,6 +8,7 @@ Source: own guidance throughout (no external guide was read; see origin). Where 
 3. **Print nothing on success when there is nothing to report,** for commands whose job is an action. Silence plus a zero exit code is a result.
 4. **Do not print a stack trace for an expected failure** (bad input, missing file, no network). Print one line that says what failed and what to do, and keep the trace behind a debug option.
 5. **Flush before exit and handle a closed pipe quietly.** A reader that stops early (a head-style filter) must not make the tool print an error or hang.
+6. **Resolve files from a stated place, and name the missing prerequisite.** A path relative to the current directory works from one directory only; resolve it from the script's own location or from a documented root, or document the directory the command must run in. When the input is missing (a build output that was never produced), print one line saying what is missing and which command makes it, and exit non-zero; an uncaught file-system error with a stack trace tells the caller nothing (own guidance).
 
 ## 1.2 Exit codes
 1. **Zero means success, non-zero means failure, always.** Test it: break the input and read the code that the shell reports.
@@ -15,6 +16,7 @@ Source: own guidance throughout (no external guide was read; see origin). Where 
 3. **Commands that compare or search can use a non-failure non-zero code** (found nothing, differences found); document it, since a script run in strict mode treats it as an error.
 4. **A command that does several things reports the worst outcome,** and says which parts succeeded on standard error. A batch that fails half-way must not exit zero.
 5. **Usage errors exit non-zero and print the short usage on standard error,** not on standard output.
+6. **A failure of the tool's own environment is a failure, never an empty result.** A helper that runs another program (a version-control query, a file listing, a network call) and swallows its error, returning an empty value, makes a broken environment look like "nothing to do" and exits zero. Symptom: a change detector that prints "nothing changed" in a shallow clone or a fresh worktree where the base reference does not exist. Check: break the environment on purpose (remove the reference, the file, the network) and read the exit code. Fix: let the error through, or check that the prerequisite exists first, and exit with the code for that class (own guidance).
 
 ## 1.3 Machine-readable output
 1. **Offer a structured format flag (a JSON output option, or one record per line) for any command that prints data,** and keep the default for humans. The structured form is a contract (§2.6).

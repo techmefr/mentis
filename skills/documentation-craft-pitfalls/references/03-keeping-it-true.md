@@ -15,7 +15,8 @@
    clean checkout, follows it literally. Every place they stop is a missing prerequisite or an unstated
    assumption. This is the single most revealing review and the one most often skipped.
 4. **Give every page an owner and a reason to be revisited.** Own guidance: the owner is a team or a role, not a
-   departed person; the trigger is an event (a release, an incident, a dependency upgrade), not a calendar
+   departed person (in a one-maintainer repository the owner is that maintainer, said once in the file that
+   states how to contribute); the trigger is an event (a release, an incident, a dependency upgrade), not a calendar
    reminder nobody answers. A page with neither is a candidate for deletion.
 5. **Delete or mark what is no longer true, do not leave it.** Own guidance: a wrong page is worse than none,
    because the reader cannot tell. Mark the page deprecated with the date and the replacement link, or remove it
@@ -47,3 +48,18 @@
 14. **Review accuracy and wording as two passes.** Own guidance: a subject expert checks that the statements are
     true, a reader far from the work checks that they can be followed, and one person doing both misses the
     second. Symptom: a page that is correct and that nobody can follow. Fix: name which pass each reviewer owns.
+15. **A claim about privacy, security or behaviour has to match the shipped code and every other page.** Own
+    guidance. Symptom: one page says "no tracking", "no cookies" or "works offline" while another page, or the
+    code, describes analytics, a stored identifier or a network call; the opener and the footer are the usual
+    places for the older sentence. Check: search all pages for the absolute words (no, never, always, only,
+    offline, nothing is sent) and for each hit search the code and the other pages for the thing denied; where the
+    sentence is generated, fix the generator, not the output. Fix: state what is collected, by what, and what is
+    not, in one place, and link to it from every page that mentions it.
+16. **Commands, addresses and pins must agree across pages and with the pipeline.** Own guidance. Symptom: one
+    page says install with one command and another with a different one that behaves differently; a dev-server
+    address that omits the path prefix the site is served under; a "pinned" version that is a moving alias; a
+    command table missing steps the pipeline runs; the same procedure written twice with small differences. Check:
+    for each task (install, run, test, add an entry) list every page that describes it and compare command,
+    address and version; compare the command table with the pipeline's steps; confirm that a stated pin is an
+    exact version, not a range or an alias; confirm a generated section has a check in the pipeline that fails
+    when it is out of date. Fix: one page owns each procedure and the others link to it (§3.11).

@@ -24,6 +24,8 @@ Release notes and changelogs are in `skills/release-changelog-pitfalls`.
 - Only one person can release, review or administer the project.
 - A maintainer is tired, or a contributor disappears mid-change.
 
+**Skip when** the project is private or has no outside contributors. For a public personal repository with one maintainer, the checks that assume an organisation (a second administrator, a vote) are replaced by the one-person variants of §2.12; a check that needs data or settings you cannot read (issue queue size, branch protection, multi-factor status, the list of administrators) is reported as "unverifiable" with the page or query that settles it (§2.13), never guessed, and a point that does not fit is reported as "not applicable: reason".
+
 ## Steps
 
 **Read only the section the task meets.** They are independent.
@@ -53,8 +55,8 @@ cadence, at least two people able to release and to administer, and a written pa
   without a written, visible rule (§3.2).
 - A maintainer may pause, narrow the scope or hand over. Never present exhaustion as a virtue 
   (§3.8).
-- This block restates one published guide for maintainers. Every numeric example in it is the source's, for one
-  project; none is a target for yours. Nothing was run while writing it.
+- This block restates one published guide for maintainers and sets no numeric target: choose reply windows,
+  triage cadences and stale delays from your own capacity. Nothing was run while writing it.
 
 ## Origin
 Rewritten from the maintainer, governance, metrics and security chapters of the Open Source Guides (GitHub, CC BY

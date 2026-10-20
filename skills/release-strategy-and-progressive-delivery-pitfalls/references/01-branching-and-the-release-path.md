@@ -28,3 +28,9 @@
    whether it matters, and add the check that would catch it before production.
 8. **A hotfix uses the normal path, faster.** Symptom: urgent changes bypass tests and arrive broken. Fix: the
    same pipeline with a smaller scope, never a side door, and the fix lands on the main line the same day.
+9. **A deploy job can cancel itself.** Own guidance. Symptom: a pipeline setting that cancels an in-progress run
+   when a newer one starts is applied to the job that publishes, so a deploy that was half done is stopped and the
+   live site is left on neither version. Check: read the concurrency setting of the publishing job, and ask what
+   state the live site is in if that job is killed at any step. Fix: queue publishing runs instead of cancelling
+   them, and keep cancellation for the test jobs, which are safe to stop. Where the platform serves the new version
+   only once the whole artefact is uploaded, say so and treat the risk as low rather than skipping the check.

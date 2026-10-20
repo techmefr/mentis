@@ -16,7 +16,7 @@ artefact alone**, so each point is about being able to match the document to the
 The block owns no generator, signer or registry and names none as required. CycloneDX is the worked example
 because its schema was read; the provenance part is own guidance, not read from a source. The consumer's side
 (what to trust when installing) is `skills/package-manager-supply-chain-pitfalls`. Attesting a build in a hosted
-workflow is `skills/release-changelog-pitfalls` §3. Whether and why an SBOM is a legal duty (for example under
+workflow (its §3, build attestations) is `skills/release-changelog-pitfalls`. Whether and why an SBOM is a legal duty (for example under
 the EU Cyber Resilience Act) is `skills/cra-scope-and-role-determination-pitfalls`, and not legal advice. How a
 release is cut and announced is `skills/package-release`; the exposure window of a pipeline is
 `skills/ci-workflow-hardening` and `skills/gha-trust-boundary-pitfalls`.
@@ -26,6 +26,8 @@ release is cut and announced is `skills/package-release`; the exposure window of
 - An SBOM from a supplier arrives and has to be read or checked.
 - A build pipeline is asked to emit provenance or sign what it publishes.
 - A vulnerability is announced and you must answer "are we affected" from release evidence.
+
+**Skip when** nothing is distributed as a versioned artefact: a website or service deployed straight from a pipeline has no release, so an SBOM per release, signatures and a retention period are not applicable and are reported as "not applicable: reason". What still applies is the pinning of the pipeline's own actions (§2.8), the comparison of a lockfile with what the deployed bundle really contains (§1.11) and a build identifier for the deployed output (§3.9).
 
 ## Steps
 

@@ -31,3 +31,21 @@
    the rollback procedure reverts them.
 8. **Record the outcome.** Fix: after any rollback or halted rollout, a short note of the signal that fired, the
    time to decision and what the rule missed, feeding the stop rule (`skills/blameless-incident-review-pitfalls`).
+9. **Client caches keep the bad version after a rollback.** Own guidance. Symptom: the fix or revert is live, and
+   returning visitors still see the broken page, because a service worker, a browser cache or a CDN edge serves
+   the old shell first and updates in the background, or only on a second load or a restart of the tab. Check:
+   list every layer that can hold a copy (service worker and its update rule, cache headers on pages and on
+   hashed assets, CDN time to live, a stale-while-revalidate rule) and for each, how long a visitor can stay on a
+   version after it is replaced. Fix: keep the HTML and the worker script short-lived or revalidated, let the
+   worker take over at once when a new version is installed, give the worker a way to be disabled by a new
+   release, and put the purge or the expiry time of the CDN in the release record.
+10. **Say how the rollback and the forward fix reach users, in one line.** Own guidance. Symptom: a one-person
+    project with no written rule, so the choice is made under stress. Check: the release record says whether the
+    default is revert-and-redeploy or fix-forward, how long that takes through the pipeline end to end, and who
+    decides. Fix: when the pipeline is slow, add a shorter documented path (re-run an older successful run, or
+    redeploy a stored artefact), and rehearse it once (§3.1).
+11. **The minimum for one environment with no data.** Own guidance. Where the project has one exposure unit, the
+    release strategy reduces to four lines in the release record: the artefact is built once and published from
+    that build (§1.3), the live address is checked after publishing (§2.10), the rollback or forward-fix rule is
+    written (§3.4, §3.10), and the client caches that hold the old version are listed with their expiry (§3.9).
+    Everything else in this block is not applicable until a second environment, tenant or data store exists.

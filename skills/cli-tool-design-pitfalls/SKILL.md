@@ -18,6 +18,8 @@ argument that every user of the machine can read. Writing the shell scripts that
 - A tool is called from CI, a hook or another program.
 - A command can delete, overwrite, send or spend something.
 
+**Skip when** the program is an internal build or maintenance script that only the repository's own pipeline and its maintainers call, with no published interface: read §1.1, §1.2 and §2.1.8 and say "not applicable: reason" for completions, configuration precedence, deprecation periods and the rest rather than invent a finding.
+
 ## Steps
 
 **Read only the section the task meets.** They are independent.
@@ -30,15 +32,15 @@ argument that every user of the machine can read. Writing the shell scripts that
 ## Output / checkpoint
 Each section ends with its own checks. For a change touching this block: results go to standard output and
 everything else to standard error, failure exits non-zero with a message that says what to do, the command runs
-with no terminal and no prompt, no secret is accepted as an argument value, and a destructive command has a
-dry-run and a non-interactive confirmation flag.
+with no terminal and no prompt, no secret is accepted as an argument value, and a destructive command on data the user owns has a
+dry-run and a non-interactive confirmation flag (a directory the tool itself regenerates is exempt, §2.4.6).
 
 ## Guardrails
 - Write only the result to standard output; send messages, progress and warnings to standard error (§1.1). Never mix them.
-- Exit zero only on success and name each failure class with its own non-zero code (§1.2). Never exit zero after an error.
+- Exit zero only on success and name each failure class with its own non-zero code (§1.2). Never exit zero after an error, and never turn an error in the tool's own environment into "nothing to do" (§1.2.6).
 - Detect a missing terminal and never wait for input there (§1.4). Never block a pipeline on a prompt.
 - Take secrets from a file, an environment variable or standard input, not from an argument (§2.3).
-- Give every destructive command a preview and an explicit flag to skip confirmation (§2.4).
+- Give every destructive command on user data a preview and an explicit flag to skip confirmation (§2.4).
 - Once a flag, output format or exit code is published, change it only with a deprecation period (§2.6).
 - Conventions below are general practice from our own knowledge; no external guide was read (🟡, nothing here was run).
 

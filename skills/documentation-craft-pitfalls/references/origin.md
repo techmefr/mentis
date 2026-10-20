@@ -32,6 +32,8 @@ Credit as the licence requires: Microsoft Writing Style Guide, Microsoft, https:
    judgement.
 4. No docs tool, link checker or snippet runner was run or read; none is named.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line, reviewing existing pages allowed, a one-maintainer owner, the list-length figures scoped, points 15 and 16 added (a privacy or behaviour claim against the code and other pages; commands, addresses and pins across pages). The status stays 🟡.
+
 ## Related blocks
 `skills/documentation-adr`, `skills/prose-lint-gate-pitfalls`, `skills/troubleshooting-kb-article-pitfalls`,
 `skills/release-notes-writing-pitfalls`, `skills/blameless-incident-review-pitfalls`,

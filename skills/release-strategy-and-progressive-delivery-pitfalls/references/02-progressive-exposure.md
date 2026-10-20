@@ -39,3 +39,10 @@
    concurrent change in the release record.
 9. **Plan the long tail.** Own guidance: a ring that stays on an old version forever is a second product.
    Fix: a deadline for the last ring, and a count of exposure units still behind, reviewed each release.
+10. **Check the live address after the deploy, not only a local preview.** Own guidance. Symptom: the end-to-end
+    suite passes against a locally served build, and the live site breaks on something only the real address
+    has: a path prefix, a redirect, a certificate, a CDN rule, a missing asset. Check: after the publish step, a
+    job requests the real public address of one critical page and one asset and compares status and a known
+    string; it runs from outside the pipeline's own network and fails the run when it fails. Fix: add that job
+    after the publish step, with a retry window long enough for the platform to switch, and keep the previous
+    deploy reachable so the rollback of §3.4 has something to return to.

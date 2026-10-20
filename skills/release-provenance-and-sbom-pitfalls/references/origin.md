@@ -31,6 +31,8 @@ endorsement by the authors is implied.
 4. §3 is own guidance apart from the points that cite the schema; its processes were not run.
 5. No tool was installed, no document generated and no signature made in writing this block.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line for sites deployed without a release, the cross-reference to build attestations made explicit, pinning by tag versus by digest spelled out in §2.8, a lockfile versus shipped bundle point (§1.11) and a build identifier for a deployed site (§3.9). The status stays 🟡.
+
 ## Related blocks
 `skills/package-manager-supply-chain-pitfalls`, `skills/release-changelog-pitfalls`, `skills/package-release`,
 `skills/cra-scope-and-role-determination-pitfalls`, `skills/oss-compliance-programme`,

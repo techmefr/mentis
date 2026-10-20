@@ -26,6 +26,8 @@ Credit as the licence requires: Microsoft, Azure Architecture Center, CC BY 4.0
 2. A trunk-based development reference site was not found as a repository and was not read.
 3. Nothing was run, no pipeline or router touched, in writing this block.
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line for single-environment sites, the stop-rule guardrail scoped, points added for a deploy job that cancels itself (§1.9), a live-address check after the publish (§2.10), client and CDN caches after a rollback (§3.9), a written rollback rule (§3.10) and the minimum for one environment (§3.11). The status stays 🟡.
+
 ## Related blocks
 `skills/mobile-release`, `skills/feature-flag-lifecycle`, `skills/slo-design`, `skills/production-readiness-review`,
 `skills/package-release`, `skills/backup-restore-drill-pitfalls`, `skills/api-change-classification-pitfalls`,

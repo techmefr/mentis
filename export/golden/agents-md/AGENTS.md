@@ -71,6 +71,11 @@ to the decider only when no rule anywhere actually resolves the case.
 As soon as a frontend component/page is written or modified, during `code` (6) or at review time
 (`review`, 8) if the diff touches UI.
 
+**Skip when** the repository has no frontend meant for real users (a library, a command-line tool, an internal
+script). For a small static site or a personal repo the sections still apply, but §9 and any check that needs a
+browser, a screen reader or a repository setting you cannot read are reported as "not tested", and a step that does
+not fit (no shortcuts, no media, no widget) is reported as "not applicable: reason", never as an invented finding.
+
 ### Steps
 
 **Read only the sections the diff actually touches.** The rules live one file per section under
@@ -786,6 +791,17 @@ grep -rnE 'type="file"' src
 > and §3.11 say a tooled pass is not enough. Own guidance from general craft knowledge, no source read for this
 > section; the criteria themselves are in §1 to §8. Screen reader and browser behaviour differs by pairing, so
 > record the pairing used and re-test before relying on a result.
+>
+> **Where the `§` numbers point.** Every `§N` or `§N.M` below is a section of the `accessibility` block, one
+> file per section under `references/`: §1 `01-semantics-keyboard.md`, §2 `02-aria.md`, §3
+> `03-contrast-perception.md`, §4 `04-forms.md`, §5 `05-rgaa.md`, §6 `06-document-structure.md`, §7
+> `07-media-motion.md`, §8 `08-aria-validity-widgets.md`. Open the one a step cites when you reach it; none of
+> them is needed to read this file.
+>
+> **No browser or screen reader at hand.** The pass then covers only what the code shows (steps 14 to 16, and the
+> markup side of steps 3, 5 and 7). Report every step that needed a person as "not tested", never as "no
+> finding": the two read alike and mean opposite things. Where a step does not fit the project (no shortcuts, no
+> dynamic widget, no media), write "not applicable: <reason>" and move on instead of inventing a finding.
 
 1. **Fix the scope before starting.** Symptom: an audit of "the site" that finds a hundred small things and
    misses the checkout. Fix: list the two to five journeys that matter (sign in, the main task, payment, an
@@ -809,7 +825,8 @@ grep -rnE 'type="file"' src
 6. **Forms end to end.** Submit empty, submit wrong, submit right. Check that every field has a programmatic
    label, a required or invalid state is exposed, the error names the field and what to do, focus lands on the
    first problem, and nothing already entered is lost (§4).
-7. **Zoom and reflow.** Enlarge the page text and zoom the browser to a high level, and use a narrow viewport.
+7. **Zoom and reflow.** Enlarge the page text and zoom the browser up to the levels the standard names for text resize and reflow
+   (§3.3 gives the first; read the reflow width from the criterion, never from memory), and use a narrow viewport.
    Check that nothing is cut off, content does not need scrolling in two directions apart from content that
    truly needs it, no control overlaps another, and a fixed header does not eat the screen (§3, §1.8).
    Symptom: a button disappears at high zoom. Fix: fix the layout, never disable zoom.
@@ -817,9 +834,10 @@ grep -rnE 'type="file"' src
    and larger system text if the platform offers them. Check that icons and borders survive, that focus is
    still visible, and that motion stops when asked (§7). Own guidance: settings differ by system, note which.
 9. **Look at colour and meaning separately.** Check that no information depends on colour alone, status has text
-   or a shape, and links are distinguishable in text without relying on hue (§3). Compute contrast with the
-   script rather than by eye (`bin/contrast_check.py`) and read the threshold from the standard, never from
-   memory.
+   or a shape, and links are distinguishable in text without relying on hue (§3). Compute contrast rather than judging by eye: from a checkout of this repository run
+   `python3 bin/contrast_check.py '#1a1a1a' '#ffffff'` (foreground, background; it prints the ratio only), or, where
+   the script is not available, apply the relative-luminance formula of the standard by hand. Read the
+   threshold from the standard, never from memory.
 10. **Content and media by hand.** Read alternative text against what the image does in context, check captions
     exist and match speech, transcripts exist where needed, and that no flashing content is present (§7).
 11. **Write findings so they can be fixed.** Each finding: journey and step, what was expected, what happened,
@@ -832,3 +850,23 @@ grep -rnE 'type="file"' src
 13. **Retest after the fix, on the same steps.** Symptom: a finding is closed because the code changed, and the
     problem remains. Fix: replay the recorded steps with the same pairing before closing, and keep them as a
     regression checklist for the next release.
+14. **Single-character shortcuts can be turned off or remapped.** Symptom: a page binds bare keys (`/` to search,
+    `?` for help, `g` then a letter to navigate) and a speech-input user's dictated words, or a keyboard user's
+    stray key, fires them. Check: search the scripts for key handlers that react to a printable key with no
+    modifier (`keydown` or `keypress` with `event.key` compared to one character) and, for each, whether it is
+    inactive inside text fields, can be disabled, can be remapped, or only runs while its own component has
+    focus (WCAG 2.1.4; read the exact conditions in the criterion, and `accesskey` is covered in §6.15). Fix: a
+    modifier key, a setting that turns the shortcuts off, or scoping the handler to the focused component.
+15. **A focus ring removed on the fields people type in.** Symptom: the link and button rules keep a focus style
+    while the text areas, inputs and selects set `outline: none` and rely on a 1px border colour change, or on a
+    container's `:focus-within`, which the eye does not read as focus. Check: search the stylesheets for
+    `outline: none` and `outline: 0`, then for each hit find the replacement rule that applies to that same element
+    in the same state and look at its contrast against its neighbours (§1.3, §3.5); the existence of a global
+    focus rule is not proof, because it may not select form controls. Fix: one `:focus-visible` rule that covers
+    every focusable element, with an outline or ring of its own rather than a recoloured border.
+16. **A state change with no announcement.** Symptom: a button whose label flips to "Copied" or "Saved" for a
+    second, a counter that updates, a result that appears below the field: sighted users see it and a
+    screen-reader user hears nothing. Check: list the places the code changes text or state after an action
+    (clipboard writes, save handlers, async results) and for each whether the change lands in a live region that
+    already exists in the page, or moves focus to the result (§2.3, §8). Fix: a polite status region that exists
+    before the message arrives, and one message per action.

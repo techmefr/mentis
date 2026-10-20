@@ -38,6 +38,15 @@
 9. **Make the pause or exit cheap to execute.** Own guidance: archive the repository or mark it unmaintained
    with a note on forks, rather than letting issues pile up under a project nobody reads. Link to this block's
    hand-over file from §2.
+10. **Name the bots that already run.** Own guidance. Symptom: a dependency-update bot or a stale-item bot is
+    configured in the repository, and the contribution file does not mention it, so contributors meet its pull
+    requests and closing messages with no explanation (§3.2). Check: list the bot configuration files and the
+    contributing file side by side; every bot in the first must appear in the second with its rule and its owner.
+    Fix: one sentence per bot in the contributing file, including how to ask it to stop.
+11. **Quiet is a signal to read, not a verdict.** Own guidance. Symptom: the last change is weeks old and the
+    project says nothing. Check: compare the last activity with the reply window of §1.12; a silence longer than the
+    promise, with no note, is a finding only if it continues, and a stated pause (§3.8) is never one. Fix: a
+    short dated note in the README or a pinned issue.
 
 ## Checks (own guidance)
 1. Each bot is named in the contributing file with its rule and its owner.

@@ -31,6 +31,11 @@ to the decider only when no rule anywhere actually resolves the case.
 As soon as a frontend component/page is written or modified, during `code` (6) or at review time
 (`review`, 8) if the diff touches UI.
 
+**Skip when** the repository has no frontend meant for real users (a library, a command-line tool, an internal
+script). For a small static site or a personal repo the sections still apply, but §9 and any check that needs a
+browser, a screen reader or a repository setting you cannot read are reported as "not tested", and a step that does
+not fit (no shortcuts, no media, no widget) is reported as "not applicable: reason", never as an invented finding.
+
 ## Steps
 
 **Read only the sections the diff actually touches.** The rules live one file per section under

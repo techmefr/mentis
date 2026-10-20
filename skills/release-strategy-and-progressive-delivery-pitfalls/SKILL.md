@@ -1,6 +1,6 @@
 ---
 name: release-strategy-and-progressive-delivery-pitfalls
-description: "Use when choosing or reviewing how a web service or application reaches production: branching model, merge-to-release path, progressive rollout (rings, canary, blue-green, stamps), rollback, and schema changes that must survive a rollback: long-lived branches that hide integration pain, a rollout whose abort rule is a feeling, a rollback that the database makes impossible, and a new version validated by nothing but its own health check. Mobile store releases are mobile-release; flag life cycle is feature-flag-lifecycle."
+description: "Use when choosing or reviewing how a web service, application or static site reaches production: branching model, merge-to-release path, progressive rollout (rings, canary, blue-green, stamps), rollback, and schema changes that must survive a rollback: long-lived branches that hide integration pain, a rollout whose abort rule is a feeling, a rollback that the database makes impossible, and a new version validated by nothing but its own health check. Mobile store releases are mobile-release; flag life cycle is feature-flag-lifecycle."
 ---
 
 # release-strategy-and-progressive-delivery-pitfalls
@@ -23,6 +23,8 @@ schema is `skills/deprecation-migration` and the migration blocks of each stack.
 - A release needs a rollback that is proven, not assumed, especially with a schema change in it.
 - An incident review finds that the release itself, not the code, was the failure.
 
+**Skip when** the project has one exposure unit (one site, one environment, no tenants, no stored data of its own): rings, canary, blue-green and the data steps of §3 do not apply, say "not applicable: reason" for them rather than invent a finding, and read instead §1.9, §2.10 and §3.9 to §3.11, which hold the minimum for a single-environment deploy.
+
 ## Steps
 
 **Read only the part the task meets.** They are independent.
@@ -37,7 +39,7 @@ schema is `skills/deprecation-migration` and the migration blocks of each stack.
 For each release path: the branching rule in one sentence, the artefact that is built once and promoted, the
 exposure sequence with who is in each stage and what is read before widening, the stop rule written as a
 condition, the rollback procedure with its last rehearsal date, and for any data change the ordered compatible
-steps. A rollout without a stop condition is not started.
+steps. A staged rollout without a stop condition is not started; a single-environment deploy owes the minimum of §3.11 instead.
 
 ## Guardrails
 - Merge small and often to the shared line, and keep branches short. Never let integration happen only at the end

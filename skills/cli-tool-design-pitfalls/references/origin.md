@@ -21,6 +21,8 @@ tested while writing it.
 3. **Publication.** A later pass may credit a creditable guide (CC BY or similar) once its licence file is read; until then the block claims no source.
 4. **No command, flag or code was executed.**
 
+Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line for internal build scripts, a swallowed environment error reported as success (§1.2.6), a path relative to the working directory and a missing prerequisite (§1.1.6), an unknown flag falling through to write mode (§2.1.8), the dry-run rule exempted for regenerated directories (§2.4.6), and the deprecation rule scoped to published interfaces. The status stays 🟡.
+
 ## Related blocks
 `shell-scripting-conventions`, `bash-pitfalls-and-bats`, `mcp-server-design-pitfalls`, `api-design`,
 `deprecation-migration`, `credential-lifecycle-pitfalls`.

@@ -32,6 +32,13 @@
 8. **Automate the whole chain and test it.** Own guidance: generation, validation, signing, publishing and a
    verification run belong in one pipeline job, tested on a throwaway release before the first real one. An
    evidence step done by hand is skipped under pressure.
+9. **A deployed site has no release; give the deployed output an identity anyway.** Own guidance. Symptom: the live
+   site cannot be tied to a commit, so "which version had the flaw" and "what was live on that day" have no
+   answer, and an SBOM, if one is ever wanted, has nothing to point at. Check: is there a build identifier (a
+   content hash, a commit hash, a run number) in the output, and does anything link it to the commit and to the
+   pipeline run that published it. Fix: write the commit hash into the output or a public file at build time, and
+   keep the run's artefact for as long as you may need to answer. Whether to go further (an SBOM, an attestation)
+   is a decision for the owner and not a defect; report it as a decision.
 
 ## Checks (own guidance)
 1. A job downloads the public artefact and compares its hash with the SBOM and the attestation.

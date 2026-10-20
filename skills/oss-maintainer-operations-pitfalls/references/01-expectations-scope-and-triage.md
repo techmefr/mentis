@@ -38,6 +38,16 @@
 10. **Mentor the first contribution.** The guide recommends treating a newcomer's change as a chance to teach:
     point to the right documents, label starter tasks, and review for the person as well as the patch. Own
     guidance: a "good first task" label is worth keeping only while at least one such task is really open.
+11. **Ground rules are not a scope.** Own guidance. Symptom: the contribution file lists how to contribute (style,
+    language, constraints) and nothing says what the project will not accept, so a request that needs a backend, a
+    duplicate of an existing entry or an out-of-scope feature gets a different answer each time. Check: for each
+    kind of request that has already arrived, can a stranger find from the files whether it is welcome. Fix: add
+    a short list of non-goals with a one-line reason each (§1.6), and a rule for duplicates.
+12. **Promise a reply window for every channel, not only the security one.** Own guidance. Symptom: the security
+    policy promises an answer in a stated time, while ordinary issues and pull requests have no promise, so
+    contributors cannot tell silence from a refusal. Check: list the channels (security, bug, feature request,
+    pull request, conduct) and the window written for each; a missing one is a finding. Fix: one sentence per
+    channel with a window you can keep, and a note on what happens during a pause (§3.8).
 
 ## Checks (own guidance)
 1. A stranger finds the scope, the contribution steps and the reply window without opening a thread.
