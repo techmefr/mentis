@@ -1,6 +1,6 @@
 # modal-drawer-dialog-ui-pitfalls §2 — Stacking, forms and confirmation
 
-Own craft knowledge; no source read for this section.
+Own craft knowledge; only §2.4.2 and §2.3.8 were checked against sources (APG alertdialog, HTML dialog; see origin.md).
 
 ## 2.1 Stacking and layers
 1. **Symptom: a dropdown, a date picker or a tooltip opens behind the dialog.** Cause: competing z-index values. Fix: one ordered layer scale defined in design tokens (page, sticky header, dropdown, dialog, popover inside dialog, toast); no arbitrary numbers (`design-tokens-storybook`).
@@ -27,10 +27,11 @@ Own craft knowledge; no source read for this section.
 5. **Tab close and reload use the browser's own prompt** only when the form is dirty and the data is not saved elsewhere; keep that listener removed when clean.
 6. **A draft that can be saved automatically** is better than a confirm for long text; say when it was saved.
 7. **Server changes while open**: if the underlying record changed since opening, say so on submit (conflict message) instead of silently overwriting.
+8. **A native dialog close request fires a cancelable event first**: cancel it to show the discard confirm, but a close made by script or by removing the attribute bypasses it, so guard exits you control yourself (HTML dialog).
 
 ## 2.4 Destructive confirmations
 1. **Name the object and the consequence**: "Delete 'Q3 budget' and its 14 attachments. This cannot be undone." A generic "Are you sure?" gets reflex clicks.
-2. **Use the alert-dialog role for a decision that must be made**, and focus the safe button; the destructive button carries the verb.
+2. **Use the alert-dialog role for a decision that must be made** (the role is for interrupting the workflow to get a response, APG alertdialog), and focus the safe button (the modal dialog pattern gives least destructive focus for irreversible actions, APG dialog; the alertdialog page itself gives no focus rule); the destructive button carries the verb.
 3. **Prefer undo to confirm when the action is reversible** (a snackbar with undo for a soft delete); keep the confirm for irreversible actions.
 4. **For high-impact deletes, ask for a typed confirmation** of the object's name, and say what is not recoverable.
 5. **The confirm does not run the action twice**: disable on press, and let the server be idempotent (`admin-back-office-pitfalls` for audit and dangerous actions).

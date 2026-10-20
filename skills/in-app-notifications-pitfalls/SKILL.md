@@ -44,5 +44,5 @@ run in an application.
 - Facts about a library are for the date stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge; no permissive source on notification centres was found and read. Details in
+Own craft knowledge, with the live-region and toast timing points checked on 2026-10-20 against W3C WCAG 2.2 understanding pages (facts only) and one MIT library's accessibility notes; no permissive source on notification centres as a whole was found and read. Details in
 [`references/origin.md`](./references/origin.md).

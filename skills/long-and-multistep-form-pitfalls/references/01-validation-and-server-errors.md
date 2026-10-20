@@ -40,9 +40,12 @@
    identifiers where rows have them), the client resolves path to input; unknown paths fall back to a form-level
    list so nothing is dropped.
 3. **A machine-readable error body with a code per error, plus a human message.** The standard problem-details
-   format for HTTP APIs (RFC 9457, which replaces RFC 7807; re-read before relying on member names) gives a
-   type, title, detail and room for extension members such as an error list. The client switches on the code,
-   never on the translated message.
+   format for HTTP APIs (RFC 9457, which obsoletes RFC 7807; read 2026-10-20) defines five members: type (a URI naming the
+   problem kind), status (advisory only), title, detail (specific to this occurrence) and instance, under the media type
+   application/problem+json. Clients must ignore extension members they do not know, and the RFC says consumers should not
+   parse the detail text: put the code and the error list in extension members. Its own validation example is an errors
+   array whose entries each carry a detail and a JSON Pointer to the faulty place in the request body, which is the stable
+   field path of 1.3.2. The client switches on the code, never on the translated message.
 4. **Errors on a step the person is not on.** Symptom: the submit seems to do nothing because the failing field
    is on step 2. Fix: on a field error, navigate to the owning step, focus the field, and say in the summary
    which step it is.
@@ -56,6 +59,10 @@
    duplicate. Fix: on timeout, reload the record or query by the idempotency token before offering "retry".
 8. **A submit that is several requests is not atomic.** Symptom: the final send creates the record, then fetches it, then patches it, then saves each child row in turn; one call fails midway, the form reports an error, and a second press creates the record again while the first copy already exists half-filled. Cause: the idempotency rule of 1.3.6 is applied to one call and the save is four. Check: count the requests behind the submit button and, for each one, write what exists on the server if it is the one that fails and what a retry does. Fix, in order of preference: one request that carries everything and commits in one transaction; or a parent created once with its token and then children written idempotently (keyed by parent and position), the client remembering the parent id after the first success so a retry resumes instead of recreating; or a server-side status on the parent (incomplete, complete) so a half-written record is hidden and a retry completes it. The draft is kept until the last call succeeds, and the failure message says which part is missing. The timeout case of 1.3.7 takes the same path, so test it with the second call forced to fail and the third to time out.
 
+9. **Do not rely on the browser's native validation bubbles alone.** WCAG 2.2 understanding page for SC 3.3.1 (read 2026-10-20)
+   notes that native messages can be temporary, may not scale with page zoom, are often generic and may show one error at a
+   time. Check: submit a form with three errors and confirm all three stay visible as text until fixed.
+
 ## 1.4 Messages
 1. **Say what to do, next to the field, in the person's words.** "Enter a date after 1 March" beats "Invalid
    value". Wording rules are in `business/ux-writing`.
@@ -63,3 +70,8 @@
    wrong.
 3. **A summary at the top of long forms helps only if each entry links to its field.** A list that cannot be
    clicked through is noise (accessibility side in §3.3).
+4. **The summary repeats the wording of the message beside the field, and the field keeps its own message.** The
+   government design-system error-summary page (MIT-licensed repository, page read 2026-10-20) places the summary at the top
+   of the main content under a fixed heading, moves focus to it when it appears, links a date input to its first
+   erroneous part and a radio or checkbox group to its first option, and asks for an error message beside every
+   answer in error, not only in the summary.

@@ -10,8 +10,9 @@ exercised while writing it.
 
 | Source | Licence | What it gave |
 |---|---|---|
-| None read. No source with a LICENSE file read and verified as MIT, Apache-2.0 or CC BY was used. | n/a | n/a |
-| CSV format description (RFC 4180): facts only, recalled and not re-opened | IETF standard, facts only | Quoting rules, that real files deviate |
+| RFC 4180, Common Format and MIME Type for CSV Files, <https://www.rfc-editor.org/rfc/rfc4180>, read 2026-10-20 | IETF Trust document, Informational; facts only, restated in own words | Record separator, optional final break, quoting rules, header and charset as optional media-type parameters, field-count expectation |
+| Excel specifications and limits, Microsoft Support, <https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3>, read 2026-10-20 (page carries no date) | Vendor documentation; facts only | Rows, columns and cell-length limits of a worksheet |
+| Formula injection sources (OWASP page, vendor pages) | n/a | No permissive source found, searched: OWASP and vendor documentation known to the author; OWASP content is CC BY-SA and was not opened, vendor pages not read. |
 
 ## Rewrite notes
 Every rule is own guidance from general practice in business import and export features. No text, example or
@@ -23,9 +24,9 @@ number was copied. No batch size, limit or timing is given.
 
 ## Not verified
 1. **Formula injection** guidance (which leading characters, which mitigation works in which program) was
-   recalled from vendor and security documentation and not re-read; check before relying.
-2. **Spreadsheet program behaviour** (byte-order mark handling, delimiter by locale, text-cell handling of
-   identifiers, row and column limits per sheet, date epochs) differs by program and version; test with the
+   recalled from vendor and security documentation and not re-read; still unverified.
+2. **Verified 2026-10-20:** quoting, line endings, header and charset parameters (RFC 4180); Excel row, column and cell limits. **Still unverified spreadsheet program behaviour** (byte-order mark handling, delimiter by locale, text-cell handling of
+   identifiers, other programs' limits, date epochs) differs by program and version; test with the
    programs your users have.
 3. **Archive and XML hardening** points (zip bombs, entity expansion) are standard practice, not checked against a
    library's current defaults.

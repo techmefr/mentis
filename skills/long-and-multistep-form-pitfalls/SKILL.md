@@ -55,10 +55,10 @@ guessed.
   last writer silently win on a shared record (§3).
 - Move focus to the first error or the new step heading and announce it. Never leave focus on a button that
   disappeared (§3).
-- This block is craft knowledge with no licensed source behind it; status and unverified points are in
-  [`references/origin.md`](./references/origin.md). No framework behaviour was run.
+- Points marked with a source in the references were checked on 2026-10-20 against standards and one design-system page (facts only);
+  the rest is own craft, listed in [`references/origin.md`](./references/origin.md). No framework behaviour was run.
 
 ## Origin
-Written from general practice in business-application forms and from the HTTP conditional-request and
-problem-detail specifications (facts only); no licensed text was read or copied. 🟡: never run by us. Details in
+Written from general practice in business-application forms; the problem-details, conditional-request, precondition-required, WCAG and
+autofill facts, and the error-summary pattern, were re-read on 2026-10-20 (facts only, own words); no text was copied. 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

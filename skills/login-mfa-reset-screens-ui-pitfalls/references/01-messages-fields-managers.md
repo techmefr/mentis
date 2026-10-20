@@ -1,9 +1,9 @@
 # login-mfa-reset-screens-ui-pitfalls §1 — Messages, fields and password managers
 
-Own craft knowledge; browser and HTML attribute facts are recalled, not re-read for this pass (see origin.md).
+Points credited "HTML autofill", "HTML inputmode" or "GOV.UK" were checked on 2026-10-20 (facts only, own words; see origin.md). The rest is own craft or recalled.
 
 ## 1.1 No account enumeration in the interface
-1. **Symptom: "No account with this email" or "wrong password" on the sign-in screen.** Anyone can now test which emails are registered. Fix: one message for every failed sign-in ("Email or password is incorrect"), the same wording, the same layout and the same status.
+1. **Symptom: "No account with this email" or "wrong password" on the sign-in screen.** Anyone can now test which emails are registered. Fix: one message for every failed sign-in ("Email or password is incorrect"), the same wording, the same layout and the same status (GOV.UK passwords: do not reveal which credential was wrong).
 2. **The reset request answers the same for known and unknown emails**: "If an account exists for this address, we sent a link." The screen never says "email not found".
 3. **The visible equality is not enough**: if the response is faster for unknown emails, or a different redirect, or the page differs by one element, it still leaks. The server side of this (equal work, queued mail) is in `security-hardening`; check the screen against the network response too. Concrete cause to look for: the code path for a known account does extra work the unknown one skips (a database write, a hash, an inline mail send while the unknown case returns at once). Check: time both cases several times, and read whether the mail is sent inline or queued and whether the unknown case waits for the same duration; a sign-in handler may be careful while the reset or emailed-link request next to it is not.
 4. **Sign-up has the hardest case**: "this email is already used" reveals an account. Prefer the same neutral confirmation ("check your inbox") and send the real message to the address, with a sign-in or reset hint when the account exists. If the product must say it, accept that the screen leaks and rate limit it (§2.5). Check the network response as well as the screen: a client that hides the conflict behind a generic message still lets anyone read the status and body of the response, so the leak is only hidden from people who do not open the network panel; and the same generic message then fails the user who simply mistyped (§1.2.4).
@@ -15,7 +15,7 @@ Own craft knowledge; browser and HTML attribute facts are recalled, not re-read 
 ## 1.2 Error placement and wording
 1. **Symptom: a red banner far from the field, a message that vanishes, or an error only in colour.** Place field errors next to the field, connect them to it (`aria-describedby`), mark the field invalid, and do not rely on colour (`accessibility` §4).
 2. **On a failed submit, move focus to the first invalid field or to a summary at the top**, and announce it.
-3. **Keep what the user typed** (except the password, which is cleared on a failed sign-in only if the product requires it; most can keep it hidden in the field).
+3. **Keep what the user typed, except the password**: GOV.UK says to clear the password field after a failed sign-in and not keep the failed value (GOV.UK password input and passwords). This corrects the earlier advice to keep it hidden in the field.
 4. **Say what to do**: "Enter a valid email address", not "invalid input".
 5. **Validation that reveals rules is for new passwords only** (sign-up, change, reset), never for sign-in, which accepts whatever the user remembers.
 6. **Do not validate email format harshly on sign-in**; a legacy account may have an odd but valid address. Block only what cannot be an address.
@@ -23,17 +23,17 @@ Own craft knowledge; browser and HTML attribute facts are recalled, not re-read 
 
 ## 1.3 Fields that let browsers and password managers work
 1. **Symptom: the password manager does not offer to fill or save, or offers the wrong entry.** Fix: real form with real inputs, a username or email field and a password field in the same form, correct `type`, names that make sense, and autocomplete tokens.
-2. **Tokens**: username or email field with the username token, current password with the current-password token, new password (sign-up, change, reset) with the new-password token, one-time code with the one-time-code token.
+2. **Tokens**: username or email field with the username token, current password with the current-password token, new password (sign-up, change, reset) with the new-password token, one-time code with the one-time-code token (HTML autofill; the token is the last in the attribute value, comparison is case-insensitive). An optional final token asks the browser to offer saved passkeys on the field (`current-password` followed by `webauthn`, HTML autofill); pair it with `webauthn-passkey-pitfalls`.
 3. **One form, one purpose**: sign-in and sign-up are separate forms, or the tokens are clear, otherwise the manager saves the wrong thing.
 4. **A two-step login keeps the username field present** (hidden but filled, or visible) on the password step, or managers lose the pairing.
 5. **Do not disable autocomplete on credential fields** and do not use random field names to defeat autofill.
 6. **A single-page app must submit the form** (or call the credential API) so the manager notices the sign-in; a success without a form submit saves nothing.
-7. **Email fields use the email type and a suitable input mode**; do not force lower-casing or trimming without telling, but trim whitespace on submit.
+7. **Email fields use the email type and a suitable input mode** (the email keyword shows extra keys such as the at sign, HTML inputmode); do not force lower-casing or trimming without telling, but trim whitespace on submit.
 8. **Label every field** with a visible label (`accessibility` §4); a placeholder alone disappears and is not read as a label.
 
 ## 1.4 Paste, show password and strength
-1. **Never block paste** on a password or code field; it breaks password managers and pushes users to short passwords.
-2. **A show-password control is a real button with a name and a pressed state**, reachable by keyboard, defaulting to hidden; announce the state change.
+1. **Never block paste** on a password or code field; it breaks password managers and pushes users to short passwords (GOV.UK password input). Do not set a maximum length attribute on a password field: pasted or autofilled text is truncated silently; show an error if a limit is truly needed. Turn off spellcheck and automatic capitalisation on the field.
+2. **A show-password control is a real button with a name and a pressed state**, reachable by keyboard, defaulting to hidden; announce the state change. With two password fields, each button gets a distinct name. Browsers and password managers can reveal the text without the button, so the label may disagree with the field; do not rely on the button as the single source of state. On submit, switch the field back to the password type so the browser does not store the value as general autofill. (GOV.UK password input)
 3. **Do not split the password or the code into hidden multi-field tricks that break paste** (§2.1 treats code boxes).
 4. **Do not impose composition rules the product cannot justify** (forced symbols, expiry every month); follow your security policy and show it before the user types, not after the failure (`security-hardening` §9 for storage).
 5. **A strength meter is advice, not the rule**; if used, it has a text alternative, never colour alone, and the server's rule is the authority.

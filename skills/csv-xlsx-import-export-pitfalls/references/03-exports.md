@@ -13,8 +13,7 @@
 4. **Consistent snapshot or declared inconsistency.** A long export can mix states. Either read in one
    consistent transaction snapshot where the database allows it, or stamp the file with its start time and say
    rows may reflect changes during the run.
-5. **Cap and warn on size.** XLSX has hard limits on rows and columns per sheet (re-read the current limits for
-   your library and program); beyond them, split into sheets or offer CSV. Say so before generating.
+5. **Cap and warn on size.** XLSX has hard limits on rows and columns per sheet: Excel allows 1,048,576 rows, 16,384 columns and 32,767 characters per cell (the vendor's limits page, read 2026-10-20; other programs and libraries differ, so check those you support); beyond them, split into sheets or offer CSV. Say so before generating.
 6. **Compress and expire the file.** Large files are zipped; the download link expires and is bound to the
    requester (§3.4).
 7. **Do not export what the list does not show without saying so.** Exporting "the current filter" must match
@@ -26,8 +25,7 @@
    user-supplied name that becomes a command or a data-leaking link in a colleague's spreadsheet. Fix: on export
    of user-controlled text, prefix such cells with a single quote or tab, or write them as typed text cells in
    XLSX; keep the original in the database. Apply it to every free-text column, not just the ones that look
-   risky. The guidance is documented by OWASP and by spreadsheet vendors; re-read before relying, as program
-   behaviour and mitigations change.
+   risky. The guidance is documented by OWASP and by spreadsheet vendors; those pages were not read for this block (licence unverified), so the character list and the mitigation are unsourced: re-read before relying, as program behaviour and mitigations change.
 2. **Do not neutralise numbers that are numbers.** A negative amount starts with a minus sign. Apply the guard
    to text columns only, by column type, so figures stay numeric.
 3. **Identifiers must stay text.** Leading zeros and long digit strings are changed by the program on open.
@@ -43,7 +41,8 @@
    locale, never as local time with no zone label.
 7. **Line breaks inside cells** are legal when quoted but confuse naive consumers and some tools; keep or
    replace deliberately, and say which.
-8. **Null, empty and zero are different.** Pick a representation and document it (empty cell for unknown, zero
+8. **Record separator.** RFC 4180 §2 names CRLF; most readers accept LF, but a strict consumer may not. For machine consumers, document the choice.
+9. **Null, empty and zero are different.** Pick a representation and document it (empty cell for unknown, zero
    for zero).
 
 ## 3.3 What an export says about itself

@@ -51,7 +51,7 @@
    should not reveal the current value to a person who cannot read it.
 
 ## 2.3 What a refusal says
-1. **401 versus 403 versus 404.** Unauthenticated is 401; authenticated but not allowed is 403; for a record
+1. **401 versus 403 versus 404** (RFC 9110 section 15.5.2, section 15.5.4, section 15.5.5). 401 means valid credentials are missing and the server must send an authentication challenge; 403 means the request is understood and refused, and resending the same credentials will not help; 404 may be used by a server that does not want to disclose that a resource exists, and section 15.5.4 says so for forbidden resources. Hence: unauthenticated is 401; authenticated but not allowed is 403; for a record
    whose existence is itself restricted, answer 404 so identifiers cannot be probed. Decide per resource and
    keep it consistent. Symptom: "403 for existing, 404 for absent" lets anyone enumerate identifiers.
 2. **Error text must not echo restricted values or names.** "Customer Dupont already has an open order" tells

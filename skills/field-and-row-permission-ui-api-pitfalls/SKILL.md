@@ -51,9 +51,9 @@ permission-matrix test over roles, records and fields (§3), and the audit event
   what the person may not see (§2).
 - Record reads of sensitive fields and every permission-relevant change. Never rely on application logs that
   rotate away (§3).
-- This block is craft knowledge with no licensed source behind it; status and unverified points are in
+- Status-code points (§2.3.1) are checked against RFC 9110; the rest is craft knowledge. Unverified points are in
   [`references/origin.md`](./references/origin.md). No application was tested.
 
 ## Origin
-Written from general practice in access control for business applications; no licensed text was read or copied.
+Written from general practice in access control for business applications; the 401, 403 and 404 semantics were checked against RFC 9110 (facts only, credited). No other source was read, and no text was copied.
 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

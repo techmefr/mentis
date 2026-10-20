@@ -27,15 +27,17 @@
 3. **The delimiter is a locale artefact.** Spreadsheet programs in locales that use a decimal comma write
    semicolons. Symptom: the whole row lands in one column. Fix: detect among comma, semicolon, tab and pipe by
    consistency of field counts over the first rows, and let the person override.
-4. **Quoting follows the common CSV rules** (RFC 4180 describes them; real files deviate): fields with the
-   delimiter, quote or line break are quoted, quotes are doubled inside. Symptom: a note with a line break splits
+4. **Quoting follows the common CSV rules** (RFC 4180 §2 items 5 to 7; real files deviate, and the RFC itself notes that some programs do not quote at all): fields with the
+   delimiter, quote or line break are quoted, quotes are doubled inside, and an unquoted field holds no quote. Symptom: a note with a line break splits
    into two rows. Fix: use a real parser, never split on newline, and test with embedded newlines and quotes.
-5. **Line endings and trailing blank lines vary.** Ignore fully empty trailing rows, report fully empty rows in
+5. **Line endings and trailing blank lines vary.** RFC 4180 §2 items 1 and 2 name CRLF as the record separator and make the final line break optional, while §3 admits other endings exist. Ignore fully empty trailing rows, report fully empty rows in
    the middle rather than silently dropping them.
 6. **Number and date text follows the file's locale, not yours.** Parsing rules are in
    `skills/locale-value-formatting-pitfalls` and `business/spreadsheet-data-cleaning-pitfalls` §2. For imports:
    require an explicit date format or a documented one, and reject ambiguous values rather than guess a day-month
    order.
+
+7. **Header presence and charset are not in the file.** RFC 4180 §3 carries them as optional media-type parameters (`header`, `charset`); a bare file has neither, and a reader that ignores them must decide for itself. Symptom: a header row imported as data, or a first data row swallowed as header. Fix: ask in the preview whether row 1 is a header, defaulting from the template. Expect rows whose field count differs from the header (the RFC wants equal counts; files break it) and report them as row errors.
 
 ## 1.3 Headers and mapping
 1. **Match headers by normalised name** (trimmed, case-folded, accents and punctuation folded), with a synonym

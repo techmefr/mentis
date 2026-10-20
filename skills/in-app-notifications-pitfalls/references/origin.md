@@ -12,6 +12,7 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: role 
 | Source | Licence | What it gave |
 |---|---|---|
 | facebook/lexical at commit ee98bf4 (`docs/concepts/keyboard-accessibility.md`) | MIT, Copyright (c) Meta Platforms, Inc. and affiliates (`LICENSE` read 2026-10-20) | One fact: a hidden status region, polite by default, created once and reused for announcements |
+| WCAG 2.2 understanding pages, SC 4.1.3 Status Messages and SC 2.2.1 Timing Adjustable (W3C, read 2026-10-20) | W3C document, facts only, own words, pages credited | status roles and the focus rule, the common failure of assertive on unimportant content, the time-limit options applied to toasts |
 | novuhq/novu | Mixed: MIT for most of the tree, a separate enterprise licence for some packages (`LICENSE-MIT`, `LICENSE-ENTERPRISE` seen 2026-10-20) | Nothing: the mixed licence made it not worth the risk, so it was not read beyond the licence files |
 
 ## Own craft, not from a source
@@ -21,8 +22,9 @@ Per-recipient model, seen against read, count derivation, grouping, digests, pre
 Mail template authoring (`customer-email-review-pitfalls`), phone push registration (`flutter-notifications-background`), vendor products for notification infrastructure.
 
 ## Not verified
-1. **Everything but one fact is own knowledge**: no external claim was checked against a source.
+1. **Everything but three facts is own knowledge** (live-region creation, status roles, toast time limit); no other claim was checked.
+   No permissive source found for notification data models, grouping, preferences or retention, searched: the licence-checked repositories above, W3C pages.
 2. **The live-region fact** is one library's documentation at the commit; it was not run.
-3. **Accessibility points** other than that one are recalled public practice, not re-read. Re-read before relying.
+3. **Accessibility points** other than the live-region, status-role and time-limit ones are recalled public practice, not re-read. The claim that a region inserted with its message is often not announced was not confirmed by any page read.
 4. **Framework pointers** name features from memory; no version was checked.
 5. **No number** (poll interval, retention period, group window) is stated; none was measured.

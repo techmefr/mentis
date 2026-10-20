@@ -1,6 +1,6 @@
 # settings-and-preferences-page-pitfalls §2 — Structure, states, accessibility and tests
 
-Source: own craft knowledge, no external source (see origin.md). Accessibility points are recalled public practice (see origin.md, Not verified).
+Source: own craft knowledge, except the accessibility points marked with a citation, checked on 2026-10-20 (see origin.md). Unmarked points have no source.
 
 ## 2.1 Structure and search
 1. **Symptom: users cannot find an option and ask support.** Group by the user's task or object (Profile, Notifications, Security, Workspace, Billing), not by the code module that owns the setting. Keep a group to a handful of items before it needs sub-sections.
@@ -23,14 +23,16 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 
 ## 2.3 Accessibility
 1. **Every control has a programmatic label** tied to the visible text, the help text linked as a description, and an error message linked to the field (`accessibility`, `04-forms`).
-2. **A switch is a switch**: the role and the on/off state are exposed, it works with Space, and the state is not only a colour or a position. A native checkbox styled as a switch is the safest base.
-3. **Announce the save result politely.** Use one live region that exists at load; "Saved" or "Could not save, retry" for autosave, without moving focus (`in-app-notifications-pitfalls` §2.3 for the pattern).
+2. **A switch is a switch**: the role and the on/off state are exposed, it works with Space (Enter is optional), and the state is not only a colour or a position. A native checkbox styled as a switch is the safest base (ARIA Authoring Practices, switch pattern: role, checked state, keys).
+3. **Announce the save result politely.** Use one live region that exists at load; "Saved" or "Could not save, retry" for autosave, without moving focus (WCAG 2.2 SC 4.1.3: a result or an error shown without a focus move must be exposed by role; `in-app-notifications-pitfalls` §2.3 for the pattern).
 4. **Keep focus where the user is** after a save, a reset or a dialog close; return it to the control that opened the dialog.
-5. **Groups are real groups**: fieldset and legend or a heading structure, so a screen-reader user can jump between sections.
-6. **Confirmation dialogs trap and restore focus**, put the safe action first in tab order for dangerous settings, and are closable with Escape (`a11y-hiding-and-tables-pitfalls` for hiding rules).
+5. **Groups are real groups**: fieldset and legend, or a group element labelled by a visible heading, so a screen-reader user can jump between sections (switch pattern, grouping note).
+6. **Confirmation dialogs trap Tab inside, close on Escape and return focus to the opener** (modal dialog pattern). For a dangerous setting, put the initial focus on the least destructive action, not on the confirm button (same pattern, destructive note; corrected: this block first said tab order). `a11y-hiding-and-tables-pitfalls` for hiding rules.
 7. **Settings search is a labelled search landmark**, with results announced as a count and keyboard navigation through hits (`filters-search-and-saved-views-pitfalls`).
 8. **Language and locale settings use the native name of each option** and set the language attribute on it, so a speaker of that language can read it (`locale-negotiation-and-switcher-pitfalls`).
 9. **Respect reduced motion** for toggle transitions and the saved indicator.
+10. **A switch keeps one label whatever its state.** Symptom: the label flips between "Enable alerts" and "Disable alerts" while the state is also announced, so the reader hears a contradiction. Check: the accessible name is identical when on and off (switch pattern, label note).
+11. **Reserve the assertive alert role for urgent failures.** Symptom: every successful autosave interrupts the screen reader. Use a polite status for "Saved", the alert role only for a failed save or a blocked dangerous action; assertive output on non-urgent content is a listed failure (WCAG 2.2 Understanding 4.1.3).
 
 ## 2.4 Performance
 1. **Load the page's settings in one request**, with the effective values and their sources, not one request per control.

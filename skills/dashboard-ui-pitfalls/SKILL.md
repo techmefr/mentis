@@ -39,8 +39,8 @@ loads on its own; role views are scoped on the server; and the tests in §2.7 ex
 - Show when the data is from (§1.5). Never present cached or lagging numbers as live.
 - Isolate widgets: one failure marks one card (§2.1). Never block the whole page on its slowest query.
 - Scope numbers by permission on the server (§2.3). Never hide a card in the interface and compute the number anyway.
-- Facts about a library are stamped in `references/origin.md`; re-read before relying.
+- Accessibility points cite WCAG 2.2 success criteria (§2.5); everything else is craft and marked so in `references/origin.md`.
 
 ## Origin
-Own craft knowledge; no permissively licensed source for dashboard design was found and read. Details in
+Own craft knowledge, except the accessibility points (§2.5), checked against WCAG 2.2 (W3C Recommendation, facts only, credited). No permissively licensed source for dashboard design was found and read. Details in
 [`references/origin.md`](./references/origin.md).

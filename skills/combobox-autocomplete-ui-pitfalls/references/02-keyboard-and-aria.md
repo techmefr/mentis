@@ -1,26 +1,26 @@
 # combobox-autocomplete-ui-pitfalls §2 — Keyboard and ARIA
 
-Facts about roles and attributes are recalled from the public WAI-ARIA specification and authoring practices, not re-read for this pass (see origin.md). The rest is own craft.
+Facts credited to "APG combobox" and "APG select-only" were checked on 2026-10-20 against the W3C ARIA authoring practices pages (facts only, own words; see origin.md). Points without a credit are own craft or recalled, not re-read.
 
 ## 2.1 Focus stays in the input
-1. **Symptom: after pressing the down arrow the caret disappears and typing does nothing.** Cause: focus moved into the list. In the combobox pattern the DOM focus stays on the input for the whole interaction.
-2. **Point at the active option by reference**: the input carries the id of the active option in `aria-activedescendant`, and the option has a visible highlight. Clear the reference when the list closes or no option is active.
+1. **Symptom: after pressing the down arrow the caret disappears and typing does nothing.** Cause: focus moved into the list. In the combobox pattern the DOM focus stays on the input for the whole interaction (APG combobox). The one exception is a popup that is a dialog: dialogs cannot use an active-descendant reference, so DOM focus moves into them.
+2. **Point at the active option by reference**: the input carries the id of the active option in `aria-activedescendant`, and the option has a visible highlight (APG combobox). Clear the reference when the list closes or no option is active.
 3. **Options are not tab stops.** Tab leaves the field (and closes the list); it does not walk the options.
 4. **The highlight must scroll into view** when the list is taller than its box, with the same move for keyboard and for programmatic updates.
 
 ## 2.2 Keys
-1. **Down opens the list and moves to the next option; Up moves to the previous.** Decide wrap or stop at the ends and keep it consistent; do not open the list on plain focus unless the field is a "show recent on focus" one (§1.1).
-2. **Enter chooses the highlighted option only when the list is open and an option is active.** Symptom: Enter submits the surrounding form with half a word. Fix: prevent the default submit in that case; with the list closed or nothing active, Enter behaves as the form expects.
-3. **Escape closes the list; a second Escape clears the text** (a common, optional convention). It must not also close a dialog that contains the field on the first press (`modal-drawer-dialog-ui-pitfalls` §1.3).
+1. **Down opens the list and moves to the first option (or to the one after an already auto-selected suggestion); Up, optional, moves to the last.** Alt+Down opens the list without moving, Alt+Up from the list returns to the input and closes it (APG combobox). Decide wrap or stop at the ends (the select-only example stops at the ends) and keep it consistent; do not open the list on plain focus unless the field is a "show recent on focus" one (§1.1).
+2. **Enter chooses the highlighted option only when the list is open and an option is active** (APG combobox: Enter accepts the suggestion in an editable combobox). Symptom: Enter submits the surrounding form with half a word. Fix: prevent the default submit in that case; with the list closed or nothing active, Enter behaves as the form expects.
+3. **Escape closes the list; a second Escape clears the text** (optional in APG combobox, which says it may clear a combobox whose popup is already hidden). It must not also close a dialog that contains the field on the first press (`modal-drawer-dialog-ui-pitfalls` §1.3).
 4. **Home and End move the caret in the input**; do not capture them for the list unless the list is a pure listbox with a documented reason.
-5. **Typing always edits the text**, including when an option is highlighted. Letter keys must not jump the highlight.
+5. **Typing always edits the text**, including when an option is highlighted. Letter keys must not jump the highlight. (Not true of the select-only variant, §2.6.3, which has no text.)
 6. **Free text with inline completion** (the field completes the rest of the word, selected) is its own pattern: keep the selection range, and make Backspace remove the suggestion first.
 
 ## 2.3 Roles, states and relations
-1. **The input has the combobox role and says it is expandable**: `aria-expanded` true or false, and `aria-controls` pointing at the popup. Native `<input>` with a `list` and a datalist is the fallback where its limits (styling, async) are acceptable.
-2. **The popup is a listbox whose children are options**; each option has an id and a selected state when it is the committed one (`aria-selected`), and the listbox has a name.
-3. **Say what kind of suggestions the field gives** with `aria-autocomplete`: list when the field does not change its text, inline or both when it completes.
-4. **Required context** (`accessibility` §8): an option outside a listbox, or an owner without children, breaks navigation.
+1. **The input has the combobox role and says it is expandable**: `aria-expanded` true when the popup is visible and false when hidden, and `aria-controls` pointing at the popup, needed only while it is visible (APG combobox; the older ownership attribute is no longer the recommended relation). The popup role defaults to listbox; for a grid, tree or dialog popup the combobox must also declare which with `aria-haspopup`. Native `<input>` with a `list` and a datalist is the fallback where its limits (styling, async) are acceptable.
+2. **The popup is a listbox whose children are options**; each option has an id and a selected state when it matches the current value (`aria-selected`, APG combobox), and the listbox has a name.
+3. **Say what kind of suggestions the field gives** with `aria-autocomplete`: none when suggestions do not depend on the typed text, list when they correspond to it, both when a list is shown and an inline completion is also offered (APG combobox). The inline-only value was not checked.
+4. **Required context** (`accessibility` §8): an option outside a listbox, or an owner without children, breaks navigation. Still unverified here against the specification.
 5. **A grouped list uses group roles with names**, not bold text only.
 6. **A label is mandatory.** The visible label is associated with the input; a placeholder is not a label (`accessibility` §4).
 7. **Do not set `aria-hidden` or `inert` on the popup while it is the active relation**; assistive technology drops it.
@@ -39,11 +39,11 @@ Facts about roles and attributes are recalled from the public WAI-ARIA specifica
 4. **Do not rely on hover** to reveal the clear button or any option detail.
 
 ## 2.6 Select-only variant (button and list, no text input)
-Own guidance; the pattern facts are recalled, not re-read (see origin.md). Sections 2.1.5, 2.2.4, 2.2.5 and 2.2.6 assume a text input and do not apply; the rest of this file does.
+Keys and focus checked against APG select-only on 2026-10-20 (credited per point); the rest is own guidance (see origin.md). Sections 2.1.5, 2.2.4, 2.2.5 and 2.2.6 assume a text input and do not apply; the rest of this file does.
 1. **Symptom: a custom select that looks like the native one and works only with a mouse.** The control is a focusable element with the combobox role (a button is the usual base), a listbox popup and options; there is no caret, so the keys differ from §2.2.
 2. **Focus stays on the control, and the active option is named by reference** exactly as in §2.1.2: `aria-activedescendant` on the control, an id on every option, `aria-expanded` and `aria-controls`. Symptom: the highlight is a CSS class only, so a screen reader hears nothing about the active option. Check: every option has an id and the control's reference points at an existing one.
-3. **Keys**: Space, Enter, Down and Up open the list; Down and Up move the active option; Home and End move it to the first and last option (they are not caret keys here); Enter or Space commits; Escape closes without changing the value; a typed character moves the active option to the next label starting with it, and a quick run of characters matches a longer prefix.
-4. **Tab closes the list**, and the control states whether the highlighted option is committed on Tab (the native select commits it); decide once. Symptom: a keyboard user tabs away and the list stays open over the page. Check: Tab with the list open.
+3. **Keys** (APG select-only): on the closed control, Down, Alt+Down, Enter and Space open the list without changing the value; Up opens it and moves to the first option; Home and End open it and move to the first and last option; a printable character opens it and moves to the first matching option. With the list open, Up and Down move one option and stop at the ends, Home and End jump to the ends, PageUp and PageDown move by ten; Enter, Space and Alt+Up commit the option, close the list and keep focus on the control; Escape closes without changing the value; repeated typing of one character cycles through options starting with it and a quick run matches a longer prefix. Moving through options never changes the value, only a commit does.
+4. **Tab closes the list**. The select-only example commits the highlighted option on Tab and moves focus to the next element, and notes that this differs from the native select, which closes without moving focus on Tab (APG select-only); decide once which you follow and test it. Symptom: a keyboard user tabs away and the list stays open over the page. Check: Tab with the list open.
 5. **Scroll the active option into view** (§2.1.4); a language or country list overflows its box.
 6. **Empty and missing cases**: arrow keys on an empty option list must not compute an index from a zero length (a modulo by zero gives an invalid index); a stored value that is not among the options shows a stated placeholder or the stored label, not a blank (§1, the selected value outside the loaded options); a disabled option is skipped, not committed.
 7. **Inside a dialog, Escape closes the list only.** A select handler that does not stop the key lets a container's own Escape listener close the dialog on the same press (§2.2.3). Check with a select in a dialog: first Escape closes the list, second closes the dialog.

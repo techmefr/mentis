@@ -44,8 +44,7 @@ run in an application.
 - Close only the topmost layer on Escape (§1.3, §2.1). Never let one key press tear down a stack.
 - Use a page, not a dialog, for long or multi-step work or content that needs its own URL (§1.1). Never nest a workflow in a modal because it was quick to build.
 - Check how many places build the same dialog markup (§1.6). Never fix a dismissal or focus defect in one copy and leave the others.
-- Facts about a browser feature or library are for the date in `references/origin.md`; re-read before relying.
+- Facts about a browser feature or library are for the date in `references/origin.md`; re-read before relying. A point without a credit to the HTML Standard or the authoring practices is still own guidance.
 
 ## Origin
-Own craft knowledge, with the platform facts recalled from public HTML and WAI-ARIA material without reading their
-pages. No permissive source was read for this block. Details in [`references/origin.md`](./references/origin.md).
+Own craft knowledge. The platform facts of §1.2 to §1.4 and §2.4 were checked on 2026-10-20 against the HTML Standard (CC BY 4.0, licence file read) and the W3C ARIA authoring practices modal dialog and alert dialog patterns (facts only, credited, no text copied). No other permissive source was read. Details in [`references/origin.md`](./references/origin.md).

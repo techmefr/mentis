@@ -45,9 +45,8 @@ when to try again without revealing more (§2.5); a code, where the product has 
 - Tell a rate-limited user what they can do next, and nothing about why the server decided so (§2.5). Never show a counter that confirms a valid account.
 - Keep the user's work through a session expiry (§3.2). Never throw away a long form because the cookie expired.
 - Redirect only to a path inside the application after login (§3.3). Never send the user to a URL taken from a query value without checking it.
-- Facts about a browser or a standard are for the date in `references/origin.md`; re-read before relying.
+- Facts about a browser or a standard are for the date in `references/origin.md`; re-read before relying. A point without a credit to the HTML Standard or GOV.UK is still own guidance.
 
 ## Origin
-Own craft knowledge, with the autocomplete token and input-mode facts recalled from public HTML material without
-reading their pages. No permissive source was read for this block. Details in
+Own craft knowledge. The autocomplete token and input-mode facts were checked on 2026-10-20 against the HTML Standard (CC BY 4.0), and the password, code-entry and reset points against the GOV.UK Design System pages (facts only, credited, content licence not verified, no text copied). No MIT or Apache-2.0 source was found for the screens themselves. Details in
 [`references/origin.md`](./references/origin.md).

@@ -1,6 +1,6 @@
 # maps-and-geo-component-pitfalls §2 — States, accessibility, performance and tests
 
-Source: own craft knowledge, no external source (see origin.md). Accessibility points are recalled public practice (see origin.md, Not verified).
+Source: own craft knowledge, with one point checked on 2026-10-20 (see origin.md). Unmarked points have no source.
 
 ## 2.1 States and interaction
 1. **Render separately**: loading (tiles and data), loaded, empty (no places match), filtered empty (places exist, filters hide them), error with retry, offline, and location denied. Never show an empty map as "no results" when the request failed (`data-table-ui-pitfalls` §2.1, `onboarding-and-empty-state-pitfalls` §2.1).
@@ -29,7 +29,7 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 4. **Offer a "list view" toggle visibly**, reachable before the map in tab order for users who need it, not hidden behind the map controls.
 5. **Map controls are keyboard-operable**: pan, zoom and recentre by keys where the library supports it, visible focus, and a way to leave the map with Tab and Escape without a trap; check the library's own claims by testing, not by reading its page (`01-semantics-keyboard`).
 6. **Give the map region an accessible name and a short description** of what it shows, and mark decorative tile layers as such; individual pins that matter are reachable or covered by the list.
-7. **Announce meaningful changes politely**: "12 places found", "Showing results near Lyon", in one live region created at load, without moving focus (`in-app-notifications-pitfalls` §2.3).
+7. **Announce meaningful changes politely**: "12 places found", "Showing results near Lyon", in one live region created at load, without moving focus (WCAG 2.2 SC 4.1.3 lists a results count as a status message; `in-app-notifications-pitfalls` §2.3).
 8. **Pin popups and detail panels return focus** to the control that opened them on close, and are closable by Escape.
 9. **Directions and locations also exist as text**: the written address, a copy button, and a link that opens the user's preferred maps app, for people who do not use the embedded map.
 10. **Zoom and reflow**: the page works at high text zoom and narrow width without the map covering the controls (`responsive-layout`); avoid motion that cannot be reduced in fly-to animations (`web-animation-pitfalls`).
@@ -63,7 +63,8 @@ Source: own craft knowledge, no external source (see origin.md). Accessibility p
 9. **Privacy**: assert positions are rounded or absent in logs and analytics events, and that a shared URL carries no private position.
 10. **Accessibility**: assert the list alternative reaches every task, names on controls and the region, a polite announcement of result counts, focus return from popups and a keyboard-only pass that can leave the map; run an automated check (`playwright-e2e-pitfalls`, `testing-library-query-pitfalls`).
 11. **Provider failure**: block tile and geocode requests, assert the list and the form still work with a visible message.
-12. **Date line and edge cases**: bounds crossing the antimeridian and a single-point result fit the view without error.
+12. **Date line and edge cases**: bounds crossing the antimeridian (east value lower than west, §1.1.11) and a single-point result fit the view without error.
+13. **Tile policy**: assert a production build sends an identifying User-Agent and a Referer, does not prefetch tiles for areas out of view, and keeps attribution visible (§1.3.2, §1.3.11).
 
 ## 2.7 Framework pointers (reference only)
 1. **Web map libraries** (open-source engines for raster or vector tiles) differ in coordinate order, projection defaults, clustering support and keyboard behaviour; read the current documentation of the one you use before relying on any behaviour named here, and check its licence and the licence of its tile and data sources.
