@@ -31,6 +31,12 @@ Every user-facing message is dispatched as a notification (`$user->notify(...)` 
 - The full argument, alongside realtime broadcasting's authorisation question, lives in
   `skills/laravel-conventions` §8 — read it before treating a "quick" hand-built mail as harmless.
 
+- Whether a message is transactional or marketing, the unsubscribe headers it carries and the suppression it
+  honours are decided where the notification's mail is built, and the rules for them are in
+  `business/email-deliverability-and-sender-requirements-pitfalls` and
+  `business/lifecycle-email-program-design-pitfalls`; this block does not restate them.
+
 ## Origin
 No external source: this is `skills/laravel-conventions` §6.16 and §8.7 extracted to its own trigger.
-Written 2026-09-09, same pilot as `laravel-no-db-enums`.
+Written 2026-09-09, same pilot as `laravel-no-db-enums`. The pointer to the two email business blocks was added
+2026-10-20.
