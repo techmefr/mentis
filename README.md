@@ -8,7 +8,7 @@
 <p align="center">
   <img alt="skills" src="https://img.shields.io/badge/skills-404-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
-  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-50-6e7781?style=flat-square">
+  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-55-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
   <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20663%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
@@ -33,7 +33,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 |---|---:|---|
 | 🧩 **Skills** — the method, one file per rule | **404** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
-| 💼 **Business blocks** — the company's other functions | **50** | 🟡 by contract, they never gate ([why](./business/README.md)) |
+| 💼 **Business blocks** — the company's other functions | **55** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
 | 🧪 **`bin/`** — review transports + repo self-checks | **13 suites** | 🟢 run on every push (`bin/pre-push`) |
 
@@ -704,6 +704,11 @@ without internal expertise in that function.
 | `community-and-social-metrics-pitfalls` | 📊 data | Community and social numbers read in order, with their filters, severity and missing-versus-zero handling |
 | `community-moderation-ladder-pitfalls` | 🗣️ communication | The procedure after a report: private route, reporter protection, warning-to-ban ladder, appeal |
 | `evidence-appraisal` | 📊 data | Judging someone else's benchmark or study before a decision leans on it |
+| `grant-and-proposal-writing-pitfalls` | 📣 communication | Requirements matrix and compliance, go or no-go first, budget lines tied to activities, checkable outcomes, submission dry run; method only, not legal advice |
+| `content-brief-writing-pitfalls` | 📣 communication | Reader and question before keyword, one owner page per query, information gain, brief contents and done criteria, refresh and prune |
+| `b2b-go-to-market-pitfalls` | 📣 marketing | ICP that excludes, buying group, launch readiness gate, owned-rented-borrowed channels, sales handoff, review by cause |
+| `health-domain-caution-pitfalls` | 📣 communication | Inform without advising, urgent path first, primary-source claims, health data minimisation, assistants that hand over; never medical advice, not legal advice |
+| `event-operations-pitfalls` | 📣 marketing | Event selection and role, meetings booked before, supplier and cancellation checks, consent and accessibility, tiered follow-up, cost per useful conversation |
 | `project-management-artefact-pitfalls` | 📣 communication | RAID lines with one owner and a trigger, estimate ranges with assumptions, dependency slip told the same day, status backed by evidence with the decisions asked, change as a recorded decision, closure with actions |
 | `accessible-documents-pitfalls` | 📣 communication | Real headings and lists, reading order, text alternatives, simple tables, labelled forms, tagged export checked on the exported file, checker plus human pass; not legal advice |
 | `localisation-vendor-process-pitfalls` | 📣 communication | Brief with audience and context, source freeze, glossary with an owner and a do-not-translate list, translation memory hygiene, native second reviewer, error-based scoring agreed in advance, late-change handling |
@@ -1160,7 +1165,7 @@ stable and applied. The honest breakdown:
 | | Count | State |
 |---|---:|---|
 | 🧩 Skills | 404 | 🟢 9 marked real production use; the rest 🟡 |
-| 💼 Business blocks | 50 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| 💼 Business blocks | 55 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |

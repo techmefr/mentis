@@ -38,6 +38,23 @@ hire's first weeks, or someone (voluntarily or not) leaving the company.
    interviewers on how to score before they run real interviews — an untrained scorer reverts to gut
    feel with extra paperwork around it.
 
+6. **Review the job posting as a document before it goes out.** Check each requirement against step 1:
+   a must-have that is really a preference, a years-of-experience figure with no basis, an inflated title, or
+   wording that signals who is expected to apply. Symptom: a long list of must-haves and a thin pool. Fix: keep
+   the few the job truly needs, state the rest as learnable, and say what the work is and what the process looks
+   like.
+7. **A scorecard that works is short and anchored.** One line per competency, a described example for each level
+   of the scale, a place for the evidence heard (not an impression), and a line for what was not assessed.
+   Symptom: every candidate scores four of five on everything. Fix: anchor the levels and ask for the evidence.
+8. **Hold the same process for referred and internal candidates**, and keep questions to what the job requires.
+   Avoid asking about family, health, age, origin or plans of the candidate; what is lawful to ask differs by
+   place and goes to HR or legal, not legal advice.
+9. **Check what the process did to the pool.** Count candidates at each stage and look for a step that loses
+   people for reasons unrelated to the job (a long test, an unnecessary requirement). Record the counts; do not
+   infer a cause from small numbers.
+10. **Tell candidates what to expect and when**, then keep to it, including a short reply to those who are
+    declined. Silence is the common complaint and costs the employer's reputation.
+
 ### 2. Onboarding: the first 90 days have a plan
 1. **A new hire gets a written plan before day one**, broken into phases: the first 30 days is about
    context (how the company/team actually works, who the key relationships are, the tools), the next 30
@@ -124,4 +141,6 @@ added the same day from published continuous-feedback/recency-bias-mitigation an
 practice — the once-a-year review's core failure mode (grading mostly on the last few weeks) and the
 fix (a documented trail of check-ins, cross-manager calibration before ratings are final, stated
 promotion criteria before the decision) are established performance-management guidance, not
-internally validated. Stamped 2026-08-11.
+internally validated. Stamped 2026-08-11. §1 points 6 to 10 (job-posting review, anchored scorecards,
+process consistency, pool check, candidate communication) added 2026-10-20 from general recruiting practice; no
+source read, employment and discrimination law not covered.
