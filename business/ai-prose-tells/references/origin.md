@@ -91,3 +91,34 @@ figure or quota, absolute bans (no adverbs, no dashes), the invention of reactio
 curly quotes as a tell, per-platform citation marker lists beyond a stable example or two, per-model
 vocabulary, every script and hook in the sources. Not verified: any claim about detector accuracy or
 corpus statistics in the sources, and any idiom in German, Italian or Portuguese.
+
+**Added 2026-10-20: German (`05-german.md`).** Sources, both re-read in that session, LICENSE files read first:
+
+- `marmbiz/humanizer-de` (MIT; licence file: copyright 2026 Martin Moeller, with 2025 Siqi Chen for portions
+  derived from `blader/humanizer`; main branch at commit 9248315, skill version 5.28.2): the skill file in
+  full, the pattern catalogue (the summary table of 72 patterns, and the full text of the patterns on
+  connectors, participial constructions, grand openers, era frames, aspirational closers, English transfer,
+  quotation marks, title case, number and date forms, genitive apostrophe, list punctuation, marker
+  vocabulary, copula avoidance, analysis tails and comparative framing) and the German naturalness rule cards.
+  What it gave: which German mechanisms recur, the carve-outs (formal and scientific German, regional
+  varieties, established vocabulary) and the typography and false-friend signals specific to German.
+- `F-DK/humanizer-de` (MIT; licence file: copyright 2026 Martin Moeller, 2025 Siqi Chen, 2026 F-DK for fork
+  maintenance; main branch at commit 02ed204): same lineage, an earlier skill version (5.23.0) of the same
+  catalogue. Its pattern file was compared with the other by difference only, to confirm it adds nothing the
+  first lacks for the points above; its scripts and the rest of its content were not read.
+- Both descend from `blader/humanizer` (MIT, 2025 Siqi Chen), whose licence line they carry; the English
+  lineage is already credited above.
+
+Rewritten as mechanisms; every German example is ours, no sentence or before-and-after pair copied. Not carried:
+the catalogue's own numbering and severity labels, its numeric thresholds and ratios (sentence-length
+variance, subject-initial ratio, marker counts), the detector-score handling, its scripts and installers,
+its wiki-markup and encyclopedia-specific patterns, and the output template. The German Wikipedia page on signs
+of generated content, which both sources cite, was not opened.
+
+**A native German reader must review `05-german.md` before it is relied on.** Neither the author of this file
+nor anyone who reviewed it is a native German speaker. Each instance is a candidate taken from the sources
+and not confirmed as a real tell or as natural German; the marker vocabulary is itself described by the
+sources as a functional transfer from English, not validated on German text. Not verified: every German
+phrase and false-friend claim, the claim that a low opening quotation mark with an English closing mark is
+produced by models and not by editors (stated by the sources, not tested), and the regional notes on
+Swiss, Austrian and German usage.
