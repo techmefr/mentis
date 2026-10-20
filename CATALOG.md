@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| in-app-notifications-pitfalls | 6 (new 2026-10-20) | own craft; facebook/lexical (MIT) for one live-region fact | 🟡 (never dogfooded) |
+| rich-text-editor-pitfalls | 6 (new 2026-10-20) | facebook/lexical (MIT), yjs/yjs threat model (MIT) | 🟡 (never dogfooded) |
+| comments-and-activity-feed-pitfalls | 6 (new 2026-10-20) | own craft, no permissive source found | 🟡 (never dogfooded) |
 | kanban-board-ui-pitfalls | 6 (new 2026-10-20) | clauderic/dnd-kit (MIT) | 🟡 (never dogfooded) |
 | calendar-and-scheduling-view-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no source read) | 🟡 (never dogfooded) |
 | file-upload-ui-pitfalls | 6 (new 2026-10-20) | tus/tus-resumable-upload-protocol (MIT), transloadit/uppy (MIT, pointer only) | 🟡 (never dogfooded) |
