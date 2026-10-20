@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-372-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-375-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
-  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-43-6e7781?style=flat-square">
+  <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-46-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
   <img alt="tests" src="https://img.shields.io/badge/tests-13%20suites%20%C2%B7%20663%20checks-1a7f37?style=flat-square">
   <img alt="status" src="https://img.shields.io/badge/status-active%20demonstrator-orange?style=flat-square">
@@ -31,9 +31,9 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **372** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **375** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
-| 💼 **Business blocks** — the company's other functions | **43** | 🟡 by contract, they never gate ([why](./business/README.md)) |
+| 💼 **Business blocks** — the company's other functions | **46** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
 | 🧪 **`bin/`** — review transports + repo self-checks | **13 suites** | 🟢 run on every push (`bin/pre-push`) |
 
@@ -455,6 +455,9 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `react-native-expo-pitfalls` | 6 (new 2026-10-20) | Expo SDK-aware installs, routes folder, four screen states and hydration, token and public-variable storage, development builds, SDK upgrades, over-the-air update runtime versions and channels |
+| `postgres-operations-and-exposed-api-pitfalls` | 6 (new 2026-10-20) | PostgreSQL statistics and autovacuum, costly-query diagnosis, connection budget and timeouts, partitioning, grants against row-level security and JWT claims on a generated data API |
+| `serverless-edge-worker-pitfalls` | 6 (new 2026-10-20) | Edge and serverless functions: compatibility date and bindings, shared state, floating promises, streaming, queue idempotency, pooled database connections, durable objects |
 | `elasticsearch-mapping-and-reindex-pitfalls` | 6 (new 2026-10-15) | Elasticsearch field types, mapping explosion, reindex, bulk loading, Serverless differences |
 | `rabbitmq-delivery-pitfalls` | 6 (new 2026-10-15) | RabbitMQ acknowledgements and prefetch, publisher confirms, dead-lettering, connections and channels |
 | `kafka-delivery-semantics-pitfalls` | 6 (new 2026-10-15) | Kafka delivery guarantees, durability settings, transactions, compaction and deletes |
@@ -1123,8 +1126,8 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 372 | 🟢 9 marked real production use; the rest 🟡 |
-| 💼 Business blocks | 43 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
+| 🧩 Skills | 375 | 🟢 9 marked real production use; the rest 🟡 |
+| 💼 Business blocks | 46 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
