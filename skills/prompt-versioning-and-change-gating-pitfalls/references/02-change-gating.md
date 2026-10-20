@@ -19,7 +19,9 @@
 3. **Never assemble the instruction part by concatenating user text.** Fill variables only in the data part; if
    user text must influence the instruction, let it choose from a fixed set of options (own guidance).
 4. **Keep long stable text before variable text** where the provider reuses an identical prefix; the reason and
-   the rules are in `llm-cost-latency-control-pitfalls` §1.
+   the rules are in `llm-cost-latency-control-pitfalls` §1. Both caching pages read advise stable instructions and
+   reference material first, and timestamps or user-specific text last; one adds that a change anywhere before a cache
+   breakpoint prevents reuse after it (Anthropic and OpenAI prompt-caching docs).
 
 ## 2.3 Few-shot and structured output
 1. **Drift in examples is silent.** An example added to fix one case changes the average case. Symptom: the

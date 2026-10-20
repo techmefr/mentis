@@ -50,9 +50,10 @@ for how long, who sees it, and where a person is sent when the tool cannot answe
 - Keep a human in the loop for anything a person might act on with their body. Never let a generated answer stand
   as clinical guidance (§3).
 - Send regulatory status, health data law and liability to the qualified owner. Never settle them here.
-- This block is a method written from general practice and never run by us on a real health product. Status and
+- This block is a method from general practice, with claim-substantiation points checked against public US agency
+  guidance; it has had no clinical or regulatory review and was never run by us on a real health product. Status and
   open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general practice in health communication and health-data handling; no licensed source was read for it
-(the review found none read-ready). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).
+Written from general practice in health communication and health-data handling; claim-substantiation points checked
+against US Federal Trade Commission, FDA and CDC public pages (facts only, read 2026-10-20). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

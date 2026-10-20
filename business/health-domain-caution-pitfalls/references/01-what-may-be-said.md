@@ -22,7 +22,9 @@
 
 ## 1.3 Disclaimers
 1. **A disclaimer does not make a claim safe.** A page that says something unsupported and adds a footer is still
-   saying it.
+   saying it. The US FTC health-products guidance read says its standard disclaimer does not cure a deceptive claim,
+   that disclosures must be clear, near the claim and not contradicted elsewhere, and that vague qualifiers such as may,
+   helps or promising generally do not disclose limited science (a US reference; other places differ).
 2. **State once, clearly, what the material is and is not**: general information, not a substitute for a
    professional. Put it where it is read, not in a collapsed footer.
 3. **Match the disclaimer to the real reviewer.** Do not write reviewed by a professional unless someone with the
@@ -32,5 +34,7 @@
 ## 1.4 Tone
 1. **Avoid fear and shame as levers.** A message designed to alarm sells and harms.
 2. **Avoid before-and-after framing** that implies a typical result; say it is not typical unless data shows it is,
-   and cite the data.
+   and cite the data. The FTC guidance judges the overall net impression, including images, and treats an implied disease
+   benefit from before-and-after pictures as a claim to substantiate; dramatic results need a clear statement of what
+   most people can expect.
 3. **Respect different conditions of readers**: plain language, no jargon without explanation, accessible format.

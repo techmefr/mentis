@@ -50,10 +50,11 @@ author reports the state and does not soften it.
 - End a report with the decisions you need and the date they are needed by. Never send an update that asks for
   nothing and leaves the reader to guess (§3).
 - Record a date or scope change as a decision with a named decider. Never let a date move by silent edit (§3).
-- This block is method written from general practice, never run by us on a real project; no external source was
-  taken. Status and open points are in [`references/origin.md`](./references/origin.md).
+- This block is method written from general practice, partly checked against the US GAO schedule guide; it was
+  never run by us on a real project. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general project-management practice; the proprietary certification methods were not read, and the
-one MIT skills repository named by the review was not used for text. 🟡: never run by us. Details in
+Written from general project-management practice; schedule points (critical path, float, baseline, risk analysis)
+checked against the US GAO Schedule Assessment Guide (public domain text). The proprietary certification methods
+were not read. 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

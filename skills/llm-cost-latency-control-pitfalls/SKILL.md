@@ -46,5 +46,5 @@ provider slowdown (§2.3). A saving with no quality check beside it is a regress
 
 ## Origin
 promptfoo documentation (MIT) on response caching, rate limits and cost and latency assertions, plus craft
-knowledge marked "own guidance", read 2026-10-20. Provider caching, batching and pricing rules were not
-re-read and are not stated. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).
+knowledge marked "own guidance", read 2026-10-20. Provider caching, batching and rate-limit documentation was read
+for structure only; no price, limit or lifetime figure is stated. 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).

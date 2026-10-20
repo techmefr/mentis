@@ -16,7 +16,10 @@ image or converting between formats can keep it, flatten it or drop it.
    of the export is the last resort, and is lost at the next export.
 4. **Do not lock the file in a way that blocks assistive software.** A security setting that forbids text
    extraction for accessibility stops the reader.
-5. **Provide an accessible alternative where a format cannot be fixed**, such as a web page or a plain text
+5. **Prefer a web page to a PDF where both are possible.** The Section508.gov PDF page says federal policy is to
+   prioritise HTML and use PDF only when necessary, because PDFs are often less accessible and less mobile friendly;
+   it also publishes a PDF testing checklist and a remediation guide to start from.
+6. **Provide an accessible alternative where a format cannot be fixed**, such as a web page or a plain text
    version, and say where it is. A fallback does not excuse a fixable file.
 
 ## 3.2 Scans

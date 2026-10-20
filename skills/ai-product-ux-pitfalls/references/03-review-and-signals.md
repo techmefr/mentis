@@ -1,6 +1,6 @@
 # ai-product-ux-pitfalls §3 — Review and signals
 
-All points in this file are own guidance.
+Point 3.1.4 is confirmed against W3C WCAG 2.2 documents (see `origin.md`); the rest is own guidance.
 
 ## 3.1 Review in order
 1. **Pick one real task and run it end to end** with a wrong model output injected (a fixture, not luck). Watch
@@ -10,7 +10,7 @@ All points in this file are own guidance.
 3. **Read the screen as a stranger** (`persona-ux-audit`): can they say what the feature is for, what it cannot do,
    and which parts came from where.
 4. **Check keyboard, screen reader and focus on streamed content.** Live updates that steal focus or are never
-   announced exclude people; use the accessibility block for the checks.
+   announced exclude people; use the accessibility block for the checks and §2.2 point 4 here for the status-message criteria.
 5. **Check the language of the output against the interface language** and what happens when they differ.
 
 ## 3.2 Signals in usage data

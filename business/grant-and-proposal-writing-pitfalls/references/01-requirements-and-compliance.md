@@ -25,9 +25,14 @@
 ## 1.3 Compliance review of a draft
 1. **Run the matrix against the draft, not against memory**, row by row, by someone who did not write the section.
 2. **Limits count as written**: pages, characters with or without spaces, attachments, file formats, language.
-   Check what counts (references, tables, cover pages) in the call. Never shrink type or margins.
+   Check what counts (references, tables, cover pages) in the call. Never shrink type or margins. The EU portal manual
+   says excess pages are made invisible or illegible automatically and are not read by evaluators, so the overflow is
+   cut from the end, not chosen by you.
 3. **Mandatory parts are checked for presence and for form**: signed, dated, on the funder's template, in the
    requested file type.
 4. **Use the call's own terms for the same thing across all documents** (applicant, partner, work package). A name
    that changes between sections reads as two different projects.
 5. **Do not leave template guidance text, comments or tracked changes** in the submitted file; search for them.
+6. **The portal's own checks are not the full check.** The EU portal manual says its submission system tests only
+   some admissibility and eligibility conditions, and that where the system and the call documents disagree the call
+   documents prevail. A green upload is not a compliant proposal; run your matrix anyway.

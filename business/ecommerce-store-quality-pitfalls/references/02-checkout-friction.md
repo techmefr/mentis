@@ -6,7 +6,9 @@
 A checkout is a form that takes money. Each field and each surprise gives the buyer a reason to leave.
 
 ## 2.1 No surprises
-1. **Show shipping, fees and tax before the last step.** Symptom: abandonment peaks at the payment page. Check:
+1. **Show shipping, fees and tax before the last step.** The same EU page says the full price including taxes and
+   additional charges must be shown before purchase and that delivery costs appearing only at checkout are not
+   allowed; this is for the EU, other markets differ, take advice. Symptom: abandonment peaks at the payment page. Check:
    walk the flow as a buyer in each market and write down the step where each cost first appears. Fix: an
    estimate in the cart, the exact figure no later than the delivery step.
 2. **Say the delivery date or range** and what it depends on (stock, carrier, cut-off time), not just "fast".
@@ -25,7 +27,10 @@ A checkout is a form that takes money. Each field and each surprise gives the bu
 5. **Make address entry tolerant.** Names, postal codes and addresses vary by country (`skills/international-input-pitfalls`);
    a validator that rejects real addresses loses real orders.
 6. **Never add anything to the basket the buyer did not choose**, and never preselect paid extras. Besides losing
-   trust, it is banned or restricted in many places; check the local rule with a qualified person.
+   trust, it is banned or restricted in many places; check the local rule with a qualified person. The EU consumer
+   page read says paid extras need an active choice, a pre-ticked box is not consent, and such payments can be
+   refunded; it also says traders generally cannot charge a fee for paying by card, with named exceptions, and that an
+   offer to charge in the buyer's currency must disclose the markup over the central bank rate (Your Europe, pricing and payments).
 
 ## 2.3 Payment and delivery options
 1. **Offer the payment methods your buyers use in each market**, and test each one end to end, with a refund.

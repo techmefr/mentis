@@ -43,9 +43,9 @@ written down (§3). Diagnosing odd behaviour starts by listing what the run load
 - Never answer from a stored fact that contradicts the user's current message; the current message wins and the
   old entry is marked superseded (§2).
 - Never claim a memory was forgotten before the entry, its embeddings, its summaries and its copies were removed (§2).
-- This block is craft guidance written from experience, with no source text read. Nothing was run while writing
-  it. See [`references/origin.md`](./references/origin.md).
+- This block is mostly craft guidance; a few points were checked against framework documentation. Nothing was run
+  while writing it. See [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Own craft guidance, no external text taken or read. 🟡: never run by us; open points are in
+Mostly own craft guidance; a few facts checked in the LangGraph (MIT) and Letta (Apache-2.0) documentation, no text copied. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

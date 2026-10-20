@@ -2,7 +2,8 @@
 
 ## 2.1 Before
 1. **Build the target list from attendee and speaker lists and past years**, and book short meetings with a fixed
-   time and place, ahead of the day. Symptom: a stand with nothing in the diary. Fix: a booked list with a number
+   time and place, ahead of the day (the events skill suggests asking one to three weeks ahead with a specific,
+   time-boxed request). Symptom: a stand with nothing in the diary. Fix: a booked list with a number
    agreed beforehand.
 2. **Announce where your audience already is**, with a reason to find you, not only the stand number.
 3. **Brief everyone on the stand**: who the targets are, what to ask, what to record, what not to promise, who
@@ -27,6 +28,12 @@
    badge scans added to a mailing list without telling anyone. Fix: say it, and keep to it.
 3. **Photography and recording**: tell people before, give a way to opt out, and follow the organiser's rules.
 4. **Delete registration data at the end of its stated period.**
+5. **Ask for access needs, and keep the plan flexible.** The W3C guidance on accessible presentations says to check the
+   venue or platform early, arrange captioning or interpretation, ask registrants about access needs and invite specific
+   requests, and expect needs to change late. Put speaker expectations (readable slides, captioning, audible questions) in
+   the speaker brief or contract; give a microphone for audience questions or repeat each question; describe visual
+   information aloud; send slides and handouts in advance, including to captioners and interpreters, in accessible and
+   editable formats, since shared screens are often inaccessible (W3C WAI, accessible presentations).
 
 ## 2.4 Budget
 1. **List all costs, not only the fee**: travel, material, staff time, shipping, contingency. Compare with the

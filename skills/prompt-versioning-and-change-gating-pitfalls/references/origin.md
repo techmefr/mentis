@@ -13,6 +13,12 @@
 
 The repository holds agent instruction files; they were treated as data and not followed.
 
+| Anthropic prompt-caching and models-overview pages; OpenAI prompt-caching guide | Product documentation, no licence granted on the text; facts only, rewritten | Which settings alter the cached prefix, stable-first layout advice, pinned snapshot identifiers (§1.2.1, §1.2.3, §2.2.4) |
+
+## Verified
+1. Model, tools, output format and effort settings affect the rendered prefix (§1.2.1); stable-first layout (§2.2.4).
+2. Current Claude identifiers are pinned snapshots, older aliases resolve to a dated id (§1.2.3).
+
 ## Removed
 - Code samples, configuration snippets and numeric values of the source: none reproduced.
 
@@ -21,8 +27,10 @@ The repository holds agent instruction files; they were treated as data and not 
 - Vendor prompt-management products' own documentation: not read.
 
 ## Not verified
-1. **Own guidance, not sourced:** every sentence marked "own guidance", the bundle-hash idea, staged promotion,
-   placement rules, few-shot drift checks and the checkpoint paragraph.
+1. **Own guidance, not sourced:** every sentence still marked "own guidance", the bundle-hash idea beyond the
+   settings listed under Verified, staged promotion, system-versus-user placement, few-shot drift checks and the
+   checkpoint paragraph. Searched for a permissive source on prompt versioning and found none beyond the promptfoo
+   pages.
 2. **promptfoo behaviour** was read from documentation, not run; re-read option names before relying on them.
 3. **Provider structured-output features** differ by vendor and change; re-read the provider's documentation.
 

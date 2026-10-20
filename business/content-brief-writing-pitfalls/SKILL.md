@@ -41,10 +41,11 @@ definition of done and a named reviewer; per plan, a map of queries to pages wit
 - State what done means and who reviews. Never accept a draft with no reviewer who can check its facts (§2).
 - Date every fact that decays and review it on a schedule. Never leave an old page to carry a stale number (§3).
 - Never promise a ranking or a traffic figure in a brief or a plan; report what was measured, with its conditions.
-- This block is partly built from an MIT source and partly from general practice, and never run by us on a real
-  plan. Status and open points are in [`references/origin.md`](./references/origin.md).
+- This block is partly built from an MIT source, partly checked against search documentation facts, and partly from
+  general practice; never run by us on a real plan. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
 Rewritten in our own words from the content-planning notes of an MIT marketing skills repository (read
-2026-10-20), plus general editorial practice. 🟡: never run by us. Details in
+2026-10-20), plus general editorial practice, checked in part against a search engine's public guidance on helpful content,
+duplicate URLs, redirects and dates (facts only, read 2026-10-20). 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

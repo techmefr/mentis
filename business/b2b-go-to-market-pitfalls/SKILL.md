@@ -45,9 +45,9 @@ handoff agreement between marketing and sales, and a dated review of what the la
 - Judge on outcomes tied to the goal set beforehand, after a long enough period. Never judge on launch-day traffic
   (§3).
 - Make no revenue forecast, and state no benchmark from a source you have not re-read and dated.
-- This block is partly built from an MIT source and partly from general practice, and never run by us on a real
-  launch. Status and open points are in [`references/origin.md`](./references/origin.md).
+- This block is partly built from MIT sources (re-read and extended on 2026-10-20) and partly from general practice;
+  never run by us on a real launch. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Rewritten in our own words from the launch-planning notes of an MIT marketing skills repository (read
-2026-10-20), plus general B2B practice. 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).
+Rewritten in our own words from the launch, revenue-operations, sales-enablement and customer-research notes of an MIT
+marketing skills repository (read 2026-10-20), plus general B2B practice. 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

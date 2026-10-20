@@ -1,6 +1,6 @@
 # agent-memory-and-state-pitfalls §2 — Scope, expiry and forgetting
 
-All points in this file are own guidance.
+Points 2.1.5 and 2.2.5 come from the LangGraph documentation (see `origin.md`); the rest is own guidance.
 
 ## 2.1 Scope
 1. **One flat store for everyone leaks.** Symptom: user A's preference or fact appears in user B's answer.
@@ -13,6 +13,14 @@ All points in this file are own guidance.
    another is a wrong answer with a true source. Store the project key and read the project's entries first.
 4. **Shared team memory needs its own write rule.** A fact one member inserts is read by all; apply §1 and show
    who wrote it.
+5. **Scope by namespace, and watch prefix reads.** In one framework a memory is keyed by a tuple such as the user id
+   plus a label, and a search on a shorter prefix also returns everything below it. Symptom: a read on a short prefix
+   returns several users' entries. Check: query with the shortest prefix your code can build. Fix: always build the full
+   user key, never a prefix, before a read. Source: LangGraph stores guide §1.
+6. **A result limit silently drops entries.** In the same framework a search returns ten items by default and cuts the
+   rest without an error, in a backend-dependent order. Symptom: the agent "forgets" a fact that is stored. Check: store
+   more entries than the limit and ask for the oldest. Fix: set the limit deliberately, page through, or rank before
+   cutting. Source: LangGraph stores guide §1.
 
 ## 2.2 Expiry and contradiction
 1. **Facts go stale** (address, role, tool version, "currently working on"). Symptom: confident answers
@@ -25,6 +33,9 @@ All points in this file are own guidance.
    and vaguer. Fix: a cap per scope, merge near-duplicates, and expire by last use, not only by age.
 4. **Use of a memory should be visible.** When an answer relies on an entry, say so ("you told me on that date
    that..."), so a wrong memory is spotted and corrected by the person it concerns.
+5. **Retention is your job.** The documentation read shows checkpoints accumulating over long conversations with a cron
+   style deletion as the suggested mitigation and no documented automatic expiry for stored items. Fix: schedule the
+   cleanup yourself and test it. Source: LangGraph persistence guide §2.
 
 ## 2.3 Forgetting
 1. **Deleting the entry is not deleting the memory.** Copies live in embeddings, summaries built from it,

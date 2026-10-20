@@ -27,7 +27,10 @@
 1. **Set a deadline per user request** and derive per-call timeouts from it. Symptom of timeouts set one by one:
    a request that waits several times the page's patience because each layer waited its own full time.
 2. **Retry only what is retryable and only with a budget** (`failure-classification-before-retry`). A rate-limit
-   or overload response is retryable after the delay the provider states; a malformed request is not.
+   or overload response is retryable after the delay the provider states; a malformed request is not. A 429 is not
+   always a rate limit: one provider answers a reached monthly spend cap with the same status and error type but no
+   retry-after header, and retries, including the SDK's automatic ones, fail until access resumes; read the error
+   details field to tell the two apart (Anthropic rate-limits page).
 3. **Multiply the layers.** promptfoo documents two retry layers (a scheduler and an HTTP layer) that share one
    retry setting; stacked clients and gateways in your own stack can do the same. Three layers with three tries
    each is nine calls per failure. Write the product down and keep one layer responsible.
@@ -41,8 +44,12 @@
    let the batch starve the interactive path; separate limits per class (own guidance).
 7. **Put a circuit breaker in front of a failing provider** so you fail fast or fall back, instead of piling up
    waiting requests; the fallback has its own cost cap (§1.4.4).
-8. **Rate limits are per key and per token or request,** and the two can bind at different times. Track both
-   (the promptfoo notes list request and token limits separately for providers that have both).
+8. **Rate limits are per key and per token or request,** and the two can bind at different times. Track both. The
+   Anthropic page measures requests, input tokens and output tokens per minute separately, enforces them as a token
+   bucket that refills continuously, can trip on a sharp ramp-up even under the nominal limit (ramp gradually), and
+   for most models does not count cached reads toward the input limit, so caching also raises throughput. Output
+   limits count tokens actually produced, so a high max-tokens setting does not itself consume them. Rate-limit
+   response headers report the remaining quota; read them instead of guessing.
 
 ## 2.4 Checks
 1. **Load test the model path with the provider slowed or failing,** not only healthy, and watch queue length,

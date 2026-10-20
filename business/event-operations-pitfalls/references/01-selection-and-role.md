@@ -26,5 +26,6 @@
 2. **A big event is not a better event.** Large shows dilute the audience; a small niche event can reach more of
    your targets. Judge by the attendee profile.
 3. **Say no in writing, with the reason.** The no-list stops the same proposal returning each year.
-4. **Review each event after, and keep the best few.** A handful usually produce most of the results; check that
-   against your own data before concentrating.
+4. **Review each event after, and keep the best few.** The MIT events skill states that a handful of events generate most
+   of the pipeline and recommends doubling down on them; that is its author's claim, so check it against your own data
+   before concentrating. It also judges a recurring programme over two or three events, not one.

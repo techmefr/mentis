@@ -12,8 +12,7 @@ instead of a table. This block is the check to run on a document before it is se
 pages are `skills/accessibility`; the wording of an image description is `business/image-alt-text-writing-pitfalls`;
 a document built as HTML is `skills/html-document`; plain-language wording is `business/ux-writing`.
 
-It states method only. The standards for tagged documents are published by standards bodies under their own terms
-and were not read for this block; a legal duty to publish accessible documents depends on the jurisdiction, so
+It states method only. The standard for tagged PDF (PDF/UA, an ISO standard) was not read; WCAG pages were read for facts; a legal duty to publish accessible documents depends on the jurisdiction, so
 this is not legal advice.
 
 ## When
@@ -49,8 +48,9 @@ certificate; the document owner decides whether the file is released.
 - Export with tags and check the exported file, not the source. Never assume the export kept the structure (§3).
 - Run the checker and a human pass. Never report a document accessible because a tool said zero errors (§3).
 - Read the recognised text of a scan against the page. Never publish a scan whose recognised text nobody checked (§3).
-- Method only, no source taken; status and open points are in [`references/origin.md`](./references/origin.md).
+- Method plus WCAG 2.2 facts checked against W3C pages (no text copied); status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general document-accessibility practice; no licensed source was read. 🟡: never run by us. Details
+Written from general document-accessibility practice; criteria and PDF techniques checked against W3C WCAG 2.2
+pages (facts only, no text copied) and Section508.gov. 🟡: never run by us. Details
 in [`references/origin.md`](./references/origin.md).

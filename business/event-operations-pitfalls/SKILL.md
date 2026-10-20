@@ -48,10 +48,10 @@ with tiers, and a debrief with the cost per useful conversation and the decision
 - Follow up within days with what was discussed. Never send the same message to everyone scanned (§3).
 - Report the cost per useful conversation and what is not measured. Never count scans or attendance as results
   (§3).
-- This block is partly built from an MIT source and partly from general practice, and never run by us on a real
-  event. Status and open points are in [`references/origin.md`](./references/origin.md).
+- This block is partly built from an MIT source (re-read 2026-10-20), partly checked against W3C event accessibility
+  guidance, and partly from general practice; never run by us on a real event. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
 Rewritten in our own words from the event-marketing notes of an MIT marketing skills repository (read
-2026-10-20), plus general event-operations practice. 🟡: never run by us. Details in
+2026-10-20), plus general event-operations practice, with the accessibility points checked against a W3C page (facts only). 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).
