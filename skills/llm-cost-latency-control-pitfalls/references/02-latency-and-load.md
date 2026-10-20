@@ -1,0 +1,52 @@
+# llm-cost-latency-control-pitfalls §2 — Latency and load
+
+## 2.1 Where the time goes
+1. **Split the time into stages:** your own preprocessing and retrieval, the wait for the first token, the
+   generation of the rest, and your postprocessing. Symptom of one number only: effort spent shaving the model
+   call while retrieval or a downstream step takes longer.
+2. **First token and total time are different budgets.** A chat feels fast if text starts quickly; a
+   background step cares only about the total. Measure both, per request class, as percentiles, not averages.
+3. **Output length drives total time** (own guidance), so a token cap (`llm-cost-latency-control-pitfalls` §1.3) is
+   also a latency control.
+4. **Put cost and latency in the case set.** promptfoo offers cost and latency assertions beside quality ones;
+   use the equivalent so a prompt change that doubles time fails the gate (`prompt-versioning-and-change-gating-pitfalls`
+   §2.4).
+
+## 2.2 Streaming
+1. **Stream when a person is reading.** The user sees progress sooner even though the total time is unchanged.
+2. **Streaming moves the failure point.** An error can arrive after text was shown. Define what the interface does
+   with a half answer: mark it, offer retry, never present it as complete.
+3. **Validate before acting.** A streamed structured answer is not valid until it ends; do not trigger tools or
+   writes on a partial parse (own guidance).
+4. **Proxies and platforms may buffer** streamed bodies and defeat the point; test the real path, not only the
+   local one.
+5. **Output filters need the whole text** or a rolling window; decide which and say so (see
+   `llm-app-prompt-injection-and-exfiltration-pitfalls` §3.3 on the latency a scanner adds).
+
+## 2.3 Timeouts, retries, concurrency
+1. **Set a deadline per user request** and derive per-call timeouts from it. Symptom of timeouts set one by one:
+   a request that waits several times the page's patience because each layer waited its own full time.
+2. **Retry only what is retryable and only with a budget** (`failure-classification-before-retry`). A rate-limit
+   or overload response is retryable after the delay the provider states; a malformed request is not.
+3. **Multiply the layers.** promptfoo documents two retry layers (a scheduler and an HTTP layer) that share one
+   retry setting; stacked clients and gateways in your own stack can do the same. Three layers with three tries
+   each is nine calls per failure. Write the product down and keep one layer responsible.
+4. **Honour the provider's wait signals.** promptfoo reads the retry-after header and the remaining-quota
+   headers of several providers and lowers concurrency when limits bite. Do the same: back off with jitter, not
+   in lockstep, and never retry instantly in a loop.
+5. **Prefer adaptive concurrency to a fixed guess.** promptfoo's scheduler halves concurrency on a limit hit and
+   grows it slowly after sustained success (the idea, not its numbers). Under a provider slowdown a fixed high
+   concurrency becomes a queue of timeouts.
+6. **Isolate by credential and by class.** A batch job and an interactive endpoint sharing one key and one pool
+   let the batch starve the interactive path; separate limits per class (own guidance).
+7. **Put a circuit breaker in front of a failing provider** so you fail fast or fall back, instead of piling up
+   waiting requests; the fallback has its own cost cap (§1.4.4).
+8. **Rate limits are per key and per token or request,** and the two can bind at different times. Track both
+   (the promptfoo notes list request and token limits separately for providers that have both).
+
+## 2.4 Checks
+1. **Load test the model path with the provider slowed or failing,** not only healthy, and watch queue length,
+   retries per request and cost per minute.
+2. **Alert on cost per minute and retries per request,** not only on errors; a retry storm shows up there first.
+3. **Check the fail mode of every limit:** when the counter is missing, does the request go through or stop
+   (`spend-guard-fail-closed`)?
