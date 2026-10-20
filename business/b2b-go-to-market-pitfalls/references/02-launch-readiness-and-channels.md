@@ -25,8 +25,16 @@
    it does not do, how to answer the likely objections, where to send questions.
 2. **Agree what happens to a lead**: who answers, within what time, with what material, and how it is recorded
    in the CRM (`business/outbound-sales-and-crm-hygiene-pitfalls`). Symptom: sign-ups no one contacted.
-3. **Give sales a short list of claims they may make** and the ones they may not (`business/product-marketing` §2).
+3. **Give sales a short list of claims they may make** and the ones they may not (`business/product-marketing` §2). The
+   enablement skill asks that a why-we-win claim rest on evidence (win and loss interviews, call recordings, customer
+   quotes) or be shown as a hypothesis, that competitor statements be dated and sourced, and that the playbook for a new
+   product include buyer profile, qualification, discovery questions, objections and demo flow.
 4. **Keep one dated plan** with owners per task and a single place for changes. A plan in four documents has four
    different dates.
 5. **Plan the announcement text with the release team** (`business/release-communication`); do not announce what
    has not shipped.
+6. **Write the lead rules down.** A revenue-operations skill in the same repository defines a qualified lead by fit and
+   engagement together, sets a response window and a qualify-or-reject window between marketing and sales, sends rejected
+   leads to a nurture list with a reason code, names a fallback owner so unassigned leads do not go cold, and logs each
+   routing decision. Scoring pitfalls it names: over-weighting content downloads, no negative scoring, scores never
+   revisited. Take the windows from your own data; none is stated here.

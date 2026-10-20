@@ -46,6 +46,6 @@ says so and lists what moved with it (§2.1). A prompt change with no rerun is a
   date there. No prompt was run while writing it.
 
 ## Origin
-promptfoo documentation (MIT) on prompt files, formats and external prompt stores, plus craft knowledge marked
-"own guidance", read 2026-10-20. 🟡: never run by us; open points are in
+promptfoo documentation (MIT) on prompt files, formats and external prompt stores, provider prompt-caching
+documentation (facts only) and craft knowledge marked "own guidance", read 2026-10-20. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

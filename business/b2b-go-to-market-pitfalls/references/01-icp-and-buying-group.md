@@ -16,14 +16,20 @@
    in the customer's words. Symptom: a profile built from the founder's network. Fix: a table of recent deals with
    outcome and reason.
 2. **Label each trait as observed or assumed.** Do not claim that a sector converts better until the counts have
-   been read, and say how few deals the counts rest on.
+   been read, and say how few deals the counts rest on. A customer-research skill in an MIT repository grades each
+   insight high, medium or low by the number of independent sources and whether it was said unprompted, weights sources
+   from the last year more, and asks for at least a handful of data points per segment before a persona is built.
 3. **Check the profile against the product's real limits** with engineering and support, not only against the
    pitch.
 4. **Re-run the profile at set intervals**; a market moves. Record the date and the data it used.
+5. **Segment churn by reason, not on average.** The same skill says to read wins for what tipped the decision and
+   losses and churn for price, features, fit or timing, then segment by cause; one averaged churn rate hides which
+   customers should have been disqualified.
 
 ## 1.3 The buying group
 1. **Name the roles in a purchase**: who feels the problem, who evaluates, who pays, who can block (security,
-   legal, IT). Symptom: a deal that stalls at a review nobody expected. Fix: a role list per segment with what each
+   legal, IT). A sales-enablement skill in the same repository lists economic buyer, technical buyer, end user, champion
+   and blocker, and gives the champion material to sell internally and the blocker's concern a written answer. Symptom: a deal that stalls at a review nobody expected. Fix: a role list per segment with what each
    needs to say yes.
 2. **Prepare the material each role asks for** (security answers, a cost case, an integration note) before the
    deals need it.

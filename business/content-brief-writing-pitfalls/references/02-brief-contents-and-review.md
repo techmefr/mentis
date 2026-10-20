@@ -18,7 +18,12 @@
 2. **A generated draft is a draft**: the brief says so and the reviewer treats titles, descriptions, quotes and
    links as unverified until checked (`business/ai-prose-tells`).
 3. **No invented experts, quotes or customer stories.** If the brief asks for a quote, name the person who gave it.
+   The search guidance calls fabricated authors or credentials deceptive.
 4. **Check the links in the draft** resolve and say what the sentence claims.
+5. **Say who made it and how.** The same guidance asks whether the author is clear, with a byline linking to background
+   where one is expected, and whether the page explains the role of automation or AI where readers would reasonably
+   wonder; put both decisions in the brief so the page does not leave them to chance (Google Search Central, helpful
+   content).
 
 ## 2.3 Definition of done and review
 1. **Write the done criteria in the brief**: answers the question, the added value is visible in the first screen,

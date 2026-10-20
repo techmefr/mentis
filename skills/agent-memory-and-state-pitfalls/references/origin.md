@@ -9,19 +9,27 @@
 
 | Source | Licence | What it gave |
 |---|---|---|
-| None | n/a | Every point is own guidance from craft experience. No external text was read or taken. |
+| LangGraph repository LICENSE, and its persistence and stores documentation pages | MIT (licence file read) | Checkpoints scoped per thread, in-memory checkpointer lost on restart, checkpoints accumulate with a suggested cleanup job (§1.2.5, §2.2.5); namespace-keyed memory, prefix reads, silent result limit (§2.1.5, §2.1.6) |
+| Letta repository LICENSE, and its agent memory guide | Apache-2.0 (licence file read) | Agents edit their own memory through tools, a block can be attached to several agents (§1.1.5) |
 
-Memory libraries and a memory-oriented skill collection were candidate sources in the review; their licence files
-were not read here, so none of them was opened.
+Facts only; the points are rewritten in our words.
+
+## Verified
+1. User-scoped memory keyed by a namespace is a real design in a mainstream framework, which supports the
+   "scope key in every read" rule (§2.1.1) in shape; the scope-before-ranking order was not tested.
+2. Agents writing their own memory is a real feature, which supports treating the model's choice as a write path (§1.1.2).
+3. No automatic expiry was documented for stored items in the pages read, so §2.2 lifetimes stay the caller's job.
 
 ## Removed
-- Product-specific behaviour of any memory library: not read, so none described.
-- Numeric limits (entry caps, lifetimes, similarity thresholds): none verified, none given.
+- Product-specific behaviour beyond the pages read; numeric limits other than the documented default of ten results,
+  which is framework specific and given only as an example.
+- Microsoft HAX toolkit and Google PAIR material are not relevant here and were not used.
 
 ## Not verified
-1. **Everything.** The whole block is own guidance; no point was checked against a store, a framework or a paper.
-2. **Vector store filtering** (before or after the nearest-neighbour search) differs by product; re-read the
-   documentation of the store in use.
+1. **Everything not listed under Verified** remains own guidance: write gating, provenance fields, poisoning through
+   memory, summary drift, deletion cascading, the tests in §3.
+2. **Vector store filtering** (before or after the nearest-neighbour search): the stores page does not document filter
+   behaviour; re-read the store in use. Read-only blocks and block size limits were not covered by the Letta page.
 3. **Poisoning through memory** is described from the general mechanism of indirect injection; the attack was
    not reproduced.
 

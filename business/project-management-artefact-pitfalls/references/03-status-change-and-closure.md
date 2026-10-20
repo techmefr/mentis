@@ -36,9 +36,15 @@ when it hides the one fact that needs a decision, or when a change happens witho
    and when.
 2. **Trade explicitly.** Adding something means removing something, moving the date or adding capacity. Never
    absorb it silently into "the plan".
-3. **Keep the baseline.** Own guidance: keep the first agreed plan alongside the current one, so the size of the
-   drift is visible and nobody has to argue about it.
-4. **Small changes need a rule too.** Decide in advance which changes the delivery lead may accept alone and which
+3. **Keep the baseline.** Keep the first agreed plan alongside the current one, so the size of the drift is visible
+   and nobody has to argue about it. The GAO guide treats the baseline as the target under change control, with a
+   basis document that records assumptions and justifies constraints, lags and long durations, and measures
+   performance against it (practice 10).
+4. **Rebaseline rarely, and say what it erases.** The GAO guide says a rebaseline normally clears the historical
+   variances so new ones show up, that it should be rare, and that frequent rebaselining suggests unclear scope or
+   weak estimating discipline. Symptom: a plan that is rebaselined at every steering committee and never late.
+   Fix: keep the old baseline in the record and require the decision of 3.3.1 for each rebaseline (practice 10).
+5. **Small changes need a rule too.** Decide in advance which changes the delivery lead may accept alone and which
    go up; a slow process for tiny changes gets bypassed.
 
 ## 3.4 Closing

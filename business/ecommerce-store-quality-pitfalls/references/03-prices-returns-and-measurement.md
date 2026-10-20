@@ -8,7 +8,8 @@
    price with tax included, business buyers often expect it excluded. Symptom: the total is higher than the listing
    and the buyer feels deceived. Fix: a stated treatment per market and customer type, and the same treatment
    from listing to total. The rules differ by country and change; take advice. Computation is
-   `skills/vat-handling-in-software-pitfalls`.
+   `skills/vat-handling-in-software-pitfalls`. The feed spec read illustrates the split: tax excluded in the US and
+   Canada, tax included elsewhere, and the feed price must equal the page and checkout price.
 2. **Show the final price in the buyer's currency, and the rounding rule.** A converted price that moves every
    day confuses; state when it is fixed.
 3. **A reference price ("was") must be a real price that was charged.** Symptom: a permanent "was" price. Fix:
@@ -22,7 +23,9 @@
 1. **State the return window, who pays and the refund timing in one place, and link to it from the product page,
    the cart and the confirmation.** Symptom: three pages, three windows. Check: compare the text on each page.
    Whether a statutory right of withdrawal applies to a sale depends on the country and the goods; this is not
-   legal advice, and the policy must not give the buyer less than the law does.
+   legal advice. The EU page read describes a withdrawal period for distance sales, starting at delivery for goods, with
+   excluded cases such as personalised goods, perishables and some digital content, and says the buyer pays the return
+   postage unless the seller offers or failed to say so beforehand (Your Europe, returns), and the policy must not give the buyer less than the law does.
 2. **Make the process easy to start**: order number lookup, a reason picker that feeds your product team, a label
    when you pay. A hard return process raises disputes with the card issuer.
 3. **Measure returns by product, variant and reason.** Symptom: a good-selling shoe at a high return rate. Fix:

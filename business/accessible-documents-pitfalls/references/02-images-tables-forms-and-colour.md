@@ -8,14 +8,19 @@
    is announced. How to word one: `business/image-alt-text-writing-pitfalls`. Check: for each image, ask what a
    reader who cannot see it would miss.
 2. **Mark a decorative image as decorative** (a flourish, a repeated logo), so it is skipped instead of announced.
+   In a tagged PDF that means making it an artifact; a non-empty alternative on a decorative image is a listed failure
+   (WCAG 1.1.1, PDF technique 4). Alternative text in a PDF lives on the figure tag (PDF technique 1).
 3. **For a chart, give the finding and the data.** A short alternative states the conclusion; the numbers go in a
-   table or in the text next to it. Never leave data only in a picture.
-4. **Never put text in an image.** Symptom: a scanned paragraph or a banner that cannot be searched, resized or
+   table or in the text next to it. WCAG 1.1.1 says a short alternative often cannot carry a chart and pairs it with a
+   long description and the data in a table. Never leave data only in a picture.
+4. **Never put text in an image.** WCAG 1.4.5 (level AA) asks for real text where the technology can do it, with
+   exceptions for customisable images and essential presentation such as logotypes; text inside charts or screenshots is not covered. Symptom: a scanned paragraph or a banner that cannot be searched, resized or
    read aloud. Fix: live text, styled; if the picture is unavoidable, the alternative carries the whole text.
 5. **Group or anchor an image with its caption** so they are read together.
 
 ## 2.2 Tables
-1. **Use a table for tabular data and mark the header row.** Symptom: a screen reader user hears cells with no
+1. **Use a table for tabular data and mark the header row.** In a PDF the structure is table, rows, then header or data
+   cells, and a Word table's header-row option must be set before conversion (PDF technique 6). Symptom: a screen reader user hears cells with no
    column name. Check: the header-row option is set, and a header cell is a real header, not bold text.
 2. **Keep tables simple.** No merged or split cells where avoidable, no blank cells used as spacing, one header
    row. A complex table is split into several simple ones.
@@ -23,16 +28,19 @@
 4. **Do not let a table break across a page without repeating its header** where the format supports it.
 
 ## 2.3 Links and forms
-1. **A link's text says its destination.** Symptom: "click here", "read more" or a raw long address repeated in a
+1. **A link's text says its destination.** WCAG 2.4.4 (level A) is looser: the purpose may come from the link text plus
+   its context (the same sentence, paragraph, list item or table cell), with context before the link easier for
+   screen reader users. Keep the stricter rule for documents, since a link list is read out of context. Symptom: "click here", "read more" or a raw long address repeated in a
    list of links. Fix: "Annual report 2025 (PDF)", and say when a link opens a file or leaves the site.
 2. **Every form field has a label tied to it**, and the tab order follows the visual order. In a PDF form, check
    the field names, the tooltip text, and that required fields are stated in words, not only by colour.
-3. **Give an error message beside the field and in text.** Own guidance: a field outlined in red and nothing else
-   is invisible to many readers.
+3. **Give an error message beside the field and in text.** Identifying required or error fields by colour alone is a
+   listed failure of WCAG 1.4.1 (level A); the required state also has to be exposed as text (1.3.1).
 
 ## 2.4 Colour and contrast
 1. **Never carry meaning by colour alone.** Symptom: a status column of red and green dots read as identical by a
-   colour-blind reader. Fix: add a word or a symbol.
+   colour-blind reader. Fix: add a word or a symbol. WCAG 1.4.1 says an added non-colour cue (text, shape, icon,
+   pattern) is needed, and that links must be visible as links without colour.
 2. **Check text contrast against its background**, including text over images and pale grey footnotes. The
    thresholds come from the accessibility standard you are held to; read them at the time, do not recite one
    from memory (`skills/accessibility` §3, `bin/contrast_check.py`).

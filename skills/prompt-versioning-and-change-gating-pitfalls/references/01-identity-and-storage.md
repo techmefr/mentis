@@ -17,11 +17,16 @@
 ## 1.2 What a version includes
 1. **A prompt version is more than its words.** It also includes the model identifier, sampling settings,
    the output schema or tool definitions, the few-shot set, and any retrieval or preprocessing step that shapes
-   the input (own guidance). Changing one of those with the text unchanged is a new version.
+   the input. Changing one of those with the text unchanged is a new version. Two provider caching pages list the
+   model, tool definitions, output format and reasoning or effort settings as things that alter the rendered prompt
+   (Anthropic, OpenAI prompt-caching docs), which confirms the bundle idea for those items; the few-shot and
+   preprocessing items remain own guidance.
 2. **Hash the whole bundle, not just the text.** Symptom of text-only versioning: "same prompt version, different
    behaviour" after a settings or model change. Fix: a content hash over the bundle, stored with each call.
 3. **Treat model aliases as moving.** A floating alias is a version change you did not make; pin a dated or
-   numbered identifier where the provider offers one and record which one ran (`model-migration-pitfalls` §1).
+   numbered identifier where the provider offers one and record which one ran (`model-migration-pitfalls` §1). One provider documents
+   that its current model identifiers are pinned snapshots and that only older aliases resolve to a dated one; read
+   the page of the provider in use (Anthropic models overview).
 
 ## 1.3 Tracing and rollback
 1. **Log, per call:** prompt identifier, bundle hash, model identifier, settings, and a request identifier you can

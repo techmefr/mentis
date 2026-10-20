@@ -47,5 +47,5 @@ and an observation window (§2.5). An average score alone does not decide a migr
 
 ## Origin
 promptfoo documentation (MIT) on comparing models over your own cases and on drift detection by repeated runs,
-plus craft knowledge marked "own guidance", read 2026-10-20. Vendor deprecation policies were not re-read. 🟡:
+plus craft knowledge marked "own guidance", read 2026-10-20. Two vendors' deprecation pages and one models overview were read for facts (no dates or figures are stated). 🟡:
 never run by us; open points are in [`references/origin.md`](./references/origin.md).

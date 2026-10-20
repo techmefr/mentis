@@ -13,8 +13,8 @@ software is `skills/vat-handling-in-software-pitfalls`; price changes and billin
 and `business/pricing-and-packaging-pitfalls`; claims about a product are `business/marketing-claim-substantiation-pitfalls`;
 search visibility is `skills/seo`; experiments are `skills/experiment-design-pitfalls`; funnels are `skills/funnel-and-cohort-definition-pitfalls`.
 
-It states method only. Marketplace and shopping-feed rules are the platform's own, change often and were not read
-for this block; consumer-protection, tax and returns law differs by country, so none of it is legal advice.
+It states method only. Marketplace and shopping-feed rules are the platform's own and change often; one feed specification and two EU
+consumer pages were read for facts (no limits or deadlines other than where stated); consumer-protection, tax and returns law differs by country, so none of it is legal advice.
 
 ## When
 - A catalogue is created, imported or restructured, or a product feed is sent to a channel.
@@ -50,10 +50,10 @@ legal and tax points go to a qualified person.
   a second (§3).
 - Test across full weekly cycles and watch returns, not only orders. Never call a variant a winner after a few days
   or on sales alone (§3).
-- Method written from general practice, no source taken; status and open points are in
+- Method from general practice, with feed and price-display points checked against two official pages; status and open points are in
   [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general e-commerce practice; the MIT marketing repository named by the review was not opened for
-this block, and no marketplace documentation was read. 🟡: never run by us. Details in
+Written from general e-commerce practice, checked in part against a shopping-feed product specification and EU
+consumer-rights pages (facts only, read 2026-10-20). 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

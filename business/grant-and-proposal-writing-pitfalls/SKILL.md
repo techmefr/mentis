@@ -46,9 +46,9 @@ the narrative, a submission checklist ticked by a second person, and a debrief n
 - Have a second person run the submission checklist and submit early. Never submit in the last hour (§3).
 - Route eligibility, State-aid, intellectual-property and liability questions to the owner who signs. Never decide
   them in the draft (§1, §3).
-- This block is a method written from general practice and never run by us on a real call. Status and open points
-  are in [`references/origin.md`](./references/origin.md).
+- This block is a method from general practice, with submission points checked against two official portal pages;
+  never run by us on a real call. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general proposal and grant-writing practice; no licensed source was read for it (the review found
-none to use). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).
+Written from general proposal and grant-writing practice; submission and admissibility points checked against the
+EU Funding and Tenders Portal online manual and a US grants portal help page (facts only, read 2026-10-20). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

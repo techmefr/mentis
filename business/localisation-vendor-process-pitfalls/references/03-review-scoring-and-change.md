@@ -15,20 +15,29 @@
 
 ## 3.2 Score on errors, not on feeling
 1. **Agree the error categories and their weights with the vendor before the first job.** Typical headings are
-   accuracy (meaning lost, added or wrong), fluency, terminology, style, locale conventions and omission. Take the
-   category list and the penalty weights from the framework you both adopt; re-read it at the time. This block
-   names no standard or threshold.
-2. **Count errors by category and severity**, with a segment reference and a correction each. Symptom: "the
+   accuracy (meaning lost, added or wrong), fluency, terminology, style, locale conventions and omission. The MQM
+   typology lists seven top-level categories: terminology, accuracy, linguistic conventions, style, locale conventions,
+   audience appropriateness, and design and markup, with omission and mistranslation as subtypes of accuracy; it is
+   a catalogue from which a project selects the types and depth it needs, and weights are optional, for example a
+   higher weight on accuracy for legal text (MQM Council pages). Take the list and weights from the version you both
+   adopt and re-read it then; this block names no threshold.
+2. **Count errors by category and severity**, with a segment reference and a correction each. MQM names four severity
+   levels (neutral, minor, major, critical), judges severity by the impact if the error were found after publication, and
+   lets a single critical error fail a text whatever the score; three or two levels are also used. Symptom: "the
    quality is not good enough" and no way to fix it. Fix: a list the vendor can apply and argue with.
 3. **Define the pass mark in advance and per content type.** A legal notice and a social post do not tolerate the
-   same things. A threshold chosen after seeing the result is a verdict, not a test.
+   same things; MQM likewise has each project set its own threshold, expressed as acceptable penalty points per a
+   reference word count, and notes that different content types may need different ones. The score is normalised by the
+   source word count of the evaluated sample, so say how many words were sampled. A threshold chosen after seeing the result is a verdict, not a test.
 4. **Sample on purpose.** Draw segments across content types, lengths and files, including the hard ones. Say how
    many and how chosen. Symptom: a pass score from the first fifty short strings. Check: does the sample include
    the long, the ambiguous and the legally sensitive ones?
 5. **Calibrate reviewers.** Two reviewers score the same sample and compare; a large gap means the categories are
-   read differently. Own guidance: do this once at the start of an engagement and again when the reviewer changes.
+   read differently. The MQM pages use the word calibration for something else, rescaling the raw score so the pass band is
+   readable, and note that calibrated scores may not compare across organisations; this point stays own guidance: do this once at the start of an engagement and again when the reviewer changes.
 6. **Do not score a style preference as an error.** Record preferences as a style note for next time and keep the
-   score for departures from the brief, the glossary and the language itself.
+   score for departures from the brief, the glossary and the language itself. MQM has a neutral severity that flags a
+   preference or a point to review without adding any penalty, which is the place for it.
 
 ## 3.3 Close the loop
 1. **Return findings with category, correction and reason**, and let the vendor answer. A disputed item is

@@ -1,6 +1,6 @@
 # ai-product-ux-pitfalls §1 — Trust and expectations
 
-All points in this file are own guidance.
+Point 1.1.5 is confirmed in part by a W3C accessibility criterion (see `origin.md`); the rest is own guidance.
 
 ## 1.1 Showing how far to trust
 1. **Fluent text reads as true.** Symptom: users act on a wrong answer because it looked finished. Check: ask
@@ -15,7 +15,10 @@ All points in this file are own guidance.
 4. **Say when there is no answer.** A refusal, "not found" or "I need more information" is a result with its own
    screen. A guess dressed as an answer is the worst outcome, since nothing flags it.
 5. **Match the stakes.** Low-stakes suggestions can be one click to accept; consequential ones (money, deletion,
-   messages to third parties, medical or legal content) need a preview and a deliberate step.
+   messages to third parties, medical or legal content) need a preview and a deliberate step. WCAG 2.2 criterion 3.3.4 (level AA) asks that submissions which commit the user, move money or
+   change or delete their data be reversible, checked for input errors, or confirmed after a review; it does not ask
+   for confirmation of every save, which matches gating only the consequential step. Source: W3C WCAG 2.2 Understanding
+   3.3.4.
 
 ## 1.2 Setting expectations
 1. **State scope where the feature starts**: what it is for, what it does not do, what it cannot see (the

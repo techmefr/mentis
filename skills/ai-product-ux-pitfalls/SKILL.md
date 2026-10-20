@@ -43,9 +43,9 @@ to continue the task without the model (§2). Over-reliance and ignoring are bot
 - Never leave the task blocked when the model fails; keep the manual path usable (§2).
 - Never treat acceptance rate as quality; read it with edits, reversals and downstream errors (§3).
 - Never promise capabilities in copy that the evaluation did not cover; state what it does and does not do (§1).
-- This block is craft guidance written from experience, with no source text read. Nothing was tested with users
-  while writing it. See [`references/origin.md`](./references/origin.md).
+- This block is mostly craft guidance; the accessibility and error-prevention points were checked against W3C
+  documents. Nothing was tested with users while writing it. See [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Own craft guidance, no external text taken or read. 🟡: never run by us; open points are in
+Mostly own craft guidance; accessibility points checked against W3C WCAG 2.2 Understanding pages (facts only, no text copied). 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

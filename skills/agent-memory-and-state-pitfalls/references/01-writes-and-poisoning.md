@@ -1,6 +1,6 @@
 # agent-memory-and-state-pitfalls §1 — Writes and poisoning
 
-All points in this file are own guidance.
+Points 1.1.5 and 1.2.5 come from the LangGraph and Letta documentation (see `origin.md`); the rest is own guidance.
 
 ## 1.1 Who may write
 1. **A memory written from outside content is a persistent injection.** Symptom: days later the agent applies a
@@ -15,6 +15,11 @@ All points in this file are own guidance.
    was confirmed. Without that, neither a cleanup nor an incident review can separate trusted from untrusted entries.
 4. **Subagents and other agents are outside content.** Their output is written only through the same gate as a
    document (`multi-agent-design-pitfalls`).
+5. **A memory block shared by several agents is written by all of them.** One agent framework lets a single block be
+   attached to many agents, and lets the agent edit its own memory through tools; so a poisoned or wrong edit by one
+   agent reaches every reader. Fix: give shared blocks the §2.1 point 4 write rule, keep the writer in the entry, and
+   make blocks that only one role should change read-only for the others if the framework allows (not confirmed in the
+   documentation read). Source: Letta memory guide §1.
 
 ## 1.2 What is stored
 1. **Store facts, not instructions.** Symptom: an entry such as "ignore the usual review" read back as a command.
@@ -28,6 +33,10 @@ All points in this file are own guidance.
    date.
 4. **A state file for a task is also memory.** A half-finished plan restored after a crash is trusted. Fix:
    store what was done and verified, not what was intended, and re-check cheap preconditions on resume.
+5. **An in-process state store dies with the process.** Symptom: "the agent forgot everything" after a restart or
+   deploy, or, the reverse, a test passing on a store that production does not have. Check: restart the process
+   mid-task and resume. Fix: use a durable store for anything that must survive, and key state per thread or session so
+   two runs never share it. Source: LangGraph persistence guide §2.
 
 ## 1.3 Checks
 1. Every entry has a source, a writer and a date, or it is deleted by the next cleanup.

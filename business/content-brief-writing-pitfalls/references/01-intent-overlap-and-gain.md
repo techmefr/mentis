@@ -21,11 +21,19 @@
    not give each a page.
 4. **Plan the internal links in the brief**: the page it supports, the pages that should point to it, and the label
    to use.
+5. **Prefer a redirect to a hint when retiring a duplicate.** The search guidance read ranks consolidation methods: a
+   permanent redirect is the strongest, a canonical annotation is a signal the engine may overrule, a sitemap entry is
+   weaker; choose one canonical method and keep internal links pointing at the chosen address. Duplicate or very similar
+   pages are consolidated under one preferred address, which also combines the signals (links) and simplifies
+   tracking. The pages read do not define cannibalisation or promise any ranking effect, so the term here is a working
+   one for two of your pages answering one question (Google Search Central, duplicate URLs).
 
 ## 1.3 Information gain
 1. **Read the current top results for the query** and write one sentence on what this piece will add: original data
    from your own work, a real example, a working template, a clearer answer, a defensible opinion. Symptom: a brief
-   that summarises competitors. If the sentence cannot be written, drop the topic.
+   that summarises competitors. If the sentence cannot be written, drop the topic. A search provider's guidance on helpful content asks the same
+   questions: does the page offer original information or analysis, does it add substantial value over other results
+   and over the sources it draws on, rather than rewording them (Google Search Central, helpful content).
 2. **The addition must come from something you can show.** An internal measurement or a real case qualifies;
    an adjective does not (`business/content-creation` §2).
 3. **Check that the addition is wanted.** A new angle nobody asks about is a hobby; tie it to the reader's question.

@@ -9,7 +9,10 @@ the guess failed, and the failures look valid.
    left as text. Check: look for a mix of real dates and text in one column.
 2. **Serial numbers are dates in disguise.** A column of five-digit numbers in a date field is an unformatted
    date counter; its origin (the epoch the program counts from) varies by program and file, so confirm it on a row
-   whose real date you know before converting.
+   whose real date you know before converting. One vendor documents a 1900 and a 1904 system a fixed 1,462 days apart,
+   the first the default on Windows and recent Mac versions and the second the default on older Mac versions; dates
+   copied between workbooks on different systems shift by that offset, and dates inside a chart are not converted
+   (Microsoft Support, date systems in Excel).
 3. **Two-digit years are ambiguous.** Decide the century rule with the owner of the data and apply it everywhere.
 4. **A date with a time is a moment, and a moment needs a zone.** Record whether times are local, UTC or
    unlabelled before comparing across sources or computing durations. Symptom: events on the wrong day near

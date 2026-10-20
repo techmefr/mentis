@@ -13,8 +13,9 @@ analysis result is `skills/analysis-validation-pitfalls`; the meaning of a busin
 quality rules inside a data contract are `skills/data-contract-quality-rules-pitfalls`; personal data in a file is
 `business/data-protection`.
 
-It states method only, written from general practice, with no source behind it. It names behaviours that differ
-by program, version and locale as things to check on the file in front of you, not as facts to assume.
+It states method only, written from general practice and checked in part against vendor documentation and the CSV
+RFC. It names behaviours that differ by program, version and locale as things to check on the file in front of you,
+not as facts to assume.
 
 ## When
 - A CSV or workbook arrives from someone else and is about to be used.
@@ -55,9 +56,9 @@ cleaner reports what was changed and what was left unresolved.
 - Write the change log and a before and after control total. Never hand on a cleaned file that nobody can
   compare with its source (§4).
 - Leave the unresolved rows listed, not guessed. Never fill a blank with a value you invented (§4).
-- This block is a method written from general practice and never run by us on a real file; there is no external
-  source. Status and open points are in [`references/origin.md`](./references/origin.md).
+- This block is a method from general practice, with program behaviours checked against vendor pages read on
+  2026-10-20; never run by us on a real file. Status and open points are in [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Written from general spreadsheet and data-cleaning practice; no licensed source was read for it (the review found
-none to use). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).
+Written from general spreadsheet and data-cleaning practice; program behaviours checked against spreadsheet vendor
+support pages and RFC 4180 (facts only, read 2026-10-20). 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

@@ -30,7 +30,11 @@
 
 ## 3.4 Status of the product
 1. **Software that diagnoses, monitors or treats may be regulated as a medical product** in some places. Ask the
-   regulatory owner before building or marketing such a function.
+   regulatory owner before building or marketing such a function. The FDA page read says software functions that meet the
+   device definition are regulated whatever the platform, that oversight focuses on software whose failure poses greater
+   risk, and that for minimal-risk functions such as helping a user self-manage a condition without specific treatment
+   suggestions it generally does not expect premarket review; the page does not cover intended use or claims, and no
+   European rule was read. Regulatory status is the qualified owner's call.
 2. **Describe the function honestly in the product copy**; do not name an intended medical purpose in marketing
    that the product team has not scoped.
 3. **Keep a record of the decisions and who took them.**
