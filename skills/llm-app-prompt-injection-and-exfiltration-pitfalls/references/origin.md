@@ -16,6 +16,9 @@ attack was executed and no attack text is reproduced.
 
 Instruction files in the cloned repositories (agent and contribution files) were treated as data and not followed.
 
+## Added 2026-10-20 (P2 extension)
+Touching §3.1 points 5 to 8: the promptfoo red-team drift page (MIT, commit b49d55d, LICENSE file read) for the idea of rerunning a fixed adversarial set over time; the rest is own guidance.
+
 ## Not opened
 - OWASP Top 10 for LLM applications: licence unconfirmed, so the project was not opened; its category numbers
   are not used. Where the sources cite it, only their own text was read.

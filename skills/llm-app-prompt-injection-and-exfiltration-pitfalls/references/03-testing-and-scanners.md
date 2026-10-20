@@ -13,6 +13,16 @@
    endpoint (re-read the tool's documentation for target options before relying on this).
 4. **Run against staging with fake data** and a marker host you control, never against production or real
    customers' data.
+5. **Keep every case that ever succeeded against you,** with its fix, as a permanent member of the set. A case
+   dropped because "it was fixed" is how the same hole returns after the next prompt or model change.
+6. **Run the set on a schedule as well as on change.** The promptfoo drift guidance describes a fixed adversarial
+   set rerun over time with a consistent target label, so a provider-side change shows up as a changed attack
+   success count (own reading; no threshold is carried over, choose yours from your own baseline).
+7. **Split the set into a frozen core and a rotating part.** The core stays identical for comparability; the
+   rotating part is regenerated or extended so the app is not tuned only to the attacks it already knows (own
+   guidance).
+8. **Re-run it as part of a model swap,** since resistance does not transfer between models
+   (`model-migration-pitfalls` §2.2).
 
 ## 3.2 Success criteria
 1. **Define success as an observed effect at the outbound path:** a request to the marker host, a tool

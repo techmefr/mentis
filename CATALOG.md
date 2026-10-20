@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| prompt-versioning-and-change-gating-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
+| llm-cost-latency-control-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
+| model-migration-pitfalls | 6 (new 2026-10-20) | promptfoo/promptfoo (MIT) | 🟡 (never dogfooded) |
 | rag-retrieval-quality-pitfalls | 6 (new 2026-10-20) | ragas docs (Apache-2.0, LICENSE read) | 🟡 (never dogfooded) |
 | llm-app-prompt-injection-and-exfiltration-pitfalls | 6 (new 2026-10-20) | garak (Apache-2.0), PyRIT (MIT), llm-guard (MIT), all LICENSE files read; OWASP LLM Top 10 not opened | 🟡 (never dogfooded) |
 | locale-value-formatting-pitfalls | 6 (new 2026-10-20) | Unicode LDML UTS #35 numbers and dates parts (facts only, Unicode terms), read 2026-10-20; ECMAScript Intl behaviour from our own knowledge, marked re-read before relying | 🟡 (never dogfooded, Intl behaviour unchecked) |
