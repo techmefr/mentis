@@ -32,7 +32,7 @@
    Own guidance: a silent backup failure and a deleted schedule are the two incidents nobody sees; alert on the
    absence of a recent successful backup as well as on errors (`skills/observability-instrumentation` §4).
 7. **A green job does not prove recoverability.** The guide says backup success alone does not show the recovery
-   time objective can be met. Own guidance: add a periodic integrity check where the tool offers one, and the
+   time objective can be met. Own guidance: add a periodic integrity check where the tool offers one (what one engine's verifier does and does not prove is in `references/03-the-restore-drill.md` §8), and the
    restore drill of `references/03-the-restore-drill.md`.
 8. **Restore compromised systems into a clean environment.** The guide restores into a newly provisioned,
    network-isolated environment built from infrastructure code, validates data and application, and only then

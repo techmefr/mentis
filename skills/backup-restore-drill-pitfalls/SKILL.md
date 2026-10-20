@@ -48,6 +48,6 @@ against the objectives, what failed, owned fixes, the date of the next drill).
 
 ## Origin
 A hosted-platform architecture guide on ransomware-resilient backup (CC BY 4.0) and a production-readiness
-repository's backup and recovery checks (MIT), both read 2026-10-20 and restated, plus own guidance flagged in
+repository's backup and recovery checks (MIT), both read 2026-10-20 and restated, plus the PostgreSQL manual pages on continuous archiving and backup verification (facts only), plus own guidance flagged in
 the references. Provenance, what was removed and not verified: [`references/origin.md`](./references/origin.md).
 🟡: never dogfooded.

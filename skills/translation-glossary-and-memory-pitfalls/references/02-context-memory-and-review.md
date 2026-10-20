@@ -56,7 +56,14 @@ in the memory (`i18n-catalog-workflow-pitfalls` §2.1).
 ## 2.4 Exchange formats and what they lose
 1. **The common formats:** TMX moves translation memories, XLIFF moves a file to and from a translator with
    notes and states, and TBX moves termbases (re-read before relying: version differences and tool support).
-   Most tools import and export all three; few preserve everything.
+   Most tools import and export all three; few preserve everything. Checked for XLIFF 2.1 only (OASIS
+   specification, read 2026-10-20 for facts, partial: the first 100000 characters and one later slice of a very
+   long page): it is a bilingual format meant to carry localisable data between steps of the process so tools
+   interoperate; a note element holds a human-readable comment that can attach to a source, a target, a unit, a
+   group or a file; placeholders and spanning codes are inline elements, with the original code kept in separate
+   data elements; and it has optional modules for translation candidates and for a glossary, so some match and
+   term information can travel inside the file. The segment state values were not found in the part read, and the
+   TMX and TBX specifications were not read.
 2. **Symptom:** after an import into another tool, placeholders are shown as plain text, notes have vanished, or
    statuses reset to "new". **Cause:** inline markup, notes and states are the parts a format carries least
    consistently. **Fix:** a round trip on a sample before a migration: export, import elsewhere, export again and

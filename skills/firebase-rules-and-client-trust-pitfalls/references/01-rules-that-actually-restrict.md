@@ -1,9 +1,9 @@
 # firebase-rules-and-client-trust-pitfalls §1 — Rules that actually restrict
 
-Source: own guidance throughout (no source was read; see origin). Rule syntax and limits are the platform's; re-read before relying on a name.
+Source: official platform documentation read 2026-10-20 for facts only, rewritten (query rules, cascade, test mode, basics); the rest is own guidance. Rule syntax and limits are the platform's; re-read before relying on a name.
 
 ## 1.1 Open rules
-1. **A project created in a development or test mode starts with rules that allow everything for a limited time.** After that date access stops, and the usual "fix" is to extend the date or allow everything. Replace the rules before the first real user, not on the day the app breaks.
+1. **A project created in a development or test mode starts with rules that allow everything for a limited time.** After that date access stops, and the usual "fix" is to extend the date or allow everything. Replace the rules before the first real user, not on the day the app breaks. Checked: the setup page offers a locked mode (deny all, the default) and a test mode that lets anyone in, and warns that an allow-all rule set must never reach production; the expiry period itself was not stated on the pages read (rules basics page, read 2026-10-20).
 2. **Search the rules for a blanket allow** (a rule that is true for any path and any operation), and for a match-all path at the top level that grants more than the specific rules beneath it.
 3. **Each product has its own rules file:** the document database, the real-time database and file storage are separate. Securing one and forgetting another is common; list all of them.
 4. **Default to deny.** Add an allow only for a path you can name and a caller you can describe.
@@ -16,13 +16,13 @@ Source: own guidance throughout (no source was read; see origin). Rule syntax an
 5. **Sharing needs an explicit structure:** a members list or a subcollection that the rule reads, not a wide allow.
 
 ## 1.3 Rules are not filters
-1. **A query succeeds only if the rules would allow every document it could return.** A client that asks for "all documents" fails even if only some are readable; a rule cannot filter results. Write the query with the same condition as the rule (the owner equals the caller).
+1. **A query succeeds only if the rules would allow every document it could return.** A client that asks for "all documents" fails even if only some are readable; a rule cannot filter results. Write the query with the same condition as the rule (the owner equals the caller). Confirmed: queries are all or nothing, rules are checked against what the query could return, and rules can also constrain query properties such as the limit and the order (document-database query-rules page, read 2026-10-20).
 2. **When a query fails with a permission error while a single read works,** the query is broader than the rule; fix the query or the data model, not the rule.
 3. **A rule that looks up other documents costs a read each time and has limits on how many it may do per request;** design the data so the check needs few lookups, and denormalize the role or the owner into the document when appropriate.
 4. **Do not use rules as the only guard for what the query reveals:** counts, existence and error messages can leak that a document exists.
 
 ## 1.4 Cascade and operations
-1. **In some products an allow at a parent path grants everything below it, and a child rule cannot take it back** (the real-time database works this way); in others rules at different paths are independent. Know which product you are on.
+1. **In some products an allow at a parent path grants everything below it, and a child rule cannot take it back** (the real-time database works this way; confirmed: a shallower read or write rule overrides a deeper one, so a child rule cannot revoke it, real-time database security page, read 2026-10-20); in others rules at different paths are independent (not re-checked). Know which product you are on.
 2. **A single "write" permission covers create, update and delete.** Split by operation: creation has a different test (§1.2.3) from update (the owner is unchanged) and delete (an owner or administrator).
 3. **On update, compare the old and the new data:** the owner field, the role, the creation time and counters are not changeable by the client.
 4. **Deletes need their own rule;** a collection that users must not empty gives the rule to administrators only.
@@ -40,6 +40,6 @@ Source: own guidance throughout (no source was read; see origin). Rule syntax an
 3. **Deploy rules and application together through the same pipeline.** Changing rules by hand in the console creates a state no one reviewed.
 
 ## 1.7 Checks (own guidance)
-1. Print every rules file: no blanket allow, no development-mode expiry.
+1. Print every rules file: no blanket allow, no development-mode expiry (the platform's own example flags a bare signed-in check as acceptable only during development).
 2. For each path, state in one line who can read, create, update and delete; compare with the intended model.
 3. With a second ordinary account and an anonymous session, attempt to read, write, reassign and delete the first account's data; every attempt is refused.

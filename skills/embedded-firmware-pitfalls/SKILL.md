@@ -40,5 +40,5 @@ start-up, writes to non-volatile storage are counted and bounded, and the reset 
 - Pin limits, register behaviour and library details come from the chip's datasheet and the board's documentation; re-read them for the part in use (🟡, nothing here ran on hardware).
 
 ## Origin
-Written from our own craft knowledge of firmware practice. No source text was taken. See
+Written from our own craft knowledge of firmware practice, with the interrupt, stack, storage and update points checked on 2026-10-20 against the Zephyr and MCUboot documentation (Apache-2.0). No source text was taken. See
 [`references/origin.md`](./references/origin.md).

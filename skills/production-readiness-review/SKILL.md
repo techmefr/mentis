@@ -47,5 +47,5 @@ who accepted the risk, the reviewer's name and the date, and the trigger for the
 
 ## Origin
 A production-readiness checklist repository (MIT) and a hosted-platform guide on continuous validation
-(CC BY 4.0), both read 2026-10-20 and restated, plus own guidance flagged in the references. Provenance, what was
+(CC BY 4.0), plus the Kubernetes production-readiness review process (Apache-2.0), all read 2026-10-20 and restated, plus own guidance flagged in the references. Provenance, what was
 removed and not verified: [`references/origin.md`](./references/origin.md). 🟡: never dogfooded.

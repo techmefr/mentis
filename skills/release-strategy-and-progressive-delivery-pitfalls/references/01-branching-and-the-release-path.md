@@ -1,8 +1,9 @@
 # release-strategy-and-progressive-delivery-pitfalls §1 — Branching and the release path
 
 > Part 1 of `skills/release-strategy-and-progressive-delivery-pitfalls`. Read it when a branching model or a
-> merge-to-release path is chosen or reviewed. Own guidance from general craft knowledge; no source read for
-> this part. Re-read before relying on any claim about a given tool.
+> merge-to-release path is chosen or reviewed. Own guidance from general craft knowledge, except point 9 and 10, which
+> cite the GitHub Actions documentation on concurrency (CC BY 4.0, read 2026-10-20, restated in our words). Re-read
+> before relying on any claim about a given tool.
 
 1. **Keep the shared line releasable.** Symptom: the main line is red for a day, nobody ships, fixes pile up
    behind the break. Check: how long was it red last month, and who was blocked. Fix: a failing change is fixed
@@ -28,9 +29,21 @@
    whether it matters, and add the check that would catch it before production.
 8. **A hotfix uses the normal path, faster.** Symptom: urgent changes bypass tests and arrive broken. Fix: the
    same pipeline with a smaller scope, never a side door, and the fix lands on the main line the same day.
-9. **A deploy job can cancel itself.** Own guidance. Symptom: a pipeline setting that cancels an in-progress run
+9. **A deploy job can cancel itself.** Symptom: a pipeline setting that cancels an in-progress run
    when a newer one starts is applied to the job that publishes, so a deploy that was half done is stopped and the
    live site is left on neither version. Check: read the concurrency setting of the publishing job, and ask what
    state the live site is in if that job is killed at any step. Fix: queue publishing runs instead of cancelling
    them, and keep cancellation for the test jobs, which are safe to stop. Where the platform serves the new version
    only once the whole artefact is uploaded, say so and treat the risk as low rather than skipping the check.
+   Confirmed (GitHub Actions concurrency page): in one concurrency group only one run goes at a time, and the
+   cancel-in-progress option lets a new run cancel the running one, which can leave an environment partly deployed;
+   the symptom, check and fix are ours.
+10. **A queued deploy can be replaced, so an intermediate release may never ship.** Symptom: two merges land
+    minutes apart, the first never reaches production, and its changelog entry or migration step is missing from
+    the live system. Cause: in the platform's default queue only one run may wait, and a newer waiting run
+    replaces the older one (GitHub Actions concurrency page: one pending run per group, a newer pending run
+    cancels the existing pending one; an option allows up to 100 waiting runs in order, and cannot be combined
+    with cancelling the running one). Check: read the concurrency setting of the publishing job and ask what
+    happens to the second of three quick merges. Fix: choose on purpose between keeping every release in order and
+    shipping only the latest, write which one this project means, and make any step that must happen once per
+    release (a migration, a notification) independent of whether its run was replaced.

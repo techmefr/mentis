@@ -10,15 +10,17 @@ tested while writing it.
 
 | Source | Licence | What it gave |
 |---|---|---|
-| none | not applicable | Own guidance only. The review file listed a published command-line design guide and the awesome-copilot repository (MIT by the API); neither was opened: the guide's licence was not checked and clean room applies, and the repository was not needed for a stack-neutral topic |
+| no-color.org convention page | web page, facts only, nothing copied | Trigger is a non-empty variable, scope is tools that colour by default, flag and config override it (§1.4.2, §1.4.6) |
+| freedesktop base-directory specification | specification, facts only, nothing copied | Four variable names, defaults, absolute-path requirement (§2.2.4) |
+| cli-guidelines/cli-guidelines (published command-line guide) | CC BY-SA 4.0 (`LICENSE` read 2026-10-20) | Not opened: share-alike |
 
 ## Removed
-- Nothing was copied or paraphrased from a source; there is nothing to remove.
+- Nothing from the guide. The two convention pages were rewritten, no sentence copied.
 
 ## Not verified
-1. **Everything.** The points are conventions in common use (the separate output streams, exit-code semantics, no-colour handling, secrets in process lists); none was checked against a specification or a guide in this pass.
-2. **Environment-variable and directory conventions** differ by platform and by tool ecosystem; re-read the platform's rules before fixing names.
-3. **Publication.** A later pass may credit a creditable guide (CC BY or similar) once its licence file is read; until then the block claims no source.
+1. **Everything except the colour variable and the base-directory defaults.** Streams, exit-code semantics, secrets in process lists, prompts and the rest are conventions in common use, still unsourced.
+2. **Directory conventions** other than Linux's (macOS, Windows) were not read; re-read the platform's rules before fixing names.
+3. **Guide.** No permissive command-line design guide found, searched: the guide's repository (CC BY-SA), convention pages.
 4. **No command, flag or code was executed.**
 
 Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a skip-when line for internal build scripts, a swallowed environment error reported as success (§1.2.6), a path relative to the working directory and a missing prerequisite (§1.1.6), an unknown flag falling through to write mode (§2.1.8), the dry-run rule exempted for regenerated directories (§2.4.6), and the deprecation rule scoped to published interfaces. The status stays 🟡.

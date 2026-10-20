@@ -3,26 +3,27 @@
 > Provenance of `skills/delivery-metrics-definition-pitfalls`. Read it when a rule has to be traced to its source
 > or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
-**Status: 🟡 never dogfooded.** Written from own craft knowledge, never applied to a real delivery dashboard by
-us.
+**Status: 🟡 never dogfooded.** Written from own craft knowledge, with metric names and cautions checked against
+the framework's own guide on 2026-10-20; never applied to a real delivery dashboard by us.
 
 ## Sources (read 2026-10-20)
 
 | Source | Licence | What it gave |
 |---|---|---|
-| None read for this block | not applicable | The terms (deployment frequency, lead time, change failure rate, time to restore) are common industry vocabulary used here as names for definitions the block asks the reader to write down |
-
-No credit is owed: no text, structure or number was taken from a source. The research framework that popularised
-the four terms was not opened, its licence was not confirmed as open, and the block does not claim to describe it.
+| dora.dev guide to the framework's software delivery metrics | official guide, licence not verified, facts only, rewritten, nothing copied, read 2026-10-20; credit: dora.dev | Metric names and the fifth metric, start and end of lead time, failure meaning, throughput and instability grouping, cautions on targets and comparison (§1.1, §1.4, §1.5, §1.11, §2.1-3) |
+| dora-team/fourkeys | Apache-2.0 (`LICENSE` read 2026-10-20) | Not opened beyond the licence file |
 
 ## Removed
 1. **Every benchmark, performance band and threshold.** None was read, so none is stated.
 2. **Any definition attributed to a named framework.** The definitions here are the reader's to choose and write.
 
 ## Not verified
-1. All of the content is own guidance from general knowledge; nothing may be quoted as a source claim.
-2. Whether the framework's own definitions differ from the ones suggested here was not checked. If a team must
-   report against that framework, re-read its current publication first.
+1. Metric names, lead-time boundaries, failure meaning, grouping and the cautions on targets and comparison are
+   checked. The rest (batch size, clocks, definition versioning, cycle-time breakdown, toil, surveys, individuals) is
+   own guidance; nothing there may be quoted as a source claim.
+2. The guide's other pages (surveys, capabilities, bands) were not read. The framework's benchmark bands and
+   research reports were not opened, and the block does not claim to describe them. If a team must report against
+   the framework, re-read its current publication first.
 3. The survey and toil points were not compared with any published method.
 4. Nothing was run and no data was computed in writing this block.
 

@@ -3,20 +3,21 @@
 > Provenance of `skills/kotlin-multiplatform-pitfalls`. Read it when a rule has to be traced to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
-**Status: 🟡.** Written from the author's own craft knowledge. Never dogfooded; no multiplatform project was built.
+**Status: 🟡.** Written from the author's own craft knowledge, with part of the runtime claims checked against the Kotlin documentation on 2026-10-20. Never dogfooded; no multiplatform project was built.
 
 ## Sources (read 2026-10-20)
 
 | Source | Licence | What it gave |
 |---|---|---|
-| None opened. The review found no creditable source for this gap; the existing Kotlin API-design block already credits the one open source read for the expect/actual seam | n/a | Nothing taken |
+| Kotlin documentation: multiplatform hierarchy, expect and actual, Objective-C interop, native memory manager | Apache-2.0 (`LICENSE` of the documentation repository read 2026-10-20; it names no separate documentation licence); rewritten, nothing copied | Template and explicit edges (§1.2.1), prefer interfaces over expect (§1.1.4), shared heap (§2.1.3), suspend bridge (§2.1.5), generics limits (§2.2.2), exception rule (§2.2.3), name clashes (§2.2.4) |
+| The existing Kotlin API-design block's open source for the expect/actual seam | credited in that block | Not re-read |
 
 ## Removed
 - Gradle snippets, plugin ids, library names with versions, and Kotlin/Native compiler flags: not covered.
 - Desktop, web and server targets: not covered beyond the shared rules.
 
 ## Not verified
-1. **All runtime statements** (memory model, dispatcher behaviour, Swift export limits, exception crossing, generated names) are general knowledge and were not checked against the current Kotlin documentation or run. The memory model and interop tooling change between releases: re-read before relying.
+1. **Checked:** default hierarchy template, expect and actual advice, shared-heap memory manager, exception crossing, suspend bridge, generics limits, name clashes. **Unverified:** default arguments and value classes in the export, sealed hierarchies, dispatcher injection, thread-affinity of callbacks, cancellation scoping, library choices (time, network, storage, serialisation, injection), version catalogue, build speed, Swift export, shared UI maturity, symbol upload. The memory model and interop tooling change between releases: re-read before relying.
 2. **Compose Multiplatform on iOS** maturity and component gaps change quickly; §2.3 is guidance on method, not a status report.
 3. **Library recommendations** are by category, not by name, on purpose.
 

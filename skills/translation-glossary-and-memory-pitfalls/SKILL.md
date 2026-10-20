@@ -53,6 +53,6 @@ verified.
 
 ## Origin
 Written from our own knowledge of localisation practice, with one overlap point confirmed against
-`i18n-catalog-workflow-pitfalls` (Pontoon documentation, BSD-style, read 2026-10-15). No external source was read
-for this block on 2026-10-20: the candidate sources had licences that were not creditable or not verified. 🟡: never
+`i18n-catalog-workflow-pitfalls` (Pontoon documentation, BSD-style, read 2026-10-15). One specification page (XLIFF 2.1, facts only, partial) was read
+for this block on 2026-10-20; the other candidate sources had licences that were not creditable or not verified. 🟡: never
 run by us; open points are in [`references/origin.md`](./references/origin.md).

@@ -1,6 +1,6 @@
 # cli-tool-design-pitfalls §1 — Streams, exit codes and scripting
 
-Source: own guidance throughout (no external guide was read; see origin). Where a point rests on a widely documented convention, it says so.
+Source: own guidance, except the colour points checked on 2026-10-20 against the no-colour convention page (facts only, rewritten). The published command-line guide was not opened (share-alike licence). See origin.
 
 ## 1.1 Two streams, two jobs
 1. **Standard output carries the result and nothing else.** What another program would want to read goes there. Symptom of a violation: piping the tool into another breaks because a "Done!" line is in the data.
@@ -27,10 +27,11 @@ Source: own guidance throughout (no external guide was read; see origin). Where 
 
 ## 1.4 Terminal or not
 1. **Check whether the output stream is a terminal before using colour, spinners, progress bars or cursor movement.** Off a terminal, print plain lines.
-2. **Honour the conventions for turning colour off:** a no-colour environment variable, a colour flag, and a dumb-terminal setting.
+2. **Honour the conventions for turning colour off:** a no-colour environment variable, a colour flag, and a dumb-terminal setting. The published no-colour convention triggers on the variable being present and non-empty, whatever its value (an empty value does not count), applies only to tools that colour by default, leaves bold and underline alone, and yields to an explicit flag or user configuration (no-colour page).
 3. **Never prompt when input is not a terminal.** Fail with a message that names the flag that supplies the missing value. A hung CI job is the worst failure mode of a command-line tool.
 4. **Provide a flag for every prompt's answer** and a "yes to all" for confirmations (§2.4), so that the interactive path and the scripted path reach the same code.
 5. **A progress display must not be the only record.** Log the same events as lines on standard error when not on a terminal.
+6. **Treat an empty colour variable as unset.** Symptom: colour disabled for everyone who exports the variable with no value. Check: run once with the variable non-empty, once empty, once with an explicit colour flag, and read the output. Fix: test for non-empty, and let the flag win (no-colour page).
 
 ## 1.5 Signals, interruption and long runs
 1. **Handle interruption (the usual terminal interrupt and terminate signals) by cleaning up and exiting with the conventional code,** not by leaving partial files, locks or half-written output.

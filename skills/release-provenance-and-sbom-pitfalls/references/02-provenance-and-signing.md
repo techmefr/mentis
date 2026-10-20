@@ -1,16 +1,18 @@
 # release-provenance-and-sbom-pitfalls §2 — Provenance and signing
 
 > Part 2 of `skills/release-provenance-and-sbom-pitfalls`. Read it when artefacts are signed or attested.
-> **No source for this section was read**: it is own guidance from general knowledge of supply-chain practice.
-> The build-provenance framework's level names and the signing tools' options were not opened; re-read the
-> specification in force before quoting any level, field or flag. Where the schema read for §1 says something,
-> it is cited as such.
+> Read 2026-10-20 for facts only, restated in our words: the build-provenance framework's levels page and its
+> artefact-verification page (specification site, licence is a community specification licence, not on our
+> creditable list), and the OpenSSF Scorecard checks page (Apache-2.0). The levels page read is the v1.0 one and is
+> itself marked retired in favour of v1.2: re-read the specification in force before quoting any level, field or
+> flag. The signing tools' options were not opened. Where a point has no citation it is own guidance; where the
+> schema read for §1 says something, it is cited as such.
 
 1. **State what each artefact claims.** Own guidance: a signature says "this key vouched for these bytes"; a
    provenance statement says "this builder produced these bytes from this source with these inputs". They answer
    different questions; a release that has only a signature cannot tell a customer which commit or which build
    it came from. Decide which claim you owe and write it in the release notes.
-2. **Bind the claim to a digest.** Own guidance: attach the evidence to the cryptographic hash of the exact
+2. **Bind the claim to a digest.** Confirmed in the framework's verification page: a consumer checks that the statement's subject matches the digest of the artefact in hand, because expectations attach to a package name while provenance attaches to one specific artefact, so a name check alone misses a substituted or modified file. Attach the evidence to the cryptographic hash of the exact
    file, not to a name or a tag. Tags move; a digest does not. Symptom: an attestation exists but the artefact
    downloaded by users has a different hash because it was repacked after signing. Fix: hash after the final
    packaging step and sign that.
@@ -21,8 +23,11 @@
 4. **Build in an environment the producer controls, from a known source.** Own guidance: provenance is only as
    strong as the builder: a hosted, ephemeral build that takes pinned inputs and cannot be altered from the
    job's own steps gives a stronger statement than a laptop build. Record the builder, the source revision and
-   the dependency lock state. The framework's levels grade this in steps; the level definitions were not read,
-   re-read before relying.
+   the dependency lock state. The framework's levels grade this in steps (v1.0 page): level 1, provenance exists and shows how the
+   artefact was built, which catches mistakes and is easy to forge; level 2, a hosted platform generates and signs
+   the provenance, which protects against tampering after the build; level 3, a hardened platform protects against
+   tampering during the build, with isolated runs and protected signing secrets. The build track does not cover
+   source or dependencies. Re-read the version in force before quoting a level.
 5. **Verify once, from outside, and keep the command.** Own guidance: after the first signed release, run the
    verification as a consumer would, from a machine that did not build it, against the downloaded artefact, and
    keep the exact command in the release checklist. Symptom: months of signed releases that no one can verify
@@ -42,9 +47,14 @@
    and does not close it. Check by listing every `uses:` line of every workflow and noting the form of each ref. Beyond that,
    restrict who can change the release workflow, and review a change to it like a
    change to production code (`skills/ci-workflow-hardening`).
-9. **Score the repository's own hygiene separately.** Own guidance: automated checkers of a repository's
-   practices (branch protection, pinned dependencies, reviews, signed releases) exist; none was read here, so
-   their checks are not listed. If you adopt one, treat the score as a to-do list, not a badge.
+9. **Score the repository's own hygiene separately.** Automated checkers of a repository's practices exist; the
+   OpenSSF Scorecard checks page lists checks on branch protection, human code review, dangerous workflow patterns,
+   token permissions, pinned dependencies, signed releases, an update tool, a security policy and a published SBOM,
+   each with a risk level and a score out of ten (signed releases score higher when provenance is also present). If
+   you adopt one, treat the score as a to-do list, not a badge. Its stated reasons for pinning by hash: the same
+   software in checks and in deployments, a guard if a dependency is later compromised after you vetted the pinned
+   one, and a counter to dependency confusion; the trade-off it names is delayed security updates, which an update
+   tool offsets (consistent with point 8).
 
 ## Checks (own guidance)
 1. The signature or attestation names the digest of the file users download.

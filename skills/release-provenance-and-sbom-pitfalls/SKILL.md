@@ -63,7 +63,7 @@ as the support period lasts.
   from the specification in force before it is quoted. Nothing was run while writing it.
 
 ## Origin
-Rewritten from the CycloneDX specification schema (Apache-2.0), read 2026-10-20, plus own guidance flagged in the
-references. The build-provenance framework (SLSA) and signing tools were **not read**; their terms are used from
+Rewritten from the CycloneDX specification schema (Apache-2.0) and the OpenSSF Scorecard checks page (Apache-2.0), read 2026-10-20, plus the build-provenance framework's levels and verification pages read for facts only (the levels page is the retired v1.0 one), plus own guidance flagged in the
+references. The signing tools were **not read**; their terms are used from
 general knowledge and marked "re-read before relying". Provenance, what was removed and not verified:
 [`references/origin.md`](./references/origin.md). 🟡: never dogfooded.

@@ -40,5 +40,5 @@ host, and the way back (previous generation or restored file) was tried.
 - Module names, option names and defaults change between versions; re-read the documentation of the versions in use (🟡, nothing here was run).
 
 ## Origin
-Written from our own craft knowledge of Ansible and Nix practice. No source text was taken (the one repository the
+Written from our own craft knowledge of Ansible and Nix practice, with the points listed in the origin file checked on 2026-10-20 against the official Ansible, NixOS and Nix pages (facts only, licence not verified). No source text was taken (the one repository the
 review found is Terraform-only and file-level copyleft, and was not opened). See [`references/origin.md`](./references/origin.md).

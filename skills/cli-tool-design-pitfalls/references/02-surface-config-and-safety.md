@@ -1,6 +1,6 @@
 # cli-tool-design-pitfalls §2 — Surface, configuration and safety
 
-Source: own guidance throughout (no external guide was read; see origin). Where a point rests on a widely documented convention, it says so.
+Source: own guidance, except the directory defaults in §2.2.4 checked 2026-10-20 against the freedesktop base-directory specification (facts only, rewritten). See origin.
 
 ## 2.1 Commands and flags
 1. **Use a noun-verb or verb-noun grammar consistently across subcommands,** and choose once. Mixed grammars are the commonest sign of a tool that grew by accretion.
@@ -16,7 +16,7 @@ Source: own guidance throughout (no external guide was read; see origin). Where 
 1. **One order, documented: flag, then environment variable, then project file, then user file, then system default.** Show the effective value and its source with a "show configuration" command.
 2. **Environment variables use one prefix** for the tool and map to flag names mechanically.
 3. **Do not read configuration from the current directory without saying so,** since running the tool in an untrusted checkout then runs its settings (own guidance).
-4. **Follow the platform's directory conventions for user files** (config, cache, data), not a dot-folder per tool where the platform has a standard place.
+4. **Follow the platform's directory conventions for user files** (config, cache, data), not a dot-folder per tool where the platform has a standard place. On Linux the base-directory specification names four variables (config, cache, data, state) with defaults under the home directory (`.config`, `.cache`, `.local/share`, `.local/state`), used when the variable is unset or empty, and requires an absolute path: ignore a relative one (basedir specification, checked 2026-10-20).
 5. **An unknown key in a config file is an error with the key's name,** not a silent ignore: a typo otherwise passes for months.
 
 ## 2.3 Secrets

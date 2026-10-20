@@ -59,6 +59,6 @@ sequence and one with a sharp s was cased, counted and cut (§2). A configuratio
   knowledge of the algorithms and the ECMAScript Intl API and was not re-read. Nothing was run while writing it.
 
 ## Origin
-Rewritten from Unicode LDML part 5 on collation (UTS #35, facts only, Unicode terms) read 2026-10-20, plus our
+Rewritten from Unicode LDML part 5 on collation (UTS #35, facts only, Unicode terms), the special-casing data, UAX #15 and the PostgreSQL collation page read 2026-10-20, plus our
 own knowledge of Unicode text processing and the ECMAScript Intl API, marked where unchecked. 🟡: never run by
 us; open points are in [`references/origin.md`](./references/origin.md).

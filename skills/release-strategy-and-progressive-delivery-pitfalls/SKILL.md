@@ -57,5 +57,5 @@ steps. A staged rollout without a stop condition is not started; a single-enviro
 
 ## Origin
 Rewritten from the Azure Architecture Center articles on tenant update strategies and on blue-green deployment
-(CC BY 4.0, read 2026-10-20), plus own craft knowledge flagged in the references. Provenance, what was removed and
+(CC BY 4.0), the GitHub Actions concurrency page (CC BY 4.0) and the Argo Rollouts documentation (Apache-2.0), read 2026-10-20, plus own craft knowledge flagged in the references. Provenance, what was removed and
 not verified: [`references/origin.md`](./references/origin.md). 🟡: never dogfooded.

@@ -6,7 +6,7 @@ Sources: the `deploy` and `elastic-beanstalk` skills of awslabs/agent-plugins at
 1. **Give every workload its own role or service identity, with the actions it needs on the resources it touches.** The source derives the list from the code: find the provider SDK clients in the source and map each call to its action and its resource, rather than starting wide and trimming later.
 2. **Do not attach the provider's full-access managed policy for a service,** and do not wait for an access-denied error to learn what is missing. Read the policies the role carries, compare with what the deployment needs, add only the missing actions and scope each to its resource.
 3. **Use temporary credentials from a role, not long-lived access keys,** for workloads, CI and people (own guidance). A key committed or logged stays valid until someone revokes it.
-4. **A default identity the provider creates for compute (on some providers it carries broad edit rights) should not be left on new workloads** (own guidance, re-read before relying): create a dedicated one and move the workload to it.
+4. **A default identity the provider creates for compute (on some providers it carries broad edit rights) should not be left on new workloads**: create a dedicated one and move the workload to it. Checked on one provider: the default compute identity is granted the project-wide editor role when it is created, and the provider recommends turning that automatic grant off and giving each identity only what its workload needs (GCP IAM service-account overview, read 2026-10-20). No Azure page was read.
 
 ## 1.2 Discover before you create
 1. **Before creating a role for a service, look for one that already exists** and check two things: it exists, and its trust policy lets that service assume it. The source ranks candidates by last use and falls back to the newest creation date when last-use data is empty.
@@ -22,7 +22,7 @@ Sources: the `deploy` and `elastic-beanstalk` skills of awslabs/agent-plugins at
 
 ## 1.4 What is reachable from the world
 1. **Treat "anywhere" (all addresses) as a finding in every inbound rule,** except the ports of a public front door. Check the administration ports in particular.
-2. **Block public access at the account level for object storage,** and give a bucket public readability only when it is a website, with the reason written down (own guidance).
+2. **Block public access at the account level for object storage,** and give a bucket public readability only when it is a website, with the reason written down. Checked on one provider: the block exists at organisation, account, bucket and access-point level with four independent settings, the most restrictive combination wins, and the provider recommends turning all four on for the account; the settings do not edit existing policies, so removing one makes a bucket with a public policy public again (S3 Block Public Access page, read 2026-10-20).
 3. **A public IP, a public bucket or a public snapshot is found by scanners within hours** (own guidance); do not leave one "for a moment".
 4. **Run a template security scan before applying** (the source names two such scanners). It catches missing encryption and open ranges; it does not know your intent, so read the result.
 

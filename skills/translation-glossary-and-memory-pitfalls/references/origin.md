@@ -8,11 +8,12 @@ no memory imported, no vendor briefed while writing it.
 
 ## Sources (read 2026-10-20)
 
-None read for this block. The overlap check was against blocks already in the repository.
+One specification page read for facts (below); otherwise none. The overlap check was against blocks already in the repository.
 
 | Candidate | Status |
 |---|---|
-| OASIS TMX, XLIFF and TBX specifications | Not opened. Licence not verified; the formats are named only, with no clause or version detail |
+| OASIS XLIFF 2.1 core specification | Read 2026-10-20 for facts only, restated in our words, nothing copied; partial (the page is about 500000 characters, about 200000 were read). Licence is the standards body's own, not on our creditable list. Gave: purpose, notes, inline codes, optional glossary and candidate modules (§2.4.1). State attribute values were not found |
+| TMX and TBX specifications | Not opened (the TMX page tried returned an error). Formats named only |
 | Weblate, Crowdin, Lokalise documentation | Not opened. The Weblate repository is GPL-licensed (not creditable for text); the others were not checked |
 | Mozilla and Microsoft style guides | Not opened. Licences vary and none was verified |
 | Mozilla Pontoon documentation (BSD-style, read 2026-10-15 for `i18n-catalog-workflow-pitfalls`) | Not re-read here; the overlap with its glossary point is cross-linked rather than restated |
@@ -23,7 +24,7 @@ this block adds the record, the brief, the memory and the review loop and links 
 
 ## Not verified
 1. **Nothing was run.** No tool, format or workflow was exercised.
-2. **Every rule is own knowledge.** Tool behaviour (fuzzy-match handling, state flags, format support and
+2. **Every rule is own knowledge except the XLIFF facts in §2.4.1.** Tool behaviour (fuzzy-match handling, state flags, format support and
    what each exchange format preserves) differs by tool and version and must be confirmed in the tool in use.
 3. **Quality frameworks** (error types and severities) are described generically; no published framework was read.
 4. **Thresholds** are deliberately not given; where one is used, the team records it and its check.

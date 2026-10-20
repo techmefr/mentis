@@ -3,7 +3,7 @@
 > Provenance of `skills/collation-and-locale-aware-search-pitfalls`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
-**Status: 🟡.** Written from one specification part plus our own knowledge of Unicode text processing and the
+**Status: 🟡.** Written from one specification part, three further pages read for facts, plus our own knowledge of Unicode text processing and the
 ECMAScript Intl API, never run by us. No collator was built, no database queried, no text sorted while writing it.
 
 ## Sources (read 2026-10-20, rewritten in our own words, no text copied)
@@ -11,12 +11,17 @@ ECMAScript Intl API, never run by us. No collator was built, no database queried
 | Source | Licence | What it gave |
 |---|---|---|
 | unicode-org/cldr, `docs/ldml/tr35-collation.md` (main branch, read 2026-10-20): collation overview, types and type fallback, version, settings table and common combinations, normalisation and variable-top notes, collation indexes and index characters | **Unicode terms: facts only.** The repository LICENSE file says the specification may be copied for personal or internal business purposes and not distributed publicly without permission, so nothing is reproduced; sample tables and the data examples are not carried | Collation varies by language and use, several types per locale and the fallback chain to root, version setting, strength levels and the common "ignore accents / ignore case / ignore punctuation" combinations, numeric ordering, case settings, variable handling and its default difference from the base algorithm, reordering of scripts, search type, match boundaries, index characters and buckets |
+| Unicode character database, SpecialCasing.txt (read 2026-10-20) | Unicode terms: facts only, nothing reproduced | Turkish and Azerbaijani i mappings, sharp s, final sigma, conditional versus unconditional (§2.1.1-3) |
+| Unicode UAX #15, normalisation forms (read 2026-10-20) | Unicode terms: facts only, nothing reproduced | Four forms, canonical versus compatibility, caution on the compatibility forms (§2.3.1) |
+| PostgreSQL manual, collation page (read 2026-10-20) | PostgreSQL licence, permissive but not on our creditable list: facts only, restated | Nondeterministic collation cost and limits (§2.3.5); the page does not cover collation versions or index rebuilds |
+| ECMA-402 (Intl) specification page | tried 2026-10-20, only the constructor and contents were returned | Nothing taken |
 
 ## Own knowledge, not re-read in this session (marked "re-read before relying" in the files)
 The behaviour of the ECMAScript collator (options, sensitivity, building cost), `toLocaleLowerCase` and
-`toLocaleUpperCase`, the segmenter (grapheme and word granularity), the Turkish and Azerbaijani i pairs, the
-sharp s expansion, context-dependent final sigma, Unicode normalisation forms and their use for identifiers,
-the behaviour of databases when a collation library changes version, and the count units of columns. The MDN pages
+`toLocaleUpperCase`, the segmenter (grapheme and word granularity), the behaviour of databases when a collation
+library changes version (the PostgreSQL page read did not cover it), and the count units of columns. Now checked on
+2026-10-20: the Turkish and Azerbaijani i pairs, the sharp s expansion, context-dependent final sigma, the
+normalisation forms and the caution on the compatibility ones. The MDN pages
 were not opened: their text is share-alike licensed. The Unicode Collation Algorithm report (UTS #10) itself was
 not opened; only the part of it that UTS #35 restates is relied on.
 
