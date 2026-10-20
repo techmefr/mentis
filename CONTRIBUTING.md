@@ -44,7 +44,7 @@ clone.
 | | |
 |---|---|
 | 📐 **One template** | Every block follows the 7-section structure. Read [`CONVENTIONS.md`](./CONVENTIONS.md) and [`skills/writing-skills`](./skills/writing-skills/SKILL.md) / [`skills/writing-agents`](./skills/writing-agents/SKILL.md) first |
-| 🏷️ **Credit the origin** | Any idea taken from outside gets its source recorded in [`CATALOG.md`](./CATALOG.md). The mechanism is rewritten, never the prose |
+| 🏷️ **Credit the origin** | Any idea taken from outside gets its source recorded in [`CATALOG.md`](./CATALOG.md). The mechanism is rewritten, never the prose. A source with no open licence goes through the clean-room procedure of `CONVENTIONS.md` (Rule B) |
 | 🟡 **Honest maturity** | A new block ships 🟡 — written, not run. Only real use on real work moves it to 🟢. Do not mark your own block green |
 | 🔒 **Rule C** | No secrets, no real project names, no internal hosts. `test_rule_c.py` enforces it, but write as if it didn't |
 | 🇬🇧 **English** | Blocks, branches, commits and PR titles are in English, whatever language the discussion happened in |

@@ -1126,6 +1126,19 @@ stable and applied. The honest breakdown:
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
 | 🧪 `bin/` | 12 scripts | 43 checks across the two review transports — the local one is exercised, the forge one is ported and unit-tested but has **not** run against a live MR in this form; the two that measure the repo itself (depth table, citations) carry 42 more |
 
+**Latest round** (2026-10-20): the plan block now cuts work as vertical slices and `tdd` runs per slice,
+with the default-fail contract unchanged; guardrails carry their positive form beside the `Never` line;
+the two skill-trigger blocks are fused into `skill-trigger-evals`; deferrals are recorded in
+`specs/<NNN>/debt.md` (`over-engineering-review` section 2). New method blocks, all 🟡 and none run on a real
+case: feature flags, SLO design, chaos experiments, paid media (decisions, measurement, creative and
+policy), web animation, programmatic video and video briefs, email (deliverability, measurement, lifecycle
+design), pricing and packaging, price changes and billing, podcast publishing, and the appraisal of someone
+else's evidence. `ai-prose-tells` gained a certain tier, a residue-string scan, families 46 to 55 and a
+reference for other languages. Rule B now has a clean-room procedure for sources with no open licence
+(a reader writes a method sheet, a separate writer writes the block, no sentence copied). The GitHub topics
+and description now name the tools that read `AGENTS.md`; mentis is written for Claude Code and none of the
+other tools has been tried against it.
+
 **Since the last round** (2026-10-19): the install guard `hooks/block-installs.sh` now refuses most of its
 known bypasses (python -m pip, installers by path, bare yarn, uv sync, piped scripts, installs inside
 containers; the hooks suite is at 441 checks, the remaining gaps are listed in
