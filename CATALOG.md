@@ -306,6 +306,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| web-components-forms-a11y-pitfalls | 6 (new 2026-10-20) | WHATWG HTML and DOM standards (CC BY 4.0) | 🟡 (never dogfooded) |
+| runbook-writing-and-maintenance-pitfalls | 6 (new 2026-10-20) | PagerDuty incident-response docs (Apache-2.0), Azure architecture-center (CC BY 4.0) | 🟡 (never dogfooded) |
 | settings-and-preferences-page-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
 | onboarding-and-empty-state-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
 | checkout-and-payment-form-ui-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |

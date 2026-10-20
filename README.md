@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-442-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-444-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-55-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **442** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **444** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **55** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -455,6 +455,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `web-components-forms-a11y-pitfalls` | 6 (new 2026-10-20) | Custom elements as real controls: form participation, default semantics and focus, event retargeting, styling hooks, declarative shadow DOM |
+| `runbook-writing-and-maintenance-pitfalls` | 6 (new 2026-10-20) | Runbooks that a tired stranger can follow: page content, alert link, ownership, testing by execution, stale-step detection |
 | `settings-and-preferences-page-pitfalls` | 6 (new 2026-10-20) | Settings pages: autosave against explicit save, defaults, scope and precedence, reset, dangerous settings, search, states, accessibility, tests |
 | `onboarding-and-empty-state-pitfalls` | 6 (new 2026-10-20) | First-run flows and empty states: checklists, progress persistence, skip and resume, tours, sample data, accessibility, tests |
 | `checkout-and-payment-form-ui-pitfalls` | 6 (new 2026-10-20) | Checkout UI: hosted fields only, totals consistency, double submit, declines, 3-D Secure return, pending outcomes, accessibility, tests |
@@ -1202,7 +1204,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 442 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 444 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 55 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |
