@@ -49,4 +49,4 @@ a person before the first real post. A job that has only ever run on a good day 
 
 ## Origin
 Rewritten from the daily digest and triage agents of Anthropic's claude-quickstarts (MIT), read 2026-10-20, with
-own guidance flagged in the references. 🟡: never run by us.
+own guidance flagged in the references; scheduler, chat-API and agent-runtime points re-checked on 2026-10-20 against the Kubernetes CronJob page (CC BY 4.0), GitHub workflow-events page (CC BY 4.0), Slack API references and one agent CLI documentation (facts only). 🟡: never run by us.

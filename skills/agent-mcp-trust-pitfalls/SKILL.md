@@ -49,5 +49,5 @@ verification.
 ## Origin
 Rewritten at idea level from the Model Context Protocol security guidance (attribution only, mixed licences),
 the Snyk agent-scan documentation (Apache-2.0), the Trail of Bits context protector (Apache-2.0), the SlowMist
-MCP checklist (MIT) and a prompt-injection defence note from a hooks repository (MIT), read 2026-10-15. 🟡:
+MCP checklist (MIT) and a prompt-injection defence note from a hooks repository (MIT), read 2026-10-15, with the protocol specification pages for authorisation, tools and security best practices, RFC 5737 and OpenAI's MCP guide re-read 2026-10-20 (facts only). 🟡:
 never run by us; open points are in [`references/origin.md`](./references/origin.md).

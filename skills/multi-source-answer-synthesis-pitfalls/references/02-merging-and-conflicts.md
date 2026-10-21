@@ -2,7 +2,8 @@
 
 > Part 2 of `skills/multi-source-answer-synthesis-pitfalls`. Read it when results from several sources are
 > combined. Source: the knowledge-synthesis skill of the enterprise-search plugin of a plugin repository
-> (Apache-2.0), rewritten in our own words; its confidence-weight table and ranking weights are not carried.
+> (Apache-2.0, re-opened 2026-10-20), rewritten in our own words; its confidence-weight table and ranking weights
+> are not carried. Anthropic's search-results page and research-agent write-up are cited where named.
 
 ## 2.1 What counts as the same item
 1. **Signals that two results are one**: nearly identical text, the same author, timestamps close together, a
@@ -28,7 +29,9 @@
 2. **A draft is weaker than a final document; a message in the middle of a thread is weaker than its
    conclusion.** The tiers are the organisation's to set; the structure (authority, finality, age) is what
    carries over. Own guidance: write the tiers down once per organisation instead of re-deriving them per
-   answer.
+   answer. Anthropic's research-agent write-up supports putting them in the prompt: its early agents kept choosing
+   search-optimised content farms over authoritative but lower-ranked sources, and adding source-quality heuristics to
+   the prompts fixed it.
 3. **Freshness weighs heavily for status and little for stable policy.** Old material is not wrong for that
    reason, but flag it as possibly out of date for anything that changes.
 4. **Do not copy numeric weights for relevance, freshness and authority from any source.** They are one author's

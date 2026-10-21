@@ -49,5 +49,6 @@ are written down next to the index definition (§1). A change is judged by the m
 
 ## Origin
 Rewritten at idea level from the documentation of the Ragas evaluation library (Apache-2.0), read 2026-10-20,
-and from craft knowledge marked "own guidance" in the references. 🟡: never run by us; open points are in
+re-read 2026-10-20 for the credited points, from vendor and store documentation (facts only), and from craft
+knowledge marked "own guidance" in the references. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

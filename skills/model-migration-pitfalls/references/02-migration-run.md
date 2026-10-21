@@ -26,22 +26,24 @@
 
 ## 2.3 What does not transfer
 1. **Prompts tuned to a model's quirks:** emphasis, formatting tricks and example styles that the old model
-   needed can cause over-literal or verbose output on the new one. Symptom: output length or tone shifts across
+   needed can cause over-literal or verbose output on the new one; Anthropic's prompting guide says that on newer models
+   emphatic wording written to prevent under-triggering of tools can now cause over-triggering and should be dialled back. Symptom: output length or tone shifts across
    the board. Fix: retune after the first diff, as a separate gated change
    (`prompt-versioning-and-change-gating-pitfalls` §2).
 2. **Sampling and limit parameters:** temperature, maximum output, stop sequences, tool-call options and
    reasoning or effort settings may mean different things or be unsupported. Re-read the new model's
    documentation and test each. Concrete case in one provider's docs: on its newer models a non-default temperature,
-   top-p or top-k returns a 400 error, and its Python SDK removed those parameters so passing them raises a type
-   error; the recommendation is to omit them. Some models also reject turning thinking off. The provider's models
-   endpoint reports capabilities per model, so read them in code instead of assuming (Anthropic deprecations and
+   top-p or top-k returns a 400 error, and its deprecation page says most SDKs keep the field so code still
+   type-checks, with one language's SDK removing it; the recommendation is to omit them. Some models also reject turning thinking off. The provider's models
+   endpoint reports maximum input tokens, maximum output tokens and capabilities per model (including whether thinking
+   can be turned off), so read them in code instead of assuming (Anthropic deprecations and
    models overview pages).
 3. **Output format and parsing:** whitespace, wrapper text, field order and escape habits shift. Validate with the
    real parser, not by eye.
 4. **Tool use:** a new model can call tools more or less eagerly or with different argument shapes; rerun the
    tool-choice cases (`agent-run-limits-and-guardrail-pitfalls` for the caps that must still hold).
-5. **Context window and tokenisation:** the same text costs a different number of tokens (the Anthropic overview says a newer tokenizer fits fewer words
-   into the same token count than older models); budgets in §1.3 of
+5. **Context window and tokenisation:** the same text costs a different number of tokens (the Anthropic overview says the tokenizer introduced with one generation fits fewer words
+   into the same token count than the earlier ones); budgets in §1.3 of
    `llm-cost-latency-control-pitfalls` need re-measuring.
 6. **Refusals and safety behaviour** differ; the user-visible tone may too. Review a sample of both.
 

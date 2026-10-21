@@ -1,8 +1,9 @@
 # unattended-agent-run-pitfalls §3 — Verify and post
 
 > Part 3 of `skills/unattended-agent-run-pitfalls`. Read it when the job is about to write to the outside world.
-> Source, read 2026-10-20: the daily digest agent of anthropics/claude-quickstarts (MIT). Sentences marked "own
-> guidance" are ours.
+> Sources: the daily digest agent of anthropics/claude-quickstarts (MIT, re-opened 2026-10-20); for points 5 and 12
+> the Kubernetes CronJob page (CC BY 4.0), GitHub's workflow-events page (CC BY 4.0) and Slack's search reference
+> (product documentation, facts only), read 2026-10-20. Sentences marked "own guidance" are ours.
 
 1. **The world moved while you read.** A run takes minutes; an item read at the start may be resolved by the time
    the report is written. The sample re-checks the live source of every item it will report, just before posting:
@@ -18,8 +19,9 @@
    Check: a quiet run and a failed run look different in the run record (§3.8).
 5. **One post, found by its title.** Before posting, look in the destination for today's edition by its title and
    do not post again if it is there. Own guidance: use the destination's own history call, not a search
-   permission the job does not hold; the sample notes that a bot token cannot search. This makes a re-run after
-   a crash safe.
+   permission the job does not hold; the sample notes that a bot token cannot search, and Slack's search method lists
+   only a user-token scope. This makes a re-run after a crash safe, which matters because the Kubernetes CronJob page
+   itself says a job can be started twice and tells you to write jobs that are idempotent.
 6. **Write "posting" before you post.** The run record gets a status first, the post follows, and the status is
    updated from the result. States used by the sample: posting, posted, maybe posted, held. If the result is
    unclear, "maybe posted" and nothing else in the state changes; if the destination refuses (not a member,
@@ -39,5 +41,10 @@
     none).
 11. **Do not answer replies.** Own guidance: a reader's reply in the destination may suggest a rule change; the run
     adds it to the proposals file for the reader to accept, and never edits the rules or reacts in the channel.
-12. **Pin the version a schedule runs.** Own guidance: a scheduled job refers to a specific version of the agent
+12. **A run that never starts leaves no record.** The scheduler is part of the job's failure surface: GitHub's page says
+    scheduled workflows run only on the default branch, can be dropped under load, and are disabled automatically in a
+    public repository after sixty days without repository activity; a Kubernetes CronJob does not start after more than
+    a hundred missed schedules. Own guidance: something outside the job, which expects a run record by a stated time,
+    reports its absence; the job cannot report that it did not run.
+13. **Pin the version a schedule runs.** Own guidance: a scheduled job refers to a specific version of the agent
     definition, so an edit made for a test cannot change tomorrow's run without someone re-pinning it.

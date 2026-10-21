@@ -22,8 +22,8 @@
    reference passage identifiers found. Both need a reference. Low recall means a retrieval problem; no
    prompt change can recover it.
 2. **Precision at rank asks "were useful chunks placed first".** The Ragas description is the average of
-   precision at each rank, weighted by relevance, so an irrelevant chunk in first place costs more than the
-   same chunk in second. Low precision with high recall means the answer is present but buried.
+   precision at each rank, weighted by relevance; its worked example scores the same irrelevant chunk far
+   lower in first place than in second. Low precision with high recall means the answer is present but buried.
 3. **Noise sensitivity asks "does an irrelevant or partly relevant chunk change the answer".** In Ragas it is the
    share of the answer's claims that are wrong, measured with relevant chunks or with irrelevant ones, and
    lower is better. Use it when recall is fine and answers are still wrong.

@@ -1,6 +1,6 @@
 # ai-product-ux-pitfalls §1 — Trust and expectations
 
-Point 1.1.5 is confirmed in part by a W3C accessibility criterion (see `origin.md`); the rest is own guidance.
+Points 1.1.3 and 1.1.5 are confirmed in part by vendor and W3C documentation (see `origin.md`); the rest is own guidance.
 
 ## 1.1 Showing how far to trust
 1. **Fluent text reads as true.** Symptom: users act on a wrong answer because it looked finished. Check: ask
@@ -11,9 +11,18 @@ Point 1.1.5 is confirmed in part by a W3C accessibility criterion (see `origin.m
    covers the threshold side). If a number is shown, it was calibrated on held-out data; otherwise use coarse
    labels tied to an action ("check before sending").
 3. **Citations must open the cited passage.** A link to a whole document sends nobody to the claim;
-   `rag-retrieval-quality-pitfalls` §3 covers checking them.
+   `rag-retrieval-quality-pitfalls` §3 covers checking them. Where the provider returns citations as structured
+   data, use it: Anthropic's citations page says the API parses them so they carry valid pointers into the documents
+   you supplied, which a citation the model typed into its own text does not; OpenAI's file search returns file-citation
+   annotations with a filename and a position in the text. Three limits from the Anthropic page to design around: the
+   cited text field is a convenience copy, a scanned PDF without extractable text cannot be cited, and citations cannot
+   be combined with structured outputs (the API answers with a 400 error). Symptom of the last one: a feature that
+   worked until someone asked for a JSON answer as well.
 4. **Say when there is no answer.** A refusal, "not found" or "I need more information" is a result with its own
-   screen. A guess dressed as an answer is the worst outcome, since nothing flags it.
+   screen. A guess dressed as an answer is the worst outcome, since nothing flags it. A refusal can arrive as a stop
+   reason, not as text: Anthropic's streaming-refusals page says the response then carries a refusal stop reason with a
+   category and an explanation that may both be empty, so the screen needs its own wording for that case, and the text
+   already streamed before the refusal is still in the response (Anthropic, handle streaming refusals).
 5. **Match the stakes.** Low-stakes suggestions can be one click to accept; consequential ones (money, deletion,
    messages to third parties, medical or legal content) need a preview and a deliberate step. WCAG 2.2 criterion 3.3.4 (level AA) asks that submissions which commit the user, move money or
    change or delete their data be reversible, checked for input errors, or confirmed after a review; it does not ask

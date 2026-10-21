@@ -17,8 +17,16 @@
    shifts on a date with no deploy. Where a dated or numbered identifier exists, pin it. What identifiers exist is provider-specific: Anthropic states
    its current identifiers are pinned snapshots and only older aliases resolve to a dated one; OpenAI lists
    deprecations by dated snapshot and maps aliases separately (Anthropic models overview, OpenAI deprecations page).
+   Anthropic's overview adds that, before its 4.6 generation, the alias is a pointer to the dated identifier, while
+   the dateless identifiers of later models are themselves pinned snapshots.
 2. **Pinning buys time, not safety:** a pinned version is retired on the provider's schedule. The pin is only
-   useful if the calendar of §1.3 exists.
+   useful if the calendar of §1.3 exists. Anthropic's deprecation page also warns that a deprecated model is
+   likely to be less reliable than an active one, so waiting for the last day is a risk, not a free extension.
+   On one cloud platform the pin does not even hold at retirement: for its managed standard deployment types the
+   service upgrades a retired model version to a named successor on a rolling regional schedule, and only
+   provisioned deployments are left for you to migrate by hand (Microsoft Foundry model retirements page).
+   Symptom: behaviour changes on a date with no change on your side. Check the platform's retirement schedule
+   for deployments you believe are pinned.
 3. **Pin in tests as well.** A test or evaluation run on an alias is not reproducible later; record the resolved
    identifier in the result.
 4. **Self-hosted models need the same discipline:** weights hash or tag, quantisation, serving software version
@@ -34,8 +42,9 @@
    Both providers read say customers with active use are told by email, so the address on the account matters, and
    a key with no recent use may be missed.
 4. **Treat the retirement date as a hard deadline for requests, not for planning:** Anthropic says requests to a retired
-   model fail; OpenAI says the model is no longer accessible and its page does not name the error. Know what your
-   caller does with either (`failure-classification-before-retry`; Anthropic and OpenAI deprecations pages).
+   model fail; OpenAI says the model is no longer accessible and its page does not name the error; the Microsoft
+   Foundry page says all inference to a retired version returns 410 Gone. Know what your
+   caller does with each (`failure-classification-before-retry`; Anthropic, OpenAI and Microsoft Foundry pages).
 5. **Check what the replacement implies** beyond quality: different limits, price, context size, supported
    features, refusal behaviour. Read the vendor's current migration notes before the run (idea only, not copied
    into your docs).
@@ -44,3 +53,10 @@
 7. **Fine-tuned models follow their base model's schedule** on the OpenAI page; list them in the inventory with the
    base. OpenAI also exposes a shutdown date through its models endpoints, which a script can poll (OpenAI
    deprecations page).
+8. **Poll lifecycle status in code where the platform exposes it, rather than reading a web page.** Besides the
+   OpenAI field above, Microsoft Foundry's models interface reports lifecycle status, deprecation and a
+   deprecation date per model, and Amazon Bedrock's model calls return a lifecycle state, with a model card giving
+   a notice period (Microsoft Foundry and Amazon Bedrock lifecycle pages, for models launched after the date the
+   Bedrock page names). Symptom of relying on a page: nobody saw the notice. Fix: a scheduled job that lists the
+   models in your inventory with their reported status and files a ticket on any change; the job is ours, the
+   fields are theirs.

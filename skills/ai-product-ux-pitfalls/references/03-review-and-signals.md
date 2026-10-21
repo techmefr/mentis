@@ -10,7 +10,8 @@ Point 3.1.4 is confirmed against W3C WCAG 2.2 documents (see `origin.md`); the r
 3. **Read the screen as a stranger** (`persona-ux-audit`): can they say what the feature is for, what it cannot do,
    and which parts came from where.
 4. **Check keyboard, screen reader and focus on streamed content.** Live updates that steal focus or are never
-   announced exclude people; use the accessibility block for the checks and §2.2 point 4 here for the status-message criteria.
+   announced exclude people; use the accessibility block for the checks and §2.2 point 4 here for the status-message criteria. Add a refusal case
+   to the drill: a stream that ends in a refusal stop reason with empty category fields.
 5. **Check the language of the output against the interface language** and what happens when they differ.
 
 ## 3.2 Signals in usage data
