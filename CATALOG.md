@@ -306,6 +306,11 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| authorization-models-and-entitlements-pitfalls | 6 (new 2026-10-20) | openfga/openfga (Apache-2.0), cerbos/cerbos (Apache-2.0) | 🟡 (never dogfooded) |
+| offline-first-sync-and-conflict-pitfalls | 6 (new 2026-10-20) | electric-sql/electric (Apache-2.0) | 🟡 (never dogfooded) |
+| cdc-capture-and-ingestion-quality-pitfalls | 6 (new 2026-10-20) | debezium/debezium (Apache-2.0), great-expectations/great_expectations (Apache-2.0) | 🟡 (never dogfooded) |
+| platform-engineering-golden-paths-pitfalls | 6 (new 2026-10-20) | cncf/tag-app-delivery (Apache-2.0), backstage/backstage (Apache-2.0) | 🟡 (never dogfooded) |
+| multi-tenancy-isolation-models-pitfalls | 6 (new 2026-10-20) | own guidance, no external source | 🟡 (never dogfooded) |
 | webhook-contract-and-delivery-pitfalls | 6 (new 2026-10-20) | standard-webhooks/standard-webhooks (Apache-2.0) | 🟡 (never dogfooded) |
 | subscription-metering-and-entitlements-pitfalls | 6 (new 2026-10-20) | openmeterio/openmeter (Apache-2.0), killbill/killbill-docs (Apache-2.0) | 🟡 (never dogfooded) |
 | system-migration-cutover-pitfalls | 6 (new 2026-10-20) | debezium/debezium docs (Apache-2.0) | 🟡 (never dogfooded) |

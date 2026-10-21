@@ -1,0 +1,35 @@
+# authorization-models-and-entitlements-pitfalls §2 — Decision point and consistency
+
+Sources: the architecture, caching and Check pages of the OpenFGA repository at 22c4d5d, and the "why Cerbos runs as a separate process", attribute schema, policy testing and integration tutorial pages of the Cerbos repository at 75f01a9, read 2026-10-20. "Own guidance" marks craft knowledge.
+
+## 2.1 One place that decides
+1. **Symptom: two services disagree on whether the same person may open the same document.** Cause: each re-implemented the rule in its own language and drifted. The Cerbos page makes the case for a decision point separate from the application so the rules, logs and tests exist once. Fix: one decision point, called by every service, whether it is a separate service or a shared module (own guidance on the second form).
+2. **A separate decision service adds a network hop and a failure mode.** Decide before launch what the caller does when it is unreachable (§2.2 point 3) and measure the added latency on the pages that make many checks (own guidance).
+3. **Policies are files, changed without redeploying the callers.** The Cerbos page lists this as a benefit; the price is that a policy change is a production change. Review and test it like code (the tests in 2.6 below).
+
+## 2.2 The request and its failures
+1. **A decision request names the principal, the action, the resource and the facts the rule reads.** Symptom of a missing fact: the rule that needs the record's owner silently evaluates to refuse. The Cerbos tutorial shows the cure: declare a schema for principal and resource attributes and let the server reject requests that omit or mistype them, so a missing attribute is an error you see, not a refusal you misread as policy.
+2. **Default to deny when no rule matches.** The tutorial states that an unmatched request ends in a deny effect. Keep it that way, and keep it visible: log the refused request with the rule that did or did not match (own guidance).
+3. **When the decision service fails, refuse and surface it** (own guidance). Symptom of the other choice: an outage opens every door. For read-only low-risk resources a documented, time-limited fallback can be an explicit decision of the owner of the data, never a default.
+4. **Authorise before doing the work.** Loading, computing and then checking leaks through errors and timing (`skills/security-hardening` §3.4).
+
+## 2.3 Listing what a person may see
+1. **Symptom: a list page issues one decision per row and takes seconds, or the check is skipped for lists.** Cause: the model only answers "may X do Y to Z". Fix: use the engine's list operation (OpenFGA's list-objects style query returns the objects a person has a relation to) or a query plan the engine turns into a database filter, then page over the result inside the data query (own guidance on combining it with pagination).
+2. **A list answered from a cache or an index can contain what the person lost.** Re-check the page the person is about to open, not only the list (own guidance).
+3. **Counts, search and exports use the same filter as the list** (`skills/field-and-row-permission-ui-api-pitfalls` §2).
+
+## 2.4 Stored relationships follow the source of truth
+1. **Symptom: a person removed from a team still opens its documents, or a deleted record's grants linger.** Cause: the relationship store is written separately from the main database, and one write failed or was never made. Fix: write the grant and the business change through one reliable path (an outbox or an event with retry, `skills/nestjs-reliability` for the pattern), and reconcile periodically by comparing the two stores (own guidance).
+2. **Delete grants when the object is deleted,** and the reverse: removing a person removes every tuple that names them. Test deletion explicitly (own guidance).
+3. **Order matters on revocation:** remove the grant first, then the data change that depends on it, so a failure leaves too little access, not too much (own guidance).
+
+## 2.5 Caching and revocation
+1. **A decision cache turns the engine into an eventually consistent API.** The OpenFGA caching page says so for its query cache, and that the longer the time-to-live the longer a stale answer can persist. Fix: write down the longest acceptable staleness for each action, and set the cache so a revocation is visible within it.
+2. **A cache invalidated from the store's change log shortens staleness without shortening the cache lifetime,** but runs asynchronously, so the window is still not zero. Read the setting's description before relying on it.
+3. **Ask for the stronger consistency mode right after a write that matters** (the engine bypasses its caches for it): the page that shows a person their just-changed access, the check inside the same request that changed it.
+4. **Caches inside one replica are not shared between replicas,** so repeated identical requests may land on a replica with a different state; test with more than one replica (the caching page states the caches are per process).
+
+## 2.6 Tests
+1. **Write the policy tests as a table: principal, resource, action, expected effect.** The Cerbos tutorial runs such a suite as part of compiling the policies. Include the refused cases and one per revocation path.
+2. **A test that cannot fail is not a test:** remove the rule once and confirm the table turns red (own guidance, same as `skills/data-pipeline-conventions` §2).
+3. **Replay real denials from the logs as test cases** after each incident (own guidance).
