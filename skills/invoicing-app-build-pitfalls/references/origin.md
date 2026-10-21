@@ -64,6 +64,8 @@ requests" (English versions); Kill Bill `invoicing-overview`, `invoicing-invoice
   idempotency, dunning, roles, exports.
 Counts: 14 claims re-checked, 3 corrected or made exact.
 
+Independent verification 2026-10-21: 14 checked, 13 matched, 1 corrected, 0 unverified
+
 ## Related blocks
 `skills/light-erp-document-flow-pitfalls`, `skills/e-invoicing-obligations-pitfalls`,
 `skills/vat-handling-in-software-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,

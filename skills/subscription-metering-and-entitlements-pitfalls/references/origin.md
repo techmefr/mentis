@@ -65,6 +65,8 @@ Bill docs `invoicing-usage`, `invoicing-overview`, `invoicing-invoice-items`, `i
 - Still unsourced: the items listed under Not verified above (own guidance).
 Counts: 22 claims re-checked, 1 corrected.
 
+Independent verification 2026-10-21: 24 checked, 23 matched, 0 corrected, 1 unverified
+
 ## Related blocks
 `skills/invoicing-app-build-pitfalls`, `business/price-change-and-billing-pitfalls`,
 `skills/saas-metric-definition-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,

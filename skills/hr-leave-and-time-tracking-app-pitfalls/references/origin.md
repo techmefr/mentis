@@ -58,6 +58,8 @@ Re-opened: OFBiz `humanres-entitymodel.xml` (EmplLeave, EmplLeaveType, EmplLeave
 - No other permissive HR source found (searched: the two ERP data model files and the standard).
 Counts: 7 claims re-checked, 1 corrected.
 
+Independent verification 2026-10-21: 11 checked, 11 matched, 0 corrected, 0 unverified
+
 ## Related blocks
 `skills/booking-and-scheduling-app-pitfalls`, `skills/inventory-stock-app-pitfalls`,
 `skills/helpdesk-ticketing-app-build-pitfalls`, `skills/laravel-scheduling`, `skills/laravel-idempotent-jobs`,

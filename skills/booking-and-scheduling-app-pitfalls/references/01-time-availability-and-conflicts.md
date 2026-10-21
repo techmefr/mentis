@@ -8,7 +8,7 @@
    happen at a fixed physical moment (a call across zones, a delivery slot) stores the instant in UTC; a
    booking meant as "9 o'clock where the venue is" stores the local date, local time and the venue's zone name,
    and derives the instant when needed. Store the zone with the venue or resource, not with the browser. Both
-   forms are shown with their zone to the person booking. The iCalendar standard has the same three forms: a local time with no zone, which a recipient must read in whatever zone the attendee is in at that moment (so two attendees may meet at different real times); a UTC time; and a local time with a zone identifier. It says a fixed time needs UTC or a zone reference and that floating time should be used only where that behaviour is wanted (source 1).
+   forms are shown with their zone to the person booking. The iCalendar standard has the same three forms: a local time with no zone, which a recipient SHOULD read in whatever zone the attendee is in at that moment (so two attendees may meet at different real times); a UTC time; and a local time with a zone identifier. It says a fixed time needs UTC or a zone reference and that floating time should be used only where that behaviour is wanted (source 1).
 2. **Zone names, never offsets.** Symptom: "+01:00" saved, then summer comes. Fix: store a zone name from the
    standard zone database, keep the database updated (rules change by decree), and re-derive instants from the
    local time when the rules for a future date change. Check: list the zones your users sit in and test two
@@ -40,7 +40,7 @@
    the list and the confirmation check; the browser only displays; the response states the zone it used.
 6. **Double booking is prevented where the data lives.** Symptom: two customers confirm the same slot a
    second apart. Check: fire N parallel requests for one slot and assert one wins. Fix: a database constraint
-   that rejects overlapping ranges for one resource where the database supports it (in PostgreSQL an exclusion constraint on a range column with the overlap operator and a GiST index; to restrict it to one resource, add equality on the resource column, which needs the btree_gist extension; a plain unique constraint is usually unsuitable for ranges; a deferrable constraint cannot arbitrate an insert that uses a conflict clause: source 3), otherwise a unique
+   that rejects overlapping ranges for one resource where the database supports it (in PostgreSQL an exclusion constraint on a range column with the overlap operator and a GiST index; to restrict it to one resource, add equality on the resource column, which needs the btree_gist extension; a plain unique constraint is usually unsuitable for ranges, although the 18-series CREATE TABLE page also lists a unique or primary key form with a WITHOUT OVERLAPS column as another way, which was not tested; a deferrable constraint cannot arbitrate an insert that uses a conflict clause: source 3), otherwise a unique
    constraint on (resource, slot start) for fixed slots, or a row lock on the resource inside the
    transaction; never "select free, then insert" in application code. The losing request gets a clear
    "no longer available" with alternatives, not a server error. Capacity above one (a class of twelve) is a

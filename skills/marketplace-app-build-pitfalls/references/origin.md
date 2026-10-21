@@ -69,6 +69,8 @@ marketplace recipe (`LICENSE` MIT with enterprise carve-out re-read); Laravel "Q
   leakage, scopes, section 2 moderation, ranking, reports.
 Counts: 13 claims re-checked, 4 made exact or added, 0 wrong.
 
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified
+
 ## Related blocks
 `skills/ecommerce-store-build-pitfalls`, `business/ecommerce-store-quality-pitfalls`,
 `skills/unknown-payment-outcome-pitfalls`, `skills/ledger-pending-and-batch-ordering-pitfalls`,

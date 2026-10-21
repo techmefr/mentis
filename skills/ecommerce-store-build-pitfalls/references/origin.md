@@ -66,6 +66,8 @@ orders" and the webhook page (English versions); Laravel "Queues".
   staff roles and integrations.
 Counts: 16 claims re-checked, 2 corrected.
 
+Independent verification 2026-10-21: 20 checked, 19 matched, 1 corrected, 0 unverified
+
 ## Related blocks
 `business/ecommerce-store-quality-pitfalls`, `skills/marketplace-app-build-pitfalls`,
 `skills/inventory-stock-app-pitfalls`, `skills/invoicing-app-build-pitfalls`, `skills/unknown-payment-outcome-pitfalls`,

@@ -29,7 +29,7 @@
    another customer and the history moves with it. Own guidance: store the subject-to-customer mapping with a start
    and an end, resolve with the event time, and do not rewrite the past when the mapping changes.
 6. **The meter is the price metric made executable.** A meter names the event type, the path to the value, the
-   aggregation (sum, count, maximum, latest, unique count) and the grouping dimensions. The aggregation must match
+   aggregation (sum, count, maximum, latest, unique count) and the grouping dimensions (the cited pages show a sum, a maximum and a latest value; the full aggregation list here is own guidance, not read from them, so re-read before relying). The aggregation must match
    what the price says: a "peak concurrent jobs" price needs a maximum, not a sum; "active users" needs a unique
    count; "storage used" needs a latest or time-weighted value. Symptom of the wrong one: invoices that are
    internally consistent and commercially wrong. Fix: write the price metric in a sentence, derive the aggregation

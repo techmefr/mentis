@@ -72,6 +72,8 @@ InventoryItemDetail, InventoryTransfer, PhysicalInventory, VarianceReason) and `
   and integrations; section 3 replenishment stays method from the knowledge-work repository only.
 Counts: 12 claims re-checked, 0 wrong.
 
+Independent verification 2026-10-21: 18 checked, 17 matched, 1 corrected, 0 unverified
+
 ## Related blocks
 `skills/light-erp-document-flow-pitfalls`, `skills/invoicing-app-build-pitfalls`,
 `business/ecommerce-store-quality-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,
