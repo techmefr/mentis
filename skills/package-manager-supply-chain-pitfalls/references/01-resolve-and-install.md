@@ -9,8 +9,8 @@
 1. **Block git sources.** A dependency written as a git URL bypasses the registry's checks, and the
    repository it fetches can ship its own `.npmrc` that re-enables lifecycle scripts, undoing `ignore-scripts`
    silently; its contents can also change at any time, because branches, tags and commits can be
-   force-pushed. The source's npm setting is `allow-git`, available from npm CLI 11.10.0, with three values:
-   `all` (the default, allows any git dependency), `none` and `root` (only your own root `package.json`).
+   force-pushed. The source's npm setting is `allow-git`, available from npm CLI 11.9.0 (npm changelog; the source said 11.10.0), with three values:
+   `all` (the default in npm 11, allows any git dependency; the npm 12 release notes change the default to `none`), `none` and `root` (only your own root `package.json`).
    Setting it to `none` (or `root` if you need one) is a configuration change, not a code change, so it
    belongs in the committed `.npmrc` and in CI.
 2. **Block exotic sources below the top level.** pnpm has no direct equivalent of `allow-git`; the source

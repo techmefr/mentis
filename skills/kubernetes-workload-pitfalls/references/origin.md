@@ -32,7 +32,7 @@ that is where to check; Learnk8s: a slow dependency is a valid reason to fail re
 (Niessen: `IfNotPresent` with immutable tags; kube-score: `Always`).
 
 ## Not verified
-1. **Probe field defaults** (period, threshold, delay): the Kubernetes probe page read on 2026-10-20 does not list them; the figures stay as kube-score states them.
+1. **Probe field defaults** (period, threshold, delay): the task page read on 2026-10-20 does not list them, but the probe concept page (workloads/pods/probes, read 2026-10-21) does, and its figures match kube-score's (§1.3 point 3 corrected).
 2. **`startupProbe` stability**: the lifecycle page describes it without a feature stage; the alpha and beta dates from kube-score are not relied on.
 3. **`terminationGracePeriodSeconds` default of 30 seconds** and the 2-second extension are now confirmed by the lifecycle page.
 4. **CPU throttling and `preStop` sleep figures** are single-source starting values, not measured.
@@ -46,3 +46,5 @@ that is where to check; Learnk8s: a slow dependency is a valid reason to fail re
 ## Related blocks
 `kubernetes-availability-config-pitfalls`, `node-container-runtime`, `dockerfile-build-pitfalls`,
 `docker-compose-file-pitfalls`, `observability-instrumentation`, `devops-conventions`.
+
+Independent verification 2026-10-21: 45 checked, 44 matched, 1 corrected, 0 unverified

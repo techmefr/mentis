@@ -70,8 +70,7 @@ location ~* /\.(?!well-known\/) {
    not on its list. Own reading of that list.
 6. **`gzip_min_length` is judged from the `Content-Length` header only**, so a streamed response without one is
    not held back by it. **`gzip_proxied` defaults to `off`**, so nothing is compressed for a client behind a
-   proxy until you widen it. The module page also warns that compressing responses over TLS can expose secrets
-   to the BREACH attack: do not compress a response that mixes a secret token with attacker-influenced text.
+   proxy until you widen it. The module page says only that compressed responses over TLS may be subject to BREACH attacks; our reading of BREACH (own guidance): do not compress a response that mixes a secret token with attacker-influenced text.
 5. **Level 5 is the boilerplate's compromise** between size and CPU: it quotes about 75 percent reduction for
    most text, almost identical to level 9. A figure from the file, not measured here.
 

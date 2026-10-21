@@ -42,9 +42,7 @@ different questions, and most probe outages come from asking the wrong one the w
    killed. Learnk8s lists a slow dependency among the reasons for a readiness failure. Own guidance: default
    to not checking, and add a dependency to readiness only when the pod truly cannot answer anything useful
    without it and you have decided what should happen when every replica fails it at once.
-3. **Know your timing.** The Kubernetes probe page does not list the default period, threshold or delay (it
-   states only the gRPC timeout default of 1 second), so the figures here are kube-score's statement of them: kube-score's defaults are a period of 10 seconds, a timeout of 1 second, a success
-   threshold of 1 and a failure threshold of 3, so with defaults clients keep sending traffic for about
+3. **Know your timing.** The Kubernetes probe concept page (read 2026-10-21) gives the defaults: an initial delay of 0 seconds, a period of 10 seconds, a timeout of 1 second, a success threshold of 1 (it must be 1 for liveness and startup probes) and a failure threshold of 3; kube-score states the same figures. With defaults clients keep sending traffic for about
    30 seconds, plus network propagation, after the application stops answering. Set them to your needs.
 4. **A probe on a port the container does not expose is a bug**: kube-linter has default checks for the
    liveness, readiness and startup probes pointing at ports that are not declared.

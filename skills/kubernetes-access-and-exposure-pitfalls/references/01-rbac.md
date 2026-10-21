@@ -71,9 +71,7 @@ Each of these grants more than it names; review a grant of any of them as an esc
 15. **A binding's `roleRef` cannot be edited.** Changing the role means deleting and recreating the binding,
     and a manifest that tries to patch it fails.
 16. **Do not set `rules` on an aggregated ClusterRole**: the control plane fills them from matching labels and
-    overwrites a manual value. Default roles and bindings are restored at API server start unless the
-    `rbac.authorization.kubernetes.io/autoupdate` annotation is `"false"`, so a hand-edit of a default role
-    is undone by a restart.
+    overwrites a manual value. At each API server start-up, default cluster roles get any missing permissions back and default bindings any missing subjects, unless the `rbac.authorization.kubernetes.io/autoupdate` annotation is `"false"`; so a permission you removed from a default role returns after a restart (the page speaks of missing permissions and subjects only, not of removing extra ones you added).
 
 ## 1.4 Periodic review
 1. **Review RBAC regularly for redundant entries and possible escalations.** The page's reason: an attacker

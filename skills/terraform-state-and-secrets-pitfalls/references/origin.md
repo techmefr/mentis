@@ -46,9 +46,7 @@ files above. These were left out as outside the item or too tool-specific:
    state. The block follows terraform-skill and says so.
 
 ## Not verified
-1. **Every version floor** (still unverified: the OpenTofu pages read give no introduction version; `use_lockfile` on Terraform 1.10+, `ephemeral` 1.10+, `write_only` 1.11+,
-   `nonsensitive` 0.15+, AWS provider 5.71+ for `password_wo`) is as terraform-skill states it. The OpenTofu
-   floors for these were not stated by either source. Re-check at writing time against the official docs.
+1. **Version floors.** Checked 2026-10-21 against the Terraform release notes on GitHub: `use_lockfile` arrived in 1.10 (the 1.11 notes call it generally available and deprecate the DynamoDB arguments, and the Terraform S3 backend page now says DynamoDB locking is deprecated, unlike OpenTofu), `ephemeral` in 1.10, write-only attributes in 1.11, `nonsensitive` in 0.15. Corrected: `aws_db_instance` `password_wo` appears in AWS provider 5.88.0 (the earlier "5.71+" was wrong; 5.71.0 was also pulled from the registry). OpenTofu floors for these features are still not stated by any page read. Re-check at writing time.
 2. **Which providers support `ephemeral` and `write_only`** was not checked (OpenTofu confirms the language mechanism only, with no version); both sources say to verify in the
    provider documentation.
 3. **What `-reconfigure` does** is now confirmed for OpenTofu (no migration); the "new empty state" consequence is
@@ -61,3 +59,5 @@ files above. These were left out as outside the item or too tool-specific:
 ## Related blocks
 `terraform-refactor-identity-pitfalls`, `terraform-ci-delivery-pitfalls`, `secret-leak-response-pitfalls`,
 `security-hardening`, `ci-workflow-hardening`, `devops-conventions`.
+
+Independent verification 2026-10-21: 21 checked, 19 matched, 2 corrected, 0 unverified

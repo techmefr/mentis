@@ -42,3 +42,5 @@ The design page is the block's main source; the configuration tables were added 
 ## Related blocks
 `background-jobs-conventions` §1 to §5, `nestjs-reliability` §1 and §3, `data-pipeline-conventions` §1
 (idempotent re-runs), `source-freshness`.
+
+Independent verification 2026-10-21: 38 checked, 38 matched, 0 corrected, 0 unverified

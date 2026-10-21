@@ -43,7 +43,7 @@ cache restored (§2.2). A workflow that was only read is not verified.
 - Never present the pedantic findings (self-hosted runners, concurrency) as blocking (§3).
 - This block states GitHub Actions behaviour as read from one analyser's audit documentation on the date in
   [`references/origin.md`](./references/origin.md); the platform and the analyser move, the GitHub secure-use
-  page was not re-read for this block, and nothing was run while writing it.
+  page was re-read 2026-10-21 for the self-hosted runner points only, and nothing was run while writing it.
 
 ## Origin
 Rewritten from the audit documentation of zizmor (MIT: entries on bot conditions, GITHUB_ENV, cache

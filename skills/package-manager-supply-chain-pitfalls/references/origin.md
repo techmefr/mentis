@@ -26,11 +26,11 @@ CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/). It was shortened and r
 by OpenSSF is implied.
 
 ## Version stamps (as stated by the sources, not verified against the tools)
-- npm CLI 11.10.0: `allow-git`, and `min-release-age` (second source).
+- npm CLI 11.9.0: `allow-git`; 11.10.0: `min-release-age` (npm changelog, read 2026-10-21; the second source gave 11.10.0 for both). npm 12.0.0 (2026-07-08): `allow-git` and `allow-remote` default to none, dependency scripts blocked unless allowed by `allowScripts`.
 - pnpm 10.0: dependency scripts off by default. 10.3: `strictDepBuilds`. 10.16: `minimumReleaseAge`.
   10.21: `trustPolicy`. 10.26: `allowBuilds` and `blockExoticSubdeps`. 10.27: `trustPolicyIgnoreAfter`.
   pnpm 11: a one-day `minimumReleaseAge` default (second source).
-- npm 9.5.0: publishing with provenance. npm 12: `allowScripts` default false (second source, citing a
+- npm 9.5.0: publishing with provenance. npm 12: `allowScripts` default false (confirmed by the npm 12.0.0 release notes 2026-10-21; the second source cited a
   platform announcement that was not read).
 
 ## Removed in the verification pass
@@ -54,7 +54,7 @@ pnpm setting names, units, defaults and versions for `minimumReleaseAge` (10.16,
 1. **Own guidance, flagged as such in the text:** running `lockfile-lint` as a separate CI step (§1.3),
    putting a removal in the same pull request as its cause (§1.10), one publish token in one job (§2.6),
    the dry-run check in CI (§2.8), and that a scanner is a signal and not a verdict (§2.4).
-2. **Option names, values and versions** are now checked against npm and pnpm documentation (list above) except: the npm CLI 11.10.0 floor for `allow-git` and `min-release-age` (the npm page gives no version), the npm 12 `allowScripts` default, the npm 9.5.0 floor is confirmed. Nothing was run on an installed tool.
+2. **Option names, values and versions** are now checked against npm and pnpm documentation (list above) and, from the npm changelog 2026-10-21, the npm floors (`allow-git` 11.9.0, `min-release-age` 11.10.0, npm 12 `allowScripts` default). Nothing was run on an installed tool.
 3. **Whether `npm pack <name>` executes install scripts** is not stated by the sources or by the npm `pack` page (which says only that a registry spec is fetched to the cache and its tarball copied out); the block says to
    read the archive and not to install, and does not claim `pack` is inert.
 4. **The `skills/` file and the `default.sh` script of the second source, and the other pages of the
@@ -66,3 +66,5 @@ pnpm setting names, units, defaults and versions for `minimumReleaseAge` (10.16,
 ## Related blocks
 `skills/security-hardening` §4, `skills/ci-workflow-hardening` §3, `skills/secret-leak-response-pitfalls`,
 `hooks/block-installs.sh`.
+
+Independent verification 2026-10-21: 20 checked, 19 matched, 1 corrected, 0 unverified

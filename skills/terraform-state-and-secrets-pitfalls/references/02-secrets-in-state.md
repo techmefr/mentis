@@ -12,7 +12,7 @@ runtime in use).
 |---|---|---|
 | `sensitive = true` | any | **No.** It masks display; the value can still be in state (terrashark; terraform-skill) |
 | `ephemeral` values, resources and data sources | Terraform 1.10+ | Yes: not persisted in state or plan. The provider or resource must support it |
-| `write_only` arguments (`*_wo`) | Terraform 1.11+ (`password_wo` needs AWS provider 5.71+) | The **resource argument** stays out of state |
+| `write_only` arguments (`*_wo`) | Terraform 1.11+ (`aws_db_instance` `password_wo` first appears in AWS provider 5.88.0, per that provider's changelog; the provider docs for the resource state Terraform 1.11+) | The **resource argument** stays out of state |
 | A data source read, such as a Secrets Manager `secret_string` | any | **No.** It is written to state on every refresh |
 | `random_password.result` | any | **No.** It lives in state |
 | Provider-managed secret, such as `manage_master_user_password = true` on an RDS instance | provider | Yes: the cloud generates and holds it. The preferred RDS pattern in terraform-skill |

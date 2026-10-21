@@ -51,3 +51,5 @@ Read as page text, facts only: activity, provider, service and receiver manifest
 ## Related blocks
 `security-hardening` (server-side input, output and access control), `auth-session-conventions` (sessions and
 tokens).
+
+Independent verification 2026-10-21: 26 checked, 26 matched, 0 corrected, 0 unverified

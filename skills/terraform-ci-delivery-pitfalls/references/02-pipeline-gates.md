@@ -30,14 +30,14 @@ JSON; an approval gate; apply from a trusted branch and runner; post-apply drift
 4. **The expected `aud` per pair**, as terraform-skill states it. GitHub's documentation confirms the AWS value
    (`sts.amazonaws.com`, checked as the `aud` condition) and that the Azure login action defaults to
    `api://AzureADTokenExchange`; the GitHub default is otherwise the URL of the repository owner and can be
-   set by the action. The GCP and GitLab rows were not checked:
+   set by the action. The GCP row was not checked; the GitLab row was corrected 2026-10-21 against GitLab's page (it does not name `$CI_SERVER_URL`):
 
 | Pair | Expected `aud` |
 |---|---|
 | GitHub Actions to AWS | `sts.amazonaws.com` |
 | GitHub Actions to Azure AD | `api://AzureADTokenExchange` |
 | GitHub Actions to GCP | the value passed as the `audience` parameter |
-| GitLab CI to AWS | matches `$CI_SERVER_URL` |
+| GitLab CI to AWS | the `aud` set in the job `id_tokens`, equal to the audience of the AWS identity provider (GitLab states it is often `sts.amazonaws.com` or the instance URL) |
 
 5. **The job must be granted `id-token: write`** (at workflow or job level, with `contents: read` if it checks
    out) or no token can be requested; it grants no other write access.
@@ -46,7 +46,7 @@ JSON; an approval gate; apply from a trusted branch and runner; post-apply drift
    (`repo:OWNER@ID/REPO@ID:...`); older ones keep the name-based form unless they opt in. A trust policy copied
    from an old repository then silently matches nothing. Match the format your repository really uses.
 7. **A wildcard `repo:ORG/REPO:*` lets any branch, pull request or environment of that repository assume the
-   role**, and a trust policy must have at least one condition. Scope `sub` to a branch or, better, an environment
+   role** (own reading: GitHub's page, read 2026-10-21, does not discuss wildcards, it only requires at least one condition in the trust policy). Scope `sub` to a branch or, better, an environment
    that carries protection rules. Dependabot tokens carry the event name `dynamic`, so restrict event names where
    the provider can.
 8. **For reusable workflows from outside your organisation, set `id-token: write` explicitly at the caller** so only

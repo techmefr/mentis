@@ -40,6 +40,9 @@ Pod Security admission) were not followed.
    with the page's version labels; nothing was added from memory. The FAQ points on profiles, security
    contexts and sandboxed pods are carried in short form (§3.5).
 
+## Verified 2026-10-21
+Re-read the RBAC good-practices, Secrets good-practices, Pod Security Standards, Pod Security admission, encryption-at-rest, Secrets and network policy pages plus the RBAC reference, the recipe and the kube-linter check list. Corrected two points: the default-role reconciliation claim in §1.3 point 16 (the page speaks of missing permissions and subjects, not of undoing additions) and the safe sysctl list in §3.3 point 12 (the page now also lists `tcp_rmem`, `tcp_wmem` and two entries since 1.37). The version labels of §3 matched the page as of 2026-10-21.
+
 ## Not verified
 1. **Every version number** in §3 (v1.8, v1.19, v1.22, v1.23, v1.25, v1.26, v1.34 and the sysctl and SELinux
    additions) is as the page states it on 2026-10-16; the Kubernetes release history was not checked.
@@ -54,3 +57,5 @@ Pod Security admission) were not followed.
 ## Related blocks
 `kubernetes-workload-pitfalls`, `kubernetes-availability-config-pitfalls`, `dockerfile-build-pitfalls`,
 `docker-compose-file-pitfalls`, `security-hardening`, `credential-lifecycle-pitfalls`.
+
+Independent verification 2026-10-21: 46 checked, 44 matched, 2 corrected, 0 unverified
