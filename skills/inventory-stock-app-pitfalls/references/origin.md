@@ -52,6 +52,26 @@ and add a forecasting reference when one with an open licence is found.
 3. **Nothing was run.** The concurrency and ledger tests named in the checkpoint were not written or executed.
 4. **Framework pointers** were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Medusa `inventory/concepts`, `inventory/reservations-lifecycle`, `inventory/inventory-in-flows`
+(MIT `LICENSE` re-read, enterprise carve-out noted); OFBiz `product-entitymodel.xml` (InventoryItem,
+InventoryItemDetail, InventoryTransfer, PhysicalInventory, VarianceReason) and `order-entitymodel.xml`
+(OrderItemShipGrpInvRes).
+- Confirmed: stocked, reserved and incoming quantity per location, available is stocked minus reserved, reservation
+  created at order placement and deleted or reduced on fulfilment, cancellation deletes reservations, kit components
+  reserve ordered quantity times required quantity, shared items reduce availability for every variant, order-creation
+  paths that skip reservations make fulfilment fail, returns increment stocked quantity and damaged or dismissed items do
+  not; ERP model has on-hand, available-to-promise and accounting quantities, detail rows of signed differences with a
+  reason, reservation rows with priority and promised date, lot, serial, expiry, unit cost, transfer with send and
+  receive dates, fixed-point quantities.
+- Added precision: the unit of measure and fractional quantities are dated by the page to Medusa v2.20.0.
+- Nuance: the physical inventory row in the data model holds only a date, a party and comments; the variance reason is
+  a separate entity.
+- Still unsourced: item and variant model, atomic decrement, negative stock policy, archive, tenants, section 2 abilities
+  and integrations; section 3 replenishment stays method from the knowledge-work repository only.
+Counts: 12 claims re-checked, 0 wrong.
+
 ## Related blocks
 `skills/light-erp-document-flow-pitfalls`, `skills/invoicing-app-build-pitfalls`,
 `business/ecommerce-store-quality-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,

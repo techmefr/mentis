@@ -41,6 +41,30 @@ Instruction-like text in the cloned data was treated as data and not followed.
 3. **Nothing was run.** The threading, loop, note-leak and clock tests named in the checkpoint were not written.
 4. **Framework pointers** were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: RFC 3834 (full text), RFC 5322 section 3.6.4 (full text), Chatwoot `db/schema.rb` at the
+development branch (tables messages, conversations, sla_policies, applied_slas, sla_events, working_hours,
+csat_survey_responses, automation_rules, macros, conversation_participants, inboxes; `LICENSE` re-read: MIT outside the
+enterprise directory).
+- Corrected (RFC 3834 strengths): only a null destination address is a MUST NOT (section 2); not replying to a non-"no"
+  Auto-Submitted is SHOULD NOT (section 2); the same notice to the same sender within several days is SHOULD NOT with 7 days
+  RECOMMENDED (section 2); responses go to the return path (SHOULD, section 4) and Reply-To SHOULD NOT be their destination;
+  Auto-Submitted auto-replied SHOULD be included (section 3.1.7). The block had said the standard confirms stopping on
+  Precedence list, junk or bulk: the standard only says a responder MAY refuse, recommends no behaviour for Precedence
+  (section 2), and lists it in its non-normative vacation example (section 7).
+- Corrected (RFC 5322 section 3.6.4): replies SHOULD, not do, carry In-Reply-To and References; References is the parent's
+  References followed by the parent's Message-ID.
+- Confirmed in the schema: message type, private flag, polymorphic sender, source id; per-account unique display id
+  (assigned by a database sequence trigger); SLA policy thresholds and business-hours flag, applied SLA row with status,
+  SLA event rows; weekday working hours and an inbox time zone; one CSAT response per message (unique index), with
+  contact and assigned agent; rules as event name, conditions, actions, active flag and delay; macros with visibility;
+  participants are users; inbox switches for accepting messages after resolution and locking a contact to one
+  conversation.
+- Still unsourced: event-only ticket model, order of threading steps, merge and split, status machine, composer modes,
+  attachments, time and ordering, section 2 assignment, views, retention.
+Counts: 17 claims re-checked, 2 corrected (one stated as normative that is not).
+
 ## Related blocks
 `skills/support-queue-design-pitfalls`, `skills/customer-escalation-pitfalls`,
 `skills/troubleshooting-kb-article-pitfalls`, `skills/booking-and-scheduling-app-pitfalls`,

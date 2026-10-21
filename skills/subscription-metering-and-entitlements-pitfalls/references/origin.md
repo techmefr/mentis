@@ -45,6 +45,26 @@ Overdue scope: Kill Bill holds it at the account level; OpenMeter has no overdue
 presents the account-level design as one choice. Timing: OpenMeter offers a small set of timings per action; Kill
 Bill separates entitlement and billing policies. Rules 3 and 9 keep both as parameters.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened (Apache-2.0 licences re-read): OpenMeter `docs/event-ingestion.md`, `docs/architecture.md`,
+`openmeter/entitlement/README.md`, `openmeter/credit/README.md`, `openmeter/subscription/README.md` (main branch); Kill
+Bill docs `invoicing-usage`, `invoicing-overview`, `invoicing-invoice-items`, `invoicing-dry-run`, `entitlement`,
+`overdue-overview`, `overdue-config` (v3 branch).
+- Corrected: OpenMeter's ingestion note says events are deduplicated by id and source, but its architecture note says
+  deduplication is disabled by default and in-process unless a shared store is configured; rule 1 now states that the
+  two pages disagree.
+- Confirmed: CloudEvents source plus id uniqueness text; one-minute windows and credit resolution; burn order by priority,
+  earliest expiry, earliest creation; soft limit; snapshots as a cache behind a grace window, invalidation of affected
+  and later snapshots; boolean, static, metered entitlement types, exclusive end, at most one active per customer and
+  feature, history by end and supersede; subscription as desired schedule, reconciled asynchronously, derived ids not
+  durable identity, stored billing anchor, timing options and the cancellation boundary rule; Kill Bill entitlement and
+  billing policies, example of cancelling now with no credit, account-level overdue, states by conditions, effects,
+  pause then resume at clearance, re-evaluation interval; usage periods recomputed for a bounded number of past periods;
+  all-tier and top-tier policies; capacity type; four dry-run flavours and the annual-to-monthly example.
+- Still unsourced: the items listed under Not verified above (own guidance).
+Counts: 22 claims re-checked, 1 corrected.
+
 ## Related blocks
 `skills/invoicing-app-build-pitfalls`, `business/price-change-and-billing-pitfalls`,
 `skills/saas-metric-definition-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,

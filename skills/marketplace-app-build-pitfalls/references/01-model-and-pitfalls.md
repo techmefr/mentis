@@ -34,14 +34,14 @@
    refund, payout) that sum to zero per order, and a unique key on each provider event id and transfer id so a
    duplicate is a no-op (see `skills/laravel-idempotent-jobs`, `skills/unknown-payment-outcome-pitfalls` and
    `skills/ledger-pending-and-batch-ordering-pitfalls`). Reconcile the internal ledger against the provider's
-   reports on a schedule; a difference is an alert, not a rounding note. The payment platform documents idempotency keys on write requests: the first result is saved and replayed on a retry with the same key, including errors, and a key reused with different parameters is refused (source 4).
+   reports on a schedule; a difference is an alert, not a rounding note. The payment platform documents idempotency keys on write requests: the first result is saved and replayed on a retry with the same key, including 500 errors, and a key reused with different parameters is refused; the result is saved only once the endpoint began executing, so a request refused at validation can be retried (source 4).
 6. **Payout is a state machine with a release condition.** Symptom: the seller is paid, then the buyer
    refunds and the platform is out of pocket, or the payout is stuck for weeks with no reason shown. Fix: states
    such as pending, held, releasable, in transit, paid, failed, reversed; the held amount belongs to a defined
    order; the release event is recorded (delivery confirmed, buyer confirmation, a hold window elapsed, no open
    dispute) and checked at release time, not only at order time; a failed payout keeps its reason and a retry
    path; a negative balance (refund after payout) is a ledger entry carried to the next payout, with a policy
-   for when it cannot be recovered. The platform's dispute documentation shows why the hold must outlast the delivery: a card payment can usually be disputed for months after the payment, longer for services and tickets booked ahead, and a dispute debits the disputed amount plus a fee at once (source 2); its refund documentation adds that a refund uses available balance and waits as pending for card payments if the balance is too low, while on destination charges and separate charges and transfers the platform, not the seller, is debited for refunds (sources 1 and 3). Whether the platform may hold funds itself or must use a regulated
+   for when it cannot be recovered. The platform's dispute documentation shows why the hold must outlast the delivery: a card payment can be disputed for months after the payment (the page calls 120 days the window common for card payments, and for a future event or service the window starts on the event date, not the payment date), and a dispute debits the disputed amount plus a fee at once (source 2); its refund documentation adds that a refund uses available balance and waits as pending for card payments if the balance is too low, while on destination charges and separate charges and transfers the platform, not the seller, is debited for refunds, and the platform has to reverse the related transfers to recover that amount from the seller, so a refund flow that skips the reversal leaves the platform paying (sources 1 and 3). Whether the platform may hold funds itself or must use a regulated
    split-payment product is a legal and provider question; design so the hold lives with the provider if that
    is the answer, and state it in the specification.
 7. **Seller onboarding gates payouts, not listings.** Symptom: a seller sells for a month and then cannot be
@@ -55,7 +55,7 @@
    escalated), a deadline and an owner per state, evidence as typed attachments with who and when (see
    `skills/file-upload-ui-pitfalls`), the order's payout frozen while a dispute is open, a decision record
    (outcome, amount, reason) that produces ledger entries, and a path to the payment provider's own chargeback
-   process which has its own clock, tracked separately. The platform's documentation confirms the separate clock: after a chargeback there is a limited time to answer the issuer, in days, and a longer time for the issuer to decide; an active dispute is closed in the seller's favour only by submitting evidence, even when the customer says they withdrew it, and a lost dispute is final (source 2). Decision criteria are policy, written for both
+   process which has its own clock, tracked separately. The platform's documentation confirms the separate clock: after a chargeback there is a limited time to answer the issuer (usually 7 to 21 days depending on the card network) and a longer time for the issuer to decide (usually 60 to 75 days), so the whole cycle can reach two to three months; an active dispute is closed in the seller's favour only by submitting evidence, even when the customer says they withdrew it, and a lost dispute is final (source 2). Decision criteria are policy, written for both
    parties; internal handling resembles `skills/support-queue-design-pitfalls`.
 9. **Reviews are tied to a completed order and cannot be bought.** Symptom: a seller with a hundred five-star
    reviews written the same hour, or a buyer penalised after a refused refund. Fix: only the buyer of a

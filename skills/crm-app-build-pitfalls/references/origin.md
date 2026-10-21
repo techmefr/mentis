@@ -42,6 +42,20 @@ checked-out tree, so nothing is taken from it.
 4. **Framework pointers** (Laravel, Nuxt) are short and were not checked against a current release; re-read
    before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened (raw files at the default branch): Atomic CRM `doc/src/content/docs/users/merging-contacts.mdx`,
+`users/import-data.mdx`, `users/inbound-email.mdx` and `developers/architecture-choices.mdx`; licence file `LICENSE.md`
+(MIT) re-read.
+- Confirmed: causes of duplicates, merge (selected contact merged into the target, source deleted, target value kept on
+  conflict), import ignores unknown columns, empty or unknown stage goes to the first stage, company reused or created from
+  its name, no user deletion (account disabling only), inbound mail creates contact and company when missing.
+- Added: the inbound mail names a new company after the mail domain; an unmatched sector is left empty on import
+  (both in section 2 points 3 and 5).
+- Still unsourced: every other point (model, lifecycle, timeline, consent, archive, money, custom fields, tenants, time,
+  visibility, exports, reports, build order). No permissive CRM documentation beyond this one was found.
+Counts: 6 points re-checked against the source, 0 wrong, 2 pitfalls added.
+
 ## Related blocks
 `business/outbound-sales-and-crm-hygiene-pitfalls`, `business/data-protection`, `skills/laravel-no-cascade-delete`,
 `skills/laravel-recognise-state-machine-or-pipeline`, `skills/light-erp-document-flow-pitfalls`.

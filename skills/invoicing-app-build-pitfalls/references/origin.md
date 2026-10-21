@@ -44,6 +44,26 @@ Instruction-like text in the cloned repositories (agent guidance files) was trea
 3. **Nothing was run.** The tests named in the checkpoint were not written or executed.
 4. **Framework pointers** were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Stripe pages "How invoicing works", "Receive Stripe events in your webhook endpoint", "Idempotent
+requests" (English versions); Kill Bill `invoicing-overview`, `invoicing-invoice-items`, `invoicing-invoice-payments`
+(v3 branch); OFBiz `accounting-entitymodel.xml` (PaymentApplication, InvoiceStatus, invoice item override account).
+- Corrected: the Stripe overview page says a paid invoice can return to open by unapplying payments and, further down,
+  that paid is terminal; the block now says the page is inconsistent instead of relying on the reversal.
+- Made exact: webhook retries are up to three days with exponential backoff in live mode (the block said "for days"); a
+  rolled signing secret stays valid for a delay chosen by the operator, up to 24 hours on that page; idempotent results
+  include 500 errors but are saved only after execution begins (validation failures and concurrent conflicts are not
+  saved and can be retried), and keys can be pruned after 24 hours.
+- Confirmed: finalised invoice edits limited to a few fields such as memo or metadata, substantive change means a new
+  invoice and voiding the old one, only drafts deletable, raw-body signature check, 2xx before slow work, duplicate event
+  ids and object id plus event type, no ordering guarantee and do not order by creation time; one payment to one invoice in
+  the billing engine; refund and chargeback as signed payment rows; credit balance item; written-off and imported
+  invoices count as zero balance; fixed items never prorated, plan change as a repair adjustment plus a new recurring item.
+- Still unsourced: numbering and counter locking, money and rounding, tax as a code, audit, dates, billing run
+  idempotency, dunning, roles, exports.
+Counts: 14 claims re-checked, 3 corrected or made exact.
+
 ## Related blocks
 `skills/light-erp-document-flow-pitfalls`, `skills/e-invoicing-obligations-pitfalls`,
 `skills/vat-handling-in-software-pitfalls`, `skills/money-arithmetic-and-rounding-pitfalls`,
