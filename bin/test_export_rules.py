@@ -54,7 +54,8 @@ mdc = files["cursor"][".cursor/rules/laravel-no-observers.mdc"]
 check("cursor file opens with frontmatter", mdc.startswith("---\ndescription: \""))
 check("cursor file carries the manifest globs", "\nglobs: app/**/*.php\n" in mdc)
 check("cursor file is never always-on", "\nalwaysApply: false\n" in mdc)
-check("cursor file has one block per manifest entry", len(files["cursor"]) == 2)
+check("cursor rules stay under 500 lines", all(t.count(chr(10)) < 500 for t in files["cursor"].values()))
+check("a block with references becomes one rule per part", len(files["cursor"]) == 11)
 
 rc = subprocess.run([sys.executable, str(REPO / "bin" / "export_rules.py"), "--check"],
                     capture_output=True, text=True).returncode
@@ -64,7 +65,7 @@ with tempfile.TemporaryDirectory() as tmp:
     rc = subprocess.run([sys.executable, str(REPO / "bin" / "export_rules.py"),
                          "--target", "cursor", "--out", tmp], capture_output=True, text=True).returncode
     written = sorted(p.name for p in Path(tmp).rglob("*.mdc"))
-    check("--target cursor --out writes the files", rc == 0 and len(written) == 2, written)
+    check("--target cursor --out writes the files", rc == 0 and len(written) == 11, written)
 
 fm, body = export_rules.split_frontmatter('---\nname: x\ndescription: "Use when: a"\n---\n# x\nbody\n', "x")
 check("quoted description with a colon parses", fm["description"] == "Use when: a")
