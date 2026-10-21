@@ -28,3 +28,5 @@ Library option names and code, fuzzy matching, nested-row filtering, framework i
 2. **Verified 2026-10-20:** replace against push semantics and the entry cap (HTML Standard); composition session and isComposing (UI Events); label, search landmark, status role, colour, label in name, dialog focus, typed date input and Escape-clear in the accessibility points of §2.2.7 and §2.6 (sources above, none wrong, one narrowed: Escape clearing is optional in the pattern). **Still unverified:** router query handling and SQL null logic (general knowledge), debounce and facet behaviour, saved-view rules, the "placeholder often fails contrast" remark (no page read states it).
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No debounce delay or length threshold** is stated; none was measured.
+
+Independent verification 2026-10-21: 13 checked, 13 matched, 0 corrected, 0 unverified

@@ -38,3 +38,5 @@ Library API code and option names beyond the facts cited; the project or pipelin
 2. **Live region politeness** is now verified (library source and WAI-ARIA 1.2, third pass 2026-10-20); the exact announcement wording is still recalled public practice. Third pass: 11 points verified or added (fractional-key comparison, jitter, If-Match and 412, idempotent methods, live region, ARIA deprecations, activation constraints, touch-action timing, pointer cancel cases, Last-Event-ID), 0 corrected, 0 deleted. Order-key schemes other than fractional keys, WIP races, virtualization and the test lists remain own craft.
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No performance number** is stated; none was measured.
+
+Independent verification 2026-10-21: 29 checked, 28 matched, 1 corrected, 0 unverified

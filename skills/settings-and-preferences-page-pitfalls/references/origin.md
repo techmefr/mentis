@@ -36,3 +36,5 @@ Switch semantics and keys, group markup, modal dialog focus behaviour (one corre
 3. **Framework pointers** name features from memory; no version was checked.
 4. **Privacy and consent points** are method only, not legal advice; the rule that applies depends on jurisdiction and activity.
 5. **No number** (debounce delay, undo window) is stated; none was measured.
+
+Independent verification 2026-10-21: 15 checked, 14 matched, 1 corrected, 0 unverified

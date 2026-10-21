@@ -2,8 +2,7 @@
 
 ## 2.1 Reads
 1. **Authorise by the record, not only the endpoint.** Symptom: changing the identifier in the address returns
-   another person's record (an object-level authorisation failure, the most common access flaw in business
-   applications). Check: as person A, request B's record by identifier, on every resource endpoint. Fix: load
+   another person's record (an object-level authorisation failure; no source was read for how common it is). Check: as person A, request B's record by identifier, on every resource endpoint. Fix: load
    through the scoped query (§1.1.3), so a record outside the scope is simply not found.
 2. **Filter columns in the serializer, by allow-list.** Symptom: a new column on the table shows up in every
    response. Fix: each response shape names its fields; serialising a whole model is the defect. Include
@@ -23,7 +22,7 @@
    depth and breadth.
 7. **Caches.** A response cached under a key that omits the person, role or tenant serves one person's view to
    another. Key by scope, or do not cache personalised data in shared caches. Browser-cache headers on
-   authenticated responses deserve the same thought. In HTTP caching (RFC 9111) a shared cache may not reuse a response to a request that carried an Authorization header unless the response explicitly allows it (public, s-maxage or must-revalidate), and the private directive bars shared caches from storing a response at all; the usual leak is therefore adding public or s-maxage to a personalised answer, or varying on the wrong request header (a response is reused only when the request headers named by Vary match). Check: look at the cache directives and Vary of an authenticated endpoint.
+   authenticated responses deserve the same thought. In HTTP caching (RFC 9111) a shared cache may not reuse a response to a request that carried an Authorization header unless the response explicitly allows it (public, s-maxage or must-revalidate), and the unqualified private directive tells shared caches not to store a response at all; the usual leak is therefore adding public or s-maxage to a personalised answer, or varying on the wrong request header (a response is reused only when the request headers named by Vary match). Check: look at the cache directives and Vary of an authenticated endpoint.
 8. **Background jobs, notifications, emails and webhooks run without a request.** The job reads as the system.
    Give it the initiating person's scope, or re-check at send time; a notification that quotes a restricted
    field leaks it into an inbox you cannot revoke.
@@ -52,7 +51,7 @@
 9. **A merge-patch body can erase through null.** In JSON Merge Patch (RFC 7396) a null member means remove that member, and absent members are left alone. Run the field allow-list over every member present, nulls included: a restricted user sending {"approved_by": null} is a write attempt, not a no-op.
 
 ## 2.3 What a refusal says
-1. **401 versus 403 versus 404** (RFC 9110 section 15.5.2, section 15.5.4, section 15.5.5). 401 means valid credentials are missing and the server must send an authentication challenge; 403 means the request is understood and refused, and resending the same credentials will not help; 404 may be used by a server that does not want to disclose that a resource exists, and section 15.5.4 says so for forbidden resources. Hence: unauthenticated is 401; authenticated but not allowed is 403; for a record
+1. **401 versus 403 versus 404** (RFC 9110 section 15.5.2, section 15.5.4, section 15.5.5). 401 means valid credentials are missing and the server must send an authentication challenge; 403 means the request is understood and refused, and a client should not automatically resend the same credentials (a SHOULD NOT; the refusal can also be unrelated to the credentials); 404 may be used by a server that does not want to disclose that a resource exists, and section 15.5.4 says so for forbidden resources. Hence: unauthenticated is 401; authenticated but not allowed is 403; for a record
    whose existence is itself restricted, answer 404 so identifiers cannot be probed. Decide per resource and
    keep it consistent. Symptom: "403 for existing, 404 for absent" lets anyone enumerate identifiers.
 2. **Error text must not echo restricted values or names.** The problem-details RFC (9457) warns that error bodies, stack dumps and implementation details can leak data about the system and its users, and says the details given must be vetted; it also notes that a generic refusal such as 403 to a write needs no extra problem type. "Customer Dupont already has an open order" tells

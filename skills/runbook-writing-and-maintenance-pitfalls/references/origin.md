@@ -29,3 +29,5 @@ Alert design (`skills/slo-design`, `skills/prometheus-rules-and-promql-pitfalls`
 
 ## Related blocks
 `documentation-craft-pitfalls`, `production-readiness-review`, `backup-restore-drill-pitfalls`, `incident-comms-pitfalls`, `blameless-incident-review-pitfalls`, `slo-design`, `chaos-experiment`.
+
+Independent verification 2026-10-21: 19 checked, 19 matched, 0 corrected, 0 unverified

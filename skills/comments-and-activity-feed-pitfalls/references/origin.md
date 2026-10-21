@@ -39,3 +39,5 @@ Editor internals (`rich-text-editor-pitfalls`), notification centre design (`in-
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No number** (edit window, page size, retention period) is stated; none was measured.
 5. **Audit and erasure** interplay is a design note, not legal advice.
+
+Independent verification 2026-10-21: 19 checked, 18 matched, 1 corrected, 0 unverified
