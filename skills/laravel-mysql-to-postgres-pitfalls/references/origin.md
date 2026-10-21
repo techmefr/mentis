@@ -3,6 +3,8 @@
 > Provenance of `skills/laravel-mysql-to-postgres-pitfalls`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 26 checked, 24 matched, 1 corrected, 1 unverified (the sequence-lookup function name, not on the sequence page)
+
 **Status: 🟡 never dogfooded.** Written from one skill file, never run by us: no application was moved, no
 migration run on PostgreSQL, no statement executed. The file was re-read on 2026-10-16 before a rule was taken
 from it, each rule was checked against it in a final pass, and the repository's LICENSE file was read again.

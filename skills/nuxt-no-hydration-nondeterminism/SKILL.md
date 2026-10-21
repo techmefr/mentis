@@ -29,7 +29,7 @@ Source marks `[src N]` are the rows of the table in [`references/origin.md`](./r
    `setup()` for a library that edits the DOM: the Nuxt guide moves that to `onMounted`. [src 1,3,4]
 4. **Prefer a value both sides agree on over hiding it.** For a stored preference, `useCookie` is
    readable on the server; for a random or time-based value that must be shown in the first paint,
-   `useState` computes it once on the server and the client reuses it; `NuxtTime` renders dates
+   `useState` keeps it as shared state (the useState page says the state is serialised to JSON, so the client reusing the server value follows from that; the hydration guide only shows the initialiser pattern); `NuxtTime` renders dates
    consistently; for layout switches use CSS media queries instead of reading `window.innerWidth`. [src 3]
 5. **Time zones are a source too.** A timestamp turned into the user's local time differs when the
    server and the browser sit in different zones: do the conversion client-only. [src 2]

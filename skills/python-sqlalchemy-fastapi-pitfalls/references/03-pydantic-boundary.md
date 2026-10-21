@@ -20,8 +20,8 @@ costs flexibility and hides two silent behaviours: coercion and serialising by d
    receive something that is not even a dict.
 3. **Prefer the annotated form** (`Annotated[int, AfterValidator(fn)]`) so the validator sits next to the
    field. The decorator form makes validator order on subclasses unclear.
-4. **Field-specific metadata (alias, deprecated) goes on the whole annotated type,** not on one member of a
-   union inside it; it only applies at the top level of the annotation.
+4. **Field-specific metadata such as `deprecated` goes on the whole annotated type,** not on one member of a
+   union inside it; it only applies at the top level of the annotation. An `alias` is the exception: the Pydantic skill says to set it with the assignment form (`x: int = Field(alias=...)`), not inside `Annotated`, so static type checkers see it.
 
 ## 3.3 Coercion
 1. **By default input is coerced:** a string `"123"` is accepted for an `int` field, and a `list[str]`

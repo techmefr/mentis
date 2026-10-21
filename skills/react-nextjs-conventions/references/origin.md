@@ -3,6 +3,8 @@
 > Provenance of `skills/react-nextjs-conventions`. Read it when a rule has to be traced back to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 16 checked, 12 matched, 2 corrected, 2 unverified (Next docs at canary, React and TanStack docs at main; sections 14 to 16 prioritised)
+
 Ideas taken from: a market React skill catalogue (perf/rendering/waterfall patterns) for the Next.js
 rendering rules; a market React/Node catalogue (`redux-toolkit`) for the RTK paragraph; a market shadcn
 catalogue for the component-library section; a market React linter (the `oxlint-plugin-react-doctor` package,

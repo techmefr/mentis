@@ -3,6 +3,8 @@
 > Provenance of `skills/sql-server-transactions-and-operations`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 18 checked, 17 matched, 1 corrected, 0 unverified
+
 **Status: 🟡.** Written from documentation and reading, never run by us. No SQL Server instance was used while
 writing it. Overlaps with `skills/sql-conventions` and `skills/devops-conventions` (2026-10-19); cross-referenced, not merged.
 

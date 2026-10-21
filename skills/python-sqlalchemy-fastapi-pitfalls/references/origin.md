@@ -3,6 +3,8 @@
 > Provenance of `skills/python-sqlalchemy-fastapi-pitfalls`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 36 checked, 35 matched, 1 corrected, 0 unverified
+
 **Status: 🟡.** Written from documentation and reading, never run on a real service by us. No query, server
 or process was started while writing it.
 

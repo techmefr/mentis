@@ -66,7 +66,7 @@
     'error'` cache the data with `"use cache"` and a lifetime and remove the config; replace `revalidate > 0`
     with a `cacheLife` profile and `revalidate = 0` by removing it; `fetchCache` becomes "inside a cache scope or
     not"; `noStore()` is unneeded (use `connection()` plus `<Suspense>` for request-time work); `runtime =
-    'edge'` must move, as the feature needs the Node.js runtime.
+    'edge'` is not the only case: the migration guide says any `runtime` export (even `'nodejs'`) is unsupported, so remove it and move edge behaviour to the proxy file.
 17. **Migrate incrementally if the app is large**: opt routes out of validation per segment (`instant = false`,
     `[verify]`) so the app builds, then convert one route at a time. The opt-out marks a segment as allowed to
     block; it does not make it dynamic and does not clear the synchronous-time/random errors of rule 10.
@@ -77,9 +77,9 @@
 ## Invalidation (extends §7.6)
 19. **Tag cached data with `cacheTag` inside the cached scope and choose the invalidation by the behaviour:**
     `updateTag(tag)` for read-your-own-writes after a mutation (Server Action only; the next request waits for
-    fresh data); `revalidateTag(tag, profile)` for stale-while-revalidate, with a profile as the required second
-    argument (`'max'` serves cached data while it refreshes), usable in Server Actions and Route Handlers (a
-    webhook); `revalidatePath` unchanged. Tags are case-sensitive and at most 256 characters.
+    fresh data); `revalidateTag(tag, profile)` for stale-while-revalidate, with a profile as the second
+    argument (the one-argument form is deprecated; `'max'` serves cached data while it refreshes), usable in Server Actions and Route Handlers (a
+    webhook); `revalidatePath` unchanged. Tags are at most 256 characters and one call takes at most 128 tags (case-sensitivity is not stated by the page read, so treat tags as case-sensitive only after testing).
 20. **Prefetching `[verify]`.** With partial prefetching enabled, a link prefetches the route's app shell; setting
     `prefetch` on a link also prefetches cached content that depends on its URL data, at the cost of a server
     invocation per link. Do not enable it on long lists.

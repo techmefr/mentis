@@ -2,6 +2,7 @@
 
 🟡 written 2026-10-08, never run on real work. No dogfood, no incident behind any rule: the sections are a
 synthesis of sources, and a rule earns more than 🟡 only by catching a real defect in a real review or run.
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified
 
 ## Sources and licences
 

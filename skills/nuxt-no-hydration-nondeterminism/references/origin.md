@@ -3,6 +3,8 @@
 > Provenance of `skills/nuxt-no-hydration-nondeterminism`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 17 checked, 16 matched, 1 corrected, 0 unverified
+
 **Status: 🟡 never dogfooded.** Written from documentation, never run by us: no server render was made and
 no hydration warning was reproduced. The documents below were read on 2026-10-20 and each rule was checked
 against them. The `[src N]` marks in `SKILL.md` point to the numbered rows.
@@ -28,6 +30,7 @@ Added from the sources: `useState`, `useCookie`, `NuxtTime`, time zones, markup 
 link detection, tag managers and the cleanup rule.
 
 ## Corrected
+0. **`useState` (independent check 2026-10-21).** The text said `useState` computes a value once on the server and the client reuses it; neither page states that outright (the hydration guide shows only the initialiser pattern, the useState page says the state is serialised to JSON). Reworded as an inference.
 1. **`import.meta.client` in `setup()`.** The Nuxt hydration guide (row 3) treats a guarded dynamic import and init inside `setup()` as still able to alter the DOM before or during hydration, and moves it to `onMounted`. Step 3 no longer offers the guard as an equal alternative for such code.
 
 ## Not verified
