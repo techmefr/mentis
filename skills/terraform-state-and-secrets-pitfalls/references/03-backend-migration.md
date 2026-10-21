@@ -6,8 +6,8 @@ separate a migration from a state that quietly went missing.
 ## 3.1 Pick the command
 | Goal | Command | What it does |
 |---|---|---|
-| Move existing state to a new backend | `init -migrate-state` | Offers to copy the existing state to the new backend (terrashark; terraform-skill) |
-| Accept the configured backend without migrating | `init -reconfigure` | Does not migrate; terraform-skill describes the result as a new empty state, then resources are imported or recreated |
+| Move existing state to a new backend | `init -migrate-state` | Offers to copy the existing state to the new backend (terrashark; terraform-skill; OpenTofu init page: it may prompt about workspace states, and `-force-copy` skips the prompts and implies it) |
+| Accept the configured backend without migrating | `init -reconfigure` | Does not migrate (the OpenTofu init page says it disregards the existing configuration and prevents migration, read 2026-10-20); terraform-skill describes the result as a new empty state, then resources are imported or recreated |
 
 1. **Use `-migrate-state` when moving state; use `-reconfigure` only when you mean to accept the new backend
    without carrying the old state over** (terrashark).

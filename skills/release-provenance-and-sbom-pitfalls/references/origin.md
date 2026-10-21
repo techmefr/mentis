@@ -14,6 +14,13 @@ knowledge, never run on a real release by us.
 | ossf/scorecard, docs/checks.md (LICENSE read 2026-10-20) | Apache-2.0 | Check list, risk levels, scoring examples, reasons to pin by hash (§2.8, §2.9) |
 | Build-provenance framework specification site, levels page (v1.0, marked retired) and verifying-artefacts page | repository licence is a community specification licence (not MIT, Apache or CC BY), so read for facts only, restated, nothing copied, read 2026-10-20 | Level steps (§2.4), digest binding on verification (§2.2, §3.1) |
 
+| GitHub documentation: artifact attestations concept page | product documentation, facts only, rewritten, read 2026-10-20 | Build levels reached by hosted attestations, public versus private signing instance, verification is the value (§2.4, §2.5) |
+| in-toto attestation, spec/v1/statement.md (repository licence file not read) | read for facts only, restated, read 2026-10-20 | Subject digest matching and name convention (§2.2) |
+| Sigstore documentation: cosign verify page | product documentation, facts only, rewritten, read 2026-10-20 | Identity plus issuer on keyless verification (§2.3) |
+| Build-provenance framework: provenance and verifying-artifacts pages (v1.0, marked retired) | community specification licence, facts only, restated, read 2026-10-20 | Parameters, builder identity, expectations (§2.10) |
+| SPDX specification 2.3.1, document creation information page (spdx.github.io; licence file not read) | read for facts only, restated, read 2026-10-20 | Namespace uniqueness and reissue rule, creation time, data licence (§3.5) |
+| OpenVEX specification (OpenVEX/spec) (licence file not read) | read for facts only, restated, read 2026-10-20 | Status values, justification, versioning (§3.4) |
+
 Credit as the licences require: CycloneDX specification, OWASP Foundation and Ecma International TC54, Apache License 2.0 (https://github.com/CycloneDX/specification); OpenSSF Scorecard, Apache License 2.0 (https://github.com/ossf/scorecard). The text was rewritten, not reproduced; no endorsement by the authors is implied.
 
 ## Removed
@@ -23,7 +30,7 @@ Credit as the licences require: CycloneDX specification, OWASP Foundation and Ec
 3. **Tool names for generating or signing.** Not method.
 
 ## Not verified
-1. **The provenance framework's levels (v1.0 page, marked retired) and its verification page were read; on 2026-10-20 the v1.2 build-requirements page was read too and the three level steps match. The provenance field names and the signing tools' options were not read; the keyless-signing overview page was read for facts only.** Points in §2 other than the digest
+1. **(2026-10-20 second pass: the v1.0 provenance page, in-toto statement, cosign verify, GitHub attestation concept and OpenVEX pages were read, see the table; the SPDX 2.3.1 document-creation page was read; a CISA PDF returned 404 and the NTIA minimum-elements PDF could not be read as text, so the minimum-elements list stays unsourced.)** The provenance framework's levels (v1.0 page, marked retired) and its verification page were read; on 2026-10-20 the v1.2 build-requirements page was read too and the three level steps match. The provenance field names and the signing tools' options were not read; the keyless-signing overview page was read for facts only.** Points in §2 other than the digest
    binding, the level steps and the scorecard list remain own guidance; nothing there may be quoted as a source
    claim. Re-read the specification in force and the tools' documentation before relying on it.
 2. The scorecard's individual check rules beyond the summaries on its checks page were not read.

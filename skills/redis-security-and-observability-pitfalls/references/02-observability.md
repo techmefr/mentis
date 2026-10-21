@@ -16,8 +16,9 @@ Sources: the `redis-observability` skill of redis/agent-skills at a84871d (`SKIL
 | `rdb_last_save_time` | the last persistence snapshot | too old against the recovery point objective |
 
 2. **The ratio is hits divided by hits plus misses,** and the source's code guards the denominator against zero so an instance with no lookups yet does not divide by zero.
-3. **The 80 percent figures are examples, not limits.** Own guidance: a hit ratio only describes a cache, so an instance used as a queue or a primary store is not judged by it, and a threshold is set from the instance's own history (`observability-instrumentation` §4).
-4. **The alert rules for these signals, written against an exporter, are in `datastore-broker-alerting-signals`.**
+3. **Cross-check with a managed service's own definitions** (AWS ElastiCache metrics page, read 2026-10-20): its memory percentage is `used_memory` over `maxmemory`; its hit rate is hits over hits plus misses, and the page itself says a value below about 0.8 means many keys are evicted, expired or absent, so the 80 percent figure is a rule of thumb; rejected and blocked connection counts come from the same `INFO` fields as the source's. It adds signals the source lacks: evicted keys (memory pressure shows here before the clients fail), engine-thread CPU (the engine is single-threaded, so host CPU can look idle while the engine is saturated; on hosts of two vCPUs or fewer watch the host figure too, since management processes share it), a memory fragmentation ratio, which the page says should stay above 1.0, and failed-authentication counters (see §1.5).
+4. **The 80 percent figures are examples, not limits.** Own guidance: a hit ratio only describes a cache, so an instance used as a queue or a primary store is not judged by it, and a threshold is set from the instance's own history (`observability-instrumentation` §4).
+5. **The alert rules for these signals, written against an exporter, are in `datastore-broker-alerting-signals`.**
 
 ## 2.2 Commands for an incident
 1. **Reach for the built-ins when something looks off:**

@@ -4,8 +4,8 @@
 > or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from repository documentation and reading, never run by us. No Terraform or OpenTofu
-command was executed while writing it, and no backend was created or migrated. The official Terraform and
-OpenTofu documentation was not read; every claim rests on the two repositories below. No HashiCorp (BUSL)
+command was executed while writing it, and no backend was created or migrated. The official Terraform
+documentation (BUSL) was not read; OpenTofu documentation pages were read on 2026-10-20 (table below). No HashiCorp (BUSL)
 material was read or used.
 
 ## Sources (all re-read in full 2026-10-15, rewritten in our own words, no configuration text copied)
@@ -13,6 +13,8 @@ material was read or used.
 | Source | Licence | What it gave |
 |---|---|---|
 | LukasNiessen/terrashark, `references/conditional/backend-state-safety.md`, `references/secret-exposure.md`, `references/migration-playbooks.md` (section 4 on secret remediation) (commit 21f2c18) | MIT (repository LICENSE file, copyright Lukas Niessen 2025, permission text with no title line) | State as identity and secrets, the backend baseline and bootstrap-root rule, migration guardrails and the `-migrate-state` versus `-reconfigure` distinction, lock handling, secret exposure paths, the rotation playbook, the remediation steps |
+| OpenTofu documentation pages: S3 backend, init command, force-unlock, state locking, state, sensitive data in state, backend configuration, ephemerality (opentofu.org) | product documentation, facts only, rewritten, read 2026-10-20; repository licence not read, no text taken | Backend settings and recommendations (§1.3), `-reconfigure` and `-migrate-state` semantics (§3.1), lock and force-unlock behaviour (§1.4), editing state by hand, plaintext backend-config values (§1.2), ephemeral values not persisted (§2.1) |
+| AWS documentation pages: S3 versioning, S3 SSE-S3, RDS and Secrets Manager password management | product documentation, facts only, rewritten, read 2026-10-20 | Earlier versions stay restorable (§2.3.5), RDS managed password behaviour and limits (§2.4) |
 | antonbabenko/terraform-skill, `skills/terraform-skill/references/state-management.md`, `security-compliance.md`, `code-patterns.md` (commit 0a3a4a6) | Apache-2.0 (repository LICENSE file: a short header naming terraform-best-practices.com and Compliance.tf, copyright Anton Babenko 2026, followed by the standard Apache-2.0 text) | The state contents list, SSE-S3 versus customer-managed KMS, S3 native lock-file and the DynamoDB lock, locking and lock-timeout, the `ephemeral` / `write_only` / `sensitive` / `nonsensitive` table and the version floors, the data-source and `random_password` caveats, state moves and recovery, partial backend configuration, the model-mistake checklists |
 
 The licence of each repository was verified again from its LICENSE file in this session. Both repositories carry
@@ -44,16 +46,15 @@ files above. These were left out as outside the item or too tool-specific:
    state. The block follows terraform-skill and says so.
 
 ## Not verified
-1. **Every version floor** (`use_lockfile` on Terraform 1.10+, `ephemeral` 1.10+, `write_only` 1.11+,
+1. **Every version floor** (still unverified: the OpenTofu pages read give no introduction version; `use_lockfile` on Terraform 1.10+, `ephemeral` 1.10+, `write_only` 1.11+,
    `nonsensitive` 0.15+, AWS provider 5.71+ for `password_wo`) is as terraform-skill states it. The OpenTofu
    floors for these were not stated by either source. Re-check at writing time against the official docs.
-2. **Which providers support `ephemeral` and `write_only`** was not checked; both sources say to verify in the
+2. **Which providers support `ephemeral` and `write_only`** was not checked (OpenTofu confirms the language mechanism only, with no version); both sources say to verify in the
    provider documentation.
-3. **What `-reconfigure` does** is from terraform-skill's description ("will create new empty state") and
-   terrashark's one line; the official init documentation was not read.
-4. **That a versioned bucket keeps earlier secret values** is our reasoning, labelled in §2.3.
-5. **The CloudTrail audit-trail claim for SSE-S3** is terraform-skill's statement; the AWS documentation was not
-   read.
+3. **What `-reconfigure` does** is now confirmed for OpenTofu (no migration); the "new empty state" consequence is
+   still terraform-skill's description, and the Terraform init documentation was not read.
+4. (Confirmed 2026-10-20 on the S3 versioning page.)
+5. **The CloudTrail audit-trail claim for SSE-S3** is terraform-skill's statement; the AWS SSE-S3 page was read on 2026-10-20 and says nothing about key-use auditing (only that encryption status shows in CloudTrail), so it stays unverified.
 6. **Written by us, not sourced:** the verification paragraphs, the "state appears lost" reasoning in §3.1, and
    the abridged RDS sample in §2.4.
 

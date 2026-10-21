@@ -15,19 +15,21 @@ Sources: the `deploy` skill, the Elastic Beanstalk skill and the serverless depl
 4. **Traffic between zones and out to the internet is billed** (cross-zone traffic through the gateway confirmed on the same page, so keep resources in the gateway's zone or one gateway per zone; internet egress is charged in tiers with a monthly free allowance across services, EC2 pricing page read 2026-10-20; cross-zone charging within a region was not stated on that page, own knowledge): keep chatty components in the same zone when availability allows, and put a content cache in front of heavy downloads.
 5. **Logs and metrics cost by volume and by time kept.** Set a retention period on every log group when it is created; the default is forever (confirmed: log data is kept indefinitely unless a retention is set; events past it are deleted with a delay of up to about three days, CloudWatch Logs page, read 2026-10-20).
 
+On Azure, the NAT gateway overview says explicit outbound connectivity is recommended and that, from 2026-03-31, new virtual networks are private by default with no default outbound access; a worker with no outbound path there fails at pull time. Its pricing is on a separate page that was not read (Azure NAT gateway overview, read 2026-10-20).
+
 ## 2.3 Stateful resources inside stacks
-1. **Keep stateful resources (databases, buckets with data, queues with messages) in a different stack from stateless ones,** and enable termination protection on the stateful stack. The source recommends this for its code-based stacks.
+1. **Keep stateful resources (databases, buckets with data, queues with messages) in a different stack from stateless ones,** and enable termination protection on the stateful stack. The source recommends this for its code-based stacks. Checked on one provider: protection is off by default and blocks only a delete request on the stack; a stack update that removes a nested stack, or a resource, still goes through, so it does not replace the preview check of §2.4.1 (CloudFormation termination-protection page, read 2026-10-20).
 2. **A renamed logical resource is a new resource.** Template tools identify resources by their logical name; renaming one can mean delete-and-create, which empties a database. The source suggests a test that asserts the logical names of stateful resources to catch accidental replacement.
 3. **Do not hard-code account identifiers or regions in templates;** read them from the environment of the stack or from references (`this.account` style), so that the same template deploys to another account.
 4. **Commit the lookup cache the tool writes** (VPC and zone lookups), so that two machines synthesize the same template.
-5. **The tool's bootstrap step must have run in each account and region** before the first deployment; a missing toolkit stack is a common first-deployment failure.
+5. **The tool's bootstrap step must have run in each account and region** before the first deployment; an environment that was not bootstrapped cannot take a deployment (confirmed on the CDK bootstrapping page, read 2026-10-20: every account and region is independent and must be bootstrapped on its own).
 
 ## 2.4 Preview, apply, clean up
 1. **Read the change preview before every apply, and in CI on every change.** Look for lines that say replace or delete on anything stateful, and for any new inbound rule or new identity.
 2. **Do not deploy to production from a laptop with a direct command;** use a pipeline that runs the preview, the scan and the apply, with an approval for production (the source says to avoid direct production deploys).
 3. **Never mix two ways of managing the same resource** (a console edit on a stack-managed resource, two tools claiming one resource), because the next apply silently reverts or conflicts (own guidance).
 4. **Tear-down is part of the design.** Name or tag everything with an owner and an expiry for experiments (tags also feed the cost-allocation reports, CloudWatch Logs tagging page), and list what survives a stack deletion: volumes, snapshots, fixed addresses, log groups, buckets with retained data (own guidance).
-5. **Set a budget alert before the first experiment,** at a low amount, to a channel somebody reads (own guidance).
+5. **Set a budget alert before the first experiment,** at a low amount, to a channel somebody reads (own guidance). Checked on one provider: budgets notify by email or a topic on actual or forecast spend, but the figures refresh only up to three times a day and the page itself warns that spend can pass the threshold before the alert arrives; an alert is a lagging signal, so keep the low amount and the expiry tags (AWS Budgets page, read 2026-10-20).
 
 ## 2.5 Checks (own guidance)
 1. The estimate, with its assumptions, is in the change description.

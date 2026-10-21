@@ -20,7 +20,7 @@
 2. **Choose by threat, not by convenience** (own guidance): where the agent loops over generated code and
    needs keys inside, give the sandbox a scoped, short-lived credential and no ambient one.
 3. **The guide's sandbox options** are Blaxel, E2B, Modal and Docker; its Docker example drops all
-   capabilities, sets no-new-privileges, limits memory, CPU and process count and runs as an unprivileged user.
+   capabilities, sets no-new-privileges, limits memory, CPU and process count and runs as an unprivileged user. The Docker run reference (read 2026-10-20) confirms capability dropping, memory and CPU limits and a user override (the image default is root); it did not cover the no-new-privileges, process-count, read-only and no-network options, which stay as the guide states them.
 
 ## 4.3 Limits and cleanup
 1. **The guide's best practices:** set memory and CPU limits, execution timeouts and resource monitoring; run

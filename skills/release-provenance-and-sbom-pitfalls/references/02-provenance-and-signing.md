@@ -12,13 +12,13 @@
    provenance statement says "this builder produced these bytes from this source with these inputs". They answer
    different questions; a release that has only a signature cannot tell a customer which commit or which build
    it came from. Decide which claim you owe and write it in the release notes.
-2. **Bind the claim to a digest.** Confirmed in the framework's verification page: a consumer checks that the statement's subject matches the digest of the artefact in hand, because expectations attach to a package name while provenance attaches to one specific artefact, so a name check alone misses a substituted or modified file. Attach the evidence to the cryptographic hash of the exact
+2. **Bind the claim to a digest.** Confirmed in the framework's verification page: a consumer checks that the statement's subject matches the digest of the artefact in hand, because expectations attach to a package name while provenance attaches to one specific artefact, so a name check alone misses a substituted or modified file. The attestation statement format (in-toto statement page, read 2026-10-20, facts only) matches subjects purely by digest, gives every subject a digest set, treats the subject name as the producer's own convention (unset or a placeholder when meaningless) and asks that subjects be treated as immutable. Attach the evidence to the cryptographic hash of the exact
    file, not to a name or a tag. Tags move; a digest does not. Symptom: an attestation exists but the artefact
    downloaded by users has a different hash because it was repacked after signing. Fix: hash after the final
    packaging step and sign that.
 3. **Prefer short-lived credentials to a stored key.** Own guidance: a signing key kept as a long-lived secret
    in the pipeline is a target and a rotation burden; identity-based, short-lived signing, tied to the
-   workflow that ran, removes the stored secret. (Sigstore signing overview, read 2026-10-20: the keyless flow gets a short-lived certificate binding an ephemeral key to an OpenID Connect identity, and each signing is recorded with a timestamp in a public transparency log; the page gives no validity period and does not say what a verifier must check, so pin the expected identity yourself.) Whichever is used, a build triggered by an untrusted change
+   workflow that ran, removes the stored secret. (Sigstore signing overview, read 2026-10-20: the keyless flow gets a short-lived certificate binding an ephemeral key to an OpenID Connect identity, and each signing is recorded with a timestamp in a public transparency log; the page gives no validity period and does not say what a verifier must check, so pin the expected identity yourself. The cosign verification page, read 2026-10-20: every keyless example passes both the expected certificate identity and the expected issuer, and a signed file is checked with its bundle; the page does not say what happens when a flag is left out, so supply both and never rely on a default.) Whichever is used, a build triggered by an untrusted change
    must not be able to read the key (`skills/ci-workflow-hardening`, `skills/gha-trust-boundary-pitfalls`).
 4. **Build in an environment the producer controls, from a known source.** Own guidance: provenance is only as
    strong as the builder: a hosted, ephemeral build that takes pinned inputs and cannot be altered from the
@@ -27,7 +27,7 @@
    artefact was built, which catches mistakes and is easy to forge; level 2, a hosted platform generates and signs
    the provenance, which protects against tampering after the build; level 3, a hardened platform protects against
    tampering during the build, with isolated runs and protected signing secrets. The build track does not cover
-   source or dependencies. Re-read 2026-10-20 on the v1.2 build-requirements page: the three levels are unchanged in substance (provenance naming the output digest; authentic, hosted-platform provenance; unforgeable provenance with isolated, ephemeral builds and signing secrets out of reach of user steps).
+   source or dependencies. Hosted-platform attestations: the GitHub artifact-attestation concept page (read 2026-10-20) says attestations alone reach build level 2 and a shared reusable workflow can reach level 3; public repositories sign through the public Sigstore instance and write to a public transparency log, while private repositories use the vendor's own instance with no transparency log; and it says generating attestations alone provides no security benefit, so verification is what delivers it (see point 5). Re-read 2026-10-20 on the v1.2 build-requirements page: the three levels are unchanged in substance (provenance naming the output digest; authentic, hosted-platform provenance; unforgeable provenance with isolated, ephemeral builds and signing secrets out of reach of user steps).
 5. **Verify once, from outside, and keep the command.** Own guidance: after the first signed release, run the
    verification as a consumer would, from a machine that did not build it, against the downloaded artefact, and
    keep the exact command in the release checklist. Symptom: months of signed releases that no one can verify
@@ -55,6 +55,8 @@
    software in checks and in deployments, a guard if a dependency is later compromised after you vetted the pinned
    one, and a counter to dependency confusion; the trade-off it names is delayed security updates, which an update
    tool offsets (consistent with point 8).
+
+10. **Verify the build inputs, not just the signature.** Confirmed in the provenance and verification pages (v1.0, marked retired; read 2026-10-20): the externally controlled parameters are untrusted and must be compared downstream with expected values, unknown fields should make verification fail, the builder identity must be one the verifier recognises and expects (so correct code cannot be built on an unintended platform), and the canonical source repository and build type are compared too; expectations attach to a package name, formed by trust on first use, by the producer or from the source repository. A check that only validates the signature passes a build of the right code from the wrong place or with a swapped parameter. Dependencies listed in the statement are best-effort complete up to level 3, so do not read the list as a full inventory.
 
 ## Checks (own guidance)
 1. The signature or attestation names the digest of the file users download.

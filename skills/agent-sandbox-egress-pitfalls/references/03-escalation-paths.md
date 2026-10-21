@@ -5,11 +5,12 @@ limitations section names the first three.
 
 ## 3.1 Paths that lead out
 1. **A container runtime socket is the host.** Allowing the Docker socket through the Unix-socket allowlist
-   would effectively grant access to the host system.
+   would effectively grant access to the host system. The Docker engine security page (read 2026-10-20) agrees: control of the daemon is root-equivalent on the host, and a container started through it can mount the host root.
 2. **Writable files that something else runs.** Broad write permission on directories holding executables on
    the search path, on system configuration directories or on shell start-up files can lead to code
    execution in another security context when someone else reads them.
 3. **Where the runtime is installed:** outside every allowed write path (see §1).
+3a. **A command-level exit from the sandbox is itself an escalation path.** The sandbox documentation of one agent product (read 2026-10-20) describes a retry of a failed command outside the sandbox, which an allow rule matching the command also approves without a prompt, and an excluded-commands list that runs matching commands with full access; it warns that a broad pattern, or one covering an interpreter or a file the agent can write (it names a compose file), lets the agent write the file and then run it outside. Check: read the exit settings, decline unsandboxed retries in unattended runs, and keep exclusion patterns narrower than the tool.
 4. **Unix sockets in general.** They are blocked by default; on macOS an allowlist of paths applies, on Linux
    the path list is ignored (seccomp cannot filter by path) and the switch is all-or-nothing. Each allowed
    socket is a service the sandbox can reach.
