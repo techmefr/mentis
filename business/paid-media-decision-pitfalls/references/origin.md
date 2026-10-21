@@ -54,8 +54,11 @@ cadence, which is a reason not to trust such numbers. Payback and cohort arithme
 The task asked for a check of this block's claims against Meta's advertising policy, Advantage+ and delivery
 pages and against TikTok's and LinkedIn's policy overview pages. The block names no Meta, TikTok or LinkedIn rule or
 delivery mechanic (its platform mechanics in §2 are about one search platform), so there was nothing of this kind to
-confirm or correct, and no claim was edited. Meta's pages could not be read (script-rendered pages returned only a
-title; help-page addresses tried returned 404), LinkedIn's policies page and TikTok's overview page were read but
+confirm or correct, and no claim was edited. Meta's policy pages could not be read (script-rendered pages returned only a
+title, again on a second try with a browser user agent and a page-to-text tool; help-page addresses tried returned 404).
+Meta's developer pages on Advantage+ campaigns and ad review status did render (read 2026-10-20 as digests) and
+describe one platform's campaign state and review status, not account reading or decision rules, so nothing was
+confirmed or edited from them. Meta's policy pages remain unread, LinkedIn's policies page and TikTok's overview page were read but
 describe policy, not account reading. The block stays free of policy statements, as §4.2 says; policy review is
 `business/ad-creative-testing-and-policy-pitfalls` §3. Item 1 above (Google platform mechanics) is still unread
 against Google's help pages.

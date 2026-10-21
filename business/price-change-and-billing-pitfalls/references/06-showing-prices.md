@@ -20,10 +20,10 @@ reference can be shown on request. A reference that was never charged, or was ch
 sale, is the pattern to look for in review.
 
 ## 6.3 The EU rule on announced reductions
-Text read 2026-10-20 on the legislation.gov.uk copy of Directive 2019/2161 (Article 2 inserts Article 6a into
-Directive 98/6/EC), a mirror of the EU text. The Official Journal text on EUR-Lex and data.europa.eu returned an
-empty body (HTTP 202) to every fetch tried, so it was **not read** and the Omnibus-amended provisions beyond Article
-6a were not read either. Paraphrase, near the text:
+Text read 2026-10-20 in the Official Journal version of Directive (EU) 2019/2161 (OJ L 328, 18.12.2019, p. 7),
+retrieved from the Publications Office cellar endpoint (Article 2 inserts Article 6a into Directive 98/6/EC). The
+earlier mirror reading matched it point for point. Only Article 2 (Article 6a and the replaced Article 8) and the
+transposition article were read, not the rest of the directive. Paraphrase, near the text:
 1. An announcement of a price reduction must indicate the prior price the trader applied for a determined period
    before the reduction.
 2. The prior price is the lowest price the trader applied during a period not shorter than 30 days before the
@@ -32,6 +32,10 @@ empty body (HTTP 202) to every fetch tried, so it was **not read** and the Omnib
 4. Where a product has been on the market for less than 30 days, member states may provide a shorter period.
 5. Member states may provide that, when a reduction is progressively increased, the prior price is the price
    without the reduction before the first application of the reduction.
+
+Two further facts from the same text: member states must set penalties for breaches of the national rules, and
+those penalties must be effective, proportionate and dissuasive (replaced Article 8); and member states had to
+adopt national measures by 28 November 2021 and apply them from 28 May 2022 (transposition article).
 
 Not read, so not stated: whether the rule reaches a software subscription or a digital service, the national laws
 that transpose it, any exemption, the Commission's guidance, any court decision. A reading of those belongs to the

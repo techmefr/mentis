@@ -24,6 +24,7 @@ fact below is "as fetched". Repositories were cloned read-only in the session an
 | tech.ebu.ch/docs/r/r128.pdf, EBU R 128-2023 (downloaded, text extracted, all five pages read 2026-10-20) | EBU publication, copyright EBU, no open licence; facts only, no text kept | target -23.0 LUFS, 1.0 LU where unattainable, 0.2 LU QC tolerance, true peak -1 dBTP with 0.3 dB tolerance, LUFS equals LKFS, gated measurement, no range for programmes under one minute, revision history |
 | tech.ebu.ch/docs/r/r128s2.pdf, EBU R 128 s2-2023 "Loudness in Streaming" (read in full 2026-10-20) | EBU publication; facts only | streaming services typically use a higher target; stream unchanged at -23.0 LUFS with metadata; interim -20.0 to -16.0 LUFS only without metadata |
 | itu.int, Recommendation ITU-R BS.1770-5 (11/2023), PDF (annex 1 algorithm summary and gating, annex 2 true-peak summary and informative attachment read 2026-10-20) | ITU publication, copyright ITU; facts only | 400 ms blocks at 75 percent overlap, -70 LKFS absolute and -10 dB relative gates, true peak by 4x oversampling, peak-sample meters can under-read |
+| support.spotify.com/us/artists/article/loudness-normalization/ (fetched 2026-10-20 through a summarising tool) | Spotify site terms; facts only | A reference level based on ITU-R BS.1770, true-peak advice for lossy formats, listener volume settings; silent on podcasts, so used only to say no podcast figure was found |
 | forcequit/shownotes-skill, commit 5f29cd2cab970c4f3dbcc3b8bb457799474b7fc4: `shownotes/SKILL.md` (read in full) | Apache-2.0 (LICENSE re-read this session: full text) | one idea: summarise only from the transcript and add nothing. The service, endpoints and email step are not taken. No file or text copied, so the NOTICE terms do not apply |
 | openai/skills, commit 49f948faa9258a0c61caceaf225e179651397431: `skills/.curated/speech/SKILL.md` (grep of the disclosure and custom-voice lines, plus its accessibility reference), `skills/.curated/transcribe/SKILL.md` (workflow and validation lines) | Apache-2.0 (per-skill `LICENSE.txt` re-read this session; the repository root has none) | the AI-voice disclosure line and the habit of validating generated transcripts. No file or text copied |
 | elevenlabs/skills, commit 269e5f0e5a4cf296a8a38beb166245b89d5e2c1c (grep for consent, clone and cloning, then the voice-changer line) | MIT (LICENSE re-read this session: "Copyright (c) 2024 ElevenLabs") | only the observation that the voice-conversion skill suggests cloning from a sample with no consent step |
@@ -48,7 +49,9 @@ fact below is "as fetched". Repositories were cloned read-only in the session an
 2. **ITU-R BS.1770-5 (annexes 1 and 2) and EBU R 128 with its supplement 2 were read.** Tech 3341, 3342, 3343,
    3344 and R 128 s1 and s3 were not, so the block gives no meter mode, loudness-range method or short-form
    target. The filter coefficients and multichannel weights were not reproduced or checked.
-3. **Any streaming platform's loudness or audio-quality page.** None read, so no figure.
+3. **Podcast platforms' loudness pages.** Spotify's music loudness page was read but does not cover podcasts; its
+   audio-specifications page, YouTube's loudness page and Apple's loudness pages were not found or not readable on
+   2026-10-20, so no podcast figure.
 4. **Platform content policies on cloned voices and music**, and **any primary source on music licensing**
    (recording versus musical work, sync versus master): not read. §4 is a question list, not verified.
 5. **The repository licence of the Podcast Namespace** was not read; only facts are used.
