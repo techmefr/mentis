@@ -48,3 +48,5 @@ Facts only; the points are rewritten in our words.
 ## Related blocks
 `agent-context-hygiene-pitfalls`, `llm-app-prompt-injection-and-exfiltration-pitfalls`, `llm-pii-and-data-handling-pitfalls`,
 `rag-retrieval-quality-pitfalls`, `multi-agent-design-pitfalls`, `agent-run-limits-and-guardrail-pitfalls`.
+
+Independent verification 2026-10-21: 21 checked, 21 matched, 0 corrected, 0 unverified

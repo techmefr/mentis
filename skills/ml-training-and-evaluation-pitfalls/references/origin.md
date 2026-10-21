@@ -38,3 +38,5 @@ hub. No model was trained, downloaded or pushed while writing it.
 ## Related blocks
 `llm-eval-regression-pitfalls`, `rag-retrieval-quality-pitfalls`, `analysis-validation-pitfalls`,
 `experiment-design-pitfalls`, `cloud-iam-network-and-cost-pitfalls`, `source-freshness`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

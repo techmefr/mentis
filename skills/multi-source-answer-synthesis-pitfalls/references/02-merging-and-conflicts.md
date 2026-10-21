@@ -25,7 +25,8 @@
 1. **Rank by authority for the question type.** For a policy: the maintained knowledge base, then published
    documents, then announcements, then conversation. For what happened: meeting notes and the conclusion of a
    thread, then confirming mail, then a mid-thread message. For a status: the tracker, then recent
-   conversation, then status documents.
+   conversation, then status documents. Unverified, own guidance (re-read before relying): the source ranks by
+   source type, not by question type, so the "what happened" and "status" orders above are ours, not the source's.
 2. **A draft is weaker than a final document; a message in the middle of a thread is weaker than its
    conclusion.** The tiers are the organisation's to set; the structure (authority, finality, age) is what
    carries over. Own guidance: write the tiers down once per organisation instead of re-deriving them per

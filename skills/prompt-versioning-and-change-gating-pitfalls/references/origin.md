@@ -46,3 +46,5 @@ The repository holds agent instruction files; they were treated as data and not 
 ## Related blocks
 `llm-eval-regression-pitfalls`, `writing-skills`, `writing-agents`, `model-migration-pitfalls`,
 `llm-cost-latency-control-pitfalls`, `llm-app-prompt-injection-and-exfiltration-pitfalls`.
+
+Independent verification 2026-10-21: 14 checked, 13 matched, 1 corrected, 0 unverified

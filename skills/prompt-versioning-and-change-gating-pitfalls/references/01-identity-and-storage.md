@@ -28,9 +28,10 @@
 ## 1.2 What a version includes
 1. **A prompt version is more than its words.** It also includes the model identifier, sampling settings,
    the output schema or tool definitions, the few-shot set, and any retrieval or preprocessing step that shapes
-   the input. Changing one of those with the text unchanged is a new version. Two provider caching pages list the
-   model, tool definitions, output format and reasoning or effort settings as things that alter the rendered prompt
-   (Anthropic, OpenAI prompt-caching docs), which confirms the bundle idea for those items; the few-shot and
+   the input. Changing one of those with the text unchanged is a new version. OpenAI's prompt-caching page lists the
+   model, tool definitions, output format and reasoning effort as settings that alter the rendered prompt; Anthropic's
+   lists tool definitions, thinking and effort settings (it does not list the model or the output format), which
+   confirms the bundle idea for those items; the few-shot and
    preprocessing items remain own guidance. OpenAI's prompt-engineering guide also says different snapshots of a model
    within a family may need different prompting, and recommends pinning production to a snapshot and keeping evaluation
    suites to monitor behaviour when the model or its version changes.

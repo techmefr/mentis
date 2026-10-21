@@ -41,3 +41,5 @@ the addresses tried, so it was not opened.
 `ai-feature-acceptance-pitfalls`, `frontend-ux-antipattern-review-pitfalls`, `persona-ux-audit`, `accessibility`,
 `llm-app-prompt-injection-and-exfiltration-pitfalls`, `ai-content-disclosure-and-provenance-pitfalls`,
 `llm-cost-latency-control-pitfalls`, `prompt-versioning-and-change-gating-pitfalls`.
+
+Independent verification 2026-10-21: 13 checked, 13 matched, 0 corrected, 0 unverified
