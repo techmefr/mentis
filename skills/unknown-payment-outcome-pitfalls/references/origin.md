@@ -58,3 +58,5 @@ different purposes (own ledger id versus processor deduplication), so rule 17 ke
 ## Related blocks
 `business/fintech-compliance`, `skills/laravel-idempotent-jobs`, `skills/nestjs-reliability`,
 `skills/money-arithmetic-and-rounding-pitfalls`.
+
+Independent verification 2026-10-21: 12 checked, 12 matched, 0 corrected, 0 unverified

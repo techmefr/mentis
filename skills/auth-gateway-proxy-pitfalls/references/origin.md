@@ -38,3 +38,5 @@ read again.
 ## Related blocks
 `skills/oauth-oidc-client-pitfalls`, `skills/jwt-verification`, `skills/auth-session-conventions`,
 `skills/security-hardening`.
+
+Independent verification 2026-10-21: 8 checked, 7 matched, 1 corrected, 0 unverified

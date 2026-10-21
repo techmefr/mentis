@@ -36,7 +36,7 @@ service that had none.
 6. **An absolute session lifetime, on top of the rolling per-token TTL.** The refresh mechanism can
    otherwise renew a session indefinitely as long as the user stays active, which is a different
    guarantee from "expires N minutes after issue": a hard cap forces re-authentication periodically
-   regardless of activity, bounding how long a hijacked session stays usable. NIST SP 800-63B-4 (sections 2 and 5.2) asks for both an overall timeout and an inactivity timeout, ending the session when either expires.
+   regardless of activity, bounding how long a hijacked session stays usable. NIST SP 800-63B-4 (sections 2 and 5.2) defines both an overall timeout and an inactivity timeout and ends the session when either expires; the overall timeout is required at every assurance level, the inactivity timeout is a SHOULD at levels 2 and 3 and optional at level 1.
 
 ### 2. Storage and transport
 1. **Never a token in a URL, in any form.** Not in the path, not in the query string, not in a
@@ -45,7 +45,7 @@ service that had none.
    credential allowed to travel in a redirect URL is a **short-lived, single-use authorization
    code**, exchanged once against the backend (see the reference flow below). This is the one rule
    in this block we hold against pressure: some teams do ship SSO by handing the token over in the
-   redirect URL, and adopting it "to be consistent with them" would be adopting the leak. RFC 6750 section 2.3 also discourages bearer tokens in a query string because URLs are logged and kept in history, and RFC 9700 section 4.2 forbids access tokens in query parameters.
+   redirect URL, and adopting it "to be consistent with them" would be adopting the leak. RFC 6750 section 2.3 also discourages bearer tokens in a query string because URLs are logged and kept in history, and RFC 9700 section 4.3.2 forbids access tokens in query parameters.
 2. A token lives in a cookie (`Secure`, `SameSite`), never in `localStorage`: `localStorage` is
    readable by any injected script and survives with no expiry semantics. **Why this pattern isn't
    also a CSRF exposure**: classic CSRF relies on the browser attaching a cookie *automatically* to a
@@ -145,7 +145,7 @@ and on the proof key for code exchange (RFC 8252, RFC 7636).
 2. **Use the authorization code flow with PKCE; the implicit flow is not recommended.** The client generates a
    random code verifier, sends a hash of it (method `S256`) in the authorization request, and presents the
    verifier when redeeming the code, so an app that intercepted the code cannot use it. The verifier is
-   at least 43 characters from a restricted alphabet carrying at least 256 bits of entropy (32 random bytes
+   43 to 128 characters from a restricted alphabet and should carry at least 256 bits of entropy (32 random bytes
    encoded as URL-safe base64 gives 43 characters). Use `S256` whenever the client can; never fall back to
    `plain` after `S256` was refused (the error means the server is misconfigured). The authorization server
    should refuse native requests without PKCE. The implicit flow cannot be protected by PKCE and cannot
@@ -153,7 +153,7 @@ and on the proof key for code exchange (RFC 8252, RFC 7636).
 3. **Pick the redirect to the app that fits the platform, and know its weakness.** A claimed `https` URL is
    the least exposed to interception. A private-use scheme works but several apps can register the same
    scheme and the code may reach the wrong one (PKCE covers that); name it from a domain you control in reverse
-   order (it must contain a dot). A loopback redirect (`http` to `127.0.0.1` or `[::1]` with a free port chosen
+   order (a bare name such as `myapp` does not qualify, since it is not based on a domain). A loopback redirect (`http` to `127.0.0.1` or `[::1]` with a free port chosen
    at request time) is the desktop option: bind the loopback interface only, open the port for the request
    and close it once the response arrives, prefer the IP literal to `localhost`, and try both IPv4 and IPv6.
    The server must accept any port on a loopback redirect and match the rest exactly.

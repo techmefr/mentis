@@ -28,7 +28,7 @@
    ```
 
 3. **The code and everything it returns are credentials.** The response carries an access token and may
-   carry a refresh token and an expiry. RFC 9700 sections 3 and 4.2 name logs and browser history as leak paths and forbid access tokens in query parameters. Own guidance: none of them is logged, put in a URL, or passed to
+   carry a refresh token and an expiry. RFC 9700 section 3 lists logged URLs and browser history among leak paths, and section 4.3.2 forbids access tokens in query parameters. Own guidance: none of them is logged, put in a URL, or passed to
    the front end unless the front end calls the provider itself; the cookie-and-storage rules are
    `skills/auth-session-conventions` §2.
 4. **An access token is not a session.** The source says it should never be used as a replacement for
@@ -48,7 +48,7 @@
    prompt them to verify first. This is the account-takeover path: an attacker registers at a provider that
    does not check addresses with the victim's email and signs into the victim's account with you.
 7. **An ID token is verified, not decoded.** Check its signature, issuer and audience the way
-   `skills/jwt-verification` section 1 says, and check the `nonce` if you sent one (OpenID Connect Core section 3.1.3.7: optional in the code flow, but once sent it must come back equal), and that your client ID is in `aud`, with `azp` equal to it when present. The oauth2-proxy
+   `skills/jwt-verification` section 1 says, and check the `nonce` if you sent one (OpenID Connect Core section 3.1.3.7: optional in the code flow, but once sent it must come back equal), and that your client ID is in `aud`; when an `azp` claim is present the spec says the client should check it equals your client ID. The oauth2-proxy
    documentation names three options `insecure`: allowing an unverified email in an ID token
    (`--insecure-oidc-allow-unverified-email`, default false), skipping issuer verification
    (`--insecure-oidc-skip-issuer-verification`, default false, noted as needed for one multi-tenant

@@ -21,7 +21,7 @@
    Copenhagen sample asks for `required` in both. The two sources differ, so choose per flow. The library's
    verification defaults to requiring user verification, so a flow that discouraged it must also tell the verify
    call not to require it, or every such assertion fails. Own guidance: when unsure, requiring it on the verify call
-   fails closed. Presence is always required.
+   fails closed. The specification always requires user presence, but the library only checks it in its default mode: when the `advancedFIDOConfig.userVerification` option is passed as `preferred` or `discouraged`, it ignores both flags, so do not pass that option unless you check the presence flag yourself.
 4. **A verify call that does not throw has not necessarily succeeded.** The library throws for a wrong type,
    challenge, origin, relying party hash, missing user presence or verification, and a counter that did not
    advance, but the signature check comes back as a boolean in the result. Own guidance: wrap the call so that

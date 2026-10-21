@@ -44,7 +44,7 @@ Read for facts only, restated in our words, no text copied. IETF and W3C documen
 | Source | What it gave |
 |---|---|
 | RFC 6750 (bearer tokens), sections 2.3, 5.2, 5.3 | Tokens in a query string are discouraged because URLs are logged; TLS required; short lifetimes |
-| RFC 9700 (OAuth security BCP), sections 3 and 4.2 | No access tokens in query parameters; logs and history as leak paths |
+| RFC 9700 (OAuth security BCP), sections 3 and 4.3.2 | No access tokens in query parameters; logs and history as leak paths |
 | NIST SP 800-63B-4 (pages.nist.gov), sections 2, 5.1, 5.2 | Overall and inactivity timeouts, HttpOnly, `__Host-`, SameSite, opaque identifier, erase the secret at logout |
 | W3C Clear-Site-Data working draft (2017) | What each directive clears, whole registered domain, best effort |
 | RFC 6265bis (first 100000 characters) | Cookie prefixes, SameSite, 400-day cap (read, no change needed) |
@@ -53,3 +53,5 @@ Read for facts only, restated in our words, no text copied. IETF and W3C documen
 - Not found in NIST SP 800-63B-4 section 5: a rule to change the session secret on a privilege change (point 1.5 stays unsourced).
 - Still unsourced: the expiry margin (1.4), the cookie-plus-Bearer CSRF reasoning (2.2) and the localStorage claim, token-in-log paths (2.4; RFC 9700 only names logs), authorisation in the query (3.3), the reference flow and single-flight refresh (section 4, our own implementations), the verification replay (5).
 - The OWASP session cheat sheet is share-alike and was not reopened.
+
+Independent verification 2026-10-21: 8 checked, 4 matched, 4 corrected, 0 unverified

@@ -29,3 +29,5 @@
 `telemetry-sensitive-data-pitfalls`, `gdpr-international-transfers-pitfalls`, `gdpr-breach-notification-and-dpia-pitfalls`,
 `agent-memory-and-state-pitfalls`, `llm-app-prompt-injection-and-exfiltration-pitfalls`, `rag-retrieval-quality-pitfalls`,
 `ml-training-and-evaluation-pitfalls`, `backup-restore-drill-pitfalls`, `ai-act-obligations-and-omnibus-status-pitfalls`.
+
+Independent verification 2026-10-21: 8 checked, 8 matched, 0 corrected, 0 unverified

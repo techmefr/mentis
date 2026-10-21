@@ -34,8 +34,8 @@
    user-controlled or must not contain a dot (the separator), and the bytes signed must be exactly the bytes sent
    (serialise once, sign that string, send that string). Store the body as text, not as a re-encoded structure.
 7. **One secret per endpoint, never shared across customers.** A shared secret lets one customer forge another's
-   events. Random secret of adequate length, shown once, stored encrypted, and given a recognisable prefix so
-   that a leaked value is easy to spot in a scan (the spec defines prefixes). Asymmetric signatures are the
+   events. Random secret of adequate length (the spec gives a range, not carried here), given a recognisable prefix so
+   that a leaked value is easy to spot in a scan (the spec defines prefixes). Own guidance: show the secret once and store it encrypted. Asymmetric signatures are the
    spec's preferred option when the sender does not control the receiver's security: the consumer holds only a
    public key, so a leak at the consumer forges nothing. The consumer must keep a list of trusted keys and schemes
    and never trust a key delivered in the same request.
@@ -70,7 +70,7 @@
     not happen.
 15. **Migrating an older scheme: add, do not replace.** The spec says its headers can be sent beside the legacy
     ones with no change for existing consumers, and the old secret can be reused for the new signature. Payloads
-    can migrate three ways: add the new shape to the existing body, add it only for endpoints created after a date,
+    can migrate three ways: add the new shape to the existing body, duplicate it only for endpoints created before the switch-over date (the spec's second option),
     or create a new event type per old one. Pick one per audience and publish the date the old form stops.
 16. **Test the contract from the consumer's side.** A signature that verifies with an independent implementation,
     a retry that resends the same id, a rotation window where both secrets verify, a disabled endpoint that stops
