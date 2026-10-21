@@ -39,7 +39,8 @@
    non-const data members the same access level. Avoid protected data and trivial getters and setters.
 6. **Constructors do not do surprising work.**
    - Single-argument constructors are `explicit` by default: an implicit conversion constructor is an
-     unintended conversion waiting to be passed to a function.
+     unintended conversion waiting to be passed to a function. The style guide says the same for conversion
+     operators, and adds that copy and move constructors are the exception: they should not be `explicit`.
    - Prefer default member initialisers to member initialiser lists for constant initialisers; do not write a
      default constructor whose only work is to initialise members. Define and initialise members in
      declaration order; prefer initialisation to assignment in the constructor body.

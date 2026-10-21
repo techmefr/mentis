@@ -3,8 +3,8 @@
 > Section 1 of `skills/zig-conventions`. Read it when a declaration is named, a file is created or a doc
 > comment is written. The guardrails stay in `SKILL.md`.
 
-1. **Do not put words that apply to every type in a type name:** value, data, context, manager, or utility
-   buckets and people's initials. Everything is a value and every type is data, so the word says nothing; a
+1. **Do not put words that apply to every type in a type name:** value, data, context, manager, state, or
+   utility buckets and people's initials. Everything is a value and every type is data, so the word says nothing; a
    utility bucket is a failure to categorise, and its members belong at the root of the module that needs
    them.
 2. **Choose a name from its fully qualified namespace.** The file and the enclosing struct are already part of
@@ -28,5 +28,11 @@
    encouraged, since tools show one function's help at a time; use the word "assume" for an invariant whose
    violation is unchecked illegal behaviour, and "assert" for one whose violation is checked by the safety
    mechanism.
-9. **Source encoding:** UTF-8, LF line endings (a CR before it is discouraged), no hard tabs, and a final
-   newline; control characters and the non-ASCII line separators are rejected.
+9. **Source encoding:** UTF-8 with no invalid sequences; LF ends every line including the last; hard tabs, a
+   carriage return, any other ASCII control character, the non-ASCII line separators (NEL, LS, PS) and a byte
+   order mark are all rejected, even inside comments. The formatter can convert a file that breaks these rules
+   (it strips byte order marks and carriage returns).
+10. **No underscore prefixes.** The guide recommends against them: Zig has no private fields, so a leading
+   underscore only pretends. Name a field by its meaning, and say in its doc comment how to use it without
+   breaking an invariant. Where two names collide, use a longer name in the outer scope and a shorter one in the
+   inner scope, and avoid a keyword collision with the string-identifier syntax.

@@ -7,11 +7,12 @@ description: "Use when writing or reviewing Zig: names of types, namespaces, fun
 
 Step 6 of the pipeline (`WORKFLOW.md`). Frames naming and layout of Zig code.
 
-**Freshness stamp**: read on 2026-10-02 from the language reference shipped in the compiler's source tree at
-commit `738d2be9` of 2025-11-26, whose build file declares version 0.16.0 (a development tree, not a
-release). The language changes between versions; before applying this block, check the style guide of the
-version the project builds with (`skills/source-freshness`). Status 🟡; only the style guide section of the
-reference was read, so memory management, error handling, comptime and the build system carry no rule.
+**Freshness stamp**: first read on 2026-10-02 from the compiler source tree at commit `738d2be9` (a 0.16.0
+development tree); re-checked on 2026-10-20 against the published 0.17.0 language reference (Style Guide and
+Source Encoding sections), which corrected two points. The language changes between versions; before applying
+this block, check the style guide of the version the project builds with (`skills/source-freshness`).
+Status 🟡; only those two sections were read, so memory management, error handling, comptime and the build
+system carry no rule here (see `skills/zig-pitfalls`).
 
 ## When
 As soon as Zig code is written or modified, during `code` (6).

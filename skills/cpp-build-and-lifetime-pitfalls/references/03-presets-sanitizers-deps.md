@@ -8,7 +8,7 @@ cmake_template repository (Unlicense) for how one project wires them.
 1. **`CMakePresets.json` is for project-wide settings and may be committed; `CMakeUserPresets.json` is for a
    developer's local choices and should not be.** Both live in the project root and have the same format;
    add the user file to the ignore list. Presets exist since CMake 3.19.
-2. **A configure preset names the generator, the build directory and the cache variables**, and can inherit
+2. **A configure preset can name the generator, the build directory and the cache variables** (the first two are optional from schema version 3), and can inherit
    from another; hidden presets act as a shared base. The template uses a hidden common preset with a build
    directory under the source tree keyed by the preset name, then one preset per compiler and build type.
 3. **Use one preset per build type you intend to test**, including the sanitizer builds of §3.2, so a CI job is
@@ -19,7 +19,9 @@ cmake_template repository (Unlicense) for how one project wires them.
 ## 3.2 Sanitizers: which can share a build
 1. **AddressSanitizer cannot be combined with ThreadSanitizer, and LeakSanitizer cannot be combined with
    ThreadSanitizer** (GCC manual). The template's own function refuses to enable thread with address or leak,
-   and warns that memory sanitizer cannot be combined with address, thread or leak. So one build can hold
+   and warns that memory sanitizer cannot be combined with address, thread or leak. The OpenSSF hardening guide states the same address, thread and leak exclusions and adds that the GCC and
+   Clang runtimes cannot be mixed; Clang's leak page says the address sanitizer already includes leak detection on
+   supported platforms. So one build can hold
    address plus undefined behaviour; thread is its own build; memory (Clang only) is its own build.
 2. **No restriction on combining UndefinedBehaviorSanitizer was found in the passages read** (not a statement
    that none exists), and the template enables address and undefined behaviour together by default where the
@@ -31,7 +33,8 @@ cmake_template repository (Unlicense) for how one project wires them.
    it implies position-independent code. Its overhead is stated as roughly 5 to 15 times in time and 5 to 10
    times in memory.
 5. **MemorySanitizer needs every dependency, including the C++ standard library, instrumented** or it reports
-   false positives (the template's warning). MSVC supports only the address sanitizer (also the template's
+   false positives. Clang's page says all program code must be instrumented, libraries and libc included, and
+   notes that its interceptors for common libc functions make it possible to run with an uninstrumented libc. MSVC supports only the address sanitizer (also the template's
    statement).
 6. **AddressSanitizer wants optimisation of at least `-O1` for tolerable speed and `-fno-omit-frame-pointer`
    for readable stack traces** (Clang page), so a sanitizer preset is a distinct build type, not Debug plus a

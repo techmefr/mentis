@@ -41,3 +41,32 @@ the language-standard dependent advice (concepts, spans, coroutines) against the
 
 **Crossings with other blocks.** `c-conventions` for hardening (§5), headers (§6.1 to §6.5), arithmetic (§1),
 threads and signals (§4); `rust-conventions` §3 and §4 for the same ownership problems from the other side.
+
+## Source pass 2026-10-20 (every point below was re-opened against the page named, own words, no text copied)
+
+The style guide for large C++ code bases was re-read in full on 2026-10-20 (raw page from its repository main branch, licence file read). The C++ core guidelines, which carry most of sections 1 to 7, are not under an open licence and were not re-read; the hardening section is `c-conventions` section 5 and was verified there. Nothing was compiled.
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| Google C++ Style Guide (exceptions, noexcept, integer types, casts, nullptr, implicit conversions, copyable types, structs and classes, inheritance, operators, RTTI, ownership and smart pointers, namespaces, headers, macros, output parameters) | CC BY 3.0 (LICENSE of the style guide repository read 2026-10-20) | each rule listed under Verified, below |
+| OpenSSF hardening guide, Clang sanitizer pages (see `skills/c-conventions/references/origin.md`) | CC BY 4.0 and Apache-2.0 with LLVM exceptions | section 7 intro: library checks, debug mode ABI difference, thread sanitizer |
+
+### Verified in this pass
+1. 1.6 (plain int, exact-width types, 64-bit for values reaching 2^31, unsigned only for bit patterns or modular arithmetic); 1.7 (C++ casts, brace conversion for arithmetic types); 1.8 (nullptr).
+2. 2.4 (single owner preferred, unique_ptr for transfer, shared ownership only for a very good reason).
+3. 3 intro and points 8 and 9 (ban on exceptions for practical, legacy reasons; error codes and assertions as the alternative; factory function instead of a failing constructor).
+4. 4.5 (struct only for passive data without invariants); 4.6 (explicit conversions, no virtual calls in constructors); 4.7 (composition first, public inheritance, one of override or final); 4.8 (avoid RTTI); 4.9 (judicious overloading, no implicit conversions).
+5. 6.2 (related header first), 6.3 (definitions of templates and inline functions in the header), 6.4 (avoid forward declarations), 6.6, 6.7 (macros), 6.8 (nothing added to the standard namespace).
+6. 7.1 lambda captures (explicit captures for lambdas that may escape; by-value default capture of this is misleading); 7.2 (prefer return values to output parameters; values or const references for inputs).
+
+### Corrected in this pass
+1. 6.5: the style guide forbids using-directives in every file, where the block allowed them in source files; the disagreement is now stated.
+2. 3 intro, 4.6 and 6.6: added the guide's own details (exception-related library types, Windows carve-out, copy and move constructors not explicit, ten-line rule for in-class definitions).
+
+### Still unverified (no page found that says it, kept as own guidance)
+1. Points drawn only from the core guidelines (most of 1 to 5 and 7) stay unsourced this pass: no open licence, not re-read.
+2. 1.7 never cast away const, 4.10 unions, 5 all points, 7.5 concepts: no permissive page read.
+3. Nothing was compiled; language-standard dependent advice depends on the project standard.
+
+### Tally
+Points 75. Sourced 18, corrected 1, still unverified 56.

@@ -29,8 +29,11 @@ and also ignores hijacked connections.
 
 ## 3.4 The deadline against the orchestrator's grace period
 **Make the shutdown deadline shorter than the time the orchestrator allows between the termination signal
-and the forced kill,** so the process exits by its own path. Own guidance: no orchestrator document was read
-for this block, so the grace period value and its name are left to the deployment, not stated here.
+and the forced kill,** so the process exits by its own path. The Kubernetes pod lifecycle page says a pod
+gets a term to terminate that defaults to 30 seconds (the `terminationGracePeriodSeconds` field), that the
+first signal is TERM and that the kill signal follows once the term expires. The Docker stop reference
+describes the same sequence with a configurable wait. The value is deployment configuration: read it from
+the manifest rather than assuming it.
 
 ## 3.5 Shape of `main`
 Put the signal context, the server start, the wait and the `Shutdown` call inside `run() error` and let

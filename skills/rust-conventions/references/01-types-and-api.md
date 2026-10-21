@@ -25,8 +25,10 @@
    types whose whole point is to be filled in and read.
 6. **Constructors are plain associated functions named `new`, or `with_<detail>` for a variant, or
    `from_<other>` for a conversion.** If the basic constructor can take no argument, offer both `new()` and
-   `Default`: users look for `new` first. A type that needs four or more independent optional inputs gets a
-   builder instead of a ladder of `with_*` constructors; setters on the builder never fail, and the final
+   `Default`: users look for `new` first. A type with up to two optional inputs may use inherent constructors; one
+   that could be built in four or more permutations gets a builder (`Foo::builder()` returning a `FooBuilder`,
+   setters named after the field and not `set_`, required inputs passed when the builder is created) instead
+   of a ladder of `with_*` constructors; setters on the builder never fail, and the final
    `build()` returns a `Result` so that checks between fields happen once, in one place.
 7. **Conversions are named by cost and by ownership.** `as_` is free and borrows to a borrow, `to_` does work
    (a copy, an allocation, a check) and keeps the original, `into_` consumes the value. A wrapper around one

@@ -16,7 +16,9 @@ without it breaks), and run the thread sanitizer on every threaded test suite.
    can be reused a name; prefer pure functions (the same inputs give the same result, nothing else changes),
    which are easier to reason about, test and parallelise. A lambda is for a simple function object used in one
    place; it captures by reference only if it is used locally, never when it is returned, stored or passed to
-   another thread; it does not use the default by-copy capture when it captures `this`.
+   another thread; it does not use the default by-copy capture when it captures `this`. The style guide agrees and adds: prefer
+   explicit captures whenever the lambda may escape the current scope, since a by-value default capture of a
+   pointer does not prevent dangling.
 2. **Pass information the conventional way.** A cheap-to-copy "in" parameter (up to two or three machine words)
    by value, other "in" parameters by reference to `const`; an "in-out" parameter by non-const reference; a
    "will-move-from" parameter by rvalue reference and moved from; a forwarded parameter by forwarding

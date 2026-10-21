@@ -35,3 +35,37 @@ and earlier, where the runtime documentation supports it).
 ## Related blocks
 `node-container-runtime`, `dotnet-container-runtime` (same layer for other stacks), `go-conventions`,
 `devops-conventions`, `go-http-resilience-pitfalls`, `go-performance`.
+
+## Source pass 2026-10-20 (every point below was re-opened against the page named, own words, no text copied)
+
+Pages re-opened for the exact flag, function, version and figure. The Go build template repository named in the earlier stamp was not re-opened in this pass, so what rests only on it is listed as unverified below.
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| Go release notes 1.25 and 1.26; Go garbage collector guide | CC-BY-4.0 text and BSD code (go.dev/copyright), read 2026-10-20 | container-aware GOMAXPROCS, what is and is not considered, disabling settings; Green Tea 10 to 40%, default in 1.26; memory limit suggested uses, 5 to 10% headroom, thrashing, 50% CPU cap |
+| runtime and runtime/debug package pages | BSD-3, read 2026-10-20 | GOMAXPROCS default, containermaxprocs and updatemaxprocs defaults for language version 1.24 and below, SetDefaultGOMAXPROCS, threads in system calls, GOMEMLIMIT syntax and what it excludes, SetMemoryLimit since 1.19, gctrace |
+| go command and cmd/link pages | BSD-3, read 2026-10-20 | -trimpath, -buildvcs condition, go version -m; -s implies -w, -X string variable and its limits |
+| os/signal and net/http package pages | BSD-3, read 2026-10-20 | default exit on SIGHUP, SIGINT, SIGTERM, NotifyContext and stop, buffer of one, Shutdown sequence, ErrServerClosed, hijacked connections, RegisterOnShutdown, Close |
+| uber-go/automaxprocs: README and LICENSE | MIT (licence file read), read 2026-10-20 | data table (RPS, P50, P99.9 for GOMAXPROCS 1, 2, 3, 4, 8, 24) and the throttling counters |
+| distroless: README and the base/static image README | Apache-2.0 (LICENSE file read), read 2026-10-20 | contents of the static image, cgo programs use the base image, nonroot tags exist |
+| Kubernetes pod lifecycle page; Docker stop reference | facts only, official documentation, read 2026-10-20 | default 30 second termination term, TERM then KILL; docker stop sends SIGTERM then SIGKILL after a grace period |
+
+### Verified in this pass
+1. 1.1 item 1 (distroless static contents; cgo on the base image), 1.3 item 1 (static image has a root entry only), 1.4 items 1 and 2 (-trimpath; -s implies -w, negatable), 1.5 items 1 and 3 (-X rules; -buildvcs=auto condition; go version -m).
+2. 2.1 item 2, 2.2 items 1 to 3, 2.3, 2.4, 2.5 (figures match the pages).
+3. 3.1 both items, 3.2 all three, 3.3, 3.4 (now sourced).
+
+### Corrected in this pass
+1. 2.1 item 1: the automatic behaviour depends on the language version in the go directive, not only on the toolchain; added.
+2. 2.1 item 3: the old default applies to language version 1.24 and below, not to a toolchain number.
+3. 2.1 item 4: the README does not show throttling counters for the matched setting; the claim that matching removed the throttling was dropped and the measured figures were stated instead.
+4. Added: 2.2 what the limit does not count (C allocations, mappings, kernel memory); 1.5 -X also fails when the initialiser refers to another variable.
+
+### Still unverified (no page found that says it, kept as own guidance)
+1. 1.1 item 2 (only binary and licences in the final image), 1.2 (licence collection into a licence directory), 1.3 item 2 (HOME), 1.5 item 2 (fail when the version is unset), 1.4 (the DEBUG switch): all rest on the build template read on 2026-10-08, not re-opened.
+2. 3.5 (shape of main) is our own structure and a cross-reference.
+3. The numeric user value 65535 comes from the template; what the nonroot tags set was not read.
+4. Nothing was built or run.
+
+### Tally
+Points 28. Sourced 20, corrected 3, still unverified 5.

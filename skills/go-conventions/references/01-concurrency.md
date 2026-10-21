@@ -10,8 +10,9 @@
    present in legacy code); check the module's version before judging this point inapplicable.
 4. The `cancel` returned by `context.WithCancel`/`WithTimeout` always called (often as a `defer`):
    otherwise a context leak.
-5. Concurrent access to a map with no mutex or `sync.Map` panics at runtime ("concurrent map read and map
-   write"), not detected statically.
+5. Concurrent access to a map with no mutex or `sync.Map` crashes the program when one side writes (reads
+   alone are safe). The runtime check that reports it is present in some implementations only, and nothing
+   detects it statically, so a missing lock can run for a long time before it fails.
 6. A "check closed, then send" pattern on a channel a `Close()` method also closes is a race: a sender can
    pass the closed check, then have `Close()` run and close the channel before the send executes, panicking
    with "send on closed channel". A plain `sync.Mutex` held only around the check doesn't fix this — the
@@ -21,13 +22,18 @@
    races the two calls.
 7. Bound the fan-out: a loop that starts one goroutine per item has no ceiling. Use a group with a fixed
    limit (`errgroup` with `SetLimit`) rather than a hand-rolled pool, and increment a `WaitGroup` before the
-   `go` statement, never inside the goroutine.
+   `go` statement, never inside the goroutine. From Go 1.25 the wait group has a `Go` method that does both,
+   and its documentation says to prefer it.
 8. Only the sending side closes a channel; a receiver that closes it turns the next send into a panic.
    Give channel parameters a direction, default to unbuffered, and treat a buffer size as a claim that needs
    a measurement behind it.
 9. Every `select` that waits on work also waits on `ctx.Done()`; without it the goroutine outlives the caller
-   that cancelled. A timer created by `time.After` in a hot loop allocates on each pass: reuse one timer.
+   that cancelled. A timer created by `time.After` in a hot loop allocates on each pass: reuse one timer. Before Go 1.23 each
+   such timer also stayed alive until it fired; in a module that declares 1.23 or later an unreferenced timer
+   is collected at once, so the remaining reason to reuse is the per-pass allocation.
 10. A lock is never held across I/O or a call into code you do not own; keep critical sections to the field
-    access they protect. Prefer the typed atomics for a lone counter or flag.
+    access they protect. Prefer the typed atomics (since Go 1.19) for a lone counter or flag; the package documentation itself says
+    the atomic functions need great care and that channels or the `sync` facilities are the usual tool for
+    anything beyond that.
 11. CI runs the tests with the race detector, and a package that starts goroutines checks for leaks at the end
     of its tests (a goroutine-leak checker in the test main).

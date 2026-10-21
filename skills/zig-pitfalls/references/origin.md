@@ -45,3 +45,30 @@ toolchain was run while writing it. Overlaps with `skills/zig-conventions` (2026
 ## Related blocks
 `systems-assertion-discipline` (assertions and bounds, `unreachable` in release modes), `testing-anti-patterns`,
 `source-freshness` §3.
+
+## Source pass 2026-10-20 (every point below was re-opened against the page named, own words, no text copied)
+
+The 0.17.0 language reference, release notes and build system page were re-opened and each claim was checked against the passage; the licence files of both repositories were read again (MIT). Nothing was compiled.
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| Zig 0.17.0 language reference (errors, defer, memory, testing, comptime, optimisation modes) | MIT (ziglang/zig LICENSE read 2026-10-20) | catch rules, unreachable panic text, errdefer, defer rule, anyerror, allocator selection guide, leak report, overcommit argument, 1000 branch budget and quota builtin, four modes, test filter, SkipZigTest, is_test |
+| Zig 0.17.0 release notes | MIT (ziglang/www.ziglang.org LICENSE read 2026-10-20) | errdefer capture removed, SafeAllocator, BufferFirstAllocator, bitCast, removed syntax, hasDecl, allocPrint move, last rename, notable regressions, proposal counts |
+| Zig build system page (learn section) | MIT (same repository) | installArtifact, standard options, createModule, addLibrary, options step, run artifact, stdin and stdout channel, zig-out prefix, zig-cache, ArrayList init failing |
+
+### Verified in this pass
+1. 1.1 items 1 to 5; 1.2 items 1, 2, 4, 5; 1.3 items 1, 2.
+2. 2.1 items 1 to 4; 2.2 items 1 to 6; 2.3 items 1, 3; 2.4 items 1, 2; 2.5.
+3. 3.1 items 1 to 3; 3.2 items 1, 3; 3.3 both items (the error text and the quota note are on the page); 3.4; 3.5.
+4. 4.1 items 1 to 5; 4.2 items 1 to 5; 4.3 (the four modes, and the spelling mismatch: the reference writes -Doptimize=debug, safe, fast, small while the build page writes Debug, ReleaseSafe, ReleaseFast, ReleaseSmall); 4.4 items 1, 3, 4, 5 (about 25 accepted, about 125 rejected proposals; the regression list does name the response file issue for Step.Run).
+
+### Corrected in this pass
+1. 3.3 item 2: added that the builtin takes a u32 and that the compiler note on the error points to it; the earlier wording of the ignore rule is confirmed on the page.
+
+### Still unverified (no page found that says it, kept as own guidance)
+1. Own guidance kept: 1.2.3, 1.3.3, 2.3.2, 2.4.3, 3.2.2, 3.3.2 second half, 4.3 last sentence, 4.4.2.
+2. 2.4 item 3 and 2.1 item 2 are inferences from the selection guide, not statements.
+3. Nothing was compiled.
+
+### Tally
+Points 56. Sourced 49, corrected 1, still unverified 6.

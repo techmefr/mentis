@@ -17,7 +17,7 @@
    convention: the slice is `tests`, a case is `tt`, and fields are prefixed `give` and `want`. The case
    name is what the failing run prints, so make it distinct.
 2. **Keep the loop body free of branches.** The guide says not to use a table when the subtests need
-   conditional assertions or complex logic; signs of trouble are several flags such as `shouldErr` or
+   conditional assertions or complex logic; signs of trouble are several flags such as `shouldError` or
    `expectCall`, many `if` statements around mock expectations, and functions stored in the table. Split into
    several tables or plain test functions. A single success-versus-failure flag is acceptable when the body
    is short.
@@ -40,7 +40,9 @@
 3. **Know what does not count as durably blocked:** locking a `sync.Mutex` or `RWMutex`, blocking on I/O
    and system calls can be unblocked from outside the bubble, so time does not advance past them. A test
    that does real network I/O inside a bubble will not behave like a fake-time test.
-4. **Do not call `T.Run`, `T.Parallel` or `T.Deadline` inside a bubble.**
+4. **Do not call `T.Run`, `T.Parallel` or `T.Deadline` inside a bubble.** Using a channel, timer or ticker
+   created inside a bubble from outside it panics, and a bubble in which every goroutine is durably blocked
+   with no timer left to advance ends in a deadlock panic.
 5. **Go 1.27 adds `synctest.Sleep`,** combining `time.Sleep` and `Wait`.
 
 ## 2.4 Fuzz what parses outside input

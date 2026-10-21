@@ -34,7 +34,8 @@ code compiled with them, and a pre-built third-party binary is not covered.
    macro at its highest level, first undefining any value the toolchain predefines to avoid a redefinition
    warning. Fortification turns an overflow in `memcpy`, `strcpy`, `sprintf` and their relatives into an abort
    when the compiler can estimate the destination size (so annotations in §5.10 help). It is incompatible
-   with the memory sanitizer: build instrumented test binaries without it. In C++, also define the
+   with the sanitizers (the guide names the address sanitizer and says the others do not support source
+   fortification either): build instrumented test binaries without it. In C++, also define the
    standard-library precondition checks: the assertion macro for libstdc++ and the fast hardening mode for
    libc++ in production; the debug modes only in non-production test builds, since libstdc++'s debug mode
    changes the layout of containers and cannot be mixed across translation units.
@@ -60,17 +61,24 @@ code compiled with them, and a pre-built third-party binary is not covered.
 8. **Linking and loading.** Build executables as position-independent (so address-space randomisation applies)
    and libraries as shared position-independent code; link with full relocation read-only (both the relro and
    now options, since partial relro leaves the lazy-binding table writable), a non-executable stack, only the
-   libraries that are used (as-needed) and no implicit transitive dependencies. Mark shared objects that
+   libraries that are used (as-needed) and no implicit transitive dependencies. Every executable and every
+   library it loads must be built this way: if the loader brings in one library without read-only relocations,
+   the protection is off for the whole application. Mark shared objects that
    should never be loaded dynamically with the no-dlopen option. Do not hard-code run-time library search
-   paths into the binary.
+   paths (`-rpath`) into a release binary: an attacker who can write to the recorded directory, or to a relative
+   or `$ORIGIN`-derived one, can replace a library, and the risk is higher in a set-user-id program.
 9. **Sanitizers in debug and test builds, never as production hardening.** Address (heap, stack and global
    overflows, use-after-free, use-after-return, initialisation order, leaks), undefined-behaviour, thread (data
    races) and leak sanitizers each need their own build and cannot all be combined: the address and thread
-   sanitizers exclude each other, and so does the leak sanitizer with either; the GCC and Clang runtimes cannot
+   sanitizers exclude each other, and the stand-alone leak sanitizer is ignored when either is on, because the
+   address sanitizer already includes leak detection on supported platforms; the GCC and Clang runtimes cannot
    be mixed. Use low optimisation, debug info, frame pointers and no tail-call optimisation for readable
    traces. Run the whole automated test suite under the address and undefined-behaviour sanitizers at least in
    CI, and the thread sanitizer for any multi-threaded code. The single production exception is the
-   undefined-behaviour sanitizer with its minimal, trap-only runtime, which exposes no extra attack surface.
+   undefined-behaviour sanitizer with a minimal runtime (Clang) or trap mode (GCC), which exposes no extra
+   attack surface. Do not assume the undefined-behaviour group covers every integer problem: in Clang it leaves
+   out unsigned wrap-around and the implicit-conversion checks, which are separate options and report code that
+   is legal but often unintended.
    Sanitizers read operational parameters from environment variables, so they never go in a set-user-id
    binary.
 10. **Annotate for the compiler.** Describe allocators and deallocators (the malloc attribute with its

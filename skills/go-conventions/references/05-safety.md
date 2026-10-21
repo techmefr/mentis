@@ -20,8 +20,8 @@ Mistakes the compiler accepts and the runtime punishes. None needs an attacker.
    not a hand-written flag.
 7. An exported function returns a copy of an internal slice or map, not the field itself.
 8. For reflection code on a recent toolchain, use the generic type-assertion helper of the reflect package
-   in place of a bare `Interface()` assertion; check the module version first (`source-freshness`). To confirm:
-   the helper's name and the toolchain release that introduced it were not re-read against the standard
-   library documentation.
-9. Several `init` functions have an unspecified order across files; start-up work goes in an explicit
+   in place of a bare `Interface()` assertion (`reflect.TypeAssert`, added in Go 1.25); check the module
+   version first (`source-freshness`).
+9. Several `init` functions have no guaranteed order across files (the language only encourages build systems
+   to present a package's files in file-name order); start-up work goes in an explicit
    constructor called from `main`.

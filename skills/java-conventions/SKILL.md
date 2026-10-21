@@ -19,8 +19,10 @@ As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
 1. `record` (Java 16+) for any simple immutable data (DTO, value object) rather than a class with manual
    getters/setters.
 2. `final` fields by default, mutability only if genuinely necessary.
-3. `Optional<T>` as a return type for a legitimate absence, never as a method parameter or a class field
-   (a source of pointless complexity, the Effective Java consensus).
+3. `Optional<T>` as a return type for a legitimate absence. The JDK's own note says it is primarily meant as a
+   method return type where there is a clear need to represent "no result" and `null` is likely to cause
+   errors, and that a variable of this type must never itself be `null`. Keeping it out of parameters and fields
+   is the Effective Java convention (pointless complexity), not a JDK rule.
 4. Avoid returning `null` from a public method when `Optional` or an exception expresses the real intent
    better.
 5. **`equals`/`hashCode` are overridden together, never one without the other.** Overriding `equals` alone
@@ -55,24 +57,31 @@ As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
    edge (coupling of the DB schema to the public contract).
 3. Transactions (`@Transactional`) placed at service level, never at controller level: the controller
    shouldn't know about the transactional boundary.
-4. **A JPA relationship defaults to `FetchType.LAZY`**, never `EAGER` out of convenience: `EAGER` loads
-   the association on every fetch of the owning entity whether the caller needs it or not, and a
+4. **A JPA relationship is declared `FetchType.LAZY`**, never `EAGER` out of convenience: `EAGER` loads
+   the association on every fetch of the owning entity whether the caller needs it or not (the Jakarta Persistence API makes many-to-one default to `EAGER`, and
+   `LAZY` is only a hint the provider may ignore, so state it explicitly on every to-one), and a
    collection mapped `LAZY` but iterated inside a loop is the classic N+1 — load it explicitly (a fetch
    join, an entity graph, or a dedicated query) at the call site that actually needs it.
 5. **A persisted enum is mapped by name, never by ordinal**: reordering the constants silently reinterprets
-   every stored row. Collections on an entity are initialised, never null, and an entity changes through
+   every stored row. A field with no `@Enumerated` annotation is mapped by ordinal by default under the Jakarta
+   Persistence API, so state `EnumType.STRING` explicitly; the JDK's own note on `Enum.ordinal()` says most
+   programmers have no use for it. Collections on an entity are initialised, never null, and an entity changes through
    behaviour methods rather than public setters.
 6. **Reads that need a collection use a fetch join, an entity graph or a projection** chosen at the call
    site; a read-only view returns a projection, not a managed entity.
 7. **A transaction wraps the business unit at the service boundary.** The read-only flag is a hint, not
    write protection or authorisation. A participating call joins the outer transaction: an inner failure
    marks it rollback-only even if caught, and the outer commit then throws. A call to a transactional method
-   of the same class bypasses the proxy and runs without it. A requires-new call takes a second connection
-   (mind the pool) and is for records that must survive a rollback, such as an attempt log, not a success
+   of the same class bypasses the proxy and runs without it. A participating call silently adopts the outer scope's isolation level, timeout and read-only flag. By
+   default only unchecked exceptions and errors roll back: a checked exception commits unless the rollback rule
+   says otherwise. The read-only flag is documented as a hint to the transaction subsystem. A requires-new call
+   takes a second connection (the framework's docs say the pool must exceed the number of concurrent threads
+   by at least one, or threads can deadlock waiting for the inner connection) and is for records that must survive a rollback, such as an attempt log, not a success
    row for work that was rolled back. A local transaction does not make a write to another database or an
    HTTP provider atomic.
 8. **Grouped settings bind to a typed, validated properties record**: registered explicitly, with units in
-   durations and sizes, startup failing on a missing credential or endpoint, and no secret as a record
+   durations and sizes (a bare number for a duration is read as milliseconds unless a unit annotation says
+   otherwise), startup failing on a missing credential or endpoint, and no secret as a record
    component (a generated string form would print it). Test binding with an application-context runner,
    including an invalid value.
 
@@ -85,7 +94,8 @@ As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
    container, not a mocked driver, since atomicity and null handling are what a mock cannot have.
 3. Method names read `method_whenCondition_shouldResult`, and the result names observable behaviour, not an
    implementation call. One test, one scenario; assertions with a fluent assertion library.
-4. Test helper classes do not carry the suffix the test runner scans for, or the runner executes them.
+4. Test helper classes do not carry the suffix the test runner scans for, or the runner executes them (Maven
+   Surefire's default patterns match names starting with `Test` or ending in `Test`, `Tests` or `TestCase`).
 
 ## Output / checkpoint
 Code compliant with the five sections above (section 4 only if Spring), and SpotBugs/Error Prone with no
@@ -97,6 +107,9 @@ in house yet: if a rule here diverges from a real observed need, fix this block 
 settled.
 
 ## Origin
+Source pass of 2026-10-20 (JDK and Spring sources, Jakarta Persistence API, Maven documentation) with its tally:
+[`references/origin.md`](./references/origin.md).
+
 Ideas taken from: Effective Java (Joshua Bloch, immutability, `Optional`, checked vs unchecked),
 SpotBugs/Error Prone (default static rules), established Spring conventions (constructor injection, DTO
 vs entity). Mechanisms rewritten, no copied text. Market research, no internal production feedback at
