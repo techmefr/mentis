@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-454-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-458-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-55-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **454** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **458** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **55** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
