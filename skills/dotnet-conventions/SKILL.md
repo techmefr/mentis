@@ -58,6 +58,10 @@ Code compliant with the sections above, and a build with no new
 `review` (8).
 
 ## Guardrails
+**Most rules named in this block are off by default.** The .NET 10 rule pages list CA2007, CA2000, CA1063,
+CA1851, CA1008, CA1515 and CA1812 as not enabled by default, and CA1822 as a suggestion only: a clean build
+proves nothing about them until the project's analysis mode or editor configuration turns them on.
+
 **Analyser configuration is a requirement, not advice.** Detect what the project has configured on the first
 edit and write code that already passes it, rather than introducing findings someone else clears; its
 baseline is not a licence to add to the baseline. Then **build what you touched and iterate to zero new

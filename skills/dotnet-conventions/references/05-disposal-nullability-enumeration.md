@@ -7,8 +7,9 @@
    (`using`/`using` declaration) — CA2000. The leaked resource is usually a connection or file handle, so
    the symptom is not memory but a pool that runs dry under load, in a request unrelated to the leaking
    code.
-2. The full `Dispose(bool)` pattern with `GC.SuppressFinalize` if `IDisposable` is implemented by hand
-   (CA1063): never a partial `Dispose()`. Usually the better answer is not to implement it by hand — hold
+2. The full `Dispose(bool)` pattern with `GC.SuppressFinalize` if `IDisposable` is implemented by hand on an
+   unsealed type (CA1063, which asks every unsealed implementer for a protected virtual `Dispose(bool)`):
+   never a partial `Dispose()`. Usually the better answer is not to implement it by hand — hold
    the disposable and let a `using` own it, or let the container own its lifetime (§2.11).
 3. Nullable Reference Types enabled across the whole project, not partially. `!` (null-forgiving) is not a
    way to silence the compiler: every use must be justifiable. Partial enablement is the worst of the three

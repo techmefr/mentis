@@ -28,10 +28,11 @@ treat lazy loading as a cold-start tool with a lifecycle of its own**.
    list providers or controllers, filtered by metadata.
 2. **Create the marker with** the discovery service's decorator factory, then read it back with
    `getMetadataByDecorator`; the decorator's `KEY` is the metadata key when you filter yourself.
-3. **Run the scan once at bootstrap** (module init), not per request. Providers are resolved by then.
+3. **Run the scan once at bootstrap** (module init), not per request (our guidance: the page shows the calls,
+   not when to run them). Providers are resolved by then.
 4. **Scan only what you need**: pass an `include` list of modules when the app is large.
 5. **A scanned provider may be non-singleton** (request- or transient-scoped); its instance is not
-   available at the scan. See `nestjs-di-traps` for scope behaviour.
+   available at the scan (our reasoning from the scope rules; the discovery page does not say so). See `nestjs-di-traps` for scope behaviour.
 
 ## 3.3 Lazy loading
 1. **What it is for**: serverless and worker entry points where cold-start time matters, loading a rarely
@@ -46,7 +47,7 @@ treat lazy loading as a cold-start tool with a lifecycle of its own**.
    connection, and a code-first GraphQL schema needs every class registered up front. Lazy modules hold
    services only.
 6. **Libraries that depend on module init fail**, e.g. a per-class injected logger from a library that
-   registers at init.
+   registers at init (the pino integration's readme names exactly this case; the lazy-loading page does not).
 
 ## 3.4 Verification
 - The module was imported with `register`/`forRoot` once with literals and once with `forRootAsync` and

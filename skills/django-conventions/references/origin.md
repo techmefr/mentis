@@ -12,6 +12,19 @@ voice, no prose copied). A fact not found in a read source was left out rather t
 | A public Django style guide (`HackSoftware/Django-Styleguide`): services, selectors, models, APIs and serializers, URLs, settings layout, error handling, Celery, testing | MIT (its `LICENSE`, read) | §1 and §5 and the settings layout in §4. Rewrite with credit; the structure is flagged as one team's preference in the block. |
 | PostgreSQL documentation for `CREATE INDEX` (`postgres/postgres`) | PostgreSQL licence (permissive) | §3.6: concurrent index build, invalid index, not inside a transaction block. |
 
+**Verification pass 2026-10-20.** Re-opened the Django development documentation (BSD-3-Clause, repository licence)
+pages for transactions, migrations, deployment checklist, database optimization, QuerySet reference, `django-admin`
+reference, CSRF reference, security topic, middleware reference, raw SQL, signals and testing overview, and the
+style guide README (its `LICENSE` re-read: MIT, HackSoft). Confirmed point by point: §2.2 to §2.6, §2.8 to §2.14,
+all of §3, §4.1 to §4.4, §4.6, §4.8 to §4.12, §4.14, §5.7 to §5.9, and in §1 the services, selectors, model, base model and
+task points. Corrected: §2.7 (queryset `delete()` does send the delete signals, except for database-level cascades
+added in 6.1; the other bulk calls send no save signal), §2.3 (the fetch mode appears in the 6.1 QuerySet reference,
+version now stated), §4.5 (the security topic says a plain-HTTP request can leak existing cookies, not that the cookie is
+"shared"). Not re-checked: the settings layout of §4.7 (style guide settings chapter, not re-opened). Still ours, not on a page: the `csrf_exempt` usage rule (§4.12; the reference documents the decorator
+only), the layering preference of §1 and §5.1 to §5.5 (one team's style guide, flagged), and the exact version of
+`robust=True` and `durable=True` (the transactions page carries no version note for either). The default of the
+COOP and referrer settings was not stated on the middleware page and none is claimed.
+
 **Read but not used for rules:** the Django REST framework documentation was not read, so no rule here is claimed
 for it beyond what the style guide's API chapter says about serializers in general. The cookiecutter project
 template (BSD-3) and the version-upgrade tool (MIT) from the veille were not read. The OWASP Django cheat sheet

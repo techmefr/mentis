@@ -19,8 +19,8 @@
    own validation of the `Host` header. Code that reads the host from `request.META` bypasses the validation;
    use `get_host()`. `X-Forwarded-Host` is trusted only when the setting that enables it is deliberately turned
    on. A front web server also rejects unknown hosts, so they never reach the logs.
-5. **HTTPS everywhere on a site with sign-in, not just on the sensitive pages:** the session cookie is shared
-   between HTTP and HTTPS, so a single plain request leaks it. Redirect HTTP to HTTPS (at the front server, or
+5. **HTTPS everywhere on a site with sign-in, not just on the sensitive pages:** the browser can send its
+   cookies on a first plain HTTP request, so a single one can leak an existing session cookie. Redirect HTTP to HTTPS (at the front server, or
    `SECURE_SSL_REDIRECT`), set `SESSION_COOKIE_SECURE` and `CSRF_COOKIE_SECURE`, and enable HSTS
    (`SECURE_HSTS_SECONDS`, with its include-subdomains and preload companions where they apply).
    Behind a TLS-terminating proxy, `SECURE_PROXY_SSL_HEADER` must be set, and set correctly: leaving it out
@@ -51,7 +51,8 @@
 12. **CSRF protection stays on.** Every non-safe request (anything but GET, HEAD, OPTIONS, TRACE) must carry the
     secret in a cookie and the matching token in the form field, plus an origin check against the host and
     `CSRF_TRUSTED_ORIGINS`; the secret changes on login. `csrf_exempt` is for a view with its own proof of the
-    caller (a signed webhook), never for convenience, and says why beside it. Subdomains outside your control
+    caller (a signed webhook), never for convenience, and says why beside it (our guidance: the reference
+    documents the decorator, not when to use it). Subdomains outside your control
     can set cookies for the whole domain and defeat the protection (and enable session fixation), so do not
     give them to untrusted parties. Do not strip the `Referer` header site-wide (`no-referrer`): the strict
     referer check on HTTPS then fails every unsafe request; use `rel="noreferrer"` on outbound links instead.

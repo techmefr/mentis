@@ -12,8 +12,9 @@
 2. **Switch on the problem-details format for APIs with outside consumers.** The framework supports the
    standard problem body, and Boot turns it on with one property (`spring.mvc.problemdetails.enabled`). Check
    the property name against the release in use.
-3. **Errors handled inside a controller are not necessarily recorded by metrics and tracing.** If error rates
-   matter, let the exception propagate to the advice, or record the observation where it is handled.
+3. **Errors handled inside a controller are not necessarily recorded by web observations and metrics.** If
+   error rates matter, let the exception propagate to the advice, or set the handled exception on the
+   observation context where it is handled (the reference says nothing about tracing here).
 4. **A test with a mock web environment cannot prove a custom error page is rendered,** since error pages
    depend on the servlet container: use a running server for that one case.
 5. **Turn off open-session-in-view explicitly** (`spring.jpa.open-in-view=false`). Boot registers it by
@@ -28,6 +29,8 @@
    when a statement actually runs,** so a transaction that finishes without touching the database holds no
    connection. Consider it when transactions often open before the data access.
 9. **Graceful shutdown is on by default for the embedded servers; keep it,** and set the grace period
-   (`spring.lifecycle.timeout-per-shutdown-phase`) below the platform's kill timeout. The server stops accepting
-   new requests at the network layer and lets in-flight ones finish. An IDE stop that does not send a
+   (`spring.lifecycle.timeout-per-shutdown-phase`) below the platform's kill timeout (our reasoning: the page
+   gives the property and an example value, not the default and not the platform side). Tomcat, Jetty and Reactor Netty
+   stop accepting new requests at the network layer and let in-flight ones finish (the reference describes only
+   those three; a server that does it differently may answer new requests with an error status instead). An IDE stop that does not send a
    termination signal skips it, so do not conclude from a development run that the service drains.

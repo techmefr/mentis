@@ -61,7 +61,8 @@
     silently changes the meaning of existing data — no migration, no error, no failing test. Pinning the
     values costs one line per member and makes a reorder harmless.
     The analyser set agrees only if one member holds zero: the design-rule analyser for enums
-    (CA1008, on under `AnalysisMode All`) rejects an enum whose numbering starts at one. Name the zero
+    (CA1008: not enabled by default in .NET 10, and by default it checks only externally visible enums) rejects an
+    enum whose numbering starts at one. Name the zero
     member (`None`, `Unknown`) as the explicit "unset" sentinel, so `default(T)` is a value you chose
     rather than an unnamed one (§5.13, §7.10).
 16. **A member that returns a sequence declares the read-only interface**, not the concrete list or array.

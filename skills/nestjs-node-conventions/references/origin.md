@@ -33,6 +33,30 @@ tRPC and Zod (sections 3) were not re-read in this pass.
 Prisma chapter of the next major; give each pinned fact above a verdict (`skills/source-freshness` section 3);
 stamp the date even when nothing changed.
 
+## Verification pass 2026-10-20
+Re-opened the NestJS documentation repository (MIT, `LICENSE` re-read: Kamil Mysliwiec) pages for the request
+lifecycle FAQ, pipes, validation, configuration, lifecycle events, exception filters, serialization, file upload
+and streaming, the Prisma chapter, the keep-alive FAQ, provider scopes, unit testing and the migration guide; the
+tRPC documentation on routers and validators (MIT, `LICENSE` re-read: Alex Johansson) and the Zod documentation
+on inferring types (MIT, `LICENSE` re-read: Colin McDonnell). Confirmed: §2.1, §2.3, §2.5 to §2.7
+(`disableErrorMessages` exists), §3.1 (`z.infer`), §3.3 (routers and `.input()`), §4.7 (single client
+provider), §4.8 (lazy connect, `$disconnect` also disposes the adapter, no `beforeExit` in ORM 7), §4.10
+(`latest` tag warning), §4.11 and §4.12 (three transaction forms, the three options, the cls transactional
+plugin with a Prisma adapter), §5.1, §5.3 to §5.5, §5.7 to §5.12, §6.1 to §6.4, §6.5 (module order), §6.6 to
+§6.12, §6.14, §6.15, §7.1, §7.3 and §7.6 (the five percent figure, the hook behaviour, the shutdown
+sequence and the Windows signal list are on the pages read).
+Corrected: §6.13 (force-close covers Fastify from 12.1 as an application option), §2.2 (the chapter ties
+primitive conversion to auto-transformation and does not mention `@Type`; the `@Type` pairing stays as dogfood
+evidence), §2.4 (the documentation allows both validation pipes together; "not both for one shape" is our rule).
+Not stated on any page read, so still ours: that controller-level and route-level pipes also run in reverse
+order (§5.2; the lifecycle FAQ states only the parameter order), the component-placement list (§5.6), the
+repository and aggregate rules (§4.1 to §4.6), tRPC response unions and domain routers beyond the pages read
+(§3.2, §3.4), the standalone-application rule (§6.16: the page was not reachable), and the whole read-only
+audit method (§7, already declared ours).
+Open point found in the migration guide: Nest 12 calls the init and shutdown hooks by component hierarchy
+level, which can change the order that §6.5 describes (module by module, deepest imports first); re-check §6.5
+against the guide before relying on that order between dependent modules.
+
 ## Original sources and dogfood record (sections 1 to 4)
 
 Ideas taken from: a market NestJS skill catalogue (skills/nestjs-expert/SKILL.md) for the

@@ -10,7 +10,8 @@
    configuration.
 2. **Constructor injection with `final` fields.** With a single constructor no annotation is needed; when there
    are several, mark the one the container must use. Field injection hides dependencies from the constructor
-   and from tests.
+   and from tests (our reasoning: the reference recommends constructor injection and does not discuss field
+   injection).
 3. **Read configuration through a typed properties class, not `@Value`.** A class bound to a prefix gives
    hierarchy, a type per field, validation and a place to document each property; `@Value` scatters string
    keys. When a placeholder must name a property, use the canonical kebab-case lowercase form so relaxed

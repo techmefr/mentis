@@ -17,18 +17,17 @@
    at-most-once mode and is only appropriate for consumers that can process at a steady rate and tolerate loss.
 3. **A producer that retries creates duplicates, and a consumer that is redelivered repeats work, so the
    consumer must be idempotent.** A publish whose confirmation was lost is sent again, and the broker may already
-   hold the first copy; a consumer that died before acknowledging gets the message again. Both brokers' guides say
-   to prefer an idempotent consumer to explicit deduplication. Give the effect a stable key (the entity and the
+   hold the first copy; a consumer that died before acknowledging gets the message again. The RabbitMQ reliability guide says to prefer an idempotent
+   consumer to explicit deduplication (the Kafka design page does not say it). Give the effect a stable key (the entity and the
    intended transition, or a message id carried in the payload) and enforce it where the effect is stored, with a
    unique constraint or a check inside the transaction (`skills/sql-conventions` §4.10;
-   `background-jobs-conventions` §1.2). A "redelivered" flag, where the broker sets one, is a hint that lets you
-   skip the check on first deliveries; its absence is a guarantee, its presence is only a suspicion.
+   `background-jobs-conventions` §1.2). In RabbitMQ the "redelivered" flag is a hint that lets you skip the check on first deliveries: its absence
+   means the message was not seen before, its presence only means it may have been.
 4. **Exactly once has a boundary, and it is the broker's.** Kafka can make a read-process-write cycle that stays
    inside Kafka atomic, by committing the output records and the consumer's position in one transaction. The
    moment the output goes to another system (a database, an email, an HTTP call) the guarantee needs that system's
    cooperation: store the position in the same place as the output, or make the effect idempotent. A statement
-   "we have exactly-once" without naming that boundary is the misleading claim the Kafka documentation itself
-   warns about.
+   "we have exactly-once" without naming that boundary is the claim the Kafka design page warns about (it says to read the fine print of any exactly-once claim).
 5. **Writing to the database and publishing a message is two systems, so it is a race.** Commit then publish
    loses the message if the process dies between them; publish then commit announces something that may not have
    happened. Write the message into a table in the same transaction as the state change, and let a separate relay
@@ -54,5 +53,5 @@
     not defaults; use a per-application account with the narrow permissions it needs, and TLS to the broker.
 
 **Sources:** the delivery-semantics sections of the Kafka design documentation and the RabbitMQ reliability and
-confirms guides (both Apache-2.0), read 2026-10-02. Points 5, 6 (the system-level framing), 8 and 10 are
+confirms guides (both Apache-2.0), read 2026-10-02. Points 5, 6 (the system-level framing), 7 (the growing delay and alert on depth), 8, 9 and 10 are
 reasoning of ours; the transactional-outbox shape is a widely used pattern, not a quotation of either guide.

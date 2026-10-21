@@ -45,8 +45,9 @@
    not-found-on-deserialisation error; a job for which that is normal discards that exact error, never its
    parent class, which would also discard a job that failed on a transient database error.
 10. **Retries are declared per job.** On the database-backed queue a job with no `retry_on` goes straight to
-    failed; declare which errors retry, with a wait that grows (`:exponentially_longer`) and a bounded number
-    of attempts, and which are discarded. A job that can be interrupted and retried must be safe to run again:
+    failed; declare which errors retry, with a wait that grows (`:polynomially_longer`, the name the current API reference documents; that
+    reference does not list `:exponentially_longer`) and a bounded number of attempts (`retry_on` defaults
+    to 5 attempts counting the first run, and a 3-second wait), and which are discarded. A job that can be interrupted and retried must be safe to run again:
     check the state it is about to change, or use the continuation feature to resume from a recorded cursor
     rather than start over.
 11. **Mail is sent from a job.** Delivering during the request makes the page wait for the mail server and

@@ -49,8 +49,10 @@ carries them.
    default. A DTO still needs real class-validator decorators for runtime validation; the plugin only
    documents.
 2. **Import mapped types** (`PartialType`, `OmitType`) from the Swagger package so they carry the metadata.
-3. **It does not run** under a transpile-only tool unless the build checks types or the plugin's metadata
-   generator is run; and not under a plain Jest SWC transform. See `node-container-runtime` §3.3.
+3. **It needs a type-aware build.** With the SWC builder the plugin requires type checking to be enabled (or
+   the metadata generator run, the route used in monorepos), and under Jest no plugin is applied by default,
+   so an end-to-end test needs the plugin's transformer set up. A transpile-only runner is not named on the
+   plugin page: treat it as unproven. See `node-container-runtime` §3.3.
 4. **After changing plugin options, delete the build output** or stale metadata is used.
 
 ## 2.5 Deprecation and sunset

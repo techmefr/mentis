@@ -54,9 +54,11 @@
     `prepend: true`, because `dependent: :destroy` callbacks are created at the association and would
     otherwise run first and delete the children of a record that then refuses to be deleted. Anything that
     must happen only if the transaction commits belongs in `after_commit` (§4.8).
-14. **A transaction is left by an exception or by falling off the end.** In Rails 7 and later, `return`,
-    `break` and `throw` inside a `transaction` block roll it back; use `next` to commit and raise to roll back,
-    so the intent is in the code.
+14. **A transaction is left by an exception or by falling off the end.** What `return`, `break` and `throw`
+    inside a `transaction` block do depends on the version: on Rails 7.0 and 7.1 they rolled it back (7.1 behind
+    the `commit_transaction_on_non_local_return` setting), and Rails 7.2 removed that rollback and restored the
+    earlier behaviour, so the transaction commits. Do not leave the block that way on any version; use `next`
+    to commit and raise (`ActiveRecord::Rollback` to roll back silently) so the intent is in the code.
 15. **Scopes and `default_scope`.** Named scopes are cheap and chain; when a scope with parameters gets
     complicated, write a class method that returns a relation. Avoid `default_scope`: it changes every query
     on the model, including the ones that expected to see all the rows, and cannot be seen at the call site.
@@ -79,8 +81,10 @@
    the collection is loaded; `count` always queries, `length` always loads.
 20. **Ranges for comparisons.** `where(created_at: 30.days.ago..7.days.ago)`, endless and beginless ranges for
    one-sided bounds, rather than SQL fragments with two placeholders.
-21. **`where.not` takes one condition.** With several attributes its meaning changed in Rails 6.1 (it now excludes
-   rows matching either), so a query written before and after the upgrade disagree; write the negation out.
+21. **`where.not` takes one condition.** With several attributes the Active Record API reference shows it generating one negation over an AND
+   (`NOT (a AND b)`), so only rows matching both conditions are excluded; the earlier behaviour (before 6.1)
+   excluded rows matching either one, so a query written before and after the upgrade disagrees. Write the
+   negation out.
 22. **No `all` as a receiver** (`User.all.order(...)`): it adds nothing. The exception is an association
    receiver, where `delete`, `destroy` and their `_all` forms behave differently with and without it: read the
    documentation before removing it there.

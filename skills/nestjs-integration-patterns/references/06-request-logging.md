@@ -30,16 +30,16 @@ carried implicitly, configured once**. What to log and which metrics to keep is 
 4. **On Fastify**, the id generator belongs to the adapter, not the logger options.
 
 ## 6.4 Do not log what you must not keep
-1. **Do not include request or response bodies by default.** The integration leaves payload logging off
-   because payloads carry personal data. Turn it on per route when needed.
+1. **Do not include request or response bodies by default.** Payload logging stays off unless you choose it
+   because payloads carry personal data (our reasoning: the readme does not discuss body logging). Turn it on per route when needed.
 2. **Redact** authorisation headers, cookies, tokens and known personal fields with the logger's `redact`
    paths, and test it with a real request.
 3. **Do not log the error and rethrow at every layer**; log where it is handled (see `nestjs-node-conventions`).
 
 ## 6.5 Flushing on shutdown
 Asynchronous destinations and transports may not flush when Nest's shutdown hooks re-raise the signal; the
-last lines before a crash or deploy are the ones you need. From `@nestjs/core` 11.1.10, enabling shutdown
-hooks with the process-exit option makes Nest exit explicitly after the hooks and gives the logger time to
+last lines before a crash or deploy are the ones you need. From `@nestjs/core` 11.1.10 (the version and the `useProcessExit` option come from the pino integration's
+readme; the core lifecycle page documents neither), enabling shutdown hooks with that option makes Nest exit explicitly after the hooks and gives the logger time to
 flush; this changes the exit code, so check what the orchestrator expects. Verify by killing the process
 with a signal and reading the last line.
 

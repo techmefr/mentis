@@ -18,7 +18,8 @@ principle: **find the channel's own error and completion model before writing th
 ## 1.2 Request-response versus event
 1. **A message pattern is request-response.** It opens two logical channels and costs more; use it when the
    caller needs the answer. An event pattern is fire-and-forget; use it for notification.
-2. **Both are valid only in controllers.**
+2. **A message pattern is valid only in a controller** (the runtime ignores the decorator in a provider); the
+   event decorator's placement rule is not stated on the page read, so keep both in controllers.
 3. **Several handlers for one event pattern all run, in parallel.** Do not rely on order between them.
 4. **`send()` on a client is a cold observable, `emit()` is hot.** A `send()` nobody subscribes to sends
    nothing; an `emit()` goes out regardless.
@@ -79,7 +80,8 @@ principle: **find the channel's own error and completion model before writing th
 3. **If no `id` is set**, Nest assigns an incrementing one. Set your own when the client resumes from a last
    event id, since a counter restarts with the process.
 4. **An event stream holds a connection open**: count it in the capacity plan and in the load balancer's idle
-   timeout (send a periodic comment or event to keep it alive).
+   timeout (send a periodic comment or event to keep it alive: the documentation shows the comment field as usable for
+   that; the idle timeout itself is our concern, not stated there).
 
 ## 1.6 Verification
 - Throw on each channel (handler, pipe, guard) and read what the caller actually receives.

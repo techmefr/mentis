@@ -18,13 +18,13 @@
    ones and end with a single catch-all rule (`authenticated` at least); the authorization filter is last in
    the chain by default, so it decides after authentication has run.
 5. **CSRF protection is on by default for unsafe methods and stays on for browser sessions.** Turn it off only
-   for an API that carries no ambient credential (a bearer token in a header, no cookie), and say why beside
-   the line. Where the page does not need to read the token cookie from JavaScript, keep it HTTP-only (the
+   for a backend that serves no browser traffic (the reference's wording; a bearer token in a header and no
+   cookie is the usual shape), and say why beside the line. Where the page does not need to read the token cookie from JavaScript, keep it HTTP-only (the
    documentation recommends the default cookie repository over the JavaScript-readable one for that case).
    Actuator endpoints that use POST, PUT or DELETE answer 403 under the default CSRF setting.
 6. **CORS is processed before security.** A preflight request carries no cookie, so if security runs first it
-   rejects it as unauthenticated. Provide the CORS configuration source bean so the filter is integrated, and
-   list explicit origins and methods.
+   rejects it as unauthenticated. Register a `UrlBasedCorsConfigurationSource` bean, enable CORS in the filter
+   chain so the filter is integrated, and list explicit origins and methods.
 7. **A full application context is the exception.** Use the slice annotation for the layer: a web-layer slice
    for mappings, validation and error handling; a data slice for repositories. Each slice scans only its own
    component types and loads a restricted set of auto-configurations; combining two slice annotations in one
@@ -38,7 +38,8 @@
    server run in separate threads, so a test-level transaction does not roll back the server's writes: clean
    data explicitly.
 10. **Data slices are transactional and roll back by default,** and replace the database with an embedded one
-    unless told otherwise. Run persistence tests against the production engine (the replacement annotation
+    unless told otherwise. Run persistence tests against the production engine (our reasoning; the reference only shows that the
+    replacement annotation
     switches the swap off), since dialect and locking differ.
 11. **Test configuration classes marked as such are not picked up by scanning** and are imported where
     needed. The application context is cached across tests that share a configuration, so keep the number of
