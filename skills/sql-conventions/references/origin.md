@@ -18,6 +18,8 @@ project**, no in-house production experience (🟡 in `CATALOG.md`).
 | PlanetScale's published MySQL skill and references | MIT | Rewrite with credit: InnoDB key design, gap locks, deadlock retry, non-sargable predicates, index maintenance queries |
 | OWASP SQL Injection Prevention Cheat Sheet | CC-BY-SA 4.0 | **Idea only**: no sentence or example reused |
 
+**Re-read 2026-10-20.** SQLite pages on backup, write-ahead logging, ALTER TABLE and transactions (public domain): confirmed SQLite points 4, 5, 7, 8, 9 as corrected in `07-engine-notes.md`; the transactions page does not say whether the busy handler helps a read-to-write upgrade (point 5 states the failure, which the page confirms, and that waiting cannot fix it, which stays our reading). PostgreSQL manual pages on ALTER TABLE and explicit locking: confirmed the lock levels, the no-rewrite constant default, the not-valid then validate pattern, the check-constraint route around the not-null scan, consistent lock order, session against transaction advisory locks. The manual does not state a lock queue (that a waiting strong lock blocks later requests), nor lock timeouts, nor skip-locked: those parts of §5 point 2 and §4 stay "reasoning of ours" and unsourced here. Still unread: the vendor skills' repositories were not re-opened in this pass.
+
 **Checked and corrected against the manual.** The vendor skills state some rules as flat prohibitions the
 manuals qualify (bounded text types are a legitimate choice; the legacy auto-increment type is needed before
 PostgreSQL 10). The block follows the manual's qualification. Figures the vendors give as thresholds (a row

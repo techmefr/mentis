@@ -29,6 +29,9 @@ ALTER TABLE customers
   ADD COLUMN zip INT UNSIGNED GENERATED ALWAYS AS (CAST(profile->>'$.zip' AS UNSIGNED)) VIRTUAL,
   ADD INDEX idx_zip (zip);
 ```
+7. **`BETWEEN`, `IN()`, `GREATEST()` and `LEAST()` do not work on JSON values;** cast to a native numeric or string type first. A comparison with SQL `NULL` is unknown, and sorting a nonscalar JSON value gives a warning, so sort on an extracted scalar.
+8. **A multi-valued index has its own limits** (8.4 manual): one such key part per index, never the primary key, not covering and no range scan, no foreign key, and it cannot be built online (the copy algorithm is used). An empty array adds no entries and a JSON null inside an indexed array raises an error. Check them before choosing it over a generated column.
+9. **Only a declared `JSON` column updated through `JSON_SET`, `JSON_REPLACE` or `JSON_REMOVE` on itself can be updated in place,** and only when the new value fits the space of the old one and no new key or element is added. A plain assignment of the whole document is always a full rewrite.
 
 ## 1.2 Index key length and utf8mb4
 1. **The InnoDB index key limit is 3,072 bytes for `DYNAMIC` and `COMPRESSED` rows and 767 bytes for
@@ -40,8 +43,8 @@ ALTER TABLE customers
 3. **Index a prefix when the full value is not needed.** `INDEX (col(N))` gives a prefix length in characters
    for non-binary string types (bytes for binary types); the limit is measured in bytes. Prefixes are required
    for `BLOB` and `TEXT` key parts. Choose a prefix long enough to separate values, then verify the plan.
-4. **Prefer a shorter column or a hash or normalised helper column over a long key.** Own guidance: the
-   manual states the limits but not this alternative.
+4. **Prefer a shorter column or a hash or normalised helper column over a long key.** Own guidance (the
+   manual states the limits but not this alternative; the default row format is `DYNAMIC`, confirmed in the 8.4 manual).
 
 ## 1.3 Collation and string comparison
 1. **The default collation is `utf8mb4_0900_ai_ci`, so non-binary comparisons are case-insensitive by

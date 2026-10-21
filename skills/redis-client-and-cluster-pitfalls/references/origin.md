@@ -14,6 +14,11 @@ instance, cluster or client library was started while writing it.
 | redis/agent-skills at a84871d: `skills/redis-connections/SKILL.md`, `references/pooling.md`, `blocking.md`, `pipelining.md`, `client-cache.md`, `timeouts.md` | MIT (same file) | Pool or multiplex, no connection per request, multiplexed connections and blocking commands, pipelining, SCAN family, client-side cache with RESP3, timeouts |
 | redis/agent-skills at a84871d: `skills/redis-clustering/SKILL.md`, `references/hash-tags.md`, `references/read-replicas.md` | MIT (same file) | CROSSSLOT, 16,384 slots, hash tags, replica reads |
 
+| redis-py `docs/clustering.rst` and `docs/advanced_features.rst` (repository LICENSE read: MIT, Redis, Inc.), read 2026-10-20 | MIT | Cluster multi-key and non-atomic variants, cluster pipeline grouping, replica reads and retries, pipeline transaction default, thread rules |
+| go-redis `README.md` (LICENSE read: BSD 2-Clause), read 2026-10-20 | BSD-2-Clause | Protocol option, experimental client-side caching constraints, autopipelining in the cluster client |
+
+Not read: Jedis, Lettuce (the one documentation path tried returned not found; its LICENSE file was read and reported as MIT, but no Lettuce page was read, so nothing is credited to it), node-redis, StackExchange.Redis. No other permissive documentation was found for those clients in this pass, searched: the clients' repositories.
+
 The redis/docs repository (CC BY-NC-SA 4.0) and valkey-io/valkey-doc (CC BY-SA 4.0) are idea-only for this
 programme and were not read for this block. The `redis.io` links that appear in the source files were not
 followed.
@@ -33,8 +38,7 @@ followed.
    was checked against a client's own documentation.
 2. **RESP3 and client-side caching.** The files state that RESP3 is required and show `protocol=3` with a cache
    configuration; the minimum server version and which clients support it were not given and are not claimed.
-3. **Cluster behaviour of pipelines.** The files state that a pipeline over keys in different slots raises
-   `CROSSSLOT`; whether a given cluster client splits pipelines per node was not read.
+3. **Cluster behaviour of pipelines.** The files state that a pipeline over keys in different slots raises `CROSSSLOT`. Checked 2026-10-20: redis-py's cluster pipeline groups commands per node (so the statement is about a plain client, not redis-py); other clients not read.
 4. **Own guidance, labelled in the text:** the retry-after-timeout caution on writes (§2, Checks), exercising
    multi-key operations on a cluster before release (§3.1.2), giving idempotency checks the primary client
    (§3.3.3), the pipeline ordering remark (§2.2.3), and every "Checks" section.

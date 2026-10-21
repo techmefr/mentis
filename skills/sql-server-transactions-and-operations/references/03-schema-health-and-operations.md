@@ -50,4 +50,8 @@ properties of the engine; check the documentation page for your version before c
    extra checking on the data, but does not verify the structure of the data in the backup.
 3. **Do not pass a password with `sqlcmd -P`.** The page marks it insecure. Use the `SQLCMDPASSWORD`
    environment variable, or omit `-P` so that the utility prompts and hides the input; for a non-interactive
-   job, prefer integrated authentication where it is available (own guidance).
+   job, prefer integrated authentication where it is available (the page recommends integrated security
+   where possible; combining it with a user name or password is an error). In a script, also set the
+   exit-code options (`-b`, and `-V 16` as the page suggests for automation) and check the exit code, or a
+   failed deployment script exits zero; the page also recommends `-X` for unattended runs, which stops
+   environment variables and the startup script from being read.

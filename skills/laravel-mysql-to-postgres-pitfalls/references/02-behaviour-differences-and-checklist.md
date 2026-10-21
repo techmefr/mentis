@@ -11,7 +11,7 @@
    operator, `ILIKE`, in the query builder's where clause; for heavy search, the `citext` extension or a
    functional index on the lower-cased column. It says to audit every product search, every find by email and
    every user-typed filter. Own guidance: write one scope or helper for "contains, ignoring case" and replace
-   the scattered calls with it, so the next developer cannot forget.
+   the scattered calls with it, so the next developer cannot forget. The framework's documentation (12.x, read 2026-10-20) already offers a driver-neutral `whereLike`, case-insensitive by default, with a case-sensitive option that SQL Server does not support: prefer it to a hand-written helper where the installed version has it. The PostgreSQL manual states the case-insensitive operator is a PostgreSQL extension, depends on the active locale, and does not support nondeterministic collations; it says nothing about indexes (the lower-cased functional index and the case-insensitive text extension of the source stay the source's claim).
 2. **Zero and one are not true and false.** MySQL stores booleans as a small integer and PostgreSQL has a real
    boolean type. The source says casts hide most of this but raw comparisons break: a raw `where` clause
    comparing a boolean column to `1` fails with an error that no operator exists for boolean and integer. Its
@@ -32,7 +32,12 @@
    PostgreSQL protecting your data, and says old code that relied on the trim now errors. Own guidance:
    search the import and the application for values that exceed a column's length, and decide on trimming in
    code on purpose.
-6. **Checklist before the old database is deleted.** The source's items, restated: the migrations run clean
+6. **Strings and numbers compare differently.** The query builder's documentation says MySQL and MariaDB convert a non-numeric string to zero in a string-to-number comparison, so a lookup by number can match a text value such as `aaa`; PostgreSQL does not coerce that way. Search for loose comparisons against mixed columns and for ids read from input.
+7. **Upsert and insert-get-id have preconditions.** On PostgreSQL an upsert needs a primary or unique index on the key columns it names (MySQL ignores the argument and uses the table's own), and getting an inserted id expects an auto-increment column called `id` unless another name is passed. Review every `upsert` and `insertGetId`.
+8. **Grouping exception.** A non-grouped column is accepted when the table's primary key is among the grouped columns; the strictness of point 4 then bites only for the columns of other tables and for non-key grouping (PostgreSQL manual, SELECT page).
+9. **Truncation is not absolute.** An over-long value in a bounded text column errors, except that excess trailing spaces are silently cut, and an explicit cast to the length truncates without an error (PostgreSQL manual, character types). A migration that trims by cast hides the defect point 5 looks for.
+10. **Raw expressions carry the injection warning in both engines.** The framework says it cannot guarantee a raw expression is injection-safe; bind values and never let input choose a column name (`skills/sql-conventions` §6.1).
+11. **Checklist before the old database is deleted.** The source's items, restated: the migrations run clean
    on an empty PostgreSQL database; every raw SQL call is reviewed and ported; search and filter code
    ignores case where it should; every imported table's sequence is reset and one record per critical table
    was created without a duplicate-key error; boolean columns are cast and no raw comparison to `1` or `0`

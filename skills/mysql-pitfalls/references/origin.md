@@ -17,6 +17,8 @@ writing it. Overlaps with `skills/sql-conventions` §7 and `skills/devops-conven
 | github/gh-ost documentation (`requirements-and-limitations`, `throttle`, `testing-on-replica`, `cut-over`), commit `dd44453` of 2026-10-06 (LICENSE re-read, MIT) | MIT, read 2026-10-08 | Prerequisites, throttling, rehearsal, cut-over options, exclusions |
 | strong_migrations README, commit `23d8e1f` of 2026-09-26 (LICENSE.txt re-read, MIT) | MIT, read 2026-10-08 | Expression-default rewrite, stored generated column and type-change rewrites in MySQL, foreign key without validation behind a pooler |
 
+Re-read 2026-10-20 (MySQL 8.4 manual pages, facts only, nothing copied, manual licence still not read): InnoDB row formats, `CREATE INDEX` (multi-valued, functional, prefixes), online DDL operations table, partitioning keys and storage-engine limits, the JSON type. Confirmed: default row format `DYNAMIC` and the 3,072 and 767 byte limits, the unique-key rule, no foreign keys with partitioning, the online DDL table, the `->` and `->>` and collation facts. Added: §1.1 points 7 to 9. The multi-valued index page gives no version, so none is claimed.
+
 ## Removed in the verification pass (no page supporting them)
 "JSON documents over about 8 KB spill off-page" (no page). "`wait_timeout` does not close an idle open
 transaction" (the page says only that it closes noninteractive connections after the idle period). "One huge
@@ -32,9 +34,7 @@ this pass and are not a source.
    restructuring the primary key as `(id, partition_column)` and its consequence for `id` uniqueness.
 2. **MySQL 8.0 and 9.x differences:** only the 8.4 manual was read; the online DDL table is stated for 8.4, with
    the row-version limit change at 9.1.0 quoted from the same page.
-3. **Default row format:** the manual page gives the key limits per row format but the page read does not state
-   which format is the default; the reader confirms the format of the table before applying the 3,072-byte
-   limit in `references/01-json-collation-keys.md`.
+3. **Default row format:** confirmed `DYNAMIC` on 2026-10-20 (the page gives no introduction version); the reader still confirms the format of the table before applying the 3,072-byte limit.
 4. **Multi-valued index and generated-column index behaviour in the optimiser** was not checked with `EXPLAIN`.
 5. **gh-ost documentation** states a minimum of MySQL 5.7 and is not versioned against MySQL 8.4 specifics.
 6. **MariaDB** is not covered.

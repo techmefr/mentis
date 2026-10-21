@@ -28,7 +28,8 @@ origin file. Items marked "from" a version are gated on it.
 3. **A dependency with `yield` runs its exit code after the response is sent by default;** FastAPI's newer
    `scope="function"` runs it after the response data is generated and before the response is sent. Use
    the narrower scope when the resource (a session, a lock) must not outlive the handler; check the
-   FastAPI version in use before relying on `scope`.
+   FastAPI version in use before relying on `scope`. The tutorial page (read 2026-10-20) confirms both values, that the default for a dependency with `yield` is the request scope (exit code after the response is sent), that a request-scoped dependency may only depend on request-scoped ones, and that it gives no version for the feature.
+4. **An exception swallowed in a `yield` dependency becomes a 500 with nothing in the server log.** Catch only to clean up, use `finally` for steps that must always run, and re-raise the original exception so it is logged; only one response is ever sent.
 
 ## 2.3 Declarations
 1. **Do not use `...` (Ellipsis) for a required parameter or a model field.** It is not needed: a field

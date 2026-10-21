@@ -53,4 +53,4 @@ DECLARE @Joined nvarchar(max) = CAST(@Note AS nvarchar(max)) + REPLICATE(N'x', 5
 2. **Choose the integer width at creation.** `int` tops out at 2,147,483,647 and `bigint` is for values that
    might exceed it. Identity values are not reused after a failed or rolled-back insert, so the range is used
    up faster than the row count suggests (`sql-server-transactions-and-operations` §3.2 for the monitoring
-   side). Starting on `bigint` is own guidance.
+   side). Starting on `bigint` is own guidance and a trade-off: the `int` page (read 2026-10-20) gives 4 bytes against 8 and calls `bigint` a poor default where `int` range suffices, so decide from the expected row growth and the cost of a later key change, and record the decision.

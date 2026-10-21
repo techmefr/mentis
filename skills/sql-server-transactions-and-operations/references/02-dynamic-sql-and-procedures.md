@@ -29,7 +29,11 @@ EXEC sys.sp_executesql @sql, N'@CustomerId int', @CustomerId = @CustomerId;
 ## 2.2 Procedure hygiene
 1. **Start procedures with `SET NOCOUNT ON`.** It stops the row-count message after each statement. The page
    says this reduces network traffic and can give a significant gain in procedures with several statements or
-   loops, and `@@ROWCOUNT` is still updated.
+   loops, and `@@ROWCOUNT` is still updated. The `CREATE PROCEDURE` page (read 2026-10-20) says the gain is not
+   measurable on current hardware and presents the setting as a way to keep output minimal, with the statement
+   placed first in the body; treat it as output hygiene, not a tuning step. The same page recommends
+   schema-qualified names and short explicit transactions, and its error handler tests `@@TRANCOUNT` before
+   rolling back.
 2. **End statements with a semicolon.** It is not required for most statements today but the syntax page says
    it will be required in a future version. It is already required before `THROW`, before a statement that
    starts with a `WITH` common table expression (the previous statement must end with one) and as the end of

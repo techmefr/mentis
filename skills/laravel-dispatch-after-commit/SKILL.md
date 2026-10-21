@@ -25,13 +25,22 @@ wraps (an action called from a transactional controller), or a job that "sometim
 2. **Jobs.** Defer with `->afterCommit()` on the dispatch, `public bool $afterCommit = true` on the job, or
    the after-commit queueing contract on the job; or enable the queue connection's `after_commit` option for
    the whole app. The last `afterCommit()`/`beforeCommit()` call in a dispatch chain wins over the property.
-   The outermost transaction decides, and a rollback drops the dispatch.
+   Precedence in the framework: a job implementing the contract defers unless its property is explicitly
+   `false`; otherwise a non-null property decides; otherwise the connection option. A nested transaction's
+   commit runs nothing: the outermost commit decides, and a rollback drops the dispatch. A unique job's lock
+   is released on that rollback.
 3. **Events.** An event dispatched inside a transaction implements the after-commit dispatch contract
    (`ShouldDispatchAfterCommit`): dispatch waits for every open transaction to commit and is discarded on
-   rollback. This covers synchronous and queued listeners alike, so it is not only about queue timing.
+   rollback. In the framework's dispatcher the whole dispatch is deferred, so synchronous listeners and
+   broadcasting wait too: it is not only about queue timing. A queued listener has its own contract
+   (`ShouldQueueAfterCommit`), and a synchronous listener can defer itself with
+   `ShouldHandleEventsAfterCommit`; model lifecycle hooks (creating, updating, saving, deleting, restoring,
+   force-deleting) are exempt from the latter.
 4. **Notifications and mail.** Queue anything that calls an outside service (mail, SMS, chat) unless the
    caller needs the outcome now. A queued notification or mailable sent in a transaction takes
-   `->afterCommit()` (or the connection option). The setting has no effect on a synchronous send.
+   `->afterCommit()` (or the connection option); the manual does not say what the call does when the
+   connection option is already on, so do not rely on mixing them. A notification is one job per recipient and
+   channel, each deferred. A synchronous send is not queued, so the setting is moot there (🟡: our reading).
 5. **Per-channel queues.** Notification channels with different latency needs implement `viaQueues()` to use
    separate queues. A recipient's locale is carried to queued delivery when the notifiable implements the
    locale-preference contract.
@@ -41,6 +50,11 @@ wraps (an action called from a transactional controller), or a job that "sometim
    content on the mailable itself and delivery separately, so a failure names which broke.
 8. **Test the rollback.** One test that throws inside the transaction and asserts nothing was dispatched is
    worth more than five that assert it was.
+9. **Do not trust the static check to find every case.** The Larastan rule is off by default and inspects only
+   `Job::dispatch()` and the global `dispatch()` helper inside a `DB::transaction` closure: dispatches through
+   the bus or queue facades, and manual begin/commit blocks, are not seen. Review those by hand.
+10. **Rule out the event-fake trap.** With the event fake active no listener runs; a test of an after-commit
+    listener therefore needs the real dispatcher, or it proves nothing about the deferral.
 
 ## Output / checkpoint
 Every dispatch reachable from a transaction is deferred by one of the mechanisms above, with a test that

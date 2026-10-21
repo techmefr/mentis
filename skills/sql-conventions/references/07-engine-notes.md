@@ -62,19 +62,29 @@
 6. **A single file is not a server.** It suits an embedded store, a local tool, a test fixture and a
    read-mostly dataset. A workload with many concurrent writers, or needing network access, wants a client-server
    engine; deciding that late is a migration.
-7. **Back up a live database with the engine's backup facility or a consistent snapshot command, never by
-   copying the file while it is open.** A plain copy can catch the main file without the log that holds recent
-   commits, or catch a write halfway; restore the copy into a scratch location and run the integrity check
-   before trusting it.
+7. **Back up a live database with the engine's backup interface or a vacuum-into-a-new-file command, not by
+   copying the file while it is open.** The backup page says a plain copy is only safe while a shared lock is
+   held (writers wait meanwhile), cannot copy an in-memory database, and can leave a corrupt copy if the machine
+   fails mid-copy. In write-ahead mode the log file is part of the persistent state and must travel with the
+   database, or committed transactions are lost. Restore the copy into a scratch location and run the integrity
+   check before trusting it (that last step is our own guidance).
 8. **A long-lived read transaction stops the write-ahead log from being reset,** so the log file grows without
-   bound while a reader holds a snapshot (a cursor kept open, a transaction never closed). Symptom: a log file
-   many times the size of the database. Fix: end read transactions promptly and watch the log size.
-9. **Schema changes are narrower than in a server engine.** Some alterations (changing a column's type or
-   constraints, dropping some columns on older library versions) need a new table, a copy and a rename. Do it
-   in one transaction with foreign-key enforcement handled as the documentation prescribes, and rehearse it on
-   a copy; the bundled library version decides what is allowed.
+   bound while a reader holds a snapshot (a cursor kept open, a transaction never closed), and if some reader
+   always overlaps, no checkpoint ever completes. A very large write transaction also keeps the log large.
+   Symptom: a log file many times the size of the database. Fix: end read transactions promptly, leave gaps
+   with no reader, watch the log size, and run a truncating checkpoint when many readers overlap (it may block
+   readers).
+9. **Schema changes are narrower than in a server engine.** The direct forms are renaming a table or column,
+   adding a column (no primary key or unique constraint, no expression default, a non-null column needs a
+   default) and dropping a column that nothing references (not a key, not indexed, not in a check, foreign key,
+   trigger or view). Anything else (changing a type, adding a key or unique constraint, reordering) means a new
+   table, a copy, a drop and a rename. The documented order: turn foreign-key enforcement off, open a
+   transaction, save the dependent indexes, triggers and views, create the new table under a temporary name,
+   copy, drop the old table, rename the new one, recreate the dependents, run the foreign-key check, commit,
+   turn enforcement back on. Never rename the old table first. Rehearse on a copy; the bundled library version
+   decides what is allowed.
 
-Points 7 to 9 are our own craft guidance, added 2026-10-20 (🟡 not checked against the manual in that pass: re-read before relying).
+Points 7 to 9 were added 2026-10-20 and checked the same day against the SQLite backup, write-ahead logging and ALTER TABLE pages (public domain); the restore-and-check step of point 7 stays our guidance.
 
 **Sources:** the MySQL 8.4 manual (InnoDB isolation levels and locking, foreign keys, date and time types,
 character sets, SQL modes, EXPLAIN, online DDL), the vendor's published MySQL guidance (primary-key design,
