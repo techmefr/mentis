@@ -33,3 +33,20 @@
    official text. Dates and applicability were not verified here.
 4. **Show it where people see it.** The standard suggests a short statement at the first level of display
    with more detail one step further in, because laws may require direct disclosure (3.3.2).
+
+## 1.4 What the AI Act page says (read 2026-10-20; legal applicability still to counsel)
+1. **The European Commission's page on the AI-generated content code of practice** says Article 50 transparency
+   obligations apply from 2 August 2026: providers of generative systems mark outputs in a machine-readable form;
+   deployers disclose deepfakes, and disclose AI-generated or manipulated text published to inform the public on
+   matters of public interest unless it has had human review and is under editorial responsibility. It says
+   the code of practice is voluntary but the Article 50 duties are legal obligations, and that the Commission
+   published draft guidelines on 8 May 2026. Symptom: a disclosure sentence that says "reviewed by our editorial
+   team" to take the exemption when no review happened. Fix: this is exactly the false-claim case of 1.2.1.
+2. **Dates moved elsewhere in the Act**, so cite the Article 50 date from the Commission page and not from memory;
+   a search summary mentioned a later date for labelling on systems already on the market, which was not
+   confirmed on an official page and stays `[verify]`.
+3. **Platform labels have their own rules.** The video platform's help page read 2026-10-20 asks creators to
+   disclose realistic content altered or generated so that it could be mistaken for real people, places or
+   events, and says disclosure is not needed for clearly unrealistic content, minor aesthetic edits, scripting
+   or production help. It may add a label itself where content carries C2PA metadata or is detected as AI, and
+   such a label cannot be changed by the creator. A platform rule is not the law: record which one you followed.

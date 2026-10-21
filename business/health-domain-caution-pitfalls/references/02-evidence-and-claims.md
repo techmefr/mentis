@@ -16,6 +16,14 @@
    well-conducted contrary ones.
 5. **Date every source and re-read it before relying**; guidance changes, and withdrawn papers exist.
 
+6. **What counts as strong evidence is stated by the agency, not by us.** The FTC health-products guidance (re-read
+   2026-10-20, US) says health-benefit claims generally need well-conducted, objectively evaluated human studies,
+   usually randomised and controlled; that quality of research outweighs quantity; that no fixed number of trials is
+   required but an independent replication adds weight; and that a study of a different strain, ingredient
+   combination, extract or population does not carry over to our product. Symptom: a probiotic drink citing capsule
+   studies of another strain. Check: dose, form, ingredients, outcome and group, one by one. Fix: claim only what the
+   matching study showed. A US reference, not a rule for elsewhere.
+
 ## 2.2 Claims of treatment, prevention and cure
 1. **Words like treats, cures, prevents, detoxes or boosts are claims** that a qualified owner must approve, and
    in many places a regulator controls them. Route them; do not decide them in copy.

@@ -6,6 +6,14 @@
    conditions. Check: ask whether a stranger reading the record could infer a health state.
 2. **A label on the data does not change what it reveals.** Pseudonymised data can still be health data about a
    person; ask the qualified owner before assuming otherwise.
+2b. **Inference and cross-referencing make data health data.** The French data-protection regulator's page on health
+   data (read 2026-10-20) defines it as data on a person's past, present or future physical or mental health that
+   reveals health status; it distinguishes data that is health data by nature (history, diseases, care, results,
+   disability), by cross-referencing (for example weight with step count or calorie intake, blood pressure with
+   exertion), and by medical use; a step count alone with no cross-referencing is not. It says wellbeing and sport app
+   data may or may not qualify depending on nature and cross-referencing, and that the law does not apply to an app whose
+   data is used only by the person, stored locally with no outside connection and kept for personal purposes. This
+   supports the inference test above; once the app sends data to a server, assume the qualified owner must decide.
 3. **Health data is a special category in many places**, with stricter grounds and duties. The rule that applies
    depends on place and role; the qualified owner decides it (`business/data-protection`).
 
@@ -34,7 +42,11 @@
    device definition are regulated whatever the platform, that oversight focuses on software whose failure poses greater
    risk, and that for minimal-risk functions such as helping a user self-manage a condition without specific treatment
    suggestions it generally does not expect premarket review; the page does not cover intended use or claims, and no
-   European rule was read. Regulatory status is the qualified owner's call.
+   European rule was read. Regulatory status is the qualified owner's call. Re-read 2026-10-20: the FDA page still says software meeting the
+   device definition is covered whatever the platform, and that for minimal-risk software helping a patient
+   self-manage without specific treatment suggestions, or automating simple tasks for providers, it intends to use
+   enforcement discretion and does not expect premarket submissions; the European guidance on qualifying software
+   as a medical device could not be opened (not found), so no European rule was read.
 2. **Describe the function honestly in the product copy**; do not name an intended medical purpose in marketing
    that the product team has not scoped.
 3. **Keep a record of the decisions and who took them.**

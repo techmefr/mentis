@@ -58,6 +58,28 @@ This is the deliverable. For each item, the true answer, not the intended one:
 8. **Licences of what we ship** — from `business/licence-compliance`, since attribution and copyleft
    obligations surface in the EULA.
 
+### 2b. What official pages say about content (read 2026-10-20, facts only, not advice)
+1. **Privacy notice contents.** The French data-protection regulator's page on informing people lists: who the
+   controller is, purposes, legal basis, whether providing the data is mandatory, recipients, retention period
+   or criteria, rights, a contact for data questions and the right to complain; and, depending on the case,
+   transfers outside the EU with safeguards, automated decisions, and the right to withdraw consent. For
+   indirect collection also the categories and the source. It asks for a layered approach with the essentials
+   first, given at collection time, or within one month for indirect collection. Check each item against the
+   field list of step 2.3: an item the product cannot answer is a gap, not a line to fill with a template.
+2. **Consent is provable.** The same regulator says the controller must be able to show valid consent at any
+   time, that withdrawal must be as simple as giving it, and that bundled consent for several purposes is not
+   valid. This is the basis of step 4.3 and 4.2.
+3. **Consumer information is regulated beyond the privacy notice.** The Commission's page on the consumer rights
+   directive says it sets the information traders give before consumer contracts, a withdrawal right with a
+   standard withdrawal form, and rules for digital content, with member states allowed to add requirements;
+   the length of the withdrawal period was not on the page read. Whether it applies is a per-country, per-customer
+   question for counsel.
+4. **A national example of the legal notice.** The French business-service page lists, for a company website:
+   company name, legal form, capital, registered office, contact details, registration number, VAT number where
+   applicable, the host's name, address and phone, and the publication director; and states fines for missing
+   identity mentions, missing data-protection information, missing sales terms for consumers and for a missing
+   online cancellation function. Example of the shape of a rule, not a rule for any other country.
+
 ### 3. Keep the document and the code in step
 1. **Every promise in a published document is a requirement with no ticket.** Retention periods,
    deletion deadlines, export formats, response times, notification windows: each needs something that
@@ -94,6 +116,16 @@ version/acceptance record. Anything unanswered is stated as unanswered.
   a clause is enforceable.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, own words, no text copied: the
+French data-protection regulator's pages on informing people and on consent, the French business-service pages
+on website mentions and on invoicing, and the European Commission's consumer rights directive page. Confirmed:
+the factual-input approach (a privacy notice cannot be written without the field list, retention and recipients
+that step 2 asks for) and the consent-record and version-record points (step 3.4, 4.2). Added: point 2b. Not
+verified: the document table's "applies when" column (it is our inventory; the pages read cover only the notice,
+consent, consumer information and French legal notice), the accessibility statement row (the Commission page read
+did not mention a statement and gave no application date), the DPA content (the regulator's processor-contract
+page returned not found; the EDPB guideline page gave no text), and the service-level and EULA rows.
+
 Structure taken from Anthropic's `claude-for-legal` plugin suite, which is explicit that every output is
 a draft for attorney review and that jurisdiction assumptions must be surfaced rather than left
 implicit — both adopted here. The document inventory reflects the set of public documents a hosted

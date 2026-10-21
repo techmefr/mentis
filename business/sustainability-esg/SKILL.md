@@ -45,6 +45,31 @@ certification claim, or any marketing copy that makes an ESG-flavoured statement
    somewhere every published claim can be traced back to, the same traceability discipline
    `business/data-analytics` §4.3 states for any reported number.
 
+### 2b. Pitfalls the official pages add (read 2026-10-20, facts only)
+1. **A green claim must be accurate, clear, complete, fairly compared, life-cycle aware and substantiated.**
+   That is the structure of the UK competition authority's guidance on environmental claims: a claim true
+   statement by statement can still mislead through the overall impression, key information must not be
+   omitted or buried, comparisons must be like for like, and a claim should reflect the whole life cycle,
+   not one favourable stage. Symptom: "recycled packaging" on a product whose main impact is elsewhere.
+   Check: ask what the claim leaves out. Fix: name the part concerned or drop the claim.
+2. **Generic and offset-based claims are now a legal risk in the EU.** The European Commission's pages say the
+   empowering-consumers directive (2024/825) has applied since 27 September 2026, amends the consumer-rights
+   and unfair-commercial-practices directives, and strengthens protection against greenwashing; secondary
+   summaries read the same day say generic terms such as "eco-friendly" need recognised certification or
+   proven performance, and "climate neutral" claims may not rest on offsetting outside the product's value
+   chain. The directive text itself could not be opened, so the exact scope goes to legal.
+3. **Say which emissions boundary you measured.** The Greenhouse Gas Protocol corporate standard (read
+   2026-10-20) names five reporting principles (relevance, completeness, consistency, transparency,
+   accuracy), consolidation by equity share or by control, and a rule to recalculate the base year when the
+   company's structure or method changes. Symptom: a reduction figure that only holds because the base year
+   was not restated after an acquisition. Fix: state the boundary approach, the base year and any exclusion
+   next to the number.
+4. **The reporting rules for large companies are in flux.** The Commission's reporting page (read 2026-10-20)
+   describes the first wave reporting for the 2024 financial year, a postponement for later waves, a simplification
+   proposal limiting scope to companies above 1,000 employees and a political agreement of December 2025, and
+   simplified standards adopted in July 2026. Which applies to a given company is the consultant's call
+   (step 3); date anything you state (`business/regulatory-watch`).
+
 ### 3. Route the framework and obligation questions
 Take these to a qualified ESG/sustainability consultant or legal, rather than assuming: which
 disclosure framework applies (and whether it's mandatory or voluntary for this company's size and
@@ -67,6 +92,17 @@ qualified person.
   defaults against greenwashing, not proven doctrine, to be confronted with a real reporting cycle.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, own words, no text copied: the
+UK government guidance on environmental claims for goods and services, the European Commission pages on
+corporate sustainability reporting and on sustainable consumption, a Commission-run retail-transition page and
+a search summary on the empowering-consumers directive, the EFRAG reporting page, the Greenhouse Gas Protocol
+corporate-standard page and PDF, and the US trade commission's Green Guides page (high level only; the rule
+text redirected and could not be read). Confirmed: the claim-needs-evidence and no-partial-picture structure
+of steps 2.1 to 2.3, against the UK guidance's accuracy, completeness and substantiation principles.
+Added: points 2b.1 to 2b.4. Not verified: materiality assessment as the starting point (the sources read did
+not define double materiality), the claim that regulators flag unbaselined reductions, any current
+disclosure obligation for a given company. The consolidated directive texts were not opened.
+
 Assembled from public sources, written without internal ESG/sustainability expertise. Materiality
 assessment as the starting point, and the specific greenwashing patterns (unbacked quantified claims,
 symbolic qualitative commitments with no quantification anywhere, partial quantification disclosed as

@@ -26,6 +26,21 @@ is kept only where it stands on its own merits as method (a named proof, a sourc
 threshold). The ContentForge fact-checker is an agent prompt built around that tool's own configuration; its
 numbers are not standards.
 
+## Second pass 2026-10-20 (status stays 🟡, nothing was run)
+| Source | Licence | What it gave |
+|---|---|---|
+| US trade commission policy statement on advertising substantiation | US government page, licence statement not read, facts only | reasonable basis before dissemination, express and implied claims, after-the-fact evidence (new 1.5.1) |
+| US trade commission advertising FAQ for small business | same | net impression, disclosures near the claim, comparisons (new 1.5.2) |
+| US trade commission endorsement guides Q&A (first part) | same | testimonials, typical results, advertiser responsibility (new 1.5.3) |
+| UK advertising regulator page on substantiation | regulator page, licence statement not read, facts only | evidence before publication, objective claims, comparative claims (new 1.5.4) |
+| US trade commission health products guidance (first part) | same | evidence quality, study fit; used by the health block |
+
+Confirmed: the principle that a claim needs named proof before publication (1.2.2) and the testimonial and
+comparative points. Added: section 1.5. This replaces only the "not opened" note of Removed item 1 for the two
+US documents and the UK page; the EU unfair-practices rules and the 2024 EU consumer directive were still not
+opened, and no country's law is stated as applying. Not verified here: the statistics checks in section 2 and
+the reuse ideas in section 3 (the sources are tool configurations; no official page defines them).
+
 ## Own guidance (not sourced)
 Labelled "Own guidance" in the references: how to reconcile reword with the main block's "remove, not
 soften" (§1.2); the flagged-item rule applied to claim rows (§1.4); saying which claims are key before

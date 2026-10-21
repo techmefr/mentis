@@ -79,6 +79,15 @@ category, the obligations accepted, and either the notices generated or the ques
   how we're using the code.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, rewritten in our own words:
+the Apache-2.0 licence text (section 4), the MIT licence page on opensource.org, the MPL 2.0 FAQ, the SPDX page
+on handling licence information, the choosealicense.com and GitHub pages on repositories without a licence, and
+the Functional Source License site. They confirm the step 1 categories: permissive licences keep an attribution
+condition, the MPL is file-level, a repository with no licence gives no permission. The AGPL text and the LGPL
+text could not be read (rate limited), so the network-copyleft sentence rests on the FSF statement already
+cited in `references/05-dependency-verdicts.md` point 5. No licence statement was read for the vendor and
+foundation pages used for facts; no text is reproduced.
+
 Assembled from public sources: the licence texts themselves and the widely published distinctions
 between permissive, weak- and strong-copyleft terms. Written **without internal legal expertise**,
 shaped as "recognise the category, then escalate" rather than as interpretations. The engineering

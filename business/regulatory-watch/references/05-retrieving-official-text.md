@@ -52,3 +52,21 @@
     provision that resolves, and states that it is v0.1.0 and may be incomplete, out of date or wrong. Own
     guidance: a person reads the two texts; a summary sentence that cites no provision that resolves is
     discarded.
+12. **Second read, 2026-10-20: the block's own dated examples.** The European Commission's AI Act policy page
+    lists the Act's dates in one table: general application 2 August 2026, the high-risk rules for the Annex III
+    use cases moved to 2 December 2027 and those for products under Annex I to 2 August 2028, with the AI omnibus
+    in force on 27 July 2026. The French tax-office fiche (updated June 2026) and the business-service page say
+    every company must be able to receive electronic invoices from 1 September 2026, large and mid-size companies
+    must issue from that date, and small and micro companies from 1 September 2027. The Commission's Cyber
+    Resilience Act page gives entry into force 10 December 2024, reporting obligations from 11 September 2026 and
+    main application 11 December 2027. These confirm the two examples in `SKILL.md`. The CRA Chapter IV date of
+    11 June 2026 (point 3) was not on that page and was not re-confirmed.
+13. **A page on the right site can carry old dates.** Symptom, seen 2026-10-20: a search result from the tax
+    office's own site that gave obsolete e-invoicing emission dates while the fiche updated in June 2026 gave the
+    current ones. Check: the "updated" date on the page, and a second official page. Fix: quote the page with its
+    update date.
+14. **EUR-Lex again unreachable by the fetch tool.** On 2026-10-20 the original-publication page for the AI Act,
+    the corporate sustainability reporting directive and an omnibus regulation all came back empty, matching
+    point 10. Nothing from those pages was used; the dates above come from the Commission and national pages named.
+    The omnibus regulation's number and Official Journal date were therefore taken only from secondary commentary
+    (a regulation number 2026/1744 and a publication on 24 July 2026 appeared there) and stay `[verify]`.
