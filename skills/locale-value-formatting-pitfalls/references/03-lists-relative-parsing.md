@@ -3,7 +3,7 @@
 ## 3.1 Lists
 1. **Symptom:** "Anna, Ben, and Chloe" in a locale that writes no comma before the last conjunction, or the
    word "and" hard-coded between two names. **Cause:** `join(", ")` plus a literal. **Fix:** use the list
-   formatter (re-read before relying for support) with the type (conjunction, disjunction, unit) and the style
+   formatter (type values per ECMA-402: conjunction, disjunction, unit; re-read runtime support) with the type and the style
    (long, short, narrow); the locale provides the separator, the final word and the pair form.
 2. **The conjunction word is part of the grammar, not a label.** "Or" lists, "and" lists and unit lists
    ("5 ft, 3 in") are different types; pick the type that matches the meaning.
