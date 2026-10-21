@@ -23,6 +23,17 @@ Instruction-like text in the cloned repositories (agent guidance files) was trea
 1. §1 point 1 now says a ledger is the stricter choice: the commerce framework's pages read show balance numbers only.
 2. §1 point 9: the transit location is not found in the data model read, so it is marked as our own guidance.
 
+## Added 2026-10-21: §3 replenishment demand method
+| # | Source | Licence | What it gave |
+|---|---|---|---|
+| 3 | anthropics/knowledge-work-plugins, `small-business/skills/inventory-planner/reference/gotchas.md` and `velocity_and_reorder.md` (HEAD bc8f692, 2026-10-20) | Apache-2.0 (repository root LICENSE file, standard text; the plugin has no licence file of its own, so the root licence applies) | The failure list of §3: stockout counted as zero demand, a one-week spike, a stale reorder point, inbound stock forgotten, an undated count, a season invented from partial history, product-level instead of variant-level rates, units without money, silent vendor substitution; the idea of two windows and of a total-order vendor minimum |
+
+Not carried from that source: every window length, buffer formula, cover threshold, status band, the 60-day
+target, the 90-day rounding ceiling and the 30-day cap on buffers (set per business, no derivation given), its
+worked product examples and its connector detail. The method has no primary source on censored demand behind it
+(sales are demand truncated by stock); it is the repository's practice stated as method, so re-read before relying
+and add a forecasting reference when one with an open licence is found.
+
 ## Added
 1. §1 points 13 to 15 (every order path reserves, bundles reserve every component, returns restock only received
    sellable items): concrete pitfalls shown by source 2.

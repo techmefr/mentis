@@ -32,3 +32,11 @@ word count, reading level, geographic meta tag, keywords meta tag, machine-orien
 out on purpose and listed in §7.6 to §7.8 so nobody re-adds them. Not taken: crawling products and
 validators as dependencies (rule B), any size or count limit recited from memory, and a list of which rich
 results are currently displayed (it moves).
+
+§8 written on 2026-10-21 from the AI-visibility notes of the small-business plugin set in
+anthropics/knowledge-work-plugins (Apache-2.0; the repository root LICENSE file was read, the plugin has no licence
+file of its own), rewritten in our own words. Crawler-rule and structured-data facts rest on RFC 9309 and
+schema.org, known to us but not re-read in this session. Not taken: its list of crawler tokens and operators
+(they change; the section sends the reader to each operator's documentation), its example robots and summary
+files, its sample answers with a named business, its catalog-refresh batching and its connector write paths. The
+summary-file convention is kept as optional and unproven, consistent with §7.8. Never run on a real site.
