@@ -1,6 +1,6 @@
 # calendar-and-scheduling-view-pitfalls §2 — Recurrence and direct editing
 
-Sources: own craft; no source text taken. Recurrence facts marked RFC 5545 were re-read on 2026-10-20 (own words); the sections of the standard not named here were not re-read.
+Sources: own craft; no source text taken. Recurrence facts marked RFC 5545 were re-read on 2026-10-20 against the full text (own words, section numbers re-checked: 3.2.13, 3.3.10, 3.8.4.4, 3.8.5.1, 3.8.5.3); the sections of the standard not named here were not re-read.
 
 ## 2.1 Showing recurrence
 1. **Symptom: a recurring event appears only on its first date, or the view freezes on an unbounded series.** Cause: the client holds one row for the series and either never expands it or expands it forever.
@@ -9,7 +9,8 @@ Sources: own craft; no source text taken. Recurrence facts marked RFC 5545 were 
 4. **Always bound the expansion** by the requested range and by a hard cap on occurrences, and show "repeats weekly until..." in the details.
 5. **A rule's end is entered as a local date but exchanged as the standard's type rule dictates.** RFC 5545 §3.3.10 (read 2026-10-20) requires the end (UNTIL) to match the start's value type: a date when the start is a date, a UTC instant when the start is zoned. So "until the 31st" must include the 31st's occurrence at its local time: convert the end of that local day to UTC for a zoned series. Symptom of skipping this: the last occurrence missing in zones ahead of or behind UTC.
 6. **Rules like "the 31st" and "last Friday" skip in short months in the standard;** RFC 5545 §3.3.10 says an instance on an invalid date such as February 30 is ignored and not counted, and its example in §3.8.5.3 (days 15 and 30) yields no February 30. The "use the last day" behaviour exists as a negative day number (-1). Decide, state it in the form's summary sentence, and test February.
-7. **Show the rule as a sentence** ("Every 2 weeks on Monday and Wednesday") in the user's language, so the form can be checked at a glance.
+7. **A count and an end date exclude each other, and the count includes the first occurrence.** RFC 5545 section 3.3.10 forbids UNTIL and COUNT in one rule and says the start counts as the first occurrence, so "5 times" starting today shows today plus four more; an invalid instance is not counted (point 6). The end bound is inclusive when it falls on an occurrence.
+8. **Show the rule as a sentence** ("Every 2 weeks on Monday and Wednesday") in the user's language, so the form can be checked at a glance.
 
 ## 2.2 Editing one occurrence or the series
 1. **Symptom: the user moves one Tuesday and every Tuesday moves, or the reverse.** Cause: one edit path with no scope question.

@@ -1,6 +1,6 @@
 # filters-search-and-saved-views-pitfalls §2 — Search, facets, semantics and tests
 
-Sources: own craft, with the faceting and filtering facts from the TanStack Table guides (MIT, read 2026-10-20).
+Sources: own craft, with the faceting and filtering facts from the TanStack Table guides (MIT, read 2026-10-20) and the accessibility facts from WCAG 2.2, WAI-ARIA 1.2, the ARIA Authoring Practices and the HTML Standard (read 2026-10-20, see `origin.md`).
 
 ## 2.1 Server against client filtering
 1. **Filter over the same dataset as sorting and paging.** Client-side filtering is right when the browser holds the complete set; with a paged server response it filters only the loaded rows, which the library documentation also states. Symptom: a search that finds nothing for a record that exists on page 9.
@@ -16,7 +16,7 @@ Sources: own craft, with the faceting and filtering facts from the TanStack Tabl
 4. **Keep the previous results visible while the new ones load**, with a busy mark; flashing an empty list per keystroke reads as a failure.
 5. **Server limits are the real protection**: rate-limit and cap query cost and length on the server; the debounce is only politeness.
 6. **IME composition**: do not fire a search in the middle of composing characters (languages entered through composition); wait for the composition to end. UI Events defines a composition session as one start, one or more updates and one end, and marks key and input events inside it with an isComposing flag, which is the check to use (W3C UI Events, read 2026-10-20).
-7. **Escape clears and returns focus**; the clear button is a real, named button.
+7. **Escape clears and returns focus**; the clear button is a real, named button. The combobox pattern lists clearing on Escape only as optional, and only once the popup is already closed, so do not make it the single way to clear.
 
 ## 2.3 Facets
 1. **A facet shows the values present and their counts for the other active filters.** Symptom: a facet says "Paid (12)" and clicking it shows 9 rows. Cause: the count ignored another filter, or counts rows the user cannot see. Compute the count with the same filter and permissions as the list.
@@ -42,12 +42,12 @@ Sources: own craft, with the faceting and filtering facts from the TanStack Tabl
 4. **A zero count in a facet is still clickable only if it makes sense**; otherwise disable it with the reason.
 
 ## 2.6 Accessibility
-1. **Every filter control has a visible label**, not only a placeholder; the placeholder disappears and often fails contrast (`accessibility`).
-2. **Search is a form with a search landmark and a named input**; Enter submits, and the button is real.
-3. **Announce result changes in a polite live region** ("12 results"), once per settled query, not per keystroke.
-4. **Applied filters are listed as text** (chips with a remove button named "Remove filter Status: Open"); colour alone is not the state.
-5. **Filter panels and popovers are keyboard-operable** with focus returning to the trigger when they close; a drawer filter on small screens traps focus only while it is modal.
-6. **Date pickers allow typing**; a calendar-only control is hard for keyboard and assistive technology.
+1. **Every filter control has a visible label**, not only a placeholder; the placeholder disappears and often fails contrast (`accessibility`). WCAG 2.2 SC 3.3.2 requires labels or instructions where input is needed, and the HTML Standard says the placeholder attribute should not stand in for a label.
+2. **Search is a form with a search landmark and a named input**; Enter submits, and the button is real. The HTML search element (or role search) creates the landmark; with more than one on a page, each needs a unique label (ARIA Authoring Practices, search landmark example). The element is for the controls, not for the results list, which belongs in the main content (HTML Standard, the search element).
+3. **Announce result changes in a polite live region** ("12 results"), once per settled query, not per keystroke. WCAG 2.2 SC 4.1.3 asks that status messages be exposed by role or property without taking focus; in WAI-ARIA 1.2 the status role is implicitly polite and atomic, while alert is assertive and meant for urgent news.
+4. **Applied filters are listed as text** (chips with a remove button named "Remove filter Status: Open"); colour alone is not the state (WCAG 2.2 SC 1.4.1). Keep the visible chip text at the start of the button name so the spoken name contains it (SC 2.5.3 Label in Name).
+5. **Filter panels and popovers are keyboard-operable** with focus returning to the trigger when they close; a drawer filter on small screens traps focus only while it is modal. The modal dialog pattern moves focus in on open, keeps Tab inside, closes on Escape, and returns focus to the invoking element unless that element is gone.
+6. **Date pickers allow typing**; a calendar-only control is hard for keyboard and assistive technology. The date picker dialog example keeps a text input with a stated format (tied by aria-describedby) next to the calendar button, and the calendar fills that input.
 
 ## 2.7 Tests
 1. **Round trip**: build a filter, serialise to the URL, load the URL in a fresh session, assert the same controls and the same request.

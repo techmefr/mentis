@@ -12,6 +12,8 @@
 | whatwg/dom, event interface and retargeting (live standard) | CC BY 4.0 (`LICENSE` read 2026-10-20) | The composed flag, the composed path and closed roots, the retargeting algorithm |
 | WHATWG HTML standard, custom-elements chapter (ElementInternals interface, `shadowRoot` getter, readonly, restore reasons), forms chapter (label `for`), parsing and dynamic-markup-insertion chapters (declarative shadow root, unsafe fragment parsing modes), second read 2026-10-20 | CC BY 4.0 (same repository licence) | Internals member list, shadow root access limited to declarative roots, readonly effect, restore reasons, same-tree rule for `for`, legacy `innerHTML` mode disabling declarative roots (§1.1.4, §1.3.3, §1.3.5, §2.1.4, §2.1.5, §3.3.3, §3.3.4) |
 | W3C CSS Shadow Module Level 1 (editor's draft) and CSS Shadow Parts Level 1, read 2026-10-20 | W3C document licence, facts only, own words | `part` and `exportparts`, no chained `::part()`, slotted selector reaches only assigned elements, `:host` specificity (§3.1.1, §3.1.5, §3.2.1) |
+| W3C CSS Object Model (CSSOM) editor's draft, <https://drafts.csswg.org/cssom/>, full page fetched 2026-10-20 | W3C Document License; facts only, own words | Constructed style sheets, adoptedStyleSheets and the final list order, same-document rule, replaceSync dropping imports, insertRule import error (§3.1.7) |
+| W3C WAI-ARIA 1.2, <https://www.w3.org/TR/wai-aria-1.2/>, full page fetched 2026-10-20; HTML Standard single page, same date | W3C Document License; CC BY 4.0 | ID reference defined as same document, no shadow rule; HTML id-reference attributes same-tree; form-associated and internals members, restore reasons, readonly re-checked against the raw standard (§2.1.5) |
 | W3C CSS Cascade Level 5, encapsulation contexts, read 2026-10-20 | W3C document licence, facts only | Outer context wins for normal declarations, inner for important ones (§3.1.3) |
 
 ## Own craft, not from a source
@@ -25,8 +27,8 @@ Constructor, callbacks, registration (`skills/web-components-lifecycle-pitfalls`
 
 ## Not verified
 1. **Nothing was run.** Every symptom is reasoned from the standards, not reproduced.
-2. **Adopted style sheets** (§3.1.7) are recalled from memory; parts, cascade order and slotted reach were re-read in the CSS specifications on the second pass.
-3. **`aria-labelledby` and `aria-describedby` across shadow roots, and the focus, label and screen-reader behaviour** are recalled public practice, not re-read (the label `for` rule was).
+2. **Adopted style sheets** (§3.1.7) were read in the CSSOM draft on the third pass (2026-10-20); browser support was not checked. Parts, cascade order and slotted reach were re-read in the CSS specifications on the second pass.
+3. **`aria-labelledby` and `aria-describedby` across shadow roots:** third pass 2026-10-20 found that neither WAI-ARIA 1.2 nor the HTML Standard specifies them across roots (ARIA says same document, HTML id attributes say same tree); the block now says unspecified. The focus, label and screen-reader behaviour remain recalled public practice (the label `for` rule was verified).
 4. **Browser support** (custom-state pseudo-class, declarative shadow DOM parsing entry points, internals aria properties) is not checked; no table is given.
 5. **Custom-state pseudo-class support** (§2.3.3): the mechanism was re-read, browser support was not checked.
 6. **Written by us:** the checks lists and the output/checkpoint of `SKILL.md`.

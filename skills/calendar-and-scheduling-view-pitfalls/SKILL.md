@@ -43,5 +43,5 @@ application.
 - Facts about a library are for the commit stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with the recurrence, daylight-saving and keyboard points checked on 2026-10-20 against the iCalendar standard and a W3C keyboard-pattern example (facts only); no permissive source on calendar interface design was found and read. Details in
+Own craft knowledge, with the recurrence, daylight-saving and keyboard points checked on 2026-10-20 against the full iCalendar standard (RFC 5545), the tz database theory page, RFC 9557, Unicode UTS 35, WCAG 2.2 and a W3C keyboard-pattern example (facts only); no permissive source on calendar interface design was found and read. Details in
 [`references/origin.md`](./references/origin.md).

@@ -1,6 +1,6 @@
 # in-app-notifications-pitfalls §1 — Model, state and preferences
 
-Source: own craft knowledge, no external source read for this file (see origin.md; searched on 2026-10-20, nothing permissive found on notification data models).
+Source: own craft knowledge for the model, with two protocol facts re-read on 2026-10-20 (RFC 9110 safe methods, RFC 8058 one-click unsubscribe); nothing permissive found on notification data models (see origin.md).
 
 ## 1.1 One row per recipient
 1. **Symptom: marking a notification read for one user clears it for the team, or a second user cannot see it at all.** Cause: one event row with one read flag. Store one row per recipient and event, holding recipient id, type, target reference, actor, created time, seen time and read time.
@@ -17,7 +17,7 @@ This part applies only when the bell opens a panel or popover. If it links strai
 2. **Opening the inbox marks seen, not read.** Clicking an item, or an explicit control, marks read. A "mark all as read" control exists and applies to what the user can see, with the count in its confirmation.
 3. **Mark read on the server when the target is opened**, from the link, not from a separate client request that can be lost.
 4. **Allow marking unread**, since people use the inbox as a to-do list.
-5. **Do not mark read on a prefetch or a preview.** Symptom: items read that nobody opened, caused by a link-unfurler or a hover prefetch following the notification URL. Use a non-GET call for the state change, or a token the prefetch does not trigger.
+5. **Do not mark read on a prefetch or a preview.** Symptom: items read that nobody opened, caused by a link-unfurler or a hover prefetch following the notification URL. Use a non-GET call for the state change, or a token the prefetch does not trigger. HTTP defines GET as safe, meaning the client neither requests nor expects a state change, precisely so that crawlers and prefetching can follow links without harm (RFC 9110 section 9.2.1); a read-marking GET is the resource owner's fault, not the unfurler's.
 
 ## 1.3 The unread count
 1. **Symptom: the badge says 3, the list shows 2 (or nothing).** Causes: the counter is a separate field incremented by pushes and decremented by clicks; items were deleted or expired; two tabs disagree.
@@ -47,7 +47,7 @@ This part applies only when the bell opens a panel or popover. If it links strai
 3. **Some classes cannot be muted** (security alerts, billing failures, legal notices). Mark them mandatory in the registry, show them as locked in the settings with the reason.
 4. **Defaults are a product decision, not an accident**: new types start with the category default, and a new category announces itself once rather than silently going to everyone.
 5. **Respect quiet hours and time zone** for push and mail, not for the in-app inbox, which is passive. Store the zone with the preference (`locale-value-formatting-pitfalls`).
-6. **Unsubscribe from the channel itself works in one step** (a mail footer link, a push setting) and writes the same preference row.
+6. **Unsubscribe from the channel itself works in one step** (a mail footer link, a push setting) and writes the same preference row. For mail, the one-click mechanism (RFC 8058) is a List-Unsubscribe header with one HTTPS link plus a List-Unsubscribe-Post header with the value List-Unsubscribe=One-Click, under a valid DKIM signature covering both; the mail system sends a POST with no cookies or authorization, so the link itself must identify recipient and list, should carry a hard-to-forge opaque part that the server verifies, and the handler must work with no session. A link that needs a login or a confirmation page cannot answer that POST.
 7. **Muting a thread or a record** is a separate subscription rule on the target, checked with the type preference.
 8. **Deleting a user or an opt-out request** removes or anonymises their rows and preferences (`dsar-handling-pitfalls`).
 

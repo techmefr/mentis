@@ -1,6 +1,6 @@
 # runbook-writing-and-maintenance-pitfalls §1 — The page and its reader
 
-Source: own craft knowledge unless a point names a source; PagerDuty incident-response documentation (Apache-2.0) and Azure architecture-center (CC BY 4.0), read 2026-10-20.
+Source: own craft knowledge unless a point names a source; PagerDuty incident-response documentation (Apache-2.0), Azure architecture-center (CC BY 4.0), Prometheus documentation (Apache-2.0) and the Google Cloud Architecture Framework (CC BY 4.0), all re-read from the source files on 2026-10-20.
 
 ## 1.1 The three-in-the-morning reader
 1. **Design for a tired stranger.** Symptom: the author finds the page clear and the first user on call gets stuck on the second line. The reader is woken, on a phone or a laptop in a poor place, may be a person from another team, and has no context. Test: hand the page to someone who has never touched the service and watch where they stop.
@@ -24,7 +24,8 @@ PagerDuty's alerting principles page says an alert needs enough context to act o
 2. **The page restates the alert's condition**, in words and with the query or rule name, so the reader can tell whether the alert is still accurate. Link to the rule's source (`skills/prometheus-rules-and-promql-pitfalls`).
 3. **The page says what "resolved" looks like**: the metric back to normal, the symptom gone for users, and whether the alert resolves by itself. PagerDuty's alert-testing guidance names the same three checks for alerts: threshold, no-data condition and automatic resolution; the runbook should say which of them applies.
 4. **The page covers the "no data" case** when the alert can fire because a signal stopped, since that is a different problem from a bad value.
-5. **A page-level alert without a first safe action is a candidate for a ticket-level alert**, not for a longer runbook (`skills/slo-design`).
+5. **A page-level alert without a first safe action is a candidate for a ticket-level alert**, not for a longer runbook (`skills/slo-design`). Both sources behind this: PagerDuty defines an alert as something that needs a human to act, says anything that wakes a person at night must be immediately actionable, and gives a four-level scheme (immediate, business hours, low priority, notification only); the Prometheus alerting guide says to avoid pages where there is nothing to do.
+6. **Say why the page waits before it fires.** An alert rule can hold a condition for a set time before it fires (the pending state), so the page should state that delay and what the reader may already be missing; and a rule can keep an alert firing for a set time after the condition clears, which the Prometheus rule documentation names as the way to avoid flapping and false resolutions caused by missing data. The page's "resolved" line (point 3) should match whichever the rule uses.
 
 ## 1.4 Danger, rollback and escalation
 1. **Mark every destructive, irreversible, customer-visible or costly step** with a clear label before it, and say how to undo it or that it cannot be undone. Symptom: a step that drops a cache table is step 4 of 9 with no warning.
@@ -37,3 +38,4 @@ PagerDuty's alerting principles page says an alert needs enough context to act o
 1. **Rarely run means the page is the only memory.** Azure's guidance on backups says to define the recovery process in a team runbook and to practise it, and its ransomware-recovery article says runbooks, templates and approval flows make recovery repeatable whoever is available. Include the approvals, the people to wake and the access they need.
 2. **Keep a copy where the failure cannot reach it.** A runbook stored only on the system that is down cannot be read. Check by opening it from a laptop with no access to the failed environment (`skills/backup-restore-drill-pitfalls`).
 3. **Prefer a script that does the step over a page that describes it**, once the step is stable. The page then says when to run it, what it changes and how to check the result. A script is also testable on a schedule (§2.4). Own knowledge: do not automate a step nobody understands yet.
+4. **A runbook for incident response lists, per stage, the steps, the tools and resources, and the contacts, and is reviewed regularly** (Google Cloud Architecture Framework, operational excellence, managing incidents: communication, triage, investigation and resolution are the stages it names).

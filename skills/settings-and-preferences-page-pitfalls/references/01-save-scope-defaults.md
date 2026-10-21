@@ -1,6 +1,6 @@
 # settings-and-preferences-page-pitfalls §1 — Save model, scope, defaults and danger
 
-Source: own craft knowledge, no external source (see origin.md).
+Source: own craft knowledge, with the facts credited inline taken from WCAG 2.2 (SC 3.2.2, 3.3.4) and CSS Media Queries Level 5 (read 2026-10-20, see origin.md).
 
 ## 1.1 Autosave against explicit save
 1. **Symptom: the user toggles a switch, leaves, and the change is gone, or the reverse: a half-typed value was saved.** Cause: no clear save model. Choose per page: autosave for independent, cheap, reversible controls (toggles, selects); explicit Save for grouped or interdependent fields, text that is validated as a whole, and anything with a cost on change.
@@ -11,10 +11,11 @@ Source: own craft knowledge, no external source (see origin.md).
 6. **Order the requests**: two quick changes to one setting must arrive in order. Send the full value with a version token, or serialise per setting (`long-and-multistep-form-pitfalls` for the token pattern).
 7. **Explicit save needs a dirty indicator, a Cancel that restores the stored values, and a warning when leaving with unsaved changes.** Disable Save only when nothing changed, not while validating, or the user cannot tell why it is dead. If one page carries an explicit-Save group and instant-save toggles, label each group with its model (§1.1.2).
 8. **A change with a side effect (re-index, email to all members, billing change) is never autosaved.** Put it behind explicit save and a sentence naming the effect.
+9. **A control must not change the context on its own.** A language or region select that navigates or reloads the page as soon as the value changes breaks WCAG 2.2 SC 3.2.2 (On Input, level A) unless the user was told beforehand; if the change must apply at once, say so next to the control, or add an Apply button.
 
 ## 1.2 Defaults
 1. **Symptom: a new account behaves differently from an old one, or a changed default alters existing users.** Cause: defaults stored only as the absence of a row, or copied into rows at creation. Decide once: store nothing and resolve the default at read time (a changed default reaches everyone who never chose), or store the value at creation (a changed default reaches only new accounts). Name the choice per setting.
-2. **Distinguish "not set" from "set to the default value".** Without that, reset cannot work and a default change cannot tell who chose.
+2. **Distinguish "not set" from "set to the default value".** Without that, reset cannot work and a default change cannot tell who chose. The platform shows why for appearance settings: the prefers-color-scheme media feature has only light and dark, and light also covers a user who expressed no preference (CSS Media Queries Level 5), so a page cannot tell "light" from "unset" from the media query alone. Offer "Match my system" as its own stored choice beside Light and Dark, and resolve it at read time.
 3. **Defaults are code or a versioned file, not UI constants**, and the interface reads them from the same place as the server (§1.3).
 4. **Safe, private and quiet defaults**: notifications limited to what matters, sharing off, telemetry per policy. A default that exposes data is a defect, not a convenience (`security-hardening`).
 5. **Check for the default resolved in more than one layer.** Symptom: changing a default means editing the client, the API and a query. Check: search the code for the fallback idiom of the stack (a nullish-coalescing default, a coalesce in SQL, a default argument) on setting reads; each setting's default has exactly one source and every other layer reads it.
@@ -46,7 +47,7 @@ Source: own craft knowledge, no external source (see origin.md).
 ## 1.6 Dangerous settings
 1. **Define dangerous in the registry**: affects other users, deletes or exposes data, costs money, or cannot be undone. Examples: public sharing, data retention, SSO enforcement, API key creation, account deletion.
 2. **Separate them physically**: a distinct section at the end, not interleaved with preferences, in a visual style that signals risk without relying on colour alone.
-3. **Confirm in words**: the dialog names the effect and the scope ("All 42 members lose access to the shared links"), and for destructive actions asks for a typed confirmation or a re-authentication (`admin-back-office-pitfalls`, `auth-session-conventions`).
+3. **Confirm in words**: the dialog names the effect and the scope ("All 42 members lose access to the shared links"), and for destructive actions asks for a typed confirmation or a re-authentication (`admin-back-office-pitfalls`, `auth-session-conventions`). WCAG 2.2 SC 3.3.4 (Error Prevention for legal, financial and data, level AA) asks that a submission which modifies or deletes user-controllable data be reversible, or checked for input errors with a chance to correct them, or confirmable after a review step; one of the three is enough, and a review-and-confirm step is the usual choice for settings.
 4. **Enforce on the server**: permission, re-authentication freshness and the confirmation token are checked there; a hidden toggle is not a control.
 5. **Write an audit entry** with actor, old value, new value, time and scope, readable by the people the change affects.
 6. **Notify the affected people** when an organisation-wide setting changes (`in-app-notifications-pitfalls`), and rate-limit repeated changes.

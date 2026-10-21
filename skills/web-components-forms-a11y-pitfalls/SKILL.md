@@ -40,4 +40,4 @@ An element is done when: a native `<form>` with it inside submits the expected p
 - Facts about specifications are for the date in `references/origin.md`; re-read before relying.
 
 ## Origin
-Rewritten from the WHATWG HTML and DOM standards (CC BY 4.0) read 2026-10-20, plus own craft knowledge; no text copied. Details and gaps in [`references/origin.md`](./references/origin.md).
+Rewritten from the WHATWG HTML and DOM standards (CC BY 4.0), the W3C CSS Shadow, Cascade and CSSOM drafts and WAI-ARIA 1.2 (facts only), all read 2026-10-20, plus own craft knowledge; no text copied. Details and gaps in [`references/origin.md`](./references/origin.md).

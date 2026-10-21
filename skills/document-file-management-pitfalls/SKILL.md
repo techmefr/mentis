@@ -57,6 +57,6 @@ downloadable. Nothing here was run by us.
 
 ## Origin
 Written from craft knowledge of building document and file-management applications, then checked on 2026-10-20
-against the tus resumable upload protocol (MIT) and two pages of a storage vendor's documentation (facts only),
+against the tus resumable upload protocol (MIT), the Fetch, MIME Sniffing and HTML standards (CC BY 4.0), IETF standards, a W3C note and two pages of a storage vendor's documentation (facts only),
 credited in the origin file; no text was taken. See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

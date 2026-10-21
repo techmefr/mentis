@@ -1,7 +1,7 @@
 # document-file-management-pitfalls §2 — Retention, previews, quotas and v2 regrets
 
 > Part 2 of `skills/document-file-management-pitfalls`. Read it when retention, previews, quotas, an integration
-> or the first release are planned. Craft knowledge, no external source read for this part: the sources in `references/origin.md` bear on §1 only. Retention and records law is not
+> or the first release are planned. Craft knowledge, with two points sourced (points 6 and 12 below, sources 5 and 9 of `references/origin.md`); the other sources bear on §1. Retention and records law is not
 > legal advice.
 
 1. **Retention is a rule attached to a class of document, not a global setting.** Symptom: everything is kept
@@ -33,7 +33,7 @@
    in a queued job with a time and memory limit, in a sandbox with no network and no access to other files, keyed
    by version id so a new version makes a new preview, stored in the derived area, regenerable at any time and
    dropped by lifecycle rules, with a fallback icon and a clear "preview unavailable" state. Never render
-   untrusted office or HTML content in the app's own origin. Preview only `clean` files (§1, point 12).
+   untrusted office or HTML content in the app's own origin. The HTML Standard warns that giving a sandboxed frame both the allow-scripts and allow-same-origin keywords, when the content has the same origin as the page, lets the content remove the sandbox attribute and reload itself, so a same-origin preview needs a different design, not those two keywords together (source 5). Preview only `clean` files (§1, point 12).
 7. **Quotas count what costs.** Symptom: a tenant uploads past its plan, or versions and trash eat storage
    unseen. Fix: a size counter per tenant maintained transactionally (not recomputed on each request), counting
    versions, trash and derived files according to a stated rule, a soft warning and a hard stop that refuses new
@@ -56,7 +56,7 @@
     class of the document (see `skills/light-erp-document-flow-pitfalls`).
 12. **Exports and bulk downloads are jobs.** A folder download is a queued job producing an archive with a
     signed expiring link, respects the requester's permissions per file, caps total size by policy, avoids zip
-    path traversal by generating entry names itself, and logs who exported what.
+    path traversal by generating entry names itself, and logs who exported what. The ZIP specification requires stored names to carry no drive or device letter and no leading slash, with forward slashes only, and says an entry whose size exceeds 0xFFFFFFFF bytes should use the ZIP64 sizes; a writer without ZIP64 support produces broken archives for a large export (source 9).
 13. **What to split first.** Build in this order and keep each independent: file and version records with
     opaque keys and tenancy; upload and download through an authorised path with type checks; permissions and
     sharing; scanning on quarantine; trash and purge; retention classes and holds; previews; search; quotas;
