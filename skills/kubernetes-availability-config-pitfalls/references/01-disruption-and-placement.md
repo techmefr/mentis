@@ -19,10 +19,18 @@ one zone).
    the replica count; `minAvailable` suits a known minimum such as a quorum (Niessen skill). Set one of them,
    not both, and make sure the PDB specifies a policy at all (kube-score `poddisruptionbudget-has-policy`).
 6. **`unhealthyPodEvictionPolicy`**: kube-linter flags a PDB that does not set it explicitly and recommends
-   `AlwaysAllow`. What the field does was not read in a Kubernetes source here; check the documentation for
-   your cluster version before copying the value.
+   `AlwaysAllow`. The task page defines it: the default `IfHealthyBudget` lets a running but unhealthy pod be evicted only
+   when the application is not already disrupted, so a crash-looping app can block a drain; `AlwaysAllow`
+   evicts unhealthy pods whatever the budget says, which clears such an app. The trade is that a pod that is
+   merely slow to become ready can then be evicted. Check the field exists on your cluster version.
 7. **HPA and PDB together.** The Niessen skill says the HPA `minReplicas` should be at least the PDB
    `minAvailable`, otherwise a scale-down can break the budget. One source; the reasoning follows from point 2.
+8. **Details that bite** (Kubernetes documentation). Only one of `minAvailable` and `maxUnavailable` per PDB.
+   Percentages round up to whole pods, so a `maxUnavailable` percentage can be exceeded slightly. A drain goes
+   through the Eviction API, respects the PDB and retries until the pod ends or a timeout; deleting a
+   Deployment or a pod directly bypasses it. Involuntary losses still count against the budget even though the PDB
+   cannot prevent them. In `policy/v1` an empty selector selects every pod in the namespace, where `v1beta1`
+   selected none: a migrated PDB can suddenly cover unrelated pods.
 
 ```yaml
 apiVersion: policy/v1
@@ -62,6 +70,16 @@ topologySpreadConstraints:
    the `labelSelector` matches the pod template labels of the workload. Otherwise the scheduler balances
    against the wrong set (Learnk8s).
 5. **Test under failure and scale-out**, not only on a healthy cluster (Learnk8s).
+6. **The scheduler does not rebalance.** Constraints are checked only when a pod is placed, so a scale-down or a
+   rollout can leave the spread skewed (the Descheduler is the documented fix). Add `matchLabelKeys:
+   [pod-template-hash]` so that during a rollout the old and new revisions are counted separately.
+7. **A pod whose own labels do not match the `labelSelector` does not count itself**, so replicas pile up in
+   one domain. Nodes missing the `topologyKey` label are skipped silently, a typo in the key included. Only
+   pods in the same namespace are counted.
+8. **`minDomains` works only with `DoNotSchedule`**: with fewer eligible domains than the value, the global
+   minimum is taken as 0 and pods wait. The cluster-wide defaults (hostname with skew 3, zone with skew 5, both
+   `ScheduleAnyway`) apply only to pods without constraints that belong to a Service or a workload controller,
+   and assume the nodes carry both labels.
 
 ## 1.3 Replica counts and autoscaling
 1. **A Deployment with an HPA does not hard-code `replicas`.** kube-score checks for a statically configured
@@ -77,3 +95,5 @@ topologySpreadConstraints:
 `kubectl get pdb -o wide` and read the allowed disruptions: 0 means a drain will hang. Drain a node in a test
 cluster and watch the pods move. `kubectl get pods -o wide` to see replicas spread across nodes and zones, and
 check that nothing is Pending with a scheduling message about topology.
+
+*Attribution.* Based in part on "Specifying a Disruption Budget", "Disruptions", "Pod Topology Spread Constraints", "ConfigMaps" and "Deprecated API Migration Guide", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

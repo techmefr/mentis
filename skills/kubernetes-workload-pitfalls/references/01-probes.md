@@ -12,7 +12,9 @@ different questions, and most probe outages come from asking the wrong one the w
    of the pod are untouched.
 3. **Startup: "has the application finished initialising?"** Until it succeeds once, the liveness and
    readiness probes do not run. It exists so that a slow start does not get the container killed by a
-   liveness probe that began too early.
+   liveness probe that began too early. The Kubernetes documentation confirms the gating, and sizes the window as
+   `failureThreshold` times `periodSeconds`; a startup probe that never succeeds gets the container killed and
+   handled by the restart policy (Kubernetes documentation).
 
 ## 1.2 Liveness rules
 1. **Liveness never checks a database, a cache or another service.** When the dependency goes down, the
@@ -40,7 +42,8 @@ different questions, and most probe outages come from asking the wrong one the w
    killed. Learnk8s lists a slow dependency among the reasons for a readiness failure. Own guidance: default
    to not checking, and add a dependency to readiness only when the pod truly cannot answer anything useful
    without it and you have decided what should happen when every replica fails it at once.
-3. **Know your timing.** kube-score's defaults are a period of 10 seconds, a timeout of 1 second, a success
+3. **Know your timing.** The Kubernetes probe page does not list the default period, threshold or delay (it
+   states only the gRPC timeout default of 1 second), so the figures here are kube-score's statement of them: kube-score's defaults are a period of 10 seconds, a timeout of 1 second, a success
    threshold of 1 and a failure threshold of 3, so with defaults clients keep sending traffic for about
    30 seconds, plus network propagation, after the application stops answering. Set them to your needs.
 4. **A probe on a port the container does not expose is a bug**: kube-linter has default checks for the
@@ -61,10 +64,17 @@ different questions, and most probe outages come from asking the wrong one the w
    body after 10 KiB.
 2. **Other mechanisms exist**: a TCP listener check, a command run in the container, or the gRPC health
    protocol for gRPC services (Learnk8s).
-3. **Waiting for a dependency before start belongs in an init container**, not in a liveness probe (Niessen skill).
+3. **gRPC probes have their own limits.** The app must implement the gRPC health protocol; the probe uses
+   plaintext unless TLS mode is set (behind a feature gate), named ports are not supported, and every error
+   counts as failure (Kubernetes documentation).
+4. **Readiness and liveness do not depend on each other**: readiness runs for the whole container life, so to keep
+   it from failing during start-up use a startup probe or `initialDelaySeconds` (Kubernetes documentation).
+5. **Waiting for a dependency before start belongs in an init container**, not in a liveness probe (Niessen skill).
 
 ## 1.6 Verify
 Break the dependency on purpose (stop the database in a test environment) and watch `kubectl get pods`:
 no pod may restart because of it. Check the effect of a failing readiness probe with
 `kubectl get endpoints <service> -w`. List probe failures with
 `kubectl get events --field-selector reason=Unhealthy`.
+
+*Attribution.* Points marked "(Kubernetes documentation)" are based on "Configure Liveness, Readiness and Startup Probes" and "Pod Lifecycle", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

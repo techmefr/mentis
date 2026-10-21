@@ -12,7 +12,8 @@ real risks, but they belong on a review list, not in a blocking gate. Present th
 3. **When a public repository genuinely needs one**, the page lists two mitigations: require manual approval
    for workflows from all external contributors (configurable at repository, workflow or enterprise
    level), and use only ephemeral just-in-time runners, created for one job and destroyed afterwards. It
-   says this makes persistence harder, not impossible.
+   says this makes persistence harder, not impossible. GitHub's secure-use page agrees: it advises against
+   self-hosted runners on public repositories and notes they are not isolated between jobs like hosted ones.
 4. **Runner services from third parties count too**: the audit flags runners provided by services such as
    runs-on and namespace, since they are also client-managed compute.
 
@@ -31,8 +32,10 @@ concurrency:
   cancel-in-progress: true
 ```
 
-4. **Own guidance, not from the page:** cancelling in progress is wrong for a deployment or release job that
-   must finish once started; keep those in a group with `cancel-in-progress` false.
+4. **Do not cancel a deployment mid-run.** GitHub's concurrency page advises caution with
+   `cancel-in-progress: true` for deployments and shows `queue: max` (up to 100 waiting runs, first in first
+   out) to process each one in order; the two cannot be combined, and group names are case insensitive.
+   Keep release jobs in a group with `cancel-in-progress` false.
 
 ## 3.3 Verify
 List the runners named in `runs-on` and confirm each self-hosted one is on a private repository or is

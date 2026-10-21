@@ -62,6 +62,18 @@ Each of these grants more than it names; review a grant of any of them as an esc
     indirectly allow access that was not intended (§4.2).
 12. **Object creation can exhaust the cluster.** Users who can create many or large objects can cause a
     denial of service; the page mentions resource quotas on object counts as one mitigation.
+13. **You cannot grant what you do not hold, unless given the verbs for it.** Creating or updating a Role
+    requires holding all its permissions at that scope or the `escalate` verb on roles or clusterroles;
+    creating or updating a binding requires the referenced role's permissions or the `bind` verb on it. Treat
+    `escalate` and `bind` as privileged verbs in their own right (the RBAC reference).
+14. **Wildcards grow by themselves.** `*` on resources or verbs also covers kinds and verbs added later, for
+    example by a new CRD. Name what is needed.
+15. **A binding's `roleRef` cannot be edited.** Changing the role means deleting and recreating the binding,
+    and a manifest that tries to patch it fails.
+16. **Do not set `rules` on an aggregated ClusterRole**: the control plane fills them from matching labels and
+    overwrites a manual value. Default roles and bindings are restored at API server start unless the
+    `rbac.authorization.kubernetes.io/autoupdate` annotation is `"false"`, so a hand-edit of a default role
+    is undone by a restart.
 
 ## 1.4 Periodic review
 1. **Review RBAC regularly for redundant entries and possible escalations.** The page's reason: an attacker
@@ -72,6 +84,7 @@ Run `kubectl auth can-i` as the subject, with `--as` for each verb and resource 
 cluster-wide, and read the answers against the intent. List ClusterRoleBindings and bindings to
 `system:unauthenticated` and `system:masters`.
 
-*Attribution.* Based on "Role Based Access Control Good Practices", © The Kubernetes Authors, from
+*Attribution.* Points 13 to 16 are based on "Using RBAC Authorization", © The Kubernetes Authors, from
+kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Also based on "Role Based Access Control Good Practices", © The Kubernetes Authors, from
 kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes:
 rephrased, condensed and reorganised; no endorsement by the Kubernetes Authors is implied.

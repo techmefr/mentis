@@ -23,8 +23,11 @@ There is no top-level `docker prune`; each resource type has its own subcommand:
 6. **`docker image prune`** removes dangling images only; with `-a` it removes any image not used by an
    existing container. Removed images must be pulled or built again, which can be slow for large images or
    on a metered connection.
-7. **`docker network prune`** removes every user-defined network that is not attached to a running container
-   (the skill's wording; local help says "unused networks"). The skill adds that static IP assignments and
+7. **`docker network prune`** removes every user-defined network that no container references. The skill says
+   "not attached to a running container"; Docker's reference page says "not referenced by any container",
+   which would spare a network still used by a stopped container. The two disagree, so list the networks
+   first and do not assume stopped containers protect theirs. The built-in `bridge`, `host` and `none` are
+   never pruned. The skill adds that static IP assignments and
    custom subnets of stopped Compose projects are deleted with the network.
 8. **`docker builder prune`** removes build cache not tied to an existing image. With `-a` it also removes
    internal helper and frontend images and cache shared with other build outputs, forcing a cold rebuild for
@@ -41,12 +44,14 @@ There is no top-level `docker prune`; each resource type has its own subcommand:
 2. **`docker rm -f`** also works on a running container, sends SIGKILL with no graceful shutdown, and with
    `-v` also removes the anonymous volumes attached to it.
 3. **`docker kill`** sends SIGKILL, or a signal given with `-s`, with no grace period.
-4. **`docker stop`** sends SIGTERM (or the signal given) and waits `-t` seconds, 10 by default per the skill,
-   before SIGKILL; prefer it over `kill` unless the container does not answer SIGTERM.
+4. **`docker stop`** sends the image's stop signal (SIGTERM unless the image sets another) and waits `-t`
+   seconds, 10 by default on Linux and 30 on Windows containers per Docker's reference, before SIGKILL; a
+   container created with `--stop-timeout` has its own default; prefer it over `kill` unless the container does not answer SIGTERM.
 5. **`docker rmi` and `docker image rm` are one command.** `--no-prune` skips removing untagged parent
-   layers. The effect of `-f` on an image with several tags or used by a stopped container is not spelled out
-   by the help text ("Force removal of the image"; local help agrees); the skill calls the usual
-   understanding "documented by convention", not confirmed. Remove without `-f` first.
+   layers. Docker's reference says an image used by a running container cannot be removed without `-f`, and that
+   `-f` given an image ID untags and deletes every tag of that image, which a plain removal by ID refuses
+   when several repositories tag it. So `-f` here is a real override, wider than the help line "Force removal
+   of the image" suggests. Remove without `-f` first.
 6. **`docker network rm`** removes only the networks named; no sweep.
 7. **`docker volume rm`** fails on a volume that is in use, says its help: "You cannot remove a volume that
    is in use by a container". Whether `-f` forces an in-use volume or only silences a missing one is not
@@ -65,8 +70,8 @@ There is no top-level `docker prune`; each resource type has its own subcommand:
    override the protection of a network in use. Local help: "Do not error if the network does not exist".
 2. **`docker context rm -f` genuinely forces removal of a context that is in use**, such as the active one.
    Local help: "Force the removal of a context in use".
-3. **`docker rm -f`** kills and removes a running container; **`docker image rm -f`** and **`docker volume
-   rm -f`** are in the open cases of §2.2.
+3. **`docker rm -f`** kills and removes a running container; **`docker image rm -f`** overrides the in-use
+   and multi-tag protections (§2.2); **`docker volume rm -f`** is still an open case (§2.2).
 4. **Do not infer from one `-f` to another.** Read the help of the command, and say which meaning applies when
    asking for confirmation.
 

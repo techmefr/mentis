@@ -97,7 +97,9 @@ spec:
 ## 3.5 Enforcement and what the standards do not do
 1. **The page defines the policies, not how they are enforced.** It names the built-in Pod Security
    admission controller, with one namespace example per profile, and mentions the third-party alternatives
-   Kubewarden, Kyverno and OPA Gatekeeper. How to configure each was not read for this block.
+   Kubewarden, Kyverno and OPA Gatekeeper. How to configure each of the third-party ones was not read.
+   The built-in controller is configured by namespace labels, `pod-security.kubernetes.io/<mode>: <level>`,
+   with modes `enforce`, `audit` and `warn` and optional `<mode>-version` pins (Pod Security Admission page).
 2. **There is no standard profile between Privileged and Baseline**: privileges above Baseline are
    application-specific, so policies there are defined case by case; the page says that is not a
    recommendation to use Privileged.
@@ -108,11 +110,21 @@ spec:
    the page recommends no single profile for all sandboxed workloads.
 5. **Running as non-root is also an image question.** Own guidance: the image needs a numeric non-root user
    (`dockerfile-build-pitfalls` §3.2) or the pod spec needs a `runAsUser` that the image can run under.
+6. **`enforce` judges pods, not Deployments.** `audit` and `warn` also look at workload resources, but
+   `enforce` applies only to the Pods a controller creates later: a Deployment can be accepted with a
+   warning and then sit at zero replicas, the rejection appearing in the ReplicaSet events. Check there.
+7. **Exemptions are wider than they look.** An exempt user covers creating Pods directly, not workloads; an
+   exempt controller service account exempts everyone who can create that workload kind, which the page
+   advises against. Updates that change only metadata (except seccomp or AppArmor annotations),
+   `activeDeadlineSeconds` or tolerations skip the check, so a non-compliant running Pod can still take them.
+   The page does not say what happens to Pods already running when `enforce` is tightened: test in a scratch
+   namespace.
 
 ## 3.6 Verify
 Apply the pod spec to a test namespace that enforces the Restricted profile and read the admission result;
 then remove one control at a time and confirm each removal is rejected.
 
-*Attribution.* Based on "Pod Security Standards", © The Kubernetes Authors, from kubernetes/website,
+*Attribution.* Points 3.5.1, 3.5.6 and 3.5.7 also draw on "Pod Security Admission", © The Kubernetes Authors, from
+kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Based on "Pod Security Standards", © The Kubernetes Authors, from kubernetes/website,
 licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: rephrased, condensed and
 reorganised; the sample spec is our own illustration; no endorsement by the Kubernetes Authors is implied.

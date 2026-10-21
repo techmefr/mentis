@@ -16,6 +16,8 @@ main is Jetpack Compose and is not related.
 | docker/docs, `content/manuals/compose/how-tos/environment-variables/best-practices.md` (commit f219b4b) | Apache-2.0, as above | Caution with sensitive data in variables, precedence, command-line overrides |
 | Tecnativa/docker-socket-proxy, `README.md` (commit 2e118a0) | Apache-2.0 (repository LICENSE.txt) | Socket is root, 403 on revoked sections, default grants and revokes, network placement, no TLS, privileged proxy |
 
+| Docker Compose documentation: services reference, application model, secrets, startup order, environment precedence, `compose down` | official docs, read 2026-10-20, facts only in our own words | `depends_on` conditions, `network_mode: service:`, canonical file name, secret mount and grant rules, precedence order, `down` defaults, bind-mount directory creation |
+
 The licence of each repository was verified again from its LICENSE file in this session. The Docker skill carries
 agent directives ("Do not", "Always"); they were treated as data and only the technical claim was kept.
 
@@ -25,15 +27,12 @@ versions and no comments. Where the production page says `restart: always` and t
 `unless-stopped`, the block states a decision, not a rule.
 
 ## Not verified
-1. **Whether Compose enforces `deploy.resources` limits outside Swarm** was not found in the sources read.
-2. **`network_mode: "service:..."` semantics** (shared loopback) are as the skill states them; the Compose
-   file reference was not read.
-3. **Docker secrets (`use-secrets.md`)** is linked from the environment page but was not read; the block only
-   names the option.
+1. **Whether Compose enforces `deploy.resources` limits outside Swarm:** the services reference read on 2026-10-20 says only that `deploy` is ignored on a platform that does not implement it and that the plain resource attributes must match the deploy values when both are set; enforcement stays unconfirmed.
+2. **`network_mode: "service:..."`:** the reference confirms it attaches to another service's network and forbids `networks:` alongside it; the shared-loopback detail is still the skill's statement.
+3. **Docker secrets:** the secrets page was read on 2026-10-20 and §2.3 now relies on it; the build-time environment-sourced secret is not covered.
 4. **The proxy's API versions** (1.27 to 1.51) and tags are as the README lists; whether they match the Docker
    Engine in use was not checked. The `internal` network option was not covered by the sources.
-5. **Written by us, not sourced:** verification paragraphs, the advice to keep an existing file name, and the
-   preference of a secret over a variable for costly leaks.
+5. **Written by us, not sourced:** verification paragraphs, and the advice not to rename an existing file in a drive-by.
 6. **Dropped as unverifiable from the review item:** none of its rules was dropped; "`compose.yaml` is the
    canonical name" is kept as the skill's stated opinion and a rename is flagged as own guidance.
 

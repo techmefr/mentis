@@ -21,8 +21,11 @@ dangerous trigger, or with cache writes enabled, that run external actors' code;
 workflows, which hold valuable credentials or can be used to pivot to other projects.
 1. **A release workflow does not read from the Actions cache.** The page's first remedy is to disable
    caching entirely with `cache-mode: none` at workflow or job level, after which no other step in its list
-   is needed. It reports its audit as aware of `cache-mode` from zizmor 1.31.0; the GitHub workflow-syntax
-   page that defines the setting was not read for this block, so check the setting there before using it.
+   is needed. The platform's own announcement confirms the setting: it takes `read`,
+   `write`, `write-only` or `none`, goes at workflow or job level (the job wins), and a reusable workflow cannot
+   get more access than its caller gave. Low-trust events such as `pull_request_target` default to `read`, trusted ones
+   such as `push` to `write`; declaring `write` on a low-trust event removes that protection and the platform
+   adds a warning annotation. A blocked restore is a plain cache miss, not a failure.
 2. **Without that setting**, take the cache out in one of three ways: remove cache-aware actions (such as the
    cache action) from workflows that produce releases; skip them with a step-level `if:` on the trigger; or
    set the action's own input that turns restoration off. The page lists three examples: `lookup-only: true`
@@ -46,7 +49,9 @@ with:
 ## 2.3 The checkout credential
 1. **By default, checkout persists a credential on disk.** Versions below 6.0.0 of the action store it in
    `.git/config` of the checked-out repository; version 6.0.0 and later store it under `$RUNNER_TEMP`
-   (zizmor's `artipacked` entry; version-bound).
+   (zizmor's `artipacked` entry; the checkout action's own README states the same location change for 6.0.0 and
+   that the default is `true`). Authenticated git from a Docker container action needs a runner of version
+   2.329.0 or later.
 2. **A later step can publish it by accident**, for example by uploading the checked-out directory as a
    public artifact. zizmor notes the newer location is more resistant to this misuse and reports lower
    severity for 6.0.0 and later, but it still calls persisting an unneeded credential non-ideal.
@@ -54,7 +59,12 @@ with:
    needed, say so explicitly with `persist-credentials: true`. The rule is in `ci-workflow-hardening` §1.4
    point 3; this point adds the location change.
 
-## 2.4 Verify
+## 2.4 Forks restore, they do not save
+Runs with read-only cache access, such as fork pull requests, can restore caches but their save step only logs
+a warning and succeeds (the cache action's README). A green fork run therefore says nothing about whether
+a cache was written; to learn it, look in the cache list, not the job status.
+
+## 2.5 Verify
 Search the workflows triggered by `pull_request_target` or `workflow_run` for `GITHUB_ENV` and `GITHUB_PATH`.
 Run the release workflow and confirm in the log that no cache is restored. Check each checkout step for
 `persist-credentials`.

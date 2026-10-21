@@ -20,6 +20,10 @@ Overlaps with `skills/devops-conventions` §1, `skills/security-hardening` §4 a
 | GitHub documentation: about code owners | official docs, read 2026-10-08 | Last matching pattern wins, enforcement only through a branch rule, owners need write access |
 | uv documentation: settings reference, projects sync | MIT or Apache-2.0, read 2026-10-08 | `exclude-newer` formats and semantics, `--locked` raising on a stale lockfile |
 | pip-audit repository documentation | Apache-2.0, read 2026-10-08 | Default environment audit, `-r`, `--no-deps` |
+| GitHub documentation: managing Actions settings for a repository | official docs, read 2026-10-20 | Approval setting for fork pull request workflows (first-time, new-to-GitHub or all external contributors); `pull_request_target` runs regardless of it |
+| GitHub documentation: troubleshooting required status checks (Enterprise Server 3.19 copy) | official docs, read 2026-10-20 | Re-confirmed: conditional skip reports success, path-filtered workflow stays pending, check and status of one name must both pass, `always()` with `needs` |
+| GitHub documentation: secret scanning push protection | official docs, read 2026-10-20 | Coverage (CLI, web UI, API), repository-level protection off by default, bypass with a reason creating an alert |
+| GitHub documentation: secure use (re-read) | official docs, read 2026-10-20 | Pin to a SHA taken from the action's own repository, environment variable for untrusted input, self-hosted runner risk |
 | Paldom/python-skills: CI and supply-chain skills | MIT (copyright 2026), read 2026-10-08 | The aggregator pattern, matrix quoting, fail-fast, duplicate job names, bot pull request policy, slopsquatting, push protection plus backstop |
 | scientific-python/cookie: security guide | BSD-3-Clause, read 2026-10-08 | Fork-addressable SHAs, no caching in release jobs, cooldown trade-off |
 
@@ -28,20 +32,17 @@ The advice to keep bot pull requests under human review (§3.2) and the short-wi
 drawn from the incident narrative in the MIT skill, not a platform fact. Verification lists were written
 by us.
 
+## Verified 2026-10-20
+- Outside-contributor approval is a repository Actions setting with three levels; confirmed in the settings page.
+- Push protection exists at repository level (off by default) and can be bypassed with a recorded reason; so it is a net, with a backstop scan, as §3 says.
+- Skipped-by-conditional reports success, path-filtered workflows stay pending, and `always()` with `needs` is the documented remedy for dependent jobs: confirmed.
+
 ## Not verified
-1. **`fail-fast` default and YAML float reading of `3.10`:** taken from the MIT skill and general YAML
-   behaviour; the GitHub pages read did not state the default or the quoting.
-2. **Required check context names, duplicate job names, "a pending check on a path-filtered workflow":** the
-   duplicate-name claim is from the MIT skill only; the path-filter behaviour is from the GitHub
-   troubleshooting page.
-3. **Requiring approval for outside contributors, secret push protection coverage:** repository settings
-   named in the MIT skill, not read in the GitHub settings documentation.
-4. **Package registry behaviour for slopsquatting** and the practice of reading source on a registry viewer
-   are from the MIT skill.
-5. **Dependabot cooldown on transitive dependencies** was reported as unconfirmed upstream and is not
-   claimed here.
-6. **Version-dated platform changes** reported in the sources (a default cooldown, read-only cache tokens
-   for untrusted triggers) were not confirmed in the official pages read and are not relied on.
+1. **`fail-fast` default and YAML float reading of `3.10`:** the workflow-syntax and job-variations pages read on 2026-10-20 did not state the default or the quoting; still from the MIT skill and general YAML behaviour.
+2. **Duplicate job names across workflows:** the troubleshooting page does not address it; still from the MIT skill only.
+3. **Package registry behaviour for slopsquatting** and reading source on a registry viewer: MIT skill only.
+4. **Dependabot cooldown on transitive dependencies** was reported as unconfirmed upstream and is not claimed here.
+5. **Version-dated platform changes** (a default cooldown, read-only cache tokens for untrusted triggers) were not confirmed in the official pages and are not relied on.
 
 ## Related blocks
 `devops-conventions` (pipeline reproducibility), `security-hardening` (dependencies and secrets),

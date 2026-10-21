@@ -35,6 +35,12 @@ jobs:
    flaw. Own guidance, extending the page's bot example: treat any identity read from `github.actor` as a
    hint for logging, never as a gate.
 
+6. **A re-run keeps the original actor's privileges.** GitHub's contexts page defines `github.actor` as the user
+   who triggered the original run and `github.triggering_actor` as the one who started this run, which differs
+   only on a re-run; the re-run uses the privileges of the original actor. So a maintainer's re-run of a
+   run first triggered by someone else does not raise or lower what the run may do, and the two names must not
+   be mixed in one condition.
+
 ## 1.2 `@v1` can be a branch or a tag
 1. **A symbolic ref in `uses:` is ambiguous.** `@v1` can name a branch or a tag.
 2. **An attacker can publish a branch or tag that takes precedence over the legitimate one.** The malicious

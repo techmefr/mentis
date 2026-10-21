@@ -18,6 +18,13 @@ a rule was taken from them, and the repository's LICENSE file was read again.
 | the same file, entry `artipacked` | MIT | Credential persistence by checkout, the location change at 6.0.0, `persist-credentials` |
 | the same file, entries `self-hosted-runner` and `concurrency-limits` | MIT | Self-hosted runner risk and mitigations, concurrency consequences and remedy, both pedantic-only |
 
+| GitHub changelog 2026-09-10, `cache-mode` | official announcement, read 2026-10-20 | Values, defaults per event, workflow and job level, warning on `write` for low-trust events |
+| actions/checkout README | MIT (LICENSE file read 2026-10-20, copyright GitHub, Inc. and contributors) | `persist-credentials` default, the 6.0.0 location change, runner version for container actions |
+| actions/cache README | MIT (LICENSE file read 2026-10-20) | Read-only runs restore but do not save |
+| GitHub documentation: contexts | official docs, read 2026-10-20 | `github.actor` versus `github.triggering_actor`, re-run privileges |
+| GitHub documentation: control workflow concurrency | official docs, read 2026-10-20 | Pending replacement, `queue: max`, caution for deployments |
+| GitHub documentation: secure use | official docs, read 2026-10-20 | Self-hosted runner risk, ephemeral just-in-time runners |
+
 The page header (legend) and the neighbouring entries were read only far enough to find these entries. Links
 the entries cite (blog posts, GitHub documentation) were not followed. The repository ships agent
 instruction files (`CLAUDE.md`, `AGENTS.md`) that tell a contributor's agent to fetch a policy page and stop;
@@ -36,19 +43,15 @@ are small adaptations of the entries' examples with the comments removed.
    cache rule is in its caches subsection, so §2.2 and §2.3 add only what those do not say (`cache-mode`, privileged writes, the
    location change) and link to them.
 
+## Verified 2026-10-20
+- `cache-mode`, checkout credential location and default, cancel-in-progress caution and the self-hosted runner advice are now confirmed by first-party pages; the markers for them are dropped.
+- Added §1.1 point 6 (re-run keeps the original actor) and §2.4 (forks restore, do not save) from those pages.
+- Discrepancy kept visible: GitHub's contexts page defines `github.actor` as the original triggering user, while zizmor describes it as the last actor; §1.1 keeps zizmor's attack and the safe remedy (the pull request author), which holds under both readings.
+
 ## Not verified
-1. **`cache-mode`** is a GitHub workflow setting that zizmor's page links to; the page that defines it was
-   not read, so the setting name, placement and values are as zizmor states them (version-bound to zizmor
-   1.31.0 and later).
-2. **Per-action inputs** (`lookup-only`, `package-manager-cache`, `enable-cache`) are as the page lists them
-   and are version-bound to those actions.
-3. **Checkout's credential location** (below 6.0.0 versus 6.0.0 and later) is as the `artipacked` entry
-   states it; the checkout action was not read.
-4. **Written by us, not sourced:** the verification paragraphs, the extension of the actor point to human
-   logins (§1.1), the statement that setup-style actions can cache without a visible step (§2.2), and the
-   advice not to cancel a release or deployment run in progress (§3.2).
-5. **The GitHub documentation** on secure use, `pull_request_target` and `cache-mode` was not read; the
-   statement that it recommends against `pull_request_target` for auto-merge is zizmor's, relayed.
+1. **Per-action inputs** (`lookup-only`, `package-manager-cache`, `enable-cache`) are as zizmor lists them and are version-bound to those actions; the actions were not read.
+2. **Written by us, not sourced:** the verification paragraphs, the extension of the actor point to human logins (§1.1.5) and the statement that setup-style actions can cache without a visible step (§2.2.5).
+3. The claim that GitHub recommends against `pull_request_target` for auto-merge is zizmor's, relayed; the events page read says only to avoid building or running pull request code there.
 
 ## Related blocks
 `ci-workflow-hardening`, `security-hardening`, `devops-conventions`, `credential-lifecycle-pitfalls`.

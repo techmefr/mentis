@@ -74,6 +74,11 @@ RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=false \
 6. **`--ssh default` exposes every key in your agent** (`ssh-add -l` lists them). Use an agent that holds
    only the key this build needs, or a dedicated unencrypted deploy key passed as `--ssh default=<file>`;
    BuildKit refuses a passphrase-protected key passed that way.
+7. **Build arguments leak in two more places.** Docker's build documentation says a build-arg value shows in
+   `docker history` and, with maximum-detail provenance attestations, in the attestation too; an `ENV` of
+   the same name overrides an `ARG`. Secrets belong in `--secret`, always.
+8. **`ADD` from a URL cannot authenticate.** Fetch a protected file with a `RUN curl` or `wget` that reads a
+   secret mount, not with `ADD` and a token in the URL.
 
 ## 2.5 Verify
 Build from a clean checkout, then run `docker history --no-trunc` and search the output and the image

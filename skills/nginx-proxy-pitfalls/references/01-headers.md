@@ -13,10 +13,14 @@ comments. The points below keep the reasoning, not the file layout.
 1. **The boilerplate attaches HSTS, `X-Frame-Options`, `X-Content-Type-Options`, `Content-Security-Policy`
    and `Referrer-Policy` with the `always` parameter** of `add_header`. Its `Cache-Control` header is the
    exception and is added without it.
-2. **Own reasoning, not from the files**: without `always`, nginx adds the header only to successful and
-   redirect responses, so an error page would go out without it. The nginx documentation was not read for
-   this block; confirm the behaviour for the version in use with `curl -I` against a missing path.
-3. **Choose the value by content type where it matters.** The boilerplate computes `X-Frame-Options`, the
+2. **Without `always`, nginx adds the header only to a fixed list of status codes**: 200, 201, 204, 206, 301,
+   302, 303, 304, 307 and 308 (the nginx headers module page). A 403, 404 or 500 page therefore goes out without
+   it; confirm with `curl -I` against a missing path.
+3. **A single `add_header` at a lower level drops every inherited one.** Headers from `http` or `server` apply
+   in a `location` only if that location defines no `add_header` of its own, so adding one cache header in a
+   location silently removes HSTS and the rest there. Repeat the full set, put the headers in an included
+   file, or on nginx 1.29.3 or later use `add_header_inherit merge` (headers module page).
+4. **Choose the value by content type where it matters.** The boilerplate computes `X-Frame-Options`, the
    `Content-Security-Policy`, the `Permissions-Policy` and the `Referrer-Policy` from a `map` on the response
    content type, so each header goes mainly to HTML documents, scripts and similar, not to every image.
 

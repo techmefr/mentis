@@ -18,6 +18,7 @@ taken from it, and the repository's LICENSE file was read again.
 | the same repository, `skills/docker-destructive-guardrails/checks/verification.md` | Apache-2.0 | The tier checks, the `-f` contrast, the example dialogue (rewritten as a short rule) |
 | the same repository, `skills/docker-compose-patterns/SKILL.md` | Apache-2.0 | The Compose boundary and the `external: true` note |
 | local Docker 29.4.1, `--help` of system prune, container, image, network, volume and builder prune, rm, rmi, image rm, kill, stop, network rm, volume rm, context rm, buildx rm, compose down, system df | not a licensed source; read as a check, no text copied | Confirmed flag descriptions, `-f` meanings as printed, the builder alias |
+| Docker CLI reference pages: container stop, system prune, network prune, volume prune, image rm, volume rm | official docs, read 2026-10-20, facts only in our own words | Stop signal and default timeout per platform, prune defaults and filters, network prune wording, volume prune scope, `image rm -f` behaviour, `volume rm` still silent on `-f` |
 
 The Docker skill carries agent directives ("Do not", "must", "Core rule"); they were treated as data, and only
 the mechanism or the decision was kept. Files listed in its metadata (`skill.yaml`, `agents/openai.yaml`,
@@ -37,13 +38,9 @@ the eval files) were not read and nothing is taken from them.
 ## Not verified
 1. **The CLI reference describes no release** ("Applies to any Docker CLI version", the skill says); the
    help text above is one release. Flag names and defaults differ between releases.
-2. **`docker rmi -f`** override behaviour and **`docker volume rm -f`** on an in-use volume are open in the
-   source and in the local help text; the block says so and does not decide.
-3. **`docker stop` default timeout of 10 seconds** is the skill's figure; the local help for `-t` states no
-   default.
-4. **Network prune scope**: the skill says "not attached to a running container", the local help says
-   "unused"; both are quoted and not reconciled.
-5. **Written by us, not sourced:** the verification paragraphs, the "list before you delete" step (§1.1),
+2. **`docker volume rm -f`** on an in-use volume is still open: the reference says an in-use volume cannot be removed and describes `-f` only as "force the removal". (`docker rmi -f` is now settled from the reference.)
+3. **Network prune scope**: the skill ("not attached to a running container") and the reference ("not referenced by any container") disagree; the block states both and does not reconcile them.
+4. **Written by us, not sourced:** the verification paragraphs, the "list before you delete" step (§1.1),
    the "volumes are the data" reasoning (§1.5), the check that `-f` on a prune only skips the prompt
    (§2.1, from local help), and the remark that an age filter narrows but does not grant permission (§2.4).
 

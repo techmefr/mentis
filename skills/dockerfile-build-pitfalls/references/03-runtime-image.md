@@ -14,6 +14,11 @@ how the start command is read.
    `debug-nonroot`.
 4. **Name the distribution in the tag** (for example `-debian13`): an unqualified tag moves to the next
    Debian release later and can break the build.
+5. **Shell form is a trap on every image, not only distroless.** `ENTRYPOINT command` runs under `/bin/sh -c`,
+   so the process is not PID 1 and never sees the `SIGTERM` that `docker stop` sends; the stop then waits out
+   its timeout and ends in `SIGKILL`. Use the vector form, or prefix a shell-form command with `exec`. A
+   shell-form `CMD` is wrapped the same way, so pair a vector `ENTRYPOINT` with a vector `CMD`.
+   Check: `docker stop` returns in about a second, not ten.
 
 ## 3.2 Users and privilege
 1. **Run the service as a non-root user**: a lint checkpoint (CIS DI-0001) and Docker's `USER` guidance.

@@ -11,8 +11,9 @@ consumer or broker was started.
 | Source | Licence | What it gave |
 |---|---|---|
 | apache/kafka-site at commit e6cbeb5 (2026-10-14), `content/en/43/design/design.md`, the "Design" page of the Kafka 4.3 documentation (511 lines, read in two passes) | Apache-2.0 (`LICENSE` re-read 2026-10-15, Apache License Version 2.0 text; the file carries the ASF Apache-2.0 header) | Consumer position, delivery semantics, idempotent producer, ISR and `acks`, `min.insync.replicas`, unclean election, transactions and exceptions, compaction and tombstones |
+| apache/kafka-site (same repository, LICENSE read 2026-10-20: licence key `apache-2.0`), configuration pages and the generated tables `producer_config.html`, `consumer_config.html`, `topic_config.html`, `kafka_config.html` of the 4.3 documentation, read 2026-10-20 (the markdown pages only carry include placeholders, so the values were read on the published tables) | Apache-2.0 | Defaults and constraints of idempotence, `acks`, retries, consumer commit and reset defaults, `min.insync.replicas`, broker replication defaults, transaction timeout, compaction settings |
 
-This is the only source of the block, as the review decided for the Kafka rules.
+The design page is the block's main source; the configuration tables were added on 2026-10-20 for defaults.
 
 ## Version bounds stated in the source
 - The page is the 4.3 documentation (path `content/en/43`). Marks it states itself: idempotent producer and
@@ -32,13 +33,10 @@ This is the only source of the block, as the review decided for the Kafka rules.
 - The `TransactionalMessageCopier` and `TransactionalClientDemo` links of the page were not followed.
 
 ## Not verified
-1. **Client configuration names** (`isolation.level`, `enable.auto.commit`, `transactional.id`, `acks`,
-   `min.insync.replicas`, `unclean.leader.election.enable`, `delete.retention.ms`) are quoted from the page; the
-   configuration reference pages (`content/en/43/configuration/`) were not read.
+1. **Client configuration names and defaults** were checked on 2026-10-20 against the generated 4.3 tables. They are 4.3 values; older clients differ (for example idempotence on by default and `linger.ms` of 5 are recent changes), so check the version in use.
 2. **Exception categories** were taken from the page's list; the client library behaviour was not checked.
 3. **Which version of the 4.x line an application runs** is not claimed; the page is the 4.3 documentation.
-4. **Own guidance, labelled in the text:** the lagging-consumer remark in §4.2.3, and every "Checks" section,
-   including the replication factor against `min.insync.replicas` reading in §2.4.
+4. **Own guidance, labelled in the text:** the final remark of §4.2.3, the long-open-transaction consequence in §3.5.3, and every "Checks" section, including the replication factor against `min.insync.replicas` reading. The `max.poll.interval.ms` redelivery consequence (§1.5.5) follows from the documented rebalance on a missed poll; it was not run.
 5. **`design.md` operations pages** (monitoring, kraft, hardware, transaction protocol) were not read.
 
 ## Related blocks

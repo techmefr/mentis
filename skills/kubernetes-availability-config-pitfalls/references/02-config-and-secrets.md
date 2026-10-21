@@ -11,7 +11,8 @@ environment.
    cache. A volume mounted with `subPath` receives no updates (Learnk8s).
 3. **Kubernetes updates projected files through symlinks**, so a normal file watcher can miss the change.
    Reload logic that watches files must handle that (Learnk8s, citing a third-party write-up it links).
-4. **One object is limited to 1 MiB** when serialised. A ConfigMap or Secret near that size does not belong
+4. **One object is limited to 1 MiB** (the ConfigMap page states it for the `data` field; `binaryData` holds base64
+   content and a key may not sit in both). A ConfigMap or Secret near that size does not belong
    in the API (Learnk8s). A ConfigMap is for non-sensitive settings only.
 5. **Use an environment variable for simple scalar values**, and mounted files for a structured file the
    application already reads or when you want it to reload (Learnk8s).
@@ -23,7 +24,9 @@ environment.
 2. **The application reloads files while running**: mount the config as files and make sure the watcher copes
    with Kubernetes volume updates (§2.1 point 3).
 3. **The config must never change**: use an immutable ConfigMap or Secret and create a new object per
-   change (Learnk8s).
+   change (Learnk8s). `immutable: true` cannot be reverted; to change values delete and recreate the object and
+   then recreate the pods that mount it. It also lowers API server load. The mounted-file delay is the
+   kubelet sync period plus the cache delay (Kubernetes documentation).
 4. **Or run a controller that does it.** Stakater Reloader watches ConfigMaps and Secrets and triggers a rollout
    of the workloads that reference them when they change. A workload opts in with an annotation such as
    `reloader.stakater.com/auto: "true"`. Its default strategy adds an environment variable to the
@@ -51,3 +54,5 @@ environment.
 Change the ConfigMap or Secret in a test namespace and check what the running pod reports: the environment
 variable stays old, a mounted file changes after a delay, a `subPath` file never does. Confirm the rollout
 that your strategy promises actually happens.
+
+*Attribution.* Based in part on "Specifying a Disruption Budget", "Disruptions", "Pod Topology Spread Constraints", "ConfigMaps" and "Deprecated API Migration Guide", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

@@ -11,9 +11,12 @@ The point of a review is that the thing approved is the thing executed. A pipeli
 3. **The sources disagree with themselves on this.** terrashark states the rule, and one of its GitHub templates
    downloads the stored artifact in the apply job, while another of its templates re-runs `plan` there. The rule is
    stated here; the second template is not a pattern to copy.
-4. **No claim is made here about what happens if the state changed between the plan and the apply.** The sources
-   do not say, and the Terraform documentation on saved plans was not read; check it for the version in use before
-   relying on any behaviour.
+4. **Passing a saved plan file is the approval.** The OpenTofu command reference says applying a saved plan runs
+   its actions without a prompt, that `-auto-approve` is ignored for it (so the sources' templates need no such flag
+   there), that planning options cannot be added at apply time and that ephemeral variables must be passed again.
+   Conversely, `-input=false` on an apply of a new plan blocks the approval prompt and the run fails rather than
+   proceeding. The same page does not say what happens if the state changed between the plan and the apply, and
+   no claim is made here about it; check the documentation of the tool and version in use.
 5. **Plan and apply on different events** (a plan on a pull request, an apply on a push to the default branch)
    make the artifact's lifetime a problem across events. terrashark's note: keep plan and apply in one workflow
    run, or store the plan outside the CI artifact store (it mentions signed plan storage) when "apply the reviewed
@@ -21,13 +24,15 @@ The point of a review is that the thing approved is the thing executed. A pipeli
 
 ## 1.2 Plan files are sensitive
 1. **Plan files and state exports can carry secrets**, so artifact retention and access are restricted, not left
-   at the platform default (terrashark; terraform-skill).
+   at the platform default (terrashark; terraform-skill). The OpenTofu references agree: a saved plan holds the
+   full configuration, planned values and input variables, with sensitive data in cleartext unless plan encryption
+   is on, and `show -json` prints sensitive values in plain text (hidden only in the human-readable form).
 2. **Retention is short.** terrashark's GitLab template uses `expire_in: 24h` and terraform-skill's uses one week;
    both are one source's value, so choose the shortest period that still spans the review and approval.
 3. **Raw plan JSON does not go to broadly readable CI logs or artifacts**, and sensitive outputs or connection
    strings do not go to pull request comments (terrashark; terraform-skill).
-4. **Own guidance, not from the sources:** keep the JSON rendering for the policy engine, which is its use in the
-   sources' templates (§2.1), and let people read the human plan.
+4. **Keep the JSON rendering for the policy engine** (its use in the sources' templates, §2.1) and let people read
+   the human plan: the JSON form is the one that prints sensitive values in plain text (OpenTofu `show` page).
 5. **Search the exported plan JSON for secret fields before sharing the artifact** (terrashark). Why a value ends
    up there at all is in `terraform-state-and-secrets-pitfalls` §2.
 

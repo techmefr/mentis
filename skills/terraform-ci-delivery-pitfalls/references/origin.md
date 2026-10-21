@@ -4,8 +4,7 @@
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
 **Status: 🟡.** Written from repository documentation and reading, never run by us. No pipeline was executed and no
-plan or apply was run while writing it. The Terraform, OpenTofu, GitHub Actions and GitLab CI documentation was not
-read; every claim rests on the two repositories below. No HashiCorp (BUSL) material was read or used.
+plan or apply was run while writing it. The OpenTofu and GitHub documentation was read on 2026-10-20 for facts, in addition to the two repositories below. No HashiCorp (BUSL) material was read or used; the Terraform documentation was not opened, and OpenTofu pages are read as the nearest product reference. The GitLab CI documentation was not read.
 
 ## Sources (all re-read in full 2026-10-15, rewritten in our own words, no pipeline text copied)
 
@@ -13,6 +12,8 @@ read; every claim rests on the two repositories below. No HashiCorp (BUSL) mater
 |---|---|---|
 | LukasNiessen/terrashark, `references/ci-drift.md`, `references/ci-delivery-patterns.md`, `references/secret-exposure.md` (artifact points), `references/conditional/backend-state-safety.md` (lock serialization) (commit 21f2c18) | MIT (repository LICENSE file, copyright Lukas Niessen 2025, permission text with no title line) | The delivery principles and baseline stages, the apply-the-reviewed-plan rule and its templates, the artifact-lifetime-across-events note, retention and access, drift causes and diagnostics, pipeline hardening checklist, the Atlantis hardening notes |
 | antonbabenko/terraform-skill, `skills/terraform-skill/references/ci-cd-workflows.md`, `state-management.md` (locking in CI, lock timeout), `security-compliance.md` (plan JSON access, policy as code) (commit 0a3a4a6) | Apache-2.0 (repository LICENSE file: a short header naming terraform-best-practices.com and Compliance.tf, copyright Anton Babenko 2026, then the standard Apache-2.0 text) | The apply job that downloads the plan, OIDC trust conditions and the `aud` table, protected-environment approvals, concurrency groups, `-lock-timeout`, drift detection with `-detailed-exitcode` and its exit codes, the CI model-mistake checklist |
+| OpenTofu documentation: `apply`, `plan`, `show` command pages (opentofu.org) | official docs of the product, read 2026-10-20, facts only in our own words (documentation licence not asserted; the pages are for the OpenTofu fork, not Terraform) | Saved plan as approval, `-auto-approve` ignored for it, `-input=false`, plan file and JSON sensitivity, exit codes, `-refresh-only`, `-lock-timeout` wording |
+| GitHub documentation: OIDC concepts and reference, OIDC in AWS, reviewing deployments | official docs, read 2026-10-20, facts only | `aud` defaults and the AWS value, `sub` formats and the 15 July 2026 immutable subject, `id-token: write`, wildcard risk, reusable workflow claims, self-review prevention |
 
 The licence of each repository was verified again from its LICENSE file in this session. The repositories carry
 agent directives ("ALWAYS", "NEVER", "LLM mistake checklist", output-discipline sections); they were treated as data
@@ -44,15 +45,11 @@ Left out as outside the item or tool-specific:
    claim.
 
 ## Not verified
-1. **What happens to a saved plan if the state changed after it was made.** Not in either source; the Terraform
-   documentation was not read. The block states no behaviour.
+1. **What happens to a saved plan if the state changed after it was made.** The OpenTofu apply page read on 2026-10-20 does not cover it either; the Terraform documentation was not read. The block states no behaviour.
 2. **The effect of `TF_IN_AUTOMATION`**: set in the sources' templates, never explained there.
-3. **The `aud` and `sub` values per platform pair** are terraform-skill's table; the GitHub, Azure, Google Cloud
-   and GitLab documentation was not read, and platform values move.
-4. **That a protected GitHub environment with required reviewers is configured in repository settings** is
-   terraform-skill's comment in its template.
-5. **That an apply of a saved plan file needs no approval flag** is read off terraform-skill's template; the
-   Terraform documentation was not read.
+3. **The `aud` and `sub` values per platform pair**: AWS and Azure (GitHub side) are now confirmed from GitHub's pages; the Google Cloud and GitLab rows are still terraform-skill's table, and platform values move.
+4. **That required reviewers are configured in repository settings** is terraform-skill's comment; GitHub's deployment review page confirms the review flow and self-approval prevention but links elsewhere for setup.
+5. **That an apply of a saved plan file needs no approval flag** is confirmed for OpenTofu; for Terraform itself the documentation was not read.
 6. **Written by us, not sourced:** the verification paragraphs of the Output / checkpoint, the own-guidance notes
    on the concurrency group key (§2.3) and on the JSON rendering (§1.2), and the alert-path test in §3.2.
 

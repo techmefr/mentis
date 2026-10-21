@@ -51,7 +51,9 @@ location ~* /\.(?!well-known\/) {
 1. **`open_file_cache` caches open file handles, "not found" results and file metadata**, so a popular file
    can be sent at once and a missing one answered with a 404 at once. The boilerplate's values: at most 1000
    entries, released after 20 seconds idle, revalidated every 30 seconds, cached only after two uses.
-2. **The cost is that the server does not react at once to changes on disk.** Edited files may be truncated
+2. **Defaults** from the core module page: off; `inactive` 60 seconds, validity 60 seconds, a file must be
+   used once, and errors are not cached unless `open_file_cache_errors on` is set.
+3. **The cost is that the server does not react at once to changes on disk.** Edited files may be truncated
    until the cache refreshes (the file's warning). The file says production servers with stable file
    collections will want it. Own guidance: leave it off where files are rewritten in place.
 
@@ -63,9 +65,13 @@ location ~* /\.(?!well-known\/) {
    by its proxy.
 3. **`gzip_proxied any` compresses for clients behind proxies** (identified by a `Via` header); the file says
    CloudFront requires it.
-4. **List the types to compress.** Only `text/html` is compressed by default; the boilerplate adds text,
+4. **List the types to compress.** Only `text/html` is compressed by default (gzip module page); the boilerplate adds text,
    JSON, XML, SVG, fonts, WebAssembly and similar types. Images in compressed formats (PNG, JPEG, WebP) are
    not on its list. Own reading of that list.
+6. **`gzip_min_length` is judged from the `Content-Length` header only**, so a streamed response without one is
+   not held back by it. **`gzip_proxied` defaults to `off`**, so nothing is compressed for a client behind a
+   proxy until you widen it. The module page also warns that compressing responses over TLS can expose secrets
+   to the BREACH attack: do not compress a response that mixes a secret token with attacker-influenced text.
 5. **Level 5 is the boilerplate's compromise** between size and CPU: it quotes about 75 percent reduction for
    most text, almost identical to level 9. A figure from the file, not measured here.
 
