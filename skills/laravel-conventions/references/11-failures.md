@@ -54,8 +54,9 @@
 11. **An external call fails in five ways, not one.** A timeout, a refused connection, a 5xx, a rate limit
     and a malformed body are different outcomes with different correct responses, and a single
     `catch (Exception)` around an HTTP client treats a rate limit as a bug and a bug as a rate limit. Set
-    the timeout explicitly while you are there: several clients default to none, and a dependency that
-    hangs becomes your outage rather than theirs.
+    the timeout explicitly while you are there: the Laravel HTTP client's default is 30 seconds (its docs),
+    and other clients default to none, so a dependency that hangs becomes your outage rather than theirs.
+    [Laravel HTTP client docs 12.x, "Timeout", read 2026-10-21.]
 12. **An expected failure is not a defect, and the tracker has to know the difference.** A 422, a 404 on a
     stale link, a rejected login — these are the application working. Reporting them next to real
     exceptions raises the volume until the real ones are unfindable, which is the same harm as reporting
@@ -69,12 +70,13 @@
     and nothing anywhere goes red.
 15. **All of this is configured in one place, `withExceptions()` in `bootstrap/app.php`**, which is where
     point 12's "the tracker has to know the difference" is actually enforced: `dontReport()` names an
-    exception class as expected rather than catching it at every throw site to suppress it locally, and
-    `throttle()` samples a class that fires legitimately at volume (a flaky upstream, a bot hammering a
-    404) so the tracker keeps a representative slice instead of either silence or being flooded into
-    unreadability. `stopIgnoring()` is the other direction: a status the framework ignores by default
-    (404, a CSRF failure) that this application specifically wants reported, because a spike in one of
-    those is itself the signal.
+    exception class as expected rather than catching it at every throw site to suppress it locally
+    (`dontReportWhen()` takes a closure for finer control), and `throttle()` takes a closure returning a
+    `Lottery`, so the tracker keeps a representative slice of an exception that fires at volume instead of either
+    silence or being flooded into unreadability. `stopIgnoring()` is the other direction: an exception class the
+    framework ignores by default that this application specifically wants reported, because a spike in one of
+    those is itself the signal. [Laravel error handling docs 12.x; framework source `Handler.php`, read
+    2026-10-21.]
 16. **A queued job's `failed()` method runs after every retry is exhausted, and it is for the side effect
     the retries themselves cannot cause** — notifying an operator, marking the parent record as needing
     attention, releasing a lock the job was holding. It is not a second chance to fix the job's error: by the
@@ -87,11 +89,14 @@
     idempotency requirement is not optional for anything that retries more than zero times. A job that
     charges a card, then fails on the email that follows, retries the charge too unless the charge step
     itself checks whether it already ran.
-18. **`Http::fake()` intercepts every outbound call in the test process, and a test that forgets a stub for
-    one route doesn't skip it — it gets a generic empty response** that can pass a test which never
-    asserted on the actual response body, and only fails once the code starts reading a field the fake never
-    provided. Asserting the request was sent (`Http::assertSent(...)`) is what makes the fake prove point 11
-    was implemented, rather than merely prove the code compiles.
+18. **`Http::fake([...])` stubs only the URLs it names; any other request is actually sent.** The docs say
+    requests to URLs that have not been faked will be executed, and offer a single `*` pattern as a fallback
+    that stubs everything unmatched; a bare `Http::fake()` returns empty responses for every request. A test
+    that forgets one stub therefore either hits the network or gets an empty response that can pass a test which
+    never asserted on the body, and only fails once the code reads a field the fake never provided.
+    `Http::preventStrayRequests()` turns the first case into an exception, and `Http::assertSent(...)` is what
+    makes the fake prove point 11 was implemented, rather than merely prove the code compiles. [Laravel HTTP
+    client docs 12.x, "Faking Responses", "Preventing Stray Requests", read 2026-10-21.]
 19. **A `ValidationException` and a bespoke domain "field is wrong" exception are not interchangeable**, even
     though both eventually render as a 422. The framework's own class already carries the per-field
     structure point 7 requires and is what a FormRequest throws automatically — reaching for a generic
@@ -133,22 +138,26 @@
     constructed. Point 13's "attach identifiers, not payloads" is what to put there — a request id, a tenant,
     a job id — set once near the entry point rather than threaded as a constructor argument through every
     exception class that might need it.
-27. **A `Fiber`-based concurrent call (the `Concurrency` facade, or several `Http::pool()` requests) fails
-    per-branch, not for the whole call** — one slow or erroring branch does not by itself abort the others,
-    so a failure has to be checked per result rather than assumed to have stopped everything else. Point 11's
-    "an external call fails in five ways" multiplies by the number of concurrent branches, and a single
-    `try/catch` wrapped around the whole `Concurrency::run()` call only ever reports the first one it meets.
+27. **A concurrent call fails per branch, so check each result.** `Http::pool()` returns one response per
+    request, and a failed response does not by itself stop the others, so a failure has to be checked per
+    response rather than assumed to have stopped everything else. Point 11's "an external call fails in five
+    ways" multiplies by the number of concurrent branches. Own guidance, not verified in this pass: how
+    `Concurrency::run()` reports a failing closure; read its docs and test one failing branch before relying on a
+    single `try/catch` around the whole call. [Laravel HTTP client docs 12.x, "Request Pooling", read
+    2026-10-21.]
 28. **A middleware that throws during termination (`terminate()`) fails after the response has already been
     sent to the client**, so point 1's "throw, don't hand-build a response" has nothing left to render —
     the only audience left for that exception is the tracker. Code with a side effect that must still be
     visible to the caller belongs in the request cycle proper, not in `terminate()`, precisely because a
     `terminate()` failure is invisible to whoever made the request.
-29. **`rescue()` wraps a call, reports the failure, and returns a fallback value — the same "committed
-    degraded default" point 3 already allows a `catch` to be, never a shortcut around one.** Reaching for it
-    on a call whose failure the caller genuinely needs to react to swaps a thrown error nobody can miss for
-    a fallback value indistinguishable from a real result, which is exactly the silent swallow point 3 warns
-    a null/false return becomes; `rescue()` earns its place only where the fallback is a correct answer, not
-    merely a convenient one.
+29. **`rescue()` wraps a call, reports the failure, and lets the request continue — the same "committed
+    degraded default" point 3 already allows a `catch` to be, never a shortcut around one.** The docs say it
+    runs the closure, sends any caught exception to the exception handler, and continues processing; a second
+    argument gives the fallback value. Reaching for it on a call whose failure the caller genuinely needs to
+    react to swaps a thrown error nobody can miss for a fallback value indistinguishable from a real result,
+    which is exactly the silent swallow point 3 warns a null/false return becomes; `rescue()` earns its place
+    only where the fallback is a correct answer, not merely a convenient one. [Laravel helpers docs 12.x,
+    "rescue()", read 2026-10-21.]
 30. **`Http::retry($times, $sleep, $when)` retries automatically, and without the `$when` closure it retries
     every non-2xx response — including a 404 or a 422 that will never succeed no matter how many times it's
     asked.** Point 11's "an external call fails in five ways" is what the `$when` closure has to encode:
@@ -179,29 +188,32 @@
     every `report_if(` call surfaces every place the app decided a failure was conditionally worth flagging,
     where the same logic spelled out as a plain `if` around `report()` blends into ordinary application
     branching and stops being an inventory anyone can run.
-35. **The `Exceptions` facade's `->stopIgnoring()`, `->dontReport()` and `->report()` closures registered from
-    `bootstrap/app.php` are one central file, and a project still keeping an `App\Exceptions\Handler` class
-    from before that change is running two competing registration surfaces at once.** Point 15 already names
-    `withExceptions()` as the one place this is configured — the trap is a leftover `Handler::register()` from
-    an upgraded project still holding half the rules, so a `dontReport()` entry added to `bootstrap/app.php`
-    looks like it should work and does nothing, because the class-based handler never delegates to it.
-36. **A `reportable()` closure that returns `false` stops the exception from reaching the default log channel,
-    the same way `stop()` (point 23) does on a `report()` method — but only for the report it was registered
-    for.** A project registering more than one `reportable()` for overlapping exception types has each one's
-    return value checked independently, so an earlier closure returning `false` to suppress the default log
-    does not silence a later closure that still wants its own copy reported; the two are not short-circuiting
-    each other, they are each answering their own "did I already handle this."
-37. **A `renderable()` closure only runs when the request expects the rendered format it returns — it is not
-    a blanket override of point 5's negotiation.** Registering `renderable(fn (DomainException $e) => response()->view(...))`
-    still lets the framework's own JSON negotiation take over for an API client, because the closure's return
-    value is used for the request that reaches it, and a request that never reaches a renderable-eligible path
-    (a console command, a queued job) never calls it at all — the closure is a per-exception-type render rule,
-    not a second exception handler running instead of the first.
-38. **`Context::hidden()` attaches data to the report the same way `Context` (point 26) does, without that
-    data leaking into a log line built from the visible context.** Point 13's "identifiers, not payloads" still
-    governs what goes in either — the hidden variant exists for data the report needs (an internal trace id
-    correlating with an upstream system) but that a structured log statement reading the whole context
-    shouldn't print verbatim into every ordinary log entry for the request.
+35. **A project still keeping an `App\Exceptions\Handler` class from before the `bootstrap/app.php` change
+    can end up with two registration surfaces for the same rules.** Point 15 names `withExceptions()` as the one
+    place this is configured; own guidance, not verified against an upgrade: after upgrading an old project, check
+    that a `dontReport()` entry added to `bootstrap/app.php` actually takes effect, and remove rules left in the
+    old class once they are moved.
+36. **A report callback that returns `false` stops the exception from reaching the default log channel, and in
+    the framework source it also stops the callbacks registered after it.** The docs say you stop propagation to
+    the default logging stack with `stop()` or by returning `false`. In the 12.x handler the report callbacks are
+    looped in registration order and the loop returns as soon as one that handles the exception returns `false`,
+    so a project registering more than one callback for overlapping exception types decides by order which ones
+    still run. Register the callback that must always run first, or have it return nothing. [Laravel error
+    handling docs 12.x, "Reporting Exceptions"; framework source `Handler.php::reportThrowable`, read
+    2026-10-21.]
+37. **A render callback's return value is the response, so it is not a way to keep point 5's negotiation.** In
+    the framework source the handler runs the registered render callbacks that handle the exception and uses
+    the first response one returns, as is. A closure written for a browser (a view) therefore also answers an API
+    client unless it checks the request itself and returns null for the requests it does not want to answer (a
+    null falls through to the handler's default JSON-or-HTML choice), which is the hand-rolled branch points 4
+    and 5 warn about; prefer an HTTP-native exception, which leaves the negotiation to the handler. [laravel/framework 12.x `Handler.php`,
+    `renderViaCallbacks`, read 2026-10-21.]
+38. **Hidden context is kept out of log entries, which is the reason to use it.** The docs describe context as
+    information shared across the request and queued-job boundary and added to log entries, and hidden context as
+    data that is shared the same way but not written with log entries. Point 13's "identifiers, not payloads" still
+    governs what goes in either; the hidden variant is for data a later step needs (an internal trace id
+    correlating with an upstream system) that every ordinary log line for the request should not print. [Laravel
+    context docs 12.x, "Hidden Context", read 2026-10-21.]
 39. **PHPUnit's own assertion failure and a domain exception are not the same kind of throw, and treating an
     assertion failure as "just another exception" to catch in test-support code breaks the test silently.** A
     `try { $this->assertTrue(...); } catch (Throwable $e) { report($e); }` pattern written to "gracefully

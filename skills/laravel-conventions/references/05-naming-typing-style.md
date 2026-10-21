@@ -29,10 +29,11 @@
 12. Whether new files declare strict types is a **project-wide decision applied uniformly**, and the
     framework's own scaffolding is the reference point: a codebase half strict and half not gets the downsides
     of both. **The default for a new Laravel file is to omit `declare(strict_types=1)`, matching what
-    `artisan make:*` generates** — this overrides `php-patterns`' language-level default (see that block's
-    §1.1) at this framework's boundary, where request/route/config values cross as loose scalars
-    on purpose. Leave an existing file's declaration exactly as it is; this is a default for new
-    files, not a retrofit.
+    `artisan make:*` generates** (the 12.x class, job, model and factory stubs open with `<?php` and no
+    declaration) — this overrides `php-patterns`' language-level default (see that block's §1.1) at this
+    framework's boundary, where request/route/config values cross as loose scalars on purpose. Leave an
+    existing file's declaration exactly as it is; this is a default for new files, not a retrofit.
+    [laravel/framework 12.x stubs, read 2026-10-21.]
 13. **A method that answers reads as a question; a method that acts is named for its effect.**
     `isPublished()`, `canBeCancelled()`, `hasPendingInvoices()` on one side; `publish()`, `cancel()`,
     `notifyOwner()` on the other. The costly mistake is the middle ground — a `check…()` or `handle…()` that both answers and
@@ -88,9 +89,9 @@
     a baseline meant to shrink. A baseline entry from six months ago is not a precedent for the next one.
 26. **Larastan's own model of Eloquent — magic `find`, relation methods, query-builder macros — is taught
     to the analyser through its bundled extension, not through a docblock repeated on every model.** A
-    project hand-writing `@property` blocks for every column duplicates what the extension infers from
-    `$casts` and the migrations; use an explicit `@property` only for a computed accessor the extension
-    cannot see, never for the raw columns.
+    project hand-writing `@property` blocks for every column duplicates what the extension can infer from
+    `$casts` and, when configured to read them, the migrations; use an explicit `@property` only for a
+    computed accessor the extension cannot see, never for the raw columns. See `skills/laravel-larastan`.
 27. **A named argument beats a comment explaining a positional one.** `retry(times: 3, sleep: 100)` reads
     on its own; `retry(3, 100)` next to `// 3 attempts, 100ms apart` duplicates in prose what the call site
     could say for free, and the prose goes stale first. Reserve this for calls whose parameters are not
@@ -98,8 +99,8 @@
 28. **First-class callable syntax (`strtoupper(...)`, `$this->publish(...)`) replaces the
     `Closure::fromCallable`/string-callback indirection** wherever a method reference is passed as a
     value — to `array_map`, a collection pipeline (point 18), an event listener registration — because the
-    parser checks it at the call site instead of resolving by name at call time, catching a typo'd method
-    name before the code runs.
+    reference is resolved where it is written, so a typo'd method name fails there instead of when the
+    callable is later invoked, and the analyser can follow it.
 29. **A union type in a signature states every shape the caller may pass, not just the common one** —
     `int|string $id` on a lookup that genuinely accepts either is a contract; `mixed` covering the same two
     cases is point 19's absence of a type. Past two or three unrelated shapes, split the parameter into two methods.
@@ -149,12 +150,12 @@
     its constructor (point 21's `readonly` case) still lets a mutable sibling property drift into an invalid
     state after construction; a `set` hook enforces the invariant on every assignment, the gap a
     constructor-only guard leaves open on any property that is not `readonly`.
-40. **PHP 8.4's lazy objects (`ReflectionClass::newLazyGhost()`) initialise a property only the first time it
-    is read, a different mechanism from `once()` (§1 point 24) even though both defer work.** `once()`
-    memoises the *result of a callback* for the life of the request; a lazy object defers *constructing the
-    object itself* until something touches it — as the container does for a deferred provider's binding (§10 point 17); a hand-rolled "build it on
-    first access" property duplicates what the language now ships. [PHP 8.4 lazy
-    objects RFC, wiki.php.net/rfc/lazy-objects, read 2026-09-10.]
+40. **PHP 8.4's lazy objects (`ReflectionClass::newLazyGhost()`) defer constructing the object itself until
+    something first touches it, a different mechanism from `once()` (§1 point 24) even though both defer
+    work.** `once()` memoises the *result of a callback* for the life of the request; a lazy object runs its
+    initialiser on first access to its state, so a hand-rolled "build it on first access" property duplicates
+    what the language now ships. [PHP 8.4 lazy objects RFC, wiki.php.net/rfc/lazy-objects, read 2026-09-10;
+    not re-read in the 2026-10-21 pass.]
 41. **`UnitEnum::cases()` is the source of truth for "every value this enum has," and a parallel array
     maintained beside it is the two-sources-of-truth failure §3 point 1 names for a DB-level enum, in PHP
     instead of SQL.** A validation rule, a seeder, or a test data provider listing
@@ -167,9 +168,9 @@
     construct.** Use the full union form only where the nullable case is one among several unrelated shapes
     (point 29) — `?int` for "an int or absent," `int|string|null` only where the value can arrive as either
     scalar and also be missing.
-43. **A codebase's baseline coding standard is a PSR, not a house invention, and PSR-12 is the one to default
-    to for new code.** Larastan and PHP-CS-Fixer both assume it unless configured otherwise, so declaring "we
-    follow PSR-12" resolves most bracket-placement and import-ordering arguments before they start — the
-    alternative, an unstated in-house style enforced only by review comments, is §10 point 7's "a tool
-    enforces it, not a paragraph" applied to formatting. [PSR-12: Extended Coding Style,
-    php-fig.org/psr/psr-12, read 2026-09-10.]
+43. **A codebase's formatting standard is declared once and enforced by a tool, not by review comments.**
+    Laravel's own formatter, Pint, needs no configuration and uses the `laravel` preset by default; the
+    docs show `psr12` as an alternative preset, set in `pint.json` or with `--preset`. Pick one and record
+    it, so bracket placement and import ordering are settled before they start — §10 point 7's "a tool
+    enforces it, not a paragraph" applied to formatting. [Laravel Pint docs 12.x, "Presets", read
+    2026-10-21.]

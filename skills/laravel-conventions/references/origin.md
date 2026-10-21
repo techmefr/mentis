@@ -823,3 +823,51 @@ directory.
 **Widening, 2026-10-02 (Laravel and PHP lot).** Points 39 and 40 of §4 and points 43 to 46 of §10 come from the `db-performance`, `collections` and `architecture` rule files of Laravel Boost (`laravel/boost`, MIT, cloned 2026-10-02), mechanisms only, rewritten in our words; its `eloquent` advice to use local scopes is left out because the house rule against model scopes wins. New narrow blocks from the same lot: `laravel-cache`, `laravel-http-client`, `laravel-scheduling`, `laravel-dispatch-after-commit`, `laravel-filament`, `laravel-larastan`, `laravel-pest`, `laravel-lomkit-rest-api`.
 
 **Dogfooded, 2026-10-19.** First real-toolchain pass on this block. Built in `~/dogfood/laravel` (Laravel 13, SQLite): an `Order` model with a string-backed `OrderStatus` enum cast declared in `casts()`, a migration with `restrictOnDelete`, an `OrderPaid` event with a listener that queues a job (no observer), an action returning data, a form request, an API resource, a controller, a scheduled command and a PHPUnit feature test. Ran Pint `--test`, Larastan at level 8 (`phpstan.neon`, no extra package) and `php artisan test` through the PHP 8.4 container. Tests passed first time (8) and listener auto-discovery worked; Pint flagged only a quote style in the demo's own code. Larastan found the four traps now recorded as §9 point 49: `casts()` unread without `parseModelCastsMethod`, missing relation and `HasFactory` generics, nullable `belongsTo` accessor, `PendingCommand|int` from `artisan()`. Array-return docblocks on `rules()`, `toArray()` and `backoff()` were already covered by §5 point 5. Not exercised: Pest, broadcasting, safe-migration rules against a populated table.
+
+## Verification pass, 2026-10-20 and 2026-10-21 (lot s10a)
+
+**Status stays 🟡.** Every numbered point was kept; 108 of the 490 points were re-checked against a source
+read on the day and edited, the rest are unchanged. Nothing here was run in a project. The facts below come
+from the framework's documentation for the 12.x line (markdown source of the documentation repository, read for
+facts only and rewritten in our words) and from the framework source on its 12.x branch.
+
+| Source | Licence | What it gave |
+|---|---|---|
+| `laravel/framework`, branch 12.x | MIT (`LICENSE.md` read 2026-10-21) | Source behaviour: `ValidatesWhenResolvedTrait` order, `Handler` report and render callbacks, `Env`, `ConfigCacheCommand`, `Optimize*Command`, `SQLiteConnector`, `Queue::shouldDispatchAfterCommit`, `Storage::fake`, `Model::shouldBeStrict`, `HasUuids`, `InteractsWithTestCaseLifecycle`, the command and job stubs |
+| Laravel documentation, 12.x branch (controllers, authorization, routing, middleware, requests, database, eloquent, relationships, queries, pagination, migrations, queues, scheduling, artisan, configuration, deployment, container, providers, packages, errors, helpers, http-client, mocking-related pages, testing pages, pint, concurrency, context, releases, Boost) | No licence file on the 12.x branch; the repository metadata says MIT. Read for facts only, no text copied | Behaviour and figures cited per point |
+| `laravel/laravel` skeleton, branch 12.x | `composer.json` declares MIT; no licence file | Only the base controller's shape (§1.31) |
+| `pestphp/docs`, branch 5.x | MIT (`LICENSE` read 2026-10-20) | Architecture testing, presets, `arch()` |
+| Larastan documentation, 3.x | MIT per repository metadata | §9.49 option name |
+
+**Verified and credited per point** (the point itself now names the page or file and the date): §1 points 2, 31,
+32; §2 points 11, 12, 14, 16, 23, 33; §3 points 23, 24, 25, 29, 37, 40; §4 points 13, 14, 19, 20, 21, 23, 31,
+36; §5 points 12, 26, 28, 40, 43; §6 points 17, 19, 23, 33 to 37; §7 points 4, 16, 17, 19, 20, 22, 25, 26, 31,
+33 to 36, 38, 40, 44, 46; §8 points 14, 18 to 21, 26, 28, 30, 32, 39; §9 points 22, 24, 25, 32, 34, 36, 40 to
+42, 49; §10 points 3, 6, 16, 17, 18, 20, 24, 27, 29, 32, 43, 45; §11 points 11, 15, 18, 27, 29, 36, 37, 38;
+§12 points 2, 4, 5, 13, 14, 15, 18, 19; §13 points 1, 5, 13.
+
+**Claims that were wrong or overstated and were corrected or removed** (65 points): a composite primary key is
+not supported by Eloquent (§3.25); `HasUuids` generates ordered UUIDs by default in 12.x (§3.29); no check
+constraint helper is documented (§3.40); the retry count of `DB::transaction` is the second argument (§4.19);
+the `cursor()` versus `lazy()` difference is eager loading and the PDO buffer, not collection methods (§4.13);
+`Event::fake(except:)` does not exist, `fakeExcept()` does (§9.32); `assertOnlyJsonPath` does not exist (§9.41);
+`prepareForValidation()` runs before `authorize()`, not after (§6.33); `before()` and `after()` on a scheduled
+task are hooks, not a dependency between entries (§7.20); `Isolatable` only locks a run started with
+`--isolated` (§7.16); a package merges config one level deep (§7.22); `ThrottlesExceptions` takes seconds
+(§8.18); `retryUntil()` takes precedence over `tries` (§8.20); loaded relations are re-fetched in full when a
+job is deserialised (§8.26); `Storage::fake` uses a local directory (§9.36); the framework resets the
+application per test (§10.24); after `config:cache` `env()` reads no `.env` value (§10.27); `sticky` only
+affects requests that wrote (§10.32); a render callback returns the response as is and a report callback
+returning `false` stops the later callbacks (§11.36, §11.37); route closures can be cached, so the "closure
+route breaks the cache" claim was removed (§7.33, §12.14); `Http::fake([...])` lets unmatched URLs through
+(§11.18); the earlier citation of the upgrade guide for §1.31 and of the authorization page for §2.16 were not
+found there and were replaced.
+
+**Still unsourced or own guidance, flagged in the text** (kept with a marker): §9 points 43, 45 and 48; §11
+point 35; the engine-specific statements in §13 points 4, 5 and 15; the Faker provider points §7.47 to 51;
+the module-package points §10.35 to 40 and §10.42; the exact behaviour of `Concurrency::run()` on a failing
+closure (§11.27); which tools display `displayName()` and a batch name (§8.32, §8.39). The remaining 382
+points were not re-checked on 2026-10-21 and keep the source or marker they had.
+
+**Not read:** the Faker documentation, the engine manuals on online DDL, Horizon, Telescope and the Scout
+documentation; point 7 of §4 (search-index ceiling) has no source.

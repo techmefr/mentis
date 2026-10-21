@@ -9,11 +9,16 @@
    with what the caller passed; class values get special merging (the source's wording), so a caller's class is
    added to the default and not a replacement. The source's example builds a default class from a prop on a
    `div` and prints the slot or message inside. Own guidance: a component whose root does not print the bag
-   silently drops the caller's `id`, `data-` and `aria-` attributes.
+   silently drops the caller's `id`, `data-` and `aria-` attributes. The Blade documentation adds that only
+   `class` is combined with the caller's value: for any other attribute the merged default is overwritten by the
+   caller's value (so a default `type` is replaceable, a default class is not).
 2. **Push a script from a repeated component once.** If a component renders repeatedly on a page, a plain push
    adds its script on every render. The source says to use a consistently named once-only push block, so the
    content is added once per rendered response. Own guidance: the name is the key, so two components that
-   mean the same script must use the same name and two that do not must use different ones.
+   mean the same script must use the same name and two that do not must use different ones. Precisely, the
+   documentation's `@pushOnce` takes the stack name first; when two different templates push the same content,
+   give both the same second argument, an identifier, so it renders once (`@once` itself is evaluated once per
+   rendering cycle).
 3. **Use a component when the interface should be explicit.** The source: a Blade component fits a reusable
    interface that benefits from explicit props, an attribute bag or slots; an include still suits a small
    partial that deliberately uses the current view's data. When an include would share variables
@@ -23,7 +28,8 @@
    read a prop that was explicitly passed to an ancestor. The source adds the limit: it does not expose the
    ancestor's default prop value unless that value was passed through the attribute bag. Own guidance: a
    nested component that needs a parent's default must receive it as its own prop; do not rely on the
-   directive for defaults.
+   directive for defaults. The documentation words the limit as: data not explicitly passed to the parent as
+   HTML attributes, including default prop values, is out of reach of the directive.
 5. **A view composer is for data a named view always needs, and only views.** The source says to use a composer
    to centralise data that one or more named views need every time they render, to keep the composer
    compatible with every view it targets, and to avoid broad wildcards when views need different data shapes.
@@ -33,4 +39,6 @@
 6. **Answer a partial request with a fragment.** A route can return a full view or a named fragment of it, for
    clients such as htmx or Turbo: the source's example returns the dashboard view with a conditional fragment
    method that picks the named fragment when the request carries the client's marker header (it uses the htmx
-   one). Own guidance: the page keeps working for a request without the header, so test both answers.
+   one). The documentation (12.x, Rendering Blade Fragments) names them: a fragment is delimited by the
+   `@fragment` and `@endfragment` directives and selected on the view with `fragment` or, conditionally,
+   `fragmentIf` (otherwise the whole view is returned); `fragments` and `fragmentsIf` return several. Own guidance: the page keeps working for a request without the header, so test both answers.

@@ -90,23 +90,24 @@
     row that no longer exists — a relationship on paper, a plain integer in the schema. Point 20's
     `onDelete` decision only exists once this chain is complete.
     [Laravel migrations docs, laravel.com/docs/12.x/migrations, read 2026-09-10.]
-23. **Renaming a table needs its foreign keys named first, or the rename detaches them.** Laravel names a
-    constraint from the table and column at creation; renaming the table does not rename the constraint, so
-    a later migration hunting for "the foreign key on this table" by the old convention finds nothing, and a
-    rollback dropping constraints by their expected name silently no-ops. Give a foreign key an explicit
-    name in the migration that creates it, and a rename stays a rename.
-    [Laravel migrations docs, laravel.com/docs/12.x/migrations, read 2026-09-10.]
+23. **Name a foreign key explicitly before the table is renamed.** The docs warn that, before renaming a
+    table, any foreign key constraint on it should have an explicit name in the migration instead of the
+    convention-based name, otherwise the constraint name still refers to the old table name. Give a foreign
+    key an explicit name in the migration that creates it, and a rename stays a rename. [Laravel migrations
+    docs 12.x, "Renaming Tables With Foreign Keys", read 2026-10-21.]
 24. **`upsert()` is one round trip for "insert the new ones, update the changed ones," and it still needs a
-    real unique or primary key to decide which rows collide.** Its second argument names the columns checked
-    for an existing match, its third the columns to update on a match — with a column that has no unique
-    constraint behind it, the database cannot detect the collision and every call inserts again, which reads
-    as `upsert()` "not updating" when the fault is the missing constraint of point 19.
-    [Laravel query builder docs, laravel.com/docs/12.x/queries, read 2026-09-10.]
-25. **A composite primary key needs `$primaryKey` and `$incrementing` set explicitly on the model, because
-    Eloquent's default assumes a single auto-incrementing `id`.** A pivot-shaped table promoted to a real
-    model with a `(parent_id, child_id)` primary key still saves through `save()`/`update()` by the model's
-    *assumed* `id` column unless both are overridden — it appears to work until the first update targets the
-    wrong row, or every row.
+    real unique or primary key to decide which rows collide.** Its second argument names the columns that
+    identify a row, its third the columns to update on a match; the docs say all databases except SQL Server
+    require those columns to carry a primary or unique index, and that MySQL and MariaDB ignore the second
+    argument and use the table's own indexes. A column with no unique index behind it reads as `upsert()`
+    "not updating" when the fault is the missing constraint of point 19. [Laravel query builder docs 12.x,
+    "Upserts", read 2026-10-21.]
+25. **Eloquent models support one primary key column, not a composite key.** The 12.x docs describe a single
+    `$primaryKey` column, and `$incrementing`/`$keyType` for a key that is not an auto-incrementing integer.
+    A pivot-shaped table with a `(parent_id, child_id)` primary key promoted to a model cannot be saved or
+    updated through `save()` by that pair; use a pivot model, or the query builder with an explicit `where`
+    on both columns (own guidance on the alternatives). [Laravel Eloquent docs 12.x, "Primary Keys",
+    read 2026-10-21.]
 26. **A column that is a foreign key is not automatically a good index for every filter on that table.** The
     constraint guarantees referential integrity; it does not make `(tenant_id, status)` — point 19's
     example — exist unless that composite is declared separately. A schema with foreign keys everywhere and
@@ -124,11 +125,12 @@
     and DST correctness at the database level, and the bug — an hour off, once or twice a year — shows up
     the day clocks change, not in review.
 29. **`HasUuids`/`HasUlids` change the primary key's *generation strategy*, and that choice has an index-locality
-    consequence an autoincrementing id never raised.** A UUID v4 is random, so each insert lands at an
-    arbitrary point in the primary key's index rather than at the end, fragmenting it on a large,
-    high-write table; a ULID is time-ordered, keeping inserts append-like — point 19's "ordered for the
-    queries that use it" applied to the primary key, and the reason to default to ULIDs unless the id must
-    be unguessable *and* unordered.
+    consequence an autoincrementing id never raised.** A random UUID (version 4) lands at an arbitrary point
+    in the primary key's index; the 12.x `HasUuids` trait generates an ordered UUID by default (the framework
+    source calls `Str::uuid7()`), and overriding `newUniqueId()` with a v4 generator, as the Eloquent docs'
+    own example does, gives that up. A ULID is also lexicographically sortable. Point 19's "ordered for the
+    queries that use it" applied to the primary key: keep the ordered default unless the id must be unordered.
+    [Laravel Eloquent docs 12.x, "UUID and ULID Keys"; framework source `HasUuids.php` (12.x), read 2026-10-21.]
 30. **A polymorphic relation's `*_type` column should store a short alias from an explicit morph map, not
     the model's fully-qualified class name.** `Relation::enforceMorphMap([...])` in a service provider makes
     a later namespace move — a model relocated into an OSDD package per `skills/laravel-conventions`
@@ -165,12 +167,14 @@
     unique constraint on `email` still blocks a new signup from reusing an address that belongs to a
     soft-deleted account — the fix is a composite unique index including `deleted_at` (or a partial/filtered
     unique index where the engine supports one), "unique among the live rows".
-37. **SQLite does not enforce foreign key constraints unless a pragma turns them on for the connection, which
-    makes a constraint violation that fails loudly in MySQL or Postgres pass silently in a SQLite test
-    suite.** `PRAGMA foreign_keys = ON` has to be set per connection — Laravel's SQLite driver config exposes
-    a `foreign_key_constraints` option for this — and a suite on SQLite without it verifies only that point
-    22's `constrained()` chain compiles, never that it rejects an orphaned insert. [Laravel database
-    configuration documentation, laravel.com/docs/12.x/database, read 2026-09-10.]
+37. **SQLite foreign key enforcement depends on a connection option, so a suite that runs on a different
+    engine than production can accept an orphaned insert that production refuses.** The 12.x database docs
+    say foreign key constraints are enabled by default for SQLite connections and are switched off with
+    `DB_FOREIGN_KEYS=false`; in the framework source the connector issues `pragma foreign_keys` only when the
+    connection's `foreign_key_constraints` option is set. A project that sets it off, or a custom connection
+    defined without it, verifies only that point 22's `constrained()` chain compiles, never that it rejects an
+    orphan. [Laravel database docs 12.x, "SQLite Configuration"; framework source `SQLiteConnector.php`, read
+    2026-10-21.]
 38. **`php artisan schema:dump` squashes a project's full migration history into one SQL file, and a
     project that adopts it stops running the squashed migrations' `up()` methods on a fresh install.** The
     dump plus any later migration is what runs from then on; a data-only backfill written as a step inside
@@ -183,9 +187,10 @@
     backfill.** An `OFFSET`-based `chunk()` shifts its window if an already-visited row is deleted
     mid-run, silently skipping or double-processing rows under concurrent writes; `chunkById()` anchors
     each page to "the last id seen."
-40. **A check constraint (`$table->check(...)`) enforces a row-level invariant the database itself refuses to
-    violate, a stronger guarantee than the same rule written only as a Laravel validation rule.** Point 1
-    bans a DB-level enum for a value that changes with a deploy; a check constraint is the different case —
-    a relationship between columns on the same row (an end date after a start date, a discount that cannot
-    exceed the price) — validation alone protects only rows written through this application; a second writer (a
-    script, another service) can still break the rule unless the database refuses it.
+40. **A check constraint enforces a row-level invariant the database itself refuses to violate, a stronger
+    guarantee than the same rule written only as a Laravel validation rule.** Point 1 bans a DB-level enum
+    for a value that changes with a deploy; a check constraint is the different case, a relationship between
+    columns on the same row (an end date after a start date, a discount that cannot exceed the price).
+    Validation alone protects only rows written through this application; a second writer (a script,
+    another service) can still break the rule unless the database refuses it. The 12.x migrations docs list
+    no check-constraint helper, so write it as a raw statement per engine (own guidance, not sourced).

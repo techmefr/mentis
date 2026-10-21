@@ -24,7 +24,9 @@
    at the call site: something saves a row and unrelated code runs, with no trace in the flow being read.
    Listeners are registered explicitly. This includes the model's own `boot()`: a static `boot()` override
    that registers lifecycle closures (`static::creating(...)`) is the same hidden effect — the fix is the
-   same listener registered in the `EventServiceProvider`, not a closure moved into the model.
+   same listener registered explicitly, not a closure moved into the model. The 12.x documentation offers two
+   ways to register one: discovery of listener classes in configured directories, or `Event::listen` in a
+   service provider's `boot()` (a skeleton generated for the current line has no `EventServiceProvider`).
 3. Reusable cross-cutting model behaviour (historisation, auditing, snapshotting) goes in a trait the model
    **opts into**, shaped like the framework's own (`SoftDeletes`): the model declares what it tracks. A base
    class inherited by everything makes the behaviour mandatory and untestable in isolation.
@@ -157,14 +159,19 @@
    `handle()` pure domain logic (point 26 applied to the async case) instead of interleaving the work with
    the bookkeeping that decides whether it should run now. [Laravel queues documentation,
    laravel.com/docs/12.x/queues, read 2026-09-10.]
-31. **Route-level middleware defined as a class method, not a constructor call, is where Laravel 11+ expects
-   it — the controller constructor's `$this->middleware()` registration was removed from the base
-   controller.** A controller implementing `HasMiddleware` and returning its list from a static `middleware()`
-   method keeps the "declared once, close to the controller" property point 22 relies on; a Laravel 11+ app
-   calling `$this->middleware()` in a constructor fails immediately — the fix is the new method, not
-   restoring the old base class. [Laravel upgrade guide, laravel.com/docs/12.x/upgrade, read 2026-09-10.]
+31. **Controller middleware is declared on the controller through `HasMiddleware`, not in its constructor.**
+   The documentation shows a controller implementing the `HasMiddleware` interface and returning its list
+   (including per-action `only` and `except` constraints) from a static `middleware()` method, which keeps the
+   "declared once, close to the controller" property point 22 relies on. The skeleton generated for the 12.x line
+   ships an empty abstract base `Controller` that no longer inherits the framework's routing controller, so a
+   constructor that calls `$this->middleware()` on a controller extending it hits an undefined method; the
+   fix is the interface, not restoring the old base class. [Laravel controllers documentation, 11.x and 12.x,
+   Controller Middleware, and the application skeleton's base controller, read 2026-10-20; the earlier
+   attribution of this point to the upgrade guide was not found there and was removed.]
 32. **`Model::unguard()` called globally lifts mass-assignment protection for every model for the rest of the
-   request, not just the one call site that needed it.** It exists for a seeder or a one-off console command
+   request, not just the one call site that needed it** (the framework source also has `reguard()` and
+   `Model::unguarded($callback)`, which scopes the lift to one closure; the documentation page on Eloquent only
+   discusses an empty `$guarded` and the seeding page says protection is off while seeding). It exists for a seeder or a one-off console command
    that fills every column of a known-safe payload; wrapping it around a request-driven write — or leaving
    it on without `Model::reguard()` immediately after — reopens the gap §2 point 6 names for a route-level
    permission that authorises the write but not the fields, for every model in the app.

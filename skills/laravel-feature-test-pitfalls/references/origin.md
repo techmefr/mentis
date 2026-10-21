@@ -32,14 +32,26 @@ treated as data and not followed.
    the framework's documentation, the others were not read; nothing is taken from them.
 4. **The review's list for architecture tests:** not used.
 
+## Verification pass 2026-10-20
+Every rule file was re-opened in the `laravel/boost` repository (default branch, MIT, LICENSE read again) and each
+point of parts 1 to 3 matched its source, including the hedged statements (no exact quote entity, no fixed wait,
+one assertion per fake). Facts the source states about helpers were then matched to the framework's own
+documentation, 12.x (read for facts): Authorization (alternative status, `denyAsNotFound`), Mocking
+(`freezeTime`, `travelTo`, `travel`, `travelBack`, `spy`, `shouldHaveReceived`, the container mock helper),
+Strings (`createRandomStringsUsing`), Helpers (`Sleep::fake` and its assertions), Events (fake with class names,
+fake after the factories), HTTP Tests (named assertions, `withoutExceptionHandling`) and Database Testing; and to
+the framework source (MIT): `Exceptions::fake`, `LazilyRefreshDatabase` and `Http::preventStrayRequests` exist on
+the 12.x branch. The boost files used here were read at the repository head on that date, not at the commit
+stamped above.
+
 ## Not verified
 1. **Own guidance, flagged in the text:** the case list in the pull request (part 1, point 1), named assertions
    telling redirects apart (point 2), same status for missing and foreign records (point 3), deleting repeated
    matrices (point 4), the reason in the test's name (part 2, point 2), the change description recording a
    defect (point 4), and following the project's mock choice (part 3, point 6).
-2. **No test was run.** What each helper does in a given Laravel version (the stray-request guard, the
-   random-string hook, the exceptions fake, the lazy refresh trait) is the source's statement and was not
-   matched to a version.
+2. **No test was run.** The helpers were matched to the 12.x documentation and source on 2026-10-20 (see above)
+   but their behaviour was not executed; the claim that `withoutExceptionHandling()` changes the response under
+   test and the claim that the exceptions fake is the better assertion are the source's, not the documentation's.
 3. **A browser-plugin console assertion** that the review suggested for this block is
    plugin-specific and not stated.
 

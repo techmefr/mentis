@@ -13,8 +13,10 @@
    with an empty or obviously-fake value. A secret committed once is compromised even after removal: it stays in the history — rotate
    the credential, then clean up.
 4. **A config file is data, not code.** No closure, no query, no service resolution inside it: the whole
-   file is serialised when the config is cached, so anything not serialisable breaks the cache — or worse,
-   works locally and fails at boot in production.
+   set of config files is serialised when the config is cached, and the framework source throws a
+   `LogicException` ("could not be serialized ... non-serializable") for a value that cannot be, which
+   surfaces in the deploy that runs `config:cache` rather than locally. [laravel/framework 12.x
+   `ConfigCacheCommand.php`, read 2026-10-21.]
 5. **A console command declares an explicit signature and description**; the class does the wiring, an
    action class does the work — a command whose `handle()` holds the logic can only be run from a terminal,
    so it cannot be scheduled, queued, tested or called from a controller without copying it.
@@ -54,36 +56,49 @@
 15. **Run the command rather than writing it out** for the user to copy, when a runtime is available. A
     command described but never executed is an untested claim (`WORKFLOW.md`, the default-is-failure
     guarantee).
-16. **`Isolatable` is point 11's overlap policy for a command triggered outside the scheduler** — a manual
-    rerun, a webhook-fired command, two deploys landing close together. `withoutOverlapping` only guards
-    the scheduled entry; a command that can also start another way is unprotected unless it carries the
-    lock itself. The lock key defaults to the command's name, so runs with different arguments block each other
-    unless `isolatableId()` folds the argument into the key — name alone silently serialises work that was
-    safe in parallel per tenant or record.
+16. **`Isolatable` is point 11's overlap policy for a command started outside the scheduler, but it is opt-in per
+    invocation.** The docs: marking a command `Isolatable` makes a `--isolated` option available, and only a
+    run started with that option takes an atomic lock in the default cache driver (memcached, redis,
+    dynamodb, database, file or array, shared by all servers) and refuses to run when another instance holds
+    it; an exit status for the refused run can be passed through the option. `withoutOverlapping` guards the
+    scheduled entry only, so a manual or webhook-fired start needs `--isolated` too. The lock key defaults to
+    the command's name, so runs with different arguments block each other unless `isolatableId()` folds an
+    argument into the key. [Laravel Artisan docs 12.x, "Isolatable Commands", read 2026-10-21.]
 17. **`config:cache` freezes every config file into one array, and that is when point 1's `env()`-outside-config
-    trap fires in production.** Running it locally would surface the bug at once; running it only in the deploy pipeline ships it
-    unnoticed — run `config:cache` (and `config:clear` before it, so stale keys don't survive a removed
-    file) as a standard deploy step, not an optional tweak.
+    trap fires in production.** Running it locally would surface the bug at once; running it only in the
+    deploy pipeline ships it unnoticed. The docs recommend `optimize` (config, events, routes and views) as
+    part of the deployment, so run the cache step in a rehearsal as well. [Laravel deployment docs 12.x,
+    "Optimization", read 2026-10-21.]
 18. **A command's signature encodes optionality and shape, not just a name.** `{name?}` is optional, `{name=default}`
     carries a default, `{name*}` collects every remaining argument into an array, and `{--option=}` versus
     `{--option}` is a value flag versus a boolean one — a mistake fails when the command is *called*, not defined, and survives until someone hits the
     untested combination.
-19. **A scheduled task's timezone follows the server unless the schedule states one.** `->timezone('...')` on the
-    entry itself is the only way a task meant to run "at 9am for the business" survives a server in UTC or a DST
-    change — the default silently drifts twice a year where DST is observed.
-20. **Chain scheduled tasks with `->after()`/`->before()` rather than cramming both into one command's `handle()`.**
-    A report that must run after an import finishes is two schedule entries with a declared dependency, not one
-    command calling the other — the chain stays visible in `schedule:list`, and either step still runs alone.
+19. **A scheduled task's timezone is a stated setting, and daylight saving time makes it risky.** The docs let
+    you set `->timezone('...')` on one entry, or `schedule_timezone` in the `app` config for every entry; they
+    warn that when daylight saving changes a task may run twice or not at all, and recommend avoiding timezone
+    scheduling when possible. A task meant to run "at 9am for the business" therefore states its timezone
+    and avoids the hours around the change. The docs read do not say which timezone applies when none is
+    set. [Laravel scheduling docs 12.x, "Timezones", read 2026-10-21.]
+20. **Do not cram two scheduled steps into one command's `handle()`; give each its own entry and know how entries
+    are ordered.** The docs say tasks due at the same time run one after another in the order they are
+    defined, and that `runInBackground()` (for `command` and `exec` entries only) lets them run together,
+    which removes that ordering. `before()` and `after()` run code around a single task, and `onSuccess()`
+    and `onFailure()` react to its exit code; none of them declares a dependency between two entries.
+    Own guidance: a step that must wait for another's result should not rely on definition order alone, and
+    should not be backgrounded. [Laravel scheduling docs 12.x, "Running Tasks in the Background", "Task
+    Hooks", read 2026-10-21.]
 21. **A command is tested by invoking it, not by extracting its logic into something else to unit-test.**
     `$this->artisan('command:name', [...])->assertExitCode(0)` (or `assertSuccessful()`/`assertFailed()`) runs the
     signature, the confirmation prompt handling and `handle()` together, the only way a broken argument
     binding or a confirmation the CI runner can't answer gets caught before production — point 5 put the
     actual work in an action class so this test can stay thin.
-22. **`config()` cascades in the order files are loaded, and a key repeated across files silently keeps the
-    last one loaded**, so two packages (or a package and the app) publishing the same top-level config key
-    resolve to whichever loaded last rather than merging — use a package-specific top-level key
-    (`services.stripe`, not a bare `stripe`), never a shared namespace two independent config sources write
-    into.
+22. **A package merges its config defaults into the application's copy one level deep.** The docs say
+    `mergeConfigFrom` lets users override only the options they want in the published copy, and that it merges
+    only the first level of the array: a partly defined multi-dimensional array does not get its missing
+    options filled in. So a nested option a package needs must be fully defined in the application copy, and
+    a package should use its own top-level key (`services.stripe`, not a bare `stripe`) rather than a
+    shared namespace. [Laravel package development docs 12.x, "Default Package Configuration", read
+    2026-10-21.]
 23. **`Context` carries request-scoped or job-scoped data across the async boundary a plain variable
     cannot cross** — a request id that should appear in every log line for that request and then in the
     log lines of every job it dispatched, without threading it through every function signature in between.
@@ -93,15 +108,16 @@
     react to is what makes `&&`-chaining the command in a deploy script or a cron wrapper mean something —
     a command that always returns `0` and prints an error string is indistinguishable from success to
     anything checking the exit code, which is every scheduler and every shell.
-25. **`artisan schedule:list` and `schedule:test` are how a scheduled entry gets verified before waiting
-    for its actual cron minute** — `schedule:test` runs a named task on demand, `schedule:list` prints the
-    resolved next-run time for every entry including its timezone and overlap policy (points 11, 19).
-    Reading a cron expression by eye is slower and less reliable.
-26. **A command meant to run unattended in CI or a cron job never blocks on an interactive prompt** —
-    `confirm()` without `--no-interaction` support, or a `ConfirmableTrait` check that can't be satisfied by
-    a flag, hangs a pipeline until it times out. `$this->confirmToProceed()` already respects
-    `--force` and the `APP_ENV` check point 9 asks for; a custom prompt built without checking
-    `$this->option('no-interaction')` reinvents that check and forgets the non-interactive case.
+25. **`schedule:list` and `schedule:test` check a scheduled entry before waiting for its cron minute.**
+    The docs describe `schedule:list` as an overview of the tasks and the next time each runs; `schedule:test
+    --name=` (in the framework source) runs one scheduled command on demand. Reading a cron expression by eye
+    is slower and less reliable. [Laravel scheduling docs 12.x; framework source `ScheduleTestCommand.php`,
+    read 2026-10-21.]
+26. **A command meant to run unattended in CI or a cron job never depends on an interactive answer.**
+    `$this->confirmToProceed()` asks only in production and is satisfied by `--force` (framework source,
+    `ConfirmableTrait`), so it suits point 9's destructive command; a custom prompt needs its own
+    non-interactive path (own guidance: a default or a hard failure), or it reinvents that check and forgets
+    the unattended case. [laravel/framework 12.x `ConfirmableTrait.php`, read 2026-10-21.]
 27. **Environment-specific service configuration (mail driver, queue connection, cache store) is chosen by
     which `.env` value is set, never by an `if (app()->environment('production'))` branch inside application
     code.** The branch duplicates the config layer (point 1), and nothing fails locally — the production path
@@ -121,55 +137,58 @@
     the framework every minute. Use `command()` when the work must run as a
     specific artisan command with its own signature and exit code (point 24), and `job()` when the schedule
     is just another way to dispatch a job the app already uses.
-31. **`php artisan about` reports the effective configuration Laravel is actually running with** — cached or
-    not, which drivers are active, which environment file loaded — the fast way to confirm point 17's
-    `config:cache` actually ran in this environment instead of guessing from behaviour. `--only=environment`
-    or `--json` narrows it to one section for a deploy script to assert against.
+31. **`php artisan about` reports the application's environment, cache and driver state in one place** — the
+    fast way to confirm point 17's `config:cache` actually ran in this environment instead of guessing from
+    behaviour. `--only=environment` narrows it to one section. [Laravel configuration docs 12.x, read
+    2026-10-21.]
 32. **A command's output goes through `$this->components->info()/error()/task()/warn()`, not raw `echo` or
     `$this->line()` styled by hand.** These helpers (from `Illuminate\Console\Concerns\InteractsWithIO`) make
     one command's output look like every other artisan command's — a `task()` block reports its own success
     or failure without checkmark logic — instead of one bespoke format per author.
-33. **`route:cache` and `event:cache` are `config:cache`'s siblings, and they carry the same trap as point
-    17: a closure-based route or a route depending on an unserialisable controller callable breaks only once
-    the cache is built**, which in most projects is the deploy pipeline, not a local machine. Running
-    `optimize` (which chains `config:cache`, `route:cache`, `event:cache` and the view cache) as one deploy
-    step catches all three traps together instead of one deploy at a time.
-34. **A scheduled command's output can be captured without redirecting it by hand** — `->appendOutputTo($path)`
-    or `->emailOutputTo($address)` on the schedule entry is where point 11's "somewhere for a failure to
-    surface" becomes a concrete destination for a task with no other logging; `->emailOutputTo()` by
-    default only sends when there is output, so hearing from the task on every run, silent success or
-    silent failure, needs `->emailOutputTo($address, andSendIfSuccessful: true)`.
-35. **`vendor:publish --tag=` publishes one package's config or migration files without also overwriting
-    every other file that package could publish.** A bare `vendor:publish` re-publishes everything the
-    package offers, including files already customised locally, unless `--force` is withheld; `--tag`
-    scopes it to the group needed (`config`, `migrations`, `views`) — "give me this package's config" versus "overwrite the migration I already modified."
-36. **`env()`'s boolean and null coercion only recognises specific string forms, and a value outside that set
-    reaches the caller as the literal string.** `"true"`, `"(true)"`, `"false"`, `"(false)"`, `"null"` and
-    `"(null)"` are coerced; `"1"` and `"0"` are not converted to booleans by `env()` itself, they arrive as
-    strings — point 29's typed `Config::boolean()` exists because the config file often just forwards
-    `env('FEATURE_X')`, and a `.env` value written as `1` instead of `true` stays truthy-as-a-non-empty-string
-    until that accessor is reached.
+33. **`optimize` is the deploy step that builds the caches, and each of them has the same "only fires once
+    cached" shape as point 17.** The framework source and docs agree that it chains `config:cache`,
+    `event:cache`, `route:cache` and `view:cache`; the docs recommend running it as part of the deployment and
+    `route:cache` for an application with many routes. Running it in a rehearsal catches a cache that fails to
+    build before the deploy does. [Laravel deployment docs 12.x, "Optimization"; framework source
+    `OptimizeCommand.php`, read 2026-10-21.]
+34. **A scheduled command's output can be captured without redirecting it by hand.** The docs list
+    `sendOutputTo($path)` (overwrite), `appendOutputTo($path)`, `emailOutputTo($address)` and
+    `emailOutputOnFailure($address)` (only on a non-zero exit code); they exist only for `command` and `exec`
+    entries, and mail needs the mail services configured. This is where point 11's "somewhere for a failure to
+    surface" becomes a concrete destination for a task with no other logging. [Laravel scheduling docs 12.x,
+    "Task Output", read 2026-10-21.]
+35. **`vendor:publish --tag=` publishes one group of a package's files.** A package registers its publishable
+    files under tags of its own naming (the package docs show separate tags for config, migrations and
+    assets), so the tag scopes the publish to the group you need, and `--force` is the explicit overwrite:
+    the docs use `--tag=public --force` for assets that are meant to be overwritten each time. Do not add
+    `--force` to a config or migration you have already modified. [Laravel package development docs 12.x,
+    "Publishing File Groups", read 2026-10-21.]
+36. **`env()` converts only a few string forms, and any other value reaches the caller as the literal
+    string.** In the framework source `"true"`, `"(true)"`, `"false"`, `"(false)"`, `"empty"`, `"(empty)"`,
+    `"null"` and `"(null)"` are converted; `"1"` and `"0"` are not, they arrive as strings. Point 29's typed
+    `Config::boolean()` exists because the config file often just forwards `env('FEATURE_X')`: a `.env` value
+    written as `1` instead of `true` stays a non-empty string until that accessor is reached. [laravel/framework
+    12.x `Env.php`, read 2026-10-21.]
 37. **A long-running artisan command (a queue-like worker loop, a daemon reading from an external source)
     needs to react to `SIGTERM` deliberately, as point 10's batching asks it to survive an
     interruption.** `$this->trap(SIGTERM, fn () => $this->shouldExit = true);` lets the loop finish its current
     unit of work and exit cleanly instead of being killed mid-write when the process manager restarts it on
     deploy — otherwise it dies at an arbitrary point, point 10's corrupted-state risk.
-38. **`php artisan config:show <key>` inspects one resolved config key without dumping the whole tree**, the
-    fast way to confirm a value resolved as point 1 and point 22's cascade rules predict —
-    `config:show database.connections.mysql` shows the merged result across every file and package that
-    contributed, without mentally merging each source file, and works whether or not the config is
-    currently cached.
+38. **`php artisan config:show <file>` shows one config file's resolved values without dumping the whole tree**,
+    the fast way to confirm a value resolved as point 1 and point 22 predict: `config:show database` prints
+    the merged result of the file the application and its packages contributed to. [Laravel configuration
+    docs 12.x, read 2026-10-21.]
 39. **`artisan db:seed --class=` runs one seeder in isolation, without re-running the `DatabaseSeeder`'s full
     chain** — the tool for populating just the reference data a single feature needs during development,
     separate from point 12's rule that the seeder stays idempotent however it's invoked. It also makes
     §9 point 11's "ship the seed data in the same change" checkable: run the new seeder alone against a fresh
     database.
 40. **A command's class name and its artisan signature name are two different identifiers, and
-    `make:command --command=` sets the second without touching the first.** `php artisan make:command
-    SyncInventory --command=inventory:sync` produces a `SyncInventory` class whose `$signature` is
-    `inventory:sync` — the class name follows PHP class naming rules, the command name the project's artisan namespacing
-    convention (a colon-separated domain prefix); naming the class after the CLI invocation yields a class
-    that reads like a terminal command.
+    `make:command --command=` sets the second.** `php artisan make:command SyncInventory
+    --command=inventory:sync` produces a `SyncInventory` class whose signature is `inventory:sync`; without the
+    option the framework derives `app:` plus the kebab-cased class name. The class name follows PHP naming,
+    the command name the project's artisan namespacing convention (a colon-separated domain prefix).
+    [laravel/framework 12.x `ConsoleMakeCommand.php`, read 2026-10-21.]
 41. **`Command::SUCCESS`, `Command::FAILURE` and `Command::INVALID` are three distinct exit codes, not two,
     and point 24's "exit code is part of the contract" means picking the right one.** `INVALID` (exit 2) is
     for a call the command itself rejects before doing any work — a bad argument combination the signature
@@ -185,19 +204,21 @@
     to hold a list that instead resolves to a scalar (a `.env` override collapsing what was meant to stay an
     array in `config/*.php`) fails at the point it's read, instead of later at whatever `foreach` or
     `in_array()` assumed the array shape.
-44. **`optimize:clear` is the single command that reverses every cache `optimize` (point 33) built — config,
-    route, event and view — and running only `config:clear` after changing a route closure leaves the stale
-    route cache in place.** Clearing has to be told to do what `optimize` bundles, or a developer chasing point 17's "the trap
-    only fires once cached" clears the cache they suspect and misses the stale one.
+44. **`optimize:clear` reverses what `optimize` built, and it also empties the default cache store.** The docs
+    say it removes the cache files `optimize` generated as well as all keys in the default cache driver; the
+    source runs `config:clear`, `cache:clear`, `clear-compiled`, `event:clear`, `route:clear` and
+    `view:clear`. Running only `config:clear` after changing a route leaves the stale route cache in place,
+    and running `optimize:clear` in production drops cached application data too. [Laravel deployment docs 12.x;
+    framework source `OptimizeClearCommand.php`, read 2026-10-21.]
 45. **A local `.env.testing` overrides `.env` specifically for the test runner, and a project without one is
     running its test suite against whatever `.env` happens to hold** — a queue connection, a mail driver or a
     third-party key meant for local development, silently exercised by CI unless the test environment pins
     its own values. `phpunit.xml`'s `<php>` block sets the same keys inline as a second valid place to pin
     them; either way "which config the tests run under" is a decision, not whatever `.env` contains.
-46. **`artisan make:command --test` scaffolds the test file alongside the command class in the same step**,
-    the mechanical nudge for point 21's "a command is tested by invoking it" — a command generated without
-    it is one keystroke from being committed untested. The stub still needs the prompt and exit-code
-    assertions (points 21, 41, 42) filled in.
+46. **`artisan make:command --test` scaffolds the test file alongside the command class in the same step**
+    (`--pest` and `--phpunit` pick the style), the mechanical nudge for point 21's "a command is tested by
+    invoking it". The stub still needs the prompt and exit-code assertions (points 21, 41, 42) filled in.
+    [laravel/framework 12.x `CreatesMatchingTest.php`, read 2026-10-21.]
 47. **A factory's `definition()` maps each attribute to one Faker call; the moment an attribute needs logic
     to produce its value, that logic belongs in a Faker provider, not in the factory.** `'reference' =>
     'CMD-'.str_pad((string) random_int(1, 999999), 6, '0', STR_PAD_LEFT)` is a generator hiding inside a

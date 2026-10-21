@@ -6,10 +6,11 @@
 > this section is what a single migration file must do so a deploy does not take the site down or lose rows.
 > The other sections and the guardrails stay in `SKILL.md`.
 
-1. **Read the SQL before it runs.** The pretend mode prints the statements a migration would execute without
-   executing them. Reading them is how a "simple" column change is seen to be a table rewrite, and how a
-   statement that differs between the local engine and the production one gets caught. For a destructive or
-   large change the output goes in the merge request description.
+1. **Read the SQL before it runs.** The pretend mode (`php artisan migrate --pretend`) prints the statements a
+   migration would execute without executing them. Reading them is how a "simple" column change is seen to be a
+   table rewrite, and how a statement that differs between the local engine and the production one gets caught.
+   For a destructive or large change the output goes in the merge request description. [Laravel migrations docs
+   12.x, "Running Migrations", read 2026-10-21.]
 2. **The old code and the new schema run together during a deploy.** A rolling or two-step release means the
    previous version of the application serves requests against the schema the migration just produced, or
    the new version runs against the old one. A migration is therefore written so that both versions work
@@ -26,8 +27,10 @@
    set for the session, set one, so the migration fails fast instead of queuing the site behind itself.
 5. **Concurrent index builds cannot run inside a transaction.** Where the engine builds an index without
    blocking writes, the statement is refused inside a transaction block; the migration declares that it
-   does not run within one, and is then not atomic, so it has to be safe to run again after a partial
-   failure (point 12).
+   does not run within one (the framework's migration class has a `$withinTransaction` property that defaults to
+   true), and is then not atomic, so it has to be safe to run again after a partial failure (point 12).
+   [laravel/framework 12.x `Migration.php`, read 2026-10-21; the engine behaviour is own guidance, not
+   re-verified against an engine manual.]
 6. **A constraint can fail against existing data, so look at the data first.** A unique index fails on
    duplicates, a foreign key fails on orphans, a `NOT NULL` fails on nulls, a check constraint fails on rows
    it forbids. Query for the offending rows before writing the migration, decide what happens to them
@@ -59,9 +62,11 @@
 12. **A migration that can stop halfway can be run again.** Where the engine cannot make a statement atomic
     with the schema change, guard each step on the current state (the column exists, the index exists) so a
     second run completes the work instead of failing on the part that was already done.
-13. **Concurrent runs are prevented.** When several instances start at once and each runs migrations, the
-    isolated option takes a lock so one runs and the others wait or skip. Without it two processes race on
-    the migration table and on the schema.
+13. **Concurrent runs are prevented.** When several instances start at once and each runs migrations,
+    `migrate --isolated` takes an atomic lock in the application's cache driver, so one runs and the others do
+    not execute; the docs add that the skipped command still exits with a successful status, so a deploy script
+    must not read "exit 0" as "migrated". Without the option two processes race on the migration table and on
+    the schema. [Laravel migrations docs 12.x, "Running Migrations", read 2026-10-21.]
 14. **Time the migration on production-sized data.** A change that takes twenty milliseconds on a
     development database can take twenty minutes on the real table. The duration on a restored copy is the
     figure the release plan uses to decide between an ordinary deploy, an off-peak window and the two-release

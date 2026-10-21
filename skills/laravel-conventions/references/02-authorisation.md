@@ -58,22 +58,26 @@
     every policy method.** `Gate::before` runs ahead of every ability check and can short-circuit the whole
     decision — the shape "this one principal passes everything" needs. An
     `if ($user->isSuperAdmin()) return true;` line copy-pasted into each policy is point 1's mistake in a
-    different hat, and silently stops working the day someone adds a policy and forgets it. The bypass only
-    reaches checks that go through the Gate — a hand-built query that never calls `can()` gets neither
+    different hat, and silently stops working the day someone adds a policy and forgets it. Note that a `before`
+    callback that returns `null` lets the check continue, and that inline authorisation (`Gate::allowIf`,
+    `Gate::denyIf`) runs no before or after hook at all (documentation, Intercepting Gate Checks and Inline
+    Authorization). The bypass only reaches checks that go through the Gate — a hand-built query that never calls `can()` gets neither
     bypass nor denial, a reason to route reads through the same gate, not to trust the bypass blindly.
 12. **A token's abilities are a second, narrower permission layer under the user's own — a token can only
     do less than its owner, never more.** A Sanctum token scoped to `['orders:read']` for a third-party
     integration means every request on it is checked twice: can this *user* do this, and does this *token*
-    claim the ability. Skipping the second check turns a scoped API key into a full session token the moment it leaks.
+    claim the ability (the documentation gives `tokenCan` for the second check; that the user's own check
+    still applies is our reasoning, not a documented guarantee). Skipping the second check turns a scoped API key into a full session token the moment it leaks.
 13. **An authorisation denial is a contract worth a test, the same as the success path.** A test that only
     asserts the owner can update the record, and never that someone else gets a 403, leaves point 4's
     scoping unverified — the `findOrFail` comes back and nothing fails until a real other-tenant request
     does. Assert the status code and, where point 10 applies, the message: a 403 that silently became a 200
     after a refactor is the regression this rule catches.
 14. **Policy discovery follows a naming convention, and a policy that breaks it is invisible.** Laravel
-    resolves `OrderPolicy` for `Order` automatically; a policy named otherwise, or a model outside the
-    conventional model namespace, needs an explicit registration in the `AuthServiceProvider`'s policy map
-    or the framework never finds it. The failure looks like the check working — `can()` returns false for
+    resolves `OrderPolicy` for `Order` automatically, looking in a `Policies` directory at or above the
+    model's directory (documentation, Policy Discovery); a policy named otherwise needs an explicit
+    `Gate::policy(Model::class, Policy::class)` call in a service provider's `boot()` (Manually Registering
+    Policies) or the framework never finds it. The failure looks like the check working — `can()` returns false for
     everyone — and only a deliberately-permitted test case failing surfaces it (point 13).
 15. **`Gate::after()` can only widen a result the check itself left open, never overrule one already
     settled.** A closure registered with `after` runs once every ability check has run, but its return value
@@ -82,11 +86,15 @@
     policy method returns an explicit boolean instead of abstaining. [Laravel authorization docs,
     laravel.com/docs/12.x/authorization, read 2026-09-10.]
 16. **`authorizeResource()` wires a whole resource controller to its policy in one line, and the mapping it
-    assumes is exactly point 1's action-to-permission list.** `index`/`show`/`store`/`update`/`destroy` each
-    resolve to the policy method of the same name, with the model resolved from the route for every method
-    except `index`/`store`, which check the policy's class-level ability. A custom action added to the
-    controller does not fail loudly: it runs unauthorised, because `authorizeResource()` only wires the
-    conventional seven. [Laravel authorization docs, laravel.com/docs/12.x/authorization, read 2026-09-10.]
+    assumes is exactly point 1's action-to-permission list.** In the framework source its map is `index` to
+    `viewAny`, `show` to `view`, `create` and `store` to `create`, `edit` and `update` to `update`, `destroy` to
+    `delete`, with the model taken from the route for every method except `index`, `create` and `store`. A custom
+    action added to the controller does not fail loudly: it runs unauthorised, because only those seven are
+    wired. The method lives in the `AuthorizesRequests` trait, which the empty base controller of a current
+    skeleton does not use (point 1.31 of §1), and the 12.x authorization documentation no longer describes it;
+    where it is absent, a per-route `can:` middleware or an explicit `authorize` call does the same job.
+    [Laravel framework source, `AuthorizesRequests`, read 2026-10-20; an earlier citation of the authorization
+    documentation was not found there and was replaced.]
 17. **A policy's own `before()` method is point 11's bypass shape, scoped to one model instead of every
     ability.** Defined *on the policy itself* — distinct from `Gate::before()` in point 11 — it runs ahead of
     every method on that policy and can short-circuit it the same way. `Gate::before()` is for a principal who passes everything, a policy's `before()` for a rule on every
@@ -119,8 +127,10 @@
     channel name, however tightly the HTTP endpoints around the same data are scoped. Point 8 applies here
     in real time instead of per request.
 23. **A `FormRequest::authorize()` left returning `true` is not a placeholder, it is the one authorisation
-    hook the framework calls before validation runs, disabled.** The scaffolding generates it that way, and
-    the gap shows only when someone who should have been refused isn't. `authorize()` is the policy check that belongs on the
+    hook the framework calls before validation runs, disabled.** The documentation shows `return true` as the
+    right body only when authorisation is handled elsewhere; the 12.x scaffold itself generates `return false`,
+    so a `true` is something someone typed, and the gap shows only when someone who should have been refused
+    isn't. `authorize()` is the policy check that belongs on the
     request (point 7), and a permanently-true return is the same as never having asked.
 24. **A policy method's extra parameters compare against a second model, not just the acting user and the
     target resource.** `update(User $user, Invoice $invoice, LineItem $lineItem)` lets the check confirm
@@ -173,10 +183,13 @@
     `can()` and stopping at the first pass.** A hand-rolled loop reintroduces the risk of an enumeration hidden in control flow; the batch helper's argument list is the enumeration, so
     a missing ability is visible at the call site. [Laravel authorization
     documentation, laravel.com/docs/12.x/authorization, read 2026-09-10.]
-33. **A Sanctum token's `currentAccessToken()` returns `null` for a request authenticated through the web
-    guard (a normal logged-in session), not only for an unauthenticated one — code that calls `tokenCan()`
-    unconditionally assumes every authenticated request carries a token.** Point 12 treats a token's
-    abilities as a narrower layer under the user's own; a policy or middleware written only against the API
-    guard and reused for a route also reachable through the session guard must check for a null token
-    before asking what it can do, or it throws on a first-party browser session never issued a scoped
-    token. [Laravel Sanctum documentation, laravel.com/docs/12.x/sanctum, read 2026-09-10.]
+33. **What `tokenCan()` answers depends on which guard authenticated the request, so an ability check written
+    for the API guard can behave differently on a session.** Documented: with Sanctum's own guard and its SPA
+    authentication, `tokenCan()` always returns `true` for a request from the first-party frontend (it is meant
+    to be called unconditionally). In the package source `tokenCan()` is `false` when the user carries no token,
+    which is the case for a plain web-guard session, and `currentAccessToken()` is then `null`, so chaining a call
+    onto it (revoking the current token, say) throws. Point 12 treats a token's abilities as a narrower layer
+    under the user's own; a policy or middleware reused for a route reachable through both guards has to decide
+    deliberately what a token-less request means, rather than inherit whichever answer the guard gives.
+    [Laravel Sanctum documentation, First-Party UI Initiated Requests, and `HasApiTokens` in the package source,
+    read 2026-10-20; the earlier text claimed `tokenCan()` throws, which the source does not do.]

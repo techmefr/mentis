@@ -60,13 +60,14 @@
     itself, and a job inside it that needs another job's *result*, not just its completion, is a chain
     (point 1), because a batch does not pass data between its members.
 14. **`ShouldBeUnique` and `WithoutOverlapping` answer different questions, and a job can need both.**
-    `ShouldBeUnique` stops a duplicate from ever reaching the queue while one instance is already queued or
-    running — the second `dispatch()` call is simply dropped. `WithoutOverlapping` lets the duplicate onto
-    the queue and only keeps two copies from *processing* at once, releasing the later one back for a retry
-    instead of discarding it. A job that must never pile up (the nightly export somebody re-triggers by
-    hand) wants the first; a job that tolerates being re-queued but not run twice in parallel wants the
-    second — and either way the uniqueness lock is a cache entry with its own TTL, so a lock that outlives
-    the job it was guarding silently blocks every legitimate retry after it.
+    `ShouldBeUnique` takes an atomic lock on the unique id at dispatch; while it is held the job is not
+    dispatched, and the lock is released when the job completes or fails all its retries. `WithoutOverlapping`
+    lets the duplicate onto the queue and only keeps two copies from *processing* at once, releasing the later
+    one back for a retry instead of discarding it. A job that must never pile up (the nightly export somebody
+    re-triggers by hand) wants the first; a job that tolerates being re-queued but not run twice in parallel
+    wants the second. The uniqueness lock is a cache entry, so a lock that outlives the job it was guarding
+    blocks every legitimate dispatch after it. [Laravel queues docs 12.x, "Unique Jobs", "Preventing Job
+    Overlaps", read 2026-10-21.]
 15. **A presence channel is a private channel plus a roster, not a separate authorisation model.** Its
     `join()` callback still returns the same yes/no this record's owner may see this channel that point 8
     asks for private channels; what it adds on top is a payload describing *who else is here*, which is why
@@ -84,26 +85,34 @@
     that store. Encrypting the payload is the same reasoning as point 3 pushed one step further: a
     reference is safer than a snapshot, and a snapshot that must exist is safer encrypted than in the clear.
 18. **`ThrottlesExceptions`' two constructor arguments answer two different questions, and confusing them
-    produces a job that either never throttles or throttles forever.** The first is how many exceptions the
-    job may throw before it is considered failing; the second is how many minutes the throttle then holds
-    before the job is tried again. Pair it with `backoff()` on the middleware itself, not a `sleep()` inside
-    `handle()` — the delay belongs to the queue's retry mechanism, which can release the job without tying
-    up a worker process for the wait.
-19. **A released job (`WithoutOverlapping`, a rate limiter, a manual `$this->release()`) still counts
-    against `tries` and `maxExceptions`,** so a job released every time it runs eventually exhausts its
-    attempts and lands in `failed()` even though it never actually failed — a release loop needs either a
-    generous `tries` or its own escape hatch (a `retryUntil()` far enough out, or an explicit check that
-    stops releasing past a point and reports instead).
+    produces a job that either never throttles or throttles for the wrong time.** The first is how many
+    exceptions the job may throw before it is throttled; the second is the number of **seconds** the job then
+    waits before it is attempted again (the docs' example `new ThrottlesExceptions(10, 5 * 60)` waits five
+    minutes). Below the threshold a failing job is retried at once unless you call `->backoff($minutes)` on
+    the middleware, which takes minutes. Pair it with a job that defines `retryUntil()`, as the docs advise,
+    and put the delay in the middleware, not in a `sleep()` inside `handle()`, so a worker is not tied up
+    for the wait. [Laravel queues docs 12.x, "Throttling Exceptions"; framework source
+    `ThrottlesExceptions.php`, read 2026-10-21.]
+19. **A released job still counts as an attempt.** The docs say so for a rate-limited job: releasing it back
+    onto the queue increments its `attempts`, so tune `tries` and `maxExceptions`, or use `retryUntil()` to
+    bound the time instead. A job released every time it runs can therefore exhaust its attempts and land in
+    `failed()` without ever failing; a release loop needs a generous limit or its own escape hatch (an explicit
+    check that stops releasing past a point and reports). `releaseAfter()` sets the wait before the released
+    job is tried again, and `dontRelease()` drops the job instead. [Laravel queues docs 12.x, "Rate
+    Limiting", read 2026-10-21.]
 20. **`retryUntil()` bounds a job by wall-clock time instead of by attempt count**, which is the right
     limit for a job whose usefulness expires — a price-check email, a session-bound export — where trying
-    a twentieth time an hour later serves nobody even though the attempt count alone would allow it.
-    `tries` and `retryUntil()` combine as whichever limit is hit first, not as alternatives to choose
-    between.
-21. **A queue connection's `retry_after` must exceed the job's own real runtime, or the queue schedules a
-    second worker onto the same job before the first one finishes** — the symptom is a job that appears to
-    run twice concurrently, which then needs point 2's idempotence to survive but shouldn't have happened
-    in the first place. This is a config value (§7), tuned per queue rather than left at the framework's
-    default when a job's workload is known to run long.
+    a twentieth time an hour later serves nobody. The docs say that when both `retryUntil` and `tries` are
+    defined, Laravel gives precedence to `retryUntil`, so they are not two limits that race; set the one that
+    states the real constraint. [Laravel queues docs 12.x, "Time Based Attempts", read 2026-10-21.]
+21. **A queue connection's `retry_after` must be longer than the worker's `--timeout`, or the same job can be
+    handed to a second worker while the first is still running it.** The docs say `--timeout` should always be
+    at least several seconds shorter than `retry_after`, so a worker handling a frozen job is terminated before
+    the job is retried; otherwise jobs may be processed twice. The Redis example in the docs uses 90 seconds. The
+    symptom is a job that appears to run twice concurrently, which needs point 2's idempotence to survive but
+    should not have happened. This is a config value (§7), tuned per queue for a job known to run long.
+    [Laravel queues docs 12.x, "The `retry_after` configuration", "Queue Workers and Deployment", read
+    2026-10-21.]
 22. **A private channel's authorisation callback answers exactly one question — may this authenticated
     user see this channel — and nothing else belongs in it.** Loading unrelated data, dispatching a side
     effect, or writing to the database inside `Broadcast::channel()` turns an authorisation check that runs
@@ -123,46 +132,49 @@
     position — where the round trip through a queue worker would make the event visibly stale by the time it
     arrives; it is the wrong choice for anything point 6 already says belongs on a queue; a broadcast carrying
     real work (a recalculation, a large payload) synchronously ties up the request that triggered it.
-26. **A queued model relationship loaded before dispatch is serialised into the payload unless
-    `withoutRelations()` strips it.** `SerializesModels` re-fetches the model by key (point 3) but keeps any
-    relation already loaded in memory at dispatch time, so a job built from a model with `->load('items')`
-    still called on it carries every one of those rows into the queue's storage a second time — for a payload
-    meant to be a lean reference, that is the accidental snapshot point 3 warns about, arriving through a
-    side door.
+26. **A model's loaded relations travel with it into the job payload unless `withoutRelations()` strips
+    them.** Only the model's identifier is serialised, but the docs say all loaded relationships are
+    serialised too, so the job string can become large, and when the job is deserialised the relations are
+    re-retrieved from the database in their entirety: constraints applied before queuing are not applied again.
+    Call `withoutRelations()` when assigning the property (or use the `WithoutRelations` attribute on a promoted
+    constructor property), and re-constrain a relation inside the job when only a subset is wanted. [Laravel
+    queues docs 12.x, "Handling Relationships", read 2026-10-21.]
 27. **A job is routed to a queue by priority with `->onQueue()`, and the priority only means something if a
     worker actually listens to that queue name first.** `php artisan queue:work --queue=high,default` drains
     `high` before `default`; a job dispatched `->onQueue('high')` against a worker started with no
     `--queue` flag (the implicit `default` only) never gets the priority it was given — the routing and the
     worker's listen order are one decision split across two places in the deploy config, and only one of them
     failing to match is silent.
-28. **A batch can grow after it starts: `$batch->add(...)` from inside a job already in that batch appends
-    more jobs to the same batch rather than starting a second one.** That is what makes a batch usable for
-    work whose full size isn't known up front — a paginated export that discovers page two only after
-    reading page one — but it also means `finally` can fire before a job that just added itself has actually
-    run, unless the added jobs are counted before the batch is allowed to consider itself finished.
+28. **A batch can grow after it starts: `$this->batch()->add(...)` from inside a job already in that batch
+    appends more jobs to the same batch rather than starting a second one.** The docs' example adds a thousand
+    import jobs from one batched job, which is what makes a batch usable for work whose full size is not known
+    up front, such as a paginated export that discovers page two only after reading page one. [Laravel queues
+    docs 12.x, "Adding Additional Jobs to Batches", read 2026-10-21.]
 29. **`Concurrency::run()` runs independent closures in parallel without a queue, for work that must finish
     before the request continues** — several unrelated API calls whose results the response needs right now.
     It is not a substitute for a queue: nothing survives a worker restart, there is no retry, and point 5's
     failure design does not apply, because there is no `failed()` to define. Reach for it only when point 6's
     "does the user need to wait" answer is genuinely yes and the wait is for parallel I/O, not serial work.
 30. **A job's `$afterCommit` property is point 4's dispatch-after-commit rule made per-job instead of a global
-    connection setting.** Setting `queue.connections.*.after_commit` in config applies to every job on that
-    connection; a job that must dispatch inside the transaction anyway (rare, but genuine — a step that reads
-    uncommitted work on purpose within the same request) overrides it with `public $afterCommit = false;` on
-    the job itself. The property exists precisely so one exception to point 4 doesn't force turning the rule
-    off connection-wide.
+    connection setting.** The `after_commit` option in a queue connection's config applies to every job on that
+    connection; `dispatch(...)->afterCommit()` and `->beforeCommit()` choose per dispatch, and the framework
+    source also honours an `afterCommit` property on the job class, with `ShouldQueueAfterCommit` as the
+    interface form, where `public $afterCommit = false;` opts a job out. A job that must dispatch inside the
+    transaction anyway is the rare, genuine exception, so it should not force turning the rule off
+    connection-wide. [Laravel queues docs 12.x, "Jobs & Database Transactions"; framework source `Queue.php`
+    (12.x), read 2026-10-21.]
 31. **`Bus::chain([...])->catch(function (Throwable $e) {...})` fires once, for the first job in the chain
     that fails, and it is not the same signal as that job's own `failed()`.** The chain stops at the failing
     link — later jobs never run — and the `catch` callback is where a chain-level cleanup or notification
     belongs, separate from whatever the individual job's `failed()` (point 5) already does for that job alone;
     relying on the job's own `failed()` to also cover "the chain as a whole didn't finish" misses the case
     where an *earlier* job in the same chain is what actually broke it.
-32. **A job's `displayName()` override is what a queue dashboard (Horizon, `queue:monitor`) shows instead of
-    the fully-qualified class name, and it is worth setting once a job class is reused for several distinct
+32. **A job's `displayName()` override is the name an observer such as Horizon can show instead of the
+    fully-qualified class name; it is worth setting once a job class is reused for several distinct
     operations.** `ProcessExport::displayName()` returning `"Export invoices for tenant {$this->tenantId}"`
     turns a dashboard full of identical `ProcessExport` entries into one that says which tenant's export is
-    stuck — the default (the class name) is fine for a job that only ever does one thing, and stops being
-    enough the moment the same class handles several distinguishable payloads.
+    stuck; the default is fine for a job that only ever does one thing. Own guidance, not read in this pass:
+    which tools display it.
 33. **`$deleteWhenMissingModels` on a job tells the framework to silently discard the job when
     `SerializesModels` re-fetches its subject (point 3) and finds it gone, instead of throwing a
     `ModelNotFoundException` that then exhausts retries and lands in `failed()`.** It is the right default for
@@ -200,11 +212,11 @@
     added batching or job monitoring without also adding the corresponding prune command to the schedule
     (`skills/laravel-conventions` §7 point 11) is accumulating a table nobody is watching until a query against
     it gets slow.
-39. **A named batch (`Bus::batch([...])->name('...')`) is what makes Horizon's batch dashboard, or any
-    `job_batches` query, readable across dozens of concurrently running batches.** An unnamed batch is
-    identified only by its UUID in the dashboard, which is fine for one batch in flight and unreadable once
-    several kinds of batched work run at the same time — the same "displayName() for a dashboard" reasoning
-    point 32 already gives a single job, applied to the batch as a whole rather than one job class.
+39. **A named batch (`Bus::batch([...])->name('...')`) makes a row of the `job_batches` table readable across
+    dozens of concurrently running batches.** An unnamed batch is identified only by its id, which is fine for one
+    batch in flight and unreadable once several kinds of batched work run at the same time — the same naming
+    reasoning point 32 gives a single job. Own guidance: the docs read in this pass do not describe a
+    dashboard that shows the name.
 40. **`Notification::sendNow()` bypasses the queue for a notification the way `ShouldBroadcastNow` (point 25)
     bypasses it for a broadcast, and it carries the same trade-off.** Point 7's "notifications go through one
     channel-agnostic mechanism, queued by default" still holds; `sendNow()` is the deliberate exception for a
