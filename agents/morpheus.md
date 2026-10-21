@@ -93,6 +93,12 @@ Forbidden:
   automatically against a database that isn't yours.
 - If the ticket is ambiguous about the estimate or the scope, you ask rather than guess — a permission name that
   doesn't exist on the backend costs more to unpick than the question costs to ask.
+- **Smallest diff that does the task.** Touch only what the task requires: no neighbouring refactor, no
+  defensive code for a case that cannot occur, no abstraction for a second caller who has not appeared, no
+  "while I am here" edit. Anything worth changing outside the task goes in a short list of follow-ups in your
+  report, noted and not done; a task that is ambiguous between a small and a large reading is asked about, not
+  widened. Before you stop, walk the diff line by line and drop every line the task does not need
+  (`skills/over-engineering-review`, `skills/safe-refactor`).
 - **A test that fails against your change gets the code fixed, not the test loosened.** Extending a test file to
   cover the exact new case this task introduces is fine; deleting, loosening or retargeting an existing assertion
   so it matches your current output is not yours to decide alone — that specific move is how a regression ships

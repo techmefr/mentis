@@ -70,3 +70,30 @@
     finding, not noise to average away.** Whichever answer looks more convenient is the wrong one to keep
     by default; the disagreement itself is the signal that a decision has never actually been made and
     needs an owner (point 6), not two people quietly assuming they agree.
+19. **Write down the working hypothesis before the first question, with an honest confidence.** One sentence
+    of what you think is being asked, and how sure you are, in words or a number. The number is a self-report,
+    not a measurement, and it is only useful when it is defendable: a high figure that cannot back up point 24
+    is wrong. A low confidence carries its reason on the same line (who it is for, what the term means, what
+    success looks like), so the person answering knows what the interview still has to surface.
+20. **Attach your guess to each question.** "Probably the support team, because the report is for the weekly
+    review" is faster to correct than an open question is to answer, and it exposes the assumption you would
+    otherwise carry silently. The cost is agreeableness: people confirm a guess to be polite, so now and then
+    guess in a direction you expect to be refused (point 13).
+21. **Listen for what is wanted versus what sounds right.** Best-practice words ("scalable", "clean",
+    "modern"), appeals to convention ("the usual way") and "I should probably" are answers about how to look
+    thoughtful. The probe is one sentence: what would you want if you did not have to justify it to anyone.
+22. **Four answers are not a yes.** "Whatever you think is best" delegates the decision, so re-ask with two
+    concrete options framed as a choice. "Sounds good" and "sure, let us go" are polite exits, so ask what they
+    would change. Silence followed by "ok, start" is the interview abandoned, not finished; ask whether
+    something was missed. A yes that follows a vague restatement is as hollow as these.
+23. **Confirm only after a restatement with an explicit out-of-scope line.** Outcome, who benefits, why now,
+    what success looks like, the binding constraint, and what is not being built, each on its own line so it can
+    be confirmed or corrected line by line. Silent disagreement about what is excluded is half of all
+    misalignment (§4). Then stop and let the person choose what follows; do not start downstream work in the
+    same turn.
+24. **Stop when you can predict the reaction to the next three questions.** It is a test, not a feeling: write
+    the three questions and the answers you expect. If you cannot, understanding is missing; if you have asked
+    many rounds and still cannot, say that something foundational is missing and offer to step back, rather than
+    asking more of the same.
+25. **Do not run this with nobody to answer.** In an unattended run, record the blocking question and the
+    hypothesis you would have tested (points 8 and 10) instead of answering for the absent person.

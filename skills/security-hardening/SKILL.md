@@ -32,7 +32,7 @@ job, on demand.
 **Read only the sections the boundary actually is.** The rules live one file per section under
 `references/`; §1 and §2 are the two halves of a data path, §3 is any new entry point, §4 is uploads,
 secrets and dependencies, §5 is what you owe before calling it done, and §6 to §8 are what the browser,
-the production environment and the client enforce or expose, §9 is cryptography, §10 the level a review is held to, §11 services exposed beyond their host.
+the production environment and the client enforce or expose, §9 is cryptography, §10 the level a review is held to, §11 services exposed beyond their host, §12 the audit of an AI-generated app.
 
 | § | Covers | Read it when | File |
 |---|---|---|---|
@@ -47,6 +47,7 @@ the production environment and the client enforce or expose, §9 is cryptography
 | 9 | Applied cryptography: no home-made primitives, randomness, constant-time compare, nonces, password hashing, keys | code encrypts, signs, hashes a secret, generates a token or a key | [`09-cryptography.md`](./references/09-cryptography.md) |
 | 10 | Assurance level: declared once, reviewed against | a spec or a security review of an application is written | [`10-assurance-levels.md`](./references/10-assurance-levels.md) |
 | 11 | Exposed services: probing the right route, placeholder credentials, bind address, a control's real reach | a gateway, proxy or tool server is exposed, or someone asks whether a service is protected | [`11-exposed-services.md`](./references/11-exposed-services.md) |
+| 12 | AI-generated or scaffolded apps: secrets reachable by the client, access rules that only look on, client-editable authorisation, model calls rated by position, honest rescan | the audit target was built mostly by an assistant or a scaffold | [`12-ai-generated-app-audit.md`](./references/12-ai-generated-app-audit.md) |
 
 ## Output / checkpoint
 For each boundary the diff introduces: where validation happens, what the whitelist is, how output is
