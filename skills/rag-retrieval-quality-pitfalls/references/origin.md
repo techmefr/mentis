@@ -53,3 +53,5 @@ OpenAI embeddings guide, a multi-tenant statement on the Pinecone filter page.
 ## Related blocks
 `llm-eval-regression-pitfalls`, `llm-app-prompt-injection-and-exfiltration-pitfalls`, `search-index-sync-pitfalls`,
 `elasticsearch-mapping-and-reindex-pitfalls`, `ai-feature-acceptance-pitfalls`, `agent-context-hygiene-pitfalls`.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified

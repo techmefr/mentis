@@ -49,3 +49,5 @@ issue-tracker source. No number from the sources is carried over.
 ## Related blocks
 `loop-design`, `agent-run-limits-and-guardrail-pitfalls`, `agent-memory-and-state-pitfalls`,
 `agent-sandbox-egress-pitfalls`, `agent-mcp-trust-pitfalls`, `handoff`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

@@ -61,3 +61,5 @@ version.
 ## Related blocks
 `agent-sandbox-egress-pitfalls`, `mcp-server-design-pitfalls`, `oauth-oidc-client-pitfalls`,
 `security-hardening`, `secret-leak-response-pitfalls`, `credential-lifecycle-pitfalls`.
+
+Independent verification 2026-10-21: 28 checked, 28 matched, 0 corrected, 0 unverified

@@ -63,3 +63,5 @@ the sliding-window cache miss, the stepping pruner, the short-task rule and the 
 Not carried over: its default values, token estimate per image, price ratio of cached reads, and the provider byte
 caps. Ours: the checks, the minimum-after-drop test and the log line. Not verified: all behaviour claims are the
 repository's and were not run; the "about ten reads" statement is its own.
+
+Independent verification 2026-10-21: 25 checked, 25 matched, 0 corrected, 0 unverified

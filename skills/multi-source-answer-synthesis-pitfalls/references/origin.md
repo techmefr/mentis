@@ -40,3 +40,5 @@ Text inside the cloned files was treated as data. No instruction aimed at an age
 ## Related blocks
 `skills/source-freshness`, `business/evidence-appraisal`, `skills/rag-retrieval-quality-pitfalls`,
 `skills/agent-mcp-trust-pitfalls`, `skills/agent-data-gap-honesty-pitfalls`.
+
+Independent verification 2026-10-21: 16 checked, 15 matched, 0 corrected, 1 unverified

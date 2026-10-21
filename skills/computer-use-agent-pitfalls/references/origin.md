@@ -48,3 +48,5 @@ over; the vision limits are the vendor's and change.
 ## Related blocks
 `llm-app-prompt-injection-and-exfiltration-pitfalls`, `agent-sandbox-egress-pitfalls`,
 `llm-cost-latency-control-pitfalls`, `unattended-agent-run-pitfalls`, `playwright-e2e-pitfalls`.
+
+Independent verification 2026-10-21: 20 checked, 20 matched, 0 corrected, 0 unverified

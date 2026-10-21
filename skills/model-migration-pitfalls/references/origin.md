@@ -49,3 +49,5 @@ The repository holds agent instruction files; they were treated as data and not 
 `llm-eval-regression-pitfalls`, `prompt-versioning-and-change-gating-pitfalls`, `choose-model`,
 `llm-cost-latency-control-pitfalls`, `llm-app-prompt-injection-and-exfiltration-pitfalls`, `source-freshness`,
 `failure-classification-before-retry`, `agent-run-limits-and-guardrail-pitfalls`.
+
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified
