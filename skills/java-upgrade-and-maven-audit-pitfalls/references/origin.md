@@ -36,3 +36,33 @@
 
 ## Related blocks
 `java-conventions`, `deprecation-migration`, `ci-workflow-hardening`.
+
+## Source pass 2026-10-20 (every point below was re-opened against the page named, own words, no text copied)
+
+The JDK enhancement proposal pages named below, the Maven dependency mechanism guide and plugin goal pages, the Versions plugin goal pages, the dependency-check Maven usage page and the scoring specification were re-opened. The JEP pages carry an Oracle copyright with no open licence stated on the page; they are official release documents and were used for facts only, in own words. No JDK release note or compatibility table was read for the claims left unverified.
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| JEP 320 (remove Java EE and CORBA modules), JEP 403 (strong encapsulation), JEP 400 (UTF-8 by default), JEP 421 (deprecate finalization), JEP 451 (prepare to disallow dynamic agent loading), JEP 471 (deprecate Unsafe memory access), JEP 486 (permanently disable the security manager), JEP 503 (remove 32-bit x86 port) | openjdk.org pages, copyright holder Oracle, no open licence stated; facts only | release numbers and exact effect of each change |
+| Apache Maven: introduction to the dependency mechanism; dependency plugin tree and analyze goal pages | Apache-2.0 (Maven LICENSE read 2026-10-20) | nearest-definition mediation, dependency management, exclusions, includes filter, used-undeclared and unused-declared analysis |
+| Versions Maven plugin 2.23.0: display-dependency-updates, display-plugin-updates, use-latest-releases, commit, revert | Apache-2.0 (LICENSE.txt of the mojohaus/versions repository read 2026-10-20) | update reports for dependencies and plugins, replacement by latest releases, backup commit and revert |
+| OWASP dependency-check Maven plugin usage page | Apache-2.0 (LICENSE.txt read 2026-10-20) | HTML report from a check goal, bound to the verify phase, first run downloads the vulnerability database |
+| FIRST Common Vulnerability Scoring System 3.1 specification | FIRST licenses it freely for public use with conditions (stated on the page) | qualitative rating bands |
+
+### Verified in this pass
+1. 1.2 item 1 (JEP 320), item 2 (JEP 403 and the opening flag), item 3 (JEPs 421 and 400); 1.4 item 1 (opening flag) and item 3 (the 17 symptom is an inaccessible-object exception).
+2. 2.1 item 3 (plugin updates report); 2.2 item 2 (bands); 2.3 items 2 and 3 (includes filter; analyze categories); 2.4 items 1, 2 and 3 (dependency management, exclusion, latest-releases with commit and revert).
+
+### Corrected in this pass
+1. 1.2 item 4: the security manager is disabled but its API is retained; the Unsafe memory-access methods are deprecated for removal, not removed; only the 32-bit x86 port is removed; dynamic agent loading only warns from 21. Text rewritten with release numbers.
+2. 2.3 item 1: Maven picks the nearest definition, not the newest; added, since "omitted for conflict" can hide a fixed version.
+
+### Still unverified (no page found that says it, kept as own guidance)
+1. 1.1 (the long-term-support path 8, 11, 17, 21, 25) and the compatibility table: no release roadmap page read.
+2. 1.2 item 2 (preview features changing syntax), 1.3, 1.4 item 2, 1.5 (Spring Boot 3 needs Java 17 and Jakarta EE 9; the current Boot reference source gives Java 17 as the floor but says nothing on Jakarta), 1.6: not located on a permissive page.
+3. 2.1 items 1 and 2, 2.2 item 1 and 3 (the second scan option), 2.5: the skill's own process.
+4. "omitted for conflict" and "omitted for duplicate" labels: the tree goal page read documents the verbose option only, not the labels.
+5. Nothing was run.
+
+### Tally
+Points 30. Sourced 12, corrected 2, still unverified 16.

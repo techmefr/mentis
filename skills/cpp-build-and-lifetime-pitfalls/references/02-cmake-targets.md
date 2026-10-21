@@ -6,8 +6,9 @@ Sources: the CMake 4.4.4 reference manual (command pages read 2026-10-08) and th
 ## 2.1 Attach everything to a target, with a scope
 1. **`include_directories` and `add_compile_options` are directory-scoped.** The first adds the directories to
    the directory property and to every target in that directory; the second sets the directory's compile
-   options for all targets in it and below. The manual's own note on `include_directories` says to prefer
-   `target_include_directories`, which can also propagate the directories to dependents.
+   options for all targets in it and below. The manual's note on both commands calls new use discouraged: they make unencapsulated changes with
+   broad effect and cannot express interface usage requirements, so it recommends the `target_*` commands, and
+   `target_include_directories` can propagate the directories to dependents.
 2. **Use `target_*` commands with an explicit `PRIVATE`, `PUBLIC` or `INTERFACE` keyword.** For include
    directories, `PRIVATE` and `PUBLIC` items populate the target's own include directories, `PUBLIC` and
    `INTERFACE` ones populate what dependents see. A header directory used only to compile the library is
@@ -31,8 +32,9 @@ Sources: the CMake 4.4.4 reference manual (command pages read 2026-10-08) and th
    Setting it globally is the default for a top-level project, not a substitute for the feature requirement on a
    library that others consume.
 3. **The template sets `CMAKE_CXX_EXTENSIONS OFF`** with a comment that this avoids a conflict between
-   `-Wpedantic` and `-std=gnu++NN`, notably with precompiled headers; the manual page for the variable was not
-   read, so treat this as the template's claim (§2.5).
+   `-Wpedantic` and `-std=gnu++NN`, notably with precompiled headers; the manual page for the variable (read
+   2026-10-20) says only that it is the default for the target property when a target is created, so the
+   rationale stays the template's claim (§2.5).
 
 ## 2.3 Warnings and options as one target
 1. **Put project-wide warning and option flags on a single `INTERFACE` library target and link it `PRIVATE`

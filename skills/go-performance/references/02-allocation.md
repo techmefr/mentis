@@ -29,6 +29,8 @@ buffer can be freed.
    pool must not be copied after first use. A pool is a cache, never storage for state you need.
 3. **A free list inside a short-lived object is not a good fit,** because the overhead does not amortise.
 4. **Reset what you take out before reusing it** (the documentation's example resets the buffer after `Get`).
+   The example's `New` returns a pointer, and its comment says why: a pointer fits in the interface value
+   without a further allocation, so a pool of non-pointer values allocates on every `Put`.
 5. **Add one only where a profile showed the allocation** and measure again afterwards (§1.4). The
    "profile first" half is own guidance.
 

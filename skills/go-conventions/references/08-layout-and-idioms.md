@@ -9,7 +9,9 @@
    interface with one implementation and no second consumer is speculation.
 3. Do not mirror a layered architecture in package names (a `services`, a `repositories`) unless the project
    already has one. The two source sets disagree on this; the choice here is the smaller structure.
-4. The module path is lower-case and matches the repository location; multi-word segments use hyphens.
+4. The module path says where the module can be fetched from, and its leading element (the host) is
+   lower-case ASCII by rule; keep the rest lower-case too. Hyphens between words are a style choice, not
+   something the module reference requires.
 5. Read the `go` directive of the module before judging an idiom. Where the toolchain has since added a
    replacement (range over an integer, the `slices` and `maps` packages, the per-iteration loop variable, the
    v2 random package, a root-scoped file API), flag the old form in new code only; legacy files stay

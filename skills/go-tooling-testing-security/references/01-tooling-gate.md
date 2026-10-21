@@ -29,7 +29,11 @@ carries no style churn.
    executed, so a green run proves only what the tests exercised; `go-conventions` §1.6 notes the same for the
    closed-channel race. Realistic workloads and incomplete coverage both expose more.
 3. **Check the platform:** `-race` is supported only on the listed OS and architecture pairs (for example
-   linux on amd64 and arm64); a CI image on another pair cannot run it.
+   linux on amd64 and arm64), and it needs cgo enabled plus an installed C compiler on every system except
+   macOS. A test job that sets `CGO_ENABLED=0` (as the container build in `go-container-runtime` does) or runs
+   on a bare image cannot run it. Separately, the article warns that each `defer` with `recover` costs a few
+   extra bytes the race runtime keeps until the goroutine exits, so a long-lived goroutine looping over them
+   grows without bound under `-race`.
 
 ## 1.4 Pin tools with the `tool` directive
 **From Go 1.24, record a developer tool in `go.mod` with a `tool` directive** instead of a blank import in a
@@ -40,9 +44,12 @@ moves with the module, which is the reason to prefer it.
 ## 1.5 Vulnerability scanner
 1. **Run `govulncheck ./...` as a CI step.** The vulnerability guide says it reports only the vulnerabilities
    whose vulnerable functions your code transitively calls, a low-noise result, and its data comes from the
-   Go vulnerability database (curated by the Go security team, OSV format).
-2. **Treat a finding as blocking until triaged.** Own guidance: the pages read do not state the exit code, so
-   check how the CI step reacts before depending on it. The tool is installed by the user
+   Go vulnerability database (curated by the Go security team, OSV format). Its documented blind spots: calls made through `reflect` are invisible in source mode, and
+   `unsafe` can hide a vulnerable call, so a clean report is not proof.
+2. **Treat a finding as blocking until triaged.** The tool's page documents the exit status: success when it finds
+   nothing, failure when it finds something, **except** that the JSON, SARIF and OpenVEX output formats always
+   exit successfully, so a CI step that writes one of those never fails on a finding unless a later step reads
+   the file. The tool is installed by the user
    (`go install golang.org/x/vuln/cmd/govulncheck@latest` in the guide), or recorded with the `tool` directive described just above.
 
 ## 1.6 Modernising

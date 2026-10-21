@@ -28,7 +28,9 @@
    the code a reader sees different from the code the compiler sees. When one is unavoidable, give it a
    project-specific prefix and an upper-case name, and never use macros to generate the pieces of a public
    interface (declaring fields, functions or types through macro expansion), since every error message then has
-   to be read through the expansion and tools cannot refactor it.
+   to be read through the expansion and tools cannot refactor it. When a macro is unavoidable, define it
+   right before use and undefine it right after, never in a header without an undefine before the header ends,
+   and avoid `##` to build names. The source guide adds that macros are less necessary in C++ than in C.
 8. **A macro argument is evaluated once or the macro says so.** A function-like macro that uses an argument
    twice runs its side effects twice [PRE31]; do not pass `x++` to such a macro, and prefer a function
    so the question does not arise. Never put preprocessor directives inside the argument list of a function-like

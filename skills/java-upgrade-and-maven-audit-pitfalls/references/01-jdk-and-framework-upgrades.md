@@ -15,14 +15,20 @@ rewritten. Its release facts are the skill's statements, not re-checked against 
 
 ## 1.2 What breaks, by step (the skill's quick reference)
 1. **8 to 11**: the Java EE modules are gone (XML binding, activation, common annotations, transactions, CORBA),
-   so add the Jakarta artifacts as dependencies; some `sun.misc` classes go (Base64 has a standard
+   so add the Jakarta artifacts as dependencies (JEP 320; the XA subpackage of the transaction API stays with the SQL
+   module, the rest of it goes); some `sun.misc` classes go (Base64 has a standard
    replacement); the module system starts to matter for reflection on JDK internals.
-2. **11 to 17**: strong encapsulation is on, so the old illegal-access switch no longer works and only explicit
-   opening flags do; preview features that became final may change syntax.
-3. **17 to 21**: `finalize` is deprecated for removal (use a cleaner or try-with-resources); the default file
-   encoding becomes UTF-8, which matters when code assumed the platform encoding.
-4. **21 to 25**: the skill lists the security manager removed, some `Unsafe` methods removed (use the variable
-   handle or foreign-memory APIs), 32-bit platforms dropped, and dynamic agent loading restricted behind a flag.
+2. **11 to 17**: strong encapsulation is on, so the old illegal-access switch no longer works (JEP 403: in 17 any use of it only prints a warning)
+   and only explicit opening flags do; preview features that became final may change syntax.
+3. **17 to 21**: `finalize` is deprecated for removal (JEP 421, release 18; use a cleaner or try-with-resources);
+   the default charset of the standard APIs becomes UTF-8 (JEP 400, release 18), which matters when code assumed the platform encoding.
+4. **21 to 25**, as the skill lists them and as the JEPs state them: the security manager can no longer be
+   enabled at start-up and its API behaves as if none were ever enabled (JEP 486, release 24; the API is
+   retained, not removed); the memory-access methods of `sun.misc.Unsafe` are deprecated for removal (JEP 471,
+   release 23; use the variable handle or foreign-memory APIs) and the skill's word "removed" overstates it;
+   only the 32-bit x86 port is removed (JEP 503, release 25); loading agents into a running JVM prints a
+   warning from 21 (JEP 451), which announces disallowing it by default in a later release, and the flag that
+   silences the warning is `-XX:+EnableDynamicAgentLoading`.
 
 ## 1.3 Build settings
 1. **Set the release in one place**: a property used by the compiler source and target settings, or the

@@ -20,7 +20,7 @@ number in a rule and not by a measurement of this program is the exact mistake t
    (`get_in(id, &mut value)`), with a `clear()` to reset, so a loop does not allocate per element. The
    allocating convenience form may exist, but as the secondary API.
 4. **Size collections when the size is known.** Create a `Vec`, `String`, map or set with a capacity when the
-   final or approximate size is known at construction, which avoids repeated reallocation and copying. After
+   final or approximate size is known at construction, which avoids repeated reallocation and copying. Building with `collect` inherits the iterator's size hint, so it is preferred to a manual push loop. After
    building a large long-lived collection without an exact reservation, shrink it to fit before storing, since
    growth can leave nearly half the memory unused.
 5. **Immutable, frequently created sequences are boxed slices.** Internal data that is never resized and is

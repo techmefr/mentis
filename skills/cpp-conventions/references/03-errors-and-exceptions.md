@@ -8,7 +8,9 @@
 **The project's choice comes first.** The core guidelines assume exceptions; one large style guide forbids
 them in its own code base, and a code base built without exceptions cannot use a library that throws, and a
 library that throws cannot be used from code built without them. Check the build flags and the libraries
-before writing any of what follows. Points 1 to 7 are the exception-based discipline; points 8 and 9 are the
+before writing any of what follows. The style guide's ban also covers `std::exception_ptr` and `std::nested_exception`, has a carve-out for
+Windows code, and says its authors would probably choose differently starting from scratch. Points 1 to 7 are
+the exception-based discipline; points 8 and 9 are the
 discipline when exceptions are not available.
 
 1. **Decide the error-handling strategy early, around invariants.** Decide what an error is, who detects it,

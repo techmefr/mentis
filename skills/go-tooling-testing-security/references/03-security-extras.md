@@ -7,9 +7,10 @@ The general policy is `security-hardening`; this section is the Go standard-libr
 directory and refuse paths that point outside it, **including ones that follow a symbolic link out of the
 directory**. `Root.FS()` returns an `fs.FS` with the same guarantee. When a file name comes from a request,
 an archive or a config value, open it through a `Root` instead of cleaning the string and joining it to a
-base path. The package documentation points to the `Root` type for details and limitations: read them
-before relying on it for a case the docs do not mention (hard links and mount points were not covered in
-what was read). On older toolchains the scanner flags the manual pattern instead (gosec G304 for a tainted
+base path. The `Root` type documents its limits: a symbolic link is followed only when it stays inside the root and
+is not absolute; crossing filesystem boundaries, Linux bind mounts, `/proc` special files and Unix device
+files are not prevented; on Windows reserved device names are rejected; on Unix, changing mode, owner or times
+through a root has a race. Read the type's page before relying on it for a case it does not list. On older toolchains the scanner flags the manual pattern instead (gosec G304 for a tainted
 file path, G305 for path traversal while extracting a zip, G703 by taint analysis).
 
 ## 3.2 Randomness for secrets
@@ -36,8 +37,8 @@ digests of both values (own guidance, a consequence of the length behaviour).
    the template's author but not the data passed in. `text/template` writes data out unescaped. gosec flags
    server-side template injection through `text/template` (G708) and cross-site scripting by taint (G705).
 2. **Pass values to SQL as arguments to the placeholder form of the query, never by building the SQL
-   string.** Own guidance: no page read in this pass states the rule in those words; gosec reports SQL
-   injection by taint analysis (G701). Context and pooling rules for the database are
+   string.** The Go database guide's page on injection says to pass parameter values as arguments to
+   placeholders; gosec reports SQL injection by taint analysis (G701). Context and pooling rules for the database are
    `go-conventions` and `sql-conventions`.
 
 ## 3.5 Run the static security analyser

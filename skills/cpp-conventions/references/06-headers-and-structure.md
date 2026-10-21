@@ -22,10 +22,13 @@
 5. **Namespaces express logical structure.** Put the code of a module in a namespace named for it. A header never
    carries a global `using namespace`, because every file that includes it inherits the directive; a source
    file may use one for the standard library, during a migration, or inside a local scope. File-local
-   entities go in an unnamed namespace (or `static`) in the source file, never in a header.
+   entities go in an unnamed namespace (or `static`) in the source file, never in a header. The two sources differ
+   here: the style guide forbids using-directives everywhere, including source files, so follow the project.
 6. **Small and time-critical functions may be `inline`; constant-computable ones are `constexpr`.** A function
    that might need evaluating at compile time is declared `constexpr`; the compiler, not the programmer,
-   decides what to inline in the general case.
+   decides what to inline in the general case. The style guide defines a function in the class body or at
+   its public declaration only when it is short (about ten lines or fewer) and keeps longer bodies in the
+   source file unless performance or a technical reason requires the header.
 7. **Macros are the last tool.** Do not use them for constants (use `constexpr`), for functions (use inline
    functions or templates), for types (use aliases with `using`, not `typedef`) or to generate pieces of an
    interface. If a macro is unavoidable, its name is in upper case, unique (a project prefix), and it is defined

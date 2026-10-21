@@ -9,7 +9,7 @@ languages is `ci-workflow-hardening` §3; the broader dependency rules are `secu
    check's defaults when it has no configuration.
 2. **advisories** read the RustSec database by default. A match on an `unmaintained` advisory fails the check
    (default `all`; `workspace` limits it to direct dependencies, `none` ignores them). A **yanked** version
-   only **warns** by default; set `yanked = "deny"` to fail on it.
+   only **warns** by default; set `yanked = "deny"` to fail on it. The `unsound` field defaults to failing only for direct dependencies of the workspace; `all` also covers transitive ones.
 3. **licenses** are denied unless explicitly allowed, so the `allow` list is the policy; dev-dependencies are
    not checked by default and build-dependencies are.
 4. **bans** warn, and do not fail, on **multiple versions of the same crate** by default, and likewise warn on
@@ -24,7 +24,7 @@ languages is `ci-workflow-hardening` §3; the broader dependency rules are `secu
 
 ## 2.2 cargo-semver-checks before publishing a library
 1. **Run `cargo semver-checks` before releasing a library** to compare the new API against the last published
-   version, looked up on crates.io by default or selected by a baseline flag such as `--baseline-version`; the
+   version, looked up on crates.io by default or selected by a baseline flag (`--baseline-version`, `--baseline-rev`, `--baseline-root` or `--baseline-rustdoc`); the
    crate does not have to be published.
 2. **It does not catch every violation.** The README lists areas it misses: breaking changes in the type of a
    field or parameter, and in generics or lifetimes, among others, and says more lints are added over time.

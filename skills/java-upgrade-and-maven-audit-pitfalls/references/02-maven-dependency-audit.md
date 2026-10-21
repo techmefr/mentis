@@ -13,14 +13,16 @@ Source: the Maven dependency audit skill of the claude-code-java repository (MIT
 1. **Categorise by what the change implies**: a security fix first (update at once), a major change (read the
    changelog and test thoroughly), a minor change (usually safe, test), a patch (safe, little testing).
 2. **Order security findings by severity band**: critical (9.0 to 10.0) at once, high (7.0 to 8.9) within days,
-   medium (4.0 to 6.9) within weeks, low at convenience. The bands and timings are the skill's.
+   medium (4.0 to 6.9) within weeks, low at convenience. The score bands are the standard qualitative ratings of the common vulnerability scoring system (FIRST
+   specification, version 3.1); the timings are the skill's own policy.
 3. **A scan has three options in the skill**: a dependency-check plug-in producing an HTML report (recommended),
    a dependency report from the analysis plug-in, and the hosting platform's alerting. Add the scan plug-in to the
    build only after the user agrees to the dependency.
 
 ## 2.3 Reading the tree
 1. **Look for two versions of one library under different parents.** In the tree output, "omitted for conflict"
-   means Maven chose one version and dropped the other; "omitted for duplicate" is the same version and no
+   means Maven chose one version and dropped the other, and Maven's rule is the nearest definition to your
+   project in the tree, not the newest, so an older copy can win over a fixed one; "omitted for duplicate" is the same version and no
    problem. Two versions of a library are a run-time risk because only one is on the classpath.
 2. **Filter by the library you are chasing** with the includes option rather than reading the whole tree, and use
    the same filter to find why a transitive dependency is present.

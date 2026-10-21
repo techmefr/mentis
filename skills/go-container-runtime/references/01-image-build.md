@@ -4,9 +4,10 @@ Applies to any supported Go version unless a rule names one.
 
 ## 1.1 Static binary on a minimal base
 1. **Build with cgo off** (`CGO_ENABLED=0`). The reference build template exports it for every build and
-   ships the result on a distroless static base image. Own guidance: a binary that links C libraries will
-   not run on a base that lacks them, so a project that truly needs cgo chooses its base image for those
-   libraries instead of copying this setup.
+   ships the result on a distroless static base image. The distroless README says that image holds the
+   certificate bundle, a passwd entry for root only, a temporary directory and the time zone data, and that Go
+   programs which need libc or cgo should start from its base image (which adds glibc) instead, so a project
+   that truly needs cgo chooses its base for that, not this setup.
 2. **Put only the binary and the licence files in the final image.** Compile in a build stage or build
    container, and copy the output. Own guidance, following the template, which copies a prebuilt binary
    into the final image.
@@ -18,7 +19,9 @@ statically links its dependencies, so the licence texts travel with it or not at
 
 ## 1.3 User
 1. **Run as a numeric user and group.** The template ends with `USER 65535:65535` and notes in a comment
-   that a named user such as `nobody:nobody` would be nicer but the distroless image has no such entries.
+   that a named user such as `nobody:nobody` would be nicer but the distroless image has no such entries
+   (its README lists a passwd entry for root only; it also publishes `nonroot` tags, whose exact user the
+   README does not state, so read the image before relying on them).
 2. **Set `HOME` deliberately.** The template sets `ENV HOME=/` next to the user, since a numeric user with
    no passwd entry has no home directory to inherit.
 
@@ -34,7 +37,7 @@ statically links its dependencies, so the licence texts travel with it or not at
 1. **Stamp the version at link time** with `-ldflags "-X <module>/pkg/version.Version=$VERSION"`. The
    linker documents that `-X` sets a **string** variable and only works when the variable is declared
    uninitialised or initialised to a constant string expression, so a version variable assigned from a
-   function call is silently left alone.
+   function call, or from another variable, is silently left alone.
 2. **Fail the build when the version is unset.** The template's build script exits with "VERSION must be
    set" before compiling, and its Makefile derives the value from `git describe --tags --always --dirty`.
 3. **Do not rely on the automatic VCS stamp inside an image build.** `-buildvcs=auto` stamps the binary

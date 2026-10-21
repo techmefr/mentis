@@ -18,7 +18,7 @@ cargo-mutants book (tree of 2026-10-08), the loom README, and the Microsoft Rust
    output or error open is marked leaky; `std::process::Child` does not kill the child on drop, so use a guard
    that does, or `tokio::process::Command` with `kill_on_drop`.
 4. **Retries mark a test flaky and treat it as passing by default**, with the run's exit code 0 when nothing
-   else failed; a newer option makes flaky tests fail the run. Do not enable retries to hide a test you could
+   else failed; a newer option (`--flaky-result fail`, from nextest 0.9.131, which does not turn retries on by itself) makes flaky tests fail the run. Do not enable retries to hide a test you could
    fix (own guidance); use the stress feature to reproduce a nondeterministic failure instead of retrying on
    success.
 
@@ -40,7 +40,7 @@ cargo-mutants book (tree of 2026-10-08), the loom README, and the Microsoft Rust
    meaningless.
 2. **Unsafe functions and test code are excluded from mutation**; it does not tell you anything about unsafe
    blocks (`rust-async-unsafe-pitfalls` §3.4 covers what does).
-3. **Skip what cannot be tested, visibly.** The book gives three ways, an attribute, a path filter and a name
+3. **Skip what cannot be tested, visibly.** The book gives three ways, an attribute (`#[mutants::skip]`), a path filter and a name
    filter, and advises the attribute where a particular function is hard to test so that the skip is
    visible in the code, and a config path or regex filter for whole modules or classes such as `Debug`
    implementations. Preview the effect with `--list`.
@@ -51,7 +51,7 @@ cargo-mutants book (tree of 2026-10-08), the loom README, and the Microsoft Rust
    on trees with slow integration tests, and that a configuration with fail-fast off should be turned back on.
 6. **Mutated code runs your side effects.** The book's caution: a mutant can change an existing deletion path,
    so run it in a container, a CI job or a VM, with no production credentials, and with `--in-place` only on a
-   disposable checkout.
+   disposable checkout. A run interrupted under `--in-place` can leave mutations behind; they carry a marker comment the book names, so search the tree for it before committing.
 
 ## 1.4 loom
 1. **loom permutes the possible interleavings of a concurrent test** under a model of the C11 memory model,

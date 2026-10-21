@@ -28,8 +28,8 @@ Rules from the Zig 0.17.0 language reference and release notes unless a rule say
 ## 3.3 The evaluation limit
 1. **Compile-time code has a budget of 1000 backward branches by default**, and exceeding it is a compile
    error ("evaluation exceeded 1000 backwards branches").
-2. **`@setEvalBranchQuota(n)` raises it**, and a value smaller than the default or a previously set quota is
-   ignored. Raising it is the documented fix, but treat a large quota as a signal that the work may belong at
+2. **`@setEvalBranchQuota(n)` raises it** (the builtin takes a `u32`), and a value smaller than the default or
+   a previously explicitly set quota is ignored; the compiler's own note on the error says to use it. Raising it is the documented fix, but treat a large quota as a signal that the work may belong at
    run time or in the build step that generates the data (own guidance).
 
 ## 3.4 Build-time options are comptime values
