@@ -47,3 +47,5 @@ project's Rails major changes (`skills/source-freshness` §2.1), re-read §1.6 (
 
 **Status.** 🟡, "base to confront with the real thing", like `go-conventions` for a technology new to the repo.
 Nothing here was run against a Rails project; the checkpoint depends on RuboCop being present in that project.
+
+Independent verification 2026-10-21: 12 checked, 11 matched, 1 corrected, 0 unverified. Corrected §2.14: the rollback on return, break or throw began in Rails 6.1, not 7.0; 7.1 added the opt-in commit setting (default for new 7.1 apps) and 7.2 removed the rollback. Re-checked where.not (NAND since 6.1): correct. Now found on pages and no longer unverified: strict_loading_by_default with the :log action (§2.26), the prepend: true remark (§2.13), global id and the deserialisation error (§4.9), config_for (§4.1)

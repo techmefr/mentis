@@ -82,3 +82,5 @@ Dogfooded again, 2026-09-10 (agent `trinity`, its first real dispatch): built a 
 project. Build/lint/test all passed. One real gap found and folded into §2.2 above: a paginated query
 DTO needs `ValidationPipe({ transform: true })` globally, not just `whitelist`/`forbidNonWhitelisted`,
 or `@IsInt()` on a query param never passes since Express hands it in as a string.
+
+Independent verification 2026-10-21: 12 checked, 12 matched, 0 corrected, 0 unverified. Open point on §6.5 hook order unchanged: the lifecycle page still describes module-by-module order, the migration guide says hooks are called by component hierarchy level

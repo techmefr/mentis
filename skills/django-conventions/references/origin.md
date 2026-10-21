@@ -38,3 +38,5 @@ Expiry: when the project's Django major changes (`skills/source-freshness` §2.1
 
 **Status.** 🟡, "base to confront with the real thing", like `go-conventions` for a technology new to the repo.
 Nothing here was run against a Django project.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified. Re-checked the earlier correction on queryset delete signals and database-level cascades (6.1): correct. Version file reads 6.2 alpha

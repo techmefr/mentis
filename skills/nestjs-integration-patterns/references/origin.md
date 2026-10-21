@@ -39,10 +39,8 @@ followed, 4096 bytes of response kept, pruning not scheduled), §5.1.1 to §5.1.
 Corrected: §1.2.2 (only the message decorator is documented as controller-only), §2.4.3 (the plugin page says SWC
 needs type checking and Jest applies no plugin by default; it does not name transpile-only runners), §5.1.4
 (the BullMQ page does not say a removed job frees its id), request-logging point 5 (the shutdown option and the 11.1.10 version
-are in the pino readme, not in the core lifecycle page), "Standard Webhooks" in §4.2.1 (the Nest chapter does not
-name it; the `standard` scheme and header names are what it states).
-Now labelled ours in the text, not on any page read: the pausing of a whole endpoint on 429/502/503/504 (§4.3.2),
-the 32-byte secret (§4.2.3), body stored as text (§4.2.2), the discovery timing and scope remarks (§3.2.3,
+are in the pino readme, not in the core lifecycle page), "Standard Webhooks" in §4.2.1 was wrongly labelled absent in that pass: the Nest webhooks chapter names it (fixed 2026-10-21).
+Now labelled ours in the text, not on any page read: the discovery timing and scope remarks (§3.2.3,
 §3.2.5), the lazy-loading note on injected loggers (§3.3.6 states it comes from the pino readme), the SSE
 idle-timeout remark (§1.5.4), the payload-logging rationale (§6.4.1).
 Moved out of "Not verified": the BullMQ defaults (30 second stall check, stall count 1) and the Nest webhooks
@@ -77,3 +75,5 @@ production), 6.3.2 (untrusted request id) and 5.1.5 are our own judgement and la
 ## Related blocks
 `nestjs-reliability` (outbox, inbox, idempotency, outbound policy), `nestjs-di-traps`, `api-design`,
 `background-jobs-conventions`, `security-hardening`, `observability-instrumentation`, `node-container-runtime`.
+
+Independent verification 2026-10-21: 34 checked, 30 matched, 4 corrected, 0 unverified. Corrected in 04-webhooks.md, all four under-credited: the chapter does name Standard Webhooks (§4.2.1), states the body is stored as text (§4.2.2), states the 32-byte whsec_ secret (§4.2.3) and states the endpoint pause on 429, 502, 503 or 504 (§4.3.2). Re-checked the Nest 12 request-scoped gateway statement and the BullMQ 30 second stall check: correct

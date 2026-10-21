@@ -41,3 +41,5 @@ or annotation against the release in use. Expiry: when the project's Boot major 
 
 **Status.** 🟡, "base to confront with the real thing", like `go-conventions`. Nothing here was run against a
 Spring Boot project.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified. Checked against the documentation tree at main (4.2 snapshot): exposure and sanitisation defaults, shutdown access, open-in-view, connection-fetch, problem details, H2 console, graceful shutdown, profiles and slices

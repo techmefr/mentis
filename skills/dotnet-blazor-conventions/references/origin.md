@@ -37,3 +37,5 @@ for detailed circuit errors, an explicit statement that static invokable methods
 
 ## Related blocks
 `dotnet-conventions`, `dotnet-aspnet-efcore-pitfalls`, `security-hardening`.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified. The RazorComponentsServiceOptions detailed-errors default of false is on the error-handling page (the line above about no stated default concerns the circuit option only)
