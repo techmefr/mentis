@@ -147,3 +147,5 @@ no HTML injection). Nothing was found wrong. Not re-opened: the Alpine `x-show` 
 `Alpine.store` and `Alpine.data` pages beyond their use here, `x-cloak`, and the `hx-validate` page. The sentence of
 §4.1 that Alpine's `x-`, `@` and `:` attributes are stripped by the same reasoning stays our own extension.
 Written 2026-10-02, never run on real work.
+
+Independent verification 2026-10-21: 25 checked, 25 matched, 0 corrected, 0 unverified

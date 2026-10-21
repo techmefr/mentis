@@ -5,7 +5,7 @@
 1. JSON-LD (`schema.org`) placed on the content types that benefit from it (article, product,
    breadcrumb; the FAQ rich result no longer appears in Google Search, see §6.4) when the business need justifies it: not systematically out of reflex on every page
    type.
-2. `sitemap.xml` generated (not maintained by hand) and referenced in `robots.txt` (the `Sitemap` line is supported and may point to another host, Google's robots.txt page), updated on every
+2. `sitemap.xml` generated (not maintained by hand) and referenced in `robots.txt` (the `Sitemap` line is supported; that a sitemap may sit on another host is stated in Google's build-sitemap page, cross-submission section, not on its robots.txt page), updated on every
    deployment of new content.
 3. Readable and stable URLs (slugs, no technical ID exposed without reason): a URL change breaks the
    indexing history, so a permanent redirect (301 or 308, treated by Google as a strong signal that the target is canonical) is

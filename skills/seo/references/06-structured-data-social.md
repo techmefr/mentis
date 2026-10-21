@@ -34,8 +34,9 @@
    - `Review` and `AggregateRating`: attached to a real reviewed item, never to the page's own
      organisation as self-service. Google makes the reviewed item mandatory and says a local business or
      organisation that controls the reviews about itself is ineligible for the star feature (its review-snippet page).
-   - `VideoObject`: name, description, thumbnail and the player or file address, on a page whose main purpose is that video
-     (Google's video page, which does not list the upload date as required; whether it is needed was not confirmed).
+   - `VideoObject`: name, thumbnail URL and upload date are the required properties; description, `contentUrl` (or
+     `embedUrl`), duration and creator are recommended (Google's video page, read 2026-10-21); put it on a page whose
+     main purpose is that video.
    - `Organization`: name, URL, logo and the profiles that really belong to it (`sameAs`); once, on the
      home or about page (Google's Organization page: no required property, name, url, logo and `sameAs` recommended).
    - `WebSite`: name and URL; any search-box enhancement is a current-support question.

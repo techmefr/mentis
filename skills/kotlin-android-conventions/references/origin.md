@@ -48,3 +48,5 @@ was copied and the page is credited here.
 bridge). **Marked as the block's own:** the formatter-first rule (§3.8), the supervisor remark (§4.8), the analyser framing.
 **Still unverified:** the detekt baseline task name and suppression identifiers (the page does not give them), the
 Compose test details beyond the agent guide, build-failure settings, and the vendor's Kotlin style page (not read).
+
+Independent verification 2026-10-21: 20 checked, 20 matched, 0 corrected, 0 unverified

@@ -44,3 +44,5 @@ weak-reference-is-no-cache remark (§5.2), "a diff never adds to a baseline" (§
 complexity-markup behaviour in every tool, strict-concurrency migration modes, noncopyable types and newer ownership
 modifiers, the linter rule catalogue, and the formatter. The guidelines page remains older than the concurrency
 features.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified

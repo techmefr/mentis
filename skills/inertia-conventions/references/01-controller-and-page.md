@@ -52,9 +52,11 @@
     initial HTML — so a browser hitting that route directly downloads a JSON body or displays it as text.
     The same applies to a page route accidentally declared in the API routes file.
 11. **A 404 or 403 raised inside a page action needs a page of its own.** By default the exception
-    renders Laravel's own HTML error page, which arrives inside an XHR that Inertia cannot swap in: the
-    click does nothing at all, and the reader has no way to tell a missing record from a broken app.
-    Either render the error states as Inertia pages, or teach the exception handler to convert them.
+    renders Laravel's own HTML error page. Inertia does not drop it silently: its error-handling page says every
+    non-Inertia response is shown in a modal over the current page, which suits development, and that production
+    should return a proper Inertia error response (`Inertia::handleExceptionsUsing()` rendering an error page for
+    403, 404, 500 and 503). A reader who gets the debug-style modal, or an unstyled one, cannot tell a missing
+    record from a broken app. Render the error states as Inertia pages, or teach the exception handler to convert them.
 12. **One action, one page.** An action that branches to two different component names for two kinds of
     caller is two pages sharing a route: the props each branch needs diverge, the tests have to assert
     both, and the reader's URL no longer says which one they are on. Split the route.

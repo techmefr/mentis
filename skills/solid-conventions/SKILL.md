@@ -68,7 +68,7 @@ As soon as a `.tsx`/`.jsx` file importing `solid-js` is written or modified, dur
 
 ### 5. Shared state
 1. **Prefer a module-level signal imported where needed** for simple shared state; use context when state is tied to
-   a subtree or when the provider must be replaced (tests, repeated widgets); do not drill props through several
+   a subtree or when the provider must be replaced (tests, repeated widgets: own guidance, unverified); do not drill props through several
    layers that do not use them, and consider restructuring the tree first.
 2. **A store (`createStore`) is for nested objects and arrays**: it tracks each property separately through a proxy,
    so only what changed updates. Read store values directly (no call) but only inside a tracking scope; change them
@@ -126,3 +126,5 @@ a few layers: restructure first, signals imported directly as the simplest optio
 and the `class`, `classList` and `style` attribute rules (§4.1, §4.4), the "provider must be replaced (tests, repeated
 widgets)" reason for context (§5.1), and the delegation caveats the page lists (not carried here). Written 2026-10-02,
 never run on real work.
+
+Independent verification 2026-10-21: 20 checked, 19 matched, 0 corrected, 1 unverified

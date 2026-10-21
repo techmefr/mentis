@@ -80,3 +80,5 @@ is named in the source and was not read; a crawler other than Google's may diffe
 
 ## Related blocks
 `seo`, `webperf`, `accessibility`.
+
+Independent verification 2026-10-21: 31 checked, 31 matched, 0 corrected, 0 unverified

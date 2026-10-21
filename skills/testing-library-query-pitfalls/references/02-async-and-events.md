@@ -68,7 +68,7 @@ read.
    Do not import or call `cleanup` yourself, unless auto-cleanup was switched off with an environment variable
    such as `RTL_SKIP_AUTO_CLEANUP` (`no-manual-cleanup`). The React setup page names the same condition. Vitest does
    not expose those globals by default, so there the automatic cleanup needs `globals: true` or a top-level
-   `afterEach` that calls `cleanup` (same page); symptom of a missing one: "Found multiple elements" in a later test.
+   `afterEach` that calls `cleanup` (same page); a symptom of a missing one is a later test seeing the previous test's DOM (own observation, not on the pages read: unverified).
 2. **Do not call `render` in `beforeEach` or `beforeAll`.** Moving it next to the assertions reduces variable
    mutation and nesting, which makes the tests easier to maintain; render in each test or in a `setup()` function
    that each test calls (`no-render-in-lifecycle`).

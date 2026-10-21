@@ -128,3 +128,5 @@ criterion, and the unsafe directives (now three). **Marked as the block's own:**
 names, no removal for template listeners, escaping by default. **Still unverified:** the directive set beyond those
 named, reactive controllers, context, tasks, localisation, the raw custom-elements specification, and the SSR toolchain
 (still Lit Labs).
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

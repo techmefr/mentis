@@ -45,7 +45,10 @@
    second request arrives, so any code that reads the prop's length, iterates it or destructures it on
    first render crashes on the initial paint. Render the not-yet-here state explicitly; it is the state
    the reader sees most often on a slow connection.
-10. **Flash messages are consumed by the request that reads them.** A flash prop shared into every page
+10. **Flash messages are consumed by the request that reads them.** (Inertia has a first-class mechanism for this:
+    `Inertia::flash()` on the server, read from `page.flash` or the `flash` event on the client; the flash data page says it
+    is cleared after it is sent and is not kept in the history state. Prefer it to a shared prop; the rest of this point
+    describes the hand-rolled shared-prop approach and is own guidance, unverified against the pages.) A flash prop shared into every page
     is read once and gone, so a partial reload that leaves the flash prop out (point 8) keeps the old
     toast on screen, and a request whose page never displays it has already spent it. Read the flash
     where it is shown, and clear it on the client when the visit that carried it finishes.

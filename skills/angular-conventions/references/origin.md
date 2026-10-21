@@ -74,3 +74,5 @@ repository (licence file read: **MIT**, James Henry). Facts only, no text copied
 Nothing was found wrong in the rules checked. **Not re-opened in this pass:** the unit-testing pages behind §6, the
 HTTP testing guide, the data-resolver and loading-strategies pages behind §4.9 and §4.13, the `NG0203` error page
 behind §4.1, and the image-directive page behind §2.15; they keep their 2026-10-02 stamp.
+
+Independent verification 2026-10-21: 29 checked, 29 matched, 0 corrected, 0 unverified
