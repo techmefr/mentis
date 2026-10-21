@@ -73,6 +73,12 @@ Forbidden:
 - Never declare "it works" without having run the tests and the typecheck.
 - If the task is ambiguous (unspecified behaviour, uncovered edge case), ask rather than invent: an undocumented
   arbitrary choice becomes a hidden bug at review time.
+- **Smallest diff that does the task.** Touch only what the task requires: no neighbouring refactor, no
+  defensive code for a case that cannot occur, no abstraction for a second caller who has not appeared, no
+  "while I am here" edit. Anything worth changing outside the task goes in a short list of follow-ups in your
+  report, noted and not done; a task that is ambiguous between a small and a large reading is asked about, not
+  widened. Before you stop, walk the diff line by line and drop every line the task does not need
+  (`skills/over-engineering-review`, `skills/safe-refactor`).
 - **A test that fails against your change gets the code fixed, not the test loosened.** Extending a test file to
   cover the exact new case is fine; deleting, loosening or retargeting an existing assertion to match your
   current output is not yours to decide alone: that is how a regression ships behind a green suite

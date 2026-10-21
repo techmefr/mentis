@@ -819,9 +819,9 @@ closing this costs nothing that made this repo cheaper to load.
 | flutter | 40 / 20,772 | 1 / 23,422 | +2,650 | x0.89 |
 | nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
 | python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
-| project-management | 10 / 14,536 | 2 / 16,550 | +2,014 | x0.88 |
+| project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
 | bi, design, xefi | 16 / 17,306 | 4 / 32,687 | +15,381 | x0.53 |
-| global | 18 / 20,280 | 6 / 35,771 | +15,491 | x0.57 |
+| global | 18 / 20,280 | 6 / 36,617 | +16,337 | x0.55 |
 | react | 36 / 9,302 | 1 / 19,154 | +9,852 | x0.49 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -851,8 +851,8 @@ csharp: dotnet-conventions 34,538
 python: python-conventions 19,061, data-pipeline-conventions 5,536
 flutter: flutter-conventions 23,422
 nuxt: vue-nuxt-vuetify-conventions 25,392
-global: code-baseline 10,384, security-hardening 10,753, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
-project-management: product-ownership 10,118, spec 6,432
+global: code-baseline 10,384, security-hardening 11,599, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
+project-management: product-ownership 10,118, spec 6,884
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,154
 bi, design, xefi: data-analytics 4,724, interface-design 11,554, ux-writing 5,934, accessibility 10,475

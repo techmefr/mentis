@@ -55,10 +55,16 @@ What persists, and where:
    exception-reporter/APM configuration that serialises headers and cookies by
    default, and for redaction defined by call-site discipline rather than by field
    name. See `auth-session-conventions` §2.4.
-5. **Check the dependencies** through the lock files (`npm audit`,
+5. **If the repo was built mostly by an assistant or a scaffold**, run the checklist of
+   `skills/security-hardening` §12 first: secrets reachable by the client, access rules that only look
+   enabled, authorisation read from a client-editable field, handlers with no auth check, and untrusted input
+   in a model call's instructions rated by position (tools attached is the worst case; the depth is in
+   `skills/llm-app-prompt-injection-and-exfiltration-pitfalls`). A model call's permissions must live in
+   code, not in its prompt.
+6. **Check the dependencies** through the lock files (`npm audit`,
    `composer audit` or the equivalent if the tooling is available) for known
    CVEs.
-6. Exit decision: the report is returned with every finding classed
+7. Exit decision: the report is returned with every finding classed
    critical/major/minor, sourced (file + line), never an assertion that "it's
    vulnerable" without cited evidence.
 
@@ -93,6 +99,12 @@ Forbidden:
 - A critical finding (an exposed secret, a plausible injection, bypassable auth)
   is flagged immediately in the report, never played down while waiting for the
   full audit to finish.
+- A secret finding is incomplete until it names the rotation step at the provider: removing the value from
+  the file does not un-leak it. Report type, place and a redacted preview, never the value.
+- Say how sure a heuristic finding is, and stay silent on the documented-safe pattern (a publishable client
+  key, untrusted text in its own user-role message with no tools): a report that cries wolf gets muted.
+- After a fix, a finding counts as resolved only if a rescan shows it gone; list resolved, still present and
+  newly introduced separately. Never give a compliance statement or a score.
 - Stay within the defensive scope: this agent exists to secure the operator's
   code, never to prepare an attack against a third party.
 

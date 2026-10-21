@@ -47,6 +47,7 @@ that has to be applied.
 | 9 | The verification loop: build, types, lint, tests, diff sweep, one report per phase | the evaluator step is next, or the change is about to leave your hands | [`09-verification-loop.md`](./references/09-verification-loop.md) |
 | 10 | Excuses and red flags | you notice yourself reasoning about why a check can be skipped | [`10-excuses-and-red-flags.md`](./references/10-excuses-and-red-flags.md) |
 | 11 | Two independent evaluators | the change ships without a human reading it, or its failure is expensive and hard to undo | [`11-double-evaluation.md`](./references/11-double-evaluation.md) |
+| 12 | In-flight doubt: triggers, artefact and contract without the claim, four-class reconciliation, stop signals, second model | a decision is non-trivial and about to stand, before the change exists in full | [`12-in-flight-doubt.md`](./references/12-in-flight-doubt.md) |
 
 ## Output / checkpoint
 `verified`: every line `passes: true`, each backed by evidence that was read, evaluator `PASS`.
@@ -71,3 +72,5 @@ our way. The iteration itself is the runtime's own goal loop, not a block.
 §8 rewritten from the `verification-before-completion` skill of `superpowers` (MIT) and the `verify-and-stop`
 skill of `caveman` (Apache-2.0, no text copied); §9 from the `verification-loop` skill of `ECC` (MIT); §11 from
 the `santa-method` skill of `ECC` (MIT); all read 2026-10-02. §10 is predicted, not recorded (see the file).
+
+§12 rewritten from the doubt-driven-development skill of addyosmani/agent-skills (MIT, Copyright (c) 2025 Addy Osmani, `LICENSE` read 2026-10-21), read 2026-10-20, no text copied. Not taken: its claim that nested subagents cannot exist (our own measurement shows they can, and return fabricated results, `skills/dispatch-parallel`), its fixed three-cycle cap (we ask for a stated cap), and its tool-specific command lines. Point 9 is its doubt-theatre signal; points 10 and 13 are ours. Status 🟡, never dogfooded; the second-model rules are unverified against any installed tool.
