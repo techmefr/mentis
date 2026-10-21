@@ -42,5 +42,5 @@ checkpoint is written: a craft block, 🟡, nothing here was run in an applicati
 - Facts about a library are for the date stamped in `references/origin.md`; re-read before relying. Points without a credit in the reference files remain own guidance.
 
 ## Origin
-Mostly own craft knowledge: no permissive source on comment systems was found. Only the feed and thread accessibility points (§2.2.8, §2.5) and the time element (§2.5.8) were checked, against the W3C ARIA authoring practices feed pattern (facts only, credited) and the HTML Standard (CC BY 4.0), read 2026-10-20. Details in
+Mostly own craft knowledge: no permissive source on comment systems was found. Only the feed and thread accessibility points (§2.2.8, §2.5) and the time element (§2.5.8), the tombstone and event shape (Activity Streams 2.0), entry identity (RFC 4287) and hover menus (WCAG 2.2) were checked, against the W3C ARIA authoring practices feed pattern and the specifications named (facts only, credited) and the HTML Standard (CC BY 4.0), read 2026-10-20. Details in
 [`references/origin.md`](./references/origin.md).

@@ -1,6 +1,6 @@
 # onboarding-and-empty-state-pitfalls §1 — Flow, progress and sample data
 
-Source: own craft knowledge, no external source (see origin.md).
+Source: own craft knowledge, with one platform fact from the HTML Standard (web storage, read 2026-10-20, see origin.md).
 
 ## 1.1 First-run routing
 1. **Symptom: the welcome flow shows again on a new browser, or never shows for an invited user.** Cause: first-run kept in a cookie or local storage. Store an onboarding state on the user (and on the workspace for shared setup) and decide the route from it on each entry.
@@ -11,7 +11,7 @@ Source: own craft knowledge, no external source (see origin.md).
 6. **Do not rely on "account created less than N days ago"** as the rule. Use explicit completion and dismissal state; age is a nudge condition, not a state.
 7. **Treat sign-in, sign-up and invite-accept as one funnel** for state purposes; a person arriving by social sign-in or passkey gets the same stored state (`auth-session-conventions`, `webauthn-passkey-pitfalls`).
 
-8. **Screens shown before any account exists need a local flag, and that is correct.** Symptom of getting it wrong in the other direction: intro slides or a welcome carousel shown before sign-up are held to the server-state rule, which cannot be met because there is no user yet. Keep a local flag for these (device storage, cleared on sign-out is not required), never use it to gate anything the account owns, and do not extend it to post-sign-up setup, which follows 1.1.1.
+8. **Screens shown before any account exists need a local flag, and that is correct.** Symptom of getting it wrong in the other direction: intro slides or a welcome carousel shown before sign-up are held to the server-state rule, which cannot be met because there is no user yet. Keep a local flag for these (device storage, cleared on sign-out is not required), never use it to gate anything the account owns, and do not extend it to post-sign-up setup, which follows 1.1.1. Reading the flag can fail: the HTML Standard says the localStorage getter throws a SecurityError when the origin is opaque or the browser is set not to let the page persist data, so wrap the read in a guard and, when it fails, show the intro once per page load rather than breaking the page.
 
 ## 1.2 Checklist model
 1. **A checklist is a list of steps with a stored status each**: id, status (open, done, skipped, dismissed), time and, where it applies, the evidence. Keep ids stable across releases; renaming a step must not reset it.

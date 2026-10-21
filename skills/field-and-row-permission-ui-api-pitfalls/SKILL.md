@@ -55,5 +55,5 @@ permission-matrix test over roles, records and fields (§3), and the audit event
   [`references/origin.md`](./references/origin.md). No application was tested.
 
 ## Origin
-Written from general practice in access control for business applications; the 401, 403 and 404 semantics were checked against RFC 9110 (facts only, credited). No other source was read, and no text was copied.
+Written from general practice in access control for business applications; the 401, 403 and 404 semantics were checked against RFC 9110, the shared-cache rules against RFC 9111, error-body leakage against RFC 9457, merge-patch nulls against RFC 7396, and the disabled-control facts against the HTML Standard and the ARIA Authoring Practices (facts only, credited). No other source was read, and no text was copied.
 🟡: never run by us. Details in [`references/origin.md`](./references/origin.md).

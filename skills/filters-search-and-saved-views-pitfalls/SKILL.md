@@ -40,5 +40,5 @@ which filters caused them; and the tests in §2.7 exist. No checkpoint: a craft 
 - Library and platform facts are stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with filter and facet facts re-read in the TanStack Table documentation (MIT, read 2026-10-20).
+Own craft knowledge, with filter and facet facts re-read in the TanStack Table documentation (MIT), history and composition facts in the HTML Standard and UI Events, and the accessibility points of §2.2 and §2.6 checked against WCAG 2.2, WAI-ARIA 1.2 and the ARIA Authoring Practices (facts only), all read 2026-10-20.
 Details in [`references/origin.md`](./references/origin.md).

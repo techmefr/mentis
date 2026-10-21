@@ -1,12 +1,12 @@
 # kanban-board-ui-pitfalls §1 — Order, moves and concurrency
 
-Sources: own craft; no source text taken.
+Sources: own craft, with the fractional-key facts from the fractional-indexing library README (CC0 1.0, read 2026-10-20) and the conditional-request facts from RFC 9110 (sections 9.2.2, 13.1.1, 15.5.13, read 2026-10-20).
 
 ## 1.1 How order is stored
 1. **Symptom: moving one card rewrites dozens of rows, and two simultaneous moves interleave into a broken order.** Cause: a dense position integer (1, 2, 3...) renumbered on every drop.
 2. **Prefer a sparse key that lets an insert touch one row.** Options: integers with gaps (10, 20, 30) and a periodic rebalance; fractional numbers between the neighbours; or a lexicographic string key generated between the neighbours' keys. All three trade one write for an occasional rebalance.
 3. **Floating-point midpoints run out.** Repeated insertion between the same two cards eventually gives equal keys; detect "no room" and rebalance the column instead of writing a tie.
-4. **String keys must be compared with byte order**, not a locale collation (`collation-and-locale-aware-search-pitfalls`); a locale-aware sort puts keys in a different order than the generator assumed.
+4. **String keys must be compared with byte order**, not a locale collation (`collation-and-locale-aware-search-pitfalls`); a locale-aware sort puts keys in a different order than the generator assumed. The fractional-indexing library says its keys are case-sensitive, that a locale-aware comparison such as localeCompare gives a wrong order, and that plain string comparison is the right predicate; it also requires digit alphabets that are single-byte and sorted by character code, which is why plain comparison works.
 5. **Add the card id as the final sort tiebreaker** on the server and in the client, so two cards with an equal key always render in the same order everywhere (`data-table-ui-pitfalls` §1.3).
 6. **Order belongs to a column.** Moving across columns changes the column and the key together in one write; a card has no global position.
 7. **Archived or hidden cards keep their keys**; filtering the board (`filters-search-and-saved-views-pitfalls`) must not renumber what is hidden, or unfiltering shows a scrambled column.
@@ -16,7 +16,7 @@ Sources: own craft; no source text taken.
 2. **Send the move as an operation:** the card id, the target column, and the card it now follows and precedes (or null at an end). The server computes the key from the neighbours it sees now, not from the ones the client saw.
 3. **Accept an optional expected version of the card** so the server can reject a move on a stale card (§1.4).
 4. **Return the new key, column and version of the moved card**, and the keys of anything the server had to rebalance, so the client can reconcile without refetching the column.
-5. **A move is idempotent per request id**: a retry after a timeout must not move the card twice (`laravel-idempotent-jobs` for the server-side pattern).
+5. **A move is idempotent per request id**: PUT and DELETE are idempotent by definition in HTTP (RFC 9110), a move sent as POST is not and needs the id; a retry after a timeout must not move the card twice (`laravel-idempotent-jobs` for the server-side pattern).
 
 ## 1.3 Moves inside and across columns
 1. **Define what a drop on an empty column and on the column header mean:** append at the end or insert at the start, one rule, shown by the drop indicator.
@@ -28,8 +28,8 @@ Sources: own craft; no source text taken.
 ## 1.4 Two people move the same card
 1. **Symptom: the card ends in a column neither person chose, or a move is silently undone.** Cause: last write wins on column and key with no check.
 2. **Decide the rule per field.** Moving a card two people agree needs no ceremony; moving it to two different columns needs a visible loser.
-3. **Use a version or updated-at check on the card.** On mismatch, return the current card, refuse the move, and let the client put the card back and explain ("moved by Sam while you were dragging").
-4. **Ordering conflicts are usually benign:** two inserts between the same neighbours can both succeed with distinct keys. Make the tiebreak deterministic rather than raising an error.
+3. **Use a version or updated-at check on the card** (over HTTP, an entity tag sent in If-Match makes the server refuse the write with 412 when the card changed, which RFC 9110 describes as preventing the lost update). On mismatch, return the current card, refuse the move, and let the client put the card back and explain ("moved by Sam while you were dragging").
+4. **Ordering conflicts are usually benign:** two inserts between the same neighbours can both succeed with distinct keys. Make the tiebreak deterministic rather than raising an error. Two clients that generate a key between the same neighbours produce the same key; the library README points to added random jitter as the way to lower the chance of that collision, and the server computing the key (§1.2.2) removes it for the common case.
 5. **A card edited while it is being dragged keeps the edit.** Merge by field; do not replace the card object with the dragged copy.
 6. **A card deleted by someone else mid-drag** returns "not found"; remove it and say so rather than showing a generic failure.
 

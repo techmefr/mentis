@@ -42,5 +42,5 @@ loads on its own; role views are scoped on the server; and the tests in §2.7 ex
 - Accessibility points cite WCAG 2.2 success criteria (§2.5); everything else is craft and marked so in `references/origin.md`.
 
 ## Origin
-Own craft knowledge, except the accessibility points (§2.5), checked against WCAG 2.2 (W3C Recommendation, facts only, credited). No permissively licensed source for dashboard design was found and read. Details in
+Own craft knowledge, except the accessibility points (§2.5), checked against WCAG 2.2 and WAI-ARIA 1.2 (W3C, facts only, credited), and the page-visibility and time-element facts of §1.5 (HTML Standard, CC BY 4.0). No permissively licensed source for dashboard design was found and read. Details in
 [`references/origin.md`](./references/origin.md).

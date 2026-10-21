@@ -39,4 +39,4 @@ A runbook is done when: the alert it serves links straight to it; its first bloc
 - Facts quoted from sources are for the date in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with a few facts rewritten from the PagerDuty incident-response documentation (Apache-2.0) and Microsoft Azure architecture-center articles (CC BY 4.0), read 2026-10-20; no text copied. Open points in [`references/origin.md`](./references/origin.md).
+Own craft knowledge, with a few facts rewritten from the PagerDuty incident-response documentation (Apache-2.0), the Prometheus documentation (Apache-2.0), Microsoft Azure architecture-center articles (CC BY 4.0) and the Google Cloud Architecture Framework (CC BY 4.0), re-read from the source files 2026-10-20; no text copied. Open points in [`references/origin.md`](./references/origin.md).

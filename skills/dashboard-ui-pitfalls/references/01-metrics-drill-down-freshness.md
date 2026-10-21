@@ -1,6 +1,6 @@
 # dashboard-ui-pitfalls §1 — Metrics, drill-down and freshness
 
-Sources: own craft; no source text was used.
+Sources: own craft, with two platform facts (page visibility state and the time element, HTML Standard, read 2026-10-20) credited where used.
 
 ## 1.1 One definition per metric
 1. **Write each metric as a sentence plus a query**: what is counted, the unit, the population, the time field, the inclusions and exclusions ("open invoices: status Open or Overdue, excluding drafts, by due date, in the company currency").
@@ -38,10 +38,10 @@ Sources: own craft; no source text was used.
 7. **Back returns to the dashboard with its range and scroll restored** (state in the URL).
 
 ## 1.5 Freshness
-1. **Each widget shows an "as of" time** (relative with an exact time on hover or focus), derived from the data pipeline, not from the page load time. Symptom: "updated 10:02" next to data that stopped arriving at 06:00.
+1. **Each widget shows an "as of" time** (relative with an exact time on hover or focus; the HTML time element with a machine-readable datetime value carries both), derived from the data pipeline, not from the page load time. Symptom: "updated 10:02" next to data that stopped arriving at 06:00.
 2. **State the expected lag per source** (live, a few minutes, daily batch) so users know what to expect; mark a widget stale when its age passes its own threshold.
 3. **Caching is a freshness decision.** Cache keys include the filter, range, zone and the viewer's permission scope; a shared cache without the scope leaks one role's numbers to another.
-4. **Refresh only what changed and what is visible**: polling every widget every few seconds loads the database for nothing; refresh on focus or on a slow timer, pause when the tab is hidden, back off on errors.
+4. **Refresh only what changed and what is visible**: polling every widget every few seconds loads the database for nothing; refresh on focus or on a slow timer, pause when the tab is hidden, back off on errors. The HTML Standard gives every document a visibility state, "visible" or "hidden", readable through visibilityState and hidden, which a poller can check before it fires. The standard does not say that a hidden tab slows your timers, so do not rely on that.
 5. **Manual refresh exists** and shows when it ran; it does not reset the range, the scroll or the open popover.
 6. **Real-time is a cost**: use it only where a decision depends on seconds; elsewhere a labelled interval is calmer and cheaper.
 7. **Numbers that move under the pointer** (live counters) must not shift layout; reserve width and announce changes politely, rarely.

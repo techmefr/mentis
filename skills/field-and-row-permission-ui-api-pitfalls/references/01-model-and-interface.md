@@ -23,11 +23,11 @@
    to, a field of another department's data). Hidden things reveal nothing and add no noise.
 2. **Disable (or make read-only) when the person should know it exists but cannot act now**, and say why
    ("Only a manager can approve"). A disabled control without a reason frustrates and, for screen-reader users,
-   is easy to miss (see `skills/frontend-ux-antipattern-review-pitfalls`).
+   is easy to miss (see `skills/frontend-ux-antipattern-review-pitfalls`). The ARIA Authoring Practices explain why: browsers take a disabled native control out of the tab order, and screen-reader users find controls mostly by moving focus, so they are far less likely to discover one they cannot reach; aria-disabled keeps an element focusable while it says it is disabled, and the guide asks for one consistent convention.
 3. **Mask when the person may know a value exists but not read it** (last four digits, "restricted"), and have
    the server do the masking: a value masked in the client was sent to the client.
 4. **A read-only field shows the value as text, not as a greyed input.** A disabled input is ignored by some
-   readers and cannot be selected or copied in some browsers.
+   readers and cannot be selected or copied in some browsers (that part is recalled behaviour, not checked). Checked in the HTML Standard: a disabled control is left out of the submitted form data, so a form that uses disabled for read-only sends no value for that field, and a server that reads a missing field as a clear erases it. Treat an absent field as unchanged, and render the value as text.
 5. **Do not mix signals across the app.** Pick the convention (hide for existence-restricted, disable plus
    reason for state-restricted) and use it everywhere, so a missing button always means the same thing.
 6. **"Request access" beats a dead end** where the business allows it: a link to the owner or a request flow

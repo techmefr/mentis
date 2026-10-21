@@ -42,5 +42,5 @@ run in an application.
 - Facts about a library are for the commit stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with the drag and drop accessibility facts re-read in the dnd-kit documentation (MIT, read
-2026-10-20). Details in [`references/origin.md`](./references/origin.md).
+Own craft knowledge, with the drag and drop accessibility facts re-read in the dnd-kit documentation and source (MIT), the fractional-key facts in the fractional-indexing README (CC0), and platform facts in WAI-ARIA 1.2, Pointer Events Level 3, RFC 9110 and the HTML Standard (facts only), all read
+2026-10-20. Details in [`references/origin.md`](./references/origin.md).

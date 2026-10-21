@@ -1,6 +1,6 @@
 # comments-and-activity-feed-pitfalls §2 — Feed, audit, access and tests
 
-Source: own craft knowledge, except §2.2.8, §2.5.1, §2.5.8 and §2.5.9 to §2.5.11, which were checked against the W3C ARIA authoring practices feed pattern and the HTML Standard (see origin.md). Unmarked points stay unsourced.
+Source: own craft knowledge, except §2.1.6, §2.2.5, §2.2.8, §2.3.4, §2.5.1, §2.5.6 and §2.5.8 to §2.5.11, which were checked against the W3C ARIA authoring practices feed pattern (page re-read raw 2026-10-20), the HTML Standard, Activity Streams 2.0, RFC 4287 and WCAG 2.2 (see origin.md). Unmarked points stay unsourced.
 
 ## 2.1 Feed against audit log
 1. **They answer different questions.** The feed is for people ("what happened on this invoice"), is filtered by role and can be summarised. The audit log is for accountability ("who changed what, when, from where"), is complete, append-only and read by few.
@@ -8,7 +8,7 @@ Source: own craft knowledge, except §2.2.8, §2.5.1, §2.5.8 and §2.5.9 to §2
 3. **An audit record holds actor, action, target, before and after of the changed fields (not secrets), time, and request origin.** It never holds the plaintext of values that must not be logged (`telemetry-sensitive-data-pitfalls`).
 4. **Append-only is enforced, not hoped for**: no update or delete path in the application, restricted database rights, and a retention job that is the only deleter. If tamper evidence matters, chain records or ship them to storage the application cannot rewrite.
 5. **Do not use model listeners that miss bulk writes.** Raw updates, queued jobs and imports skip per-model hooks; record events in the service or command that does the change, not in a callback that may not fire (`laravel-no-observers`).
-6. **Events carry stable codes, not rendered sentences.** Render "Ana changed the status from Open to Paid" at read time in the reader's locale, from the code and the old and new values (`i18n-message-format-pitfalls`). Symptom: history in the wrong language, or broken after a wording change.
+6. **Events carry stable codes, not rendered sentences.** Render "Ana changed the status from Open to Paid" at read time in the reader's locale, from the code and the old and new values (`i18n-message-format-pitfalls`). Symptom: history in the wrong language, or broken after a wording change. The Activity Streams 2.0 model is a useful shape: an event is an actor, a type of action, an object and optionally a target, with a human-readable summary as an optional extra, not the record.
 7. **Store references and display fallbacks** so an event about a deleted user or record still reads ("a removed user").
 8. **Group noisy system events**: ten field edits in one save are one event with a list; a status ping every minute is not an event at all.
 9. **Keep personal data erasure compatible with audit**: pseudonymise the actor reference instead of deleting rows, and document which fields remain (`dsar-handling-pitfalls`).
@@ -19,7 +19,7 @@ Source: own craft knowledge, except §2.2.8, §2.5.1, §2.5.8 and §2.5.9 to §2
 2. **Add a stable tiebreaker.** Events written in the same second need the id in the sort and in the cursor.
 3. **Do not reorder under the pointer**: new items show as "3 new" and join on click; a thread being read keeps its place.
 4. **Anchor to an item.** A notification links to a comment id; load the page that contains it and highlight it, then allow paging both ways.
-5. **Load more on demand**, with a visible control and a keyboard path; infinite scroll alone hides the footer and the tail of the page from keyboard users and breaks "back to where I was".
+5. **Load more on demand**, with a visible control and a keyboard path; infinite scroll alone hides the footer and the tail of the page from keyboard users and breaks "back to where I was". If you do load on scroll, the feed pattern describes a contract: the page loads and removes articles according to which article holds focus and scrolls the focused one into view, while the assistive technology moves focus between articles; a feed that loads on scroll position alone breaks that contract.
 6. **Filters on the feed**: all, comments only, events only, mine; the counts follow the same filter (`filters-search-and-saved-views-pitfalls`).
 7. **Time display**: relative text ("2 hours ago") needs an absolute time on hover and focus, updates on a timer that does not re-render the list, and uses the reader's zone (`locale-value-formatting-pitfalls`).
 8. **The total can be unknown**: show "load older" instead of counting a long history on every request. Confirmed by the feed pattern: an article carries its position and the set size, and the size is -1 when the total is unknown (APG feed).
@@ -28,7 +28,7 @@ Source: own craft knowledge, except §2.2.8, §2.5.1, §2.5.8 and §2.5.9 to §2
 1. **Treat push as a hint**: a pushed comment is fetched or inserted, but the list can always be re-read, so a missed push does not hide a reply (`in-app-notifications-pitfalls` §2.1).
 2. **Refetch on focus, reconnect and visibility change**, with the last seen id as the cursor to detect gaps.
 3. **Insert only what the viewer may see**; check visibility class on the pushed item before rendering, not only on the initial list.
-4. **Your own comment appears at once** (optimistic) with a pending state, replaced by the server item, and removed with an error and retry when it fails. Symptom: a duplicate after the push of your own comment arrives; deduplicate by id and a client token.
+4. **Your own comment appears at once** (optimistic) with a pending state, replaced by the server item, and removed with an error and retry when it fails. Symptom: a duplicate after the push of your own comment arrives; deduplicate by id and a client token. Atom (RFC 4287) uses the same rule at feed level: entries with the same id are the same entry, revisions keep the id, and a reader may show only the one with the latest update time; its security section warns that an entry from another source can reuse an id, so match on id within one trusted source, not across sources.
 5. **Typing indicators are cosmetic** and optional; never block saving on them.
 6. **Conflicts between edit and delete** are resolved by the server's version: an edit of a deleted comment fails with a clear message and keeps the user's text.
 
@@ -45,7 +45,7 @@ Source: own craft knowledge, except §2.2.8, §2.5.1, §2.5.8 and §2.5.9 to §2
 3. **Announce your own send and failures** through one polite live region; do not announce every incoming comment loudly, batch them ("2 new comments") (`in-app-notifications-pitfalls` §2.3).
 4. **Do not move focus on new comments.** After a send, focus returns to the composer or to the new comment by a stated rule; after a delete, it moves to the next item or the composer, never to the top of the page.
 5. **Edit and delete controls are named** with the author and time ("Edit your comment from 10:42"), and a delete confirmation traps and restores focus.
-6. **Action menus on each comment are keyboard reachable** and not shown on hover only, because touch and keyboard users have no hover.
+6. **Action menus on each comment are keyboard reachable** and not shown on hover only, because touch and keyboard users have no hover. WCAG 2.2 SC 2.1.1 (level A) requires all functionality to be operable through a keyboard interface, and SC 1.4.13 asks that content appearing on hover or focus can be dismissed, hovered over and stays until dismissed.
 7. **Edited and deleted markers are text**, not italic or grey alone.
 8. **Relative time elements carry the machine time** so assistive technology and translation can read it. Use the `time` element with a valid `datetime` value; without the attribute its text must itself be a valid date or time and it can hold no child elements (HTML Standard).
 9. **Symptom: a screen reader user hears half-loaded items, or never learns that older comments were added.** While several articles are added or removed in one update, mark the feed busy and set it back to not busy afterwards; forgetting the reset hides the changes from some assistive technology (APG feed).

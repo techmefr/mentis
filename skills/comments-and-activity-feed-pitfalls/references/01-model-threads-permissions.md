@@ -1,6 +1,6 @@
 # comments-and-activity-feed-pitfalls §1 — Model, threads and permissions
 
-Source: own craft knowledge, no external source (see origin.md).
+Source: own craft knowledge, with one vocabulary fact from the W3C Activity Streams 2.0 Vocabulary (tombstone, read 2026-10-20, see origin.md).
 
 ## 1.1 The model
 1. **One comment table per kind of commentable, or one with a polymorphic target.** Polymorphic (target type, target id) is flexible but has no foreign key and no cascade; if you choose it, index the pair and check the target exists and the author may see it on every write (`laravel-no-cascade-delete`, `laravel-tenant-context-by-default`).
@@ -14,7 +14,7 @@ Source: own craft knowledge, no external source (see origin.md).
 1. **Choose a depth on purpose**: flat (one stream), one level of replies, or deep trees. Business records are usually well served by flat or one level; deep nesting makes narrow columns and lost context.
 2. **Flat threads still need "in reply to"**, shown as a quoted snippet that links to the parent, so a reply is understandable out of order.
 3. **Reply to the root, not the reply, when depth is one**: the interface rewrites the parent to the root and keeps the quoted snippet.
-4. **Symptom: a reply remains under a deleted parent and shows "undefined" or disappears.** Decide: a deleted comment becomes a tombstone ("This comment was deleted") that keeps its place and children, and is purged only when it has no children and retention allows.
+4. **Symptom: a reply remains under a deleted parent and shows "undefined" or disappears.** Decide: a deleted comment becomes a tombstone ("This comment was deleted") that keeps its place and children, and is purged only when it has no children and retention allows. Activity Streams 2.0 has the same object for the same job: a Tombstone stands for a content object that was deleted, can sit in a collection to show that something used to be at that position, and records the former type and the deletion time.
 5. **Count what is visible**: the "12 comments" label and the thread count follow the same visibility filter as the list (§1.6); tombstones are not counted, or are counted in both places.
 6. **Load children lazily with their own cursor** when a root has many replies, and show "view 8 more replies" with a count.
 7. **Resolving threads** (anchored review comments) is a state on the root: resolved by whom and when, reopened by a new reply or an explicit action, and filtered with a control.

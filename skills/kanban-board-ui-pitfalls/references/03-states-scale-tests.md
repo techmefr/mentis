@@ -21,7 +21,7 @@ Sources: own craft; no source text taken.
 1. **Symptom: the board is stale until a page reload, then a card jumps.** Subscribe to changes for the board and apply them as card-level patches (`card moved`, `card edited`), not whole-board refetches.
 2. **Ignore your own echo.** Tag each change with the request id so the client does not apply the server's copy of a move over the optimistic state (§1.5).
 3. **Do not move cards under a pointer that is dragging;** queue changes until the drop, then reconcile.
-4. **A reconnect refetches what it missed** (changes since a version, or the column) rather than assuming nothing happened.
+4. **A reconnect refetches what it missed** (changes since a version, or the column) rather than assuming nothing happened. If the stream is server-sent events, the browser reports the last event id it saw in the Last-Event-ID request header when it reconnects (HTML Standard), so the server can resume from it; the standard says nothing about replaying for you.
 5. **Say who moved a card** in an announcement or the activity trail when it changes under the user's eyes. The activity feed itself is out of scope here.
 
 ## 3.4 Tests

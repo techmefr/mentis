@@ -1,6 +1,6 @@
 # settings-and-preferences-page-pitfalls §2 — Structure, states, accessibility and tests
 
-Source: own craft knowledge, except the accessibility points marked with a citation, checked on 2026-10-20 (see origin.md). Unmarked points have no source.
+Source: own craft knowledge, except the accessibility points marked with a citation, checked on 2026-10-20 and re-checked against the full WCAG 2.2 and WAI-ARIA 1.2 texts the same day (see origin.md). Unmarked points have no source.
 
 ## 2.1 Structure and search
 1. **Symptom: users cannot find an option and ask support.** Group by the user's task or object (Profile, Notifications, Security, Workspace, Billing), not by the code module that owns the setting. Keep a group to a handful of items before it needs sub-sections.
@@ -22,7 +22,7 @@ Source: own craft knowledge, except the accessibility points marked with a citat
 7. **Empty sections do not exist**: a group with no visible setting for this user is hidden from navigation, not shown empty.
 
 ## 2.3 Accessibility
-1. **Every control has a programmatic label** tied to the visible text, the help text linked as a description, and an error message linked to the field (`accessibility`, `04-forms`).
+1. **Every control has a programmatic label** tied to the visible text, the help text linked as a description, and an error message linked to the field (`accessibility`, `04-forms`). WCAG 2.2 requires labels or instructions for input (SC 3.3.2, level A) and that the visible label text be contained in the accessible name (SC 2.5.3, level A); the help text link is the aria-describedby relation.
 2. **A switch is a switch**: the role and the on/off state are exposed, it works with Space (Enter is optional), and the state is not only a colour or a position. A native checkbox styled as a switch is the safest base (ARIA Authoring Practices, switch pattern: role, checked state, keys).
 3. **Announce the save result politely.** Use one live region that exists at load; "Saved" or "Could not save, retry" for autosave, without moving focus (WCAG 2.2 SC 4.1.3: a result or an error shown without a focus move must be exposed by role; `in-app-notifications-pitfalls` §2.3 for the pattern).
 4. **Keep focus where the user is** after a save, a reset or a dialog close; return it to the control that opened the dialog.
