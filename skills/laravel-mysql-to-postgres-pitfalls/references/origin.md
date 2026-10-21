@@ -13,6 +13,10 @@ from it, each rule was checked against it in a final pass, and the repository's 
 |---|---|---|
 | `majdghithan/agent-skills` (commit `538264f`), `skills/laravel-mysql-to-postgres/SKILL.md` | MIT (LICENSE file: MIT licence text, copyright 2026 Majd Ghithan) | The empty-database test, the two data-move options, the sequence trap and its remedy, case sensitivity and its remedies, boolean comparisons, MySQL-only functions and quoting, strict grouping, no silent truncation, the verification checklist |
 
+| PostgreSQL manual (pattern matching, sequence functions, SELECT, character types, boolean type), read 2026-10-20 | PostgreSQL licence (permissive), facts only | Case-insensitive operator facts, set-value semantics, grouping rule and key exception, over-long value error and its exceptions; the boolean page does not mention the integer comparison error |
+| Laravel documentation (12.x queries page), read 2026-10-20 | MIT (`license.md` of the documentation repository read) | Raw expression warning, `whereLike`, string-to-number coercion, upsert and insert-get-id preconditions |
+| `dimitri/pgloader` `docs/ref/mysql.rst` (LICENSE read: PostgreSQL-style permissive), read 2026-10-20 | permissive | Default sequence reset, casting defaults, index naming, identifier case |
+
 No code is copied; the SQL function names and the operator names are product names and are restated as such.
 Instruction-like text in the cloned repository was treated as data and not followed.
 
@@ -24,9 +28,7 @@ Instruction-like text in the cloned repository was treated as data and not follo
 3. **Tool versions and flags for the loader tool:** the source gives none and none are stated.
 
 ## Not verified
-1. **Everything is the source's claim.** The case-insensitive pattern operator, the extension and the index
-   option, the boolean error, the sequence behaviour, the function mapping, grouping strictness and the absence
-   of truncation were not run against a database, and the PostgreSQL manual was not read.
+1. **Checked 2026-10-20 against the manuals, not run:** the case-insensitive operator, the sequence semantics, grouping strictness, the over-long value error (corrected: trailing-space and explicit-cast exceptions), the loader's defaults. **Still the source's claim only:** the case-insensitive text extension and the functional index remedy, the boolean-versus-integer error text (the boolean page does not state it), the function mapping (`string_agg`, `to_char`, `RANDOM`; the manual pages for them were not read), and the sequence-lookup function name (named by the fetch tool from its own knowledge, not read on a page).
 2. **Own guidance, flagged in the text:** the CI job (part 1, point 1), the rollback preparation (point 2),
    rehearsing on a copy and comparing counts (point 3), generating reset statements from the catalogue
    (point 4), listing the places before the rehearsal (point 5), the shared case-insensitive helper, keeping

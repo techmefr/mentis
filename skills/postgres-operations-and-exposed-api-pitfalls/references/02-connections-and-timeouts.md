@@ -9,7 +9,7 @@ Sources: the `conn-limits`, `conn-pooling`, `conn-idle-timeout`, `conn-prepared-
 2. **Put a pooler between many clients and the server, and size its pool to what the server can run at once,** which is related to cores, not to the number of users. The source gives a pool-size formula; it is a starting point to measure, not a rule.
 3. **Raising the connection limit is not the cure for exhaustion.** More connections multiply memory and context switching and usually make queries slower. Shrink demand first.
 4. **Sort by state:** count sessions grouped by state in the activity view. Many idle sessions point at a missing pool, many active ones at slow queries, many idle-in-transaction at application code holding a transaction open (§2.3).
-5. **Memory per sort or hash is multiplied by concurrent operations:** the per-operation memory setting times the number of connections times operations per query must stay well inside the machine's memory, or the server is killed under load.
+5. **Memory per sort or hash is multiplied by concurrent operations:** the per-operation memory setting times the number of connections times operations per query must stay well inside the machine's memory, or the server is killed under load. The manual states the limit applies per sort or hash operation, that one query can run several at once, that hash operations get a multiple of the base setting (default 2.0, default base 4 MB), and that each parallel worker has its own allowance.
 
 ## 2.2 Pool modes and prepared statements
 1. **In transaction pooling, a client gets a different server connection per transaction,** so a named prepared statement made earlier may not exist on the next one and the error reads "prepared statement does not exist".

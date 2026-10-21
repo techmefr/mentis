@@ -18,7 +18,7 @@
 3. **Pick the data-move tool by what it does with the schema.** The source gives two options. A loader tool
    built for this move (it names pgloader) reads MySQL and writes PostgreSQL in one command, converts types as it
    goes (a one-byte integer used as a boolean becomes a real boolean, auto-increment becomes a sequence) and
-   usually resets sequences for you. The other is Laravel's query builder: read from the old connection,
+   usually resets sequences for you (the loader's reference page, read 2026-10-20, says sequence reset runs by default after loading and indexing and sets each sequence to its column's maximum; it also maps only a one-digit tinyint to boolean, maps auto-increment integers to serial or bigserial, turns zero dates into nulls with the default dropped, lowercases identifiers unless told to quote them, and prefixes index names because PostgreSQL needs them unique per schema, not per table). The other is Laravel's query builder: read from the old connection,
    write to the new, transform rows in PHP; more control and more code, useful when the schema has corners
    the loader trips on, and it does not reset sequences. Own guidance: whichever is chosen, rehearse it against
    a copy of production and compare row counts per table afterwards.
@@ -29,7 +29,7 @@
    table's maximum id, using the function that finds a serial column's sequence by table and column name. The
    loader tool usually handles it; a query-builder import does not. Own guidance: after the import, create one
    record in each critical table through the application and confirm no duplicate-key error; and generate the
-   reset statements from the catalogue so a table is not forgotten.
+   reset statements from the catalogue so a table is not forgotten. Sequence manual (2026-10-20): the set-value call makes the next value `n + 1`, or exactly `n` when its third argument is false, so on an empty table pass false with 1; and a value taken from a sequence is never returned after a rollback, so gaps are normal and not a defect.
 5. **Treat the move as an audit of the application.** The source's framing: MySQL is forgiving and PostgreSQL is
    strict, so every place you relied on the leniency is a defect waiting on the other side. Own guidance: list
    the places before the rehearsal: every use of a raw query call (point 3 in part 2), every user-typed search,

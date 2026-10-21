@@ -28,6 +28,8 @@ single request and expensive at concurrency, so each rule names what breaks and 
 4. **It does not replace non-loading relationships.** Keep relationships declared to raise on lazy load
    and load what the caller needs with an eager strategy (`python-conventions` §7.3, §7.5); the two rules
    address different attributes.
+5. **Ways out of implicit loading, from the asyncio page (read 2026-10-20):** eager loading of the relationship, awaiting an attribute through the async-attributes mixin, running the sync-style code through the session's run-sync helper, declaring the relationship `lazy="raise"` so it never emits SQL by itself, or refreshing the named relationship explicitly. The page names no exception for the failed lazy load; the error index read earlier names the greenlet one.
+6. **A scoped async session needs a scope function that is cheap and repeatable and a removal call from the outermost awaitable,** or the task handle and session leak; the page itself prefers passing the session as an argument.
 
 ## 1.3 Dispose of the engine
 1. **Dispose of an async engine explicitly at shutdown** (`await engine.dispose()`), usually in the
@@ -48,6 +50,8 @@ single request and expensive at concurrency, so each rule names what breaks and 
    alternative; disabling pooling with `NullPool` is the blunt one.
 3. **A server that forks workers after importing your application** has the same problem if the engine
    was created or used at import time: create it lazily, in the worker, or dispose in a post-fork hook.
+4. **Four documented ways to keep a child out of the parent's connections:** no pooling in the child, `dispose(close=False)` in the child's start-up (1.4.33 and later, the recommended one), a plain `dispose()` in the parent before the child starts, or a connect-time event that records the process id and a checkout-time event that invalidates a connection whose recorded id differs. The last is the post-fork hook of point 3. Sessions with an open transaction must not cross the boundary either.
+5. **To share one async engine across several event loops, use a pool that does not keep connections** (the null pool), or dispose before each reuse.
 
 ## 1.5 The pool is a budget
 1. **A queue pool allows `pool_size` plus `max_overflow` connections per engine;** the documented defaults

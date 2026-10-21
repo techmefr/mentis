@@ -16,6 +16,9 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: step 
 | supabase/agent-skills at c9be0e9: `skills/supabase/SKILL.md` (security checklist section) | MIT (same file) | Exposure of tables, policy shape, privileged functions, user-editable claims, token lifetime, storage upsert |
 | PostgreSQL manual pages: routine vacuuming, table partitioning, pg_stat_statements, client connection defaults | product documentation, facts only, rewritten, read 2026-10-20 | Vacuum space reuse, partition key in unique constraints, no-partition insert error, extension loading and reset, timeout defaults |
 
+| PostgreSQL manual (current), re-read 2026-10-20: autovacuum settings, resource consumption (work_mem), row security, CREATE POLICY, CREATE FUNCTION | PostgreSQL licence (permissive), facts only | Autovacuum defaults and per-table override, per-operation memory rule, default deny, check defaulting to the filter, per-command policy table, public execute default, search path of privileged functions |
+| Vendor product documentation (row-level security, securing the API, storage access control guides), read 2026-10-20 | product documentation, facts only, rewritten, no text copied | Exposed-schema rule, default grants and the exposure setting, anonymous users on the signed-in role, editable and server-controlled metadata, stale claims, view invoker option, upsert policy trio, public execute default and its removal |
+
 The PostgreSQL manual facts already stamped in `skills/sql-conventions` were reused by pointer, not re-read for
 this block.
 
@@ -27,10 +30,11 @@ this block.
 - All SQL code samples (rewritten as prose).
 
 ## Not verified
-1. **Defaults.** Timeout defaults confirmed (all disabled). The autovacuum scale-factor values were not stated on the page read and the per-connection memory was not checked.
-2. **Platform-specific behaviour.** The new-table exposure setting, the in-expression role test deprecation, anonymous users carrying the signed-in role, editable metadata appearing in the token, token validity after user deletion and the storage upsert policy requirement are the vendor's statements at the commit; none was tested.
+1. **Defaults.** Timeout defaults confirmed (all disabled). Autovacuum defaults and the per-operation memory rule now confirmed against the manual (2026-10-20). The per-connection memory size of a server process was not checked.
+2. **Platform-specific behaviour.** Confirmed on the vendor's product pages 2026-10-20 (not tested): the exposure setting and default grants, anonymous users on the signed-in role, editable metadata unsafe, stale claims, the view invoker option, the upsert policy trio. Still only the agent-skills statement: the in-expression role test deprecation, token validity after user deletion, and the speed-up from wrapping the identity function (page says only that the result is cached per statement).
 3. **Confirmed against the manual 2026-10-20 (one refinement: plain vacuum can truncate trailing empty pages):** plain vacuum not shrinking the file and the partition key in unique constraints (§1).
-4. **Own guidance, labelled in the text:** the oldest-open-transaction-first order (§1), one change per plan (§1), coherence of pooler and server timeouts (§2), and every "Checks" section.
+4. **Corrected 2026-10-20:** the earlier claim that an update policy with only a filter lets a user reassign a row is wrong, the manual reuses the filter as the check; the select-policy rule was refined to the cases where the statement reads columns.
+5. **Own guidance, labelled in the text:** the oldest-open-transaction-first order (§1), one change per plan (§1), coherence of pooler and server timeouts (§2), and every "Checks" section.
 
 ## Related blocks
 `sql-conventions` (types, locking, DDL that locks, row-level security basics), `devops-conventions` (safe
