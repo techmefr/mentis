@@ -76,3 +76,5 @@ inside a measurement gap (§4.4); the guardrails and the links to neighbouring b
 `business/paid-media-decision-pitfalls`, `business/data-protection`, `business/marketing-claim-substantiation-pitfalls`,
 `skills/event-tracking-plan-pitfalls`, `skills/experiment-design-pitfalls`,
 `skills/metric-movement-diagnosis-pitfalls`, `skills/source-freshness`.
+
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified

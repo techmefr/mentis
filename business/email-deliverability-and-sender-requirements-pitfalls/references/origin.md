@@ -67,3 +67,5 @@ neighbouring blocks.
 ## Related blocks
 `business/data-protection`, `business/email-campaign-measurement-and-testing-pitfalls`,
 `skills/laravel-mail-via-notifications`, `skills/source-freshness`.
+
+Independent verification 2026-10-21: 26 checked, 26 matched, 0 corrected, 0 unverified

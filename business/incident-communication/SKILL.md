@@ -111,3 +111,5 @@ confirms the split but not the weight), correcting a wrong statement explicitly 
 follow-up only with a date, and the follow-up written in the reader's terms apart from the internal analysis. The security
 detail is one company's practice. Not read: NIST SP 800-61, a regulator's breach-notification page (legal, `business/data-protection`).
 Current text of the sources may have changed; check with `skills/source-freshness`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

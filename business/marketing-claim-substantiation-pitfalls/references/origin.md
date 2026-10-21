@@ -77,3 +77,5 @@ Two corroborating sources; 10 of 12 to 15 sources reachable; age limits of 2, 1 
 ## Related blocks
 `business/product-marketing`, `business/messaging-audit-pitfalls`, `business/sales-support`,
 `business/data-protection`, `skills/source-freshness`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified
