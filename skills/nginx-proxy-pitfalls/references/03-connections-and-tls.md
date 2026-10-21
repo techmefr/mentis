@@ -25,10 +25,7 @@ boilerplate states the trade-off next to each value; the points below keep it.
    cache gives about 4000 sessions per megabyte, and the docs recommend the shared cache alone). The boilerplate keeps them for 24 hours in a shared
    cache of 10 megabytes; the file says one megabyte holds about 4000 sessions, so this holds about 40000.
    The `10m` is a size, not a time.
-2. **Tickets are on by default** (since 1.5.9) and the shared cache also generates and rotates their keys
-   unless `ssl_session_ticket_key` is set. **Turn session tickets off unless you rotate their keys.** Ticket keys are not rotated automatically:
-   only a reload signal or a restart does it, and a restart loses the previous key and resets all earlier
-   sessions. Enable tickets only with a manual rotation mechanism (h5bp's TLS engine file).
+2. **Tickets are on by default** (the directive appeared in 1.5.9). The boilerplate turns them off, with the comment that ticket keys are not rotated automatically (only a reload signal or a restart does it, and a restart loses the previous key and resets earlier sessions), so enable them only with a manual rotation mechanism (h5bp TLS engine file). That comment is older than nginx 1.23.2: the SSL module page (read 2026-10-21) says a shared session cache also generates, stores and periodically rotates ticket keys unless `ssl_session_ticket_key` is set, so on 1.23.2 or later with a shared cache automatic rotation exists, and the manual-rotation duty applies once you set the key file yourself or run several servers that must share keys.
 3. **Let the client choose the cipher** (`ssl_prefer_server_ciphers off`) when the TLS 1.2 and 1.3 ciphers
    in the policy are not considered dangerous. The boilerplate's changelog shows this moved to `off` in its
    5.0.1 release (July 2023), so older copies of the boilerplate had a different setting.
@@ -78,7 +75,7 @@ From the nginx proxy and upstream module pages (facts only).
    `$http_host` on purpose.
 4. **Upstream keepalive needs three things together**: a `keepalive` line in the `upstream`, HTTP/1.1 to it and
    an empty `Connection` header. Older versions default to HTTP/1.0 and `Connection: close`, which defeats it;
-   the pages say newer ones (1.29.7) default to 1.1, so check your version.
+   from 1.29.7 the pages make all three defaults (`proxy_http_version` 1.1, `keepalive 32 local` in the upstream, and the upstream page's example drops the `Connection` line it keeps for earlier versions), so check your version.
 5. **Buffering is on.** For server-sent events or long polling turn `proxy_buffering` off for that location (or
    let the app send `X-Accel-Buffering: no`). `proxy_read_timeout` is 60 seconds between two reads, not for the
    whole response, so a slow steady stream survives and a silent one is cut.

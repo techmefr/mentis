@@ -45,3 +45,5 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a ski
 `skills/cra-scope-and-role-determination-pitfalls`, `skills/oss-compliance-programme`,
 `skills/ci-workflow-hardening`, `skills/gha-trust-boundary-pitfalls`, `skills/security-advisory-comms-pitfalls`,
 `skills/source-freshness`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

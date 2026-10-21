@@ -41,6 +41,9 @@ comments.
    `permissions-policy` and `cross-origin-policy` files, the pre-compressed content files, `conf.d`, the
    README of the boilerplate, and the CHANGELOG below the 4.0.0 entry.
 
+## Verified 2026-10-21
+Re-read the six nginx module pages, the h5bp files named in the table and the caddy-docker-proxy README. Corrected three points: §3.3 point 2 (the h5bp comment that ticket keys are never rotated automatically predates nginx 1.23.2, which rotates them with a shared session cache), §3.6 point 4 (from 1.29.7 the upstream keepalive cache and HTTP/1.1 are defaults) and §2.5 (the gzip page only says compressed TLS responses may be subject to BREACH; the finer reading is marked as ours).
+
 ## Not verified
 1. **nginx behaviour**: `add_header` status list, `expires epoch`, directive defaults and inheritance are now confirmed by the nginx module pages (2026-10-20). Version thresholds quoted from those pages (1.29.3, 1.29.7) were not checked against release notes. That literal upstream names resolve at configuration load is general practice that neither the proxy nor the upstream page states; verify on your version.
 2. **TLS values** (protocols, ciphers, curves, the NIST claim) and the **HSTS preload requirements** are as the
@@ -60,3 +63,5 @@ comments.
 ## Related blocks
 `auth-gateway-proxy-pitfalls`, `docker-compose-file-pitfalls`, `docker-multi-project-dev-environment`,
 `security-hardening`, `devops-conventions`.
+
+Independent verification 2026-10-21: 55 checked, 52 matched, 3 corrected, 0 unverified

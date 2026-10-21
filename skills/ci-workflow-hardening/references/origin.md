@@ -38,12 +38,14 @@ by us.
 - Skipped-by-conditional reports success, path-filtered workflows stay pending, and `always()` with `needs` is the documented remedy for dependent jobs: confirmed.
 
 ## Not verified
-1. **`fail-fast` default and YAML float reading of `3.10`:** the workflow-syntax and job-variations pages read on 2026-10-20 did not state the default or the quoting; still from the MIT skill and general YAML behaviour.
+1. **YAML float reading of `3.10`:** not stated on the workflow-syntax or job-variations pages (read 2026-10-20 and 2026-10-21); still from the MIT skill and general YAML behaviour. The `fail-fast` default of true is confirmed (2026-10-21).
 2. **Duplicate job names across workflows:** the troubleshooting page does not address it; still from the MIT skill only.
 3. **Package registry behaviour for slopsquatting** and reading source on a registry viewer: MIT skill only.
 4. **Dependabot cooldown on transitive dependencies** was reported as unconfirmed upstream and is not claimed here.
-5. **Version-dated platform changes** (a default cooldown, read-only cache tokens for untrusted triggers) were not confirmed in the official pages and are not relied on.
+5. **Version-dated platform changes:** the Dependabot options reference (2026-10-21) states a 3-day default cooldown for version updates, now noted in §3.1.2; read-only cache tokens for untrusted triggers remain unconfirmed and are not relied on.
 
 ## Related blocks
 `devops-conventions` (pipeline reproducibility), `security-hardening` (dependencies and secrets),
 `python-testing-strictness` (coverage gate settings), `python-container-runtime` (image pinning).
+
+Independent verification 2026-10-21: 19 checked, 16 matched, 1 corrected, 2 unverified

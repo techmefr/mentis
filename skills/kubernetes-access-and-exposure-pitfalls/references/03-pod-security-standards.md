@@ -82,8 +82,10 @@ spec:
     sysctl as namespaced in the container or pod and isolated from other pods and processes on the node,
     and lists `kernel.shm_rmid_forced`, `net.ipv4.ip_local_port_range`,
     `net.ipv4.ip_unprivileged_port_start`, `net.ipv4.tcp_syncookies`, `net.ipv4.ping_group_range`, plus
-    `net.ipv4.ip_local_reserved_ports` (since Kubernetes 1.27) and four TCP keepalive and fin-timeout
-    settings (since Kubernetes 1.29).
+    `net.ipv4.ip_local_reserved_ports` (since Kubernetes 1.27), four TCP keepalive and fin-timeout
+    settings (since Kubernetes 1.29), `net.ipv4.tcp_rmem` and `net.ipv4.tcp_wmem` (since 1.32) and
+    `net.ipv4.tcp_slow_start_after_idle` and `net.ipv4.tcp_notsent_lowat` (since 1.37); the page was re-read
+    2026-10-21 and the list grows with releases.
 
 ## 3.4 Operating system and version notes
 1. **The Restricted policy uses `spec.os.name` from v1.25.** Privilege escalation, seccomp and Linux

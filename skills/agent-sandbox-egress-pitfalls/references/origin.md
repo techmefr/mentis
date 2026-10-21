@@ -58,3 +58,5 @@ One source, licence file read the same day: `anthropics/claude-quickstarts`, `ma
 vendor-run web tools sit outside the sandbox allowlist and the practice of disabling them for jobs that read
 untrusted text. Not verified: that claim is the sample's own comment, not checked against the platform's current
 documentation, and nothing was run.
+
+Independent verification 2026-10-21: 26 checked, 25 matched, 0 corrected, 1 unverified

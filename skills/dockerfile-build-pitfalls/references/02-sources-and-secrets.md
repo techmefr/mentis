@@ -77,8 +77,7 @@ RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=false \
 7. **Build arguments leak in two more places.** Docker's build documentation says a build-arg value shows in
    `docker history` and, with maximum-detail provenance attestations, in the attestation too; an `ENV` of
    the same name overrides an `ARG`. Secrets belong in `--secret`, always.
-8. **`ADD` from a URL cannot authenticate.** Fetch a protected file with a `RUN curl` or `wget` that reads a
-   secret mount, not with `ADD` and a token in the URL.
+8. **Plain `ADD` of a URL carries no credential of its own.** The Dockerfile reference (read 2026-10-21) says `ADD` does not support authentication for URL files and points to `RUN wget` or `RUN curl`, but the same page and the build-secrets page also describe BuildKit secrets for remote sources: `HTTP_AUTH_TOKEN_<host>` and `HTTP_AUTH_HEADER_<host>` for HTTP sources, and `GIT_AUTH_TOKEN` and `GIT_AUTH_HEADER` (optionally with a host suffix) for private Git sources and Git `ADD`. Pass the credential as a build secret, never as a token written in the URL or a build argument.
 
 ## 2.5 Verify
 Build from a clean checkout, then run `docker history --no-trunc` and search the output and the image

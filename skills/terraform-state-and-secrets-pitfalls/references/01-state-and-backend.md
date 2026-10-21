@@ -75,7 +75,7 @@ terraform init -backend-config=backend-prod.hcl
 2. **Before `force-unlock`, verify the lock holder, the CI run, the process and the timestamp**, and never while an
    apply may still be running. The sources' stale cases are a crashed process, a network interruption or a
    terminated CI job, each verified (terrashark; terraform-skill).
-3. **`force-unlock` changes no infrastructure, only the lock** (OpenTofu docs), and the same docs say to use it only for your own lock after automatic release failed, since releasing someone else's risks two writers. **Never `force-unlock` from automation.** A lock that blocks a pipeline should make it fail, not be broken by it
+3. **`force-unlock` changes no infrastructure, only the lock** (OpenTofu docs; its page also notes that a local state file cannot be unlocked by another process). Releasing a lock that someone else still holds risks two writers, so use it only for a lock you have confirmed is stale (own guidance: the OpenTofu page, read 2026-10-21, carries no such warning). **Never `force-unlock` from automation.** A lock that blocks a pipeline should make it fail, not be broken by it
    (terraform-skill).
 4. **`-lock=false` is documented as not recommended** and a failed lock acquisition halts the run (OpenTofu docs, read 2026-10-20); the page does not mention `-lock-timeout`, so the `0s` default below stays one source's statement. **Do not bypass a lock by deleting lock files by hand** (terraform-skill lists it as an anti-pattern); find out
    why it exists.

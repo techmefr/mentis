@@ -7,8 +7,7 @@ it is missing.
 ## 1.1 Pin what you execute
 1. **Pin every third-party action to a full-length commit SHA.** A tag or a branch is a mutable reference:
    whoever controls the action's repository can move it, and your next run executes the new code with your
-   token. The GitHub documentation calls a full-length SHA the only way to use an action as an immutable
-   release. Keep the human-readable version as a trailing comment so a reviewer and an update bot can see
+   token. The GitHub secure-use page (re-read 2026-10-21) recommends a full-length SHA because an attacker would need a SHA-1 collision to slip code in under it. Keep the human-readable version as a trailing comment so a reviewer and an update bot can see
    what the hash means.
 2. **A SHA is only trustworthy if it belongs to the repository you meant.** A commit from a fork is
    addressable through the upstream repository's name, so a hash copied from an issue or a blog post can

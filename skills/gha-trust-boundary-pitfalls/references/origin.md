@@ -55,3 +55,5 @@ are small adaptations of the entries' examples with the comments removed.
 
 ## Related blocks
 `ci-workflow-hardening`, `security-hardening`, `devops-conventions`, `credential-lifecycle-pitfalls`.
+
+Independent verification 2026-10-21: 24 checked, 24 matched, 0 corrected, 0 unverified

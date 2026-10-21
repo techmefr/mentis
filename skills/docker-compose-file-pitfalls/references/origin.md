@@ -39,3 +39,5 @@ versions and no comments. Where the production page says `restart: always` and t
 ## Related blocks
 `docker-multi-project-dev-environment` (host port collisions), `dockerfile-build-pitfalls`, `devops-conventions`,
 `security-hardening`, `kubernetes-workload-pitfalls`.
+
+Independent verification 2026-10-21: 30 checked, 30 matched, 0 corrected, 0 unverified

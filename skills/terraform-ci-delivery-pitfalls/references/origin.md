@@ -56,3 +56,5 @@ Left out as outside the item or tool-specific:
 ## Related blocks
 `terraform-state-and-secrets-pitfalls`, `terraform-refactor-identity-pitfalls`, `ci-workflow-hardening`,
 `devops-conventions`, `security-hardening`.
+
+Independent verification 2026-10-21: 20 checked, 17 matched, 2 corrected, 1 unverified

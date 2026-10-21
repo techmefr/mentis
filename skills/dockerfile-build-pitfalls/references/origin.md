@@ -29,6 +29,9 @@ decision because the sources disagree.
 ## Verified 2026-10-20
 Secret mounts, cache mounts, `.dockerignore` semantics, the `ADD` versus `COPY` difference and the `--target` behaviour match the official pages; no rule was corrected. The `HEALTHCHECK` section of the reference was past the fetched range and stays on the dockle claim.
 
+## Verified 2026-10-21
+Corrected §2.4 point 8: "`ADD` from a URL cannot authenticate" was too absolute; BuildKit has per-host HTTP and Git auth secrets (Dockerfile reference and build-secrets page). All other credited points matched the Docker pages, dockle and distroless README.
+
 ## Not verified
 1. **`HEALTHCHECK` benefit** is the CIS checkpoint's claim as quoted by dockle; whether a given orchestrator
    reads it was not checked.
@@ -48,3 +51,5 @@ Secret mounts, cache mounts, `.dockerignore` semantics, the `ADD` versus `COPY` 
 `node-container-runtime` (Node image rules, signals), `go-container-runtime`, `python-container-runtime`,
 `dotnet-container-runtime`, `devops-conventions`, `security-hardening`, `docker-compose-file-pitfalls`,
 `kubernetes-workload-pitfalls`.
+
+Independent verification 2026-10-21: 30 checked, 28 matched, 1 corrected, 1 unverified

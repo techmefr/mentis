@@ -26,13 +26,13 @@ The point of a review is that the thing approved is the thing executed. A pipeli
 1. **Plan files and state exports can carry secrets**, so artifact retention and access are restricted, not left
    at the platform default (terrashark; terraform-skill). The OpenTofu references agree: a saved plan holds the
    full configuration, planned values and input variables, with sensitive data in cleartext unless plan encryption
-   is on, and `show -json` prints sensitive values in plain text (hidden only in the human-readable form).
+   is on, and the `show` page states that with `-json` the sensitive values of state come out in plain text (it does not say so for the plan JSON, so treat that the same way; own reading).
 2. **Retention is short.** terrashark's GitLab template uses `expire_in: 24h` and terraform-skill's uses one week;
    both are one source's value, so choose the shortest period that still spans the review and approval.
 3. **Raw plan JSON does not go to broadly readable CI logs or artifacts**, and sensitive outputs or connection
    strings do not go to pull request comments (terrashark; terraform-skill).
 4. **Keep the JSON rendering for the policy engine** (its use in the sources' templates, §2.1) and let people read
-   the human plan: the JSON form is the one that prints sensitive values in plain text (OpenTofu `show` page).
+   the human plan: the JSON form prints sensitive values in plain text for state (OpenTofu `show` page) and, by the same reading (own guidance), for a plan.
 5. **Search the exported plan JSON for secret fields before sharing the artifact** (terrashark). Why a value ends
    up there at all is in `terraform-state-and-secrets-pitfalls` §2.
 

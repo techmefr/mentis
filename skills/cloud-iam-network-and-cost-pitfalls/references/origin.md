@@ -37,3 +37,5 @@ resource was created, no policy applied, no price queried while writing it.
 ## Related blocks
 `terraform-conventions`, `terraform-state-and-secrets-pitfalls`, `kubernetes-access-and-exposure-pitfalls`,
 `serverless-edge-worker-pitfalls`, `credential-lifecycle-pitfalls`, `production-readiness-review`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

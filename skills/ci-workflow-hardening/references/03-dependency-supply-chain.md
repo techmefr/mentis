@@ -8,8 +8,7 @@ the audit looks at your dependencies or at itself.
 1. **Malicious releases are usually found and pulled within a day or two**, so a short wait before
    adopting a new version removes a class of attack for the price of getting fixes a little later. Keep it
    short (a few days) and expect fixes for known vulnerabilities to be slower than they could be.
-2. **Dependabot: set `cooldown` in each `updates` entry.** `default-days` sets the window; the
-   documentation says the default cooldown does not apply to security updates, which is the property that
+2. **Dependabot: set `cooldown` in each `updates` entry.** `default-days` sets the window (the Dependabot options reference, read 2026-10-21, says a default of 3 days is applied to version updates even when no cooldown is configured, and that cooldown never applies to security updates). That is the property that
    makes this the right layer for the delay. The bump-type options (`semver-major-days` and the others)
    exist only for some ecosystems, so check the ecosystem table before using them. `include` and `exclude`
    scope it by name; `exclude` wins.
