@@ -10,9 +10,9 @@ default: no error on a 4xx or 5xx, a generous default timeout, retries that can 
 `skills/code-baseline` §4 (consume a third-party payload through a typed reader) and
 `skills/laravel-conventions` §11 (failure modes).
 
-**Special status.** New block, 🟡: written from the rule files the Laravel team ships for its tooling, never
-run on real work in house. Re-read the HTTP client page of the installed version when a method below is not
-there.
+**Special status.** New block, 🟡: never run on real work in house. Checked on 2026-10-20 against the
+framework's HTTP client documentation (12.x) and the Laravel Boost rule file; re-read the page of the installed
+version when a method below is not there.
 
 ## When
 `Http::` calls, a macro or class wrapping an outside API, a `retry`, a `pool`, or a test that must not reach
@@ -24,13 +24,15 @@ the network.
    or branch on `successful()`, `notFound()` and the like and `throw()` for everything unexpected. Which
    statuses are expected is a decision made at the call site, written down in the code.
 2. **Set both timeouts on purpose**: `connectTimeout()` for establishing the connection, `timeout()` for the
-   response. The framework's default response timeout is long enough to hold a request or a worker for half
-   a minute. Choose values for the calling context (a web request tolerates less than a queued job), and
+   response. The documented defaults are 30 seconds for the response and 10 seconds for the connection, long
+   enough to hold a request or a worker for half a minute (docs, Timeout). Choose values for the calling context (a web request tolerates less than a queued job), and
    remember retries multiply the total elapsed time.
 3. **Retry only what is safe to repeat.** Transient connection failures, 429 and 5xx on an idempotent read
    (`GET`) can be retried with a delay list. A state-changing call (a charge, an order, a send) is retried
    only when the remote API supports an idempotency key, and the same key is sent on every attempt. Use the
-   `retry` callback to decide which exceptions count; never retry a 4xx that will fail the same way.
+   `retry` callback (third argument) to decide which exceptions count; never retry a 4xx that will fail the same
+   way (own guidance). When every attempt fails, `retry` throws a `RequestException` unless `throw: false` is
+   passed, and a connection failure still throws a `ConnectionException` in that case (docs, Retries).
 4. **One place per outside service.** Shared base URL, timeouts, auth and headers live in a macro or a
    dedicated client class, not repeated at every call. Credentials come from configuration
    (`skills/laravel-conventions` §7), never inline.
@@ -52,6 +54,10 @@ No comments in the code produced. New and changed code only (`skills/code-baseli
 the project already wraps goes through that wrapper; do not add a second client for it.
 
 ## Origin
-Rewritten from the `http-client` rule file of Laravel Boost (`laravel/boost`, MIT, cloned 2026-10-02):
-no exception on 4xx/5xx, separate connect and response timeouts, idempotency-bound retries, pool, fakes and
-`preventStrayRequests`. Mechanisms only, rewritten in our words.
+Rewritten from the `http-client` rule file of Laravel Boost (`laravel/boost`, MIT, LICENSE read 2026-10-20) and
+checked the same day against the framework's HTTP client documentation, 12.x (read for facts only, our words):
+Error Handling (no exception on 4xx/5xx, `throw`), Timeout (30 s and 10 s defaults), Retries, Request Pooling
+(`as`, `concurrency`), Macros, Faking Responses (`failedConnection`, sequences), Inspecting Requests,
+Preventing Stray Requests. Not found in either source, so own guidance: the idempotency-key condition on
+state-changing retries is stated by the rule file but is not a documented framework feature; "never retry a 4xx".
+Mechanisms only, rewritten in our words.

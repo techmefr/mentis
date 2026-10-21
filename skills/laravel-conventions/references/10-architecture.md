@@ -9,10 +9,11 @@
    analysis) before adding a second library for something already solved.
 3. **A version branch past its security-fix end of life is not a maintenance choice.** The framework's and
    the language's support windows are published and mechanical, so the question has a date for an answer,
-   not an opinion: a new project starts on the newest stable major and the newest minor that major
-   supports, and an existing one is planned off a branch before its security window closes, not after an
-   advisory forces it. Staying behind compounds — each skipped major makes the next upgrade the one nobody
-   has budget for.
+   not an opinion: the docs state that Laravel releases get bug fixes for 18 months and security fixes for 2
+   years, with a table of the dates per version. A new project starts on the newest stable major and the newest
+   minor that major supports, and an existing one is planned off a branch before its security window closes,
+   not after an advisory forces it. Staying behind compounds — each skipped major makes the next upgrade the
+   one nobody has budget for. [Laravel release notes 12.x, "Support Policy", read 2026-10-21.]
 4. Prefer the framework's own mechanism over a custom one; prefer configuration over a new abstraction. The
    framework already does most of the design-pattern work (`skills/design-patterns`).
 5. **Where a layer-package convention (OSDD-style) is installed**, point 1's split is enforced structurally,
@@ -21,11 +22,14 @@
    its own `tests/`, its own service provider — generated and scaffolded through the package's own commands
    rather than by hand. It is the house override for point 1: don't hand-roll a `functional/` folder
    convention that competes with it. [`xefi/laravel-osdd`, github.com/xefi/laravel-osdd, read 2026-08-10.]
-6. **Where `laravel/boost` is present, install it with its agent skills (`--skills`), not the MCP server
-   alone** — packages now ship their conventions as skills rather than as guidelines, so a guidelines-only
-   install reaches nothing package-specific, including the concrete layout point 5 depends on. Run it
-   interactively: a non-interactive first install silently drops every third-party skill while still
-   reporting success. [`laravel/boost`, github.com/laravel/boost, read 2026-08-11.]
+6. **Where `laravel/boost` is present, install its agent skills, not the MCP server alone.** The docs say
+   `boost:install` generates the guideline and skill files for the agents you select, that skills are installed
+   from the packages detected in `composer.json`, and that a third-party package ships its own skill as
+   `resources/boost/skills/{name}/SKILL.md`, installed according to the user's preference; `boost:update`
+   refreshes them. A guidelines-only install therefore reaches nothing package-specific, including the layout
+   point 5 depends on. Own claim, not found in the docs read: a `--skills` flag, and that a non-interactive
+   first install silently drops third-party skills while reporting success; check the installed skills after a
+   scripted install. [Laravel Boost docs, laravel.com/docs/boost (master and 12.x copies), read 2026-10-21.]
 7. **The dependency direction *is* the architecture, so a tool enforces it, not a paragraph.** Point 1's
    split holds for as long as everyone remembers it; expressed as a static-analysis rule or a package
    boundary, a wrong-direction import fails a build instead of waiting for a reviewer who happens to know.
@@ -63,34 +67,38 @@
 16. **Contextual binding is point 4's "prefer the framework's own mechanism" applied to the container**: when
     two classes need a different implementation of the same interface — a different disk, a different
     driver, a config value — `$this->app->when(A::class)->needs(Interface::class)->give(...)` resolves the
-    branch once, in the provider, instead of an `if` inside every constructor asking "who is calling me".
-    `giveConfig()` and `giveTagged()` cover the two common shapes (an injected config value, an injected
-    set of same-tagged bindings) without a hand-written closure. [Laravel container docs,
-    laravel.com/docs/12.x/container, read 2026-09-10.]
-17. **A binding that is never resolved should never be booted.** A service provider deferred via `$defer =
-    true` (or, on newer providers, declared through `provides()`) is only instantiated the first time one of
-    its bindings is requested — a provider wiring a rarely-used integration stops costing a boot-time class
-    load and container lookup on every request that never touches it. The trade only pays off for a provider
-    with no side effect outside its own `register()`; one that also listens for events or registers routes in
-    `boot()` cannot be deferred without silently losing that wiring on requests where nothing triggered the
-    resolution.
+    branch once, in the provider, instead of an `if` inside every constructor asking "who is calling me";
+    the docs' example gives one controller a local disk and two others an S3 disk, and `when()` also takes an
+    array of classes. The container docs also describe `giveTagged()`, `giveConfig()` and contextual
+    attributes for the common shapes. [Laravel container docs 12.x, "Contextual Binding", read 2026-10-21.]
+17. **A binding that is never resolved should never be booted.** A provider that only registers container
+    bindings can be deferred: implement `Illuminate\Contracts\Support\DeferrableProvider` and return the
+    bindings from `provides()`, and the framework loads the provider only when one of them is first resolved,
+    so a rarely used integration stops costing a boot-time load on every request. The docs limit this to a
+    provider that **only** registers bindings: one that also listens for events or registers routes in `boot()`
+    cannot be deferred without losing that wiring on requests where nothing triggered the resolution.
+    [Laravel service provider docs 12.x, "Deferred Providers", read 2026-10-21.]
 18. **A middleware group is a named ordering, and the order is the part that breaks silently.** Registering
     `auth` after a rate-limiter that keys its bucket on the authenticated user throttles every guest request
-    under one shared bucket, because the middleware that would identify the user has not run yet. The fix is
-    not a smarter limiter: read the group's declared order in `bootstrap/app.php` before adding to it —
-    inserting an entry without checking what runs before and after is how this regresses on an unrelated
-    change.
+    under one shared bucket, because the middleware that would identify the user has not run yet. The docs
+    show the `web` and `api` groups as ordered lists that `bootstrap/app.php` extends with `append` and
+    `prepend`: read the group's list before adding to it, since inserting an entry without checking what runs
+    before and after is how this regresses on an unrelated change. [Laravel middleware docs 12.x,
+    "Middleware Groups", read 2026-10-21.]
 19. **A feature toggle is a config value with an environment default, not a hard-coded conditional shipped
     then reverted.** Point 13's "don't add infrastructure the database still handles" cuts the other way
     here too: a boolean in `config/features.php`, read through the config layer per point 1 of
     `skills/laravel-conventions` §7, lets the same deploy run dark in staging and live in production without
     a second branch — reverting a toggle is changing one value, reverting a conditional is a second pull
     request.
-20. **Package auto-discovery is a convenience, not a boundary.** Composer wires a package's service provider
-    and facades automatically from its `extra.laravel` block, so point 2's "check what's already
-    standardised on" has to include packages that never appear in a manually maintained providers array —
-    they are active anyway. A package that must not run in a given environment (a debug bar, a seeder
-    package) is excluded in `composer.json`'s `dont-discover`, not by hoping nothing calls it.
+20. **Package auto-discovery is a convenience, not a boundary.** A package declares its service providers and
+    facade aliases in the `extra.laravel` block of its `composer.json`, and Laravel registers them without a
+    manual providers entry, so point 2's "check what's already standardised on" has to include packages that
+    never appear in a hand-maintained list: they are active anyway. An application can opt a package out with
+    `extra.laravel.dont-discover` in its own `composer.json` (the docs also show `*` to disable discovery for
+    all packages), and that setting is not per environment, so a package that must not exist in production
+    (a debug bar) belongs in `require-dev`. [Laravel package development docs 12.x, "Package Discovery", read
+    2026-10-21; the `require-dev` point is own guidance.]
 21. **A facade and its underlying binding are two separate things to keep in sync.** A facade is a static
     proxy resolved from the container at call time, so swapping the bound implementation in a provider
     changes what every facade call does without touching a call site — which is why a test that swaps the
@@ -107,11 +115,13 @@
     never appears there on its own — the app's copy falls behind until someone diffs the two by hand.
     Publish the file only once a value in it needs overriding, and note the fork where point 15's
     architecture record would look for it.
-24. **A test that swaps a container binding has to unbind it, or the next test inherits today's fake.** The
-    container is a singleton across a test run unless the framework's own test traits reset it between
-    cases; a `$this->app->bind(...)` left in place is silent for every later test that happens not to check
-    the thing that changed, and the eventual failure points at the wrong test. `swap()` and the framework's
-    container-reset traits exist so a rebind is scoped to the test that made it.
+24. **A binding made in one test does not carry into the next, so look for leaks in your own static state.** The
+    framework's test case clears the facades' resolved instances and builds a fresh application before each test,
+    and its teardown resets the date library's test time and flushes the framework's own static state, so a
+    `$this->app->bind(...)` or `swap()` in a test is scoped to it. What does leak is state the framework does not
+    know about: a static property or global of your own. When a failure points at the wrong test, look there
+    first, and restore it in the test that changed it. [laravel/framework 12.x `TestCase.php` and
+    `InteractsWithTestCaseLifecycle.php`, read 2026-10-21.]
 25. **A closure passed to `$this->app->singleton()` runs once, and a value captured in it stays captured for
     the life of the container.** Binding a request-scoped value — the current tenant, the caller's locale —
     as a singleton at boot freezes whatever it was at first resolution, then serves it to every later
@@ -122,11 +132,12 @@
     the model when the job runs, which is why §8 point 4's "dispatch after commit" matters doubly for a job:
     dispatched before commit, the worker can re-fetch before the transaction lands, finding a stale row or
     none — a race that reads as intermittent because it depends on worker speed, not on the code.
-27. **A config value read through `env()` outside `config/*.php` is invisible to `config:cache`.** Caching
-    compiles every `config/*.php` file into one file and stops reading `.env` on every request — a direct
-    `env()` call anywhere else (a controller, a service, a provider's `boot()`) freezes at whatever it read
-    when the cache was built, so a value changed in `.env` after deploy looks ignored until someone
-    remembers `config:clear`. `env()` belongs in `config/*.php` only; the rest of the app reads `config()`.
+27. **A config value read through `env()` outside `config/*.php` stops working once the config is cached.** The
+    docs say that after `config:cache` the `.env` file is not loaded during requests or Artisan commands, so
+    `env()` returns only external, system-level environment variables: a call in a controller, a service or a
+    provider's `boot()` reads nothing from `.env` in production, and the setting looks ignored (§7 point 1).
+    `env()` belongs in `config/*.php` only; the rest of the app reads `config()`. [Laravel configuration docs
+    12.x, "Configuration Caching", read 2026-10-21.]
 28. **A trait shared across models to add a behaviour is not the same decision as an interface those models
     implement, and conflating them hides which one a caller can rely on.** A trait supplies an
     implementation (real code, silently overridable by whichever class declares it last if two traits
@@ -136,11 +147,13 @@
     up duck-typed everywhere instead of declared once as `Sluggable` and checked with `instanceof`.
 29. **Laravel 12's default skeleton centralises what used to be spread across several kernel classes into
     `bootstrap/app.php`.** There is no `app/Console/Kernel.php` and no `app/Http/Middleware/*` array to
-    maintain by default; middleware groups (point 18), exception handling (`skills/laravel-conventions` §11
-    point 15) and console scheduling are all configured through the same file's fluent builder. A project
-    upgraded from an older skeleton keeps its kernel classes working, but a new one reads its cross-cutting
-    wiring in one place instead of three — point 15's "write the decision down near the code" with the
-    framework itself choosing where "near" is.
+    maintain by default; middleware groups (point 18) and exception handling (`skills/laravel-conventions` §11
+    point 15) are configured through that file's fluent builder, and scheduled tasks live in
+    `routes/console.php` or, if you keep that file for commands only, in a `withSchedule` closure in
+    `bootstrap/app.php`. A project upgraded from an older skeleton keeps its kernel classes working, but a new one
+    reads its cross-cutting wiring in one place instead of three — point 15's "write the decision down near the
+    code" with the framework itself choosing where "near" is. [Laravel scheduling docs 12.x; Laravel middleware
+    docs 12.x, read 2026-10-21.]
 30. **Multiple database connections declared in `config/database.php` are a routing decision that belongs on
     the model, not on the call site.** A model's `protected $connection = 'reporting';` states once which
     store owns it, as point 10 asks a table to have one owner; `DB::connection('reporting')` scattered
@@ -151,12 +164,13 @@
     session or a token on it defeats the load balancer's ability to probe it, the one caller it exists for;
     where it must not be publicly reachable, restrict it at the network layer (an internal-only route, a
     firewall rule) rather than folding it into the app's authorisation model alongside real endpoints.
-32. **Enabling `sticky` on a read-replica connection trades replica lag for read-your-own-write correctness,
-    and turning it on globally applies that trade to every request, not only the one that just wrote.** With
-    `sticky` on, a request that has performed a write reads from the primary for the rest of that request,
-    avoiding the classic "save then reload and the change isn't there yet" replica-lag bug; the cost is that
-    every other read in that request also skips the replica — a deliberate exception, not a free correctness
-    upgrade to leave on everywhere without measuring the load it shifts back to the primary.
+32. **Enabling `sticky` on a read/write connection trades replica lag for read-your-own-write correctness, and
+    the trade is paid by every request that writes.** The docs: with `sticky` on, once a write has been
+    performed in the current request cycle, further reads in that request use the write connection, so data
+    written during the request can be read straight back; the docs add that it is up to you to decide whether
+    that is the right behaviour. The cost is that a writing request's other reads also skip the replica, a
+    deliberate exception, not a free correctness upgrade to leave on without measuring the load it shifts back
+    to the primary. [Laravel database docs 12.x, "The `sticky` Option", read 2026-10-21.]
 33. **Anything cached in-process — a static property, an array, an OPcache-backed APCu entry — is invisible
     to every other worker or container the load balancer sends the next request to.** A horizontally scaled
     app has no single process to hold that state, so a design that "works" against one `php artisan serve`
@@ -217,18 +231,21 @@
     what belongs centrally versus per tenant, and `skills/laravel-tenant-replica` for the one shape of
     record that legitimately exists on both sides.
 43. **Post-response work that needs no retry and no durability can use the framework's deferred-function helper
-    instead of a job; anything that must survive a crash or be retried is still a job.** A deferred function
-    normally runs after the response, in the same PHP process, so a fatal error or a restart loses it. Page-view
-    logging qualifies; sending an invoice does not.
+    instead of a job; anything that must survive a crash or be retried is still a job.** The docs' example
+    wraps a metrics call in `defer(...)` inside a route, so it runs after the response; being in the same PHP
+    process, a fatal error or a restart loses it (own inference). Page-view logging qualifies; sending an
+    invoice does not. [Laravel helpers docs 12.x, "Deferred Functions", read 2026-10-21.]
 44. **Request-scoped context is for data that must follow a request through logs and into the jobs it queues.**
     The framework's context facade adds visible values (they appear in log context) and hidden ones (they
     propagate to queued jobs without appearing in logs). A secret placed in it travels to every queued job, so
     put nothing there that should not propagate. Reaching for it to avoid passing a plain argument one layer
     down is the wrong use.
-45. **Independent work can run through the concurrency facade, with a cost.** With a process-based driver each
-    closure runs in its own PHP process that boots the application, so it pays only for independent queries,
-    outbound calls or computations that are individually slow; the synchronous driver runs them one after
-    another and is what tests use.
+45. **Independent work can run through the concurrency facade, with a cost.** The facade has three drivers:
+    `process` (the default), `fork` (faster, CLI only, needs `spatie/fork`) and `sync`. With the process driver
+    each closure runs in its own PHP process that boots the application, so it pays only for independent
+    queries, outbound calls or computations that are individually slow; `sync` runs them one after another
+    (own inference: the one to use where parallelism is unwanted, such as tests). [Laravel concurrency docs
+    12.x, read 2026-10-21.]
 46. **Depend on a contract at a boundary only when testability or interchangeable implementations justify
     it.** A payment gateway, a notification channel and an external service are the usual places; an interface
     in front of a class with one implementation and no test seam is over-abstraction

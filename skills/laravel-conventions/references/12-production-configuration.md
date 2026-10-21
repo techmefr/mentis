@@ -12,22 +12,26 @@
    branch does the development thing. Both are asserted on the target environment after deploy, because they
    are set by a file outside the repository and nothing in the code fails when they are wrong.
 2. **The application key is set, secret, and rotatable.** It signs sessions, cookies and signed URLs and
-   encrypts everything encrypted; it never appears in the repository or in logs. Key rotation is planned for
-   by keeping the previous key in the framework's previous-keys setting during the changeover, so a rotation
-   does not log everyone out or make every encrypted column unreadable.
+   encrypts everything encrypted; it never appears in the repository or in logs. The docs say that changing
+   the key logs everyone out (cookies are encrypted) and makes data encrypted with the old key undecryptable,
+   and that previous keys can be listed in the `APP_PREVIOUS_KEYS` environment variable, comma-delimited, so
+   a rotation does neither during the changeover. [Laravel encryption docs 12.x, "Gracefully Rotating
+   Encryption Keys", read 2026-10-21.]
 3. **The environment file is not served and not committed.** The web server's document root is the public
    directory and nothing above it; a `.env.example` lists every key with no value; the real file is created by
    the deploy from the secret store. A request for the environment file returning anything but 404 is an
    incident, and it is a one-line check in the deploy smoke test.
 4. **TLS is enforced by the application as well as the edge.** The proxy terminates TLS, so the application
-   trusts the forwarded-protocol header only from the proxies it names (the trusted-proxy setting lists
-   addresses, it is not `*` unless the network guarantees only the proxy can reach the app). Without that the
-   app thinks it is on HTTP and generates `http` URLs, redirect loops and insecure cookies. Force HTTPS URL
-   generation in production, and send the strict-transport header from one place (the edge or a middleware,
-   not both).
+   trusts the forwarded-protocol header only from the proxies it names: the docs configure `trustProxies(at:
+   [...])` in `bootstrap/app.php` with addresses or CIDR ranges, and a wildcard is only acceptable when the
+   network guarantees only the proxy can reach the app. Without that the app thinks it is on HTTP and generates
+   `http` URLs, redirect loops and insecure cookies. Force HTTPS URL generation in production (`URL::forceScheme`
+   in the framework source), and send the strict-transport header from one place (the edge or a middleware, not
+   both). [Laravel request docs 12.x, "Configuring Trusted Proxies", read 2026-10-21.]
 5. **Trusted hosts are declared.** An application that builds absolute URLs from the request's host header
    (password reset links, signed URLs) lets an attacker choose the host in the mail it sends. Restrict the
-   accepted hosts to the application's own domains.
+   accepted hosts to the application's own domains; the docs describe enabling the `TrustHosts` middleware for
+   this. [Laravel request docs 12.x, "Configuring Trusted Hosts", read 2026-10-21.]
 6. **The session cookie is `Secure`, `HttpOnly` and `SameSite` by configuration.** The three are settings in
    the session configuration, not defaults to trust; the lifetime is a decision (idle and absolute) and the
    driver is shared storage (database or cache) whenever more than one instance serves traffic, since the
@@ -59,18 +63,25 @@
     the connection configuration.
 13. **Strict model behaviour is on outside production.** Preventing lazy loading, preventing silently
     discarded attributes and preventing access to missing attributes turn a class of latent bugs into
-    exceptions in tests and staging; in production they are logged, not thrown, so a missed case degrades
-    instead of failing a request (§3, point 33).
+    exceptions in tests and staging. The docs enable the first two with a non-production check, so they are off
+    in production; the framework source also has `handleLazyLoadingViolationUsing()` (and equivalents for the
+    other two) to log a violation instead of throwing, which is the way to keep seeing them in production
+    without failing a request (§4, point 14). [Laravel Eloquent docs 12.x, "Configuring Eloquent Strictness";
+    framework source `Model.php`, read 2026-10-21.]
 14. **The deploy builds the caches and checks they build.** Configuration, route, event and view caches are
     generated on the target (§7, points 17 and 33), after dependencies are installed without development
-    packages and with an optimised autoloader. A build that fails here has found a closure route, an
-    `env()` call outside configuration or a missing view before traffic did; a deploy that skips the step
-    runs slower and hides those.
+    packages and with an optimised autoloader. The docs recommend `optimize` as part of the deployment. A build
+    that fails here has found a non-serialisable config value, an `env()` call outside configuration (which reads
+    nothing once the config is cached) or a broken view before traffic did; a deploy that skips the step runs
+    slower and hides those. [Laravel deployment docs 12.x, "Optimization"; framework source
+    `ConfigCacheCommand.php`, read 2026-10-21.]
 15. **Queue workers and the scheduler are processes someone supervises.** Workers run under a supervisor
-    that restarts them, are restarted by the deploy so they load the new code, and have a memory and time
-    limit that recycles them. The scheduler has exactly one cron entry per environment, and a scheduled task
+    that restarts them, are restarted by the deploy so they load the new code (the docs name `queue:restart` for
+    a graceful restart), and have a memory and time limit that recycles them (`--max-time` is documented
+    for use with a supervisor). The scheduler has exactly one cron entry per environment, and a scheduled task
     that must not overlap, or must run on one server only, says so. A queue that is not consumed shows up as
-    nothing at all; the smoke test enqueues a harmless job and sees it complete.
+    nothing at all; the smoke test enqueues a harmless job and sees it complete. [Laravel queues docs 12.x,
+    "Queue Workers and Deployment", read 2026-10-21.]
 16. **Failed jobs are visible.** The failed-jobs table exists, an alert fires on its growth, and the
     retention is pruned, and each job's own `failed()` handler (§8, point 5) leaves a record a person can act
     on. A worker that fails silently produces the symptom "emails stopped last
@@ -79,13 +90,17 @@
     and cache directories are writable by the web user and nothing else, uploaded files live outside the
     public root unless they are meant to be public, and the disk driver for uploads is the shared one when the
     application runs on more than one instance.
-18. **There is a health route, and it checks what the application depends on.** The framework's built-in
-    liveness route answers whether the process is up; the readiness check the load balancer uses also reaches
-    the database and the cache, and fails the instance when they are unreachable. A health route that always
-    returns 200 keeps a broken instance in rotation.
+18. **There is a health route, and it checks what the application depends on.** The framework's built-in route
+    (`/up` by default, set with the `health` argument of `withRouting`) answers 200 if the application booted
+    without exceptions and 500 otherwise, so it is a liveness check. The docs add that a request to it dispatches
+    a `DiagnosingHealth` event, which is where a readiness check that reaches the database and the cache is
+    added so the load balancer drops an instance whose dependencies are unreachable. A health route that always
+    returns 200 keeps a broken instance in rotation. [Laravel deployment docs 12.x, "The Health Route", read
+    2026-10-21.]
 19. **Maintenance mode has a bypass and an owner.** Taking the app down for a release uses the framework's
-    maintenance mode with a secret that lets the deployer through, so the post-deploy checks run against the
-    live instance before the public sees it.
+    maintenance mode with a secret (`php artisan down --secret=...`, per the docs) that lets the deployer
+    through, so the post-deploy checks run against the live instance before the public sees it. [Laravel
+    configuration docs 12.x, "Maintenance Mode", read 2026-10-21.]
 20. **Rate limits are configured on the entry points, by name.** Login, password reset, registration,
     one-time-code verification and any endpoint that sends mail or SMS have a named limiter keyed by the
     identity being attacked (the account or the address) as well as by IP, with a response that tells the

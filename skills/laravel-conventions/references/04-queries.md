@@ -56,17 +56,19 @@
     the parent already loaded by the eager load is hydrated onto every child; the child's inverse
     `belongsTo` accessor finds it there instead of issuing point 1's per-row query. It only helps the
     reverse direction — a child needing a *sibling* is a different relation and fix.
-13. **`lazy()`/`cursor()` stream one row at a time and both answer point 8's chunking need, but they are not
-    interchangeable.** `cursor()` reads a single unbuffered database cursor and is cheaper on memory, but a
-    query that visits a Collection-only method (`groupBy`, a collection macro) forces it back into a full
-    collection; `lazy()` keeps chunking under the hood, accepts those methods without that trade, and is
-    the safer default when the code between fetch and use is not known to be row-by-row.
+13. **`lazy()` and `cursor()` both stream rows and answer point 8's chunking need, but they are not
+    interchangeable.** `cursor()` runs a single query and hydrates one model at a time, so it cannot eager
+    load relationships, and the docs add that it can still run out of memory because the PDO driver buffers
+    the raw results; `lazy()` chunks under the hood, so it can eager load and is the one the docs recommend
+    for very large sets. Both return a lazy collection. [Laravel Eloquent docs 12.x, "Cursors", read
+    2026-10-21.]
 14. **`Model::shouldBeStrict()` turns point 1's N+1 rule into a thrown exception instead of a review
-    checkpoint.** It also refuses a silently-discarded mass-assignment field and a read of a missing
-    attribute — all three failing loudly when they happen rather than when a slow query or wrong value is
-    noticed later. The trade is environment-specific: on in local/CI so the violation is caught before
-    merge, off in production so an edge case the tests missed degrades instead of 500ing for every affected
-    user.
+    checkpoint.** In the 12.x source it switches on three guards together: lazy-loading prevention, an
+    exception when an unfillable attribute is filled, and an exception when a missing attribute is read.
+    The docs show the first two as separate calls guarded by a non-production check, which is the shape to
+    copy: on in local and CI so the violation is caught before merge, off in production so an edge case the
+    tests missed degrades instead of failing every affected user. [Laravel Eloquent docs 12.x, "Configuring
+    Eloquent Strictness"; framework source `Model.php` (12.x), read 2026-10-21.]
 15. **A constrained eager load (`with(['relation' => fn ($query) => ...])`) filters or orders the *loaded*
     relation, a different question from filtering the *parent* rows.** `whereHas` (point 6) decides
     which parents come back; the constrained closure decides which children come back for a parent already
@@ -85,23 +87,25 @@
     `orWhereHas`/nested conditions; a join can be faster on a large table but silently duplicates the parent
     once per matching child unless the query is made distinct or the join constrained to at most one row.
     Reach for the join once `whereHas`'s cost shows up in a slow-query log, not by default.
-19. **A transaction that can deadlock needs a retry count, because `DB::transaction($callback, $attempts)`'s
-    third argument is exactly for that** — a deadlock is a database-detected condition, not a bug in the
-    callback, and MySQL/Postgres both expect the losing transaction to retry. Retrying is safe only because
-    point 11 keeps side effects out of the callback until commit — one that emails would email once per
-    retry.
+19. **A transaction that can deadlock needs a retry count, because `DB::transaction()` takes one as its
+    second argument for exactly that** (the docs write it as `attempts: 5`). A deadlock is a
+    database-detected condition, not a bug in the callback, and once the attempts are used up the exception
+    is thrown. Retrying is safe only because point 11 keeps side effects out of the callback until commit;
+    one that emails would email once per retry. [Laravel database docs 12.x, "Handling Deadlocks", read
+    2026-10-21.]
 20. **`upsert()` replaces a manual "find, then create-or-update" round trip, but the columns it checks for a
-    collision have to be a real unique key, not just the columns that happen to be equal.** Its second
-    argument names which columns identify an existing row, its third which columns to overwrite on a
-    match — without a unique or primary constraint at the database level, nothing stops two concurrent
-    calls both deciding "no match" and both inserting, the race point 11 exists to close. [Laravel query
-    builder docs, laravel.com/docs/12.x/queries, read 2026-09-10.]
-21. **`chunkById` is point 8's ordering trap solved by construction, not merely a faster `chunk`.** Plain
-    `chunk()` re-runs the query with an offset per page, so a row updated (or deleted) between pages
-    shifts every later page by one and skips a row; `chunkById` re-runs it filtered on "id greater than the
-    last one seen," correct as long as the id is never reassigned to a different row mid-run. Use it by
-    default on any chunked update; reserve plain `chunk()` for a read-only pass. [Laravel query builder docs,
-    laravel.com/docs/12.x/queries, read 2026-09-10.]
+    collision have to carry a unique or primary index.** Its second argument names the columns that identify
+    an existing row, its third the columns to overwrite on a match; the docs say all databases except SQL
+    Server require that index, and that MySQL and MariaDB ignore the second argument and use the table's own
+    indexes. Without it nothing stops two concurrent calls both deciding "no match" and both inserting.
+    [Laravel query builder docs 12.x, "Upserts", read 2026-10-21.]
+21. **`chunkById` is point 8's ordering trap solved by construction, not merely a faster `chunk`.** The docs
+    say that updating records while chunking can change the chunk results in unexpected ways, and that
+    `chunkById` instead paginates on the primary key; it also adds its own where conditions, so the docs
+    advise grouping your own conditions in a closure. Plain `chunk()` pages by offset in the framework
+    source, so a row updated or deleted between pages can shift later pages. Use `chunkById` for any chunked
+    update and keep plain `chunk()` for a read-only pass (`lazyById` is the streaming twin). [Laravel query
+    builder docs 12.x, "Chunking Results", read 2026-10-21.]
 22. **`joinSub`/`leftJoinSub` and a `whereHas` subquery (point 18) solve different shapes of the same
     problem, and reaching for a join when the real need is an aggregate produces duplicate rows instead of a
     slow query.** A subquery join pulls a *value* alongside each parent row — a per-tenant running total, a
@@ -109,10 +113,11 @@
     subquery needs its own filtering or grouping. It answers "what value", not "which parents", which stays
     `whereHas`'s question. [Laravel query
     builder docs, laravel.com/docs/12.x/queries, read 2026-09-10.]
-23. **`withExists()` answers "does at least one match" without the `COUNT` a naïve `withCount() > 0` computes
-    and discards.** An existence check compiled through `COUNT` counts every matching row only to discard
-    the number; `withExists()` compiles a boolean-shaped subquery, which matters once the child table is
-    large.
+23. **`withExists()` answers "does at least one match" as a boolean attribute on each parent.** The docs list it
+    next to `withCount`, `withMin`, `withMax`, `withAvg` and `withSum`; each adds an attribute to the
+    resulting models. Own guidance: prefer it to `withCount()` followed by a comparison with zero when only
+    existence matters; the saving on a large child table was not measured. [Laravel Eloquent relationships
+    docs 12.x, "Aggregating Related Models", read 2026-10-21.]
 24. **A `WHERE` clause built from a value the caller controls needs a column allow-list, not just a bound
     parameter.** Bindings (point 10) stop a value being interpreted as SQL; they do nothing when the
     column name itself is taken from input — `orderBy($request->sort)` lets the caller order by a column
@@ -149,12 +154,12 @@
     diverges from the table's default.** A `belongsTo` with a custom foreign key or owner key means the
     hand-written version must repeat that customisation at every call site; `whereBelongsTo` reads it from
     the relationship once, so a later column rename changes only the relationship definition.
-31. **`simplePaginate()` and `cursorPaginate()` both skip the `COUNT` query `paginate()` runs to compute a
-    total, a real cost difference on a large table, not just a smaller payload.** `paginate()`'s total is
-    what a numbered page control needs for "page 3 of 40"; a "load more" or infinite-scroll UI never shows
-    it, so the count query buys nothing — `simplePaginate()` drops the total but keeps offset-based paging
-    (and point 34 of `skills/laravel-conventions` §6's ordering trap with it), while `cursorPaginate()`
-    drops both the total and the offset instability.
+31. **`simplePaginate()` skips the `COUNT` query `paginate()` runs to compute a total, and `cursorPaginate()`
+    skips it too while also avoiding the offset.** The docs say `paginate` counts the matching records first
+    so it knows the page count, that `simplePaginate` suits a UI with only "Next" and "Previous" links, and
+    that cursor pagination builds where clauses instead of an offset, which they call the most efficient of
+    the three; it needs an order by clause on columns that belong to the table being paginated. A numbered
+    page control needs the total, so it needs `paginate()`. [Laravel pagination docs 12.x, read 2026-10-21.]
 32. **`when($condition, fn ($query) => ...)` and `unless()` build a query's optional clauses inline, without a
     chain of `if` statements reassigning the query in each branch.** A filter applying only when a request
     parameter is present reads as `$query->when($request->filled('status'), fn
@@ -179,12 +184,13 @@
     by hand.** `whereAny(['title', 'body'], 'like', "%{$term}%")` satisfies point 24's column allow-list by
     construction — the columns are named once in an array literal, not built from request input — and reads
     as one intent instead of a chain a later edit can silently unbalance.
-36. **`lockForUpdate()` and `sharedLock()` only take effect inside `DB::transaction()` — outside one, the
-    lock is requested and released before the next line runs, which reads exactly like the race it was meant
-    to close.** `lockForUpdate()` blocks every other transaction touching the same row, including another
-    `lockForUpdate()` and a plain read using `sharedLock()`; `sharedLock()` blocks writers while letting other
-    readers through. Point 11 from the other direction: the lock makes the read the transaction's first
-    statement trustworthy for the write after it.
+36. **`lockForUpdate()` and `sharedLock()` are pessimistic locks meant to be held until the transaction ends,
+    so use them inside `DB::transaction()`.** The docs: a shared lock stops the selected rows from being
+    modified until your transaction commits; a for-update lock stops them from being modified or selected
+    with another shared lock. Own guidance: outside a transaction there is nothing to hold the lock across
+    the following statements, which reads like the race it was meant to close. Point 11 from the other
+    direction: the lock makes the read, as the transaction's first statement, trustworthy for the write
+    after it. [Laravel query builder docs 12.x, "Pessimistic Locking", read 2026-10-21.]
 37. **`Builder::clone()` (or PHP's own `clone`) is what lets a base query be reused for two different results
     — a paginated list and its unfiltered total, say — without the second use inheriting constraints added
     while building the first.** An Eloquent builder is mutable: `->where()` on a query object already assigned

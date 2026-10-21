@@ -11,8 +11,8 @@ this stack are code that steps around that declaration. Sits under `skills/larav
 surface), which prefers the package's filters over hand-built endpoints; it does not apply to an Inertia
 project (`skills/inertia-conventions` §4).
 
-**Special status.** New block, 🟡: written from the guidance the package itself ships, never run on real work
-in house. Requirements at the reading: PHP 8.2+, Laravel 12 or 13. Method and config names are version facts;
+**Special status.** New block, 🟡: never run on real work in house. Checked on 2026-10-20 against the
+guidance file the package itself ships. Requirements at that reading (`composer.json`): PHP 8.2+, Laravel 12 or 13. Method and config names are version facts;
 re-read the package documentation for the pinned version (`skills/source-freshness`).
 
 ## When
@@ -47,20 +47,24 @@ import, or a client payload with `search`, `mutate`, `filters`, `includes`, `gat
    the package models. An action declares how it is targeted: standalone (no models), classic (whatever the
    search resolves, **every model if search is omitted**), or targeted (explicit ids, required, capped, ids the
    caller cannot see are skipped). Give a destructive or bulk action the targeted form so omitting the
-   argument is a validation error, not a mass update, and lower the id cap when the blast radius should be
-   smaller. Standalone and targeted are mutually exclusive and combining them throws. An action's field
-   payload is a list of name and value pairs, not an object. A queued action dispatches one job per chunk.
+   argument is a validation error (422), not a mass update, and lower the id cap (`$maxResources`, default
+   1000) when the blast radius should be smaller. Standalone and targeted are mutually exclusive and combining them throws. An action's field
+   payload is a list of name and value pairs, not an object. A queued action dispatches one job per chunk of models (100 by default).
 8. **Includes are not nested.** An include takes filters, sorts, scopes, limit and selects but not another
    include; go deeper with one include per level and register the chained relation on the intermediate
    resource. An include alias must be an identifier, unique, and not collide with a field, relation or the
-   gates key.
+   gates key. The shipped guidance is inconsistent here (it also speaks of a "nested include" for dotted
+   relation paths): check the installed version before relying on dotted paths or aliases on them.
 9. **A custom response class can undo the whitelist.** Mapping from the model directly bypasses field
    shaping and authorisation. Use it only to reshape output, reading through the same allowed fields.
 10. **Soft-delete routes are opt-in at the route** even when the model uses soft deletes.
 11. **Every request is JSON.** The package refuses a request without the JSON accept header. Live form
-    validation uses the precognition header when enabled in configuration (`skills/laravel-precognitive-request-scoping`).
+    validation uses the precognition header when enabled in configuration, which is off by default; a valid
+    precognitive request answers 204 and an invalid one 422 (`skills/laravel-precognitive-request-scoping`).
 12. **Document with the existing path.** The package integrates with an OpenAPI generator extension; the
     built-in Swagger path is being superseded, so no new customisation there for new work.
+13. **The free-text `text` search key needs a Scout-searchable model.** The shipped guidance says the key requires
+    a model that uses the searchable trait; check the model before exposing a text search.
 
 ## Output / checkpoint
 No exposed model without a full policy, no route for a package-managed model outside `Rest::resource`, no
@@ -73,8 +77,13 @@ the package goes to its tracker with a reproduction, not into an app-local shim
 (`skills/code-baseline` §7 on customising a third party).
 
 ## Origin
-Rewritten from the `laravel-rest-api` skill file shipped inside `lomkit/laravel-rest-api` itself (MIT,
-cloned 2026-10-02, repository head dated 2026-08-17; package requirements from its `composer.json`):
-declaration whitelist, hook layers, policy and gate model, action targeting states, include and alias rules,
-soft-delete opt-in and the custom-response warning. The documentation site was not re-read: details beyond
-that file are unverified. Mechanisms only, rewritten in our words.
+Rewritten from the `laravel-rest-api` skill file shipped inside `lomkit/laravel-rest-api` itself (MIT, LICENSE
+read 2026-10-20, default branch pushed 2026-10-13; requirements from its `composer.json`): declaration whitelist,
+hook layers, policy and gate model (including the five-minute authorisation cache), mutation all-or-nothing and
+id-only responses, action targeting states, id cap and chunk size, include and alias rules, soft-delete opt-in,
+precognition and JSON header, OpenAPI path, the custom-response warning and the Scout `text` key. Every step
+was re-matched against that file on 2026-10-20. Not confirmed elsewhere: the documentation site
+(`laravel-rest-api.lomkit.com`) was opened but the pages on includes returned 404, so the include rules rest on
+that one file, which contradicts itself on dotted paths. Steps 1 (extend rather than parallel, and the advice
+not to push the package onto a project without it) and 3's reference to tenant scoping are our own guidance.
+Mechanisms only, rewritten in our words.

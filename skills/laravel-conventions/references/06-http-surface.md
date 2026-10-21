@@ -66,20 +66,23 @@ architecture.
     idempotency key the caller supplies — a check-then-insert in PHP loses the race it was written for.
 16. User-facing email or in-app messaging is not the controller's job: it goes through a notification, and
     §8 owns why.
-17. **`HandlePrecognitiveRequests` runs the same FormRequest the real submission runs, stopped before the
-    controller.** Adding it to a route makes point 5's rules reusable for as-you-type validation without a
-    second endpoint — the trap is a rule that only makes sense once the operation runs (a uniqueness check
-    against a row the request itself is about to create) failing on every keystroke; scope those rules to
-    skip during a precognitive request rather than disabling the check.
+17. **`HandlePrecognitiveRequests` runs the route's middleware and resolves the controller's dependencies,
+    including the FormRequest, then skips the controller method.** Adding it to a route makes point 5's real
+    rules reusable for as-you-type validation without a second endpoint. The traps are a rule that is costly
+    or calls an outside service, a rule that needs an uploaded file (files are not sent by default), and a
+    middleware with a side effect: condition them on `isPrecognitive()`. The full set is in
+    `skills/laravel-precognitive-request-scoping`. [Laravel Precognition docs 12.x, read 2026-10-20.]
 18. **`Http::pool()` runs independent outbound calls concurrently from one place, not from several
     sequential `Http::get()` calls inside a loop.** It is the outbound equivalent of
     `skills/python-conventions` §4.1's `gather`: three sequential 300 ms calls are a near-second response
     that profiles as "the third-party API is slow". Decide failure per response — failing the whole pool because one call failed loses the ones that
     succeeded.
 19. **A rate limit is declared per named limiter, not read inline in the route.** `RateLimiter::for('api', ...)`
-    in a service provider centralises the policy (per-user, per-IP, tiered by plan) so every route naming it
-    shares one definition; a `throttle:60,1` scattered across routes with different numbers is the same
-    limit reimplemented each time, and "what's our API rate limit" needs a grep of every route file.
+    in a service provider's `boot()` centralises the policy (the docs' example limits per minute by user id,
+    falling back to the IP address) so every route naming it shares one definition; a `throttle:60,1`
+    scattered across routes with different numbers is the same limit reimplemented each time, and "what's our
+    API rate limit" needs a grep of every route file. [Laravel routing docs 12.x, "Rate Limiting", read
+    2026-10-21.]
 20. **A resource's conditional attribute (`whenLoaded`, `when`, `mergeWhen`) keeps a payload honest about what was
     actually fetched, instead of forcing every relation to load so the resource can serialise it.** `whenLoaded`
     only emits the field if the relation was eager-loaded, so an endpoint that didn't ask for it doesn't pay
@@ -94,9 +97,11 @@ architecture.
     closure to a class is over-factoring (§1 point 6) — the class earns its place once a second FormRequest
     needs the same check.
 23. **The `api` and `web` middleware groups apply different defaults, and moving a route between them changes
-    behaviour nobody asked for.** `web` carries session state and CSRF verification; `api` typically doesn't —
-    an endpoint moved to the other group either loses the session it relied on, or gains CSRF verification
-    a token-authenticated client will never satisfy. The group is part of the route's contract.
+    behaviour nobody asked for.** In 12.x the `web` group holds cookie encryption, queued cookies, the session,
+    error sharing from the session, CSRF token validation and route binding; the `api` group holds route
+    binding only. An endpoint moved to the other group either loses the session it relied on, or gains CSRF
+    verification a token-authenticated client will never satisfy. The group is part of the route's contract.
+    [Laravel middleware docs 12.x, "Middleware Groups", read 2026-10-21.]
 24. **`apiResource` and `apiResources` exclude `create`/`edit` by default, and adding them back on an API
     controller is the tell that a form-rendering route leaked into a JSON surface.** Those two actions serve
     HTML for a browser form, so declaring them on an `apiResource` controller usually means point 1's
@@ -145,32 +150,36 @@ architecture.
     the caller present a token narrow enough for this action," which point 8's policy check does not cover
     — a read-only reporting token must still fail a write endpoint though the user could perform it, and
     forgetting `tokenCan()` means every token minted for that user carries all the user's permissions.
-33. **A FormRequest's `prepareForValidation()` runs before the rules, and `passedValidation()` runs only once
-    they pass — using the wrong one turns normalisation into a second validation pass.**
-    `prepareForValidation()` is where a slug gets lowercased or a phone number stripped *before* a
-    rule checks it; in `passedValidation()` the rules would have validated the raw input. Neither hook is
-    where point 8's authorisation belongs — both run after `authorize()`.
-34. **Cursor pagination (`cursorPaginate()`) trades random page access for a stable result under concurrent
-    writes, which offset pagination (point 21) cannot offer.** An offset-based page skips N rows at query
-    time, so a row inserted or deleted ahead of the cursor shifts every later page by one — the bug point
-    21 of `skills/laravel-conventions` §4 describes for `chunk()`. A cursor encodes the last row's sort key
-    in an opaque token: "page two" means "rows after this key". It costs jumping to an arbitrary page
-    number — right for infinite scroll, not for a numbered table.
-35. **A resource's `wrap()`/`withoutWrapping()` decides whether the payload's top level is `{"data": {...}}`
-    or the bare object, and that decision has to be made once for the whole API, not per resource.** The
-    default `data` wrapper is what point 21's collection metadata (`links`, `meta`) sits alongside;
-    `JsonResource::withoutWrapping()` in a service provider removes a redundant level for a frontend that
-    already unwraps, but flipping it per resource yields some endpoints wrapped and some not — the
-    inconsistency point 11's envelope rule forbids.
-36. **`Http::retry()` bounds how many times an outbound call is retried and on what backoff, and it composes
-    with point 18's `Http::pool()` rather than replacing it.** `Http::retry(3, 100)` retries a failing request
-    up to three times with a growing delay before the caller sees the exception, the right tool for a flaky
-    third-party API's transient 500s and timeouts — not a substitute for point 18's concurrency answer.
-    A retry callback (`retry($times, $sleep, $when)`) can narrow which failures are worth retrying, so a
-    422 from the far side does not get retried into a rate limit.
-37. **CORS is one configuration file, not a header set by hand in a controller or middleware.** `config/cors.php`
-    declares which origins, methods and headers a browser-based cross-origin caller may use, and the framework's
-    own `HandleCors` middleware applies it to every route in the group it's attached to — a controller
-    setting `Access-Control-Allow-Origin` duplicates the config file's decision, and drifts when the
-    allowed-origins list changes and one controller is missed. [Laravel routing docs — CORS,
-    laravel.com/docs/12.x/routing, read 2026-09-10.]
+33. **A FormRequest's `prepareForValidation()` runs first, and `passedValidation()` runs only once the rules
+    pass.** In the framework source, `validateResolved()` calls `prepareForValidation()` before it checks
+    `authorize()`, then builds the validator, then calls `passedValidation()`. So `prepareForValidation()` is
+    where a slug is lowercased or a phone number stripped *before* a rule checks it, and a request can have
+    been normalised before authorisation refuses it, so keep it free of side effects; in `passedValidation()`
+    the rules have already validated the raw input. [Laravel validation docs 12.x; framework source
+    `ValidatesWhenResolvedTrait.php` (12.x), read 2026-10-21.]
+34. **Cursor pagination (`cursorPaginate()`) works from where clauses on the ordered columns, not an offset,
+    which offset pagination (point 21) cannot offer.** An offset-based page skips N rows at query time, so a
+    row inserted or deleted ahead of the page shifts every later page by one. The docs describe cursor
+    pagination as the most efficient method for large sets and infinite scroll; it needs an order by clause
+    on columns of the paginated table, and it gives up jumping to an arbitrary page number, so it is wrong for
+    a numbered table. [Laravel pagination docs 12.x, read 2026-10-21.]
+35. **`JsonResource::withoutWrapping()` decides whether the outermost payload is `{"data": ...}` or the bare
+    object, and it is a project-wide decision made once.** It is a static call on the base class, typically
+    placed in a service provider's `boot()`. The docs add two limits: it only affects the outermost response,
+    and a paginated response is still wrapped in `data` because it always carries `meta` and `links`. A resource
+    can also override its own `$wrap`, which yields some endpoints wrapped and some not, the inconsistency
+    point 11's envelope rule forbids. [Laravel Eloquent resources docs 12.x, "Data Wrapping", read
+    2026-10-21.]
+36. **`Http::retry()` bounds how many times an outbound call is retried and with what wait.** `Http::retry(3, 100)`
+    retries a failing request up to three times, waiting 100 ms between attempts, before the caller sees the
+    exception; the wait can also be a closure of the attempt number. A third argument, a callable receiving
+    the exception and the request, narrows which failures are worth retrying (the docs' example retries only
+    connection exceptions), so a 422 from the far side is not retried. It is the right tool for transient
+    failures of a flaky third-party API, not a substitute for point 18's concurrency answer. [Laravel HTTP
+    client docs 12.x, "Retries", read 2026-10-21.]
+37. **CORS is one configuration, not a header set by hand in a controller or middleware.** The `HandleCors`
+    middleware is part of the application's global middleware stack and answers CORS `OPTIONS` requests with
+    values you configure; to change them, publish the file with `php artisan config:publish cors` and edit
+    `config/cors.php`. A controller setting `Access-Control-Allow-Origin` duplicates that decision and drifts
+    when the allowed-origins list changes and one controller is missed. [Laravel routing docs 12.x, "Cross-Origin
+    Resource Sharing (CORS)", read 2026-10-21.]

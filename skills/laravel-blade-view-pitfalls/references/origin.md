@@ -32,6 +32,18 @@ followed.
 3. **The Inertia point in the source's CSRF text** (Axios and the encrypted cookie header): not a Blade rule,
    not used.
 
+## Verification pass 2026-10-20
+`rules/blade-views.md` was re-opened in `laravel/boost` (default branch, MIT) and every point of part 1 matched.
+The statements were then matched to the framework's documentation, 12.x (read for facts, our words): Blade
+(Displaying Unescaped Data, Rendering JSON with `Js::from`, the `@once` and `@pushOnce` directives with their
+identifier argument, the attribute bag and its merge rules, `@aware` and its limit, Rendering Blade Fragments),
+Views (View Composers: a composer runs when its view renders, the wildcard attaches to every view), CSRF
+Protection (the token field, excluding routes) and Eloquent Mutators and Casting (Date Casting). Corrections
+made: the once-only identifier is a second argument, not the name of the stack, and non-class attributes are
+overwritten rather than merged. The fragment helper names, left out earlier, are now given because the 12.x
+documentation lists them. Not matched anywhere: that a view composer does not feed JSON or streamed responses
+(a Boost statement; the documentation only speaks of views).
+
 ## Not verified
 1. **Own guidance, flagged in the text:** dropped attributes when the bag is not printed (part 1, point 1),
    the shared-name rule for once-only pushes (point 2), the include-as-undeclared-component remark (point 3),
@@ -40,10 +52,10 @@ followed.
    context encoders (part 2, point 1), building a minimal array for a script (point 2), the reading of a token
    mismatch (point 3), the date-format cross-reference (point 5), the consistency remark on view names
    (point 6).
-2. **No template was rendered.** The behaviour of every directive is the source's statement; the Laravel
-   version that introduced each directive or helper was not checked.
-3. **The fragment helper's name** was not given in the block on purpose, because the source's example does not
-   say from which version it exists.
+2. **No template was rendered.** The behaviour of every directive matches the 12.x documentation but was not
+   executed; the version that introduced each directive or helper was not checked.
+3. **The version that introduced the fragment helpers** was not checked; the names are from the 12.x
+   documentation.
 
 ## Related blocks
 `skills/laravel-conventions`, `skills/laravel-date-via-localised-accessors`,

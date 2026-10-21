@@ -79,26 +79,28 @@
     the same formatter — never for cases that actually diverge in what they assert, which belongs in
     separate tests where the name still states the behaviour (point 4).
 22. **An architecture test enforces a structural rule this block already states, so it doesn't restate the
-    rule — it makes violating it fail the suite instead of the review.** `arch()->expects(...)` checking
-    that models don't reach into HTTP, or that a `*Service`/`*Repository` name never lands (§1, §5), turns a
-    convention a reviewer has to remember into one CI catches; it still needs the convention decided first,
-    the same way a linter needs a style decided first.
+    rule — it makes violating it fail the suite instead of the review.** `arch()->expect('App\Models')->...`
+    checking that models don't reach into HTTP, or that a `*Service`/`*Repository` name never lands (§1, §5),
+    turns a convention a reviewer has to remember into one CI catches; it still needs the convention decided
+    first, the same way a linter needs a style decided first. [Pest architecture testing docs 5.x, read
+    2026-10-21.]
 23. **Mutation testing answers what coverage cannot: whether the assertions would catch a real regression.**
     A surviving mutant — the source changed and no test went red — is point 18's "line executed, not line
     asserted" made concrete and automatic. Run it on the code that changed, not the whole suite on every
     push; it is too slow for that and the signal is about the diff.
-24. **`RefreshDatabase` chooses its own strategy per driver, and knowing which one is running explains the
-    speed and the failure modes.** Against SQLite in memory it wraps each test in a transaction and rolls
-    it back; against a real MySQL or PostgreSQL connection it migrates fresh and still wraps in a
-    transaction, which is why a test that commits inside a nested transaction of its own (a job that
-    catches and swallows a `DB::commit()`, a raw `DB::unprepared('COMMIT')`) breaks the rollback the trait
-    depends on — the failure looks like leaked state between tests and is actually the isolation mechanism
-    itself being defeated.
-25. **Parallel testing (`--parallel`) gives each worker process its own database, appended with the
-    process token**, so a test that hardcodes a database name, reads a fixed file path shared across
-    workers, or asserts on a global auto-increment id starting at 1 passes alone and fails only under
-    `--parallel` — the `ParallelTesting` facade's `setUpProcess`/`setUpTestCase` hooks are where per-worker
-    setup belongs, not a shared beforeEach that assumes a single database.
+24. **`RefreshDatabase` runs each test inside a transaction, and knowing that explains the speed and one
+    failure mode.** The docs say the trait does not migrate when the schema is up to date; it only executes the
+    test within a database transaction, so records added by tests that do not use the trait can remain in the
+    database. Own guidance, from how a rollback works: code that commits inside the test (a raw
+    `DB::unprepared('COMMIT')`, a job that swallows a commit) defeats the rollback, and the failure looks like
+    leaked state between tests when the isolation mechanism itself is what was defeated. [Laravel database
+    testing docs 12.x, "Resetting the Database After Each Test", read 2026-10-21.]
+25. **Parallel testing (`--parallel`) gives each worker process its own test database, suffixed with a process
+    token**, so a test that hardcodes a database name, reads a fixed file path shared across workers, or asserts
+    on a global auto-increment id starting at 1 passes alone and fails only under `--parallel`. The
+    `ParallelTesting` facade's `setUpProcess`, `setUpTestCase` and `setUpTestDatabase` hooks are where per-worker
+    setup belongs, not a shared `beforeEach` that assumes a single database. [Laravel testing docs 12.x,
+    "Running Tests in Parallel", read 2026-10-21.]
 26. **A test double for an external boundary should model the contract, not the happy path alone.** Point
     13 says fake the boundary; the point here is what the fake returns — a payment gateway fake that never
     produces a decline, a timeout, or a malformed response teaches the suite that failure cannot happen,
@@ -129,29 +131,35 @@
     notification was triggered for the right recipient and channels; a snapshot or a direct
     `toMail()`/`toArray()` assertion on one notification (point 28) is what proves the content is not broken,
     and a suite that fakes every notification everywhere never notices a broken `toMail()` until it ships.
-32. **`Event::fake()` without `except()` silences every listener in the test, including ones the test never
-    meant to touch** — a model's own lifecycle listener that maintains a computed column, faked away by a
-    blanket `Event::fake()` further up the same test class, quietly stops updating it, and the assertion
-    passes for a row the real listener would have changed. `Event::fake(except: [...])` keeps the listeners
-    the test is not actually exercising switched on.
+32. **A blanket `Event::fake()` silences every listener in the test, including ones the test never meant to
+    touch.** The docs say that after `Event::fake()` no event listener runs, so a factory that relies on a
+    `creating` event (a generated UUID, say) must be called before the fake. A model's own lifecycle listener
+    that maintains a computed column, faked away by a blanket `Event::fake()`, quietly stops updating it, and
+    the assertion passes for a row the real listener would have changed. `Event::fake([OrderShipped::class])`
+    fakes only the named events and `Event::fakeExcept([...])` fakes all but the named ones, which keeps the
+    listeners the test is not exercising switched on. [Laravel events docs 12.x, "Testing"; framework source
+    `Facades/Event.php`, read 2026-10-21.]
 33. **`Http::fake()` accepts a sequence of responses for the same URL, and that is how a suite proves §11 point
     11's five outcomes are handled rather than only the happy path.**
     `Http::fake(['api.example.com/*' => Http::sequence()->push($ok)->push($rateLimited)->pushStatus(500)])`
     exercises a retry path end to end in one test, which is what point 26 asks a fake to model — a fake
     returning the same success on every call cannot tell the suite whether a retry loop exists at all.
-34. **`Queue::fake()->assertPushedWithChain()` checks the chain attached to one job, and
-    `assertPushedWithoutChain()` checks the opposite** — a job that used to chain a follow-up step and lost
-    the chain in a refactor still passes `assertPushed()` alone, because the job itself was still dispatched;
-    only the chain-specific assertion notices the follow-up step silently stopped happening.
+34. **`Queue::assertPushedWithChain()` checks the chain attached to one job, and `assertPushedWithoutChain()`
+    checks the opposite.** A job that used to chain a follow-up step and lost the chain in a refactor still
+    passes `assertPushed()` alone, because the job itself was still dispatched; only the chain-specific
+    assertion notices the follow-up step silently stopped happening. [laravel/framework 12.x `QueueFake.php`,
+    read 2026-10-21.]
 35. **`Mail::fake()` proves a mailable was queued or sent; it does not prove the recipient received the
     right locale or the right attachment** — `assertSent(Invoice::class, fn ($mail) => $mail->hasTo($user->email) && $mail->locale === $user->locale)`
     is the version that actually checks the content point 5 asks for, rather than merely that some mailable
     of the right class went out.
-36. **`Storage::fake()` gives each test an isolated in-memory-backed disk, and the assertion still has to
-    name the path, not just the byte count.** `assertExists()`/`assertMissing()` on the exact path the code
-    is supposed to write — a generated report keyed by the record's id, an upload stored under its owner's
-    folder — catches the class of bug where a file is written successfully but to the wrong key, which
-    `UploadedFile::fake()->create()` alone proves nothing about because the fake upload always succeeds.
+36. **`Storage::fake()` points the disk at a local testing directory, and the assertion still has to name the
+    path, not just the byte count.** The framework source replaces the disk with a local one rooted under
+    `storage/framework/testing/disks` and cleans that directory first. `assertExists()`/`assertMissing()` on
+    the exact path the code is supposed to write — a generated report keyed by the record's id, an upload stored
+    under its owner's folder — catches the class of bug where a file is written successfully but to the wrong
+    key, which `UploadedFile::fake()->create()` alone proves nothing about because the fake upload always
+    succeeds. [laravel/framework 12.x `Facades/Storage.php`; Laravel filesystem docs 12.x, read 2026-10-21.]
 37. **`Http::preventStrayRequests()` turns an unfaked outbound call into a hard failure instead of a real
     network request that happens to work in CI.** Without it, a test that forgets `Http::fake()` for one
     endpoint the code calls only under a rare branch silently hits the real third party — point 13's "fake
@@ -171,29 +179,31 @@
     what surfaces a caller treating an `Invoice` collection as if it held `User` models, or accessing a
     property that doesn't exist on the element type — point 12's "write to the configured level" only pays off
     on a model or repository method once its return type actually says what's inside.
-40. **A Pest architecture preset (`arch()->preset()->php()`, `->security()`) is a bundle of the structural
-    rules point 22 already describes, curated by the framework rather than hand-written per project.**
-    `->preset()->laravel()` folds in checks like "no `dd()`/`dump()` left in the codebase" and "controllers
-    don't extend the wrong base class" without writing each `arch()->expects()` call individually — reach for
-    the preset first and add project-specific `arch()` rules (point 22) only for a convention the preset
-    doesn't know about, rather than re-deriving rules the preset already ships.
-41. **`assertOnlyJsonPath` and `assertJsonFragment` answer different questions than `assertJsonPath` alone,
-    and picking the wrong one lets an extra field or a wrong sibling slip past.** `assertJsonPath('data.status',
-    'paid')` checks one path's value and says nothing about what else is in the payload; `assertOnlyJsonPath`
-    additionally asserts no *other* top-level key exists, which is what catches a resource (§6 point 10)
-    accidentally serialising a field it was never supposed to expose — the same failure mode point 27 already
-    names for `assertDatabaseCount`, here at the response-shape level instead of the row-count level.
-42. **`Date::setTestNow()` and Carbon's own `CarbonImmutable::setTestNow()` are the same mechanism point 15
-    already asks for, and mixing an app that reads `now()` with a test that only froze `Carbon::setTestNow()`
-    (not the immutable class) leaves one half of the code un-frozen if the codebase mixes both classes.** A
-    project standardising on `CarbonImmutable` needs the freeze called on that class specifically — freezing
-    the wrong one passes locally because most calls happen to go through the frozen class, and fails only on
-    the one code path that reads the other.
-43. **`RefreshDatabase`'s per-test transaction (point 24) does not survive `artisan()` calls that manage their
-    own database connection**, such as a command wrapping its own work in `DB::transaction()` on a *different*
-    connection name than the test's default — the command's writes commit for real even inside a test using
-    `RefreshDatabase`, because the trait only wraps the connection it knows about. `skills/laravel-conventions` §7 point 21's "test a command by invoking it" still applies; the trap is assuming the wrapping
-    transaction makes every side effect of that invocation disposable when a second connection is in play.
+40. **A Pest architecture preset (`arch()->preset()->php()`, `->security()`, `->laravel()`, `->strict()`) is a
+    bundle of structural rules curated by Pest rather than hand-written per project.** The docs say `php`
+    avoids `die`, `var_dump` and similar functions and deprecated PHP functions, `security` avoids `eval`, `md5`
+    and similar, `laravel` checks Laravel conventions such as controllers exposing only the resource methods and
+    ending in `Controller`, and `strict` requires strict types and final classes. Reach for the preset first and
+    add project-specific `arch()` rules (point 22) only for a convention the preset does not know about; note
+    that `strict` conflicts with §5 point 12's default of no `strict_types` in new Laravel files. [Pest
+    architecture testing docs 5.x, "Presets", read 2026-10-21.]
+41. **`assertJsonPath` checks one path's value and says nothing about what else is in the payload, so an extra
+    field slips past it.** `assertExactJson([...])` asserts the response matches the array exactly, and
+    `assertExactJsonStructure` does the same for the structure, which is what catches a resource (§6 point 10)
+    accidentally serialising a field it was never supposed to expose; `assertJsonFragment` only checks that
+    a fragment exists. The same failure mode point 27 names for `assertDatabaseCount`, here at the
+    response-shape level. [Laravel HTTP tests docs 12.x, "Verifying Exact JSON Matches", read 2026-10-21.]
+42. **Freeze the clock through the framework's helpers, not by calling the date library directly.** The
+    framework's `freezeTime()` and `travelTo()` set the date library's test time (the source calls
+    `Carbon::setTestNow`) and restore it after the callback, which is what point 15 asks for. A codebase that
+    mixes `Carbon` with `CarbonImmutable` should check that the frozen time reaches both classes; that was
+    not verified here. [laravel/framework 12.x `InteractsWithTime.php`, read 2026-10-21.]
+43. **`RefreshDatabase`'s per-test transaction (point 24) wraps the connection the trait knows about.** Own
+    guidance, from how a transaction is scoped to a connection: a command wrapping its own work in
+    `DB::transaction()` on a different connection name than the test's default commits for real even inside a
+    test using `RefreshDatabase`. `skills/laravel-conventions` §7 point 21's "test a command by invoking it"
+    still applies; the trap is assuming the wrapping transaction makes every side effect of that invocation
+    disposable when a second connection is in play.
 44. **A PHPStan or Larastan baseline generated with `--generate-baseline` records today's findings so the
     build stays green while the tool is first adopted on an existing codebase — it is not a target to keep
     topped up.** Point 12's "write to the configured level, the baseline is not a licence to add to it" covers
@@ -201,12 +211,11 @@
     findings get fixed, and a baseline that only ever grows on every regeneration is static analysis being
     used to document debt instead of to prevent it. [PHPStan baseline docs and Larastan documentation, read
     2026-09-10.]
-45. **Pest's own architecture and functional-API surface (`it()`, `expect()`, `$this`) is invisible to a
-    generic PHPStan run unless the project's static analysis actually understands Pest's syntax, not just
-    Laravel's.** Point 39's generic-collection typing and point 12's "write to the level" both assume the
-    analyser can see the test file's real shape; a Pest closure test analysed as if it were a bare function
-    misses the implicit `$this` binding and the global helpers, which is a gap in what gets checked, not a
-    gap in the tests themselves.
+45. **Pest's functional syntax (`it()`, `expect()`, `$this` inside a closure) can look unfamiliar to a generic
+    PHPStan run.** Point 39's generic-collection typing and point 12's "write to the level" both assume the
+    analyser can see the test file's real shape, and a closure test analysed as a bare function can miss the
+    implicit `$this` binding. Own guidance, not sourced in this pass: check what the project's analyser reports
+    on a test file before trusting a clean run there.
 46. **A browser test (Pest's own browser testing, or Dusk) is a third kind of test outside point 1's two
     tiers, reserved for what neither a feature nor a unit test can prove: that the rendered page actually
     works in a real browser** — a JavaScript interaction, a visual regression, a multi-step flow through
@@ -219,20 +228,17 @@
     a command tested only via `assertExitCode(0)` with no interaction scripted either has no prompts at all,
     or the test happens to pass by luck of a default the framework silently supplied, which is indistinguishable
     from the prompt never having been checked.
-48. **A snapshot assertion library that hashes output instead of storing it verbatim (a checksum-based
-    snapshot) trades point 28's "approving a diff without reading it" for a failure that names nothing at
-    all** — the test goes red on any change, including a deliberate one, but the failure message carries no
-    readable diff to review, only "the hash changed." A textual snapshot the reviewer can diff in the pull
-    request is what makes point 28's "read what changed" possible to actually do; a hash-only comparison
-    still needs the underlying output stored somewhere human-readable, or the red test answers nothing beyond
-    "something is different."
-49. **At Larastan level 8 a fresh Laravel model fails on four things the point 26 extension does not infer on its
-    own, and each has one fix.** (a) A model that declares its casts in the `casts()` method rather than the
-    `$casts` property is read as its raw column type (an enum-cast `status` reads as `string`, a `datetime` as
-    `string`) until `parseModelCastsMethod: true` is set in `phpstan.neon`. (b) A relation method needs its
-    generics (`/** @return BelongsTo<User, $this> */`) and `HasFactory` needs `/** @use HasFactory<OrderFactory> */`:
-    these are the docblocks point 5 permits, because the signature cannot state them, and without them the
-    relation reads as a bare `Model|null`. (c) A `belongsTo` accessor is typed nullable even over a non-null
-    foreign key, so `$order->user->email` is flagged; read it with `?->` rather than silencing the rule.
-    (d) `$this->artisan()` returns `PendingCommand|int`, so `->assertSuccessful()` (§7 point 78) is flagged;
-    in a level-8 suite assert `Artisan::call('name')` against `0` instead.
+48. **A snapshot that stores only a hash of the output trades point 28's "approving a diff without reading it"
+    for a failure that names nothing at all.** Own guidance, not sourced: a test that goes red with no
+    readable diff cannot be reviewed, so prefer a textual snapshot a reviewer can diff in the pull request, and
+    store the underlying output somewhere human-readable when a hash is used.
+49. **At Larastan level 8 a fresh Laravel model can fail on things the point 26 extension does not infer on its
+    own.** (a) A model that declares its casts in the `casts()` method rather than the `$casts` property is only
+    read for its casts when `parseModelCastsMethod: true` is set in `phpstan.neon` (Larastan docs). (b) A
+    relation method needs its generics (`/** @return BelongsTo<User, $this> */`) and `HasFactory` needs
+    `/** @use HasFactory<OrderFactory> */`: these are the docblocks point 5 permits, because the signature
+    cannot state them. (c) Own observation, not sourced: a `belongsTo` accessor read as nullable over a
+    non-null foreign key is flagged; read it with `?->` rather than silencing the rule. (d) The framework's
+    `artisan()` test helper is documented as returning `PendingCommand|int`, so chaining `->assertSuccessful()`
+    on it (§7 point 21) can be flagged; in a level-8 suite assert `Artisan::call('name')` against `0` instead.
+    [Larastan docs 3.x; laravel/framework 12.x `InteractsWithConsole.php`, read 2026-10-21.]

@@ -8,7 +8,9 @@
 1. **Control the four sources of flakiness.** The source says tests that depend on actual time, randomness,
    sleeping or network calls can fail for reasons unrelated to the code, and that all four must be
    controlled. For each dependency choose the first option that applies: a framework fake for facades such as
-   events, queues, mail, notifications, storage, the HTTP client, time and sleep; then a fake implementation
+   events, queues, mail, notifications, storage, the HTTP client, time and sleep (the framework documents the
+   event, queue, time and sleep fakes and the random-string hook; the exceptions fake and the lazy refresh trait
+   exist in the 12.x source); then a fake implementation
    the application itself provides; then a mock of a container-resolved contract, only when the real
    implementation leaves the process or is nondeterministic; otherwise the real thing, including the database.
    A framework fake keeps the real code path while a mock replaces the dependency.
@@ -20,7 +22,8 @@
 3. **Create prerequisite factory records before faking events.** Factories rely on model events, such as a
    creating hook that generates a UUID; a fake with no class names suppresses them and the factory can then
    produce an invalid model. Fake first only when a factory event is the thing under test, and pass that
-   event's class name.
+   event's class name. The framework's event testing section gives the same advice: call the fake after the
+   factories when they rely on events such as one that generates a UUID.
 4. **No stray HTTP, no real clock, no real sleep.** The source's rules: call `Http::preventStrayRequests()` so
    an unfaked request fails without reaching the network; fake the exact endpoint each test calls and never
    call the HTTP fake without one, since that accepts unexpected requests; freeze or move time in every test

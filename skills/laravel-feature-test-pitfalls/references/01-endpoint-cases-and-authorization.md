@@ -20,7 +20,9 @@
 3. **Another tenant's record is a "not found".** The source says to assert the status returned for a
    cross-tenant request, and to use `404` rather than `403` when a tenant must not learn that another tenant's
    record exists, since `403` confirms its existence. Own guidance: assert the same status for a record that
-   does not exist and for one that belongs to someone else, so the two cannot be told apart.
+   does not exist and for one that belongs to someone else, so the two cannot be told apart. The framework
+   documents the same pattern for authorisation: a gate or policy can answer with an alternative status, and
+   `denyAsNotFound` is offered for the 404 case (Authorization, Customizing the HTTP Response Status).
 4. **Test the permission matrix at the policy, and one refusal over HTTP.** An HTTP test shows that the endpoint
    performs authorisation but cannot say which mechanism refused: middleware, a policy and an explicit abort
    can all answer `403`. The source's rules: assert the complete matrix against the policy or the gate, so a
