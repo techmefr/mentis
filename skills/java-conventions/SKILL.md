@@ -64,7 +64,8 @@ As soon as Java code is written or modified, during `code` (6) or `tdd` (5).
    join, an entity graph, or a dedicated query) at the call site that actually needs it.
 5. **A persisted enum is mapped by name, never by ordinal**: reordering the constants silently reinterprets
    every stored row. A field with no `@Enumerated` annotation is mapped by ordinal by default under the Jakarta
-   Persistence API, so state `EnumType.STRING` explicitly; the JDK's own note on `Enum.ordinal()` says most
+   Persistence API (version 3.2 infers the string form only when the enum declares a string field marked as its
+   stored value), so state `EnumType.STRING` explicitly; the JDK's own note on `Enum.ordinal()` says most
    programmers have no use for it. Collections on an entity are initialised, never null, and an entity changes through
    behaviour methods rather than public setters.
 6. **Reads that need a collection use a fetch join, an entity graph or a projection** chosen at the call

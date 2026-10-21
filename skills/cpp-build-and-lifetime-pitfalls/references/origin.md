@@ -77,3 +77,5 @@ The CMake command, variable and module pages were read from the upstream source 
 
 ### Tally
 Points 49. Sourced 33, corrected 2, still unverified 14.
+
+Independent verification 2026-10-21: 31 checked, 29 matched, 2 corrected, 0 unverified. The CMake claims were checked against the published 4.4.4 manual (cmake.org/cmake/help/v4.4) and the 4.5.0-rc1 manual: the 'discouraged for new development' notes on include_directories and add_compile_options exist only in 4.5.0-rc1, not in 4.4.4 (corrected in 2.1.1); every other CMake claim (link keywords, usage requirements, link flag position, compile features, variables, compile commands and unity builds, presets since 3.19, optional generator and binaryDir from schema 3, FetchContent hash and disconnected mode) is the same in 4.4.4. Also matched: Clang sanitizer pages, OpenSSF exclusions, Google static and thread_local rules.

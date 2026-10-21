@@ -66,3 +66,5 @@ The JDK enhancement proposal pages named below, the Maven dependency mechanism g
 
 ### Tally
 Points 30. Sourced 12, corrected 2, still unverified 16.
+
+Independent verification 2026-10-21: 16 checked, 13 matched, 3 corrected, 0 unverified (JEPs 320, 403, 421, 400, 503, 451, CVSS 3.1 bands, Maven mediation, dependency management and exclusions, Versions plugin goals, dependency-check; corrected: JEP 486 installing a security manager at run time throws UnsupportedOperationException, JEP 471 text now includes the run-time warning of JEP 498 (release 24) and the plan to throw by default in 26 or later, Spring Boot 3 moves to Jakarta EE 10 not EE 9). Closes the earlier open points on the JDK release facts and the severity bands.

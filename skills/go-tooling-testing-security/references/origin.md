@@ -72,3 +72,5 @@ Pages and repositories re-opened for each cited version, figure, rule identifier
 
 ### Tally
 Points 36. Sourced 30, corrected 4, still unverified 2 (plus the own-guidance halves listed above).
+
+Independent verification 2026-10-21: 21 checked, 21 matched, 0 corrected, 0 unverified (gofumpt, govulncheck exit codes, vet analysers by release, synctest semantics and Sleep in 1.27, crypto/rand, race detector figures and requirements, tool directive, goleak, fuzzing, gosec rule identifiers, go fix; os.Root limits not re-read).

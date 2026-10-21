@@ -94,3 +94,5 @@ Facts only, from the official Go documentation and the standard-library package 
 
 ### Tally
 Points 71. Sourced 45, corrected 6, still unverified 20.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified (sync.WaitGroup, reflect.TypeAssert, timers 1.23, errgroup, context, database/sql defaults and Rows, filepath.IsLocal, os.Root, synctest; points the pages do not state stay own guidance as listed above).

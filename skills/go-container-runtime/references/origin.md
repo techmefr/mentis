@@ -69,3 +69,5 @@ Pages re-opened for the exact flag, function, version and figure. The Go build t
 
 ### Tally
 Points 28. Sourced 20, corrected 3, still unverified 5.
+
+Independent verification 2026-10-21: 21 checked, 21 matched, 0 corrected, 0 unverified (GOMAXPROCS 1.25 and the language-version defaults, automaxprocs figures, distroless static and base, GOMEMLIMIT, SetMemoryLimit, build flags, signals, Server.Shutdown, Kubernetes 30 second term).

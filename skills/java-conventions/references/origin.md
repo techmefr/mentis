@@ -36,3 +36,5 @@ Facts were re-read from the JDK source tree (the javadoc of the classes cited), 
 
 ### Tally
 Points 24. Sourced 10, corrected 2, still unverified 12.
+
+Independent verification 2026-10-21: 18 checked, 17 matched, 1 corrected, 0 unverified (Optional, hashCode, Enum.ordinal, ExecutorService, Surefire patterns, Spring rollback, participation, requires-new and self-invocation rules, Jakarta Persistence fetch defaults and the lazy hint, Boot duration and record binding; corrected: Jakarta Persistence 3.2 infers the string form of an enum that declares a string value field, the ordinal default holds otherwise). Spring pages read were the current line (Framework 7.0.9), the block targets Boot 3: check the version in the build file.

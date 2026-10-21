@@ -66,3 +66,5 @@ The block was already written from these pages on 2026-10-08. This pass re-opene
 
 ### Tally
 Points 25. Sourced 20, corrected 2, still unverified 3 (own guidance flagged in the text).
+
+Independent verification 2026-10-21: 13 checked, 13 matched, 0 corrected, 0 unverified (B.Loop, FlightRecorder, Green Tea 1.25 and 1.26, goroutine-leak profile, GC guide hints, GOGC, THP, escape flag, ReportAllocs, benchstat ten runs).

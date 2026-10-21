@@ -72,3 +72,5 @@ The 0.17.0 language reference, release notes and build system page were re-opene
 
 ### Tally
 Points 56. Sourced 49, corrected 1, still unverified 6.
+
+Independent verification 2026-10-21: 26 checked, 26 matched, 0 corrected, 0 unverified (0.17.0 language reference, release notes and build system page re-read; the 0.17.0 release date 2026-10-01 confirmed in the download index).

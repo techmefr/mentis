@@ -40,3 +40,5 @@ The Style Guide and Source Encoding sections of the published Zig 0.17.0 languag
 
 ### Tally
 Points 10. Sourced 8, corrected 2, still unverified 0.
+
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified (Style Guide and Source Encoding sections of the 0.17.0 language reference re-read in full).

@@ -78,3 +78,5 @@ Each repository was cloned shallow and the documentation files below were re-rea
 
 ### Tally
 Points 41. Sourced 31, corrected 5, still unverified 5.
+
+Independent verification 2026-10-21: 31 checked, 31 matched, 0 corrected, 0 unverified (nextest, cargo-mutants, loom, cargo-deny defaults, cargo-semver-checks, cargo-hack from the current repository heads; Cargo book lints table respected from 1.74 and package-only scope, build.warnings from 1.97, rustflags source order and --target). Closes the earlier open point on 2.4 items 1 and 2.
