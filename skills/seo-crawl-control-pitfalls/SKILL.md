@@ -39,13 +39,15 @@ by eye is not verified, and a rule copied from this block was not verified until
 - Never write a path in a different letter case from the URL it is meant to block (§1.3).
 - Never rely on a tolerated typo, a byte order mark or an over-long line; other crawlers may not be as forgiving
   (§1.4).
-- Never put a URL on a blocklist for security: a robots.txt asks crawlers to stay away and protects nothing
-  (own guidance, §2.1).
+- Never put a URL on a blocklist for security: a robots.txt asks crawlers to stay away and protects nothing; the
+  standard says it is not access authorisation and that listing a path exposes it (RFC 9309 sections 1 and 3, and 2.1).
+- Never block with `Disallow` a page that must carry `noindex`: the crawler cannot fetch the page, so it never sees
+  the tag (Google's block-indexing page; §2.1.5).
 - This block states the behaviour of the matcher at the commit named in
-  [`references/origin.md`](./references/origin.md), read in source and not run. How `Disallow` and `noindex` tags
-  interact was not verified and no rule about it is given here.
+  [`references/origin.md`](./references/origin.md), read in source and not run, and cross-checks the points that
+  matter with RFC 9309 and Google's published documentation.
 
 ## Origin
 Rewritten from reading `robots.cc`, `robots.h` and the README of google/robotstxt (Apache-2.0) and, for the
-sitemap limits only, a short list of sitemap practices in the Web Quality Skills `seo` skill (MIT), read 2026-10-16. 🟡: never run by
-us; open points are in [`references/origin.md`](./references/origin.md).
+sitemap limits only, a short list of sitemap practices in the Web Quality Skills `seo` skill (MIT), read 2026-10-16, then cross-checked on 2026-10-20 against RFC 9309 and Google Search Central's robots.txt,
+block-indexing and sitemap pages (facts only, rewritten). 🟡: never run by us; open points are in [`references/origin.md`](./references/origin.md).

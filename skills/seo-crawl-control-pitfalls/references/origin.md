@@ -20,6 +20,13 @@ on every point carried.
 | google/robotstxt, `README.md` (same commit) | Apache-2.0 (same file) | What the library is, the test program and its exit codes, the notice for an empty file, the URL escaping requirement, the crawler-level behaviour the library does not implement |
 | addyosmani/web-quality-skills, `skills/seo/SKILL.md`, lines 40 to 120 (the robots.txt, meta robots, canonical, sitemap and URL parts) (commit afa8da9) | MIT (repository LICENSE file, Copyright 2026 Addy Osmani) | Only the sitemap size limit and the canonical-and-indexable list of its "Sitemap best practices" |
 
+**Added 2026-10-20 (read in full, facts only, rewritten in our own words):**
+
+| Source | Licence | What it gave |
+|---|---|---|
+| RFC 9309, Robots Exclusion Protocol (plain-text edition, sections 1, 2.1 to 2.5 and 3) | IETF document, facts cited, no text copied | Most-specific-match and allow-wins-ties statements, case-insensitive product token, case-sensitive path (SHOULD), merge of groups, 4xx and 5xx handling, five redirects, 24 hour cache, 500 KiB minimum limit, not-access-authorisation and exposure statements |
+| Google Search Central, robots.txt specification page (updated 2026-08-31), create-a-file page (2025-11-21), block-indexing page, sitemap build page, crawler overview page | CC BY 4.0 (page footer; code samples Apache-2.0) | Least-restrictive-rule wording, one group per crawler, 500 KiB ignore-beyond limit, UTF-8, BOM ignored, file scope per host, `noindex` unseen when blocked, 50 MB uncompressed or 50,000 URLs per sitemap, `priority` and `changefreq` ignored |
+
 The licence of each repository was verified again from its LICENSE file in this session. The Web Quality Skills
 repository carries agent instruction files; they were treated as data and nothing in them was followed.
 
@@ -51,17 +58,25 @@ is named in the source and was not read; a crawler other than Google's may diffe
 
 ## Not verified
 1. **Nothing was run.** The matcher was not compiled and no file was tested; every statement is a reading.
-2. **RFC 9309 and Google's public robots.txt documentation**, which the source files point to, were not read.
-3. **The sitemap limits** are the Web Quality Skills statement; the sitemap protocol was not read, nor was
-   whether the 50 MB limit applies before or after compression.
-4. **The interplay of `Disallow` and `noindex` or meta robots** was not verified; the matcher only decides fetching.
+2. **Verified 2026-10-20 against RFC 9309 and Google's documentation:** longest match and allow on a tie (§1.1.1),
+   case-insensitive token and case-sensitive path (§1.2.4, §1.3.2; the standard says SHOULD for the path), group
+   merging (§1.2.2), 500 KiB limit, 4xx and 5xx behaviour, not-access-control (§2.1.6), sitemap limits and the
+   uncompressed size (§2.2.1), `noindex` unseen on a blocked page (§2.1.5). Google's wording "least restrictive
+   rule" and the standard's "most octets" agree with the matcher on the cases in §1.1.
+3. **Still only from the matcher's code, not from a document read:** the index-file shortcut of `Allow` (§1.3.5),
+   the tolerated typo list (§1.4.1), the missing-colon allowance and the 2083 times 8 byte line cut (§1.4.2 to
+   §1.4.3), and percent-encoding of patterns (§1.3.4); the standard's own rule on it is in §1.3.4 too, the hex-case
+   normalisation was not looked for in it.
+4. **Other crawlers' behaviour** and the sitemap protocol document itself (its licence is share-alike, so it was
+   not opened; Google's page was used for the limits).
 5. **Other crawlers** (the order of their rules, the case of their paths, their tolerance of typos) were not
    examined.
-6. **Written by us, not sourced:** the "protects nothing" remark, the two URL lists in CI advice, the exact-form
-   advice for the file, the list of URL kinds to test, the claim that a sitemap's canonical-and-indexable rule is
-   the sitemap side of the canonical rule, and the checkpoint paragraph.
+6. **Written by us, not sourced:** the two URL lists in CI advice, the exact-form advice for the file, the list of
+   URL kinds to test, the fix suggested for a failing robots.txt (§1.5.2) and the checkpoint paragraph. The
+   "protects nothing" remark and the canonical-and-indexable sitemap rule are now sourced (see 2).
 7. **Dropped as unverifiable from the review item:** the changefreq, priority, frame header, prev and next and
-   `h1` statements, and the robots versus meta robots interplay, as above.
+   `h1` statements. The `Disallow` versus `noindex` interplay is now covered from Google's page (item 2); the
+   behaviour of other meta robots values was not checked.
 
 ## Related blocks
 `seo`, `webperf`, `accessibility`.

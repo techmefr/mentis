@@ -38,6 +38,6 @@ paste a long class list from an example without checking that every class exists
 utility fails silently, as a missing style.
 
 ## Origin
-Rewritten from the framework's documentation, read 2026-10-02. The documentation site's repository carries no
+Rewritten from the framework's documentation, read 2026-10-02 and re-verified on 2026-10-20 (facts only; see origin). The documentation site's repository carries no
 open licence, so only mechanisms were taken and every sentence is ours; see
 [`references/origin.md`](./references/origin.md). Read it when checking freshness, not when applying a rule.

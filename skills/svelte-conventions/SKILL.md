@@ -42,6 +42,7 @@ that migration: new code uses runes, old code keeps its idiom until someone owns
 pins an older major than this block, say which rule does not apply.
 
 ## Origin
-Rewritten from the framework's documentation, including its own best-practices page, read 2026-10-02. Provenance,
+Rewritten from the framework's documentation, including its own best-practices page, read 2026-10-02 and re-verified
+on 2026-10-20 (one version fact corrected, see the origin file). Provenance,
 licence and refresh protocol are in [`references/origin.md`](./references/origin.md). Read it when checking
 freshness, not when applying a rule.

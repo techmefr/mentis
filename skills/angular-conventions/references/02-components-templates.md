@@ -4,7 +4,8 @@
 > a template is written. The other sections and the guardrails stay in `SKILL.md`.
 
 1. **Standalone components only, no `NgModule` for new code.** On Angular 20 and later `standalone: true` is the
-   default, so do not write it in the decorator. Import in the component only the directives and pipes the
+   default, so do not write it in the decorator (the framework's best-practice file states v20+; its release notes for
+   the version that introduced the default were not read). Import in the component only the directives and pipes the
    template uses (`AsyncPipe`, `DatePipe`), never `CommonModule`.
 2. **Inputs, outputs and two-way values are functions, not decorators.** `input()`, `input.required()`,
    `output()`, `model()` replace `@Input`, `@Output` and the `input` + `output` pair. `model()` is for a value

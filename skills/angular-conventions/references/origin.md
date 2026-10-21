@@ -46,3 +46,31 @@ none used). Angular Material, the CDK and SSR hydration details beyond the point
 not covered: a gap, stated.
 
 **Added 2026-10-19 (🟡):** §2.18 from the angular-eslint documentation above. The rule configuration (the input-rename allow-list) was not taken; nothing was run.
+
+## Re-verified 2026-10-20 (🟡, nothing run)
+
+Re-opened on 2026-10-20 from the `angular/angular` repository, `main` branch (licence file read: **MIT**, "Copyright
+(c) 2010-2026 Google LLC"), pages under `adev/src/content` plus the root changelog, and from the `angular-eslint`
+repository (licence file read: **MIT**, James Henry). Facts only, no text copied.
+
+| Page read | Points confirmed |
+|---|---|
+| style guide | §1.1 to §1.8, §1.10, §1.11 (consistency first, hyphens, same stem and `.spec`, no `helpers`/`utils`/`common`, `src` and `main.ts`, feature grouping and no `components/` folders, one concept per file, selector prefix and camelCase attribute, `protected` and `readonly`, event handler naming, lifecycle methods and interfaces), §2.6 to §2.7 |
+| best-practice file served by the docs site | §2.1 (standalone is the default from v20+, as that file states) |
+| inputs page, host elements page | §2.2, §2.3 (transforms pure and static, `booleanAttribute` reads `"false"`, `model()` takes no transform, aliases), §2.8 (the three precedence rules) |
+| control-flow page | §2.9 to §2.11 (`track`, `$index`, identity as last resort, no `break` or `continue`, `@empty`, `@default never;`) |
+| signals pages (`linkedSignal`, `effect`), resource page, `httpResource` page | §3.2, §3.3 (async and at-least-once, storage and analytics uses), §3.5 to §3.9 (params undefined gives idle, `stream`, `abortSignal`, the six statuses, `chain()` and its statuses, `id` and transfer state with the user-data warning, interceptors apply) |
+| forms comparison page | §3.10 (Signal Forms stable from v22) |
+| framework changelog, 17.0.0 | §3.4 (`mutate` removed) |
+| services page | §4.2 (`@Service`, `autoProvided`) |
+| route guards page | §4.11 (never the sole access control) |
+| security guide | §5.7 to §5.14 (CSP nonce, `ngCspNonce`, `CSP_NONCE`, CDN caching of nonces, edge generation, `autoCsp`, bypass functions, `allowedHosts`, `trustProxyHeaders`) |
+| SSR page | §5.13 (`allowedHosts` in `angular.json`) |
+| error-handling page, error-boundaries page | §5.1 to §5.6 (`ErrorHandler`, global listeners provider, `resource` errors, root component creation, `@boundary` in developer preview) |
+| zoneless page, skipping-subtrees page | §5.15, §5.16 (zoneless default from v21 and `provideZonelessChangeDetection` for v20, `NgZone` observables to remove, `setInput`, `PendingTasks`, `OnPush` default since v22) |
+| defer page, accessibility page | §5.19 (standalone only, `idle` default, barrel files defeat chunks), §5.22, §5.23 (`NavigationEnd`, `ariaCurrentWhenActive`, live region around `@defer`) |
+| angular-eslint rule pages `no-output-native`, `no-output-on-prefix`, `no-input-rename` | §2.18 |
+
+Nothing was found wrong in the rules checked. **Not re-opened in this pass:** the unit-testing pages behind §6, the
+HTTP testing guide, the data-resolver and loading-strategies pages behind §4.9 and §4.13, the `NG0203` error page
+behind §4.1, and the image-directive page behind §2.15; they keep their 2026-10-02 stamp.

@@ -43,10 +43,12 @@ verified.
 - Never use the `/g` flag in a query regexp (§1.4).
 - Where this block and the project's `data-test-*` doctrine differ on selectors, the project doctrine wins (§1.2).
 - This block states the behaviour described by the plugin pages at the commit in
-  [`references/origin.md`](./references/origin.md); the Testing Library documentation site itself was not read.
+  [`references/origin.md`](./references/origin.md); the Testing Library documentation (MIT) was read on 2026-10-20 for the points it
+  covers (query priority, `waitFor`, user-event setup, cleanup, `act`).
   Version-bound facts name their version (user-event v14). Nothing was run while writing it.
 
 ## Origin
 Rewritten from the `eslint-plugin-testing-library` rule pages (MIT) and sections 3.1 to 3.4 of Goldberg's JavaScript
-testing best-practices guide (MIT), read 2026-10-15. 🟡: never run by us; open points are in
+testing best-practices guide (MIT), read 2026-10-15, and cross-checked on 2026-10-20 against the Testing Library
+documentation (MIT). 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

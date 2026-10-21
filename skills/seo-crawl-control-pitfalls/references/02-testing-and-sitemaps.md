@@ -16,19 +16,25 @@ available as a small program, and it is the cheaper way to know what a file does
    fully normalise it; a URL written with raw non-ASCII characters is not tested as the crawler will see it.
 4. **An empty file allows everything**, and the program prints a notice saying so.
 5. **What the matcher does not model.** Anything a crawler does around parsing and matching, such as one crawler
-   following another's group, is outside it (README). It also answers only whether a URL may be fetched; how a
-   `Disallow` and a `noindex` tag interact was not verified here (`seo` §1.3 asks for consistency and gives no
-   mechanics).
-6. **A robots.txt protects nothing.** Own guidance: it is a request that well-behaved crawlers honour, and it is
-   itself public, so a `Disallow` that lists a private path also advertises it. Access control belongs to the
-   server.
+   following another's group, is outside it (README). It also answers only whether a URL may be fetched. The interplay with `noindex` is documented by Google: a page
+   blocked by robots.txt is never fetched, so its `noindex` is never seen and the URL can still appear in results
+   when other pages link to it, and a `noindex` line inside robots.txt is not supported (Google's block-indexing
+   page). To keep a page out of results, leave it fetchable and mark it `noindex` (or send it in an `X-Robots-Tag`
+   header for non-HTML files).
+6. **A robots.txt protects nothing.** It is a request that crawlers are asked to honour and not a form of access
+   authorisation (RFC 9309 §1), and listing a path in it exposes the path publicly (RFC 9309 section 3), so a `Disallow`
+   on a private path also advertises it. Access control belongs to the server.
 
 ## 2.2 Sitemaps
-1. **Size limits.** The Web Quality Skills `seo` skill states a maximum of 50,000 URLs or 50 MB per sitemap file and
-   a sitemap index for larger sites. It does not say whether the size is counted compressed or not, and the
-   sitemap protocol was not read here, so check the limit at the source before building a splitter around it.
-2. **Only canonical, indexable URLs.** The same list says to include only canonical, indexable URLs, which is the
-   sitemap side of the canonical rule of `seo` §1.2.
+1. **Size limits.** Google's sitemap page gives 50 MB uncompressed or 50,000 URLs per sitemap file and says larger
+   sites split their URLs across several files, optionally grouped in a sitemap index. Both limits apply, whichever
+   is reached first, and the size is the uncompressed one. The Web Quality Skills `seo` skill states the same
+   figures. These are Google's limits; the sitemap protocol itself was not read.
+2. **Only canonical, indexable URLs.** Google's page says to list the canonical versions you want shown in results,
+   as fully qualified absolute URLs in a UTF-8 file, which is the sitemap side of the canonical rule of `seo` §1.2.
+   It adds that `lastmod` is used only when it is consistently and verifiably accurate and should reflect real
+   changes to the page, not a footer date.
+   Google ignores `priority` and `changefreq`, so a splitter does not need to compute them.
 3. **A `Sitemap` line in a robots.txt is read and does nothing to access.** The parser recognises the directive
    (and the misspelling `site-map`), and the matcher takes no action on it: it never changes whether a URL is
    allowed, and it does not end a group (§1.2).

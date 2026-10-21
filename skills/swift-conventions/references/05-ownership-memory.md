@@ -10,11 +10,13 @@
    be freed first (it is optional and becomes nil automatically). Use `unowned` when the other side has the
    same lifetime or a longer one and is always present; accessing it after it is freed is a runtime error, so
    only when that is certain. A weak reference is no cache: with reference counting a value is freed the
-   moment its last strong reference goes.
+   moment its last strong reference goes (own guidance: the chapter says the target is freed and the reference becomes
+   nil, and does not discuss caches).
 3. **A closure that is stored and captures a class instance declares a capture list.** Capture `self`
    unowned when the closure and the instance always die together; capture it weak when it can become nil, and
    unwrap inside. If the captured reference can never be nil, prefer unowned over weak. The unsafe unowned
-   form disables the runtime check and is a conscious exception.
+   form (`unowned(unsafe)`) disables the runtime check and is a conscious exception; reading it after the target is gone
+   is an unsafe operation, not a trap.
 4. **Ownership is a design statement.** The parent holds children strongly; the child's back-reference
    (delegate, parent, owner) is the weak or unowned one.
 5. **Do not give two simultaneous in-out arguments the same variable, and do not read a variable while it is

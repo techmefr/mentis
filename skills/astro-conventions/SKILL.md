@@ -9,7 +9,7 @@ paths: "**/*.astro, **/astro.config.*, **/src/content.config.*, **/src/middlewar
 Step 6 of the pipeline (`WORKFLOW.md`), for the content-first, islands-based web framework. **Status: a base to
 confront with real work**, no in-house project behind it yet (same status as `go-conventions`). Pinned to the
 Astro documentation read on 2026-10-02 from the default branch (latest release on the package registry that day:
-7.3.5); items marked `[verify]` were introduced in a version the reader must confirm is the one installed. The UI
+7.3.5; 7.4.1 on 2026-10-20, when the points below were re-checked, see Origin). The UI
 framework used inside islands (React, Vue, Svelte, Solid) has its own block; the bundler under it is
 `skills/vite-bundler-conventions`.
 
@@ -85,10 +85,12 @@ written or modified, during `code` (6) and `review` (8).
 2. **Actions** (`defineAction`) are typed server functions with validated input (a schema; JSON by default, form
    data when `accept: 'form'`). Return data; throw the library's action error for expected failures (not found,
    unauthorised) instead of returning `undefined`. Check the caller's authorisation inside the handler: an action
-   is a public endpoint, reachable under a path derived from its name (the documentation says so; the rule to
-   authorise inside is ours).
-3. **CSRF**: on-demand pages check that the `Origin` header matches the request for `POST`, `PATCH`, `DELETE` and
-   `PUT` with form content types, and answer 403 otherwise. It is on by default. Turning it off
+   is a public endpoint, reachable under a path derived from its name (`/_actions/<name>`), and the actions guide says
+   the same authorisation checks as for any endpoint must be made in the handler.
+3. **CSRF**: on-demand pages check the `Sec-Fetch-Site` header of modern browsers, falling back to the `Origin`
+   header, for `POST`, `PATCH`, `DELETE` and `PUT` with no content type or a form-style one (urlencoded, multipart,
+   plain text), and answer 403 when the request is cross-origin. It is on by default and runs only for pages rendered on
+   demand. Turning it off
    (`security.checkOrigin: false`) needs a stated reason; behind a proxy, the `allowedDomains` option makes Astro
    trust the forwarded host header only when it matches a listed pattern, which guards against host-header
    injection (it is about `Astro.url`, not a replacement for the origin check).
@@ -122,7 +124,19 @@ grep -rnE "export default" src/middleware.*
 - A secret-looking name behind `PUBLIC_` is a finding even with a placeholder value.
 
 ## Origin
-Rewritten from the official Astro documentation (the `withastro/docs` repository, `src/content/docs/en`, MIT
+Re-verified on 2026-10-20 against the same repository's default branch (licence file read: MIT, "Copyright (c)
+2022 withastro"; latest release that day 7.4.1): the directives reference (every `client:*` directive, its options and
+the `client:only` fallback slot), the on-demand rendering guide (default prerender, `prerender = false`, adapter, the
+`'server'` output mode), the server-islands guide (serialisable props, fallback slot, adapter), the client-side
+scripts guide (processing, deduplication, `is:inline`, scripts outside `src/`), the environment-variables guide
+(`PUBLIC_`, `astro:env` contexts and access, secret validation, `loadEnv`, `process.env` in the config), the
+content-collections guide (loader, optional schema, build-time against live), the middleware guide and reference
+(named `onRequest`, `locals`, `sequence`, build-time run), the actions guide (accept, `ActionError`, public path,
+authorisation), the configuration reference (`security.checkOrigin`, `security.allowedDomains`, `output`), the
+styling guide (scoped by default) and the version 7 upgrade guide (nothing there touches these rules). Nothing was
+found wrong except the CSRF description (corrected above) and the claim that the authorisation rule for actions was
+ours (the guide states it). Two points rest on inference: that a middleware must not be a default export (the
+reference documents the named export only), and the `PUBLIC_`-secret mechanical check. Original source note: rewritten from the official Astro documentation (the `withastro/docs` repository, `src/content/docs/en`, MIT
 licence), read from a shallow clone of the default branch on 2026-10-02: the islands concept page, rendering
 (on-demand rendering and output), the directives reference, client-side scripts, environment variables and the
 `astro:env` module, content collections, middleware, actions, server islands, and the security options of the

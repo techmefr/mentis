@@ -60,3 +60,25 @@ mechanism for as-you-type validation, written before Inertia v2.3 built it into 
 point added: the wiring is now the route's `HandlePrecognitiveRequests` middleware, not a separate
 client-side integration — nothing about the form's submit call changes, so the single-owner-of-form-state
 rule holds without a second helper.
+
+## Re-verified 2026-10-20 (🟡, nothing run)
+
+Licences read from the LICENSE files on 2026-10-20: `inertiajs/inertia` (MIT) and `inertiajs/inertia-laravel` (MIT).
+The inertiajs.com pages were read as official product documentation for facts only; no text was copied. Latest
+`@inertiajs/core` that day: 3.9.1.
+
+| Page or source | Points checked |
+|---|---|
+| partial reloads | `optional`, `always`, `only`/`except`, the errors bag sent through `always` and `preserveErrors` (§2.4, new §2.17) |
+| deferred props | default single request, group names, `Deferred` component, `rescue` (§2.15) |
+| file uploads | automatic `FormData`, `forceFormData`, manual `_method`, `progress.percentage` (§3.9, §3.10) |
+| asset versioning | any string that changes with the assets; full-page visit on mismatch; background requests do not force it (§5) |
+| prefetching | hover default after 75 ms, `mousedown` for click, `mount`, 30 s default cache, tags and flushing (§5) |
+| polling | `usePoll`, stops on unmount, hidden-tab throttling since 3.9.0, `keepAlive` deprecated (§5) |
+| core and adapter sources | no `_method` in `useForm`; `Inertia::lazy()` absent in 3.x |
+
+**Corrected:** `Inertia::lazy()` replaced by `Inertia::optional()` (§2.4, §2.15); the claim that `useForm` spoofs
+`_method` for file forms (§3.9). **Added:** §2.17 (errors overwritten by a partial reload). **Still unverified:** the
+flash-message behaviour of §2.10 (the flash page returned 404), the Precognition middleware wiring (§3.15), the
+`router.reload({ interval })` wording of §5 (the polling page documents `usePoll`; check the option name against the
+installed version), and the prefetch page does not state a GET-only requirement.
