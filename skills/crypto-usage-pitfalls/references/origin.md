@@ -67,3 +67,5 @@ Read for facts only, restated in our words, no text copied: RFC 5116 (AEAD inter
 - Added: a fast derivation function is not a password hash (RFC 5869 section 4).
 - Corrected scope: RFC 5116 does not say that every failure must look identical to the caller, so "do not say which check failed" stays our guidance.
 - Still unverified: the XChaCha20 or secretstream default (§1.10), salt and parameters carried with the ciphertext (§1.3), the reading of the 2^32 and 2^16 rows (§2.3), final tag insistence (§2.9), secrets generated after instance start (§3.3), the deterministic generator rule (§3.2), age recipient choices (§3.7, §3.10, §3.11). RFC 9106, RFC 8446, RFC 8018 and NIST SP 800-132 and 800-38D were not opened in this pass.
+
+Independent verification 2026-10-21: 8 checked, 8 matched, 0 corrected, 0 unverified

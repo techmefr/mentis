@@ -43,3 +43,5 @@ None. The receiving guidance and the specification agree on signature, timestamp
 ## Related blocks
 `skills/nestjs-integration-patterns`, `skills/nestjs-reliability`, `skills/unknown-payment-outcome-pitfalls`,
 `skills/invoicing-app-build-pitfalls`, `skills/security-hardening`.
+
+Independent verification 2026-10-21: 8 checked, 6 matched, 1 corrected, 1 unverified

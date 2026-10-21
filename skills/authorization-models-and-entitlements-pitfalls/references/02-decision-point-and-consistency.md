@@ -9,7 +9,7 @@ Sources: the architecture, caching and Check pages of the OpenFGA repository at 
 
 ## 2.2 The request and its failures
 1. **A decision request names the principal, the action, the resource and the facts the rule reads.** Symptom of a missing fact: the rule that needs the record's owner silently evaluates to refuse. The Cerbos tutorial shows the cure: declare a schema for principal and resource attributes and let the server reject requests that omit or mistype them, so a missing attribute is an error you see, not a refusal you misread as policy.
-2. **Default to deny when no rule matches.** The tutorial states that an unmatched request ends in a deny effect. Keep it that way, and keep it visible: log the refused request with the rule that did or did not match (own guidance).
+2. **Default to deny when no rule matches.** Own guidance, not confirmed by the Cerbos tutorial pages read: they show each action answered with an allow or deny effect and say a role is granted only the actions its rules list, but do not state what an unmatched request returns. Check your engine's documentation, keep the outcome a deny, and keep it visible: log the refused request with the rule that did or did not match.
 3. **When the decision service fails, refuse and surface it** (own guidance). Symptom of the other choice: an outage opens every door. For read-only low-risk resources a documented, time-limited fallback can be an explicit decision of the owner of the data, never a default.
 4. **Authorise before doing the work.** Loading, computing and then checking leaks through errors and timing (`skills/security-hardening` §3.4).
 

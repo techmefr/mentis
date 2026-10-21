@@ -13,7 +13,7 @@
    those attributes is the source's choice. Own inference from its explanation of `Strict` (§3.3): the
    return from the provider is a navigation from another site, so a `Strict` cookie would not be sent.
    The state can also carry data from the login route to the callback, though the source says a cookie can
-   do that instead. RFC 9700 section 2.1 agrees: invalidate the stored state after its first use at the callback, so a replayed
+   do that instead. RFC 9700 section 2.1 asks for one-time-use CSRF values bound to the browser, and section 4.2.4 says to invalidate the stored state after its first use at the callback, so a replayed
    callback finds nothing.
 3. **Use PKCE with `S256`, with a new code verifier per attempt.** The verifier comes from a cryptographically
    secure generator with at least 112 bits of entropy (the RFC recommends 256, per the source). The

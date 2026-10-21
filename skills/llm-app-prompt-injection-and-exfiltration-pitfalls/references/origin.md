@@ -49,3 +49,5 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: appli
 `agent-mcp-trust-pitfalls`, `agent-sandbox-egress-pitfalls`, `csp-and-sanitiser-pitfalls`,
 `rag-retrieval-quality-pitfalls`, `llm-eval-regression-pitfalls`, `secret-leak-response-pitfalls`,
 `security-hardening`.
+
+Independent verification 2026-10-21: 8 checked, 7 matched, 1 corrected, 0 unverified

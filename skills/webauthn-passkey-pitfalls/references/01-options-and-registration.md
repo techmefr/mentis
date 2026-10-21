@@ -10,8 +10,8 @@
    single-use token and recommends at least 16 bytes of entropy; the library's comment cites the specification
    saying challenges should be at least 16 bytes and then generates 32. The registration check reads the
    challenge from the response and the page says to verify it against storage and delete it from storage.
-   Own guidance: keep it on the server next to the session that started the ceremony, give it an expiry about
-   as long as the browser timeout (the library's default option is 60 seconds), and never accept a challenge
+   Section 13.4.3 also confirms the 16-byte minimum and storing the challenge server-side until the ceremony ends. Own guidance: keep it on the server next to the session that started the ceremony, give it an expiry about
+   as long as the ceremony timeout you send (the library's default option is 60 seconds; WebAuthn Level 3 section 13.4.3 says a challenge should stay valid about as long as the upper end of the recommended timeout range in section 15.1, 5 to 10 minutes), and never accept a challenge
    that the same request supplied.
 2. **A new challenge for every ceremony.** Registration and authentication each get their own. Own guidance:
    a challenge stored for registration must not satisfy a later sign-in, so store which ceremony it belongs to.
@@ -33,11 +33,11 @@
    both settings is "preferred", which leaves the outcome to the authenticator; pick one deliberately.
 8. **Offer algorithms the server can verify, and check what came back.** The page recommends ES256 (identifier
    -7) as the widely supported one and mentions RS256 (-257) for a few more devices; the library's default list
-   is EdDSA, ES256 and RS256 and it rejects a registered key whose algorithm was not offered. The page also says
+   is EdDSA, ES256 and RS256 (with ML-DSA-44 added first when the runtime supports it) and it rejects a registered key whose algorithm was not offered. The page also says
    to validate the algorithm and the curve of the COSE key.
 9. **Verify the registration in full, with expected values you hold.** The checks, in the order the library
    runs them: the response type is the create type; the challenge is the stored one; the origin is exactly
-   yours (scheme, host and port); the relying party ID hash matches; user presence is set; user verification is
+   yours (scheme, host and port); the relying party ID hash matches; user presence is set (the specification, section 7.1, exempts the case where conditional mediation was requested); user verification is
    set when you required it; credential data is present, including the credential ID and a public key. The
    relying party ID is the domain without protocol or port (`localhost` in development) and the authenticator
    data carries its SHA-256 hash; the origin includes protocol and port. The library accepts a list of origins
