@@ -32,3 +32,5 @@ Resource, availability-rule and booking data models (a sibling lot); notificatio
 4. **Library names in the framework pointers** are from memory; their zone, all-day and keyboard behaviour was not checked.
 5. **Daylight saving rules for invalid and ambiguous local times** differ between date libraries; check the one in use.
 6. **No number** (slot length, caps) is stated; none was measured.
+
+Independent verification 2026-10-21: 26 checked, 26 matched, 0 corrected, 0 unverified

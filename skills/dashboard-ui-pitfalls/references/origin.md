@@ -27,3 +27,5 @@ Chart-type selection (in `chart-choice-pitfalls`), product metric formulas (in t
 2. **Verified 2026-10-20 (SC 4.1.3):** status role, aria-atomic and the assertive failure behind point 2.5.5. The polite wording is now confirmed in WAI-ARIA 1.2 (status role implicitly polite and atomic). Verified 2026-10-20 (second source pass): SC 1.4.13 (added to point 2.5.2), page visibility state (§1.5 point 4: the state exists; the claim that a hidden tab throttles timers is not in the standard and was left out). **Still unverified:** all other points (metrics, drill-down, freshness, roles, cost, tests) are own knowledge, no external claim checked.
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No threshold or number** (refresh interval, group size, widget count) is stated; none was measured.
+
+Independent verification 2026-10-21: 15 checked, 12 matched, 3 corrected, 0 unverified

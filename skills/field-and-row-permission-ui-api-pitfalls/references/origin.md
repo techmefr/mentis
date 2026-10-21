@@ -44,3 +44,5 @@ Second pass 2026-10-20: no further checkable fact found that a permissive or off
 `postgres-operations-and-exposed-api-pitfalls`, `firebase-rules-and-client-trust-pitfalls`, `auth-session-conventions`,
 `frontend-ux-antipattern-review-pitfalls`, `search-index-sync-pitfalls`, `csv-xlsx-import-export-pitfalls`,
 `data-protection`.
+
+Independent verification 2026-10-21: 16 checked, 13 matched, 3 corrected, 0 unverified

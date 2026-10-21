@@ -55,3 +55,4 @@ so this block covers data, storage and rules only.
 ## Related blocks
 `skills/security-hardening`, `skills/dsar-handling-pitfalls`, `skills/laravel-no-cascade-delete`,
 `skills/laravel-idempotent-jobs`, `skills/admin-back-office-pitfalls`, `business/data-protection`.
+Independent verification 2026-10-21: 16 checked, 15 matched, 1 corrected, 0 unverified

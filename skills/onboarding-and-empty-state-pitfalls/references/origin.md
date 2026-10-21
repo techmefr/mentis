@@ -37,3 +37,5 @@ Modal tour focus behaviour and the announcement of result messages. One point ad
 2. **Other accessibility points** (hover and position cues, heading level, focus handling in checklist widgets) are recalled public practice, not re-read; timeouts, status as text, reduced motion and target size were re-read on the second pass.
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No number** (reminder frequency, checklist length, activation rate) is stated; none was measured.
+
+Independent verification 2026-10-21: 14 checked, 13 matched, 1 corrected, 0 unverified

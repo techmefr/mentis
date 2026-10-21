@@ -35,3 +35,5 @@ Mail template authoring (`customer-email-review-pitfalls`), phone push registrat
 4. **Framework pointers** name features from memory; no version was checked.
 5. **Verified 2026-10-20 (second pass, same day):** safe-method rationale, one-click unsubscribe requirements, live region role defaults, SC 2.2.1 numbers, SC 4.1.2, SSE Last-Event-ID, onLine reliability; 1 narrowed (disclosure pattern does not define Escape: §2.3.7 now says so), 0 deleted, 1 added (§2.1.2 onLine caveat) and 1 added (RFC 8058 in §1.6.6). **Earlier:** conditional polling with If-None-Match and 304; existence of the visibility state a poller can read. **Still unverified:** that a hidden tab slows its timers (browser behaviour, not stated in the page read) and the claim about a region inserted with its message (WCAG 4.1.3 page read says nothing on it).
 6. **No number** (poll interval, retention period, group window) is stated; none was measured.
+
+Independent verification 2026-10-21: 17 checked, 16 matched, 1 corrected, 0 unverified

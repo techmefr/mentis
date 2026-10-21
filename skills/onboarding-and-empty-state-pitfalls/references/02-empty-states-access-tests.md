@@ -31,7 +31,7 @@ Source: own craft knowledge, except the points marked with a citation, checked o
 7. **Do not rely on colour, position or hover** to indicate the highlighted target; describe it in text ("the Share button in the toolbar").
 8. **Respect reduced motion** for spotlight animations, confetti and progress bars: honour the `prefers-reduced-motion` media feature, and note that SC 2.3.3 (level AAA) asks that interaction-triggered motion can be disabled unless essential (`web-animation-pitfalls`).
 9. **Check touch targets and viewport on a phone**: tours are the most common overlay to break small screens; targets are at least 24 by 24 CSS pixels or spaced so (SC 2.5.8, level AA; the exceptions are spacing, an equivalent control elsewhere on the page, inline targets, user-agent-sized controls and essential presentation) (`responsive-layout`).
-10. **A welcome modal puts initial focus on a safe element.** Symptom: pressing Enter on arrival dismisses or accepts something the user did not read. Where the step ends in a hard-to-reverse choice, initial focus goes to the least destructive control (modal dialog pattern, destructive note).
+10. **A welcome modal puts initial focus on a safe element.** Symptom: pressing Enter on arrival dismisses or accepts something the user did not read. Where the step ends in a hard-to-reverse choice, initial focus goes to the least destructive control (the modal dialog pattern calls this advisable for a final step that is hard to reverse, not a requirement).
 
 ## 2.4 Performance
 1. **Do not load the tour or checklist library on the critical path.** Load it after the first meaningful render, and only for users whose state needs it.
