@@ -45,6 +45,19 @@ leave or time-tracking application, so a new block was justified.
    not written or executed.
 5. **Framework pointers** were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: OFBiz `humanres-entitymodel.xml` (EmplLeave, EmplLeaveType, EmplLeaveReasonType) and
+`workeffort-entitymodel.xml` (Timesheet, TimeEntry) at the trunk; RFC 5545 section 3.8.2.2 and its worked example
+(`LICENSE` of the ERP project Apache-2.0 re-read).
+- Confirmed: leave record keyed by person, type and from-date with thru-date, approver and status; hierarchical leave
+  types; a separate reason type; no balance, accrual or carry-over entity found; timesheet with person, client, period,
+  status, approver; time entries with rate type, task, timesheet and invoice line links; DTEND for a VEVENT is the
+  non-inclusive end, the standard's example of an all-day range ending July 8 is written with DTEND July 9.
+- Corrected: the time entry hours field is declared floating-point, not decimal; the block now says so.
+- No other permissive HR source found (searched: the two ERP data model files and the standard).
+Counts: 7 claims re-checked, 1 corrected.
+
 ## Related blocks
 `skills/booking-and-scheduling-app-pitfalls`, `skills/inventory-stock-app-pitfalls`,
 `skills/helpdesk-ticketing-app-build-pitfalls`, `skills/laravel-scheduling`, `skills/laravel-idempotent-jobs`,

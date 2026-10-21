@@ -43,6 +43,22 @@ Instruction-like text in the cloned repositories (agent guidance files) was trea
 3. **Nothing was run.** The tests named in the checkpoint were not written or executed.
 4. **Framework pointers** (Laravel, Nuxt) were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Apache OFBiz `order-entitymodel.xml` and `accounting-entitymodel.xml` at the trunk
+(entities OrderHeader, OrderStatus, OrderItem, OrderItemBilling, InvoiceStatus, PaymentApplication; `LICENSE` Apache-2.0
+re-read), Kill Bill `invoicing-overview.adoc` (v3 branch, `LICENSE` Apache-2.0), and the PostgreSQL manual page
+"Sequence Manipulation Functions".
+- Confirmed: order type on the header, dated status rows with user and (orders only) reason, billing row with quantity and
+  amount, cancelled quantity on lines, audit flag on line quantity and unit price, external id and sync status on the
+  order header, tax percentage with primary and secondary jurisdiction on adjustments, override-account comments about
+  configuration changing after posting (on adjustments and invoice items), balance computed from items, adjustments and
+  payments, sequence gaps after aborts, crashes and conflict clauses.
+- Nuance recorded: the invoice status rows hold the user but no change reason.
+- Still unsourced: numbering at posting, immutability in the database, stored PDF, archive and void, money, tenants, party
+  master, section 2 permissions and build order.
+Counts: 8 points re-checked, 0 wrong.
+
 ## Related blocks
 `skills/gl-subledger-reconciliation-pitfalls`, `skills/accounts-payable-duplicate-and-match-pitfalls`,
 `skills/e-invoicing-obligations-pitfalls`, `skills/vat-handling-in-software-pitfalls`,

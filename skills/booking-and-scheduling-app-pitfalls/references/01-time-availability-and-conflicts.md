@@ -23,9 +23,9 @@
    for the fall-back day, an edge inside the repeated hour; a window that crosses midnight on both days; and one
    zone with a half-hour offset and one with no clock change. Look the dates up for the zones in use (the last
    Sunday of March and of October for most of Europe, the second Sunday of March and the first of November for
-   most of the United States; re-check, rules change by decree) and write the expected result down before
+   most of the United States, where federal law (15 U.S.C. section 260a(a)) sets the change at 2 a.m. and lets states exempt themselves, as some do; the European dates were not re-read from the official text; re-check, rules change by decree) and write the expected result down before
    running. State what the code does for a local time that does not exist (shift forward, or reject) rather than
-   leaving it unspecified. The iCalendar standard fixes a default you can adopt: a repeated local time refers to its first occurrence, and a local time that does not exist is read with the offset in force before the gap, so 02:30 on a spring-forward day becomes 03:30; a recurrence instance whose computed time falls in a gap or a repeat is read the same way (source 1).
+   leaving it unspecified. The iCalendar standard fixes a default you can adopt: a repeated local time refers to its first occurrence, and a local time that does not exist is read with the offset in force before the gap, so 02:30 on a spring-forward day becomes 03:30; a recurrence instance whose computed local start time falls in a gap or a repeat is read the same way (RFC 5545 section 3.3.5 for the single value, section 3.3.10 for recurrence instances). The same section 3.3.10 also says that instances a rule generates with a nonexistent local time must be ignored and not counted, so two implementations of the standard can disagree on a series that crosses the gap: choose one behaviour, document it and test it (source 1).
 4. **Availability is rules plus exceptions.** Model weekly working hours per resource (several intervals per
    day), date exceptions (holiday, leave, one-off opening), and existing bookings as the last subtraction.
    Symptom: rules overwritten by an exception edit and lost. Fix: exceptions are separate rows that override a

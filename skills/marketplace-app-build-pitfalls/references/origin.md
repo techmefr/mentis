@@ -50,6 +50,25 @@ overlap check found no block that covers designing a two-sided marketplace appli
 4. **Other providers' behaviour** (split payments, payout timing, webhook delivery) and **framework pointers** (Laravel,
    Nuxt) were not checked against current documentation; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Stripe "Understand how charges work in a Connect integration", "How disputes work", "Refund and
+cancel payments", "Receive Stripe events in your webhook endpoint", "Idempotent requests" (English versions); Medusa
+marketplace recipe (`LICENSE` MIT with enterprise carve-out re-read); Laravel "Queues".
+- Confirmed: refunds and chargebacks reduce the connected account on direct charges and the platform on destination
+  charges and on separate charges and transfers; transfers can precede or exceed the charge and can be tied to a charge so
+  they wait for its funds; an active dispute closes in the seller's favour only by submitting evidence, a lost dispute is
+  final; refunds use available balance and card refunds wait as pending, other methods fail; the recipe splits a cart
+  into one order per vendor and uses vendor-only routes with a custom actor type; dispatch after commit and discard on
+  rollback.
+- Made exact: dispute response time usually 7 to 21 days and issuer decision usually 60 to 75 days depending on the card
+  network (whole cycle two to three months); 120 days is the window common for card payments and it starts at the event
+  date for a future service; idempotent results are saved only after execution begins.
+- Added: on indirect charges the platform must reverse the related transfers to recover a refund from the seller.
+- Still unsourced: identity and roles, listing lifecycle, order state machine, fee snapshots, onboarding gating, reviews,
+  leakage, scopes, section 2 moderation, ranking, reports.
+Counts: 13 claims re-checked, 4 made exact or added, 0 wrong.
+
 ## Related blocks
 `skills/ecommerce-store-build-pitfalls`, `business/ecommerce-store-quality-pitfalls`,
 `skills/unknown-payment-outcome-pitfalls`, `skills/ledger-pending-and-batch-ordering-pitfalls`,

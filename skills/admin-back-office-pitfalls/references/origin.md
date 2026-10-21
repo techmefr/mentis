@@ -47,6 +47,20 @@ covered, so this block only cross-links it.
 4. **Framework pointers** (Laravel, Nuxt) are short and were not checked against a current release; re-read
    before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Django `docs/ref/contrib/admin/index.txt`, `actions.txt` and `docs/ref/contrib/auth.txt` at the
+main branch (`LICENSE`, BSD-3-Clause, re-read); Laravel "Queues" page (whole page).
+- Confirmed: LogEntry holds user, content type, object id, object representation, action flag (addition, change,
+  deletion), time and a change message listing edited fields; the bulk delete action uses a queryset delete and does not
+  call the model delete method, with the two documented alternatives; it asks for confirmation first; action permissions;
+  is_active should be cleared instead of deleting accounts; is_staff gates admin entry.
+- Added: is_active does not by itself decide sign-in (a backend is not required to check it), so test every sign-in path;
+  a failed job cancels a batch unless failures are allowed and the batches table needs a scheduled pruning command.
+- Still unsourced: impersonation, flags, previews and caps, shared validation, production query safety, two-person rule,
+  notification, search, dashboards.
+Counts: 8 claims re-checked, 0 wrong, 2 pitfalls added.
+
 ## Related blocks
 `skills/feature-flag-lifecycle`, `skills/field-and-row-permission-ui-api-pitfalls`, `skills/laravel-no-cascade-delete`,
 `skills/laravel-idempotent-jobs`, `business/data-protection`.

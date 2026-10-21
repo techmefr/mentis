@@ -7,7 +7,7 @@
    accountable, a departed employee still able to sign in. Fix: individual accounts with second factor,
    abilities rather than a single "admin" flag (see `skills/laravel-permissions-not-roles`), a small number of
    roles built from abilities (support read, support edit, finance, super admin), a review of who holds what on
-   a schedule, and deactivation (never deletion) on departure so the audit rows keep their author. The Django authentication documentation gives the same advice for its active flag: set it to false instead of deleting an account, so foreign keys to the user do not break (source 1). Break-glass
+   a schedule, and deactivation (never deletion) on departure so the audit rows keep their author. The Django authentication documentation gives the same advice for its active flag: set it to false instead of deleting an account, so foreign keys to the user do not break; the same page warns that the flag does not by itself decide whether the person can sign in, because an authentication backend is not required to check it (the default one does), so test that a deactivated account is refused by every sign-in path you add (source 1). Break-glass
    access for emergencies is time-boxed, logged and reviewed afterwards.
 2. **Support sees what it needs, not everything.** Symptom: first-line support can read payment details or full
    documents. Fix: field-level masking by ability (last digits only, redacted body) as in
@@ -44,7 +44,7 @@
     biggest table. Each is cheap at the first migration and expensive after the data and the habits exist.
 11. **Laravel and Nuxt pointers, short.** In Laravel: a dedicated guard and route group for staff, policies and
     gates for abilities, an action class per admin operation that writes the audit row inside one database
-    transaction, queued jobs with batches for bulk work (the framework's batch record already holds progress and supports cancel and failure callbacks, source 2; keep your own table for per-row outcomes), and a separate database role for
+    transaction, queued jobs with batches for bulk work (the framework's batch record already holds progress and supports cancel and failure callbacks; by default one failed job marks the whole batch cancelled unless failures are allowed, and the batches table grows until a pruning command is scheduled, source 2; keep your own table for per-row outcomes), and a separate database role for
     the audit table with insert and select only. In Nuxt: a separate layout or app for the admin, route
     middleware as convenience only, a persistent banner component driven by the session's effective-actor flag,
     and confirmation dialogs that require the typed target name before enabling the button.

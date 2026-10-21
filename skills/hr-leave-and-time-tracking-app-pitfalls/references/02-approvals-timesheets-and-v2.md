@@ -15,7 +15,7 @@
    Fix: validation of daily and weekly totals against stated warnings, duplicates detected, entries on leave days
    flagged, submission freezing the entries for the employee, approval by the line, and a lock at the payroll
    cut-off that allows no edit. Durations in minutes as integers, not decimal hours (see
-   `skills/money-arithmetic-and-rounding-pitfalls` for the same rounding trap). The reference model has the period and the entry shape: a timesheet for a person over a date range with a status and an approver, and entries with a start, an end, a decimal hours value, a rate type and a link to a task and to the timesheet; an entry can also point to the invoice line that billed it (source 1). It stores decimal hours, so the integer-minutes advice is our own and stays marked.
+   `skills/money-arithmetic-and-rounding-pitfalls` for the same rounding trap). The reference model has the period and the entry shape: a timesheet for a person over a date range with a status and an approver, and entries with a start, an end, an hours value, a rate type and a link to a task and to the timesheet; an entry can also point to the invoice line that billed it (source 1). The hours field is declared as a floating-point number in that model, which is the very rounding trap the integer-minutes advice avoids; that advice is our own and stays marked.
 3. **Corrections after lock are new records.** Symptom: payroll and the tool disagree because someone fixed an old
    entry in place. Fix: a correction row that references the entry, carries a reason, an actor and the period it
    will be paid in, and appears in the next export as an adjustment; the original stays visible.

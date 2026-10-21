@@ -32,7 +32,7 @@
    quantity in the item's base unit as an exact integer or decimal with a declared scale (not a float),
    store pack sizes as conversion rows with a fixed factor, convert on input and display, and round only
    at the conversion, with a rule for fractions (some units, such as weight or length, are decimal; pieces
-   are integers). The commerce framework added an optional unit of measure on the stock item and fractional quantities for goods sold in parts of a unit, such as weight (source 2); the ERP model stores quantities as fixed-point numbers (source 1). See `skills/money-arithmetic-and-rounding-pitfalls` for the same discipline on amounts.
+   are integers). The commerce framework added an optional unit of measure on the stock item and fractional quantities for goods sold in parts of a unit, such as weight (its page dates this to Medusa v2.20.0, source 2); the ERP model stores quantities as fixed-point numbers (source 1). See `skills/money-arithmetic-and-rounding-pitfalls` for the same discipline on amounts.
 7. **Lots and serials only where needed.** Lot (batch, expiry) and serial (one unit, one identity) multiply
    cost and screens. Symptom: lot tracking turned on for everything and receipts take minutes. Fix: a
    tracking mode per item (none, lot, serial) fixed once there is stock, a lot record with code and expiry,

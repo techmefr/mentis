@@ -47,6 +47,25 @@ checkout state, order snapshots, reservation, refunds), so a new block was justi
    providers was not read (one platform's refund page was).
 4. **Framework pointers** (Laravel, Nuxt) were not checked against a current release; re-read before relying.
 
+## Second pass, strict re-read (2026-10-21)
+
+Re-opened: Medusa `cart/concepts`, `cart/tax-lines`, `order/order-versioning`, `order/transactions`,
+`order/secure-order-retrieval`, `order/return`, `payment/payment-collection`, `payment/webhook-events`,
+`pricing/concepts`, `pricing/tax-inclusive-pricing`, `inventory/*`; Stripe "Refund and cancel payments", "Fulfill
+orders" and the webhook page (English versions); Laravel "Queues".
+- Corrected: the pricing page says amounts are stored "as an integer in major units" while its own example is 20.5, so the
+  block no longer claims exact decimals; it tells the reader to check the data type.
+- Corrected: currency-matching on cart creation is dated by its page to Medusa v2.21.0.
+- Confirmed: option and variant split, price sets per currency, date-bound price lists, separate tax-inclusive
+  preference, tax lines per item and shipping method with no tax before a country is set, order and order-item versioning
+  with the original line unversioned, outstanding amount as a sum of transactions, guest order retrieval by random id,
+  received and damaged quantities on returns, one payment collection with several sessions and payments, payment webhooks
+  for interrupted front-end payments, fulfilment from webhooks with a redirect as an extra trigger and a function that must
+  tolerate repeated and concurrent calls, several refunds capped at the original amount and a card refund that can fail.
+- Still unsourced: cart state machine and merge, discount rules, address validation, delete versus erase, time, section 2
+  staff roles and integrations.
+Counts: 16 claims re-checked, 2 corrected.
+
 ## Related blocks
 `business/ecommerce-store-quality-pitfalls`, `skills/marketplace-app-build-pitfalls`,
 `skills/inventory-stock-app-pitfalls`, `skills/invoicing-app-build-pitfalls`, `skills/unknown-payment-outcome-pitfalls`,

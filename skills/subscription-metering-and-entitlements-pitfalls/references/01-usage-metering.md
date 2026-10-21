@@ -8,7 +8,7 @@
 
 1. **Every usage event has an identity, and a producer may send it twice.** The metering platform follows the
    CloudEvents convention that the pair of source and id is unique per distinct event and that a re-sent event may
-   carry the same id; its pipeline ignores a repeat of a known pair. Symptom of missing identity: a network retry
+   carry the same id; its ingestion notes say the pipeline ignores a repeat of a known pair, but its architecture note says deduplication is disabled by default and, when on, uses an in-process memory store unless a shared store is configured, so the two pages disagree on the default and a duplicate memory is something to configure and check rather than assume. Symptom of missing identity: a network retry
    or a replayed queue bills the customer twice. Fix: the producer creates the id once, before the first send, and
    reuses it on every retry (see `skills/laravel-idempotent-jobs`).
 2. **Remember identities longer than any producer retries or replays.** The platform's duplicate memory is a fixed

@@ -23,7 +23,7 @@
    `business/spreadsheet-data-cleaning-pitfalls`).
    State which key decides update versus create (external id first, then email, never name) and which fields an import may overwrite; an empty column must not blank a field unless the user chose that.
    Never map an unrecognised value to a default silently: the reference CRM sends a deal with an empty or unknown
-   stage to the first stage, ignores unknown columns, and reuses or creates a company from its name (source 1).
+   stage to the first stage, leaves a sector that matches no configured value empty, ignores unknown columns, and reuses or creates a company from its name (source 1).
    Each of those hides a bad row or creates a duplicate, so list them in the preview instead. Run a long import
    in the background with a progress count and a stop control, as that documentation describes.
 4. **Exports respect the same visibility and are logged.** Symptom: a departing rep exports everything. Fix:
@@ -36,7 +36,7 @@
    mail is shared, treat sync tokens as secrets in a vault, and handle token revocation by marking the
    connection broken and telling the owner, not by retrying forever. The reference CRM's inbound mail flow shows
    the duplicate risk: it finds the contact by the recipient address and creates the company and contact when
-   they do not exist (source 1), so route it through the same duplicate check as §1 point 1.
+   they do not exist, naming the new company after the mail domain (source 1), so route it through the same duplicate check as §1 point 1 and do not let a domain stand in for a company name (a free-mail domain would create a company called after the provider).
 6. **Inbound forms and webhooks are untrusted.** Validate and length-limit fields, dedupe through the same
    write path as a human, rate-limit the endpoint, and keep the raw payload for a short period for debugging.
    An outbound webhook carries an event id and a version so a receiver can ignore replays.
