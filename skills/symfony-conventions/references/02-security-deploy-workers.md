@@ -6,8 +6,9 @@
 
 1. **One firewall unless there are two really different authentication systems** (a form login for the site and
    a token for the API are the legitimate pair). More firewalls multiply the places a request can slip through.
-2. **Use the automatic password hasher setting,** which picks the strongest algorithm the PHP installation
-   supports, so a later algorithm change needs no code edit (`skills/auth-session-conventions` for policy).
+2. **Use the automatic password hasher setting,** which builds a migrating chain (read in the 7.4
+   source: PHP's native hasher first, then the libsodium one when available and PBKDF2, the later ones serving only to verify
+   older hashes and rehash them), so a later algorithm change needs no code edit (`skills/auth-session-conventions` for policy).
 3. **Access control rules are matched top to bottom; the first match wins.** Read the whole list when adding a
    rule and put narrow paths before broad ones.
 4. **Move non-trivial authorization into voters,** not into long expressions inside an attribute. A voter is a
@@ -15,7 +16,9 @@
 5. **Role hierarchy is applied by the authorization checker, not by reading the roles array yourself.** Code
    that tests `getRoles()` by hand bypasses the hierarchy and drifts from the configured rules.
 6. **Protect the login form against CSRF** (enable it on the form login and render the token in the form),
-   and **throttle login attempts** with the login-throttling setting.
+   and **throttle login attempts** with the login-throttling setting (in the 7.4 source its defaults are 5 attempts
+   per 1 minute for the local limiter, and a global limiter at five times that; the CSRF option of the form
+   login is off unless enabled).
 7. **Disable CSRF protection only where the caller proves itself another way** (a signed webhook, a token in a
    header with no cookie), and say why beside the line.
 8. **Deploy in a fixed order, scripted:** install dependencies without dev packages and with an optimised

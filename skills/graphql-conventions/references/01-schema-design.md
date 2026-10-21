@@ -2,7 +2,7 @@
 
 > Section 1 of `skills/graphql-conventions`. Read it when a type, a field, an argument, a mutation or a
 > deprecation is written. Read 2026-10-02 from the GraphQL learning guides (naming and design standards, schema
-> design, pagination, global object identification, schema change management). The guides call these
+> design, pagination, global object identification, governance and versioning). The guides call these
 > conventions, not rules: deviate deliberately and write down why.
 
 1. **Model the business domain as a graph, not the database.** Relationships are edges to objects, not
@@ -18,26 +18,26 @@
    you add validation errors or related objects later without breaking existing clients.
 5. **Decide nullability on purpose.** Every field is nullable by default because a field can fail alone without
    failing the request. Use non-null only where you can guarantee a value, knowing a non-null field that fails
-   nulls its nearest nullable parent. A list field is `[Item!]!` so clients get an empty list, never null.
+   nulls its nearest nullable parent. The `[Item!]!` list shape (an empty list, never null) is our choice; the guide's nullability section does not give it.
 6. **Input nullability has three states** (omitted, explicitly null, a value), which matters for partial
-   updates: decide how clearing an optional field is expressed and document it in the field description.
+   updates: decide how clearing an optional field is expressed and document it in the field description. Neither the three states nor this advice is on the mutations page; it is our guidance.
 7. **Describe every type and every non-obvious field.** Descriptions appear in tooling and generated docs, so
-   they are user-facing documentation.
+   they are user-facing documentation. This is our guidance; the guides read do not discuss descriptions.
 8. **Use a custom scalar when a format has clear validation rules, is shared by several fields, or helps client
    code generation** (timestamps, dates, URLs, email). Do not mint one for a string with business rules
    (a username, a product code): enforce that in the business layer. Each custom scalar must be implemented in
    every client and server.
-9. **Evolve the schema without versions.** Clients ask only for the fields they need, so adding fields, types,
-   queries and mutations, adding optional arguments with a default that matches the old behaviour, or making a
-   required argument optional is non-breaking. Removing or renaming a field, type or enum value, changing a
-   type, making an optional argument required and making a non-null field nullable are breaking. Deprecate
-   first, with a reason that names the replacement and when removal is expected, then remove only when usage
-   data shows no client calls it. A new field is nullable unless every record can supply it.
+9. **Evolve the schema without versions.** Clients ask only for the fields they need, so adding optional arguments to fields or making required
+   fields optional is non-breaking; removing fields or types, changing a field's type and making a non-null field
+   nullable are breaking (the guide's lists; that adding types, queries and mutations is safe, and that making an
+   optional argument required or removing an enum value is breaking, are our extension). The guide discourages
+   versions without forbidding them. Deprecate first, with a reason that names the replacement (a removal date is
+   our addition), then remove only when tracked usage data shows it is safe. A new field is nullable unless every record can supply it.
 10. **Paginate every list that can grow.** Use cursor connections: a connection type with edges, each edge
     holding a cursor and the node, and page information with the end-of-list flag and boundary cursors; the
     cursor is opaque so the backend can change how it paginates. Offset pagination has performance and security
-    downsides and skips or repeats items when the data changes between requests. Small, static lists (reference
-    data, enum-like tables) can stay plain lists; a list that might grow without bound starts as a connection.
+    downsides on larger data sets, and its offsets become ambiguous when records are added between requests. The guide says fields that may return a lot of data should be paginated; that small static
+    lists can stay plain is our reading.
 11. **Expose a global object identifier if clients cache or refetch.** A `Node` interface with a single non-null
     `id`, globally unique so the server can refetch the object from the id alone, and a root `node` field that
     takes it.

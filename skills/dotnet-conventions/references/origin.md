@@ -3,6 +3,32 @@
 > Provenance of `skills/dotnet-conventions`. Read it when a rule has to be traced back to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+**Verification pass 2026-10-20.** Re-opened the Microsoft documentation sources on GitHub (`dotnet/docs`,
+`dotnet/AspNetCore.Docs`, `dotnet/EntityFramework.Docs`: text CC BY 4.0, code MIT, each `LICENSE` and `LICENSE-CODE`
+re-read) for the rule pages CA2007, CA1822, CA1008, CA1515, CA2000, CA1851, CA1063 and CA1812, "What's new in
+C# 13", "What's new in the .NET 10 SDK", "What's new in .NET 9 libraries" and .NET 10 libraries, the ASP.NET Core
+authorization policies page, the EF Core DbContext configuration page and the options pattern page.
+Confirmed: §1.8 (CA2007 is aimed at libraries; the page says ASP.NET Core has no synchronization context and
+that suppressing it is appropriate there), §5.1 (CA2000: undisposed local, `using` advice, ownership transfer
+exempt), §5.4 (CA1851: expensive or side-effecting sources, the page's blind-spot list), §4.22 and §4.33 (C# 13
+`allows ref struct`, a ref struct cannot be converted to an interface, `params` over spans and collections),
+§1.45 (the new lock type ships with .NET 9 and the `lock` statement recognises it), §9.29 (file-based apps
+target native AOT by default in .NET 10, opt out with a property directive), §8.17 (the .NET 9 factory uses the
+sockets handler and limits connection lifetimes to the rotation lifetime), §3 (the fallback policy is null by
+default, the default policy needs an authenticated user, the anonymous marker bypasses enforcement), §6 (the
+DbContext is not thread-safe, always await, scoped per request by default), §2.8 and §2.16 (start-up validation
+and the separate data-annotations package; the singleton cannot take the snapshot options type).
+Corrected or qualified: the guardrails now state that CA2007, CA2000, CA1063, CA1851, CA1008, CA1515 and CA1812 are
+off by default in .NET 10 and CA1822 is a suggestion (the SKILL header said the rule set is on by default);
+§4.15 (CA1008 checks only externally visible enums by default), §2.15 (CA1822 severity), §5.2 (CA1063 applies to
+unsealed types).
+Not found on any page read, so unverified here: that the hosting metapackage omits the data-annotations package
+(§2.16, observed in the dogfood run), the operator set of `System.Linq.AsyncEnumerable` and its cancellation
+shape (§1.37), the keyed registration with the HTTP client factory (§2.31), the LoggerMessage generator page
+(the path did not resolve), the resilience pipeline and rate-limiting algorithm details of §8, the publish-time rules of
+§9 beyond points 29 and 37, and all of §10 to §12. The house-style prohibitions (§4 and §7 preferences) are
+conventions of a house style, not documentation claims, and have no source to check against.
+
 Ideas taken from: the `Microsoft.CodeAnalysis.NetAnalyzers` Roslyn analyzers (CA2007, CA1849, CA2000, CA1063,
 CA1851 cited); Meziantou.Analyzer (async/disposal/culture-invariance); the EF Core documentation (tracking vs
 no-tracking); the "captive dependency" pattern documented by the .NET community; **an org skill catalogue for

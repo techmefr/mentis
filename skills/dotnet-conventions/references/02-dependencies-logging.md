@@ -64,8 +64,8 @@
     its database. Log the id and the outcome; the row stays available to whoever may read it.
 15. **A collaborator with no state is not a service, and the analyser says so first.** A class written as
     point 1 asks but holding no fields — a parser, a formatter, a pure check — trips CA1822 on every method
-    (*member does not access instance data and can be marked as static*), a build failure wherever the
-    zero-new-warning rule is enforced. The three ways out are not equivalent: injecting a logger it doesn't
+    (*member does not access instance data and can be marked as static*; on by default in .NET 10 only at
+    suggestion level), a build failure wherever the zero-new-warning rule is enforced at a higher severity. The three ways out are not equivalent: injecting a logger it doesn't
     need so it has a field, suppressing the rule, or making it static and taking it out of the container.
     Prefer the last and keep the seam at the boundary that does I/O, because the substitutability point 2
     protects belongs to whatever talks to the outside, not to a pure function.

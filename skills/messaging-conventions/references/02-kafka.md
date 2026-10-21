@@ -17,9 +17,10 @@
 3. **Turn idempotence on, and don't fight it.** The idempotent producer attaches a producer id and a sequence
    number so the broker discards a retried duplicate and preserves order across retries. It requires the "all"
    acknowledgement, retries above zero, and no more than five requests in flight per connection; it is enabled by
-   default in the client read when no conflicting setting is present, and silently disabled if a conflicting one
-   is set without enabling it explicitly. Enable it explicitly so a conflict raises an error instead of
-   quietly dropping the protection.
+   default in the client read when no conflicting setting is present. A conflicting acknowledgement or retries
+   setting silently disables it unless idempotence was enabled explicitly, in which case the producer throws a
+   configuration error; more than five requests in flight throws with idempotence on, explicit or not. Enable it
+   explicitly so a conflict raises an error instead of quietly dropping the protection.
 4. **Control retries with the delivery timeout, not a retry count.** The client documents that users should leave
    the retry count alone and bound the whole send with the delivery timeout. Without idempotence, retries with more
    than one request in flight can reorder records; with it they cannot.
@@ -38,18 +39,20 @@
    removed from the group and its partitions are reassigned, causing duplicate processing and a rebalance. Bound
    the work done per poll (the batch size) so it fits, or hand long work to another thread while still polling and
    pausing partitions, and handle the callback for revoked partitions by committing what is done.
-8. **Choose where a new consumer group starts, deliberately.** With no committed offset, the reset policy decides:
-   from the beginning, from the end, or fail. "From the end" silently skips everything produced before the first
+8. **Choose where a new consumer group starts, deliberately.** With no committed offset, the reset policy decides (the default is the latest offset):
+   from the beginning, from the end, or fail (the none value). "From the end" silently skips everything produced before the first
    start; "from the beginning" may replay a very large history. State the choice for each group, and use failure
    where neither is acceptable.
 9. **Exactly once across topics uses transactions, and the reader must read committed.** A transactional producer
    can write output records and the consumer's offsets atomically; a consumer must use the read-committed
-   isolation level, because the default (read uncommitted) also returns records of aborted transactions. In
+   isolation level with auto-commit off (the design page names both), because the default (read uncommitted) also returns
+   records of aborted transactions and open ones. In
    read-committed mode a consumer reads only up to the last stable offset, so one long-open transaction holds back
-   everything after it. Use one producer instance per consumer instance for the transactional case. Writing to an
+   everything after it (our inference from the last-stable-offset wording). The design page calls one producer
+   instance per consumer instance advisable for the transactional case. Writing to an
    external system is outside this guarantee (§1.4). The streams library applies the pattern for you.
-10. **Dead-letter handling is yours to build.** The broker has no built-in dead-letter queue for a consumer
-    group: a failing record either blocks the partition (retrying forever) or is skipped. Decide per error class:
+10. **Dead-letter handling is yours to build.** The pages read describe no dead-letter queue for a consumer
+    group (an absence we infer, not a statement): a failing record either blocks the partition (retrying forever) or is skipped. Decide per error class:
     retry in place a bounded number of times, then publish the record with its error to a retry or dead-letter topic
     and commit past it, so one bad record does not stall the partition (`background-jobs-conventions` §2).
 11. **Compaction keeps the last value per key, not a history.** A compacted topic suits changelogs and current
@@ -63,6 +66,6 @@
 and durability, unclean election, partitioning by key, consumer position) and the producer and consumer
 configuration source of the main branch (acks, idempotence and its requirements, in-flight limit, retries and the
 delivery timeout, auto-commit, offset reset, isolation level), Apache-2.0, read 2026-10-02. Point 7 follows the shared client
-configuration's poll-interval description. Points 5 (partition change), 7 (the pause advice), 10 (design) and 12
+configuration's poll-interval description. Points 5 (partition change), 10 (design) and 12
 are reasoning of ours; the usual replication-three/minimum-two choice in point 2 is
 common practice, not a documented requirement.

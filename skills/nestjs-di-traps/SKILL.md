@@ -35,7 +35,11 @@ A diff injects something that is not a plain class, adds a provider to a second 
 4. **Registration is per module.** A custom provider is visible only inside its declaring module until exported,
    by token or as the full provider object. Forgetting the export gives the same unresolved-dependency error in
    the consumer.
-5. **Do not create an interface and a token for a single local helper.** A port earns its token at an external or
+5. **On Nest 12, an optional marker on a constructor parameter is not inherited.** A subclass with no
+   constructor of its own used to inherit `@Optional()` from its parent and receive `undefined`; the
+   migration guide says it now fails at boot with an unknown-dependencies error. Declare a constructor in the
+   subclass and repeat the marker.
+6. **Do not create an interface and a token for a single local helper.** A port earns its token at an external or
    volatile edge, a seam tests need, or a real second implementation.
 
 ### 2. A provider belongs to one module
@@ -92,13 +96,17 @@ A diff injects something that is not a plain class, adds a provider to a second 
    becomes request-scoped, while `CatsRepository`, which does not depend on it, stays a singleton. Injecting
    `REQUEST` makes the injector request-scoped by itself; declaring it explicitly changes nothing.
 2. **The cost is an instance of every affected class per request**, and the documentation says to stay on the
-   default singleton unless a provider must be request-scoped. The symptom is latency and memory growth after
+   default singleton unless a provider must be request-scoped (it quotes about 5 percent added latency as the
+   ceiling for a well-designed use, not a guarantee). The symptom is latency and memory growth after
    one innocent `@Inject(REQUEST)` in a widely used service, such as the database or a logger.
 3. **State that needs request lifetime does not always need request scope.** To read the current user, tenant or
    locale, the documentation points at an `AsyncLocalStorage`-based per-request store, which keeps every
    provider a singleton. Pass an explicit context argument for a single operation.
-4. **Some providers cannot be request-scoped.** Gateways must be singletons, and the documentation names
-   Passport strategies and cron controllers as further limits. Resolve the scoped dependency on demand instead.
+4. **Some providers should not be request-scoped.** The documentation names Passport strategies and cron
+   controllers as providers that must act as singletons. Resolve the scoped dependency on demand instead. For
+   gateways the answer depends on the major: on Nest 12 a gateway may depend on request-scoped providers (one
+   instance per connected socket, kept for the life of the connection, with the same per-instance cost as over
+   HTTP), and the pages read say nothing about earlier majors, so keep a gateway on singletons there.
 5. **Singleton state must not hold request data.** A singleton that stores the current user in a field is shared
    by concurrent requests, which is the opposite of the symptom above: one user briefly sees another's data.
 6. **Transient scope does not bubble.** A singleton injecting a transient provider receives a fresh instance,
@@ -109,7 +117,10 @@ A diff injects something that is not a plain class, adds a provider to a second 
    missing export, a wrong token or a cycle fails there, not in a deployed container.
 2. For a shared provider, assert identity: resolve it from two consumers' modules and compare references.
 3. For custom tokens, override with the same token when mocking. A mock registered under the class instead of
-   the `Symbol` is never injected and the real implementation runs.
+   the `Symbol` is never injected and the real implementation runs (our inference: the testing chapter shows
+   overriding by the provider's own token and does not describe the mismatch). To read a request-scoped
+   provider in a test use `resolve()`, not `get()`; each call returns a distinct instance unless a fixed
+   context id is passed.
 
 ## Output / checkpoint
 The diff names, for each custom token, where it is declared, registered and exported; each provider is declared
@@ -135,3 +146,14 @@ Cross-checked against the dependency-injection and module-boundary references of
 catalogue (amirtaherkhani, read 2026-10-08), from which the cycle-repair order and the "service location is
 for framework extensions only" framing were adapted, rewritten. 🟡 Maturity: written from documentation,
 never run on a real project.
+
+Verification pass 2026-10-20: re-opened the documentation repository (MIT, its `LICENSE` re-read) content for the
+dependency-injection, modules, circular-dependency, provider-scopes, module-reference, unit-testing and
+websocket gateway pages and the 11-to-12 migration guide. Confirmed: §1.1 to §1.4 (the abstract-class token
+needs no `@Inject()`; Symbol tokens avoid string collisions; export by token or provider object), §2.1 to §2.4
+(separate instance per declaring module, `forRoot()` twice, global modules not recommended as a design),
+§3.1, §3.2, §3.4, §3.5 (barrel files), §4.2 to §4.4, §5.1, §5.3, §5.6. Corrected: §5.4 (the gateway limit
+no longer holds on Nest 12). Added: §1.5 (`@Optional()` no longer inherited, from the migration guide) and the
+~5 percent figure (§5.2). Still ours, not stated on a page: §3.3 (the repair order beyond the page's "avoid
+the cycle"), §3.6, §4.1 (service locator reasoning), §5.5, the §6 test recipes, and the symptoms described
+for each trap.

@@ -25,5 +25,23 @@ was not worked around, the repository copy of the same documentation was used in
 
 **Version stamps.** Kafka main branch 2026-10-02; RabbitMQ documentation describing a release at or after 4.3.
 
-**Reasoning of ours, not a source statement:** §1 points 5, 6 (system-level framing), 8, 10; §2 points 5 (partition
-change), 7 (pause advice), 10 (design), 12; §3 point 4.
+**Reasoning of ours, not a source statement:** §1 points 5, 6 (system-level framing), 7 (delay and alert), 8, 9, 10; §2 points 5 (partition
+change), 9 (open-transaction inference), 10 (design and absence of a dead-letter queue), 12; §3 points 3 (sequence-number map), 4, 6 (memory), 10 (recovery steps), 11 (signals), 12 (partly).
+
+## Verification pass 2026-10-20
+Re-opened: Kafka `ProducerConfig`, `ConsumerConfig`, `CommonClientConfigs`, `KafkaConsumer` and the design page (`docs/design/design.md`
+on trunk; Apache-2.0 licence re-read), and the RabbitMQ website repository docs: reliability, confirms, consumer prefetch, quorum queues,
+alarms and production checklist (documentation licence unchanged). Confirmed: producer defaults (all, idempotence on, retries at the
+integer maximum with the delivery-timeout advice, five in flight, key hashing), consumer defaults (auto-commit on at 5000 ms, latest,
+read uncommitted, last stable offset), next-offset commit rule, poll interval and the thread-and-pause advice, revoked callback,
+delivery-semantics definitions, transactions with offsets and read-committed plus auto-commit off, external-system cooperation,
+fine-print remark, compaction and tombstones, ordered partitions with key hashing, quorum queues as default replicated choice,
+mirroring removed in 4.0, when-not-to-use list, delivery limit 20 from 4.0 and failed-delivery counting from 4.3, at-most-once
+dead-lettering default with the reject-publish requirement for at-least-once, publisher confirm wording, mandatory flag, unsafe automatic
+acknowledgement, requeue loops, idempotent consumers, alarms blocking publishers, guest deletion, per-application users, TLS.
+Corrected: Kafka 2.3 (a too-large in-flight setting throws even with default idempotence; explicit conflicts throw, implicit ones disable),
+2.8 and 2.9 wording, 2.7 pause advice now sourced; RabbitMQ 3.2 (quorum queues cannot be exclusive, not "exclusive queues are never
+replicated"), 3.6 (prefetch 1 is conservative, 100 to 300 suggested), 3.3, 3.10 to 3.12 relabelled; 1.3 attributes the
+idempotent-over-deduplication advice to RabbitMQ only.
+Not found on any page read: a partition-count-change warning, an explicit unclean-election default value (the design page implies it),
+queue length and message-age monitoring advice, the memory risk of unbounded prefetch.

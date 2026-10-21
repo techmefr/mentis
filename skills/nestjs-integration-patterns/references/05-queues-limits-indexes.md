@@ -11,8 +11,9 @@ Job behaviour once a job runs (idempotency, overlap, payload compatibility) is `
    the last N) or an object with an age in seconds and a count. Keep failures longer than successes, since
    they are what you debug; keep neither longer than your incident window needs.
 3. **Removal is lazy**: it happens when new jobs finish, so an idle queue does not shrink.
-4. **Retention and de-duplication interact.** A job id prevents re-adding the same job while it exists; once
-   a finished job is removed, the id is free again. If dedup by id must outlive the job, it needs its own
+4. **Retention and de-duplication interact.** A job id prevents re-adding the same job while it exists; a removed job is no longer part of the queue
+   (the BullMQ page says nothing more explicit), so do not rely on the id for de-duplication past the job's
+   life. If dedup by id must outlive the job, it needs its own
    record.
 5. **Job data must be serialisable and small**: store an identifier, not a large payload (Redis memory) and
    not a secret (it sits in plaintext, and in the failed set).

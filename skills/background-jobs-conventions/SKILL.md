@@ -32,7 +32,7 @@ where most of these problems get introduced at once.
 1. **Bound the retries** and back off between them. Unbounded immediate retries against a failing
    dependency turn one incident into two: the original failure plus the load you added to it.
 2. **Distinguish retryable from terminal.** A timeout deserves a retry; a validation error or a
-   missing record does not, and retrying it 25 times just delays the moment anyone finds out.
+   missing record does not, and retrying it 25 times just delays the moment anyone finds out. Oban's worker contract has a cancel return for exactly this (it stops retries); BullMQ stops retrying when a custom backoff strategy returns -1.
 3. **A dead-letter destination is mandatory**, and so is someone looking at it. A dead-letter queue
    nobody reads is a folder where failures go to be forgotten, which is strictly worse than crashing
    loudly.
@@ -72,7 +72,8 @@ where most of these problems get introduced at once.
    start before the commit and look for a row that does not exist yet. Use the framework's after-commit hook
    (Django `on_commit`, or the queue library's wrapper around it where it has one) so the job leaves only
    once the data is visible. A job dispatched and then a rollback is the inverse trap: the job runs for a
-   change that never happened, which the after-commit hook also prevents.
+   change that never happened, which the after-commit hook also prevents (the Django topic says the callback
+   runs only after a successful commit and is discarded on rollback, and lists background tasks among its uses).
 2. **Know when the message is acknowledged.** A broker keeps a message until a worker acknowledges it. Many
    task libraries acknowledge just before running (a started job is never run again, so a worker killed
    mid-run loses it) and offer acknowledgement after completion (a killed worker's job is redelivered). Choose
@@ -81,6 +82,9 @@ where most of these problems get introduced at once.
    documented behaviour for a lost worker instead of assuming redelivery.
 3. **Back off exponentially, with jitter, and cap the delay.** A retry delay that doubles (1, 2, 4, 8 seconds
    and so on) with a ceiling, randomised so that all the jobs that failed together do not retry together.
+   BullMQ's built-in exponential backoff waits 2 to the power of (attempts minus 1) times the delay and takes a
+   jitter option between 0 and 1; Oban's default is exponential with padding and a little jitter. A ceiling on the
+   delay is stated only by the share-alike Celery guide, so it is our guidance here.
    Set the maximum number of retries and the exception types that must not be retried (§2.1, §2.2) in the
    job's own declaration, so the policy is visible beside the code.
 4. **The job asserts the state of the world; the caller does not.** A job that runs minutes after dispatch finds
@@ -132,3 +136,20 @@ after-commit rule (§6.1) rests on the library guide's own example of a task rac
 Django transactions topic read for `skills/django-conventions`. Not read: the Sidekiq and BullMQ documentation,
 the Rails Active Job guide beyond its title (share-alike, idea only), the Oban and Postgres-queue libraries.
 Left out: exactly-once claims and outbox patterns, for which no source was read.
+
+Verification pass 2026-10-20 (pages re-opened, exact points checked). Licence correction: the task-queue library's code is
+BSD-3-Clause but its documentation, including the tasks user guide, is CC BY-SA 4.0, so that guide is not a credited source;
+the earlier line citing its repository licence applied to the code only. Section 6 points 2, 4, 5, 6 and 7 (acknowledgement,
+state of the world, no waiting on sub-tasks, results, granularity) were stated there and are kept as our reasoning with no
+wording used; nothing was found for them in a permissive source. Verified in permissive sources: the PostgreSQL SELECT
+reference (PostgreSQL licence, page for version 18) gives §6.8's skip-locked wording (inconsistent view, queue-like tables,
+not general purpose); the Django transactions topic (BSD-3-Clause, section "Performing actions after commit") gives
+§6.1's after-commit and rollback behaviour but has no task-queue race example; the BullMQ retry guide (MIT) gives fixed and
+exponential backoff with the jitter option and a -1 strategy result to stop retries; the BullMQ idempotent-jobs pattern
+page says jobs should be designed with failure in mind and kept small and atomic; the BullMQ stalled-jobs page says a
+stalled job goes back to waiting and is processed again; the Oban worker module (Apache-2.0 licence read) gives the
+cancel and snooze returns, the default of 20 attempts and a default exponential backoff with jitter. Not found anywhere
+permissive: a dead-letter destination as a rule (BullMQ keeps or removes failed jobs by queue setting), overlap locks
+with timeouts, scheduled tasks overlapping themselves, in-flight payload compatibility across deploys, and passing ids
+rather than objects (BullMQ job page and Oban worker module do not say it; the share-alike guide does). Those stay
+unsourced and are our guidance. Left unread: Sidekiq docs, Postgres-queue libraries.

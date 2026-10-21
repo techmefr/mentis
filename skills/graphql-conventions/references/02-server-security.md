@@ -13,16 +13,17 @@
    duplicated at every entry point to the data and drifts. Resolvers call a function that takes the
    authenticated user (pass the fully loaded user object, not an opaque token) and decides. A schema directive
    may declare a generic rule (a required role) but the logic it applies stays in the business layer.
-3. **Authenticate before GraphQL runs; authorise during execution.** Place the GraphQL handler after the
-   authentication middleware, put the identity into the request context, and make no per-field authorization
-   decisions until execution begins.
+3. **Authenticate before GraphQL runs; authorise during execution.** Run GraphQL execution after the
+   authentication middleware, which puts the identity into the request context; the guide places the decisions
+   about which fields a client may see once execution has begun.
 4. **Batch the data loads of resolvers to avoid N+1.** Per-field resolvers are simple but issue one fetch per
    item; collect the keys requested within a short window and fetch them in one call to the database or
-   service (a batching loader), with a per-request cache.
+   service (a batching loader, DataLoader being the named example). A per-request cache is our addition; the page only says
+   "batching and caching" in its recap.
 5. **Serve over one endpoint, with JSON.** Accept POST for queries and mutations with a JSON body (the query,
    and optionally operation name, variables, extensions); GET is allowed for queries only. A missing content
-   type is a 4xx. Clients state the response media type they accept. Use HTTPS, request timeouts, and cache
-   sensitive responses privately or not at all.
+   type is a 4xx. Clients state the response media type they accept. The security guide adds HTTPS, request timeouts, and caching sensitive data privately or
+   not at all.
 6. **GET plus persisted documents is the route to HTTP and CDN caching.** Long documents do not fit in a URL,
    so send a document identifier (a trusted or persisted document) instead of the text. It also shrinks the
    request.
@@ -31,8 +32,7 @@
    not work for a public API, which relies on the limits below.
 8. **Limit what one operation can ask for.** Bound the size of any list (pagination with a maximum page size),
    the overall depth, and a smaller depth for nested lists (their cost grows exponentially), the number of
-   top-level fields and aliases, and the number of operations in a batch. Reject over-limit documents before
-   execution. These are numbers for the team to choose and record; the guide gives none.
+   top-level fields and aliases, and the number of operations in a batch. The guide says depth-limit violations are rejected before execution; doing the same for the other limits is our reading. These are numbers for the team to choose and record; the guide gives none.
 9. **Add rate limiting or cost analysis for what limits cannot see.** A field can be expensive without being deep.
    Weight types and fields and reject operations whose estimated cost exceeds a per-request budget, and rate
    limit per client in the network or business layer.

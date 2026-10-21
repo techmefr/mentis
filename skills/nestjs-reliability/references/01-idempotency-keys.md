@@ -158,7 +158,8 @@ it works on HTTP routes, GraphQL mutations and microservice handlers, following 
 `Idempotency-Key` header draft.
 - Register the module once, in the root module, with a scope function that reads the authenticated user:
   guards run before interceptors, so the user is known when the scope is computed.
-- The store is **not shipped**: implement the `IdempotencyStore` contract (`acquire`, `complete`,
+- Only an in-memory store ships (records lost on restart; the page gives worked examples for Drizzle with
+  PostgreSQL, TypeORM with PostgreSQL and Redis). For production implement the `IdempotencyStore` contract (`acquire`, `complete`,
   `release`, `extend`, each taking the record key and the owner first, durations in whole milliseconds) in
   a provider that registers itself with the registry in its constructor. Registration is single and locks
   at module init; with `NODE_ENV=production` and no store, startup fails unless in-memory is allowed
@@ -169,6 +170,7 @@ it works on HTTP routes, GraphQL mutations and microservice handlers, following 
   handler. `keyFrom` takes a payload field for events.
 - The module is an app-wide interceptor, so import it **before** other modules that register global
   interceptors (the first registered runs outermost) and keep response-shaping interceptors out of the
-  global list; the module refuses to start with the class-serialising interceptor in front of it.
+  global list; the module refuses to start with the class-serialising interceptor in front of it, and only
+  warns at startup about other global interceptors that run outside it.
 - Events for replays, rejections and lost locks are exposed as a stream and on diagnostics channels;
   alert on lost locks.

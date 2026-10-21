@@ -49,8 +49,9 @@
 12. **Release what you open in the destroy hooks**: database pools, queue consumers, timers, subscriptions. A
     leaked handle is why a process does not exit.
 13. **A process that will not exit** usually has an open handle or a long-lived keep-alive connection. The
-    HTTP adapter waits for in-flight responses; the force-close-connections option (Express adapter; Fastify
-    has its own server option) ends the wait, mostly useful in watch mode. Reach for it after checking for
+    HTTP adapter waits for in-flight responses; the force-close-connections application option ends the wait (from Nest 12.1 it covers the
+    Express and Fastify adapters; before that, Fastify takes its own server option on the adapter), mostly
+    useful in watch mode; the documentation says most users do not need it. Reach for it after checking for
     unreleased handles, not instead.
 14. **Shutdown hooks add listeners.** With several application instances in one test process, Node warns about
     too many listeners; enable them in the real entry point, not in tests.

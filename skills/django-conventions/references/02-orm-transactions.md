@@ -19,8 +19,8 @@
    single-valued relations (foreign key, one-to-one) into the same `SELECT`; `prefetch_related` does one extra
    query per relation and joins in Python, and is the only choice for many-to-many and reverse foreign keys.
    Where the project's Django version offers a fetch mode that bulk-loads on first access, enabling it through
-   a custom manager removes the need to predict which relations a code path will touch; it is newer than the
-   LTS line, so check the pinned version. Be aware that related-object access goes through the base manager,
+   a custom manager removes the need to predict which relations a code path will touch; it was
+   added in Django 6.1 (a newer line than the 5.2 LTS), so check the pinned version. Be aware that related-object access goes through the base manager,
    not the default one.
 4. **Ask only for what you use.** `values()` / `values_list()` when you need dicts or tuples rather than model
    objects; `defer()` / `only()` only to avoid large text or expensive-to-convert columns, because a deferred
@@ -35,9 +35,12 @@
    values through the `params` argument and its placeholders are never quoted or interpolated: a quoted
    placeholder or an f-string is an injection (`skills/security-hardening`).
 7. **Bulk statements skip per-object behaviour.** `QuerySet.update()` and `delete()` run one statement and do not
-   call `save()` or `delete()` on instances; `bulk_create` and `bulk_update` do not call `save()` and do not
-   send the save signals either. A rule that lives in `save()` or a signal is therefore not applied on those
-   paths (§1.5); either the rule belongs in a constraint or a service, or the bulk path calls the service.
+   call `save()` or `delete()` on instances; `update()`, `bulk_create` and `bulk_update` also send no
+   `pre_save` or `post_save` signal. The exception is `delete()`: it still sends the delete signals for every
+   object it removes, including cascaded ones, except for cascades done by the database itself (the `DB_*`
+   variants of `on_delete`, 6.1 and later), which send none. A rule that lives in `save()` or a save signal
+   is therefore not applied on those paths (§1.5); either the rule belongs in a constraint or a service, or the
+   bulk path calls the service.
 8. **Large result sets stream.** `iterator()` skips the result cache and keeps memory flat when a loop touches
    each row once.
 9. **`get_or_create` and `update_or_create` are only atomic if the database enforces uniqueness** on the

@@ -33,6 +33,26 @@ is wrapped in a try/catch and the exception is logged. §2.6.2 follows the docum
 and treats the real unseen failure as the schedule silently stopping, which is a monitoring rule, not a
 crash rule. We did not run either behaviour.
 
+## Verification pass 2026-10-20
+Re-opened the Nest documentation repository (MIT, `LICENSE` re-read: Kamil Mysliwiec) pages for idempotency,
+locks, outbox, resilience, the HTTP client and task scheduling, each searched for the exact figure or behaviour
+the block states. Confirmed against the pages: the 24 hour result lifetime and the 60 second in-flight lock
+renewed every third; the 409 with `Retry-After`, the 422 on a changed fingerprint, the 400 for a missing key; results
+below 500 stored and 5xx released; the store contract methods and the shipped contract test suite; the 30 second
+lease renewed every third, the sequence-based fencing token, expiry on the store's clock, the in-memory store
+refusing production start-up, the Redis asynchronous-replica caveat, `@OnOneInstance` skipping other instances'
+ticks and the advice to set an explicit key; the outbox relay claim with a lease token and `SKIP LOCKED`, ordering
+per key only, 20 attempts doubling from 1 s to 5 min, dead letters with `exhausted` and `rejected` reasons, the inbox
+recorded after success, no pruning scheduled for you; the resilience policy order, breaker thresholds (50 percent,
+10 minimum calls, window of 20, 30 seconds open), the bulkhead figures, 504 chosen over 408 for the reason the
+block gives, 503 with `Retry-After` for an open breaker; the HTTP client's three attempts, default no timeout with
+undici's five minute limits, status list, 30 second cap, replaced lists and 502/504 mapping with logging; and
+that scheduled handlers are wrapped in a try/catch that logs (§2.6.2 follows the documentation, as stated above).
+Corrected: idempotency-file point 12 (an in-memory store does ship; only the interceptor in front of the class serialiser blocks
+start-up, other global interceptors give a warning). The four "Not verified" items below about defaults, the
+five minute fetch limit, 408 and Redis failover are now **verified against the same pages** (items 2, 3, 4 and
+6); item 1 (minimum core versions and release status) and item 5 (ours) stand.
+
 ## Not verified
 1. **Minimum Nest core version for each package.** The docs repository is the Nest 12 documentation (it
    states "As of NestJS v12" in one recipe), but none of the chapters read states the minimum core version

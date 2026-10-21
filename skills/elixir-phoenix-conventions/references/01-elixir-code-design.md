@@ -8,8 +8,9 @@
    key is missing; `map[:key]` says the key is optional and yields `nil`. Using the dynamic form on a key that
    always exists hides a missing key until a `nil` surfaces somewhere else.
 2. **Match the shapes you handle and let the rest crash.** A function that always returns something, whatever
-   the input, gives callers a false impression of success. Pattern-match the known cases; the process is
-   supervised, so an unexpected shape is reported and restarted instead of propagated as a plausible value.
+   the input, gives callers a false impression of success; the catalogue's example crashes on an unexpected
+   shape instead of returning an invalid value. Pattern-match the known cases. That a supervised process is then
+   reported and restarted is our reasoning, the page only says Elixir systems are made of supervised processes.
 3. **Use `and`, `or` and `not` when the operands are meant to be booleans,** and the truthy operators only when
    `nil` or `false` is expected. The strict forms fail early if a value such as `:undefined` or `:error`
    returned from Erlang code slips in as an operand.
@@ -27,9 +28,9 @@
 8. **Replace overlapping boolean options with one atom option.** Two flags whose combinations have precedence
    rules (an admin flag that overrides an editor flag) are one role value in disguise.
 9. **Use `case` and pattern matching, not `try/rescue`, for expected failures.** When a library offers both a
-   tuple-returning and a bang (raising) version of a function, use the tuple version for flow control. A `throw`
-   is acceptable to abort a deep computation only if it is caught in the same module and never leaks into the
-   API.
+   tuple-returning and a bang (raising) version of a function, use the tuple version for flow control. Raising stays reasonable for
+   invalid arguments, tests and scripts. A `throw` must always be caught by the code that throws it and never
+   be exposed as part of an API.
 10. **Model structured values as structs, not as bare strings or floats.** A string address parsed in several
     places wants a struct and one parse function; money wants a decimal-based or dedicated type, not a float.
 11. **Keep multi-clause functions to one concern.** Clauses with unrelated behaviour (the docs full of "if the

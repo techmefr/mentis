@@ -12,13 +12,13 @@
    do not use confirms and manual acknowledgements, since its safety depends on them.
 2. **Declare queues durable and publish messages as persistent** for important data. A non-durable queue or a
    transient message does not survive a node restart, whatever else is configured. Exclusive queues are tied to
-   a connection and are never replicated.
+   the connection that declared them, and a quorum queue cannot be exclusive.
 3. **Enable publisher confirms; do not assume a written frame arrived.** A client that has written a message to
    its socket cannot tell whether the broker received it. In confirm mode the broker acknowledges each message once
    it has taken responsibility: for a persistent message in a durable queue that means it is on disk, for a quorum
-   queue that a quorum of replicas has accepted it. Keep a map of unconfirmed messages by sequence number and
-   republish those that were not confirmed after a failure. Transactions are the only other guarantee in the
-   protocol and are far slower, so use confirms. Confirms are per publish and say nothing about consumers.
+   queue that a quorum of replicas has accepted it. After a nack the client may republish; tracking unconfirmed messages by sequence number to do so is our
+   suggestion, the page only explains that the delivery tag carries it. Transactions are the only other guarantee in the
+   protocol and the page puts their throughput cost at a factor of 250, so use confirms. Confirms are per publish and say nothing about consumers.
 4. **A republish may duplicate, so the consumer is idempotent** (§1.3); the broker may have confirmed a message
    whose confirmation never reached the publisher.
 5. **Know whether your message was routed.** An exchange that matches no queue drops the message and, with
@@ -29,15 +29,16 @@
    delivered the moment it is sent, so a connection or channel closing loses what was in flight, and with no bound
    on outstanding deliveries a fast broker can overwhelm a slow consumer until it runs out of memory. Use manual
    acknowledgements, acknowledge after the work is done and recorded (§1.2), and set the per-channel prefetch to
-   limit unacknowledged deliveries. A prefetch of one maximises fairness and minimises throughput; raise it by
-   measurement, and remember that acknowledgements can be batched to save traffic.
+   limit unacknowledged deliveries. A prefetch of 1 is the most conservative; the confirms guide says values from 100 to 300 usually give the best
+   throughput, so raise it by measurement. A value of 0 means unbounded; that this exhausts a slow consumer's memory
+   is our inference. Manual acknowledgements can be batched to save traffic.
 7. **Redelivery is normal, and requeue loops are a trap.** After a connection loss or a nack with requeue, the
    message is delivered again with the redelivered flag set (a hint, not a certainty). If every consumer rejects a
    message and requeues it, the message goes straight back to the front and loops, burning CPU and network. Reject
    it for good, route it to a dead-letter destination, or requeue after a delay; track the delivery count and stop.
 8. **Use the quorum queue's poison-message protection.** Quorum queues count failed deliveries (exposed in a
    delivery-count header) and can be given a delivery limit after which the message is dead-lettered or dropped,
-   which is the built-in guard against a message that can never be processed.
+   which is the built-in guard against a message that can never be processed. The default limit is 20 since 4.0.
 9. **Dead-lettering is at most once by default.** A dead-lettered message from a quorum queue is transferred with
    at-most-once guarantees unless the at-least-once strategy is enabled, which requires rejecting publishes on
    overflow rather than dropping from the head and costs more memory and CPU. Turn it on only when the dead-lettered
@@ -45,13 +46,13 @@
 10. **Use heartbeats and automatic connection recovery,** and handle the failure of a connection or channel as a
     normal event: reopen, redeclare what is needed, republish unconfirmed messages, resume consuming. Heartbeats
     detect dead connections much sooner than the operating system does and keep idle connections alive through
-    middleboxes.
-11. **Alarms stop publishers.** When the broker raises a memory or disk alarm it blocks publishing connections.
-    Monitor the alarms, queue lengths and the age of the oldest message, set limits on queue length or message
-    time-to-live with a known overflow behaviour, and follow the broker's production checklist before going live.
+    middleboxes (the production checklist warns against values under 5 seconds). The step list is our own.
+11. **Alarms stop publishers.** When the broker raises a memory or disk alarm it blocks publishing connections on every node; consumer-only connections are not blocked.
+    Monitoring is called essential by the production checklist; the specific signals (queue length, age of the oldest
+    message) and limits on length or time-to-live are our suggestions. Follow the checklist before going live.
 12. **Access is per virtual host and per user.** Give each application its own user with permissions only on the
-    resources it uses, a virtual host per environment or tenant, and TLS between clients and broker. Do not use
-    the default guest account beyond a local test.
+    resources it uses, a virtual host per environment or tenant, and TLS between clients and broker. The checklist says to delete the default guest user in production
+    and to use a separate user per application, a separate virtual host per tenant or environment, and TLS.
 
 **Sources:** the RabbitMQ documentation read from its published documentation repository on 2026-10-02
 (documentation dual-licensed Apache-2.0 or MPL-2.0): the reliability guide, acknowledgements and confirms,

@@ -38,8 +38,9 @@
 8. **Never redirect to a URL the request supplied.** `redirect_to(params.update(action: "main"))` lets a
    `host` key in the query string send the user to another site; the same holds for any `return_to` parameter.
    Redirect to a route helper, or validate the target against the application's own host or an allowlist, and
-   use `redirect_back_or_to` (Rails 7.0+; the older `fallback_location:` form is soft-deprecated) rather than
-   building the previous URL by hand. `request.referer` is a hint from the client, never an authority.
+   use `redirect_back_or_to` (Rails 7.0+; the older `redirect_back(fallback_location:)` form is a soft-deprecated
+   alias) rather than building the previous URL by hand. Note that `redirect_back_or_to` follows the
+   `Referer` header even when it points to another host unless `allow_other_host: false` is passed. `request.referer` is a hint from the client, never an authority.
 9. **Templates over inline rendering, symbols over numbers.** `render inline:` puts a template in a controller
    where nobody lints or reviews it as a view; `render plain:` replaces `render text:`; `status: :forbidden`
    reads as intended where `403` makes the next reader look it up.

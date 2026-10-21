@@ -7,18 +7,20 @@
    parameter.
 2. A global `ValidationPipe` (`app.useGlobalPipes(new ValidationPipe({ whitelist: true,
    forbidNonWhitelisted: true }))`) rather than a pipe placed route by route. Add `transform: true` as
-   soon as any DTO validates query params (a paginated list's `page`/`limit`, for instance): Express
-   delivers query values as strings, so a `@IsInt()` field paired with `@Type(() => Number)` only
-   converts before validation when `transform` is on — without it, every such route fails validation
-   permanently, not just on bad input.
+   soon as any DTO validates query params (a paginated list's `page`/`limit`, for instance): path and query
+   values always arrive as strings, and the validation chapter says the pipe converts primitive types only with
+   auto-transformation enabled. A `@IsInt()` field paired with `@Type(() => Number)` (the chapter does not
+   mention `@Type`; this pairing comes from our own dogfood run) converts before validation only when
+   `transform` is on — without it, every such route fails validation permanently, not just on bad input.
 3. Typed HTTP exceptions (`NotFoundException`, `ConflictException`, `BadRequestException`...) are thrown
    on the service side, never on the controller side; the service knows the business rule that justifies
    the status, the controller doesn't.
 4. **Schema validation is a first-class alternative in Nest 12.** A `StandardSchemaValidationPipe` validates
    with any Standard Schema library (Zod, Valibot, ArkType) and passes the schema's output (coerced, defaulted,
    transformed) to the handler; it only touches parameters that declare a schema, so binding it globally is
-   safe. A project chooses classes with `class-validator` or schemas, per module or globally, not both for one
-   shape. How unknown keys are treated is the schema's decision, not the pipe's.
+   safe. The documentation allows both pipes to be registered at once (the class-based pipe handles class-typed
+   parameters, the schema pipe the ones that declare a schema, so schemas can be adopted step by step). Our rule
+   on top: a project chooses classes with `class-validator` or schemas for any one shape, not both. How unknown keys are treated is the schema's decision, not the pipe's.
 5. **Transformation is what converts path and query strings.** With `transform` on, primitives are converted by
    the declared type; with it off, convert explicitly with `ParseIntPipe`, `ParseBoolPipe`, `ParseUUIDPipe`,
    `ParseEnumPipe`, `DefaultValuePipe`. There is no string pipe, since the values already are strings.
