@@ -306,6 +306,9 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| webhook-contract-and-delivery-pitfalls | 6 (new 2026-10-20) | standard-webhooks/standard-webhooks (Apache-2.0) | 🟡 (never dogfooded) |
+| subscription-metering-and-entitlements-pitfalls | 6 (new 2026-10-20) | openmeterio/openmeter (Apache-2.0), killbill/killbill-docs (Apache-2.0) | 🟡 (never dogfooded) |
+| system-migration-cutover-pitfalls | 6 (new 2026-10-20) | debezium/debezium docs (Apache-2.0) | 🟡 (never dogfooded) |
 | web-components-forms-a11y-pitfalls | 6 (new 2026-10-20) | WHATWG HTML and DOM standards (CC BY 4.0) | 🟡 (never dogfooded) |
 | runbook-writing-and-maintenance-pitfalls | 6 (new 2026-10-20) | PagerDuty incident-response docs (Apache-2.0), Azure architecture-center (CC BY 4.0) | 🟡 (never dogfooded) |
 | settings-and-preferences-page-pitfalls | 6 (new 2026-10-20) | own craft knowledge (no external source read) | 🟡 (never dogfooded) |
