@@ -56,10 +56,9 @@ quoting a rule as current.
 
 ## Not verified
 1. **No claim was run.** No form, validator or library was exercised.
-2. **The 254-character limit** is quoted from the page, which cites an RFC erratum; the erratum was not read.
+2. **The 254-character limit:** checked 2026-10-20 against RFC 5321 section 4.5.3.1.3 (standards text, facts only): a path is at most 256 octets including punctuation, and the two angle brackets leave 254 for the address. The erratum itself was not read.
 3. **libphonenumber's coverage** ("most countries") is the page's statement; the library was not read.
-4. **WCAG 2.2 success criterion 1.3.5** is named by the pages as the reason for the autocomplete values; the WCAG
-   text was not read (`w3c/wcag` was cloned but not opened for this block).
+4. **WCAG 2.2 success criterion 1.3.5** checked 2026-10-20 on the W3C Understanding page (facts only): Identify Input Purpose, level AA; the autocomplete attribute is the technique for fields about the user.
 5. **The research behind each recommendation** (Notify observations, the Baymard and W3C articles the names page
    lists) was not read; only the page's own statement of the guidance is relied on.
 6. **Written by us, not sourced:** the "if nothing reads a part, use one field" advice, the regular-expression

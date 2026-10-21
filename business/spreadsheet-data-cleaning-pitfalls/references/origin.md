@@ -32,7 +32,7 @@ scripting recipes. Any source with no open licence: not opened.
 ## Not verified
 1. **Only the facts in the table were read**; identifiers beyond the examples, locale and time zone handling, key testing,
    joins, formula drift, provenance and the change log are one author's practice. Searched: vendor support pages and the
-   CSV RFC; the two-digit year rule and gene-name conversion were not found.
+   CSV RFC; the two-digit year rule was not found.
 2. **Program behaviours** were read for two products only; save-as-CSV behaviour, import defaults and locale separators
    were not found in the pages read.
 3. **Never run by us** on a real file.
@@ -42,7 +42,7 @@ scripting recipes. Any source with no open licence: not opened.
 ## Own guidance (not sourced)
 The type audit (§1.4), the locale, time zone and number audits (§2.1 points 1 and 3 to 5, §2.2 to §2.4), key testing and
 survivor rules (§3), row-count and unmatched checks after a join (§3.4), formula drift checks (§4.1), the change log and
-the reconciliation line (§4.3, §4.4). Gene-style names read as dates (§1.1.3) is not confirmed by the pages read.
+the reconciliation line (§4.3, §4.4). Gene-style names read as dates (§1.1.3): confirmed 2026-10-20 at abstract level only (Genome Biology 2016, volume 17, article 177, a comment piece reporting spreadsheet gene lists with symbols turned into dates; about one fifth of papers with such supplementary lists affected). Read through search-result summaries; the article page itself redirected to a login step and was not opened, so the figure is not carried into the block and the licence was not read.
 
 ## Related blocks
 `skills/analysis-validation-pitfalls`, `skills/saas-metric-definition-pitfalls`, `business/data-analytics`,

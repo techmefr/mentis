@@ -19,6 +19,9 @@ The licence statement was read from the repository LICENSE file on 2026-10-20: t
 Unicode's restricted copy terms, other content under the Unicode License. Only facts of the specification are
 restated.
 
+## Checked 2026-10-20 in ECMA-402 (tc39.es/ecma402, facts only)
+Percent style multiplies by 100; compact notation scales to a locale-defined power of ten; list formatter types are conjunction, disjunction and unit; `ca`, `co`, `nu` are locale extension keys; sanctioned simple units are a fixed list from one CLDR release that may expand, compounds are two-part per-divisions. Corrected: the block said the unit list was fixed without qualification.
+
 ## Own knowledge, not re-read in this session (marked "re-read before relying" in the files)
 The behaviour of the ECMAScript Intl formatters: the number, date-time, list, relative-time and duration
 formatters and their options; the rule that a style option and field options cannot be combined; the percent

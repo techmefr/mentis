@@ -60,7 +60,7 @@ below is the ECMAScript formatter, listed as "re-read before relying" where mark
 2. **A calendar is a locale extension, not a country list.** UTS #35 gives per territory the calendars in
    common use in preference order (Gregorian only by default; for example Buddhist before Gregorian for
    Thailand, Gregorian before Japanese for Japan). A calendar is requested with the `-u-ca-` extension on the
-   locale tag, and the numbering system with `-u-nu-` (re-read before relying). Show the common calendars
+   locale tag, and the numbering system with `-u-nu-` (ECMA-402 lists ca, co and nu as locale extension keys). Show the common calendars
    where a user can choose one and keep the stored value Gregorian or an instant.
 3. **A year in another calendar is not the Gregorian year.** Never mix a calendar year shown to the user with a
    year used in arithmetic or an API call; do arithmetic on the canonical value and format last.

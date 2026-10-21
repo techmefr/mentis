@@ -14,7 +14,7 @@ Locale facts come from UTS #35 part 3 (Numbers), restated in our own words. Intl
    Never reimplement grouping.
 3. **Numbers in a sentence take the plural of the formatted value**, a point owned by
    `i18n-message-format-pitfalls` §1; do not format the number to a string before the message picks the branch.
-4. **Percent:** the formatter multiplies a fraction by 100 for the percent style (re-read before relying), so
+4. **Percent:** the formatter multiplies a fraction by 100 for the percent style (ECMA-402, number formatting), so
    pass 0.25 for 25 percent; the percent sign position and spacing are locale data. Passing 25 shows 2,500 %.
 5. **Rounding is a display choice with a stated mode.** Set the minimum and maximum fraction digits (or
    significant digits) in the call and do not round by hand first: double rounding changes a value by one
@@ -53,7 +53,7 @@ Locale facts come from UTS #35 part 3 (Numbers), restated in our own words. Intl
 
 ## 2.4 Compact and approximate notation
 1. **Compact notation ("1.2K", "1,2 Mio.") is locale data**, with different thresholds and plural forms per
-   locale. Use the formatter's compact style (re-read before relying) instead of dividing by 1000 and adding
+   locale. Use the formatter's compact style (ECMA-402: scales to the locale's compact power of ten and adds its affix) instead of dividing by 1000 and adding
    a letter.
 2. **Show the exact value on demand.** A compact value loses digits; keep the exact one in a title, a tooltip
    or a detail view, and never feed the compact string back into a calculation.
@@ -67,8 +67,8 @@ Locale facts come from UTS #35 part 3 (Numbers), restated in our own words. Intl
    systems, such as road distance in one and fuel in another); put it in a user setting with a locale-based
    default rather than inferring it from the language.
 3. **Use the formatter's unit style and length** (long, short, narrow) for the name and its plural, from a
-   supported identifier list (re-read before relying: the list of supported simple units is fixed and compound
-   units are built from it). An unsupported unit throws; a string suffix is the fallback and is not localized.
+   supported identifier list (ECMA-402: the sanctioned simple units are a fixed list taken from one CLDR release, which the spec says may grow, and compound
+   units are only "x-per-y" divisions of two listed ones). An unsupported unit throws; a string suffix is the fallback and is not localized.
 4. **Temperature, and any unit with an offset, is not a scale factor.** Convert with the formula, not a ratio.
 
 ## 2.6 Numbering systems
