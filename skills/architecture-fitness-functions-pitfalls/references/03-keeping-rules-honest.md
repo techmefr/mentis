@@ -11,8 +11,7 @@
 2. **Confirm it selects something.** Own guidance: a rule of the form "all classes that match P should satisfy
    Q" is true when P matches nothing. A renamed package, a wrong root or a moved module turns the rule into a
    vacuous pass without any error. Count the selected classes in the rule or in a companion check, and fail
-   when the count is zero. Whether the tool you use already fails on an empty selection by default or only
-   when configured differs between versions; re-read its documentation before relying on either.
+   when the count is zero. The tool's current user guide (read 2026-10-20) says it fails a rule whose should-part meets an empty set of classes, with a global property to switch that off and a per-rule override to allow it; the guide does not say which version introduced it, so on an older pinned version test it and keep the count check.
 3. **Say which code is analysed.** The JUnit support lets a test class declare the packages, classes or
    locations to import, and options to leave out test code and archives, and can cache the imported classes
    across tests. Own guidance: a rule applied to the wrong root, or to a cached import taken before a module

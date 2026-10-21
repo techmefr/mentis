@@ -37,7 +37,9 @@
    list every layer that can hold a copy (service worker and its update rule, cache headers on pages and on
    hashed assets, CDN time to live, a stale-while-revalidate rule) and for each, how long a visitor can stay on a
    version after it is replaced. Fix: keep the HTML and the worker script short-lived or revalidated, let the
-   worker take over at once when a new version is installed, give the worker a way to be disabled by a new
+   worker take over at once when a new version is installed (MDN service worker guide, read 2026-10-20: a new
+   worker waits while pages controlled by the old one stay open and activates only when none is left, unless it
+   asks to skip waiting, and it may then claim the open pages; old caches are removed in the activation step), give the worker a way to be disabled by a new
    release, and put the purge or the expiry time of the CDN in the release record.
 10. **Say how the rollback and the forward fix reach users, in one line.** Own guidance. Symptom: a one-person
     project with no written rule, so the choice is made under stress. Check: the release record says whether the

@@ -10,15 +10,15 @@ Sources: `references/runtime-patterns.md` and the anti-pattern table of the `wor
 ## 2.2 Promises that outlive the response
 1. **A promise that is not awaited, returned or handed to the platform's background hook is floating: its result is dropped, its error swallowed and the platform may stop the process before it finishes.** Await it when the response needs the result; hand it to the background hook when it does not.
 2. **Call the background hook as a method of the context object; do not destructure it.** Detaching the method loses its receiver and throws an "illegal invocation" error at run time.
-3. **Background work after the response has its own short time limit** (the source states a figure, re-read it for your plan). Anything longer goes to a queue or a workflow (§3.1).
+3. **Background work after the response has its own short time limit:** the platform's limits page (read 2026-10-20) gives up to 30 seconds after the response on both plans; re-read it, figures change. Anything longer goes to a queue or a workflow (§3.1).
 4. **Use the floating-promise lint rule the project already has,** or inspect each async call on the changed path. Adding lint tooling is a separate change.
-5. **On other function platforms** (own guidance): a process may be frozen right after the response, so work started and not awaited may never run; finish or enqueue it before returning.
+5. **On other function platforms: AWS Lambda freezes the execution environment once the handler and extensions finish, and unfinished background work resumes only if that environment is reused** (Lambda developer guide, execution environment lifecycle). So work started and not awaited may run late, in the middle of another request, or never; finish or enqueue it before returning.
 
 ## 2.3 Memory, CPU and streaming
 1. **A function has a small fixed memory budget.** Reading an unbounded body into memory (`text()`, `json()` or an array buffer on a large payload) crashes it; stream the body through, or pass the upstream body straight into the response.
 2. **Small, known-size payloads are fine to read whole.** The finding is a body whose size the caller controls.
 3. **When streaming several parts into one response, keep the pipeline promise tracked** by the background hook so it does not float.
-4. **CPU time is limited separately from wall-clock time,** and a plan can set a low figure: large synchronous parsing, tight loops and heavy crypto hit it. Break the work up, queue it, or move it to compiled code; re-read the limits page for the plan in use.
+4. **CPU time is limited separately from wall-clock time,** and a plan can set a low figure (limits page, 2026-10-20: 10 ms per request on the free plan; on the paid plan 30 s by default, raisable to 5 minutes; memory 128 MB per isolate on both): large synchronous parsing, tight loops and heavy crypto hit it. Break the work up, queue it, or move it to compiled code; re-read the limits page for the plan in use.
 5. **A validation library that holds a lot of heap per schema can cause out-of-memory errors in a small function:** the source names a minimum version of one such library for that reason; re-read before relying on it.
 
 ## 2.4 Errors that fail open

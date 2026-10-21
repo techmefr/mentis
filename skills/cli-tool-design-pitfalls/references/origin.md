@@ -12,13 +12,14 @@ tested while writing it.
 |---|---|---|
 | no-color.org convention page | web page, facts only, nothing copied | Trigger is a non-empty variable, scope is tools that colour by default, flag and config override it (§1.4.2, §1.4.6) |
 | freedesktop base-directory specification | specification, facts only, nothing copied | Four variable names, defaults, absolute-path requirement (§2.2.4) |
+| POSIX specification (Open Group, 2024 edition): shell command language 2.8.2 exit status; base definitions chapter 12 utility conventions | specification, facts only, nothing copied, read 2026-10-20 | Exit status ranges and reserved values (§1.2.2), double dash and single dash, option ordering (§2.1.6) |
 | cli-guidelines/cli-guidelines (published command-line guide) | CC BY-SA 4.0 (`LICENSE` read 2026-10-20) | Not opened: share-alike |
 
 ## Removed
 - Nothing from the guide. The two convention pages were rewritten, no sentence copied.
 
 ## Not verified
-1. **Everything except the colour variable and the base-directory defaults.** Streams, exit-code semantics, secrets in process lists, prompts and the rest are conventions in common use, still unsourced.
+1. **Everything except the colour variable, the base-directory defaults and the POSIX exit-status and dash conventions.** The GNU grep manual (non-failure non-zero codes) returned a rate-limit error and was not read. Streams, exit-code semantics, secrets in process lists, prompts and the rest are conventions in common use, still unsourced.
 2. **Directory conventions** other than Linux's (macOS, Windows) were not read; re-read the platform's rules before fixing names.
 3. **Guide.** No permissive command-line design guide found, searched: the guide's repository (CC BY-SA), convention pages.
 4. **No command, flag or code was executed.**

@@ -18,7 +18,7 @@ Source: official platform documentation read 2026-10-20 for facts only, rewritte
 ## 1.3 Rules are not filters
 1. **A query succeeds only if the rules would allow every document it could return.** A client that asks for "all documents" fails even if only some are readable; a rule cannot filter results. Write the query with the same condition as the rule (the owner equals the caller). Confirmed: queries are all or nothing, rules are checked against what the query could return, and rules can also constrain query properties such as the limit and the order (document-database query-rules page, read 2026-10-20).
 2. **When a query fails with a permission error while a single read works,** the query is broader than the rule; fix the query or the data model, not the rule.
-3. **A rule that looks up other documents costs a read each time and has limits on how many it may do per request;** design the data so the check needs few lookups, and denormalize the role or the owner into the document when appropriate.
+3. **A rule that looks up other documents costs a read each time and has limits on how many it may do per request** (Firestore rules conditions page, read 2026-10-20: 10 lookup calls for a single-document or query request and 20 for multi-document reads, transactions and batched writes; going over returns a permission-denied error, and cached lookups do not count); design the data so the check needs few lookups, and denormalize the role or the owner into the document when appropriate.
 4. **Do not use rules as the only guard for what the query reveals:** counts, existence and error messages can leak that a document exists.
 
 ## 1.4 Cascade and operations

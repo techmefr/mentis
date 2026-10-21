@@ -18,7 +18,7 @@
 - Container and Kubernetes host setup, configuration tools other than Ansible and Nix, and cloud provisioning: other blocks.
 
 ## Not verified
-1. **Checked:** variable precedence, handler timing and failure, check and diff mode, batches and failure thresholds, no-log and vault advice, YAML quoting, flake lock and tracked files, switch versus test versus boot, boot-menu generations, allow-unfree scope. **Unverified:** the world-readable store, garbage collection and state-version options, impure evaluation, module and option design, idempotence advice on shell tasks, linter gate, host-key and command-line secret advice, octal modes, reaching the host safely. Re-read before relying.
+1. **Checked:** variable precedence, handler timing and failure, check and diff mode, batches and failure thresholds, no-log and vault advice, YAML quoting, flake lock and tracked files, switch versus test versus boot, boot-menu generations, allow-unfree scope. **Also checked 2026-10-20:** octal file modes (quote them), shell module guards. **Unverified:** the world-readable store (the NixOS manual index page was too large and truncated), garbage collection and state-version options, impure evaluation, module and option design, idempotence advice on shell tasks, linter gate, host-key and command-line secret advice, octal modes, reaching the host safely. Re-read before relying.
 2. **Secret-management tools** for Nix and Ansible are described by category only; none was evaluated.
 3. **Two tools in one block:** the sections are independent; a reader using only one can ignore the other.
 

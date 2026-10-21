@@ -28,7 +28,7 @@ changes were made (summarised and restated); no endorsement by the authors is im
 1. Still own guidance: §1.1-1.8, the exposure-unit and like-for-like points, health versus validation, long tail,
    all of §3 except the source's rollback question. Nothing in them may be quoted as a source claim. Now checked:
    deploy-job cancellation and replacement (§1.9, §1.10), pause and abort behaviour and weight granularity
-   (§2.3, §2.4), blue-green at a glance (§2.5). The trunk-based development reference was not read again.
+   (§2.3, §2.4), blue-green at a glance (§2.5). Also checked 2026-10-20: the service worker waiting and takeover behaviour (§3.9, MDN guide; its update-check timing and cache option were not on the page and stay unverified). The trunk-based development reference was not read again.
 2. A trunk-based development reference site was not found as a repository and was not read.
 3. Nothing was run, no pipeline or router touched, in writing this block.
 

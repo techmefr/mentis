@@ -17,7 +17,7 @@
    mix.
 4. **Use a list when the content is a list.** The guide sets a bulleted list for items with no order, a numbered
    list for a sequence or a ranking, parallel items, and an introduction that makes the purpose clear. It
-   suggests two to seven short items; that range is its figure, re-read before relying. Symptom: a
+   suggests at least two and, if possible, no more than seven short items (confirmed on the live lists page, read 2026-10-20). Symptom: a
    comma-separated paragraph of eight options, or a numbered list whose order does not matter. The range is for
    prose a person reads through; a generated catalogue of dozens of entries is a lookup page, so group it under
    named headings and keep each group short (own guidance).
@@ -25,8 +25,7 @@
    rules: consistent structure, a step that includes the action that finalises it, the same shape for the
    "where" prefix, and a heading that says what the procedure achieves. Combine two short actions only when they
    happen in the same place. Symptom: "Configure the service" as one step hiding six decisions.
-6. **Keep procedures short, and split long ones.** The guide limits a procedure to about seven steps, preferably
-   fewer, so it fits one screen (re-read before relying on the figure; it does not apply to a table of commands, which is a
+6. **Keep procedures short, and split long ones.** The guide's step-by-step page (read 2026-10-20) gives no number of steps: it says not to overwhelm readers with too many steps and to try to fit them on one screen (the earlier figure of seven was not found there and is dropped; it does not apply to a table of commands, which is a
    lookup). Own guidance: a longer task is two
    procedures with a named checkpoint between them, and the checkpoint says what the reader should see.
 7. **Say what the reader should see after the risky step.** Own guidance: a step that changes state ends with an

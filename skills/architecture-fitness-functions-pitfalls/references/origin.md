@@ -28,10 +28,8 @@ implied.
 ## Not verified
 1. §1 points 1, 2, 5 to 7 and 9, §2 points 2 to 4, 6 to 8, and §3 points 1 to 3, 5 to 9 are own guidance (or own
    extensions of a documented behaviour) and are marked in the text.
-2. Whether the tool fails on an empty selection by default was **not checked**: it differs between versions.
-   Re-read the documentation and test it before relying on it.
-3. The matching behaviour for frozen violations and the effect of caching were taken as stated in the guide and
-   not run.
+2. Empty selection: the current guide (read 2026-10-20) says the tool fails by default, with a global and a per-rule override; the version that introduced it is not stated, so test it on a pinned older version.
+3. The matching behaviour for frozen violations was re-read 2026-10-20 (line numbers ignored by default; store creation off and update on by default; refreeze off by default) and matches the block; the effect of caching was taken as stated and not run.
 4. The ArchUnit documentation was read at the repository's default branch on 2026-10-20; a project's pinned
    version may differ.
 5. No tool was installed or run in writing this block.

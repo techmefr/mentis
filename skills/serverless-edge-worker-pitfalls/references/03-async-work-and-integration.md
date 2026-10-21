@@ -4,7 +4,7 @@ Sources: `references/runtime-patterns.md` (architecture section) and `references
 
 ## 3.1 Queues and workflows
 1. **Move slow, retriable or non-urgent work out of the request:** email, webhooks, multi-step processing. The handler accepts the work and answers with an accepted status.
-2. **A queue decouples producer and consumer and delivers at least once.** The same message can arrive twice, so the consumer must be safe to run twice: a natural idempotency key, a unique constraint, or a check of the effect before applying it (`skills/background-jobs-conventions`).
+2. **A queue decouples producer and consumer and delivers at least once** (Cloudflare Queues delivery guarantees page: duplicates are rare but possible; use a unique id as idempotency key). The same message can arrive twice, so the consumer must be safe to run twice: a natural idempotency key, a unique constraint, or a check of the effect before applying it (`skills/background-jobs-conventions`).
 3. **A workflow persists each step's result and retries only the failed step,** and can run for a long time. Use it for multi-step durable processes; a queue in front of it buffers a high-throughput entry point.
 4. **The result of a step must be serializable by the workflow's own contract;** check it in the platform documentation rather than assuming JSON.
 
@@ -29,9 +29,9 @@ Sources: `references/runtime-patterns.md` (architecture section) and `references
 2. **Do not ban a value across the board on one API's rule, and do not assume one API accepts what another does.** Check the API at each boundary.
 
 ## 3.6 Other platforms (own guidance, not from the source)
-1. **Initialise clients, load configuration and open connection pools outside the handler** so a warm container reuses them; keep per-request data inside it.
+1. **Initialise clients, load configuration and open connection pools outside the handler** so a warm container reuses them (Lambda developer guide: static initialisation is the usual place to open database connections, with a check that the connection still exists); keep per-request data inside it, since global variables hold their value across invocations.
 2. **Set the function's timeout below the caller's timeout,** so the function fails first and cleanly, and size memory for the largest realistic payload, not the average.
-3. **Treat the first request after idle as slower** and measure it separately before blaming code; re-read the platform's cold-start documentation, nothing here quotes a number.
+3. **Treat the first request after idle as slower** and measure it separately before blaming code (Lambda guide: initialisation code runs only on a new environment and is the largest contributor to first-call latency; the environment is also recycled every few hours); nothing here quotes a number.
 
 ## 3.7 Checks (own guidance)
 1. Deliver one queue message twice in a test: the effect happens once.
