@@ -14,26 +14,26 @@ Sources: the `turborepo-caching` and `monorepo-management` skills of wshobson/ag
 1. **A variable that changes the output but is not in the task's environment list does not change the cache key.** Symptom: the build has the old API address after the variable changed. Declare it per task, or globally for ones every task reads.
 2. **Pass-through is not the same as hashing:** the per-task environment list changes the key, the pass-through list only makes the variable available at run time (reference). Know which of the two you declared.
 3. **Public-prefix variables baked into a front-end bundle are build inputs** (the source's example lists them with a wildcard). Treat them as part of the key, and do not put a secret behind such a prefix (`skills/vite-bundler-conventions`).
-4. **Strict environment mode, the default (reference), drops undeclared variables** from the task's process; a task that "suddenly cannot find" a variable in CI has not declared it.
+4. **Strict environment mode, the default (reference), drops undeclared variables** from the task's process (only the lists for hashed and pass-through variables, plus a few system ones such as the path, get through); a task that "suddenly cannot find" a variable in CI has not declared it. The loose mode exposes everything, and the run reference warns it can restore artifacts built with the wrong environment.
 
 ## 2.3 What to cache, what not
 1. **Cache deterministic tasks only:** build, lint, typecheck, test. A task that fetches the network, reads the clock or writes a timestamp into its output makes every hit a lie or every run a miss (own guidance).
-2. **Never cache the development server or a clean task,** and mark the dev server as long-running so the orchestrator does not wait for it (the source's example does both).
+2. **Never cache the development server or a clean task,** and mark the dev server as long-running so the orchestrator does not wait for it (the source's example does both). The reference adds that no other task may depend on a long-running one: the tool raises an error if one does.
 3. **A task must write only inside its own package and its declared outputs** (own guidance). A task that writes to a sibling or to the root changes another task's inputs behind the graph's back.
 4. **Debug a suspect hit by running with the cache bypassed and comparing the outputs,** then by asking the tool for the hash inputs of the task and diffing two runs (reference: a dry run lists each task's hash, inputs and environment variables, and a run summary file records hashes and timings; the force flag ignores and overwrites existing cache entries).
 
 ## 2.4 Affected-only runs in CI
 1. **Run tasks only for packages affected since the base branch,** with a filter that includes dependants of changed packages (the source's CI example filters on a git reference).
-2. **The base reference must exist in CI.** The tool's run reference (read 2026-10-20) says the affected mode needs every commit between base and head, defaults to comparing the main branch with HEAD, and treats all packages as changed when the checkout is too shallow; fetch enough history or the base ref explicitly. By default one changed file selects every task of its package.
+2. **The base reference must exist in CI.** The tool's run reference (re-read 2026-10-20) says the affected mode defaults to comparing the main branch with HEAD, lets two environment variables override base and head, and treats all packages as changed when the checkout is too shallow, so a shallow clone makes the filter select everything and never fail; fetch full history or name the base ref explicitly. Detection is by package by default, so one changed file selects the package.
 3. **A change to a global input affects everything,** correctly. If a root file edit does not rebuild all packages, the root file is not declared (§2.1.4).
 4. **Compare an affected-only run with a full run at least once and on a schedule** (own guidance): results must match; a difference is a missing edge in the graph.
 5. **Install with the frozen lockfile in CI** so the key does not move with a floating resolution (`skills/package-manager-supply-chain-pitfalls`).
 
 ## 2.5 Remote cache
 1. **A remote cache shares results between machines,** which also shares a poisoned result. Give write access to the main branch's pipeline and read access to the others (own guidance).
-2. **The token and team identifiers come from the CI secret store,** never from a committed file (the source passes them as secrets).
+2. **The token comes from the CI secret store,** never from a committed file (the source's workflow reads the token from secrets and the team name from a plain variable; treating the team name as non-secret follows that).
 3. **A self-hosted cache is a service with authentication, retention and an uptime;** the source shows a small server, which is a demonstration, not a deployment (own guidance).
-4. **A cache hit must be reproducible on a different operating system or architecture only if the task is.** Native modules and absolute paths in outputs make cross-machine hits wrong; include the platform in the key for such tasks (own guidance).
+4. **A cache hit must be reproducible on a different operating system or architecture only if the task is.** Native modules make cross-machine hits wrong; include the platform in the key for such tasks (own guidance). Absolute paths in outputs are a documented case: artifacts are restored without rewriting, so a file containing one checkout's absolute path points at another checkout when restored (the tool's caching page, which suggests an explicit cache directory to isolate worktrees).
 
 ## 2.6 Makefile-style graphs (own guidance)
 1. **A target that produces no file with its own name must be declared as always-run,** or a stray file of that name makes it silently skip.

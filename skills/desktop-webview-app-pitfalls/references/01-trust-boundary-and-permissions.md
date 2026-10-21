@@ -5,22 +5,22 @@ Sources: the Electron security tutorial (docs/tutorial/security.md, efd4495) and
 ## 1.1 The web layer is a client of the system
 1. **List everything the web layer can invoke natively, and justify each item.** The sources agree that the web layer must be treated as able to run attacker-chosen script (a cross-site-scripting bug, a compromised dependency, a hijacked remote page), so the native side is the real security boundary.
 2. **Validate arguments in the native code of every command** (own guidance): paths, URLs, program names and sizes. A command that takes a path and reads it is a file-read endpoint for the attacker.
-3. **A permission system does not protect against bugs in your own native code.** Tauri's pages say capabilities limit what the frontend can reach, not what malicious or insecure native code does once reached.
+3. **A permission system does not protect against bugs in your own native code.** Tauri's capabilities page lists malicious or insecure native code, and a wrong scope check inside a command, among the things the system does not protect against.
 4. **Electron is not a browser:** its pages hold much greater power than a website's, and the source says showing arbitrary untrusted content is a risk the framework is not designed to handle.
 
 ## 1.2 Tauri: capabilities, permissions and scopes
 1. **Capabilities bind permissions to named windows and webviews,** in files under the capabilities folder. Every file in that folder is enabled by default; once capabilities are listed explicitly in the configuration, only those are used. Know which of the two modes the project is in.
 2. **A window that belongs to several capabilities gets the union of their permissions.** Adding a window to one more capability can widen it silently.
-3. **Commands you register are callable from all windows by default.** Restrict them in the application manifest when some windows must not reach them.
+3. **Commands you register are callable from all windows by default.** Restrict them in the application manifest when some windows must not reach them (capabilities page). Version caution from the framework's release notes: before 2.11.1 (2026-05-06), custom commands with no manifest skipped the permission check for any origin; from that release remote origins are always checked and reach them only through an explicit remote capability. Check the framework version.
 4. **Permissions can be limited by platform.** Put desktop-only and mobile-only permissions in separate capability files.
-5. **Scopes allow or deny paths, addresses or other values per command, and deny always wins.** The enforcement is inside each command: whoever writes a scoped command must make sure it cannot be bypassed (path tricks, links) and have it reviewed. Deny the webview's own data folder where it can hold sensitive values.
+5. **Scopes allow or deny paths, addresses or other values per command, and deny always wins.** The enforcement is inside each command: whoever writes a scoped command must make sure it cannot be bypassed (path tricks, links) and have it reviewed. Deny the webview's own data folder where it can hold sensitive values (the scope page's own examples deny the local app-data folder on Linux and the embedded browser's profile folder on Windows).
 6. **Allowing a remote address to call commands is a deliberate exception,** by listing its URLs in a capability. On Linux and Android the framework cannot tell a request from an embedded frame from one of the window itself, so the exception is wider there than it looks.
 
 ## 1.3 Electron: process model and defaults
 1. **Never run remote content with Node integration on.** An XSS then becomes remote code execution. This is the default since Electron 5; verify nobody turned it back on.
 2. **Keep context isolation on in every renderer** (default since 12) and the process sandbox on (default since 20). Turning context isolation off also turns the sandbox off for that renderer, whatever else is set.
 3. **Expose a small, named bridge from the preload script instead of the raw module or the channel object.** One function per action, with its own argument check, never a generic "send any message" function.
-4. **Validate the sender of every message the main process receives** from a renderer: which frame and which address. A subframe or a navigated window can send from a different origin.
+4. **Validate the sender of every message the main process receives** from a renderer: which frame and which address. A subframe or a navigated window can send from a different origin. The source compares the frame's origin against an allow-list rather than its full address, and notes the frame can be gone (null) by the time the message is handled, so check for that.
 5. **Never disable web security or allow insecure content** in a production window; the first disables the same-origin policy and implies the second.
 
 ## 1.4 Local versus remote content
@@ -33,6 +33,7 @@ Sources: the Electron security tutorial (docs/tutorial/security.md, efd4495) and
 1. **Set one in both frameworks, and make it restrictive:** scripts from the app itself only. In Tauri the policy is applied only when set in the configuration, and the framework adds its own hashes and nonces to bundled code.
 2. **A wildcard policy is no policy.** Avoid scripts from a CDN in a privileged window: each external host is an extra way in.
 3. **Frontends that use WebAssembly need the policy to allow it explicitly** (Tauri's page notes the Rust-frontend case); a blocked module looks like a build bug.
+4. **In Electron the policy can come from a response header or from a meta tag, and the header route does not work for pages loaded from file addresses** (security tutorial): serve local pages through a custom protocol so the header applies, or use the meta tag.
 
 ## 1.6 Navigation and external links
 1. **Limit navigation and new-window creation** in Electron: handle both events, allow a list of addresses, deny the rest.

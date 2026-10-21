@@ -5,8 +5,8 @@ Sources: the `monorepo-management` skill of wshobson/agents at 0874a27, read 202
 ## 1.1 Phantom dependencies
 1. **A phantom dependency is an import that works because another package installed the module,** not because this package declares it. The source lists it as a common pitfall. Symptom: it builds locally and in a warm CI, and fails after a clean install or when the neighbour drops the module.
 2. **Declare every import in the package that makes it,** including development-only tools used by a package's scripts (own guidance).
-3. **Prefer a package manager mode that isolates each package's modules** so an undeclared import fails at once instead of months later (own guidance for the general point; pnpm's page states only that a package sees the dependencies declared in its own manifest, and does not discuss phantom dependencies by name; re-read your manager's current default).
-4. **Reference sibling packages through the workspace's own protocol,** not a published version number, so the local code is used and a version bump does not decouple it silently (own guidance).
+3. **Prefer a package manager mode that isolates each package's modules** so an undeclared import fails at once instead of months later (own guidance for the general point; pnpm's workspaces page states that a package has access only to the dependencies declared in its own manifest and does not use the term phantom dependency; re-read your manager's current default).
+4. **Reference sibling packages through the workspace's own protocol,** not a published version number, so the local code is used and a version bump does not decouple it silently. pnpm's page confirms the mechanism: its default does not link a local package for a plain version range (only the protocol links it), and the protocol only ever resolves to a local package. The "silent decoupling" consequence stays our reading.
 5. **Check with a clean install and a build of one package alone** (own guidance); both must pass without the others' modules.
 
 ## 1.2 Cycles and boundaries
@@ -19,7 +19,7 @@ Sources: the `monorepo-management` skill of wshobson/agents at 0874a27, read 202
 ## 1.3 Shared configuration
 1. **Centralize lint, formatting and compiler settings** in one config package or root file that others extend, as the source recommends, so a rule change is one commit.
 2. **A shared config is an input of every task that uses it.** Declare it as such (§2.1); otherwise changing a lint rule leaves lint results cached.
-3. **Share types between a client and its server in a types package** rather than by copying (the source's recommendation), with the generator or schema as the single source.
+3. **Share types between a client and its server** rather than by copying (the source's recommendation; the package form and the generator or schema as single source are our advice).
 4. **Lock versions across the workspace** for common tools and libraries, so that two packages do not build with different compilers by accident.
 
 ## 1.4 Versioning and release

@@ -14,15 +14,17 @@ Sources: `references/runtime-patterns.md` (architecture section) and `references
 
 ## 3.3 Database connections
 1. **Opening a database connection per invocation costs a handshake and an authentication every time,** and a burst of functions exhausts the database's connection limit (`skills/postgres-operations-and-exposed-api-pitfalls` §2).
-2. **Route external-database traffic through the platform's connection pooling service,** and read its connection string from the binding. Create the client per request as the source directs and let the service hold the pool; do not cache a client in module scope (§2.1).
-3. **The pooling service has its own supported databases and a Node-compatibility requirement:** re-read before choosing it.
+2. **Route external-database traffic through the platform's connection pooling service,** and read its connection string from the binding. The source's example creates the client per request and leaves the pool to the service; not caching a client in module scope is our inference from §2.1.
+3. **The pooling service has its own supported databases and a Node-compatibility requirement:** the pooling page read 2026-10-20 describes only PostgreSQL drivers and says nothing about the Node flag, so re-read before choosing it.
+4. **The pooler works in transaction mode:** a connection returns to the pool when its transaction ends and is reset, so a session setting made on one query is gone on the next (pooling concept page). Symptom: a `SET` that seems to work in a single test and not under load. Fix: set what the query needs in the same transaction, on every query.
 
 ## 3.4 Durable state
 1. **Use one durable object per entity that needs coordinated state,** found by a deterministic name. In-memory state in it must be reconstructible from storage: the object can be evicted or restarted at any time.
-2. **Prefer the SQL-backed storage for new classes and inspect the backend of an existing class before choosing an API.**
+2. **Prefer the SQL-backed storage for new classes** (the source's rule) **and inspect the backend of an existing class before choosing an API** (own guidance).
 3. **For idle WebSocket servers use the hibernation form and plan how connection state is restored after waking.**
-4. **A new class needs a migration entry, and its configured name must match the exported class.**
+4. **A new class must be declared in the configuration, and the declared name must match the exported class.** The vendor's migrations page read 2026-10-20 says the current form is an `exports` entry (with a storage kind) replacing the older imperative `migrations` array, that the two cannot be mixed for object entries, and that a live entry for a class missing from the code is a deploy error; an older project still uses `new_sqlite_classes` in `migrations`. Read which form the project uses before editing.
 5. **Details of storage gates, alarms and migrations live in the vendor's documentation;** the source deliberately points there, and so does this block.
+6. **Do not hold the concurrency-blocking helper across a fetch or other external I/O;** the source keeps it for one-time schema setup. Symptom: every request to that object stalls while one slow call runs.
 
 ## 3.5 Serialization boundaries
 1. **There is no single serialization rule across the platform's APIs.** A queue message follows its configured content type (JSON-compatible data, text, bytes or a structured-clone form); a durable-object key-value write accepts structured-clone values, so a map or set is allowed; SQL parameters accept only the SQL API's types; a WebSocket sends a string or binary, so objects are encoded first.

@@ -10,13 +10,14 @@
 | Source | Licence | What it gave |
 |---|---|---|
 | Godot Engine documentation: idle and physics processing, notifications and ready order, background loading, resources, saving games, node class | CC BY 3.0 (`LICENSE.txt` of the documentation repository read 2026-10-20); credit: Godot Engine documentation contributors; rewritten, nothing copied | Fixed versus per-frame callbacks and the step (§1.1, §1.2), ready order (§2.2.3), removal is not freeing (§2.2.5), threaded loading (§2.4.1), shared resources (§2.4.3), save formats (§2.4.4) |
+| Godot documentation, re-opened 2026-10-20: engine class (physics tick, step cap and time scale defaults), physics troubleshooting, physics interpolation introduction, object class (one-shot, double connect, freed references, deferred call), file-access class (object decoding warning), input-event class (echoes), singletons and autoload, background loading, saving games, notifications and scene organization best practices | CC BY 3.0 (same repository `LICENSE.txt` read earlier); credit: Godot Engine documentation contributors; rewritten, nothing copied | Step cap of 8 (§1.2.4), interpolation trade-off (§1.2.2), echoes (§1.3.4), double connection is an error (§2.3.2), freed reference (§2.2.2), object decoding warning (§2.4.4) |
 | Unity documentation | no usable licence (NOASSERTION), not opened | Nothing |
 
 ## Removed
 - Engine-specific code, API names, performance numbers, rendering, networking and shader topics: not covered.
 
 ## Not verified
-1. **Checked (one engine):** fixed versus variable callbacks, ready order, threaded loading, shared resources, removal is not freeing. **Also checked 2026-10-20:** autoload lifetime and never freeing one, deferred scene removal, resource cache sharing and duplicate depth. **Unverified:** the catch-up and its cap (the settings page was too large to read), the timing of deferred free, signal ownership and one-shot connections, validity checks on freed references, web export limits, per-frame allocation and lookup cost, input, determinism. Re-read before relying.
+1. **Checked (one engine):** fixed versus variable callbacks, ready order, threaded loading, shared resources, removal is not freeing. **Also checked 2026-10-20:** autoload lifetime and never freeing one, deferred scene removal, resource cache sharing and duplicate depth. **Now checked 2026-10-20:** the catch-up cap and its default (engine class reference), one-shot connections, double connection (corrected: an error in Godot), freed references, deferred call timing in general, interpolation, echoes, signal-up and call-down guidance, the object-decoding warning, the threaded load wording. **Unverified:** the exact timing of the queued free (the node page was truncated before it), the just-pressed call's semantics (page truncated), web export limits, per-frame allocation and lookup cost, determinism, and the version-field and temporary-file save advice (own guidance). Re-read before relying.
 2. **Unity and Unreal** are named only as "the same traps"; no engine-specific rule for them was written.
 3. **Determinism** (§1.4) is design guidance; no lockstep project was built.
 

@@ -19,6 +19,7 @@ Sources: the Electron fuses, ASAR integrity, code signing and updates tutorials 
 2. **Windows builds are signed with a certificate or with the vendor's signing service;** the docs describe both. Unsigned installers trigger warnings and may be blocked by policy.
 3. **Sign in CI with credentials stored as secrets,** from a clean checkout, and fail the build if signing does not happen (own guidance). A release that was "signed on someone's laptop" cannot be reproduced when that person is away.
 4. **Verify the output, not the log** (own guidance): run the platform's signature check on the artifact before publishing.
+5. **An extended-validation Windows certificate lives on hardware-grade key storage or in a cloud signing service** (Electron code-signing page), so the key cannot be copied into a CI secret. Symptom: signing works on one machine and cannot be automated. Fix: choose the cloud signing route before building the release pipeline.
 
 ## 2.4 Updates
 1. **An update channel is a remote-code-execution channel.** Whatever feeds it must be authenticated, so sign every update and verify before install.
@@ -27,9 +28,9 @@ Sources: the Electron fuses, ASAR integrity, code signing and updates tutorials 
 4. **Update endpoints are secure-scheme only in production,** and the insecure-transport switch exists for tests. Leave it off in a release.
 5. **The static update file and the dynamic response differ:** the dynamic server answers "no content" when there is no update; both need a version in a semantic-versioning form, per-platform URLs and the signature text (the content of the signature file, not its path).
 6. **Electron's built-in updater has different server formats for macOS and Windows,** and its helper module or hosted service covers the common case. Roll your own update server only when you must, and follow the platform format to the letter.
-7. **Windows installers force the app to quit before install.** Save state in the before-exit hook, and tell the user.
-8. **Downgrades are refused by default;** allowing them is a deliberate comparison override. A rollback plan therefore needs a higher version number with older code (own guidance).
-9. **Staged rollouts and channels are the server's job** (the Tauri page shows channel in the endpoint); decide the channel names before the first public release.
+7. **On Windows the updater page says the app exits by itself when the install runs, because of an installer limitation.** Save state in the framework's before-exit hook (a Rust-side hook), and tell the user.
+8. **Downgrades are refused by default;** allowing them takes a custom version comparator on the updater builder, a Rust-side change. A rollback plan therefore needs a higher version number with older code (own guidance).
+9. **Staged rollouts and channels are the server's job:** the Tauri page has no channel setting and only shows channel-like behaviour through endpoint URLs or a query parameter, and the Electron page mentions percentage rollouts only as a reason to run a custom server. Decide the channel names before the first public release.
 
 ## 2.5 Checks (own guidance)
 1. The build log, the repository and the artifact contain no private key and no secret.
