@@ -34,8 +34,7 @@ iOS versions newer than 9, time-zone initialisation, date-component matching, ba
 requirements, reboot rescheduling). Corrected: the redirect rule for both association files (not in the pages
 read), the upload-key versus app-signing-key sentence (the cookbook does not say it), and the scope of the
 automatic exact-alarm permission. Added: boot receiver precondition, update latency of app-link verification,
-time-zone detection, personal teams and associated domains. Still unconfirmed: Android 7.0 as the FCM minimum
-(this page did not state it), the deep-link validator's behaviour, and every "design rule" and "our guidance"
+time-zone detection, personal teams and associated domains. Still unconfirmed: the deep-link validator's behaviour, and every "design rule" and "our guidance"
 marker below.
 ## Removed in the verification pass (no page supporting them)
 The Apple developer page for the 64 limit was not read (the plugin README states it, so that is the cited
@@ -55,6 +54,10 @@ were not sourced and are not in the block.
 4. **The fetch tool summarises pages,** so wording was not compared sentence by sentence; numbers (24 hours,
    30 seconds, 3.27, 7.0) are from those summaries.
 5. **Apple documentation** for notification limits and associated domains was not read directly.
+
+Independent verification 2026-10-21: 34 checked, 31 matched, 3 corrected, 0 unverified (3 corrections: Android 12L denial
+release conditions, foreground notification default on Android as well as iOS, background handler isolate on Android
+only; Android 7.0 FCM minimum now confirmed on the page)
 
 ## Related blocks
 `flutter-conventions` (§5), `flutter-startup-error-hooks`, `security-hardening`, `background-jobs-conventions`,

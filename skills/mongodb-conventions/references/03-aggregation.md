@@ -28,7 +28,9 @@ Rules hold for the current MongoDB manual (read 2026-10-08). The disk-spill defa
 ## 3.3 Memory and disk
 1. **Stages that need more than 100 MB of memory spill to temporary files by default** from MongoDB 6.0
    (`allowDiskUseByDefault`), unless the command sets `allowDiskUse: false`; a command can also set
-   `allowDiskUse` itself to override the server setting either way.
+   `allowDiskUse` itself to override the server setting either way. The Apache-2.0 agent skills say the same
+   about spilling by default (`allowDiskUse` defaults to true) but give no version; the 6.0 start and the
+   parameter name are unverified (2026-10-21).
 2. **A spill is a signal.** The profiler and diagnostic logs include a `usedDisk` indicator when a stage wrote
    temporary files; treat repeated spills as a query or index to fix, not as normal.
 3. **A sort that cannot use an index gets the same treatment.** Over 100 MB it also writes temporary files

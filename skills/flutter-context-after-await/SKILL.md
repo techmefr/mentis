@@ -48,3 +48,5 @@ terms were not read, facts only, no text copied. Steps 1-4 and the guardrail on 
 Still unsourced, our reasoning: that a check placed before the await is useless and that each resumption point
 needs its own guard (step 2 and 5), and the two failure modes in step 1 (throw versus silent misfire), which
 no page read states in those terms. 🟡: never run by us. Detail in `skills/flutter-conventions/references/origin.md`.
+
+Independent verification 2026-10-21: 6 checked, 6 matched, 0 corrected, 0 unverified (fewer than eight checkable points in this block; all were checked).

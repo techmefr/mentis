@@ -41,7 +41,7 @@
     rare cases that need it.
 12. **Clean up a side effect that can be superseded** (a request, a timer): register the cleanup with
     `onWatcherCleanup` (3.5+, only during the synchronous part of the callback) or use the `onCleanup` argument,
-    which has no such constraint. Use `once: true` (3.5+) for a one-shot watch.
+    which has no such constraint. Use `once: true` (3.4+) for a one-shot watch.
 13. **`nextTick()` waits for the next DOM update flush.** Reach for it after changing state when the next line
     reads the DOM (focus, scroll, measurement); not as a delay for hiding a missing dependency.
 

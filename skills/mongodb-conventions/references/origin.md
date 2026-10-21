@@ -61,3 +61,4 @@ not used.
 
 ## Related blocks
 `sql-server-tsql-types-and-queries`, `mysql-pitfalls`, `jpa-hibernate-pitfalls`, `prisma-ops-and-test-hygiene`, `security-hardening`.
+Independent verification 2026-10-21: 23 checked, 22 matched, 0 corrected, 1 unverified (the Apache-2.0 agent skills at head 155bb9c were compared point by point; the open conflict is resolved in substance: they say stages over 100 MB spill by default and that `allowDiskUse` defaults to true, which agrees with the block, but they do not state the 6.0 start or `allowDiskUseByDefault`, so those two details stay unverified. Points resting only on the manual keep their 2026-10-08 reading and are not counted, per the licence rule above)

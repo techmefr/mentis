@@ -1,7 +1,8 @@
 # flutter-native-bridge-ffi §1 — Channels and Pigeon
 
 Sources: the Flutter platform-channels page (repository text at the time of reading) and the Pigeon README,
-package version 29.0.7, which declares a Dart SDK constraint of `^3.11.0`; both read 2026-10-08. Where a
+package version 29.0.11 (29.0.7 when first read), which declares a Dart SDK constraint of `^3.11.0`; both read
+2026-10-08, version re-checked 2026-10-21. Where a
 point is our own guidance it says so.
 
 ## 1.1 Channel or generated bridge
@@ -43,12 +44,14 @@ point is our own guidance it says so.
    background thread, and Pigeon exposes this through a task-queue annotation for platform channels only
    (README). A handler that blocks (disk, network, a long computation) goes to a task queue or a thread of
    its own.
-4. **Which side must be on the main thread.** Corrected 2026-10-20: the earlier text said a channel method
-   must always be invoked on the platform's main thread. The current platform-channels page says that only
-   calls from the platform side into Flutter must be made on the platform's main thread, that Dart can call the
-   platform from the root isolate or a registered background isolate, and that platform handlers can be invoked
-   asynchronously from any thread. Keep platform-to-Dart calls on the main thread; a handler that must not
-   run there goes to a task queue (point 3).
+4. **Which side must be on the main thread.** Corrected 2026-10-21: the earlier text claimed the current
+   platform-channels page no longer says a channel method must always be invoked on the platform's main thread.
+   It still says so, in an introductory note near the top. Its threading section is narrower and is the more
+   precise statement: only calls from the platform side into Flutter must be made on the platform's main
+   thread, Dart can call the platform from the root isolate or a registered background isolate, and platform
+   handlers can be invoked asynchronously from any thread. The page is therefore inconsistent with itself;
+   follow the threading section. Keep platform-to-Dart calls on the main thread; a handler that must not run
+   there goes to a task queue (point 3).
 
 ## 1.4 Replying and failing
 1. **The native side replies exactly once.** Pigeon notes that a host method written as synchronous makes it

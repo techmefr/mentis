@@ -145,3 +145,4 @@ schema modelling) or §4 (performance/cost) with a handful of in-memory rows, so
 new about either. Correction: the previous version of this entry, at the same timestamp, described a
 `QuarantinedBatchError`/duplicate-key quarantine and a "warehouse" that were never actually built —
 replaced here with what was.
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified (dbt docs on the current branch: on_schema_change values and default, unique_key, strategies, snapshot strategies and hard_deletes, severity defaults, unit tests from 1.8, data tests, contracts; BigQuery clustering and partitioning pages; Snowflake clustering page)

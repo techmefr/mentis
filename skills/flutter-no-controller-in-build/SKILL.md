@@ -39,3 +39,5 @@ step 1 and the hoisting in step 2. The controller and stream halves rest on the 
 instance per rebuild, none disposed) and on the `AnimationController` and `State.dispose` pages for the
 disposal pairing, but no page read states the rule for them in those words. Site terms not read, facts only.
 🟡: never run by us.
+
+Independent verification 2026-10-21: 5 checked, 5 matched, 0 corrected, 0 unverified (fewer than eight checkable points in this block; all were checked).

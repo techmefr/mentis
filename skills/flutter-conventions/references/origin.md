@@ -333,3 +333,6 @@ the plugin API names in §11.8 exist on the plugin pages (`setJavaScriptMode`, t
 `onNavigationRequest`, `addJavaScriptChannel`, `clearCache`, `clearLocalStorage`, the cookie manager's
 `clearCookies`), but the JavaScript default was not stated. Apple's ATS and keychain pages are rendered by
 script and could not be read, so the iOS half of §11.1 and §11.13 stays unsourced. Status unchanged, 🟡.
+
+Independent verification 2026-10-21: 38 checked, 36 matched, 2 corrected, 0 unverified (corrections: 9.22 named the deprecated
+`SemanticsService.announce` instead of `sendAnnouncement`; 12.9 attributed to the records page a claim it does not make)
