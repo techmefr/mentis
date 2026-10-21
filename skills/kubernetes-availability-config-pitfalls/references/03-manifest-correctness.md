@@ -28,7 +28,12 @@ next cluster upgrade removes. These are cheap to catch before apply.
    manifests, charts and releases, and `helm-mapkubeapis` for releases that already carry removed versions; none
    of those four was read for this block.
 3. **Compare against the official deprecation guide** for the versions you run now and the ones you plan to
-   upgrade to (Learnk8s). kube-score (`stable-version`) and kube-linter (`no-extensions-v1beta`) flag some old
+   upgrade to (Learnk8s). Cases it lists: Ingress `extensions/v1beta1` and `networking.k8s.io/v1beta1` removed in
+   v1.22 (the `v1` form requires `pathType` and renames `spec.backend` to `spec.defaultBackend`); PodDisruptionBudget
+   `policy/v1beta1` removed in v1.25; HorizontalPodAutoscaler `autoscaling/v2beta2` removed in v1.26
+   (`targetAverageUtilization` becomes `target.averageUtilization` with `target.type: Utilization`). To find
+   live use, read client warnings, metrics and audit data (Kubernetes 1.19 and later), or start a test API
+   server with `--runtime-config=<group>/<version>=false`. `kubectl convert` helps but its defaults may be poor. kube-score (`stable-version`) and kube-linter (`no-extensions-v1beta`) flag some old
    versions.
 4. **Pin the field names too**: kube-linter flags the deprecated `serviceAccount` field in favour of
    `serviceAccountName`, and a pod that names a service account that does not exist.
@@ -45,3 +50,5 @@ next cluster upgrade removes. These are cheap to catch before apply.
 ## 3.4 Verify
 Run the chosen linter in CI against the rendered manifests (the output of Helm or Kustomize, not only the
 templates), and make a deliberate mistake once, such as a selector typo, to confirm the pipeline fails.
+
+*Attribution.* Based in part on "Specifying a Disruption Budget", "Disruptions", "Pod Topology Spread Constraints", "ConfigMaps" and "Deprecated API Migration Guide", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

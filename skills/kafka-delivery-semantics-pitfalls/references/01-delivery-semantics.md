@@ -25,7 +25,30 @@ Sources: the Apache Kafka documentation, "Design" page of the 4.3 documentation 
 3. **For systems where messages have no primary key to deduplicate on, the page says Kafka follows similar patterns** that store offsets alongside the data. When a key exists, idempotent writes (§1.2.3) are the other route.
 4. **Exactly-once delivery to other destination systems generally needs the cooperation of that system.** Kafka provides primitives that make it feasible, not the guarantee itself.
 
-## 1.5 Checks (own guidance)
+## 1.5 Defaults that decide the semantics
+From the generated configuration tables of the 4.3 documentation (kafka.apache.org/43/generated, the apache/kafka-site content), read 2026-10-20.
+1. **A modern producer is idempotent by default**: `enable.idempotence` is `true` and `acks` is `all`. The
+   idempotence needs `acks=all`, `retries` above 0 and at most 5 in-flight requests per connection. If those
+   defaults were left alone and a setting conflicts, idempotence quietly turns itself off; if you set it to `true`
+   explicitly and a setting conflicts, the client throws a configuration exception. So an old config copied
+   forward (`acks=1`, or `retries=0`) can switch the protection off without an error.
+2. **With idempotence off, retries plus more than one in-flight request can reorder records.** `retries` defaults
+   to the maximum integer and the real limit is `delivery.timeout.ms` (2 minutes): after that the send fails
+   even though the message may have been written, which is the same unknown outcome as in §1.3.
+3. **The consumer commits for you by default**: `enable.auto.commit` is `true` every 5 seconds. Offsets then
+   advance in the background while your processing may still be running, which moves the position ahead of the
+   work (§1.2.1) when processing is slow or asynchronous. Turn it off and commit after the write, or use the
+   transactional path (§3).
+4. **A new consumer group with no committed offset starts at the newest record** (`auto.offset.reset=latest`), so
+   everything produced before its first start is skipped silently; `earliest` replays from the start. The same
+   applies when the stored offset has expired or been deleted, and the docs add that `latest` with partitions added
+   later can lose messages.
+5. **`max.poll.interval.ms` (5 minutes) bounds the time between polls**: a batch of up to `max.poll.records`
+   (500) that takes longer to process makes the consumer leave the group, the group rebalances and the batch is
+   redelivered to someone else, so a slow sink produces duplicates under at-least-once. Lower the batch or
+   raise the interval on purpose.
+
+## 1.6 Checks (own guidance)
 1. Name where the offset is committed relative to the write to the sink; if it is before, the pipeline is at most once.
 2. Kill the consumer between the write and the offset commit in a test and show that the replay leaves the sink unchanged.
 3. Name the key the sink deduplicates on, or the place where the offset is stored with the data.

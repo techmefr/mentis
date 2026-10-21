@@ -21,10 +21,12 @@ boilerplate states the trade-off next to each value; the points below keep it.
    both, check which value is in effect with `nginx -T`, and state the one you chose.
 
 ## 3.3 Sessions and cipher preference
-1. **Cache TLS sessions** to cut expensive handshakes. The boilerplate keeps them for 24 hours in a shared
+1. **Cache TLS sessions** to cut expensive handshakes (the SSL module page: the default is `none`, a shared
+   cache gives about 4000 sessions per megabyte, and the docs recommend the shared cache alone). The boilerplate keeps them for 24 hours in a shared
    cache of 10 megabytes; the file says one megabyte holds about 4000 sessions, so this holds about 40000.
    The `10m` is a size, not a time.
-2. **Turn session tickets off unless you rotate their keys.** Ticket keys are not rotated automatically:
+2. **Tickets are on by default** (since 1.5.9) and the shared cache also generates and rotates their keys
+   unless `ssl_session_ticket_key` is set. **Turn session tickets off unless you rotate their keys.** Ticket keys are not rotated automatically:
    only a reload signal or a restart does it, and a restart loses the previous key and resets all earlier
    sessions. Enable tickets only with a manual rotation mechanism (h5bp's TLS engine file).
 3. **Let the client choose the cipher** (`ssl_prefer_server_ciphers off`) when the TLS 1.2 and 1.3 ciphers
@@ -44,22 +46,50 @@ boilerplate states the trade-off next to each value; the points below keep it.
    the balanced profile only because Microsoft Edge and Safari require them (its comment, relayed here; the
    claim itself was not checked).
 4. **TLS 1.3 and 0-RTT need nginx 1.15.4 or later and OpenSSL 1.1.1 or later**, per the strict file
-   (version-bound to that file).
+   (version-bound to that file). The SSL module page: `ssl_protocols` defaults to TLS 1.2 and 1.3 (1.3 by
+   default since 1.23.4, needing OpenSSL 1.1.1), `ssl_prefer_server_ciphers` defaults to `off`.
 5. **Do not enable `ssl_early_data` blindly.** Requests sent in early data are subject to replay attacks.
    The boilerplate ships the directive commented out, and says to pass the `$ssl_early_data` variable to the
    application with a request header, which should answer `425 Too Early` for anything that could contain
-   user-supplied data.
+   user-supplied data. OpenSSL's own replay protection is disabled on nginx because it conflicts with session
+   resumption; `ssl_conf_command Options AntiReplay;` re-enables it.
 
 ## 3.5 Certificate and stapling
 1. **The default certificate is served to clients that do not support SNI** (the boilerplate's
    certificate file). The certificate file may contain the intermediate certificate.
-2. **With OCSP stapling on, load the intermediate** through `ssl_trusted_certificate` if the certificate
+2. **With OCSP stapling on the issuer must be known**: include the intermediate in the certificate file or load it through `ssl_trusted_certificate` if the certificate
    file lacks it (the same file).
 3. **Stapling needs a `resolver`.** The boilerplate sets `ssl_stapling` and `ssl_stapling_verify` on, a
    60-second validity and a 2-second resolver timeout, and lists three public DNS operators as alternatives.
    Choose the resolver your network policy allows; do not copy the list by default.
 
-## 3.6 Verify
+## 3.6 Proxying to an upstream
+From the nginx proxy and upstream module pages (facts only).
+1. **`proxy_pass` with a URI part replaces the matched location prefix; without one it passes the request URI
+   unchanged.** `location /name/ { proxy_pass http://app/remote/; }` turns `/name/x` into `/remote/x`. In a
+   regex or named location use no URI, and after a `rewrite ... break` the URI part is ignored. A trailing slash
+   on the upstream is therefore a behaviour change, not style.
+2. **In practice names are resolved when the configuration loads** (the proxy and upstream pages do not say when; verify on your version). A literal host that does not resolve at start can stop
+   nginx from starting, and a container that later gets a new address is not noticed. With a variable in
+   `proxy_pass` the name is resolved per request and needs a `resolver`. For a named upstream, `server ... resolve`
+   re-resolves at run time, needs a `resolver` and a shared-memory `zone`.
+3. **`proxy_set_header` has the same all-or-nothing inheritance as `add_header`**: one such line in a location drops
+   the ones set above it. The default `Host` sent upstream is `$proxy_host`, not the client's; pick `$host` or
+   `$http_host` on purpose.
+4. **Upstream keepalive needs three things together**: a `keepalive` line in the `upstream`, HTTP/1.1 to it and
+   an empty `Connection` header. Older versions default to HTTP/1.0 and `Connection: close`, which defeats it;
+   the pages say newer ones (1.29.7) default to 1.1, so check your version.
+5. **Buffering is on.** For server-sent events or long polling turn `proxy_buffering` off for that location (or
+   let the app send `X-Accel-Buffering: no`). `proxy_read_timeout` is 60 seconds between two reads, not for the
+   whole response, so a slow steady stream survives and a silent one is cut.
+6. **A request body over `client_max_body_size` (1 MB by default) gets 413** before it reaches the app.
+7. **An upstream that redirects to its own address leaks it**: use `proxy_redirect` to rewrite `Location`.
+8. **A group with one server ignores `max_fails` and `fail_timeout`**; with several, one failure within 10
+   seconds takes a server out for 10 seconds by default.
+9. **Location matching is not top to bottom for prefixes**: exact `=` wins, then the longest prefix (stopping at
+   `^~`), then the first matching regex in file order. `root` appends the URI; `alias` replaces the location part.
+
+## 3.7 Verify
 Run `nginx -t` and `nginx -T` and read the effective keepalive, protocols and ciphers. Handshake from the
 oldest client you support and from a current one; if the old one is refused on purpose, say so in the
 change.

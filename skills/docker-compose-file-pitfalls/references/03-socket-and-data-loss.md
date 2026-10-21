@@ -49,6 +49,9 @@ networks:
 1. **Name the loss and confirm before** `docker compose down -v` (or `--volumes`: deletes the named volumes
    including database data), `docker compose rm -v` (deletes anonymous volumes attached to removed
    containers), and `docker volume rm` or `docker volume prune` aimed at a project's volumes.
+   `docker compose down` alone removes containers and networks but keeps named and anonymous volumes;
+   `--remove-orphans` removes containers of services no longer in the file, which surprises someone who
+   renamed a service.
 2. **A volume declared `external: true` is not managed by the project**, so `down -v` leaves it alone. Treat
    removing it as the standalone case: `docker volume rm` without `-f` first, and a confirmation.
 3. **"Restart" and "clean up" do not mean those commands.** To restart services, or reclaim containers and

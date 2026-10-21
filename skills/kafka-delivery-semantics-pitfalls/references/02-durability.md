@@ -17,7 +17,21 @@ Sources: the Apache Kafka documentation, "Design" page of the 4.3 documentation 
 1. **When every replica of a partition is dead, the guarantee no longer holds.** Two behaviours exist: wait for a replica from the ISR to return and make it leader, or make the first replica that returns the leader even if it is not in the ISR, in which case its log becomes the source of truth although it may lack committed messages.
 2. **Since 0.11.0.0 Kafka's default is to wait for an in-sync replica,** and `unclean.leader.election.enable` changes that for cases where uptime matters more than consistency.
 
-## 2.4 Checks (own guidance)
+## 2.4 Defaults that undo the guarantee
+From the generated configuration tables of the 4.3 documentation (kafka.apache.org/43/generated, the apache/kafka-site content), read 2026-10-20.
+1. **`min.insync.replicas` defaults to 1**, and the broker default replication factor is also 1. `acks=all` on such
+   a topic waits for the leader alone, so it is no stronger than `acks=1`. Both must be raised for the guarantee
+   of §2.2 to exist (the usual pairing is a replication factor of 3 with a minimum of 2).
+2. **Auto-created topics take the broker defaults** (`auto.create.topics.enable` is `true`), so a typo in a topic
+   name or a first publish can create a one-replica topic. The internal offsets topic defaults to 3 replicas and
+   the transaction state log to 3 replicas with a minimum ISR of 2.
+3. **Unclean leader election is off by default.** Turning it on dynamically in KRaft mode waits for the periodic
+   election check (about 5 minutes) unless the leader-election tool is run with the unclean option.
+4. **`min.insync.replicas` matters only for `acks=all`** and, in the docs' words, messages stay invisible to
+   consumers until that many in-sync replicas hold them. A feature on newer versions (eligible leader replicas)
+   changes its semantics: read the documentation of your version.
+
+## 2.5 Checks (own guidance)
 1. For each topic that must not lose data, write down the replication factor, `min.insync.replicas`, and the producer's `acks`, and check that the last is `all`.
 2. The topic has a replication factor above the `min.insync.replicas` value, so that one broker can fail without making the partition reject writes (own reading of the availability trade-off in 2.2.4).
 3. `unclean.leader.election.enable` is read from the topic or broker configuration and is not assumed.

@@ -12,7 +12,12 @@ Sources: the Apache Kafka documentation, "Design" page of the 4.3 documentation 
 ## 4.2 Deletes
 1. **A record with a key and a null value is a delete marker (tombstone).** It causes prior records with that key to be removed, and is itself cleaned out of the log after a period.
 2. **A consumer can miss a tombstone.** The delete markers are guaranteed to be seen only if the consumer reaches the head of the log in less than `delete.retention.ms` (default 24 hours in the page). Since removal happens concurrently with reads, a consumer that lags by more can miss them and keep a deleted record.
-3. **Own guidance:** a consumer that rebuilds state from a compacted topic and may lag for longer than the delete retention should rebuild from the start rather than trust its stored state.
+3. **The configuration reference confirms the bound**: `delete.retention.ms` (default one day) also limits how long a
+   consumer that starts reading from offset 0 has to finish a complete scan, so a slow rebuild can miss
+   tombstones. A log is cleaned only once more than half of it is duplicate data (`min.cleanable.dirty.ratio`
+   0.5), so a compacted topic holds old values for a long time; do not read the topic as if it were already
+   compacted. `cleanup.policy` can combine `compact` and `delete`, and an empty list keeps data forever. Own
+   guidance on top: a consumer that rebuilds state from a compacted topic and may lag for longer than the delete retention should rebuild from the start rather than trust its stored state.
 
 ## 4.3 Monitoring
 1. **The page tells operators to monitor** the `uncleanable-partitions-count`, `max-clean-time-secs` and `max-compaction-delay-secs` metrics when relying on the maximum compaction lag.

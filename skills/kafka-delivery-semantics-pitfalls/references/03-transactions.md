@@ -23,7 +23,17 @@ Sources: the Apache Kafka documentation, "Design" page of the 4.3 documentation 
 ## 3.4 Share groups are another model
 1. **A share group is a different kind of group** with records acknowledged individually, partitions possibly assigned to several consumers, and an acquisition lock with a default duration of 30 seconds (`share.record.lock.duration.ms`). The rules above are about consumer groups; share groups are not covered by this block.
 
-## 3.5 Checks (own guidance)
+## 3.5 Transaction timeouts
+From the generated configuration tables of the 4.3 documentation (kafka.apache.org/43/generated, the apache/kafka-site content), read 2026-10-20.
+1. **`transaction.timeout.ms` defaults to 1 minute**: the coordinator aborts a transaction that stays open
+   longer. A processing step slower than that finds its work aborted. If the value asked for exceeds the broker's
+   `transaction.max.timeout.ms` the request fails with `InvalidTxnTimeoutException`.
+2. **Setting `transactional.id` implies idempotence**, and production clusters should have at least three
+   brokers because of the replication of the transaction state log.
+3. **`read_committed` reads only up to the last stable offset**, so one long-open transaction holds back every
+   consumer of that partition at that point (a consequence of the documented definition; own reading).
+
+## 3.6 Checks (own guidance)
 1. The consumer configuration is read from the code: `read_committed` and no auto commit.
 2. Each consumer instance has its own transactional producer, configured with a `transactional.id`.
 3. A test aborts a transaction on purpose and shows that the consumer reprocesses the records and the output topic shows them only once.

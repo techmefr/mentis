@@ -18,8 +18,9 @@ on 2026-10-16 before a rule was taken from it, and each repository's LICENSE fil
 | the same repository, `h5bp/tls/` (policy_balanced, policy_strict, ssl_engine, ocsp_stapling, certificate_files) | MIT | TLS profiles, NIST curve note, 0-RTT warning, session cache and tickets, cipher preference, stapling, default certificate |
 | the same repository, `CHANGELOG.md` (opening entries read, down to 4.0.0) | MIT | `ssl_prefer_server_ciphers` set to `off` in 5.0.1 (July 2023) |
 | lucaslorentz/caddy-docker-proxy (commit `c2c2b0e`), `README.md` (all 652 lines) | MIT (LICENSE file: MIT licence text, copyright Lucas Lorentz Lara 2018) | Ingress networks and their detection, quoting, directive order, label placement, generated file, certificate volume, image variants, controller and server modes |
+| nginx documentation, modules `ngx_http_headers_module`, `ngx_http_proxy_module`, `ngx_http_ssl_module`, `ngx_http_core_module`, `ngx_http_gzip_module`, `ngx_http_upstream_module` (nginx.org) | official docs of the product, read 2026-10-20, facts only in our own words | `add_header` status list and inheritance, `expires epoch`, `proxy_pass` URI and DNS behaviour, `proxy_set_header` inheritance, keepalive recipe, buffering and timeout defaults, SSL defaults, session cache sizing, early-data replay, core defaults and location order, gzip defaults and the BREACH warning, upstream failure accounting |
 
-The nginx documentation pages the boilerplate links to were not read, nor was Mozilla's TLS guidance. The
+The nginx documentation pages the boilerplate links to were first not read, then read on 2026-10-20 as the line above says, nor was Mozilla's TLS guidance. The
 boilerplate repository is MIT as a whole; its comments were rewritten, not copied. The two code samples for
 nginx are small adaptations (the dotfile deny pattern) and own illustrations (the two header lines); the
 Compose sample adapts the README's quick start with a variable image tag, placeholder names and no
@@ -41,14 +42,11 @@ comments.
    README of the boilerplate, and the CHANGELOG below the 4.0.0 entry.
 
 ## Not verified
-1. **nginx behaviour**: that `add_header` without `always` skips error responses, that `expires epoch` sends
-   `no-cache` (the boilerplate's own footnote), and the directive defaults all rest on the boilerplate's
-   comments; the nginx documentation was not read.
+1. **nginx behaviour**: `add_header` status list, `expires epoch`, directive defaults and inheritance are now confirmed by the nginx module pages (2026-10-20). Version thresholds quoted from those pages (1.29.3, 1.29.7) were not checked against release notes. That literal upstream names resolve at configuration load is general practice that neither the proxy nor the upstream page states; verify on your version.
 2. **TLS values** (protocols, ciphers, curves, the NIST claim) and the **HSTS preload requirements** are as the
    boilerplate and its linked list state them and are version-bound to commit `d2f2c3e`; the TLS 1.3 and 0-RTT
    prerequisites (nginx 1.15.4, OpenSSL 1.1.1) are the strict file's.
-3. **The "about 75 percent" gzip figure and the 4000 sessions per megabyte** are the files' statements,
-   not measured.
+3. **The "about 75 percent" gzip figure** is the file's statement, not measured; the 4000 sessions per megabyte figure is confirmed by the SSL module page.
 4. **caddy-docker-proxy**: image tags and option defaults are as the README lists them; the ingress detection
    failure is described by the README with a link to an issue that was not followed; why the YAML quoting
    matters is not explained by the README.

@@ -8,7 +8,7 @@ same risk. Everything else follows one flat rule.
    command.** This is the core rule of Docker's skill for every command in §2 except the one case in §1.2.
 2. **Do not run a destructive command as a default troubleshooting or "just clean it up" reflex.** Disk space,
    stuck containers and stale caches almost always have a narrower, non-destructive fix (the same skill).
-3. **List before you delete.** Own guidance built on the skill's examples: `docker ps -a`, `docker volume
+3. **List before you delete.** Built on the skill's examples (the prune pages of Docker's reference say what each command takes, which is why listing first matters): `docker ps -a`, `docker volume
    ls` and `docker system df` show what a command would touch, and the answer to the user names those
    resources, not the command.
 4. **Order the options by risk when offering several**, as the skill's example dialogue does: stopped

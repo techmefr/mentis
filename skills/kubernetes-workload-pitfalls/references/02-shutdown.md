@@ -14,7 +14,11 @@ stopped while traffic still arrived.
    traffic (for example Services with `externalTrafficPolicy: Local`) it can deliberately keep sending
    traffic to stopping pods so connections close smoothly (Learnk8s).
 3. **The `preStop` hook runs before the TERM signal and its time counts against the same grace period**
-   (Learnk8s).
+   (Learnk8s). If the hook is still running at the deadline the kubelet grants only a 2-second extension
+   (Kubernetes documentation).
+4. **Termination order details.** The signal goes to PID 1 of each container and an image `STOPSIGNAL` overrides
+   `SIGTERM`; without sidecars the containers get it in no set order. Terminating endpoints report `ready: false`
+   but a `serving` condition exists for draining (Kubernetes documentation).
 
 ## 2.2 What the application does
 1. **Handle `SIGTERM`.** Stop accepting new requests, keep serving in-flight ones for a short drain period,
@@ -40,3 +44,5 @@ stopped while traffic still arrived.
 ## 2.4 Verify
 Delete a pod under load (`kubectl delete pod`) while a client loops requests, and count failures. Roll out a
 new version under the same load. The shutdown path was not exercised if the test ran against an idle pod.
+
+*Attribution.* Points marked "(Kubernetes documentation)" are based on "Pod Lifecycle", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

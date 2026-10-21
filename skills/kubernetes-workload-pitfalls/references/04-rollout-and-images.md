@@ -8,7 +8,10 @@ image reference means the same thing on every node.
 1. **The fields**: `maxUnavailable` (replicas that may be unavailable during the rollout), `maxSurge` (extra
    replicas above the desired count), `minReadySeconds`, `progressDeadlineSeconds` (how long before the rollout
    is marked failed) and `revisionHistoryLimit` (old ReplicaSets kept for rollback). Defaults suit simple
-   workloads; production manifests state them (Learnk8s).
+   workloads; production manifests state them (Learnk8s). The Deployment page gives them: `maxUnavailable` and
+   `maxSurge` 25 percent (rounded down and up respectively), `progressDeadlineSeconds` 600 (it must exceed
+   `minReadySeconds`, default 0) and `revisionHistoryLimit` 10; setting that to 0 erases rollback history.
+   A rollout starts only when the pod template changes, never on a scale (Kubernetes documentation).
 2. **`maxUnavailable: 0` keeps capacity from dropping and needs `maxSurge` of at least 1**, plus enough spare
    capacity in the cluster for the surge pods. For a critical service the Niessen skill uses `maxSurge: 1`
    with `maxUnavailable: 0`:
@@ -37,7 +40,8 @@ strategy:
 2. **`Recreate` avoids mixed versions** by stopping the old pods first, at the cost of downtime unless
    something else serves traffic. Use it with care (Learnk8s).
 3. **Make the compatibility a design step**, not a hope: schema and message changes go in two releases.
-   That last sentence is own guidance, not stated by the sources.
+   That last sentence is own guidance; the Deployment page confirms only that old and new pods coexist during a
+   rolling update.
 
 ## 4.3 Image references
 1. **Never `:latest` in a workload.** It is mutable and nondeterministic, makes it hard to know what runs and
@@ -49,9 +53,16 @@ strategy:
    faster and relies on immutable tags; `Always` re-validates pull credentials each time.
 4. **`:latest` with `IfNotPresent` gives version drift**: cached layers mean some pods run the old image and
    some the new one (Niessen skill).
-5. **Image build rules** are in `dockerfile-build-pitfalls` §2.2.
+5. **The default pull policy is fixed when the object is created.** It is `Always` for `:latest` or no tag and
+   `IfNotPresent` for any other tag or a digest; changing the tag later does not update it, so switching a
+   Deployment from a versioned tag to `:latest` leaves `IfNotPresent` in place. With both a tag and a digest,
+   only the digest is used. The documentation says to avoid `:latest` in production
+   (Kubernetes documentation).
+6. **Image build rules** are in `dockerfile-build-pitfalls` §2.2.
 
 ## 4.4 Verify
 Run `kubectl rollout status` while a request loop runs, and `kubectl rollout history` to confirm the previous
 revision is kept for `kubectl rollout undo`. List every image in the namespace and check each has a tag that is
 not `latest`.
+
+*Attribution.* Points marked "(Kubernetes documentation)" are based on "Deployments" and "Images", © The Kubernetes Authors, from kubernetes/website, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); rephrased and condensed, no endorsement by the Kubernetes Authors is implied.

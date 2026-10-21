@@ -24,8 +24,10 @@ spec:
 ```
 
 3. **A policy with no ingress rules allows no ingress traffic.** The recipe says the manifest is missing the
-   `ingress` field and so allows nothing; the manifest it shows sets an empty list. Both are given as the
-   deny-all form; check the behaviour on your cluster and policy plugin.
+   `ingress` field and so allows nothing; the manifest it shows sets an empty list. The concept page
+   settles why both work: when `policyTypes` is omitted, `Ingress` is always set, and `Egress` only if the
+   policy has egress rules. So a selecting policy without ingress rules denies all ingress; an egress
+   deny-all must name `policyTypes: [Egress]`. Still test it on your cluster.
 4. **Use cases the recipe names**: starting to allow-list traffic, preventing every other pod from reaching
    a pod you run, and temporarily isolating traffic to a service.
 5. **Test it from a temporary pod**: before the policy a request from another pod succeeds; after it the
@@ -38,8 +40,18 @@ spec:
 2. **The labels a policy matches are an access control.** Whoever can `patch` Namespace objects can change
    their labels, and in clusters where NetworkPolicy is used this can indirectly allow access that was not
    intended (`kubernetes-access-and-exposure-pitfalls` §1.3 point 11, from the RBAC page).
-3. **Own guidance, not from the sources:** whether a policy is enforced depends on the cluster's network
-   plugin; check that a deny-all really blocks a test request before relying on it.
+3. **A policy is enforced only if the network plugin implements it.** The concept page says a NetworkPolicy
+   created without such a controller has no effect, silently; check that a deny-all really blocks a test
+   request before relying on it.
+4. **A namespace with no policy allows everything**, and `podSelector: {}` selects every pod in the
+   namespace. Deny-all egress also blocks DNS: add a rule to the cluster DNS service.
+5. **A connection needs both ends to allow it**: the source pod's egress policy and the destination pod's
+   ingress policy. Replies to an allowed connection pass without a rule.
+6. **`namespaceSelector` and `podSelector` in one `from` entry are ANDed; as two entries they are ORed.**
+   A stray dash in the YAML turns "pods labelled x in namespaces labelled y" into "every pod of those
+   namespaces plus every pod labelled x in this one".
+7. **`ipBlock` is for addresses outside the cluster.** Pod IPs are ephemeral, and a load balancer or NAT may
+   rewrite the source address the policy sees; traffic to and from the pod's own node is always allowed.
 
 ## 4.3 Lint checks that map to these rules
 kube-linter (commit `ead88f5`, `docs/generated/checks.md`) carries checks for most of §1 to §3. The

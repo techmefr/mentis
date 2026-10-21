@@ -5,7 +5,8 @@ the container in production.
 
 ## 2.1 Naming and pinning
 1. **`compose.yaml` is the canonical file name.** Docker's skill calls `docker-compose.yml` and
-   `docker-compose.yaml` legacy names. Own guidance: an existing project keeps its name until someone migrates
+   `docker-compose.yaml` legacy names, and the Compose documentation agrees: `compose.yaml` wins when several
+   exist, and the old names are accepted only for backward compatibility. Own guidance: an existing project keeps its name until someone migrates
    it on purpose; do not rename in a drive-by.
 2. **Pin every image tag to a version.** Never `latest`, never no tag.
 3. **Name services for their role** (`web`, `db`, `cache`, `worker`) and add `container_name` only when
@@ -38,16 +39,24 @@ docker compose -f compose.yaml -f compose.production.yaml up -d
 ## 2.3 Variables and secrets
 1. **No secret in `compose.yaml`.** Docker's skill says to use `env_file:` or Docker secrets, and Docker's
    environment-variable page says to be cautious with sensitive data in environment variables and to
-   consider Compose secrets. Own guidance, not stated in either source: prefer a secret to an environment
-   variable for anything whose leak is costly, since an environment variable is readable by every process
-   that dumps its environment.
+   consider Compose secrets. Prefer a secret to an environment variable for anything whose leak is costly: the Compose
+   secrets page says environment variables are visible to every process in the container and can land in
+   debug logs, while a secret is one file at `/run/secrets/<name>` granted per service (Linux containers only;
+   several official database images read a `_FILE` variable pointing to it).
 2. **Defaults go through substitution**: `${DB_PASSWORD:-postgres}`. Never a bare plaintext value for a
    password field.
 3. **Add `.env` to `.gitignore`.**
-4. **Know the precedence**: values come from `.env` files, shell variables and the Dockerfile, and a command
-   line setting overrides them, which is useful for a test and a trap when forgotten (Docker's
-   environment-variable page).
+4. **Know the precedence**, highest first: a `run -e` flag; a value interpolated from the shell or a `.env`
+   file; the literal `environment:` entry; `env_file:`; and last the image's own `ENV` and `ARG` defaults. A
+   command-line setting overrides everything, which is useful for a test and a trap when forgotten.
 5. **Use `environment:` for a few non-sensitive values and `env_file:` for a longer list.**
+6. **A secret is not granted by declaring it.** It must be defined at the top level and listed under each
+   service that reads it. In the long form, `uid`, `gid` and `mode` apply only to a secret whose source is an
+   environment variable and are silently ignored for a file source: a file secret keeps the permissions of the
+   host file, so an unreadable host file means an unreadable secret.
+7. **A short-syntax bind mount creates a missing host directory.** A typo in the host path therefore starts the
+   service on an empty directory, with no error. Use the long syntax with
+   `create_host_path: false` to make it fail instead.
 
 ## 2.4 Redeploying and validating
 1. **Redeploy one service** after a code change with `docker compose build web`, then

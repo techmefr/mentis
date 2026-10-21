@@ -16,14 +16,16 @@ the real infrastructure drifting from the code. The causes and the answers diffe
 
 ## 3.2 Detecting drift in real infrastructure
 1. **Run a scheduled `plan -detailed-exitcode` and alert on drift.** The exit codes are `0` for no changes, `1` for
-   a failed plan and `2` for changes, which is drift (terraform-skill).
+   a failed plan and `2` for changes, which is drift (terraform-skill; the OpenTofu plan reference gives the same
+   three codes).
 2. **Never make the schedule an auto-apply.** `apply -auto-approve` on a cron silently reverts out-of-band changes
    and is listed as a model mistake (terraform-skill). A human reviews the alert and applies deliberately.
 3. **Add a verify job after every apply** that runs `plan -detailed-exitcode`; a change after an apply means the
    apply did not converge (terrashark's verify stage; terraform-skill's idempotency check).
 4. **Common causes of drift** (terraform-skill): manual console changes, other tools, resources deleted outside
    Terraform, provider API changes. `plan -refresh-only` shows the difference and `apply -refresh-only` records it
-   in state without changing infrastructure.
+   in state without changing infrastructure; the plan reference adds that it updates state and root outputs to match
+   remote changes and cannot be combined with `-refresh=false`.
 5. **The alert path is the part to test.** terraform-skill's scheduled job runs the plan, treats exit code `2` as
    drift and sends it to a chat, a pager or an issue tracker; nothing in the sources fixes which. Whatever the
    channel, inject one out-of-band change and watch the alert arrive with no apply behind it.
