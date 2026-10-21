@@ -41,3 +41,25 @@
 **Compared and not taken.** `root-cause-tracing.md` (the backward trace, the stack capture, the bisection script for finding the test that pollutes) is the origin of `SKILL.md` §2 and §5.4; `defense-in-depth.md` is `SKILL.md` §3. `condition-based-waiting.md` (replace sleeps with condition polling) belongs to the flaky-test block (`skills/flaky-test-triage-pitfalls`), not here. The pressure tests and `CREATION-LOG.md` describe how the source skill was tested and carry no rule to take. The source's four-phase structure, its red-flags list and its "95 percent of no-root-cause cases are incomplete investigation" figure are not taken: the figure has no measurement behind it in the source.
 
 **Not verified.** Nothing in §6 was run on a real multi-stage failure.
+
+## Section 7 (`07-competing-hypotheses.md`), added 2026-10-20
+
+**Status: 🟡.** One source, licence file read the same day: `wshobson/agents`, `plugins/agent-teams/` (the
+parallel-debugging skill with its hypothesis-testing reference, and the team-debugger agent), MIT, root LICENSE,
+copyright 2024 Seth Hobson; the plugin manifest declares MIT and the same author.
+
+| Source passage | What it gave |
+|---|---|
+| Hypothesis categories, the confirming and falsifying lists in its task template | Points 2 to 5 |
+| Evidence types, citation by location, confidence bands, the evidence report with a contradicting-evidence section | Points 6 to 9 |
+| Arbitration categories and ranking, compound causes, the fix validation list | Points 10 to 12 |
+
+**Ours, not the source's.** The reconciliation with the single-hypothesis rule (the intro and point 1), the
+three-kinds minimum, separate scopes, not averaging reports (point 13) and the reading of its starter lists as
+prompts only.
+
+**Not taken.** The team commands and tool names, the decision-tree diagram, the model and colour settings, the
+percentages attached to confidence bands, and the starter hypothesis lists per error message.
+
+**Not verified.** Nothing in §7 was run on a real bug; the six-kind grouping is the source's convention, not a
+measured taxonomy.

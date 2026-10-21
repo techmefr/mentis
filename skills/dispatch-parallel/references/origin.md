@@ -24,3 +24,22 @@ the generic worker contract, and leaves the implementer brief to that file.
 1. The lines of `subagent-driven-development/SKILL.md` outside 270 to 330 (and the first lines seen in a truncated read) were not read in full this session; nothing is claimed about them.
 2. Applying the four statuses to non-implementer workers is our extension, stated as such in point 1.
 3. Nothing here was run on a real dispatch.
+
+## Section 2 (`02-file-ownership-and-finding-merge.md`), added 2026-10-20
+
+**Status: 🟡.** Rewritten from one source, not yet run on a real fan-out. The licence file was read the same day.
+
+| Source | Licence | What it gave |
+|---|---|---|
+| `wshobson/agents`, `plugins/agent-teams/` (the team-lead and team-implementer agents; the parallel-feature-development, multi-reviewer-patterns and team-communication skills and their ownership and merge references; the team-composition troubleshooting notes) | MIT, root LICENSE, copyright 2024 Seth Hobson; the plugin manifest declares MIT and names the same author | One owner per file, the clustering order, the shared-file ladder, contracts first (points 1 to 8); one dimension per reviewer, the merge rules and higher-severity rule (points 9 to 15); task updates over status messages and naming (points 16 to 18) |
+
+**Ours, not the source's.** The seam test in point 2, the test-file point, the ownership check after return, the
+"what I did not check" field, recording the lower severity, and the worker-starts-with-no-memory framing as a brief
+checklist.
+
+**Not taken.** The team lifecycle and its tool names (the source depends on an experimental team feature of one
+harness), the sizing table and the preset team compositions, the display-mode settings, the pinned model choice,
+the report template, and every severity table beyond the single "higher wins" rule.
+
+**Not verified.** The ownership examples per framework and the vertical or horizontal slice discussion were read in
+`parallel-feature-development` but left out. Nothing here was run on a real dispatch.

@@ -43,6 +43,32 @@
    generation eats into it; another says its routing key helps but does not guarantee a hit. Treat hit share as
    measured, never assumed (caching docs of both).
 
+8. **Bulky tool results make the history the cost.** An agent that receives a screenshot or a large document on
+   almost every turn re-sends all of them on every call; a long run's history can dwarf the instructions.
+   Source, read 2026-10-20: the macOS computer-use reference of anthropics/claude-quickstarts (MIT). Check: log the
+   input tokens per turn against the turn number; a line that climbs steadily is this.
+9. **"Keep the last N and replace older ones with a placeholder" defeats the cache.** Once there are more than N,
+   every new turn changes which old item is replaced, so the start of the request differs on each call and the
+   exact-prefix match of point 1 fails every time. Symptom: bounded history, and a cached share near zero.
+10. **Make the pruning step, not slide.** Let the number kept grow from a minimum up to a ceiling, then drop back
+    to the minimum. Between drops the same old items map to the same placeholders, the prefix is identical and the
+    cache keeps hitting; you pay one re-write per cycle instead of one per turn. The minimum has to be high enough
+    that the model still has what it needs to see after a drop (own guidance: test the task across a drop).
+11. **Do not prune a run that never gets long.** Reading an already-cached item costs little, while dropping it
+    forces everything after it to be re-written, so the saving pays back only if the item would have been read
+    many more times. The repository's own figure is "about ten" and comes from its README; re-read before relying
+    on it. Rule: on short tasks, prune nothing.
+12. **Pruning and summarising bound context at different prices.** A summary is an extra model call over the whole
+    history and the next turn starts with a cold cache, but it keeps a text account of what happened; pruning
+    removes only the bulky items, is cheap and fast, and leaves the text turns to accumulate. Choose pruning for
+    long, image-heavy runs that would otherwise hit the summary trigger, summarising as the rare safety net, and
+    neither for short runs.
+13. **Providers cap the request body.** A hosted platform may reject a request whose serialised size exceeds a
+    limit even when the token count is fine. Own guidance: check the serialised size before sending and force a
+    prune when it is near the cap, then restart the step cycle of point 10. The limits are the platforms'; re-read.
+14. **Show the cached share in the run's own log line,** per turn (point 3 above), so a pruning change that breaks
+    the prefix shows up in the next run, not on the invoice.
+
 ## 1.3 Token budgets
 1. **Cap output explicitly** per request class with the provider's maximum-output setting, and design the
    caller to cope with a cut answer. Symptom of a missing cap: one runaway generation costs more than a day of

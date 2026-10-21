@@ -61,6 +61,10 @@ decomposes into sub-tasks that don't step on each other.
    `BLOCKED`) and handle each differently when it comes back:
    [`references/01-worker-status-reports.md`](./references/01-worker-status-reports.md). Read it when writing the
    brief and when a report arrives.
+10. **Write the ownership map and the merge rule before launch.** One owner per file, a single owner for any shared
+   file, boundary contracts written first, one dimension per reviewer, and rules for merging overlapping findings:
+   [`references/02-file-ownership-and-finding-merge.md`](./references/02-file-ownership-and-finding-merge.md). Read it
+   when splitting writers or reviewers and when their reports are merged.
 
 ## Supervising dispatched workers
 
@@ -149,3 +153,5 @@ round with no correction needed.
 Supervision rules added 2026-10-02 from the `orchestration.md` guide of `orca` (MIT), read that day: the four-field outcome, positive-proof-only stop and retry with live/unverifiable/exited verdicts, two-layer liveness and enqueue versus acknowledgement. Its CLI specifics are not carried over.
 
 The four-status report contract (`references/01-worker-status-reports.md`) was added 2026-10-19; its provenance is in [`references/origin.md`](./references/origin.md).
+
+The ownership, shared-file, contract and finding-merge rules (`references/02-file-ownership-and-finding-merge.md`) were added 2026-10-20 from the agent-teams plugin of `wshobson/agents` (MIT); provenance in [`references/origin.md`](./references/origin.md).

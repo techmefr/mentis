@@ -34,3 +34,10 @@
 10. **Separate what is required to launch from what is required soon after.** The source marks items not yet
     enforced but planned for the future. Own guidance: use the same device for items you accept late, with a date
     and an owner, rather than blocking launch on everything or forgetting the rest.
+11. **A deploy command that exits 0 is not evidence that the change is live.** Source, read 2026-10-20: the
+    deploy-with-verification agent of the operating-kit plugin of wshobson/agents (MIT, root licence). The check that
+    counts is a request to the running service, the one users reach, that shows the new revision. It catches a
+    platform that reports success while still serving the previous revision, a staged rollout that routes only
+    part of the traffic to the new build, and an image that starts and then crashes on its first real request.
+    Own guidance: record the endpoint and its answer as the evidence, and update the state of record only after it,
+    never before.

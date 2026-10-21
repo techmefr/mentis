@@ -50,7 +50,13 @@ loop; the loop only amplifies its errors.
 | Wrong answer run to the end | Does anything depend on the agent asking mid-run? Settle every question before launch |
 | Stale inputs | Are the notes and instructions it relies on current, and who maintains them? |
 
-### 5. Land it in stages
+### 5. When one loop spans many sessions
+A loop too long for one context window (an application built or migrated feature by feature) needs a session
+protocol on top of the goal and the judge: an initializer and worker sessions, a task list that only a pass flag may
+change, one feature per session, a re-check of an earlier pass before new work, a progress file and a clean tree at
+exit: [`references/01-multi-session-harness.md`](./references/01-multi-session-harness.md).
+
+### 6. Land it in stages
 Run it once by hand, to find out how the judge decides; then as a skill or subagents; schedule it last.
 
 ## Output / checkpoint
@@ -70,3 +76,5 @@ Mechanisms rewritten from the `loop-design-check` skill of the `ECC` collection 
 the four-condition gate, decidable goal with bounds, plan/build/judge with an independent judge, the
 attempt cap and the human-keeps-the-last-switch line. Wording is ours. Left out: the cybernetic loop-type
 taxonomy and the staging by cron, which the platform docs already cover. Not run on real work.
+
+The multi-session protocol (`references/01-multi-session-harness.md`) was added 2026-10-20 from public descriptions of long-running coding harnesses and our own craft; no source text is taken. Provenance: [`references/origin.md`](./references/origin.md).

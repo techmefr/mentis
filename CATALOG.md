@@ -306,6 +306,8 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | secret-leak-response-pitfalls | 6 (new 2026-10-15) | gitleaks (MIT), detect-secrets, git-secrets, Kingfisher (Apache-2.0) | 🟡 (never dogfooded) |
 | package-manager-supply-chain-pitfalls | 6 (new 2026-10-15) | lirantal npm-security-best-practices (Apache-2.0), bodadotsh (MIT), OpenSSF wg-best-practices evaluation guide (CC-BY-4.0, credited in origin) | 🟡 (never dogfooded) |
 | redis-client-and-cluster-pitfalls | 6 (new 2026-10-15) | redis/agent-skills (MIT) | 🟡 (never dogfooded) |
+| unattended-agent-run-pitfalls | 6 (new 2026-10-20) | anthropics/claude-quickstarts (MIT) | 🟡 (never dogfooded) |
+| computer-use-agent-pitfalls | 6 (new 2026-10-20) | anthropics/claude-quickstarts (MIT) | 🟡 (never dogfooded) |
 | authorization-models-and-entitlements-pitfalls | 6 (new 2026-10-20) | openfga/openfga (Apache-2.0), cerbos/cerbos (Apache-2.0) | 🟡 (never dogfooded) |
 | offline-first-sync-and-conflict-pitfalls | 6 (new 2026-10-20) | electric-sql/electric (Apache-2.0) | 🟡 (never dogfooded) |
 | cdc-capture-and-ingestion-quality-pitfalls | 6 (new 2026-10-20) | debezium/debezium (Apache-2.0), great-expectations/great_expectations (Apache-2.0) | 🟡 (never dogfooded) |

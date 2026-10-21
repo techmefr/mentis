@@ -37,3 +37,22 @@
    are not applied.
 5. **Local binding is a permission.** `allowLocalBinding` defaults to false; on macOS it also lets the
    sandboxed process connect to loopback ports without going through the proxy.
+
+## 2.4 Tools that run on the vendor's side
+Source, read 2026-10-20: comments and configuration in the daily digest and triage agents of
+anthropics/claude-quickstarts (MIT). Sentences marked "own guidance" are ours.
+1. **A search or fetch tool run by the model vendor does not go through your sandbox.** The sample's own comment:
+   the toolset's web search and web fetch run on the vendor's servers, outside the sandbox, so the environment's
+   domain allowlist does not cover them. Every other rule in this section constrains the sandbox's traffic and
+   none constrains theirs.
+2. **Text the agent reads can then send data out.** With such a tool enabled, a sentence in a chat message, a pull
+   request or an error report can ask for a lookup whose address carries what the agent has read. That is the
+   exfiltration path of `llm-app-prompt-injection-and-exfiltration-pitfalls`, with no sandbox in the way.
+3. **Turn them off when the job does not need them.** The sample's agents that read internal sources disable both
+   tools and say why in a comment. Check: list the tools the platform runs for the agent, whoever runs them, and
+   ask of each "where does this connect, and who enforces the list?"
+4. **If one is needed, scope it.** Own guidance: allow it only in a run that reads no untrusted text, or restrict
+   the domains it may reach in the platform's own setting if one exists, and test that setting on its own, as it
+   is separate from the sandbox allowlist.
+5. **The same applies to remote tool servers you attach.** A remote tool server executes on someone else's host;
+   what it can reach is decided there (`agent-mcp-trust-pitfalls`).

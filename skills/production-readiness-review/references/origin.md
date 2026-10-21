@@ -40,3 +40,9 @@ Credit as the licences require: Kubernetes enhancements, Apache-2.0 (https://git
 `skills/backup-restore-drill-pitfalls`, `skills/chaos-experiment`, `skills/feature-flag-lifecycle`,
 `skills/threat-modeling-lite`, `skills/security-hardening`, `skills/ship`, `skills/documentation-craft-pitfalls`,
 `skills/blameless-incident-review-pitfalls`, `skills/source-freshness`.
+
+## Point 11, added 2026-10-20
+One source: `wshobson/agents`, `plugins/operating-kit/agents/deploy-with-verification.md` (MIT, root LICENSE,
+copyright 2024 Seth Hobson; the manifest declares MIT for its own author). It gave the claim that success of the
+deploy command and a live service running the new build are different claims, and the three failures that the
+live check catches. The "record the endpoint and the answer" and the update-after-check order are ours. Not run.

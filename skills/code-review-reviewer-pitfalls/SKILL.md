@@ -30,6 +30,7 @@ pull or merge request by `mr-conventions`; none is repeated here.
 | 2 | Severity labels, commenting on the code, explaining why, guidance versus fixing, praise, explanations | writing review comments | [`02-writing-comments.md`](./references/02-writing-comments.md) |
 | 3 | Response time, focus, approve with comments, large changes, what a small change is, splitting | a review is slow or a change is large | [`03-speed-and-size.md`](./references/03-speed-and-size.md) |
 | 4 | Pushback, the cleanup promised for later, strictness complaints, reviewing the tests | the author disagrees, defers, or the change carries tests | [`04-pushback-cleanup-and-tests.md`](./references/04-pushback-cleanup-and-tests.md) |
+| 5 | Debt typical of agent-written code: unwritten failure paths, orphaned resources, edge inputs, invented dependencies, drift from the project's patterns | the change was produced by an agent | [`05-agent-written-code-debt.md`](./references/05-agent-written-code-debt.md) |
 
 ## Output / checkpoint
 Each comment carries a severity or is plainly blocking (§2.1), the decision to approve or block is tied to whether
@@ -57,3 +58,5 @@ from Google's engineering practices documentation (https://github.com/google/eng
 (https://creativecommons.org/licenses/by/3.0/); the changes are rewording, restructuring, replacing Google-internal
 terms and relabelling its thresholds as examples, and no endorsement by Google is implied. 🟡: never run by us;
 open points are in [`references/origin.md`](./references/origin.md).
+
+Section 5 (`references/05-agent-written-code-debt.md`) was added 2026-10-20 from a small MIT skill of the `wshobson/agents` collection; provenance in [`references/origin.md`](./references/origin.md). It is not Google material.
