@@ -21,7 +21,7 @@ Sources: the `expo-overview`, `expo-project-structure`, `expo-router` and `expo-
 4. **File names in kebab-case, no special characters, and delete the old route file when a route moves.** A forgotten file keeps serving the old URL.
 5. **Server API routes live in one folder and server-only helpers in another,** because they run in a server environment and may read variables the app bundle must never see (§2, public variables). Never import server helpers from a screen.
 6. **Layout advice is for new projects only.** In an existing project follow the layout it already has; do not move files to match a template.
-7. **From SDK 56 the source says to import navigation primitives from the router's own entry points, not from the `@react-navigation` packages.** Re-read before relying on it for another SDK.
+7. **From SDK 56 the source says application code must not import from the `@react-navigation` packages and takes the router's own entry points instead; only the module specifier changes, the runtime API does not.** It applies to SDK 56 and later; before that the old imports are the right ones.
 
 ## 1.4 Platform-specific code
 1. **Small differences use the platform check; larger ones use platform files** (`.ios`, `.android`, `.native`, `.web`) imported without the extension.

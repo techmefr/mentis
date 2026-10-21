@@ -1,11 +1,11 @@
 # firebase-rules-and-client-trust-pitfalls §2 — Keys, admin credentials, claims and functions
 
-Source: official platform documentation read 2026-10-20 for facts only, rewritten (API keys, custom claims, sessions); the rest is own guidance. Names and defaults are the platform's; re-read before relying on them.
+Source: official platform documentation (page footers state CC BY 4.0 for text, Apache-2.0 for code samples) read 2026-10-20, rewritten (API keys, App Check, custom claims, sessions, callable functions, function retries, anonymous sign-in); the rest is own guidance. Names and defaults are the platform's; re-read before relying on them.
 
 ## 2.1 Public configuration and abuse
 1. **The client configuration (project identifier, web key, sender identifier) is public by design;** it identifies the project, it does not grant access. Do not spend effort hiding it, and do not store a secret in the same file. Confirmed: the provider says such keys are fine in code and checked-in configuration, and warns not to rely only on restricting or hiding them (API keys page, read 2026-10-20). A key for a different service, such as a generative-model API, is not a client key and must stay server-side.
-2. **What protects the project is the rules (§1) plus an attestation service and key restrictions.** Restrict the web key to the app's own referrers or bundle identifiers, and turn on the platform's app attestation for the products that support it so that requests from copied clients are rejected. The provider names the three layers as rules for the data, app attestation for which apps may call, and cloud IAM for authorization; it also says Firebase-created keys are limited to Firebase APIs by default and that the password-sign-in endpoint quota can be tightened against brute force (API keys page).
-3. **Attestation is a brake, not a lock.** It reduces abuse by scripts; it does not replace rules.
+2. **What protects the project is the rules (§1) plus an attestation service and key restrictions.** Restrict the web key to the app's own referrers or bundle identifiers, and turn on the platform's app attestation for the products that support it so that requests from copied clients are rejected once enforcement is on (the attestation page lists the data products and callable functions, and the authentication product as a preview). The provider names the three layers as rules for the data, app attestation for which apps may call, and cloud IAM for authorization; it also says Firebase-created keys are limited to Firebase APIs by default and that the password-sign-in endpoint quota can be tightened against brute force (API keys page).
+3. **Attestation is a brake, not a lock.** It reduces abuse by scripts; it does not replace rules. The attestation page says it complements authentication, does not remove all abuse, and depends on the strength of the provider.
 4. **Set quotas and budget alerts** on the project, because an open endpoint is paid for by you (own guidance).
 
 ## 2.2 Administrator credentials
@@ -24,9 +24,9 @@ Source: official platform documentation read 2026-10-20 for facts only, rewritte
 
 ## 2.4 Callable and triggered functions
 1. **A callable function that does not check the caller is a public endpoint.** Check authentication and authorization inside it, on every call.
-2. **Validate every input in the function** as in §1.5, since the platform's call wrapper does not.
+2. **Validate every input in the function** as in §1.5. The callable page validates the caller's token and exposes it on the request but shows input checks only by example, and leaves rejecting unauthenticated calls to your code.
 3. **Do not trust the data a trigger delivers as clean** when it came from a client-writable path.
-4. **Make functions idempotent;** triggers can run more than once (`skills/serverless-edge-worker-pitfalls`, `skills/laravel-post-may-run-twice` for the same idea on another stack).
+4. **Make functions idempotent;** event-driven functions run at least once per event, retries are off by default and, when turned on, continue until success or a retry window closes (24 hours for the second generation, 7 days for the first), and the retries page recommends the event identifier as an idempotency key and an early end condition such as dropping old events, so a bug does not loop for a day (function retries page). Triggers can run more than once (`skills/serverless-edge-worker-pitfalls`, `skills/laravel-post-may-run-twice` for the same idea on another stack).
 5. **Limit the cost an anonymous caller can cause:** concurrency caps, rate limits per user, and no unbounded fan-out from one request.
 6. **Keep secrets for third-party services in the platform's secret store,** not in the function's configuration or source.
 
@@ -36,6 +36,7 @@ Source: official platform documentation read 2026-10-20 for facts only, rewritte
 3. **Require email verification before treating an address as owned,** especially if rules or functions use the email for access (own guidance).
 4. **Restrict the authorized domains** for redirects and, for multi-tenant products, restrict who may create accounts.
 5. **Account linking and provider changes can merge identities;** test sign-in with two providers on the same email.
+6. **Anonymous accounts pile up unless cleaned:** the anonymous sign-in page says automatic deletion of such accounts older than 30 days exists only in projects upgraded to the identity platform and skips linked accounts, and that sign-ups per address are rate-limited. Symptom: a user table full of throwaway identities. Check which tier the project is on before relying on cleanup.
 
 ## 2.6 Checks (own guidance)
 1. Search the repository, its history and the shipped client bundle for service account keys and administrator credentials.

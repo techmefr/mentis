@@ -11,7 +11,7 @@ Sources: `references/runtime-patterns.md` and the anti-pattern table of the `wor
 1. **A promise that is not awaited, returned or handed to the platform's background hook is floating: its result is dropped, its error swallowed and the platform may stop the process before it finishes.** Await it when the response needs the result; hand it to the background hook when it does not.
 2. **Call the background hook as a method of the context object; do not destructure it.** Detaching the method loses its receiver and throws an "illegal invocation" error at run time.
 3. **Background work after the response has its own short time limit:** the platform's limits page (read 2026-10-20) gives up to 30 seconds after the response on both plans; re-read it, figures change. Anything longer goes to a queue or a workflow (§3.1).
-4. **Use the floating-promise lint rule the project already has,** or inspect each async call on the changed path. Adding lint tooling is a separate change.
+4. **Own guidance (the source names no lint rule): use the floating-promise lint rule the project already has,** or inspect each async call on the changed path. Adding lint tooling is a separate change.
 5. **On other function platforms: AWS Lambda freezes the execution environment once the handler and extensions finish, and unfinished background work resumes only if that environment is reused** (Lambda developer guide, execution environment lifecycle). So work started and not awaited may run late, in the middle of another request, or never; finish or enqueue it before returning.
 
 ## 2.3 Memory, CPU and streaming

@@ -6,7 +6,7 @@ Sources: the `expo-data-fetching` skill (with `references/offline-and-cancellati
 
 ## 2.1 Four states per screen
 1. **Design loading, error, empty and content for every screen that loads data.** They can overlap: a failed refresh coexists with cached content.
-2. **Loading is not empty.** Empty means resolved with zero items. In TanStack Query v5 the first-fetch flag is true only while a first fetch runs; a disabled or offline-paused query has no data and is not loading, so show the prerequisite or offline state.
+2. **Loading is not empty.** Empty means resolved with zero items. In TanStack Query v5 the first-fetch flag is true only while a first fetch runs; a query that mounts offline can be pending with its fetch status paused (query library, network mode guide), so a pending check alone would show a spinner forever. Show the offline or prerequisite state instead.
 3. **A refetch keeps the stale content.** Render cached data when a refresh fails, with a non-blocking error and a retry; spinners are for the first fetch, a pull-to-refresh control for user-initiated reloads.
 4. **An empty list is a designed state:** say why it is empty and offer the next action (create, or clear the filter).
 
@@ -19,7 +19,7 @@ Sources: the `expo-data-fetching` skill (with `references/offline-and-cancellati
 
 ## 2.4 Network
 1. **Check the response status before reading the body.** A bare fetch resolves on a 404 or a 500; throw a typed error carrying the status and tell it apart from a network failure. A catch-all that treats every failure as offline is a defect: serve the cached fallback for a network error only, and let a 401, 403 or 5xx reach the screen as its own state. Check: grep each `catch` around a request and see whether it branches on the status.
-2. **Retries use backoff and a limit.** Own guidance: retry only requests that are safe to repeat, and give a write an idempotency key first (`skills/unknown-payment-outcome-pitfalls`).
+2. **Retries use backoff and a limit.** The query library's default is three retries with a doubling delay starting at one second and capped at thirty (query retries guide). Own guidance: retry only requests that are safe to repeat, and give a write an idempotency key first (`skills/unknown-payment-outcome-pitfalls`).
 3. **Cancel on unmount.** Abort the request in the effect cleanup and ignore the abort error; the query library does it for its own requests.
 4. **Offline: feed the query library's online flag from the network-status listener,** so queries pause when offline and resume on reconnect.
 5. **A cached or offline evaluation that depends on the device clock can be bypassed** by moving the clock (own guidance). Where a rule (a time lock, an expiry, a schedule) is evaluated on the device from a cache, say that the server remains the authority, store the last server time with the cache and refuse to trust a device clock that is earlier than it.
@@ -27,13 +27,14 @@ Sources: the `expo-data-fetching` skill (with `references/offline-and-cancellati
 
 ## 2.5 Storage
 1. **Tokens, passwords and device secrets go in the secure store, never in plain key-value storage or in the web-view `localStorage`.** In a web-view shell (no Expo) the equivalent is the platform keychain or keystore reached through a native plugin; any script running in the web view reads web storage. Check: grep the writes to key-value or web storage (`setItem`, `AsyncStorage`, `localStorage`) next to names like `secret`, `token`, `password`, `key`, `credential`; each hit is a finding unless the value is public. The native secure store is a plugin choice, so name the plugin the project already has before proposing one. The source's choice by use: small settings in the key-value polyfill, large or relational data in SQLite, sensitive data in the secure store.
-2. **The vendor now steers away from the legacy async key-value package** towards its SQLite-backed local storage (re-read before relying on it for your SDK).
-3. **Refresh a token once for concurrent callers:** share the in-flight refresh promise so ten failing requests trigger one refresh, not ten.
+2. **The source tells the reader never to use the async key-value package** and gives no reason; it points to the SQLite-backed local-storage polyfill for small data instead. Treat it as the vendor's position at that commit, not a platform rule.
+3. **Refresh a token once for concurrent callers (own guidance; the source sketches a refresh but never shares it):** share the in-flight refresh promise so ten failing requests trigger one refresh, not ten.
 
 ## 2.6 Public variables
-1. **Only variables with the public prefix reach the bundle, and they are inlined at build time.** Changing one needs a rebuild or a bundler restart; it is not a runtime setting.
+1. **Only variables with the public prefix reach the bundle, and they are inlined at build time.** A change shows up in development after a full reload of the app and in a production build only after a rebuild; it is not a runtime setting (Expo environment variables guide).
 2. **Anything with the public prefix is readable by whoever has the app.** Never put a write-capable key or a database password there; secrets belong to server routes, in variables without the prefix.
-3. **Validate presence at startup:** an API client that reads an unset variable should throw a named error, not call `undefined/users`.
+3. **Read each one by its literal dotted name.** The guide says bracket access and destructuring are not inlined, so the value is missing at runtime although the `.env` file has it. Check: grep for `process.env[` and `= process.env` on public names.
+4. **Validate presence at startup:** an API client that reads an unset variable should throw a named error, not call `undefined/users`.
 
 ## 2.7 Checks (own guidance)
 1. Turn the network off on a screen that has cached data: content stays, an inline error appears, nothing blanks.
