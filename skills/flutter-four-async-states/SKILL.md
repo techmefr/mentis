@@ -40,3 +40,5 @@ may carry data or an error). Those pages show loading, success and error; they d
 and nothing read states that the four belong to each data source rather than to the screen, or that a mobile
 network fails routinely. Those two steps (2 and 3) stay our guidance, and so does the rule against a blank
 or stale screen. Site terms not read, facts only. 🟡: never run by us.
+
+Independent verification 2026-10-21: 4 checked, 4 matched, 0 corrected, 0 unverified (fewer than eight checkable points in this block; all were checked).

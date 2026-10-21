@@ -35,3 +35,5 @@ cookbook and the `FutureBuilder` API page source the underlying mechanism (a fut
 restarts on every rebuild, and the page says to hold it in state created once). They do not discuss a state
 holder (cubit, bloc) whose state class contains a `Future` or `Stream`, nor the comparability and
 double-builder claims in step 1, which stay our reasoning. Site terms not read, facts only. 🟡: never run by us.
+
+Independent verification 2026-10-21: 3 checked, 3 matched, 0 corrected, 0 unverified (fewer than eight checkable points in this block; all were checked).

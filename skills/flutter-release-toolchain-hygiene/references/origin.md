@@ -71,3 +71,4 @@ interface" (all from one skill, product-policy rather than documented), "tag the
 ## Related blocks
 `flutter-conventions`, `ci-workflow-hardening`, `accessibility`, `ship`, `deprecation-migration`,
 `flutter-agent-loop`.
+Independent verification 2026-10-21: 21 checked, 21 matched, 0 corrected, 0 unverified

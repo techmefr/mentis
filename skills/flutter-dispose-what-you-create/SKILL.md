@@ -42,3 +42,5 @@ say who owns a controller passed in). Site terms not read, facts only. The owner
 constructor-injected controller is the caller's) and the reverse-order rule of step 2 are our reasoning from
 those pages, not statements of them; the `dispose`-runs-after-a-failed-`initState` trap in the guardrails is
 also unsourced here. 🟡: never run by us.
+
+Independent verification 2026-10-21: 7 checked, 7 matched, 0 corrected, 0 unverified (fewer than eight checkable points in this block; all were checked).

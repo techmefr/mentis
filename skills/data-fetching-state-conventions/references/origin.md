@@ -58,3 +58,5 @@ data functions, Angular resources), Zustand, Jotai, Valtio and NgRx; persisted-s
 **Refresh protocol.** Re-read the important-defaults and the server-rendering pages of the next TanStack Query
 major and the Pinia usage-outside-component page; give each pinned fact above a verdict
 (`skills/source-freshness` §3); stamp the date even when nothing changed.
+
+Independent verification 2026-10-21: 20 checked, 19 matched, 1 corrected, 0 unverified (the form-state advice credited to the Redux style guide in §1.5 and §3.1 is in the Redux FAQ, as a rule of thumb; TanStack Query facts compared with the 5.104 docs on main)

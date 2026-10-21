@@ -29,7 +29,9 @@ file outside `lib`); the Dart hooks page (build hooks 3.10, link hooks and recor
 `hook/` files, helper packages under dependencies); the Dart C-interop page (ffigen recommended for large APIs,
 hooks formerly called native assets); the Dart API pages for the leaf flag, the typed-list view and the
 native finalizer (all as 2.3 and 2.4 state; the finalizer detach on manual close is the documented pattern).
-Corrected: 1.3.4 (the current page no longer says a channel method must always be on the main thread).
+Corrected: 1.3.4 (first reworded to say the page no longer states that a channel method must always be on the
+main thread; the 2026-10-21 pass found the page's introductory note still says it, so 1.3.4 now describes the
+page's inconsistency).
 Added: 2.5.5. Still unsourced: the five points marked own guidance below. Pigeon's README does not list enums
 among the types it adds, so that word was dropped from 1.5.
 ## Removed in the verification pass (no page supporting them)
@@ -48,6 +50,8 @@ rule (kept as our guidance).
 4. **API reference pages were read through a fetch tool that summarises,** so wording was not compared
    sentence by sentence; the Dart 3.13.5 stamp is from that page.
 5. **How Kotlin and Swift generated signatures look** was not checked beyond the README text.
+
+Independent verification 2026-10-21: 33 checked, 31 matched, 2 corrected, 0 unverified
 
 ## Related blocks
 `flutter-conventions` (§2, §8), `security-hardening`, `flutter-agent-loop`, `flutter-release-toolchain-hygiene`.

@@ -79,8 +79,9 @@ the plugin scheduled; it does not make the foreground reconcile of §1 optional.
 2. **Ask in a context where the reason is clear,** such as when the user turns on reminders, not at app
    start; and check that notifications are enabled before relying on them (both are the page's own
    best-practice list).
-3. **An app targeting Android 12L or lower is asked by the system,** and one "Don't allow" is permanent until
-   reinstall (same page); so target the newer level and own the timing.
+3. **An app targeting Android 12L or lower is asked by the system,** and one "Don't allow" is not asked
+   again until the app is reinstalled or updated to target Android 13 or higher (same page, corrected
+   2026-10-21: the earlier text said only "until reinstall"); so target the newer level and own the timing.
 
 ## 1.8 Tap and action handlers in the background
 1. **The background response handler is a top-level or static function marked with the VM entry-point

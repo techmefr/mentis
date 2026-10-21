@@ -65,3 +65,4 @@ Rules are re-explained principle first. The verification lists are ours.
 
 ## Related blocks
 `accessibility`, `security-hardening`, `testing-anti-patterns`, `typescript-patterns`.
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified (Solid docs and eslint-plugin-solid)

@@ -11,7 +11,7 @@ extracts.
 2. **Method swizzling is required for the FCM Flutter plugin on Apple devices;** the page says that without
    it, key features such as registration handling do not function. Do not disable it.
 3. **Android needs a device with a supported Android version and Google Play services** (or an emulator with
-   Google APIs); the page's minimum was Android 7.0 when read. Re-read the number at writing time.
+   Google APIs); the page's minimum is Android 7.0 (confirmed on the page 2026-10-21). Re-read the number at writing time.
 
 ## 2.2 Permission
 **Ask for permission through the plugin's request call, at a point where the reason is clear.** On iOS and on
@@ -22,8 +22,9 @@ the Android permission page.
 ## 2.3 Three delivery states, three code paths
 The page separates them, and they are different entry points to the same app:
 1. **Foreground:** a stream of incoming messages. A notification message that arrives while the app is in
-   the foreground is not shown by default on Apple devices; on Android a high-priority channel overrides
-   that, per the page.
+   the foreground is not shown by default on either Apple devices or Android; the page's override is
+   presentation options on iOS and a high-priority channel on Android (corrected 2026-10-21: the earlier
+   text limited the default to Apple devices).
 2. **Background, opened by tapping the notification:** a stream of opened-app events.
 3. **Terminated, opened by tapping:** a future that returns the initial message, to be read once at launch.
 Route each into the same route table (`flutter-conventions` §5), including the terminated case, which the
@@ -33,8 +34,10 @@ launch path of `flutter-startup-error-hooks` has to be ready for.
 1. **It must be a top-level function, not anonymous and not a method that needs an instance,** and from
    Flutter 3.3.0 it must carry the VM entry-point pragma or release-mode tree shaking may remove it (the
    page's wording).
-2. **It runs in its own isolate outside the app's context,** so it cannot update application state or run
-   anything that touches the UI; initialise Firebase inside it, because other Firebase services may be needed.
+2. **It runs outside the app's context,** so it cannot update application state or run anything that
+   touches the UI (the page says an isolate is spawned on Android only and that iOS and macOS do not need a
+   separate one; it still describes the handler as running outside the app's context on both, so write it as
+   isolate-safe everywhere; corrected 2026-10-21); initialise Firebase inside it, because other Firebase services may be needed.
 3. **Finish quickly.** Long or intensive work affects the device and the page says the OS may end the process
    after 30 seconds. Defer heavy work to the foreground reconcile of `flutter-notifications-background` §1.
 4. **On iOS a user who swipes the app away from the switcher must reopen it before background messages work

@@ -54,3 +54,4 @@ resume.
 
 ## Related blocks
 `flutter-conventions`, `flutter-native-bridge-ffi`, `flutter-release-toolchain-hygiene`.
+Independent verification 2026-10-21: 15 checked, 15 matched, 0 corrected, 0 unverified (Apple guidelines, Android and AdMob pages; the Flutter-Skills repository credited for part of it could not be identified, so its points stay the skill's own statements)

@@ -91,11 +91,14 @@
     `Semantics` label carrying the same information as text (or a live region for content that updates after
     the initial render, per §4's live-region point) is what makes the transition itself optional to have
     perceived, and its absence a content gap rather than a missed animation.
-22. **`SemanticsService.announce` is for a change with no widget to attach a live region to.** Point 21's
+22. **`SemanticsService.sendAnnouncement` is for a change with no widget to attach a live region to.** Point 21's
     label works when something stays on screen to carry it; a transient event — a copy-to-clipboard
     confirmation, a validation pass that doesn't change any visible text — has nothing to hang the
-    announcement on, and the imperative announce call is the mechanism for exactly that gap, not a
-    replacement for a live region where one applies.
+    announcement on, and the imperative announcement call is the mechanism for exactly that gap, not a
+    replacement for a live region where one applies. Corrected 2026-10-21: the earlier text named
+    `SemanticsService.announce`, which the API reference marks deprecated since Flutter 3.35 (replaced by
+    `sendAnnouncement`, because the old call does not work with several windows). The replacement takes the
+    view (`View.of(context)`), the message and a text direction, plus an optional assertiveness.
 23. **Reduced motion is one accessibility signal among several the platform exposes the same way.**
     `MediaQuery.boldTextOf` and `.highContrastOf` are read from context exactly like point 8's reduce-motion
     flag, and a design system that branches on one but ignores the others ships a screen that respects

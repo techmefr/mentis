@@ -56,3 +56,4 @@ as universal (two sources disagree).
 ## Related blocks
 `flutter-conventions` (§1, §4, §7, §9), `flutter-four-async-states`, `flutter-dispose-what-you-create`,
 `observability-instrumentation`.
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified

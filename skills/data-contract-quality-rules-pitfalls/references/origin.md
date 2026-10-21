@@ -89,3 +89,4 @@ Result by part (50 points): **37 confirmed, 1 corrected, 1 amended, 10 own guida
 
 ## Related blocks
 `data-pipeline-conventions`, `dbt-cli-and-model-versioning-pitfalls`, `api-contract-and-schema-fuzz-pitfalls`.
+Independent verification 2026-10-21: 39 checked, 39 matched, 0 corrected, 0 unverified (ODCS repository at head 8532d9c: data-quality, SLA, fundamentals and roles pages and the v3.2.0 schema; this settles the two points the 2026-10-20 pass left open: an SLA property requires `property` and `value` in both page and schema, and the `missingValues` example lists null, the empty string and two spellings of not available)

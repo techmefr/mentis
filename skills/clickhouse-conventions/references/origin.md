@@ -52,3 +52,4 @@ not reachable (404 on the markdown view), so the rule rests on the select-data-t
 
 ## Related blocks
 `data-pipeline-conventions`, `sql-server-tsql-types-and-queries`, `mysql-pitfalls`, `mongodb-conventions`.
+Independent verification 2026-10-21: 28 checked, 28 matched, 0 corrected, 0 unverified (ClickHouse docs; the agent-skills pin 356a8c1 is older than the head of that day, 69a8354, the text is valid for the pin)

@@ -294,7 +294,7 @@ defining stores, usage outside components, state, actions). Attribution as that 
 from the Vue documentation (Copyright 2019-present Yuxi (Evan) You and Vue documentation contributors, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/);
 the text here is our adaptation in our own wording and structure, with no copied sentences, and it is not endorsed
 by the licensor. Latest releases that day: Vue 3.5.43, Pinia 4.0.3. **Facts that move, with their pin (Vue 3.5):**
-`useTemplateRef`, deep watcher depth numbers, `onWatcherCleanup` and `once` (all 3.5+), the name inference of
+`useTemplateRef`, deep watcher depth numbers and `onWatcherCleanup` (all 3.5+; the watch `once` option is 3.4+, corrected 2026-10-21), the name inference of
 `<script setup>` for KeepAlive (3.2.34+). **Not done in that pass, a stated gap, closed on the same day below:** the Vuetify version pin and the Nuxt
 `useFetch`/`useAsyncData` `enabled` gating.
 
@@ -353,3 +353,5 @@ default is stated for the validated readers). Still unsourced after this pass: �
 policy; the Vue guide does not mention it), 16.10, 16.12, 16.14-16.15, and every section other than §14-§16 outside
 the pages already credited above. The helper names in §14 exist on the current Nuxt 4 testing page; the installed
 major still has to be checked in a real project. Status unchanged, 🟡.
+
+Independent verification 2026-10-21: 32 checked, 31 matched, 1 corrected, 0 unverified (Vuetify rules were compared with the 4.3.0 documentation on master, Nuxt with the 4.6.2 docs; the pins above name the versions the text was written for)

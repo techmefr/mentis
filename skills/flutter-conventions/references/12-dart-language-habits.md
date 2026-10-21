@@ -51,8 +51,10 @@
 9. **Records are for local multiple returns; a public API returns a named type.** A record in a method
    signature that crosses a layer boundary is an unnamed concept whose fields are positional or ad hoc; give
    it a class, so it can carry documentation by name, validation and equality. The records page (read
-   2026-10-20) agrees on the cost: a record's shape is part of its type, so changing it breaks callers, and
-   a class is the stable choice for an API that may evolve. Records do get structural equality for free.
+   2026-10-20) agrees in part: a record's named-field shape is part of its type, and only a class gives full
+   abstraction and encapsulation. That a shape change breaks callers, and so a class suits an API that may
+   evolve, is our inference from those two statements, not a sentence of the page (corrected 2026-10-21).
+   Records do get structural equality for free.
 10. **Value types define equality and hash together, over immutable fields.** A class compared by value
     overrides both operators from the same fields (or is generated to), and its fields are final; a mutable
     field in the hash makes an object vanish from a set after a change. State holders emit new instances

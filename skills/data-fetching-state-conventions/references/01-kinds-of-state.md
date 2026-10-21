@@ -25,7 +25,8 @@
    selected id. Setting it through links and forms also makes it work on a server-rendered page. A store that
    mirrors the URL is a second source of truth.
 5. **Do not put form state in a global store.** A half-typed form belongs to the form and is discarded with it;
-   the Redux style guide lists form state as something to keep out of the store. Server validation errors
+   the Redux FAQ's rule of thumb is that most form state does not need to go into the store (the style guide
+   itself has no such rule; corrected 2026-10-21). Server validation errors
    arrive as a result and are rendered, not stored.
 6. **Keep UI state as local as it can be.** A value used by one component stays in it; a value shared by a
    subtree is lifted to the common parent or provided through the framework's scoped mechanism (context,

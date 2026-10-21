@@ -6,7 +6,8 @@
 
 ## Both styles
 1. **A store holds only state that needs a global home** (§1.6). The Redux style guide (re-read 2026-10-20) states one store per
-   application as an essential rule and keeps form state out of it as a recommendation; the further claim that
+   application as an essential rule; the advice to keep form state out of the store is in the Redux FAQ as a
+   rule of thumb (most form state is not shared), not in the style guide (corrected 2026-10-21); the further claim that
    its "single tree" principle is over-read, so each value is evaluated for its home, was not on that page
    and stays unconfirmed here.
 2. **One store per application in the Redux style; one store per concern in the Pinia style, each in its own

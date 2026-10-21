@@ -43,3 +43,4 @@ Patrol skills were not read in this pass).
 
 ## Related blocks
 `flutter-conventions`, `code`, `tdd`, `gate`, `deprecation-migration`, `source-freshness`.
+Independent verification 2026-10-21: 25 checked, 25 matched, 0 corrected, 0 unverified (Dart and Flutter MCP server README and tools page, Flutter DevTools and CLI pages)
