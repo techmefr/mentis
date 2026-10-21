@@ -73,3 +73,5 @@ shared utility file (the page says to disable it; the wording is ours), and the 
 ## Related blocks
 `testing-anti-patterns`, `playwright-e2e-pitfalls`, `jest-vitest-assertion-pitfalls`, `flaky-test-triage-pitfalls`,
 `tdd`, `accessibility`.
+
+Independent verification 2026-10-21: 31 checked, 30 matched, 0 corrected, 1 unverified

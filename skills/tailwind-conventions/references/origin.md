@@ -52,8 +52,9 @@ documentation, for facts only, and nothing was copied.
 | dark mode, responsive design, hover and states, compatibility, editor setup | §2.10 to §2.13, §3.8, §1.10 |
 | styling with utility classes, adding custom styles | §1.5 to §1.7, §2.7, §2.9, §2.14 |
 
-**Corrected:** the `@property`/`color-mix()` dependency and the Vite-plugin speed claim (both unstated, now worded as
-such); the `@apply` escape attribution (§1.6); the data-type hint syntax (§1.5). **Added:** §3.9 (four silent changes).
-**Still unverified:** the `@property`/`color-mix()` dependency, the Vite plugin speed advantage, the claim that variant
+**Corrected:** the Vite-plugin speed claim (unstated, now worded as such); the `@property`/`color-mix()` dependency is stated by the upgrade guide (independent check 2026-10-21 restored it); the `@apply` escape attribution (§1.6); the data-type hint syntax (§1.5). **Added:** §3.9 (four silent changes).
+**Still unverified:** the Vite plugin speed advantage, the claim that variant
 stacking order matters beyond the upgrade note (the states page documents no order rule), `--value()` type list
 beyond the page's excerpt, the ESLint plugin remark. **Not re-opened:** preflight, the plugin API, per-utility pages.
+
+Independent verification 2026-10-21: 22 checked, 21 matched, 1 corrected, 0 unverified

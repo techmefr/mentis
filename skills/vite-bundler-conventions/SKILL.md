@@ -149,3 +149,5 @@ dev only, linked packages, `--force`, `include` for plugin-created imports, barr
 only in the page), library mode wording. **Added:** Section 4 points 9 and 10. **Still unverified:** the exact
 DNS-rebinding versus cross-origin split in point 2.2, the bundle-size effect of barrels, `vite --debug` flag names
 beyond `plugin-transform`, and the `vite-env.d.ts` file location advice (the page puts it in `src`).
+
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified

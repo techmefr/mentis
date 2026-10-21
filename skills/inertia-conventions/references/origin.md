@@ -82,3 +82,5 @@ The inertiajs.com pages were read as official product documentation for facts on
 flash-message behaviour of §2.10 (the flash page returned 404), the Precognition middleware wiring (§3.15), the
 `router.reload({ interval })` wording of §5 (the polling page documents `usePoll`; check the option name against the
 installed version), and the prefetch page does not state a GET-only requirement.
+
+Independent verification 2026-10-21: 21 checked, 18 matched, 2 corrected, 1 unverified

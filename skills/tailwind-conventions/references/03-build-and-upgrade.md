@@ -4,8 +4,9 @@
 > idioms appear in a v4 project. The other sections and the guardrails stay in `SKILL.md`.
 
 1. **Check the browser floor before adopting v4.** It targets Safari 16.4, Chrome 111 and Firefox 128 (upgrade guide and
-   compatibility page, both state it for v4.0). The block's earlier statement that it relies on `@property` and
-   `color-mix()` was not found on those pages and is unverified. A project that must support older browsers stays on v3.4; this is a
+   compatibility page, both state it for v4.0). The upgrade guide's browser-requirements section also says the framework
+   depends on modern CSS features such as `@property` and `color-mix()` for core features and will not work in older
+   browsers (re-read 2026-10-21; an earlier edit of this block wrongly called that unfound). A project that must support older browsers stays on v3.4; this is a
    product decision, not a build setting.
 2. **Import it with plain CSS.** `@import "tailwindcss";` replaces the three `@tailwind` directives. Imports
    and vendor prefixing are handled by the framework, so remove the import plugin and the prefixer from the

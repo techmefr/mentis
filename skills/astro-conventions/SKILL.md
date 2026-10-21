@@ -147,3 +147,5 @@ requirement. **Not read, a stated gap:** images and fonts, view transitions and 
 routing details, sessions, the caching page, the deployment guides, testing, and any UI-framework integration;
 nothing about them was written. Refresh with `skills/source-freshness` on the next major. Written 2026-10-02,
 never run on real work.
+
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified

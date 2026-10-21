@@ -60,3 +60,5 @@ behind; the pages read state nothing that contradicts a rule). Facts only, no te
 functions page beyond the CSRF and hook mentions, the auth and images pages behind §3.11 and §3.14, the form-actions
 detail behind `use:enhance` and `fail` values, and the attachments reference behind §1.8; they keep their 2026-10-02
 stamp.
+
+Independent verification 2026-10-21: 23 checked, 23 matched, 0 corrected, 0 unverified

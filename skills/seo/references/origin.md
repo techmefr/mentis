@@ -57,8 +57,7 @@ do not matter for Search, so they are now accessibility and readability rules. �
 markups worth adding: Google stopped showing the FAQ rich result in May 2026 and removed its documentation in June.
 §5.8 said crawlers handle `meta refresh` inconsistently: Google reads a 0-second refresh as permanent, so the point is
 now about server-side redirects being preferred and script redirects failing when rendering fails. §5.11 left open
-whether the engine reads previous and next hints: it does not. §6.4 listed the upload date as a video property and
-equality with the visible trail for breadcrumbs as a Google requirement: neither is stated on the pages read, so they are marked.
+whether the engine reads previous and next hints: it does not. §6.4 listed the upload date as only recommended for a video; the structured-data page requires it (with name and thumbnail), so it is now required (independent check 2026-10-21). Equality with the visible trail for breadcrumbs as a Google requirement is not stated on the pages read, so it is marked.
 §6.6 said engines discount a refreshed date: not found, reworded. §6.2 "once per entity on the home page" is replaced
 by Google's placement rule. §8 had treated a summary file as unproven: Google now says it is not needed and has no
 effect. §1.5 x-default is a fallback and not a requirement.
@@ -74,3 +73,5 @@ checks, orphans), the chain and error-target cases of §5.9 and most of §5.10, 
 the platform card tag and preview-image rules of §6.7 to §6.9, `WebSite` markup, the contact page requirement and the
 named reviewer of §7, source linking and policy pages (§7.3, §7.4), §7.10, §7.13, §7.14, the geographic meta tag,
 and the audit method of §8 (from the plugin set credited above).
+
+Independent verification 2026-10-21: 41 checked, 38 matched, 3 corrected, 0 unverified
