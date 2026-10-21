@@ -30,5 +30,12 @@ instance is created in `initState` (or as a `late final` field) and disposed in 
   sufficient.
 
 ## Origin
-No external source: this is `skills/flutter-conventions` §1.14 extracted to its own trigger. Written
-2026-09-09, same restructuring pilot as `laravel-no-db-enums`.
+Extracted from `skills/flutter-conventions` §1.14 (written 2026-09-09). Checked 2026-10-20 against the
+`FutureBuilder` API page (the future must be obtained earlier, in `initState`, `didUpdateWidget` or
+`didChangeDependencies`, never in `build` or when constructing the builder, because any `build` call may
+happen every frame and a new future restarts the task) and the Flutter cookbook page on fetching data (an API
+call in `build` is not recommended; storing the future in state runs it once). That sources the future half of
+step 1 and the hoisting in step 2. The controller and stream halves rest on the same reasoning (a new
+instance per rebuild, none disposed) and on the `AnimationController` and `State.dispose` pages for the
+disposal pairing, but no page read states the rule for them in those words. Site terms not read, facts only.
+🟡: never run by us.

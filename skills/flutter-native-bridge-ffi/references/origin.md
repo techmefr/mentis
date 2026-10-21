@@ -18,6 +18,20 @@ built and no hook run while writing it. Overlaps with `skills/flutter-convention
 | Dart API reference: leaf flag (Dart 3.13.5), typed-list view, native finalizer | Site terms not read; facts only, no text copied | Leaf requirements and effect, view lifetime, finalizer guarantees |
 | Dart C-interop overview | Site terms not read; facts only | Recommendation to generate wrappers, hooks naming |
 
+## Re-read 2026-10-20 (verification pass)
+Opened that day and each figure checked: the Flutter platform-channels page (Pigeon as the typed alternative,
+the codec's types, main-thread rule for platform-to-Dart calls only, root and registered background isolates,
+task queues on Android and iOS, JavaScript interop for web); the Pigeon README from the repository (licence file
+re-read: BSD-3-Clause; channels for Windows and Linux, experimental native interop on Android, iOS and macOS,
+same-version rule, no split across packages, generated types in public APIs strongly discouraged, task queue
+annotation an error with native interop, error translation, synchronous methods and replying once, definition
+file outside `lib`); the Dart hooks page (build hooks 3.10, link hooks and recorded-use tree-shaking 3.13,
+`hook/` files, helper packages under dependencies); the Dart C-interop page (ffigen recommended for large APIs,
+hooks formerly called native assets); the Dart API pages for the leaf flag, the typed-list view and the
+native finalizer (all as 2.3 and 2.4 state; the finalizer detach on manual close is the documented pattern).
+Corrected: 1.3.4 (the current page no longer says a channel method must always be on the main thread).
+Added: 2.5.5. Still unsourced: the five points marked own guidance below. Pigeon's README does not list enums
+among the types it adds, so that word was dropped from 1.5.
 ## Removed in the verification pass (no page supporting them)
 "Pair the allocator and the deallocator exactly" (the allocator API page read states no such rule), "a
 reply twice or never" as a documented failure (only the exactly-once advice is documented), "one channel

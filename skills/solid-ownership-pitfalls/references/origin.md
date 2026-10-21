@@ -25,6 +25,25 @@ not the current release. The attribute and module-scope rules apply to both line
 
 The MIT rule set has no real author named, so nothing is copied and every rule is rewritten.
 
+## Re-read 2026-10-20 (verification pass)
+Official Solid pages opened that day (site terms not read; facts only, nothing copied; read through a fetch tool
+that summarises): the Show reference (unkeyed re-renders only when truthiness changes and gives an accessor;
+keyed re-renders on any change and gives the value), the children helper (memoised accessor, reads reuse the
+resolved result), reconcile (diffs into the store, key defaulting to the id, merge option), createRoot (disposed
+only through the dispose function; a root without a dispose parameter is unowned and may leak; runs once,
+untracked), the testing guide (render takes a function; renderHook returns result, cleanup and owner; testEffect
+for asynchronous effects; findBy rejects after one second; user-event takes the fake-timer advance function;
+portal content through the screen queries), the prop namespace page (client-only, no server output) and the
+store guide (function values are updaters; unwrap gives a non-reactive snapshot). These now source §1.2.1-1.2.2,
+§1.3.1, §1.1.4, §2.1.1, §2.1.2 (the updater half), §2.4.2, §3.1.1, §3.2.2, §3.3.1-3.3.3 and resolve open
+points 3 and 4 of the list below (the testing guide does mention the fake-timer option; it does not mention
+`createRoot` in tests, but the createRoot page's own example is a test). Corrections: §3.3.1 gains the one-second
+rejection; §2.4.2 gains the point that the prefix is not always needed. Still unsourced: calling a component as a
+function and the same component in several branches (open points 1), the wrapper form for a stored function
+(point 2, the consequence only), the `on:` namespace for custom events (point 5), the enumerated-attribute and
+ARIA tristate rules of §2.3 (from the lint plugin docs, not re-opened), module-scope signals under server
+rendering (§2.2, plugin docs), the split-pane cleanup (§1.1.5), innerHTML and the IndexedDB isolation notes.
+
 ## Rewrite notes
 Rules are re-explained principle first. The verification lists are ours.
 

@@ -11,10 +11,14 @@ Applies to the server and rule text read on 2026-10-08 (see §1 for versions).
    static state. The server describes a restart as applying the latest code, including changes to global
    `const` values, while resetting the application state; a reload does not reset it. So if a change to
    initialization code seems to have no effect after a reload, restart before suspecting the code.
-4. **Skip both** for an edit that only changes comments, docstrings or whitespace, and for any file outside
+4. **Native code is a third case:** the Flutter hot-reload page (re-read 2026-10-20) says changes to Kotlin,
+   Java, Swift or Objective-C are not applied by either, and need a full stop and start. It also lists, as
+   needing a restart, a switch between an enum and a class and a change to a generic type declaration, and
+   says a static or global initialiser is treated as state (make it constant or a getter to see edits).
+5. **Skip both** for an edit that only changes comments, docstrings or whitespace, and for any file outside
    `lib/` (tests, `integration_test`, `benchmark`, `test_driver`, `example`).
-5. **Hot restart does not apply to a non-Flutter Dart program** (the tool's own description says so).
-6. The server describes connecting and reloading as a safe operation to do without waiting to be asked.
+6. **Hot restart does not apply to a non-Flutter Dart program** (the tool's own description says so).
+7. The server describes connecting and reloading as a safe operation to do without waiting to be asked.
    That is the vendor's claim about its own tool; in this repo it holds only while the app is a debug or
    profile build the user started for development.
 

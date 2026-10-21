@@ -40,5 +40,11 @@ guard per resumption point, not one per method.
   shape covers every widget kind.
 
 ## Origin
-No external source: this is `skills/flutter-conventions` §1's opening rule and §1.2 extracted to its
-own trigger. Written 2026-09-09, same restructuring pilot as `laravel-no-db-enums`.
+Extracted from `skills/flutter-conventions` §1.1-§1.3 (written 2026-09-09). Checked 2026-10-20 against the
+Dart linter page for the async-context rule (guard a `State`'s context with the `State`'s `mounted`, any
+other context with its own `mounted`) and the `BuildContext` API page (do not store a context, do not cache
+values read from it beyond one synchronous function, check `mounted` after an async gap); both pages' site
+terms were not read, facts only, no text copied. Steps 1-4 and the guardrail on the lint match those pages.
+Still unsourced, our reasoning: that a check placed before the await is useless and that each resumption point
+needs its own guard (step 2 and 5), and the two failure modes in step 1 (throw versus silent misfire), which
+no page read states in those terms. 🟡: never run by us. Detail in `skills/flutter-conventions/references/origin.md`.

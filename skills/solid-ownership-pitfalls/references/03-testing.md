@@ -19,8 +19,10 @@ assume the Solid testing library and a browser-like test environment.
 
 ## 3.3 Async behaviour
 1. **Use `findBy` queries for anything that resolves later:** a resource, a lazy component, a router
-   transition. `getBy` immediately after the trigger fails because the DOM has not updated.
-2. **Fake timers need the user-event delay hook.** With `vi.useFakeTimers()`, create the user-event instance
+   transition (the Solid testing guide, read 2026-10-20: they are asynchronous and reject if nothing matches
+   within one second, and are the first query to use after rendering with a location or a resource). `getBy` immediately after the trigger fails because the DOM has not updated.
+2. **Fake timers need the user-event delay hook** (confirmed by the Solid testing guide, read 2026-10-20:
+   set up the user-event instance with the fake-timer advance function). With `vi.useFakeTimers()`, create the user-event instance
    with an `advanceTimers` option wired to the timer library, or typing waits on internal delays that never
    elapse and the test hangs.
 3. **Query portal content through `screen`,** not through the container returned by `render`: a portal renders

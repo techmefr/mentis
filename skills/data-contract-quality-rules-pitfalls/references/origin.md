@@ -28,8 +28,9 @@ implementation, the spelling of an engine, two-letter dimension synonyms that th
 `status` required in an earlier 3.1.0 schema file but not in the documentation. None was resolved by running a
 validator.
 
-**The pattern example on the quality page** places `pattern` beside `arguments` rather than under it. The block
-reports that and asks to nest it per the arguments table; it was not tested.
+**The pattern example on the quality page** was reported on 2026-10-16 as placing `pattern` beside `arguments`.
+That was wrong: re-read on 2026-10-20 at the same commit, the example nests `pattern` under `arguments`, and the
+warning is withdrawn in part 1 (§1.2.3). It was not run against a validator.
 
 **The standard's `timeOfAvailability` example** is outside the recommended property list; reported, not
 resolved.
@@ -61,6 +62,30 @@ stable-id definitions.
 - **Corrected:** none needed on re-check beyond wording and cross-references.
 - **Reversed or overstated rules found:** none.
 - **Not re-verified:** that any tool in the field behaves as the pages describe.
+
+## Re-read 2026-10-20 (verification pass)
+The Apache-2.0 repository was read again at commit 8532d9c (still the head of the main branch that day; the v3.2.0
+tag is f0bdad9). Files re-opened: `docs/data-quality.md`, `docs/service-level-agreement.md`,
+`docs/fundamentals.md`, `docs/roles.md`, `docs/references.md`, the v3.2.0 JSON schema (read programmatically) and
+the three dated 3.1.0 schema files. The licence file was not re-read in this pass (read 2026-10-16). Facts only,
+nothing copied; the pages were read through a fetch tool that summarises and the data-quality page was also
+checked line by line with a text search.
+
+Result by part (50 points): **37 confirmed, 1 corrected, 1 amended, 10 own guidance, 1 not re-verified.**
+- **Corrected:** §1.2.3. The pattern example nests `pattern` under `arguments`; the earlier claim of a
+  misindented example was wrong.
+- **Amended:** §2.3.1. The references page says references work only for foreign key relationships and does not
+  mention quality rules, so an id on a rule is not resolved by the standard's own syntax.
+- **Confirmed against the schema:** the stable id character set and its pattern, the closed list of seven
+  dimensions (full names only), free-string severity, business impact and unit, `rule` as deprecated, `engine` and
+  `implementation` both required with implementation as string or object, the `great-expectations` spelling in
+  the schema against `greatExpectations` on the page, `dataProduct` and `slaDefaultElement` deprecated since
+  3.1, roles requiring only `role` and rejecting extra keys, `status` not required in the 3.2.0 schema and
+  required in the dated 3.1.0 files, and all three placeholder spellings.
+- **Not re-verified:** that an SLA property entry requires both `property` and `value` (the schema read was cut
+  before that definition, §3.1.1), and that the library metric `missingValues` example on the page lists the
+  extra spellings of not available (the metrics table shows null, empty string and N/A).
+- **Still own guidance:** §1.1.4, §2.1.4, §2.1.5, §2.2.2, §2.2.5, §2.3.6, §3.1.4, §3.2.2, §3.2.4, §3.2.7.
 
 ## Related blocks
 `data-pipeline-conventions`, `dbt-cli-and-model-versioning-pitfalls`, `api-contract-and-schema-fuzz-pitfalls`.

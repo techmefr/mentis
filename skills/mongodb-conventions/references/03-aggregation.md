@@ -3,7 +3,9 @@
 Rules hold for the current MongoDB manual (read 2026-10-08). The disk-spill default needs MongoDB 6.0.
 
 ## 3.1 `$lookup` has a price
-1. **Index the foreign field.** The manual says `$lookup` performance depends on whether the foreign field is
+1. **Index the foreign field.** The agent skills' aggregation and excessive-lookups references (re-read
+   2026-10-20) call it the most important `$lookup` optimisation, since each lookup runs a find on the joined
+   collection, and suggest `explain("executionStats")` with the documents examined in the lookup stage. The manual says `$lookup` performance depends on whether the foreign field is
    indexed, and that unindexed or correlated-subquery lookups on large collections can slow down queries.
 2. **Prefer an embedded model for data that is always read together.** The same page suggests it to cut
    reliance on `$lookup`; a pipeline with a lookup on the hot path is a design smell (§1.1).
@@ -18,7 +20,9 @@ Rules hold for the current MongoDB manual (read 2026-10-08). The disk-spill defa
 2. **Do not add `$project` early to "shrink" documents.** The manual says a `$project` at the start or middle
    of a pipeline to reduce fields is unlikely to help because the engine already does that, and that
    `$project` should typically be the last stage, used to choose the fields returned. Use it at the end.
-3. **Read the optimised plan with `explain`.** Optimisations can change between releases, so inspect the
+3. **Put a limit right after a sort.** The agent skills' aggregation reference (Apache-2.0, re-read 2026-10-20)
+   says the engine then keeps only the top N values instead of sorting everything, which uses far less memory.
+4. **Read the optimised plan with `explain`.** Optimisations can change between releases, so inspect the
    plan rather than relying on a remembered rewrite.
 
 ## 3.3 Memory and disk

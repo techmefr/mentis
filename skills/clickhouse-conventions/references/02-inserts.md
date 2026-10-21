@@ -10,7 +10,9 @@ Rules hold for the ClickHouse documentation current on 2026-10-08.
    rate at which parts appear; many small inserts per second lead to poor query performance and the
    "too many parts" error.
 3. **A retry is safe only with an identical batch.** The page says a retried insert must keep the same
-   contents and order, so retry the stored batch, never a rebuilt one.
+   contents and order, so retry the stored batch, never a rebuilt one. The same page (re-read 2026-10-20)
+   describes synchronous inserts on MergeTree engines as idempotent when retried this way, which is why a
+   rebuilt or reordered batch loses that protection.
 4. **Pre-sorting by the ordering key and a native input format help,** with compression, for large batches
    (the page's own advice).
 

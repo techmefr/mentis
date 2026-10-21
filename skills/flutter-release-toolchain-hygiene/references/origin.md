@@ -18,6 +18,26 @@ attempted and no CI job run while writing it. Overlaps with `skills/flutter-conv
 | Android developer pages on versioning and on manifest merging | Site terms not read; facts only | Version code uniqueness and maximum, merge priority, merged view and report |
 | Apple page on uploading builds in App Store Connect | Site terms not read; facts only | The build string identifies a build |
 
+## Re-read 2026-10-20 (verification pass)
+Pages opened that day, each figure checked: Flutter UI-performance page (profile mode on a physical device,
+slowest device, asserts and JIT in debug, DevTools not connectable to web profile mode), app-size page
+(unrepresentative debug and default release builds, the analyze-size flag since Flutter 1.22 for APK, bundle,
+iOS, Linux, macOS and Windows, a very-high-density 64-bit ARM reference device, thinning report, IPAs larger),
+Android and iOS deployment pages (version line mapping, build-name and build-number overrides, per-architecture
+offset times 1000, build number unique per upload and reusable only until upload, the Play upload key versus app
+signing key, and a release snippet that must not keep a debug signing config), Android versioning page (maximum
+2100000000, no reuse, should increase), Android manifest-merge page (priority order, library lowest, merged view
+and report path, implicit permissions for libraries with a low target SDK), pub get page (enforce-lockfile
+fails on lockfile mismatch or a changed content hash and is recommended for CI and production), pub advisories
+page (shown on resolution; ignored list affects the root package only and has no reason field), `dart analyze`
+page (info-level issues do not fail without the fatal-infos flag), `dart format` page (output none plus
+set-exit-if-changed as the CI check), Flutter accessibility-testing page (48 and 44 pixel tap targets, labelled
+targets, 3:1 contrast for larger text, awaited matchers, semantics handle disposed, scanners per platform),
+`ImageCache` page (1000 images and 100 MB) and build_runner page (`generate_for` scoping, watch versus build).
+Corrections: Play needs each release to be greater was softened to the page's "should" (2.2.1); reuse after
+upload is now sourced to the iOS page (2.2.3); the web exception for image decode size is no longer asserted
+(1.3.1). Licences of those pages were not read: facts only. Still unsourced: every point marked our guidance
+below, the Apple upload page claim, and the agent-plugins skills (not re-opened).
 ## Removed in the verification pass (no page supporting them)
 "A failed upload still burns the number" (the Apple page read does not say), any claim about the iOS privacy
 manifest, nutrition labels, store data-safety declarations, an in-app account-deletion requirement and

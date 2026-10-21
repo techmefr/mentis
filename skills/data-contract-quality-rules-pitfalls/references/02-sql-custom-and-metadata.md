@@ -36,7 +36,9 @@
 ## 2.3 Rule metadata
 1. **Give every rule a stable `id`.** The page calls it a unique identifier for stable, refactor-safe
    references, recommended for anything referenced. The v3.2.0 schema requires it to be unique within its
-   array and to avoid `.`, `#`, `/`, `\`, `@`, `!`, `%`, `&`, `^` and whitespace.
+   array and to avoid `.`, `#`, `/`, `\`, `@`, `!`, `%`, `&`, `^` and whitespace. The references page (re-read 2026-10-20) says references resolve only for foreign key
+   relationships for now and does not list quality rules, so on a rule the id serves tools and people, not the
+   standard's own reference syntax.
 2. **`severity` and `businessImpact` are free strings.** The schema's examples for severity are info, warning
    and error, and for business impact operational and regulatory, but nothing enforces them. If a pipeline
    routes or blocks on severity, write the allowed values and what each does in the team's own rules.

@@ -9,7 +9,10 @@
 1. **An injection key is a typed symbol defined once, never a string.** A string key collides with whatever
    another module chose, and returns `unknown` at the call site. Declare the key as a symbol typed with the
    value's interface, export it from the shared layer that both provider and consumers may import (§5), and
-   let the type flow through both ends. A rename is then a compile error, not an empty injection.
+   let the type flow through both ends. A rename is then a compile error, not an empty injection. (Vue's
+   TypeScript page, read 2026-10-20: an injection-key type keeps provider and consumer in step, belongs in its own
+   file, and `inject` returns the value or undefined because no provider is guaranteed; a string key leaves the
+   injected type unknown.)
 2. **`inject` can return nothing, and the consumer says what that means.** Wrap the call in a small
    `useX` function: if the provider is missing it throws a named error ("must be used inside the X
    provider"), and every caller gets a defined value. A non-null assertion at each call site hides the
@@ -31,10 +34,12 @@
 ## Keys of server-state queries
 
 6. **The reactive source goes into the key, not its value.** A query library caches by key and refetches
-   when the key changes. Passing the ref, the computed or a getter keeps the key reactive; reading `.value`
+   when the key changes. Passing the ref, the computed or a getter keeps the key reactive (the query library's Vue page, read
+   2026-10-20, shows a ref inside the key and does not cover computed or getter forms); reading `.value`
    at the call site freezes it at its first value, and the screen shows the first id's data for every id
    that follows. The fetch function reads the same inputs through `toValue`.
-7. **Every variable the fetcher reads is in the key.** A filter, a page number, a locale or a tenant used
+7. **Every variable the fetcher reads is in the key** (the query library's key page, read 2026-10-20: the key
+   should include any variable the query function uses that changes, and array order matters). A filter, a page number, a locale or a tenant used
    in the request but absent from the key serves one user's page to another's request. The test is
    mechanical: remove a variable from the key and ask whether the cache would still tell two different
    requests apart.
@@ -57,10 +62,13 @@
     redirects an unauthenticated visitor before a flash of protected UI; it protects no data, because the
     API is called directly. The authorisation decision lives in the server (`skills/auth-session-conventions`)
     and the guard only mirrors it. A guard returns a decision (cancel, a location to redirect to, or nothing
-    to continue) and does not call a `next` callback in new code.
+    to continue) and does not call a `next` callback in new code. (The router guards page, read 2026-10-20,
+    still supports the third `next` argument, calls it a common source of mistakes, and requires exactly one
+    call on every path if used; it does not say "discouraged", that is our reading.)
 12. **Route middleware reads its arguments, not the ambient route.** In Nuxt a route middleware receives
-    the target and the origin as parameters; the composable that returns the current route does not describe
-    the navigation in flight, so reading it there guards the wrong page. Redirect by returning a
+    the target and the origin as parameters (the Nuxt middleware page, read 2026-10-20, says to use them
+    instead of the route composable, which can be inaccurate there); the composable that returns the current
+    route does not describe the navigation in flight, so reading it there guards the wrong page. Redirect by returning a
     navigation, cancel by returning an abort, and keep the body cheap: it runs on the server for the first
     request and on the client for every later navigation.
 13. **Server middleware sets context and never answers.** A Nitro middleware runs before every route, and
@@ -70,9 +78,13 @@
 14. **Rendering strategy is declared in one place.** `routeRules` in the Nuxt config states, per path
     pattern, whether a route is prerendered, rendered on each request, served from a revalidating cache, or
     client-only, plus its redirects and headers. A scattering of per-page overrides makes the rendering model
-    unknowable; and because the rules are applied at build and server start, they are verified against the
-    production build, not the dev server.
-15. **`definePageMeta` takes static values only.** It is hoisted out of the component by the compiler, so
+    unknowable; and the rules are verified against the production build, not the dev server. The Nuxt rendering page (read
+    2026-10-20) says hybrid rendering through route rules is not available with static generation, and does not
+    say when the rules are applied, so the build-and-start timing stated earlier is unconfirmed.
+15. **`definePageMeta` takes static values only** (the hoisting and the static-only constraint are not
+    stated on its Nuxt API page as read 2026-10-20, whose signature even lists reactive types for the layout
+    option; test before relying on a computed value there; custom fields are typed by augmenting the page-meta
+    type, which the page confirms). It is hoisted out of the component by the compiler, so
     reactive data and function calls in it are not evaluated the way they read. Type the custom meta fields
     once by augmenting the meta interface, never by casting at the use site.
 
@@ -86,10 +98,13 @@
 17. **Strings in the head are i18n output.** The title and description are built from translation keys
     (§6), so a locale switch updates them; a hard-coded English title on a French page is the most
     visible untranslated string the site has, and the one a search result shows.
-18. **Tags only a crawler needs are server-only.** The composable for server-only meta keeps them out of
-    the client bundle and the payload. Inline script and style entries in the head are the same sink as
+18. **Tags only a crawler needs are server-only.** Corrected 2026-10-20: the server-only meta composable is
+    deprecated on the Nuxt API page, which recommends calling the ordinary meta composable inside a server-only
+    branch; either way the tags stay out of the client bundle. Inline script and style entries in the head are the same sink as
     `v-html` (§16): never built from data a user wrote.
-19. **A response served by the Nitro layer is serialised as JSON.** A date arrives as a string and a class
+19. **A response served by the Nitro layer is serialised as JSON** (Nuxt data-fetching page, read 2026-10-20: the
+    page-data composables use a richer serialiser, server routes JSON, and a `toJSON` method fixes the shape).
+    A date arrives as a string and a class
     instance as a plain object, whereas the payload of the page-data composables is serialised in a form
     that preserves dates and collections. Type the client side for what actually crosses the wire, and give
     a type that must survive a JSON response an explicit serialisation method. Trimming the payload with the

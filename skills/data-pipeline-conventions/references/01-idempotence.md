@@ -8,7 +8,9 @@
    `INSERT` that duplicates on every run with no deduplication or `UPSERT`. The reason this is the
    base and not an optimisation is that every pipeline gets replayed — a retry, a backfill, a crash
    halfway, a scheduler firing twice — so a non-idempotent one is not a pipeline with a caveat, it is
-   one whose output is a function of how many times it happened to run.
+   one whose output is a function of how many times it happened to run. The dbt strategy page (read 2026-10-20) shows
+   the same split: `append` neither checks for an existing record nor updates or deletes, so a replay inserts
+   again, while `merge` with a key updates matching rows.
 2. Every run is traceable: source, version of the transformation code, timestamp: so you can trace
    back "which version of the pipeline produced this row". Without it, a wrong figure cannot be
    attributed: nobody can tell whether the source was wrong, the logic was wrong, or the row predates
@@ -55,12 +57,17 @@
     enough in the source today."** A merge keyed on a column that is only accidentally unique overwrites
     the wrong row the day two events share it, and the failure looks like a silently dropped record
     rather than an error — so the key gets its own uniqueness and not-null test, the same as any other
-    published contract in point 11.
+    published contract in point 11. The dbt incremental page (read 2026-10-20) states the contract this way: the key
+   is optional and without it most adapters append everything; key columns should not hold nulls or matching can
+   fail and create duplicates; the key must be unique in the existing table and in the new rows or the run may
+   fail; for several columns pass a list rather than a concatenation expression.
 14. **A lookback window survives clock skew and late arrival better than a bare high-water mark.**
     Re-processing the last few periods on every incremental run costs a little recomputation and buys
     back the records point 9 says are expected: a source system's clock running a few minutes behind, or
     a correction landing just after the previous run's cutoff, both land inside the lookback instead of
-    being silently missed forever.
+    being silently missed forever. The dbt incremental page gives no general lookback policy (read 2026-10-20): its
+    examples use an inclusive `>=` on the timestamp and one three-day upstream window, so the lookback advice
+    itself is own guidance.
 15. **A schema change in the source is a decision, not a crash.** A pipeline has to state whether an
     unexpected new column is captured, ignored or fails the run — the alternative is finding out which
     one happens by accident, usually via a downstream query that started returning `NULL` for a column
@@ -68,7 +75,8 @@
 16. **A scheduled full refresh is the self-healing companion to incremental processing, not a
     contradiction of it.** Incremental keeps the daily cost down; drift between the incremental history
     and the source still accumulates from edge cases nobody wrote a test for, and a periodic full rebuild
-    (weekly, monthly) is what catches and corrects it before a customer does.
+    (weekly, monthly) is what catches and corrects it before a customer does. The dbt page documents the full refresh as a drop and rebuild and advises it when the
+    model logic changes; the weekly or monthly cadence is own guidance.
 17. **Row-count trend, not just row-count-at-a-point, is what catches a broken filter.** A single run's
     count says nothing on its own; the same count against its trailing average is what turns "the join
     condition silently changed" into an alert instead of a number nobody looks at until the quarterly
@@ -81,8 +89,13 @@
     whose source added a column either fails the whole run on the next build or silently drops the new
     column depending on the engine — stating whether new columns are appended, ignored or force a full
     rebuild turns point 15's "decision, not a crash" into something a reviewer can actually see in the
-    model's own configuration rather than infer from an incident.
+    model's own configuration rather than infer from an incident. The dbt incremental page (read 2026-10-20) names four settings for it:
+    `ignore` (the default: a column added to the model stays out of the target and a removed column fails the run),
+    `fail`, `append_new_columns` and `sync_all_columns`; none backfills old rows, and only top-level columns are
+    tracked.
 20. **A merge strategy still needs a deliberate answer for a row deleted at the source.** `MERGE` only
     ever inserts or updates matched keys; a row absent from the incoming batch is silently left in place
     forever unless the model explicitly checks for and marks it gone — which is the same absence-as-event
-    rule §3.8 states for the modelling layer, arriving here at the mechanism that has to implement it.
+    rule §3.8 states for the modelling layer, arriving here at the mechanism that has to implement it. The dbt strategy page (read 2026-10-20) confirms that
+    `merge` does not delete, that `delete+insert` removes the rows for the keys present in the batch, and does not
+    discuss source deletes on the incremental page; its snapshot page has a `hard_deletes` setting (§3.8).

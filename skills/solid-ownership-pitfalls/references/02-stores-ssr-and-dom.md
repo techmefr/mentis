@@ -8,12 +8,14 @@ what the markup suggests.
    every subscriber update. `reconcile` diffs the new data against the old and updates only what changed.
    Use it for responses, polling and socket messages.
 2. **A function stored as a value needs a wrapper.** `setStore("callback", fn)` treats `fn` as an updater and
-   calls it, so the function is not stored. Write `setStore("callback", () => fn)`. When the function's identity
+   calls it, so the function is not stored (the Solid store guide, read 2026-10-20, documents function
+   values as updaters that receive the old value; the wrapper form is the consequence, not a quoted rule). Write `setStore("callback", () => fn)`. When the function's identity
    is the main state rather than one field in a bigger store, a signal or a plain object is the better home.
 3. **Take a plain snapshot before handing store data to something that clones it.** IndexedDB's structured clone
    rejects reactive proxies, and a shallow spread of the outer object is not enough when a nested array or object
    is still a proxy. Convert the whole payload to plain data, copy nested structures deliberately, and test
-   the write and read in a real browser. `unwrap` gives a snapshot without the reactive wrapper.
+   the write and read in a real browser. `unwrap` gives a snapshot without the reactive wrapper (store guide, read 2026-10-20: a non-reactive
+   snapshot of the current state; whether nested values stay plain proxies is not stated there).
 
 ## 2.2 Server rendering
 1. **Reactive state created at module scope is shared across requests.** On the server, one user's signal or
@@ -41,7 +43,9 @@ what the markup suggests.
 1. **`innerHTML` is an injection point.** Any unsanitised value rendered through it can run script, including
    data that came from your own server. Use JSX or text content; if markup is unavoidable, sanitise it first
    (see `security-hardening`).
-2. **Use `prop:` for properties of custom elements.** Normal JSX attributes are written as HTML attributes, so
+2. **Use `prop:` for properties of custom elements** (the Solid prop-namespace page, read 2026-10-20: it forces
+   a DOM property instead of an attribute, client-only, no server output, and notes that Solid can assign some
+   custom-element properties without the prefix, so the prefix is needed only for a direct property write). Normal JSX attributes are written as HTML attributes, so
    arrays and objects become strings. `prop:` writes a DOM property and is client-only; it produces no
    server-render output.
 3. **Listen with `on:` for custom events** on custom elements, as in `on:wc-change={handler}`, where the event

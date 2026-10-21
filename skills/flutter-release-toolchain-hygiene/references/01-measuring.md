@@ -36,7 +36,8 @@ that date.
 ## 1.3 Image decode size
 1. **Decode an image at the size it is shown.** The API reference for the image constructors says the
    cache-width and cache-height parameters make the engine decode at that size, primarily to reduce the image
-   cache's memory use, while the layout size still follows the widget's constraints. They are ignored on web.
+   cache's memory use, while the layout size still follows the widget's constraints. The statement that they are ignored on web was not on the constructor page read 2026-10-20; check it
+   against the page for the version in use.
 2. **The image cache is bounded:** the API reference describes a least-recently-used cache of up to 1000 images
    and up to 100 MB. A decode at full resolution of many large images fills it fast; a smaller server-side
    derivative of the original is the better fix than a larger cache (our guidance).

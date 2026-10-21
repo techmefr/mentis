@@ -5,8 +5,10 @@
 > store rules (setup-store syntax, `storeToRefs`) are also in `skills/vue-nuxt-vuetify-conventions` §2.
 
 ## Both styles
-1. **A store holds only state that needs a global home** (§1.6). The Redux guide says the "single tree" principle
-   is over-read: not every value belongs in it, and each piece of state is evaluated for its home.
+1. **A store holds only state that needs a global home** (§1.6). The Redux style guide (re-read 2026-10-20) states one store per
+   application as an essential rule and keeps form state out of it as a recommendation; the further claim that
+   its "single tree" principle is over-read, so each value is evaluated for its home, was not on that page
+   and stays unconfirmed here.
 2. **One store per application in the Redux style; one store per concern in the Pinia style, each in its own
    file.** In the second, separate files let the bundler split code and keep type inference; in the first, app
    logic does not import the store object directly but receives it through the framework provider or middleware.

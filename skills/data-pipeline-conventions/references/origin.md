@@ -105,6 +105,33 @@ as its own failure mode, a wrapped column defeating pruning invisibly, autoscale
 back down, mistyped join keys defeating pruning silently, a materialised aggregate's staleness budget, and
 a cost regression reviewed like a correctness one.
 
+**Re-read 2026-10-20 (verification pass).** Official pages opened that day, facts only, in my own words, site
+terms not read, read through a fetch tool that summarises: dbt incremental models, incremental strategy, data
+tests, unit tests, model contracts, snapshots, the project-structure overview and staging pages, the severity
+reference and source freshness; BigQuery clustered tables, partitioned tables and querying partitioned tables;
+Snowflake clustering keys and compute cost. The Great Expectations repository LICENSE was read (Apache-2.0,
+no copyright holder filled in); its suite page mentions neither severity nor `mostly`, and its expectations
+reference page returned 404, so nothing is credited to it. The Kimball Group technique notes, named above as a
+source for §3.12-3.19, were not re-read (site terms), and the contract-format material is owned by
+`data-contract-quality-rules-pitfalls`.
+
+| Point | Result |
+|---|---|
+| §1.1, 1.13, 1.15, 1.20 | sourced to the dbt strategy and incremental pages |
+| §1.14, 1.16 | partly sourced: the pages show a window and a full refresh but give no lookback policy or cadence |
+| §1.19 | corrected: the default `ignore` leaves an added column out and fails on a removed one, not engine dependent |
+| §2.2, 2.5, 2.14 | sourced (source freshness, failure count with thresholds, unit versus data tests) |
+| §2.12, 2.13 | partly sourced |
+| §2.15 | corrected: only names and types are checked up front, nullability depends on the platform |
+| §2.19 | corrected: parent relations must exist in the warehouse, the gain is running before materialisation |
+| §3.3, 3.4, 3.8, 3.19 | sourced to the dbt snapshot and project-structure pages |
+| §4.2, 4.11, 4.12 | sourced to the BigQuery and Snowflake pages |
+| §4.13 | corrected: the example is replaced, pruning depends on the engine and on the function |
+| §4.17 | partly sourced: billing confirmed, the leftover size after a backfill not |
+
+Running tally for the four sections (77 points): 18 sourced, 4 of them corrected; 5 partly sourced; 54 still
+unsourced (own guidance or Kimball material). Nothing was removed. Status stays 🟡.
+
 **Dogfooded again, 2026-09-10.** Run alongside `python-conventions`'s own second dogfood, against the
 same small project (`/tmp/dogfood-python`): a validate-then-idempotent-merge stage over a CSV of orders,
 with row counts in/out/rejected recorded and logged on every run (§2.7), a source file read into an

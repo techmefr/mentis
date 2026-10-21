@@ -299,3 +299,37 @@ and not gaps, because the run reproduced what the rules already say: a `FutureBu
 refetches on rebuild (§1.24), `context` after an await throws on an unmounted widget (§1.1), a `FutureBuilder`
 without an error branch spins forever (§4), and `pumpAndSettle` times out on an indeterminate spinner (§10.27).
 Status unchanged, 🟡.
+
+**Verification pass, 2026-10-20.** Points the block had left unsourced were re-checked against official pages
+(site terms not read, facts only, rewritten, nothing copied; each page was opened that day and read through a
+fetch tool that summarises, so wording was not compared sentence by sentence). Sources and what each
+confirmed: the Dart linter pages for the async-context, unawaited-future, `cancel_subscriptions` and
+`close_sinks` rules (§1.1-1.3, §1.7, §1.30, §12.2); the `State.dispose`, `State.mounted`,
+`ChangeNotifier.dispose`, `AnimationController.dispose`, `WidgetsBindingObserver`, `FutureBuilder` and
+`BuildContext` API pages (§1.7, 1.11, 1.18, 1.20, 1.24, 1.25); the `StreamSubscription.pause` and
+`StreamController` API pages (§1.21, 1.26); the Flutter isolates page (§1.29, §12.12); the Android pages on the
+network security configuration, `android:exported`, the Android 12 behaviour changes, Auto Backup and the
+window secure flag (§11.1, 11.4, 11.9, 11.10); the Flutter obfuscation page (§11.6); the plugin API pages for
+`webview_flutter` (§11.8); the Effective Dart usage page, the sealed-class, records, variables and
+non-promotion pages and the `DateTime` API page (§12.1, 12.4, 12.5, 12.8, 12.9, 12.11, 12.13).
+
+Corrected: §1.20 (a `ChangeNotifier` debug assertion on remaining listeners was not on its API page; what the
+page states is documented instead), §1.21 (a stale-callback claim about closing a controller before cancelling
+was dropped), §1.26 (the pause advice is for single-subscription streams; the API page advises cancelling a
+broadcast subscription), §1.29 (a short-lived `Isolate.run` or `compute` call ends itself; only a long-lived
+spawned isolate needs a stop), §11.6 (web builds are minified, not obfuscated; enum names are not obfuscated),
+§11.8 (redirect and sub-frame delivery of the navigation callback is not stated by the plugin pages and is now
+flagged as to be tested), §11.9 (the Android 12 install failure and the two backup rule files added), §11.10
+(only the screenshot and non-secure-display effects were confirmed).
+
+Added: §1.31 (`dispose` is not called on application shutdown).
+
+Still unsourced after this pass: §11.2, 11.3, 11.7 (allow-list advice), 11.11, 11.12 (a biometric result is a
+boolean: the plugin README does not describe cryptographic binding), 11.13 (keychain survival after
+reinstall: the secure-storage plugin page is silent on it), 11.14-11.18, §12.3, 12.6, 12.7, 12.10, and most of
+§2, §3, §4, §5, §6, §7, §8, §9, §10, §13 and §14 outside the points named above. The Android target-version
+statement in §11.1 was confirmed (cleartext off by default from API 28, `exported` mandatory from target 31);
+the plugin API names in §11.8 exist on the plugin pages (`setJavaScriptMode`, the navigation delegate's
+`onNavigationRequest`, `addJavaScriptChannel`, `clearCache`, `clearLocalStorage`, the cookie manager's
+`clearCookies`), but the JavaScript default was not stated. Apple's ATS and keychain pages are rendered by
+script and could not be read, so the iOS half of §11.1 and §11.13 stays unsourced. Status unchanged, 🟡.

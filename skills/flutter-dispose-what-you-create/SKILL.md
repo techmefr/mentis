@@ -33,5 +33,12 @@ controllers they write into are disposed.
   and hides the original failure (`skills/flutter-conventions` §1.15).
 
 ## Origin
-No external source: this is `skills/flutter-conventions` §1.12–§1.13 extracted to its own trigger.
-Written 2026-09-09, same restructuring pilot as `laravel-no-db-enums`.
+Extracted from `skills/flutter-conventions` §1.12-§1.13 (written 2026-09-09). Checked 2026-10-20 against the
+`State.dispose` API page (release what the object holds; unsubscribe in `dispose` what was subscribed in
+`initState`; end with the inherited call), the `AnimationController.dispose` page (disposing twice trips a
+debug assertion, which supports the double-dispose warning in step 1), the `ChangeNotifier.dispose` page
+(only the owner calls it) and the `TextEditingController` page (dispose it when no longer needed; it does not
+say who owns a controller passed in). Site terms not read, facts only. The ownership rule itself (a
+constructor-injected controller is the caller's) and the reverse-order rule of step 2 are our reasoning from
+those pages, not statements of them; the `dispose`-runs-after-a-failed-`initState` trap in the guardrails is
+also unsourced here. 🟡: never run by us.

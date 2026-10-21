@@ -26,9 +26,11 @@ example and says the shape generalises; field names below are that example's.
    removes the control. Revisit after about a month of real data (the reference's figure).
 
 ## 3.3 Two identifiers, two homes
-1. **The app identifier (tilde-separated in the example) goes in the platform manifest** (the iOS property list
+1. **The app identifier (tilde-separated, confirmed on the AdMob Flutter quick-start page read 2026-10-20)
+   goes in the platform manifest** (the iOS property list
    and the Android manifest metadata), because the SDK reads it at initialisation. A missing or empty value
-   crashes the app at launch.
+   crashes the app at launch (the reference's statement; the quick-start page names the manifest metadata
+   and the property-list key but does not describe the failure, so this stays unconfirmed).
 2. **Unit identifiers (slash-separated) go in a Dart constant.** They are not secrets, since they are visible in any
    decompiled app and networks publish samples, so compile-time constants beat build-time defines: a release
    build cannot forget a constant. Keep debug builds on the network's test units.
@@ -37,7 +39,10 @@ example and says the shape generalises; field names below are that example's.
 1. **A release check fails on an empty app identifier and an empty unit constant**, because an empty unit makes the
    earn control never appear and nobody notices until revenue is flat.
 2. **It warns on the network's well-known sample publisher prefix**, fine in development, never in a release:
-   sample ids serve "test ad" creatives that earn nothing and look broken to a reviewer.
+   sample ids serve "test ad" creatives that earn nothing and look broken to a reviewer. The AdMob test-ads page
+   (read 2026-10-20) lists the demo units, all under one shared publisher prefix, including demo units for the
+   rewarded interstitial and app-open formats, and says to replace them before publishing; test-labelled ads
+   are safe to click and appear in no reports.
 3. **Add a launch-time assertion that a release build has real, non-empty ids**, so a misconfiguration throws
    loudly instead of falling back to test creatives silently.
 4. **Never reuse another app's unit ids to get going**; traffic and revenue are mis-attributed and found late.

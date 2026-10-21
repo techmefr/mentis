@@ -53,5 +53,9 @@ whole isolate group.
 4. **A downloaded prebuilt library is checked against a stored hash** (the skill names MD5 or SHA-256 lookup
    tables; prefer SHA-256), and the hook offers an offline path such as building locally when the download is
    unavailable.
-5. **Treat a native build as part of the release surface:** each platform and architecture the app ships is
+5. **The helper packages are runtime dependencies.** The hooks page (re-read 2026-10-20) says to add the hooks
+   and code-assets packages under dependencies, not dev dependencies, and the native toolchain package only when
+   C sources are compiled. A hook package declared under dev dependencies builds locally and fails for the
+   package's consumers (our reading of the page's instruction; the failure itself is not stated).
+6. **Treat a native build as part of the release surface:** each platform and architecture the app ships is
    built and loaded once on a real device (our guidance; the pages read did not list the combinations).

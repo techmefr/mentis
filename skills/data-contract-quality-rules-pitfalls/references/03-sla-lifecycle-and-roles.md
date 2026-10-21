@@ -38,7 +38,7 @@
 3. **`status` has example values, not a closed list**: proposed, draft, active, deprecated and retired. The
    page lists them as examples, and the v3.2.0 schema lists them as examples of a free string; the
    documentation does not mark `status` required, while an earlier 3.1.0 schema file in the same repository
-   does. Decide the allowed values and the transitions in the team's own rules, and set `status` in every
+   does (the three dated 3.1.0 files, re-read 2026-10-20). Decide the allowed values and the transitions in the team's own rules, and set `status` in every
    contract.
 4. **A deprecated or retired contract still has consumers.** Moving status is a signal to them, not a
    mechanism; pair it with the deprecation path in `deprecation-migration` (own guidance).

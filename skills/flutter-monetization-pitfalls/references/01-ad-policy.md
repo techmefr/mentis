@@ -14,6 +14,9 @@ the exchange, and says it is not the only viable one; the rules below keep any a
 1. **A rewarded view is opt-in and grants exactly one concrete benefit**: it fires only from an explicit
    "watch to earn" tap, never automatically, and gives one unit (a credit, an extra attempt, a partial reveal),
    never the whole outcome the user is working toward. An automatic rewarded ad is an interstitial in disguise.
+   The AdMob rewarded guide (read 2026-10-20) puts the grant in the user-earned-reward callback, not at show
+   or dismiss time, and the Play ads policy page exempts rewarded ads the user explicitly opts into from its
+   rules on unexpected interstitials.
 2. **Model the result as a sealed type with three outcomes**: rewarded, dismissed (closed early) and no fill.
    Switch exhaustively; only the first grants, and the other two leave state untouched. A boolean collapses "no
    ad existed" into "the user declined", which need different screens.
@@ -21,13 +24,21 @@ the exchange, and says it is not the only viable one; the rules below keep any a
    time. An uncapped earn loop bypasses whatever the benefit was rationing, and a cap kept only in the network
    console produces no-fill (part 3).
 4. **Never show an earn control that can dead-end.** A new ad account has almost no fill, so an always-visible
-   button answers "no ads available" every time, which reads as broken and risks a store rejection under the
-   app-completeness guideline. Preload, expose availability as a stream, show the control only while an ad is
+   button answers "no ads available" every time, which reads as broken. (The earlier text tied this to a store
+   rejection under the app-completeness guideline; Apple's guideline 2.1, read 2026-10-20, rejects incomplete
+   or crashing apps and requires purchases to be working and reviewable, but says nothing about dead ad
+   buttons, so the rejection risk is the source skill's inference.) Preload, expose availability as a stream, show the control only while an ad is
    loaded or a redemption is in flight, and keep whatever the user needs reachable without watching anything.
 
 ## 1.3 Interstitials and banners
 1. **An interstitial fires only at a natural break**: a completion or transition the user already expected,
-   never mid-task, never in onboarding, never in the first session.
+   never mid-task, never in onboarding, never in the first session. The Play ads policy page (read
+   2026-10-20) lists as violations a full-screen interstitial that appears unexpectedly while the user is doing
+   something else, one before the splash screen at launch, one shown after consecutive taps or swipes, and one
+   at the start of a level; an interstitial must be closeable within 15 seconds unless it is opt-in or does not
+   interrupt an action. AdMob's interstitial guide recommends natural transition points. Apple's guideline
+   2.5.18 (read 2026-10-20) adds that an interstitial must be clearly labelled, not trick the user into
+   tapping, and carry a large visible close or skip control.
 2. **The cap has two halves and both must pass**: at most one per N completions and at least M seconds since the
    last one. Put the counting and the clock inside the service's show method and return whether it showed, so no
    caller counts; a cap enforced at three call sites is three caps that will disagree.

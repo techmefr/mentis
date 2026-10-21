@@ -33,5 +33,10 @@ blank or stale view.
   `skills/flutter-conventions` §4 — read it before collapsing states for a screen that seems simple.
 
 ## Origin
-No external source: this is `skills/flutter-conventions` §4.1–§4.2 extracted to its own trigger.
-Written 2026-09-09, same restructuring pilot as `laravel-no-db-enums`.
+Extracted from `skills/flutter-conventions` §4.1-§4.2 (written 2026-09-09). Checked 2026-10-20 against the
+Flutter cookbook page on fetching data (its `FutureBuilder` branches on data, then error, and falls through to
+a spinner) and the `FutureBuilder` API page (connection states none, waiting, active, done; a completed future
+may carry data or an error). Those pages show loading, success and error; they do not show an empty state,
+and nothing read states that the four belong to each data source rather than to the screen, or that a mobile
+network fails routinely. Those two steps (2 and 3) stay our guidance, and so does the rule against a blank
+or stale screen. Site terms not read, facts only. 🟡: never run by us.

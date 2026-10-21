@@ -19,6 +19,24 @@ alone on main and cites only `flutter-conventions` §5 and the blocks named in t
 | Flutter deep-linking page and the two cookbook pages (Android app links, iOS universal links) | CC-BY-3.0 text, BSD code (Flutter website repository LICENSE), read 2026-10-08 | Hosting and verification, fingerprints, default handler since 3.27, plugin conflict, testing |
 | Android developer page on verifying app links | Site terms not read; facts only; read 2026-10-08 | Host file location, auto-verify, failure states, one app per domain |
 
+## Re-read 2026-10-20 (verification pass)
+Pages opened that day, facts only: the Android pages on scheduling alarms (inexact and exact alarms, the two
+exact-alarm permissions, `canScheduleExactAlarms`, the permission-state broadcast, cancellation at shutdown and
+the boot receiver that works only after one launch, Doze), the notification runtime permission (off by default
+on Android 13, system prompts below 13 and one denial is permanent, best practices) and verifying app links
+(auto-verify, Android 6.0, per-host file, verification states, one app per domain, update latency); the Firebase
+messaging receive page (top-level named handler with the entry-point pragma on Flutter 3.3.0 or later, own
+isolate, no UI or state, about 30 seconds, `getInitialMessage` and `onMessageOpenedApp`, swipe-away behaviour,
+foreground notifications not shown by default); the Flutter cookbook pages for Android app links and iOS
+universal links (3.27 default handler, opt-out keys, adb test only proves the app side, 24 hours for Apple's
+cache, associated domains); and the local notifications plugin page (version 22.3.2 at the time, 64 pending on
+iOS versions newer than 9, time-zone initialisation, date-component matching, background handler
+requirements, reboot rescheduling). Corrected: the redirect rule for both association files (not in the pages
+read), the upload-key versus app-signing-key sentence (the cookbook does not say it), and the scope of the
+automatic exact-alarm permission. Added: boot receiver precondition, update latency of app-link verification,
+time-zone detection, personal teams and associated domains. Still unconfirmed: Android 7.0 as the FCM minimum
+(this page did not state it), the deep-link validator's behaviour, and every "design rule" and "our guidance"
+marker below.
 ## Removed in the verification pass (no page supporting them)
 The Apple developer page for the 64 limit was not read (the plugin README states it, so that is the cited
 source), and a numeric "about 50" iOS budget was dropped as a platform number (kept only as the unnamed

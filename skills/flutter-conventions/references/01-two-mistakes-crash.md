@@ -28,7 +28,8 @@ reads, provider lookups — anything `context.` — needs a guard before it's to
 6. **Never store a `BuildContext` in a field** to use later: a stored context is stale by definition. Store
    the derived object instead.
 7. **Never silence the analyzer's async-context lint with an ignore comment.** It's a latent crash, not a
-   style nit — satisfy the lint. The ignore is also self-concealing: it makes the one tool that finds this
+   style nit — satisfy the lint. (The lint's page, read 2026-10-20, names two accepted guards: the `State`'s
+   own `mounted` inside a `State`, and the context's own `mounted` for any other context.) The ignore is also self-concealing: it makes the one tool that finds this
    class of bug stop reporting the line, so the next reader has no signal that anything was ever wrong here.
 
 **Every disposable resource a widget creates, that widget releases.** Text/scroll/page/tab/animation
@@ -44,7 +45,8 @@ itself.
    under pressure, that is the difference between a screen that reopens and one the OS kills.
 10. **Store the subscription handle.** Fire-and-forget `stream.listen(...)` cannot be cancelled, which is the
     same bug as not cancelling it.
-11. **`super.dispose()` goes last** — release your own resources first.
+11. **`super.dispose()` goes last** — release your own resources first (the `State.dispose` API page, read
+    2026-10-20, says implementations should end with the inherited call).
 12. **Release in the reverse order of the dependency.** Cancel the subscription before disposing the
     controller it writes into, or the last callback in flight arrives at a disposed object and the crash
     names the controller instead of the listener that was still running.
@@ -73,15 +75,17 @@ itself.
     keeps the old resource alive under the new identifier when the parent passes a different id — the same
     stale-copy failure as §2.10, but for a disposable rather than a plain value. `didUpdateWidget` is where
     the old one is disposed and the new one created, in that order.
-20. **A `ChangeNotifier` asserts, in debug builds, if it is disposed while listeners remain attached.**
-    `removeListener` has to run before the notifier's own `dispose`, in the reverse order of point 12 —
-    otherwise the assertion fires from the notifier's teardown, naming it as the culprit, when the real bug is
-    a widget that never detached.
-21. **A broadcast `StreamController` still needs `close()` even with several listeners.** Each `listen` call
-    needs its own cancellation (point 10), and the controller itself is a separate resource on top: closing
-    it without cancelling every subscription first still leaves stale listener callbacks queued if the
-    controller had buffered events, and a controller never closed keeps its underlying sink — and whatever it
-    was writing into — reachable for the life of the isolate.
+20. **A `ChangeNotifier`'s `dispose` clears its listener list and leaves the object unusable.** Corrected
+    2026-10-20: the earlier text claimed a debug assertion when listeners remain attached, and the API page
+    states no such rule; what it documents is that `dispose` must not run during `notifyListeners`, that
+    `addListener` afterwards throws, and that only the owner disposes. A widget still detaches its own
+    listener in its own `dispose` (point 12's ordering), because a listener left behind on a notifier that
+    outlives the widget keeps calling into it.
+21. **A broadcast `StreamController` is its own resource on top of its subscriptions.** Each `listen` call
+    needs its own cancellation (point 10), and the controller the widget created is closed by the widget;
+    a controller never closed keeps its sink, and whatever it writes into, reachable. (Corrected 2026-10-20:
+    the earlier claim that closing before cancelling leaves stale callbacks queued is not stated by the
+    controller's API page, which says nothing about buffered events on close, and is dropped.)
 22. **A network call has a lifetime independent of the widget that started it**, and `mounted` only guards
     what happens with the result — it does not stop the request. Where the client supports it (a cancellation
     token, an abortable request), cancelling on `dispose` frees the connection and, for anything that
@@ -107,7 +111,10 @@ itself.
     `AutomaticKeepAliveClientMixin` (§2.19) still doesn't want its subscription's callback running while
     nobody can see the result — `StreamSubscription.pause()` on becoming invisible and `resume()` on
     becoming visible again keeps the subscription intact for when the tab is swiped back to, instead of
-    cancelling and re-subscribing from scratch and possibly missing what happened while it was away.
+    cancelling and re-subscribing from scratch and possibly missing what happened while it was away. This
+    holds for a single-subscription stream, where events arriving during a pause are buffered. On a
+    broadcast stream the `StreamSubscription.pause` page implies buffering too and advises cancelling
+    instead when the intermediate events are not wanted (API page, read 2026-10-20).
 27. **A passing test suite is not proof nothing leaks.** Leak detection for controllers, streams and other
     disposables is opt-in per test rather than a property of the app, and a resource created outside the
     widget tree the test actually pumps — a singleton, a background isolate, a static subscription — is
@@ -117,14 +124,19 @@ itself.
     same `finally` treatment as point 23.** A retry loop that schedules a periodic timer and only cancels it
     on the success branch leaves the timer running forever the one time the method exits through its catch
     block — the ticking callback then fires against a widget that already tore down everything else.
-29. **A `compute()` call or a spawned `Isolate` outlives the widget that started it unless told otherwise.**
-    Unlike a future awaited in place, an isolate keeps running its work — and holding its memory — after the
-    screen that requested it is gone, because nothing about disposing a widget signals the separate isolate
-    to stop; a long-running background computation needs its own explicit kill switch stored and called from
-    `dispose`, not an assumption that leaving the screen ends it.
+29. **A spawned isolate outlives the widget that started it unless told otherwise.** Nothing about
+    disposing a widget signals a separate isolate to stop. Distinguish the two shapes (the Flutter isolates
+    page, read 2026-10-20): a short-lived `Isolate.run` or `compute` call returns one value and shuts itself
+    down, so the cost of leaving the screen is the work running to its end, handled like point 5; a
+    long-lived worker made with `Isolate.spawn` keeps running until it exits, and needs its own explicit
+    stop, stored and called from `dispose`.
 30. **No analyser rule flags a `State` field that is never disposed.** Dogfooded 2026-10-19: a state with an
     undisposed `TextEditingController` and `ChangeNotifier` produced no diagnostic under `flutter_lints` plus
     every disposal-related rule available (`cancel_subscriptions`, `close_sinks`); the only warning was
     `unused_field`, on a field nothing read. Disposal of controllers and notifiers is therefore a review and
     test obligation, not something a green analyser has already checked — walk every field created in the
     state against its `dispose`.
+31. **`dispose` is not a place for work that must happen.** The `State.dispose` API page (read 2026-10-20)
+    says it is not called on application shutdown or when the UI is dismissed through platform-native
+    methods, so a save or a flush placed there is skipped on those paths. Persist when the data changes; see
+    `flutter-startup-error-hooks` part 1, flushing on the way to the background, for the lifecycle observer and its best-effort limits.

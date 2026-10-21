@@ -19,7 +19,9 @@
    a prop returns a promise because the DOM updates on the next tick, not synchronously; an assertion
    written before the await reads the old DOM and passes or fails by accident. When the code under test
    resolves a promise chain (a mocked request, a store action), flush the pending promises before
-   asserting. Waiting a fixed time instead is the bet `skills/testing-anti-patterns` forbids.
+   asserting. (The Vue Test Utils asynchronous-behaviour pages, read 2026-10-20: triggers and value setters
+   return the next-tick promise, and the promise-flushing helper resolves promises Vue does not track, such as
+   a mocked request.) Waiting a fixed time instead is the bet `skills/testing-anti-patterns` forbids.
 4. **Locate the way the project's selector contract says.** Where the project uses stable test attributes
    (`skills/tdd`), use them for anything that has no accessible role; where an element has a role and a
    name, query by those, because that query also fails when the accessible name is wrong, which a test id
@@ -30,10 +32,12 @@
    teardown, not in each test's last line where a failing assertion skips it.
 6. **State holders are isolated.** A component test that needs a store gets a test store from the store
    library's testing helper, which stubs actions by default so the component is tested against the store's
-   interface; switch the stubbing off only for the test whose subject *is* the action. A store tested on its
+   interface; switch the stubbing off only for the test whose subject *is* the action (the store library's testing page,
+   read 2026-10-20: actions are stubbed by default, `stubActions: false` runs the real ones still wrapped in
+   a spy). A store tested on its
    own gets a fresh instance activated before each test, because the default instance is process-wide and
    makes the second test depend on the first. Under a test runner without global spies the spy factory is
-   passed explicitly.
+   passed explicitly, and the page says a fresh store per test comes from activating a new pinia before each.
 7. **A composable that uses only reactivity is a plain function call**: call it, change the ref it took,
    assert the ref it returned. A composable that registers a lifecycle hook or reads an injected value is
    tested inside a minimal host component mounted for the purpose, and the test **unmounts** the host and
@@ -55,7 +59,7 @@
     dialogs teleport out of the mounted tree: attach the wrapper to the document and query the document, not
     the wrapper.
 11. **Transitions are stubbed, and that is fine.** The test utilities stub the transition wrappers by default
-    so assertions run without waiting for an animation. A behaviour that depends on the transition really
+    (the Vue Test Utils transitions page, read 2026-10-20) so assertions run without waiting for an animation. A behaviour that depends on the transition really
     running (a focus moved after it ends) is a browser test, not a component test.
 12. **A snapshot is not an assertion about a component.** It records everything, so a reviewer approves it
     without reading, and it fails on a harmless class rename. Use it for the output of a pure serialiser;
@@ -77,29 +81,36 @@
     which starts in milliseconds. Code that uses auto-imports, runtime config, state or the app context
     needs the Nuxt test environment, which boots the framework per file. Use one runner configuration with
     separate projects (unit, Nuxt, end-to-end) so the cheap tests stay cheap, and opt a file into the Nuxt
-    environment explicitly rather than turning it on globally.
+    environment through its project include globs rather than turning it on globally. Corrected 2026-10-20: the Nuxt testing page selects the
+    Nuxt environment through each project's include globs and says not to use a per-file environment comment;
+    it also says the runtime and end-to-end helper entry points cannot be imported in one file.
 17. **Mount components that need the app through the suspense-aware helper.** A component with an async
     `setup`, a plugin-provided value or a route dependency must be mounted with the framework's helper for
-    that, which resolves the async setup and injects the plugins; the plain mount renders a pending
+    that (`mountSuspended` on the Nuxt testing page, read 2026-10-20), which resolves the async setup and
+    injects the plugins; the plain mount renders a pending
     boundary and the assertion runs against nothing.
 18. **Mock an auto-imported composable with the framework's import mock, not by module path.** The import is
     transformed at build time, so a module mock of the file misses the call site. The mock is hoisted: define
-    the replacement inside the hoisting helper, and expect one mock per imported name per file. A component
+    the replacement inside the hoisting helper, and expect one mock per imported name per file (the Nuxt
+    testing page's warning for `mockNuxtImport`; `mockComponent` factories are hoisted too and cannot
+    reference local variables). A component
     mocked by name replaces it for every mount in the file.
-19. **Stub the backend at the endpoint.** The test utilities register a handler for a path (and method) that
+19. **Stub the backend at the endpoint.** The test utilities (`registerEndpoint`, with method and once options) register a handler for a path that
     answers the framework's own fetch composables, so the component runs its real data path against a
     controlled response, including the failing ones (500, timeout, malformed body). A mock of the fetch
     composable itself skips the code that decides what the screen shows on failure.
 20. **Shared state is cleared between tests.** `useState`, cookies and fetched payloads live in the app
     instance, which persists for the file. Clear the state in the shared teardown, or the test that runs
-    second inherits the first one's login.
+    second inherits the first one's login (the Nuxt testing page says tests in the Nuxt environment share global
+    state).
 21. **Server handlers are tested twice, cheaply.** The decision logic is extracted into a plain function and
     unit tested; the route itself (input validation, status codes, the error shape, headers) is tested by
     booting the server through the end-to-end helper and calling it. A handler tested only by calling its
     function never runs the validator the router wires in front of it.
 22. **The end-to-end helper is where SSR is proven.** The raw HTML response must contain the content a
     crawler and a first paint need, and a browser run over the same page must not log a hydration-mismatch
-    warning (§9). Collect the console messages in the test and fail on that warning; it is a bug that every
+    warning (§9). Collect the console messages in the test and fail on that warning (the end-to-end page-creation helper waits
+    for hydration on first load; interacting before hydration is flaky, per the same page); it is a bug that every
     manual run scrolls past.
 23. **Middleware is tested by navigating.** Route middleware runs during navigation, so the test navigates
     to the guarded path and asserts the resulting location, not by calling the middleware function with a

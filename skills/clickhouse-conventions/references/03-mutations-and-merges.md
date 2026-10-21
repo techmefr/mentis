@@ -19,12 +19,18 @@ version in which lightweight `DELETE` appeared; check your server before relying
    removes them physically, so for an unspecified time the data is still in storage; the statement waits for the
    marking by default, and `lightweight_deletes_sync` can make it return earlier, at the cost of the rows
    staying visible until the background work ends. If a deletion must be physically complete by a deadline,
-   the page points at `min_age_to_force_merge_seconds` or a heavyweight `ALTER TABLE ... DELETE`.
+   the page points at `min_age_to_force_merge_seconds` or a heavyweight `ALTER TABLE ... DELETE`. The page adds
+   that the lightweight form avoids rewriting column files only for wide parts (it updates a hidden mask and
+   links the untouched parts), while for compact parts it still rewrites every column, because they share
+   one file.
 3. **Model corrections as inserts with `ReplacingMergeTree` or `CollapsingMergeTree`.** The mutation page
    recommends them for data corrections. `ReplacingMergeTree` removes rows that share the same sorting key
    (`ORDER BY`, not `PRIMARY KEY`), but only during a background merge at an unknown time: it saves space and
    does not guarantee the absence of duplicates, so queries that need one row per key must handle that, for
-   example with `FINAL` (§3.3).
+   example with `FINAL` (§3.3). A version column keeps the row with the highest version, and without one the
+   most recently inserted row is kept; the deleted-flag column requires the version column, and by default the
+   last row of a key survives even when it is a delete row, so extra cleanup is needed to remove it (the
+   engine page, re-read 2026-10-20). Its own example counts 200 rows without `FINAL` against 100 with it.
 
 ## 3.3 Merges and `FINAL`
 1. **Do not run `OPTIMIZE TABLE ... FINAL` on a schedule.** It forces all parts into one, ignoring the usual
