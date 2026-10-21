@@ -44,3 +44,25 @@ ships. This section is the procedure that turns the principle into a table someb
 4. **A flagged item is never carried forward as "conditionally fine".** ContentForge's fact-checker gate
    has no conditional pass with open flags: a flagged source or statistic is replaced or removed, or the
    work goes back. Own guidance: the same holds for a claim row marked unsupported before publishing.
+
+## 1.5 What regulators' pages say about substantiation (read 2026-10-20, facts only, US and UK examples)
+1. **Prior substantiation is the principle.** The US trade commission's policy statement says an advertiser needs
+   a reasonable basis for an objective claim before it runs, that an express claim such as "tests prove" needs
+   at least that level of support, that an implied claim needs the support the ad implies, and that evidence
+   created after the claim does not excuse its absence. This confirms 1.2.2 (no proof, no "supported") and the
+   removal of unsupported claims. Whether and how it binds us depends on the country: legal decides (1.3).
+2. **Net impression counts.** The commission's small-business FAQ says an ad is read as a reasonable consumer
+   would read it, words and pictures together, and that omissions can mislead; qualifying information must be
+   clear, near the claim and must not contradict it. Check each claim's surrounding image and footnote, not only
+   the sentence.
+3. **A testimonial is not proof of a claim.** The commission's endorsement pages say endorsements cannot be used
+   to make claims the advertiser could not make itself, an endorser's unusually good results need a statement of
+   what is typical unless typicality is proven, and an advertiser answers for what its agents and affiliates say.
+   Check: who wrote it, for what, and what the typical result is.
+4. **Comparative claims need evidence about both sides.** The UK advertising regulator's page (read 2026-10-20)
+   says marketers must hold documentary evidence before publishing objective claims, judged by how consumers
+   would understand them and not by intent; testimonials and self-reported data alone are not enough for
+   objective claims; and a comparison needs evidence covering our product and every competitor named, on
+   material, relevant, verifiable and representative features. Its worked example is a "best on the market" claim
+   that failed because the evidence covered a few competitors and few features. This is the sort of claim
+   1.3 sends to legal.

@@ -32,11 +32,26 @@ or how spend against a budget is monitored.
    textbook version needs more people than exist.
 4. **Detection is faster with the control in place than a post-hoc audit relies on**: organisations with
    real separation-of-duties controls catch discrepancies materially faster than those without, which
-   directly caps how large a problem gets before it's noticed.
+   directly caps how large a problem gets before it's noticed. *Re-read before relying: the fraud survey
+   that would support this figure could not be read on 2026-10-20 (the file exceeded the fetch limit), so
+   this sentence is unsourced.*
+5. **Separate authority, custody and accounting, and expect limits.** The US federal internal-control
+   standard (Green Book, paragraphs 10.12 to 10.14, read 2026-10-20) says management considers splitting
+   authority, custody and accounting so no one person controls a whole transaction; where that is not
+   practical because of limited staff, it designs alternative controls; and separation reduces but cannot
+   remove the risk of managers overriding controls, nor of collusion between two people. Symptom: one
+   person who approves, pays and reconciles. Fix: a named alternative control (for example an owner reviewing
+   statements, a second signature above an amount), and say that it is weaker than separation. A US federal
+   reference, used for the principle only.
 
 ### 2. Invoicing and receivables
 1. **An invoice has a stated due date and payment terms from the moment it's sent**, not an implicit
-   "whenever." Ambiguity here is what turns into a slow-payer problem later.
+   "whenever." Ambiguity here is what turns into a slow-payer problem later. Jurisdiction example only: the
+   French business-service page read 2026-10-20 says a French invoice must show the payment due date, the
+   early-payment discount terms or a statement that there are none, the late-payment penalty rate, and the
+   fixed 40 euro recovery indemnity owed by a professional customer who pays late, with penalties due
+   without a reminder; the maximum payment delay was not found on the pages read. Other countries differ:
+   ask whoever owns finance.
 2. **Overdue receivables are tracked and chased on a schedule**, not noticed when cashflow gets tight.
    A simple aging view (current / 30 / 60 / 90+ days overdue) surfaces the problem while it's still
    small.
@@ -71,6 +86,16 @@ named owner per recurring spend with budget tracked against actuals on a cadence
   controller's judgement outranks it without discussion.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, own words: the US federal
+internal-control standard (a US government publication; section 10 on segregation of duties; the PDF text was
+extracted locally), a French business-service page on invoice mentions, a small-business agency page on
+budgeting and receivables, and a COSO page. Confirmed: the separation-of-duties principle (step 1.1 to 1.3)
+including the alternative-control case for small teams. Added: the limits of separation (override, collusion)
+and the French invoice-mention example. Not found: any source for the faster-detection claim (1.4, now
+marked), for aging buckets or for a budget review cadence (the agency page gave only generic tracking
+advice and the COSO page did not name the framework components); those stay own guidance. The French payment
+delay page returned the wrong content and the commercial-code article could not be opened.
+
 Assembled from public sources, written without internal finance/accounting expertise. Separation of
 duties (requester ≠ approver ≠ reviewer, compensating controls for small teams, faster fraud detection
 with the control in place): published internal-controls guidance aimed at small businesses and

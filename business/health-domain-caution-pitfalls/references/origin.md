@@ -15,6 +15,20 @@ nothing, gives no medical advice and states no clinical claim.
 | FDA page on device software functions including mobile medical applications (US) | US government page, licence statement not read; facts only | Device definition regardless of platform, risk focus, minimal-risk discretion (§3.4.1) |
 | CDC Clear Communication Index about page; NIH and WHO pages | not read (a page returned not found; the others not opened because their licence was not established) | Nothing |
 
+## Second pass 2026-10-20 (status stays 🟡, nothing was run)
+| Source | Licence | What it gave |
+|---|---|---|
+| FTC Health Products Compliance Guidance, re-read (first 100,000 characters) | US government publication, licence statement not read; facts only | confirmed study fit, replication, testimonials, vague qualifiers, disclaimers; correction on "results not typical" (§1.4.2); evidence-strength point (§2.1.6) |
+| FDA page on device software functions, re-read | US government page, facts only | confirmed §3.4.1 |
+| CDC Clear Communication Index home page | US government page, facts only | confirmed it is a tool with 4 introductory questions and 20 scored items (the checklist items named in §2.3.5 were not re-read) |
+| French data-protection regulator page on health data | regulator page, facts only | health data by nature, cross-referencing and use; local personal-use exclusion (§3.1.2b) |
+| Advertising substantiation policy and endorsement pages of the FTC; UK advertising regulator page | see `marketing-claim-substantiation-pitfalls` origin | general substantiation principle |
+| European guidance on qualifying medical device software; a second data-protection page on special categories; a WHO fact sheet | not read (not found or empty) | nothing |
+
+Confirmed: the claim-substantiation points in §1.3, §1.4, §2.1, §2.2, §2.4 against US agency pages. Corrected:
+§1.4.2. Still own guidance, unsourced: the urgent-path rule, tone, minimum collection and refusal lists. Searched
+no further: no openly licensed health-communication guide found.
+
 ## Verified
 US-agency facts in the table confirm the existing points on disclaimers, testimonials, study fit, anecdotes and software
 regulation. They are US references and do not establish what applies where the product is sold.

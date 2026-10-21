@@ -23,6 +23,21 @@ from it. The repositories contain no directive text that was acted on.
 reading it. Only its mechanics are kept (true wording, default to disclose, advisory detectors, no
 evasion).
 
+## Second pass 2026-10-20 (status stays 🟡, nothing was run)
+| Source | Licence | What it gave |
+|---|---|---|
+| spec.c2pa.org user-experience recommendations 2.2 (re-read) | the repository table above states CC-BY-4.0 | confirmed 1.1, 2.1, 2.2, 2.4 points on wording, stripping, soft binding, redaction |
+| European Commission page on the AI-generated content code of practice | EU institution page, licence statement not read, facts only | Article 50 duties and date, text exemption with human review, voluntary code (new 1.4) |
+| Video platform help page on altered or synthetic content | vendor help page, facts only | platform rule, automatic labels, labels not editable with C2PA metadata (new 1.4.3) |
+| IPTC photo metadata user guide (first part) | standards body page, facts only | metadata outside the file exposed to loss; copyright information not removed |
+| US trade commission page on influencer disclosures | US government page, facts only | disclosure placement lesson, used only to check 1.3.4 |
+
+Confirmed: the label-wording points (1.1), the show-it-where-people-see-it point (1.3.4, also consistent with
+the placement advice of the influencer page), and the loss-on-stripping points. The "Removed" list's
+item 1 is now partly answered by 1.4 for Article 50 only; the applicability to a given publisher and the
+transitional dates are still left to legal. Not found: platform stripping behaviour, the IPTC values for
+AI-generated media (the page text was cut), reader testing.
+
 ## Own guidance (not sourced)
 Labelled "Own guidance" in the references: naming the part the AI touched, keeping a record of who reviewed
 what and why a disclosure was left off, testing the upload chain, treating photographer and location data as

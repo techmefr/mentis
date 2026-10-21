@@ -75,13 +75,52 @@ Take these to compliance/legal rather than guessing — same posture as `busines
    before doing any work; a unique-violation means it's already been handled, so skip. The common miss
    is idempotency on the *outgoing* call only — the incoming webhook handler needs its own, separately.
 4. **A webhook handler re-fetches the authoritative state from the processor rather than trusting the
-   payload alone** for anything a business decision depends on, and only applies a state transition if
+   payload alone** (design guidance: the processor's documentation allows using the event's own data or fetching the current object) for anything a business decision depends on, and only applies a state transition if
    it's actually valid from where the record currently stands (no silently re-applying "paid" to an
    already-refunded order).
 5. **Reconciliation is a designed-in job, not an afterthought**: something that periodically compares
    our ledger against the processor's own record of the same transactions and surfaces a mismatch —
    stuck-pending payments, a webhook that never arrived, a refund that didn't post — rather than relying
    on a customer to notice and complain first.
+
+6. **Idempotency keys have limits worth knowing** (processor documentation read 2026-10-20). The processor
+   saves the first response for a key, including an error, and returns it on retry; a retry with different
+   parameters is rejected; keys can be pruned after about 24 hours, after which a reused key starts a new
+   request; and a request that failed validation or collided with a concurrent one saves nothing, so it may
+   be retried. Symptom: a "retry" that charges twice after a day, or that keeps returning a stale error.
+   Fix: generate one key per intended operation, keep it for as long as retries can happen, and never derive
+   it from personal data.
+7. **Webhook verification needs the untouched raw body.** The processor documentation says its signature
+   check fails if a framework parses or alters the body first. Symptom: signature errors only in
+   production, behind a body-parsing middleware. Fix: verify before any parsing, with the library the
+   processor provides, and reject on failure.
+8. **Webhooks arrive more than once, late and out of order.** The documentation says the same event can be
+   delivered several times (store handled event ids), delivery is retried for up to three days, and order
+   is not guaranteed (do not infer sequence from the timestamp, which has one-second resolution). Fix:
+   dedupe by event id, make every transition valid from the current state, and re-read the object from the
+   API when order matters.
+9. **Fulfil from the server-side event, not the browser return.** The payment-status documentation says
+   customers may leave the page before fulfilment starts, so goods should be released on the
+   payment-succeeded event, handled asynchronously; polling is described as less reliable. Asynchronous
+   methods such as bank debits can stay in a processing state for days.
+10. **Hosted fields cut scope; they do not remove the duty.** The processor's security guide says direct
+    handling of raw card numbers can bring more than 300 requirements, that its low-risk integrations send
+    card data straight to it without touching our servers, and that card type, last four digits and expiry
+    it returns may be stored. The merchant still attests to PCI compliance yearly, and a third-party script
+    on a payment page makes our security depend on that script's. The PCI council's own page says it
+    develops the standards but does not enforce them: card brands and acquirers decide who must comply.
+    Route the SAQ type to whoever owns PCI (the council's FAQ pages on scripts and hosted pages could not
+    be read).
+11. **Ledger storage engines make the same choices.** The TigerBeetle documentation (read 2026-10-20) keeps
+    accounts and transfers immutable, corrects errors with new transfers, stores amounts as integers of a
+    scaled smallest unit, derives balances from cumulative debits and credits, separates currencies or assets
+    by a ledger id, makes transfer ids unique, and lets linked transfers succeed or fail together or use a
+    two-phase pending, post or void flow. Own guidance: these are design checks for ours, not requirements.
+12. **Sanctions screening: some facts to hand to compliance.** OFAC's FAQ page (read 2026-10-20) states that
+    an entity owned 50 percent or more, directly or indirectly or in aggregate, by blocked persons is itself
+    blocked even if not listed, that OFAC issues no "safe list" or non-inclusion certificate, and points to
+    its own sanctions list search and compliance framework. So a name-only match against a list is not the
+    whole check. Who is screened and how strictly stays compliance's decision.
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: the PCI-scope and
@@ -105,6 +144,19 @@ mechanism named rather than assumed.
   regulated-payments engagement.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, rewritten in our own words,
+no text copied: a payment processor's documentation on idempotent requests, webhooks, payment status and
+integration security; the PCI council's "about" page; the TigerBeetle data-model and transfer reference pages
+(documentation of an Apache-2.0 project; its LICENSE file was not opened here, so facts only); the OFAC FAQ
+topic page; one accounting-for-developers article from a ledger vendor (no licence read, facts only, nothing
+reproduced). Confirmed: idempotency-key behaviour, signature on the raw body, dedupe by event id, ledger
+immutability with correction by new entries, derived balances, integer amounts, atomic multi-entry posting,
+tokenised or hosted collection as the scope lever. Corrected: the "re-fetch authoritative state" step is
+advice for ordering, not a rule from the processor, and the processor documentation also allows using the
+event payload as of the event time; the block's statement now reads as design guidance. Not read: the PCI
+council standard itself and its FAQ entries (404 or no text), the FATF recommendations (403), any KYC
+rule. The "no dedicated expertise" guardrail stays.
+
 Assembled from public sources, written without internal fintech/compliance expertise, the same honesty
 posture as `business/data-protection`. PCI DSS scope and the tokenisation-as-scope-reduction mechanism:
 published PCI compliance and tokenisation-vendor guidance. KYC/AML/sanctions-screening triggers

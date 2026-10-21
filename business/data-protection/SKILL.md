@@ -100,7 +100,9 @@ from the regulator's current published guidance.
    a decision with a named owner, not "forever" and not "delete with the rest".
 3. **What applies to business-to-business mail?** A work address belongs to a person; whether it changes what is
    required before mailing them is a question for legal, not an assumption.
-For the design of the flows themselves, see `business/lifecycle-email-program-design-pitfalls`.
+What CNIL's published pages state on the first and third question is in
+[`references/01-cnil-france.md`](./references/01-cnil-france.md) point 6; the suppression-list question has no
+answer there. For the design of the flows themselves, see `business/lifecycle-email-program-design-pitfalls`.
 
 ## Output / checkpoint
 No pipeline checkpoint (business layer, see `business/README.md`). What it owes: the field list with a
@@ -117,6 +119,17 @@ that's a blocker to state, not a reason to guess.
   asking is a message; the cost of being wrong is a notification obligation.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, rewritten in our own words:
+CNIL pages on the AIPD (trigger grid: two of nine criteria, or a listed processing), the AIPD lists page, the
+retention page and the retention guide (PDF), the cookies FAQ and the cookies recommendation page, the
+register page, DPO designation, email prospecting and consent; each is a regulator's public page, no licence
+statement read, so no text is reproduced. Confirmed: the AIPD trigger, the presumption-of-conformity wording,
+the prospect retention rule, billing data kept 10 years, refusal as easy as acceptance, consent proof, register
+contents and the narrow small-organisation exemption, the three mandatory DPO cases. Corrected: CNIL
+describes DPO designation outside the mandatory cases as encouraged by the EDPB, not recommended by CNIL itself.
+Still unverified: the 13- and 25-month cookie figures, the client "3 years after the end" figure, the
+connection-log range. `references/02-code-patterns.md` stays our own engineering guidance.
+
 Assembled from public sources: the GDPR text itself (lawful bases, data-subject rights, special
 categories, impact assessments) and published regulator guidance. Written **without internal legal
 expertise**, deliberately shaped as "which questions must reach a lawyer" rather than as answers. The

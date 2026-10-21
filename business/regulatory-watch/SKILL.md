@@ -81,6 +81,15 @@ of §4.2 routed to a named owner.
 - This block produces **structured questions and dated facts**, never an opinion on whether we comply.
 
 ## Origin
+**Sourcing pass 2026-10-20 (status stays 🟡, nothing was run).** Read for facts, own words: the European
+Commission AI Act policy page, its Cyber Resilience Act page, the French business-service news page and the tax
+office's e-invoicing fiche (PDF text extracted locally), plus search summaries. Confirmed: both dated examples
+above (the Annex III date of 2 December 2027 and the 1 September 2026 and 2027 e-invoicing phasing).
+Corrected: nothing in the examples. Still unverified: the omnibus regulation's number and publication date
+(only secondary commentary), that "the e-invoicing scope was reworked more than once" (the pages read mention
+one postponement fixed by the 2024 finance law), and the Official Journal wording, since EUR-Lex returned
+empty pages. No licence statement was read on these official pages; no text is reproduced.
+
 The mechanism is Anthropic's `claude-for-legal` suite rewritten: its regulatory-change monitors, its
 freshness gate on bundled reference content, and its rule that citations from model knowledge alone are
 flagged rather than presented as sourced. Its position that every output is a draft for attorney review

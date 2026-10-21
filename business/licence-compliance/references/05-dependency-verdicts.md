@@ -51,3 +51,28 @@
 10. **A tool verdict is an aid.** The licenseal README states that it is not legal advice and not a
     substitute for legal review. The decision on strong or network copyleft in a shipped product stays with
     counsel (`SKILL.md`, guardrails).
+11. **A repository with no licence file grants nothing.** Read 2026-10-20 on choosealicense.com and on the
+    hosting platform's licensing page: without a licence the default copyright rules apply and others may not
+    copy, distribute or modify; the platform's terms let people view and fork a public repository, which is
+    not a licence to use it. Symptom: a dependency that is "public" and has no licence file. Check: look for
+    the file, not the README badge. Fix: ask the author for a licence, or do not use it.
+12. **Permissive licences still carry conditions.** MIT's one condition is that the copyright and permission
+    notices travel with copies (opensource.org page, read 2026-10-20). Apache-2.0 section 4 (licence text,
+    read 2026-10-20) asks a redistributor to give recipients a copy of the licence, mark files it changed,
+    keep existing notices and carry the attribution notices of a NOTICE file if the work has one. Symptom: a
+    shipped product with the licence text but no NOTICE content. Fix: generate the notices from the lockfile
+    and include any NOTICE text.
+13. **Weak copyleft is file-level in the MPL case.** The MPL FAQ (read 2026-10-20) says the copyleft applies
+    to files containing MPL code, new files without MPL code need not be MPL, internal use needs nothing, and
+    unchanged MPL code can sit in a larger proprietary program, with recipients told where to get the MPL
+    source. Own guidance: record whether we modified the files, since that is the trigger. The LGPL page
+    could not be read (rate limited), so LGPL linking conditions are not restated here.
+14. **Write the identifier as an SPDX expression.** The SPDX page on handling licence information (read
+    2026-10-20) shows one identifier per file line, with OR when the licensee chooses, AND when both apply and
+    WITH for an exception, and says GNU licences take the -only or -or-later suffix, a bare GPL-2.0 being
+    discouraged. Symptom: a scanner reporting "GPL-2.0" with no suffix. Check: the expression in the licence
+    file or manifest. Fix: record the exact expression, and send an ambiguous one to a person.
+15. **Source-available is not open source.** The Functional Source License site (read 2026-10-20) describes
+    a licence that allows almost all uses except competing with the producer and converts each version to
+    Apache-2.0 or MIT two years after release. Own guidance: such a licence is a manual-review case (point 2)
+    and the conversion date is a fact to record, not to assume.

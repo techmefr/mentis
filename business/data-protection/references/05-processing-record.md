@@ -43,5 +43,10 @@
    result in a risk to the rights and freedoms of data subjects, is not occasional, or includes the special
    categories of data or data on criminal convictions and offences. Whether it covers a given organisation is
    not decided here: ask the DPO, and keep the file anyway, since it also serves the checklist of step 1.
-9. **The fides project is reported archived** (by our earlier review; its status was not rechecked). Own guidance: treat it as a pattern to copy and do not take a dependency
+9. **CNIL's reading of the record (read 2026-10-20, CNIL page on the register).** It repeats the contents above
+   (per activity: purposes, categories of people and data, recipients including processors, transfers with
+   safeguards, retention criteria, security measures where feasible) and says processors keep their own
+   register. It describes the exemption for organisations under 250 people as limited to very particular
+   cases and advises recording a processing in case of doubt. This confirms point 8: keep the file anyway.
+10. **The fides project is reported archived** (by our earlier review; its status was not rechecked). Own guidance: treat it as a pattern to copy and do not take a dependency
    on it; its policy engine and request orchestration are not part of this pattern.

@@ -14,6 +14,14 @@ and what they may reveal.
    content fingerprint, and it keeps the file smaller (3.6.2). Storing remotely has privacy and
    persistence trade-offs, which the standard says to explain to creators (3.6).
 
+2b. **Second read of the standard's UX page, 2026-10-20** confirms 2.1 and 2.2: embedded credentials are lost for
+    good when metadata is stripped, a remotely stored manifest can persist and be found again by fingerprint,
+    an invisible watermark can find a remote manifest, users should be told when provenance was recovered that
+    way, and fingerprint matches must be nearly identical and chosen by the person. The photo-metadata
+    standard's user guide (read 2026-10-20, first part only) says that metadata kept outside the file is exposed to
+    loss, and that copyright management information must never be removed. Platform stripping behaviour is still
+    untested here.
+
 ## 2.2 Recovery is not the original
 1. **Watermarks and fingerprints can reconnect a stripped file to its manifest** (3.7.1, 3.7.2).
 2. **Say that it is recovery.** When provenance was found through a watermark, tell people it was matched

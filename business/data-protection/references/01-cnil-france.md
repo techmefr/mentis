@@ -19,7 +19,8 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    individuals." To make that operational, CNIL and the EU G29/EDPB working party published a grid of
    **9 criteria** (large-scale processing, systematic monitoring, sensitive data, vulnerable subjects,
    innovative use of technology, data matching/combination, and others) — meeting **2 or more of the
-   9** is CNIL's own trigger for treating an AIPD as mandatory
+   9** is CNIL's own trigger (confirmed 2026-10-20; its infographic adds that one criterion can
+   suffice if the organisation judges the risk high) for treating an AIPD as mandatory
    ([CNIL — Ce qu'il faut savoir sur l'AIPD](https://www.cnil.fr/fr/ce-quil-faut-savoir-sur-lanalyse-dimpact-relative-la-protection-des-donnees-aipd)).
    CNIL also separately publishes an explicit **list of processing types that require an AIPD, and a
    list that don't**
@@ -41,7 +42,7 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    prospect**, each new contact resetting the clock; **client data** — for the duration of the
    commercial relationship, then **up to 3 years from its end** (e.g. from the last order), before
    archiving or deletion; **cookies and trackers** — lifetime capped at **13 months**, with data
-   collected through them kept no more than **25 months** (point 3 below); **connection/access
+   collected through them kept no more than **25 months** (point 3 below). *Re-read 2026-10-20: CNIL's retention guide (PDF) confirms the prospect rule (active base until consent is withdrawn or 3 years from the last contact coming from the prospect, the start point sliding at each new contact) and gives billing data as kept 10 years under the commercial code even once the person is no longer a client; the retention web page confirms the "presumption of conformity" wording, up to 2 years for unsuccessful job candidates in the active base and 5 years for payslip copies. The "3 years after the end of the relationship" client figure, the 13- and 25-month cookie figures (not on the cookies FAQ or recommendation pages read) and the log range were not found in what was read: they stay unverified, and a client's billing records follow the 10-year rule above.* **connection/access
    logs** — CNIL's own recommendation (délibération n°2021-122 du 14 octobre 2021 on journalisation)
    gives a **range, not a single figure — roughly 6 months to 1 year, extensible up to around 3 years
    or more for a duly justified higher-risk case**, deliberately not a single number to hard-code:
@@ -63,7 +64,10 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    is not valid consent under the current recommendation, consent has to be a genuine, informed,
    specific, freely-given action; **non-essential trackers wait for consent** — strictly necessary
    cookies (session, load balancing, a shopping cart) are exempt from consent but not from
-   information, everything else (analytics, ads, most "audience measurement" tools unless configured
+   information (the FAQ read 2026-10-20 lists as exempt: audience measurement strictly limited to the
+   publisher and producing only anonymous statistics, authentication-security trackers, and a CAPTCHA
+   whose only purpose is security; it lists affiliation billing and e-mail ad retargeting as not exempt),
+   everything else (analytics, ads, most "audience measurement" tools unless configured
    to CNIL's exemption criteria) is non-essential and must not fire before consent; **revocation has
    to be as easy as granting**, reachable at any time, not only at first visit. **Engineering
    consequence:** see `references/02-code-patterns.md` §2.2 for what this means concretely in a Nuxt
@@ -87,13 +91,22 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    is **mandatory** for: public authorities/bodies (with narrow exceptions); organisations whose core
    activity requires **large-scale, regular and systematic monitoring** of individuals; and
    organisations whose core activity is **large-scale processing of special-category data** (health,
-   biometrics, etc.) or criminal-conviction data. Outside those cases, CNIL still **recommends**
-   designating one as good practice, and many organisations do voluntarily. **Engineering
+   biometrics, etc.) or criminal-conviction data. Outside those cases, designation is not required; the CNIL page
+   (read 2026-10-20) says the EDPB encourages it, and many organisations do voluntarily. **Engineering
    consequence:** "large-scale" and "core activity" are judged on what the *product* actually does,
    not on company size — a small team building a health-tracking app or a behavioural-analytics
    platform can cross the mandatory threshold well before it has the headcount to intuitively expect
    it. Whether a given product crosses that line is a DPO/legal call (step 2 of the router
    `SKILL.md`), not one to self-certify from this paragraph.
+
+6. **Email prospecting: what CNIL's page states (read 2026-10-20).** Consent must be free, specific,
+   informed and unambiguous, by a positive act such as an unticked box; accepting general terms is not
+   enough; it can be withdrawn at any time. For professionals, CNIL says prospecting can rest on
+   legitimate interest when the message relates to the person's profession, with opposition simple and
+   free and the sender identifiable; generic addresses such as info@ or contact@ are outside these
+   principles. CNIL's consent page adds that the controller must be able to prove consent at any time and
+   that a consent register can help. **Engineering consequence:** store per address who consented, when,
+   to what wording and for which purpose; a list without that record cannot be defended.
 
 ## Guardrails specific to this section
 - **Never treat a CNIL-recommended figure as a hard legal ceiling** — it's a documented default that

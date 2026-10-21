@@ -34,7 +34,9 @@
 ## 1.4 Tone
 1. **Avoid fear and shame as levers.** A message designed to alarm sells and harms.
 2. **Avoid before-and-after framing** that implies a typical result; say it is not typical unless data shows it is,
-   and cite the data. The FTC guidance judges the overall net impression, including images, and treats an implied disease
+   and cite the data. Correction after a second read of the FTC health-products guidance (2026-10-20): a "results
+   not typical" line does not cure testimonials that report more dramatic results than usual, so state what most
+   people can expect, backed by data, or leave the testimonial out. The FTC guidance judges the overall net impression, including images, and treats an implied disease
    benefit from before-and-after pictures as a claim to substantiate; dramatic results need a clear statement of what
    most people can expect.
 3. **Respect different conditions of readers**: plain language, no jargon without explanation, accessible format.
