@@ -17,7 +17,9 @@ neither run nor used.
 | NPM Security Best Practices (`bodadotsh/npm-security-best-practices`, commit `24fb07d`), `README.md` | MIT (LICENSE file, copyright 2025 boda) | `allowScripts`, cooldown commands, lockfile merge-conflict tip, token advice, provenance variants, published-file review, the compromise sequence |
 | Concise Guide for Evaluating Open Source Software, OpenSSF Best Practices Working Group (`ossf/wg-best-practices-os-developers`, commit `8259081`), `docs/Concise-Guide-for-Evaluating-Open-Source-Software.md` | CC-BY-4.0 (documentation licence stated in the repository README and the text in `LICENSES/`; the guide has no notice of its own) | The evaluation points of §2.3 |
 
-**Attribution (CC-BY-4.0).** §2.3 of `references/02-names-evaluation-publishing.md` condenses and rewords
+**Official product documentation read 2026-10-20, facts only, rewritten: npm pages for `ci`, configuration, `pack`, package.json, scopes, provenance statements, trusted publishers, access tokens and `audit`; pnpm settings pages for dependency resolution and build settings (the top-level settings page lists names only). Not read: Yarn or Bun documentation.
+
+Attribution (CC-BY-4.0).** §2.3 of `references/02-names-evaluation-publishing.md` condenses and rewords
 the "Concise Guide for Evaluating Open Source Software" by the Open Source Security Foundation (OpenSSF)
 Best Practices Working Group, https://github.com/ossf/wg-best-practices-os-developers, licensed under
 CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/). It was shortened and reorganised; no endorsement
@@ -42,13 +44,18 @@ by OpenSSF is implied.
    read.
 5. **The `npq` age thresholds** and the Bun, Deno and Yarn equivalents were not carried as rules.
 
+## Re-read 2026-10-20
+npm CLI configuration page (docs.npmjs.com, product documentation, facts only, legacy v11.21 view): allow-git (all, none, root), min-release-age (days, with an exclude list, errors when no eligible version) and ignore-scripts exist and behave as §1 states. The page gives no introduction version, so the version stamps above stay the sources claims.
+
+## Confirmed 2026-10-20
+pnpm setting names, units, defaults and versions for `minimumReleaseAge` (10.16, default one day from 11), its exclude list (patterns 10.17, versions 10.19), `trustPolicy` (10.21), `trustPolicyIgnoreAfter` (10.27), `blockExoticSubdeps` (10.26, default true), `strictDepBuilds` (10.3, default true), `allowBuilds` (10.26), removal of the two older lists in 11; npm settings `allow-git`, `min-release-age`, `ignore-scripts`, `allow-scripts`, `strict-allow-scripts`; npm provenance and trusted-publishing requirements; npm 9.5.0 provenance floor; token model; `files` and `.npmignore` rules; `npm ci` behaviour.
+
 ## Not verified
 1. **Own guidance, flagged as such in the text:** running `lockfile-lint` as a separate CI step (§1.3),
    putting a removal in the same pull request as its cause (§1.10), one publish token in one job (§2.6),
    the dry-run check in CI (§2.8), and that a scanner is a signal and not a verdict (§2.4).
-2. **Every option name, value and version above** comes from the sources and was not checked against the
-   npm or pnpm documentation or the installed tools.
-3. **Whether `npm pack <name>` executes install scripts** is not stated by the sources; the block says to
+2. **Option names, values and versions** are now checked against npm and pnpm documentation (list above) except: the npm CLI 11.10.0 floor for `allow-git` and `min-release-age` (the npm page gives no version), the npm 12 `allowScripts` default, the npm 9.5.0 floor is confirmed. Nothing was run on an installed tool.
+3. **Whether `npm pack <name>` executes install scripts** is not stated by the sources or by the npm `pack` page (which says only that a registry spec is fetched to the cache and its tarball copied out); the block says to
    read the archive and not to install, and does not claim `pack` is inert.
 4. **The `skills/` file and the `default.sh` script of the second source, and the other pages of the
    OpenSSF repository,** were not read or used. The OpenSSF repository's licence statement is in its

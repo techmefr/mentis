@@ -15,7 +15,7 @@
    live in a user-level `.npmrc` or in a CI environment variable); and, for unscoped internal names that
    cannot be renamed yet, publish a placeholder under that name on the public registry. Scopes on the
    public registry belong to an organisation, which stops others publishing under yours. pnpm reads the
-   same `.npmrc`; Yarn 2 and later uses `npmScopes` in `.yarnrc.yml`. Combine with the lockfile checks of §1.3
+   same `.npmrc`; Yarn 2 and later uses `npmScopes` in `.yarnrc.yml`. The npm scope page confirms the mechanism: only the scope owner can publish under a scope, and a scope maps to exactly one registry, so a mapped scope never resolves from another (read 2026-10-20). Combine with the lockfile checks of §1.3
    so a resolved URL on the wrong host fails review.
 2. **Read the archive, not the registry page.** The sources say the registry website does not show the full
    picture: it omits git and HTTPS dependencies declared in `package.json`, and the source shown there can
@@ -47,7 +47,7 @@
      obfuscated values that are executed, and recent suspicious commits; consider running it in a sandbox.
    The guide itself says every one of these may be done poorly by good software; the record states which
    ones failed and why it was accepted anyway.
-4. **Use install-time scanners as a signal, not a verdict.** The sources describe `npq`, which checks
+4. **Use install-time scanners as a signal, not a verdict.** The npm CLI itself offers one check: `npm audit signatures` verifies registry signatures and provenance attestations of what was downloaded, and `npm audit fix` runs a full install, so installer settings apply and a `--force` fix can cross a major version (npm audit page, read 2026-10-20). The sources describe `npq`, which checks
    vulnerabilities, package and version age, typosquatting, signatures, provenance, install scripts, new
    binaries and maintainer domains before it installs, and Socket Firewall, which blocks packages its
    analysis flags; the second source lists others. They add data points to §2.3; they do not replace it,
@@ -60,19 +60,19 @@
    the CI provider (GitHub Actions or GitLab CI/CD in the sources) so no long-lived npm token exists, and
    it generates a provenance attestation automatically; the workflow needs the `id-token: write`
    permission. Where a token is unavoidable, the second source's list is: a descriptive name, restriction
-   to specific packages, scopes and organisations, an expiry date, an address-range limit, read-only where
+   to specific packages, scopes and organisations, an expiry date, (the npm token page, read 2026-10-20: classic tokens are no longer supported and only granular tokens exist; a token covers at most 50 packages or scopes; stage-only tokens cannot publish directly but can still move tags, so they are still credentials; a bypass-two-factor option exists and the page says not to use it where two-factor is enforced) an address-range limit, read-only where
    possible, and one token per purpose. Own guidance: a token that can publish goes in the CI secret store
    for the one workflow that publishes, and in no other job.
 7. **Publish with provenance, from a supported runner.** `npm publish --provenance` (npm 9.5.0 and later,
    per the first source) with `id-token: write` on a supported cloud-hosted runner links the package to its
    source and build; the second source lists an environment variable, an `.npmrc` line and a
-   `publishConfig` block as ways to enable it without the flag. Provenance proves where it was built, not
+   `publishConfig` block as ways to enable it without the flag. The npm provenance page confirms the requirements: a public `repository` field matching the source repository, including letter case, a cloud-hosted runner on GitHub Actions or GitLab CI/CD, and Yarn 4.9.0 or later for Yarn users. The trusted-publishing page adds that it needs npm 11.5.1 and Node 22.14 or later, supports CircleCI too (without automatic provenance there), generates provenance only for public repositories and packages, and offers a package setting that requires two-factor authentication and disallows tokens once it works; it also describes a stage-only publish so a human with two-factor approves CI releases (npm docs, read 2026-10-20). Provenance proves where it was built, not
    that the code is good.
 8. **Review what you publish.** The second source says limiting published files reduces the attack surface
    and prevents accidental leaks of sensitive data. List them in `files` in `package.json`, remember that
    some files are always included, and read the output of `npm pack --dry-run` or `npm publish --dry-run`
-   before publishing; an `.npmignore` does not override `files` at the top level. Own guidance: run the dry
-   run in CI and fail the job if the list contains an `.env`, a key or a lockfile you did not intend to ship.
+   before publishing; an `.npmignore` does not override `files` at the top level, but one in a subdirectory does for that directory, and with no `.npmignore` the `.gitignore` is used (npm package.json page, read 2026-10-20, which also says `.npmrc` and lockfiles are never included even when listed, so only a shrinkwrap file can ship). Own guidance: run the dry
+   run in CI and fail the job if the list contains an `.env`, a key or a shrinkwrap file you did not intend to ship.
 9. **After a compromise, preserve evidence before you clean.** The second source's sequence for a published
    compromise of a package you use: identify the affected packages from trusted advisories; keep CI logs,
    package-manager logs, lockfiles, `package.json`, token audit history and a timestamped list of

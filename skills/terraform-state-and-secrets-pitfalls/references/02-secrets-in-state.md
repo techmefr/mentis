@@ -18,6 +18,8 @@ runtime in use).
 | Provider-managed secret, such as `manage_master_user_password = true` on an RDS instance | provider | Yes: the cloud generates and holds it. The preferred RDS pattern in terraform-skill |
 | A value injected from a CI environment variable outside Terraform | any | Yes, as long as nothing in the configuration reads it back |
 
+OpenTofu's ephemerality page confirms the mechanism for that tool: ephemeral values, variables, outputs, resources and write-only attributes are not stored in state or plan, while sensitive values stay in plain text in both (read 2026-10-20). It names no version, so the floors above remain terraform-skill's for Terraform and are unknown for OpenTofu. Its state page also says to treat state as sensitive data when it holds secrets, and that remote backends may encrypt at rest.
+
 `sensitive` and `ephemeral` are different things: `ephemeral` values are scrubbed from state, `sensitive` only
 hides them in output (terraform-skill).
 
@@ -51,8 +53,9 @@ hides them in output (terraform-skill).
    resources where possible.
 4. **After rotating outside Terraform**, `apply -refresh-only` reconciles state with the new value. It does not
    rotate the secret (terraform-skill).
-5. Own guidance, not from the sources: a versioned state bucket keeps earlier state versions, so the previous
-   secret value remains readable there until it is revoked. Rotation is the remedy, deletion of the current
+5. A versioned state bucket keeps earlier state versions, so the previous
+   secret value remains readable there until it is revoked (S3 versioning page, read 2026-10-20: an overwrite creates a
+   new version and a delete only adds a delete marker, earlier versions stay restorable). Rotation is the remedy, deletion of the current
    object is not.
 6. The wider response (history, revocation traps, scanners) is in `secret-leak-response-pitfalls`.
 
@@ -70,5 +73,5 @@ resource "aws_db_instance" "core" {
 }
 ```
 Abridged: the other required arguments of the resource are omitted. This is the first option in terraform-skill
-for RDS. The read-from-a-data-source shape in terrashark's example
+for RDS. The RDS documentation confirms the mechanism: the service generates the password, stores it in the secrets manager, rotates it every seven days by default, and it is not available for read replicas of a source that uses it, blue/green deployments or the custom edition (RDS password-management page, read 2026-10-20). The other mechanism it sidesteps is that the secret then appears as a service attribute, not an argument, so check the provider documentation for what the resource exports to state. The read-from-a-data-source shape in terrashark's example
 avoids a hardcoded value but, as §2.1 says, still persists the secret in state.

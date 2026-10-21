@@ -35,14 +35,18 @@ biometric invalidation.
 - **Removed earlier:** broadcast receiver and provider URI-grant rules (those two pages returned 404), root and
   emulator detection recipes, pinning, obfuscation.
 
-## Not verified
-1. **Manifest default of `exported` per component type and the Android 12 rule** were not read on any page; do not
-   state them.
-2. **Permission protection for exported components** (signature level) was not read on a page.
-3. **Where to decrypt a Play Integrity token** (on your server or by Google) is on the standard-request pages, which
-   were not read.
-4. **How an app proves the caller's identity** (package signature checks) was not sourced and is not written.
-5. **Android 16 default redirection protection** is one paragraph; its exact scope was not read.
+## Re-read 2026-10-20
+The activity-element manifest page (CC BY 4.0 text) was re-read: default false when there are no intent filters; true needed for other apps to start an activity that has filters; permissions are named as a further way to limit callers. The first 100000 characters were read; the Android 12 explicit-declaration rule was not seen.
+
+## Second pass, 2026-10-20
+Read as page text, facts only: activity, provider, service and receiver manifest element pages; Android 12 and Android 16 behaviour-changes pages; defining-permissions page; platform security-tips page; Play Integrity standard-request page. Confirmed or added: defaults per component type, the Android 12 explicit-export install failure, permission attributes on components, signature protection level, strict intent matching on Android 16 (separate from the redirection protection), Play Integrity server decoding, request-hash binding and replay behaviour.
+
+## Not verified (updated 2026-10-20)
+1. (Resolved 2026-10-20: defaults per component type and the Android 12 rule are on the element and behaviour-changes pages, see §1.1. The activity page itself gives no default for the with-filters case.)
+2. (Resolved 2026-10-20: component permission attributes and signature protection are on the element and permissions pages.)
+3. (Resolved 2026-10-20 for standard requests: decoding is a call to the platform from your backend. Classic requests and any local-decryption option were not read.)
+4. **How an app proves the caller's identity** is touched only by the security-tips page (calling-permission check, signature comparison of the calling package); no page was read that details the procedure, so no recipe is written.
+5. **Android 16 default redirection protection** is still one paragraph on the redirection page; its scope was not read. The Android 16 behaviour-changes page describes a different, opt-in feature (strict intent matching).
 
 ## Related blocks
 `security-hardening` (server-side input, output and access control), `auth-session-conventions` (sessions and

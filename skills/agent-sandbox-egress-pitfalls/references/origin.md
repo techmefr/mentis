@@ -36,11 +36,16 @@ Numeric defaults (search depth, proxy port range, caps) are not quoted; the bloc
 
 **Decisions where sources disagree:** none found.
 
+## Second pass, 2026-10-20
+Product documentation read for facts only, restated: Docker engine security and seccomp pages and the run reference; Kubernetes network policy page (first 100000 characters); gVisor security model page; Firecracker design page; AWS EC2 instance-metadata page; the sandbox page of one agent product (shell-only scope, web tools outside the allowlist, retry and exclusion escape hatches). These gave §2.2.3 (IPv6 metadata address), §2.4.3, §2.5, §3.1.1 and §3.1.3a, §4.2.3. The Kubernetes page's last 22,000 characters and the products' own repository licences were not read. Credit as facts, no text copied.
+
+Section 2.4's vendor-side-tool claim, which rested on a sample's comment, is now also stated in the second product's documentation; the platform's current behaviour can change, re-read before relying.
+
 ## Not verified
 1. **Nothing was executed**; every behaviour is as documented at the commits above.
 2. **Windows (alpha) details and the TLS-termination section** were read but not turned into rules.
 3. **Own guidance, not sourced:** sentences marked "own guidance", the mirror suggestion, the scoped-credential
-   suggestion, the untrusted-output advice and the checkpoint paragraph.
+   suggestion, the untrusted-output advice and the checkpoint paragraph. Of the docker flags in §4.2.3, no-new-privileges, process limit, read-only and no-network were not on the run reference page.
 4. **Removed as unverifiable:** rules about any sandbox product not read in full.
 
 ## Related blocks

@@ -11,6 +11,7 @@ Keystore system" (last updated 2026-03-06), read in full as page text on 2026-10
    package and the request binding with the one you sent (`requestHash` for standard requests, `nonce` for classic ones),
    and checks that the timestamp is recent. It notes that `requestPackageName` might be spoofed in the middle of the request, which
    is why the binding is compared too.
+2a. **Decryption is a server call to the platform, and the request binding is what ties the verdict to an action.** The standard-request page (read 2026-10-20) has your backend send the token to the platform's decode endpoint with a service-account credential; it describes no local decryption. The hash binding is at most 500 bytes, goes into the token as given (so never put sensitive plain text in it, hash it), is recomputed and compared on the server, and without it the token binds only to the device, not to the request. Standard requests are replay-protected: decoding the same token again returns cleared verdicts (empty device label, unevaluated app fields), so a second decode is not a pass. Preparing the token provider is rate-limited per app instance and takes seconds, so do it ahead of the user action.
 3. **The device label list is `deviceRecognitionVerdict`.** By default it contains `MEETS_DEVICE_INTEGRITY` (a genuine
    certified Android device; on Android 13 and later with hardware-backed proof of a locked bootloader and a
    certified OS image) or is empty (signs of attack or compromise, or not a physical device that passes the checks).

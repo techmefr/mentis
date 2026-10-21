@@ -13,6 +13,8 @@ instance was started, no ACL user created and no metric read while writing it.
 | redis/agent-skills at commit a84871d (2026-09-08): `skills/redis-security/SKILL.md`, `references/auth.md`, `references/acls.md`, `references/network.md` | MIT, Copyright (c) 2026 Redis, Inc. (`LICENSE` re-read 2026-10-16; frontmatter `license: MIT`) | Authentication and TLS, ACL users and categories, bind, protected-mode and firewall, the `rename-command` example |
 | redis/agent-skills at a84871d: `skills/redis-observability/SKILL.md`, `references/metrics.md`, `references/commands.md` | MIT (same file) | The seven INFO metrics and their example alert conditions, SLOWLOG, MEMORY, CLIENT, FT.INFO and FT.PROFILE, the GUI remark |
 
+Vendor documentation read 2026-10-20 for facts only, rewritten, no text copied: AWS ElastiCache pages on role-based access control, in-transit encryption, and Valkey and Redis metrics; Google Cloud Memorystore page on AUTH; Azure Managed Redis page on Entra authentication. They gave the managed-service cross-checks in §1.1 to §1.5 and §2.1. Not usable: the AWS restricted-commands and parameter-group pages returned only a title, and an Azure security best-practices page returned 404; nothing from them is used.
+
 The redis/docs repository (CC BY-NC-SA 4.0) and valkey-io/valkey-doc (CC BY-SA 4.0) are idea-only for this
 programme and were not read for this block. The `redis.io` links in the source files were not followed.
 
@@ -30,13 +32,12 @@ Redis's.
 - The source's `rename-command` lines as a recommendation (§1.4), see the next list.
 
 ## Not verified
-1. **`rename-command` could not be confirmed as current guidance.** The source shows it as an optional
-   recommended step; the Redis documentation was not read (idea-only), so §1.4 prefers ACL command categories
+1. **`rename-command` still could not be confirmed as current guidance.** The managed-service pages read say a rule cannot name a renamed command, which shows the directive exists but not that it is recommended; so §1.4 prefers ACL command categories
    and tells the reader to verify the directive for their server version.
-2. **ACL syntax and category contents** (`@read`, `@write`, `@dangerous`, `@admin`, which commands each holds)
+2. **ACL syntax** is now confirmed on one managed-service page (§1.2.4); **category contents** (`@read`, `@write`, `@dangerous`, `@admin`, which commands each holds)
    are as the source's table states them; the server's own list was not read.
-3. **`slowlog-log-slower-than` default of 10 ms** and the duration unit are the source's statements.
-4. **The 80 percent thresholds** (memory against `maxmemory`, hit ratio) are the source's examples and are
+3. **`slowlog-log-slower-than` default of 10 ms** and the duration unit are the source's statements; the one vendor page tried for it returned no text.
+4. **The 80 percent thresholds** (the AWS page gives about 0.8 as a hit-rate reading, which supports the order of magnitude, not a limit) (memory against `maxmemory`, hit ratio) are the source's examples and are
    labelled as such in the text.
 5. **Own guidance, labelled in the text:** reading the credential from a secret store, checking category
    contents per server version, testing a refused command per user, hit ratio applying to caches only,

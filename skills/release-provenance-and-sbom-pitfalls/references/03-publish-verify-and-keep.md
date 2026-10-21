@@ -17,10 +17,10 @@
 4. **Answer "are we affected" with a statement.** The schema supports attaching vulnerability findings to
    components and describing completeness. Own guidance: for each announced flaw, state affected, not affected
    with the reason (the code path is absent, the component is not shipped), or under investigation, and update
-   it as the facts change. A bare "not affected" with no reason is unusable (`skills/security-advisory-comms-pitfalls`).
+   it as the facts change. The OpenVEX specification (read 2026-10-20, facts only) uses the same four states, requires a machine-readable justification or an impact statement for "not affected", prefers the label because free text defeats automation, and requires a timestamp and a version that rises on every content change. A bare "not affected" with no reason is unusable (`skills/security-advisory-comms-pitfalls`).
 5. **Reissue deliberately.** The schema asks for a version bump when a document changes and a unique serial per
    BOM. Own guidance: when a correction is needed after publication, raise the version, keep the serial, and
-   note the change in the release; do not replace the file under the same version.
+   note the change in the release; do not replace the file under the same version. The other widely used format works differently: the SPDX 2.3.1 document-creation page (read 2026-10-20) requires one unique absolute URI per document, says an updated document needs a new one, and requires a UTC creation time and a CC0 data licence; so a reissue rule written for one format (keep the serial, raise the version) is wrong for the other (new namespace). Check the format before applying this point.
 6. **Keep the evidence as long as the support period.** Own guidance: customers and regulators ask about old
    releases. Keep the SBOM, the attestation and the verification procedure for every release still supported,
    and record the date when each leaves support. The legal duty, if any, is a question for the compliance
