@@ -7,7 +7,8 @@ parts stay at the edges. This script is that edge for two targets, and it is a p
 
 Targets:
 - `agents-md`: one `AGENTS.md`, a section per block.
-- `cursor`: one `.cursor/rules/<name>.mdc` per block, with `description` and `globs` taken from the
+- `cursor`: one `.cursor/rules/<name>.mdc` per block (a block with inlined references becomes one rule
+  for `SKILL.md` plus one per reference, since Cursor recommends rules under 500 lines), with `description` and `globs` taken from the
   manifest. The `globs` spelling (a comma-separated string) is our reading of the format and has
   not been run against the tool: 🟡.
 
@@ -105,7 +106,7 @@ def load_manifest() -> list[dict]:
     return blocks
 
 
-def read_block(entry: dict) -> tuple[str, str, str, list[str]]:
+def read_block(entry: dict) -> tuple[str, str, str, list[str], list[tuple[str, str, str]]]:
     name = entry["name"]
     path = REPO / "skills" / name / "SKILL.md"
     if not path.is_file():
@@ -115,6 +116,7 @@ def read_block(entry: dict) -> tuple[str, str, str, list[str]]:
         raise ExportError(f"{name}: frontmatter name is {fields['name']!r}")
     body = drop_title(body)
     inlined: dict[str, str] = {}
+    parts: list[tuple[str, str, str]] = []
     if entry.get("references") == "inline":
         extra = []
         for ref in sorted((REPO / "skills" / name / "references").glob("[0-9][0-9]-*.md")):
@@ -125,12 +127,13 @@ def read_block(entry: dict) -> tuple[str, str, str, list[str]]:
             title = f"Part {match.group(1)}: {match.group(2)}"
             rest = "\n".join(ref_lines[1:]).strip("\n")
             extra.append(f"## {title}\n\n{rest}")
+            parts.append((ref.stem, title, rest))
             inlined[f"./references/{ref.name}"] = f"Part {match.group(1)}"
         body = body + "\n\n" + "\n\n".join(extra)
         for target, label in inlined.items():
             body = re.sub(r"\[([^\]]*)\]\(" + re.escape(target) + r"\)", lambda m, l=label: f"{m.group(1)} ({l}, below)", body)
     dangling = sorted((set(LINK.findall(body)) | set(BARE_REPO_DOC.findall(body))) - set(inlined))
-    return name, fields["description"], body, dangling
+    return name, fields["description"], body, dangling, parts
 
 
 def render_agents_md(blocks: list[tuple[str, str, str, list[str]]]) -> str:
@@ -141,7 +144,7 @@ def render_agents_md(blocks: list[tuple[str, str, str, list[str]]]) -> str:
         "Each section is one block. Files under `references/` are not inlined.",
         "",
     ]
-    for name, description, body, _ in blocks:
+    for name, description, body, _, _ in blocks:
         parts += [f"## {name}", "", f"When: {description}", "", demote_headings(body), ""]
     return "\n".join(parts).rstrip("\n") + "\n"
 
@@ -149,7 +152,7 @@ def render_agents_md(blocks: list[tuple[str, str, str, list[str]]]) -> str:
 def render_cursor(name: str, description: str, body: str, globs: list[str]) -> str:
     head = ["---", f"description: {json.dumps(description, ensure_ascii=False)}"]
     if globs:
-        head.append("globs: " + ",".join(globs))
+        head.append("globs: " + ", ".join(globs))
     head += ["alwaysApply: false", "---", ""]
     return "\n".join(head) + body.strip("\n") + "\n"
 
@@ -161,11 +164,18 @@ def render_all() -> tuple[dict[str, dict[str, str]], dict[str, list[str]]]:
         "agents-md": {"AGENTS.md": render_agents_md(blocks)},
         "cursor": {},
     }
-    for entry, (name, description, body, _) in zip(entries, blocks):
-        files["cursor"][f".cursor/rules/{name}.mdc"] = render_cursor(
-            name, description, body, entry.get("globs", [])
-        )
-    warnings = {name: dangling for name, _, _, dangling in blocks if dangling}
+    for entry, (name, description, body, _, parts) in zip(entries, blocks):
+        globs = entry.get("globs", [])
+        if parts:
+            main = body[: body.index(f"\n\n## {parts[0][1]}")]
+            files["cursor"][f".cursor/rules/{name}.mdc"] = render_cursor(name, description, main, globs)
+            for stem, title, rest in parts:
+                files["cursor"][f".cursor/rules/{name}-{stem}.mdc"] = render_cursor(
+                    name, f"{description} ({title})", f"# {title}\n\n{rest}", globs
+                )
+        else:
+            files["cursor"][f".cursor/rules/{name}.mdc"] = render_cursor(name, description, body, globs)
+    warnings = {name: dangling for name, _, _, dangling, _ in blocks if dangling}
     return files, warnings
 
 
