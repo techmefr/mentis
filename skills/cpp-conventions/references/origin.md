@@ -70,3 +70,5 @@ The style guide for large C++ code bases was re-read in full on 2026-10-20 (raw 
 
 ### Tally
 Points 75. Sourced 18, corrected 1, still unverified 56.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified (Google style guide: exceptions ban, Windows carve-out and exception_ptr, integer types, nullptr, explicit and copy or move constructors, struct use, composition and override, RTTI, forward declarations, using-directives, macros, lambda captures, ten-line rule, related header first). Core-guidelines points remain idea-only and were not re-read.

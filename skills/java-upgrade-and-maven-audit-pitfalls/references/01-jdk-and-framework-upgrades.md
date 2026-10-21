@@ -23,9 +23,11 @@ rewritten. Its release facts are the skill's statements, not re-checked against 
 3. **17 to 21**: `finalize` is deprecated for removal (JEP 421, release 18; use a cleaner or try-with-resources);
    the default charset of the standard APIs becomes UTF-8 (JEP 400, release 18), which matters when code assumed the platform encoding.
 4. **21 to 25**, as the skill lists them and as the JEPs state them: the security manager can no longer be
-   enabled at start-up and its API behaves as if none were ever enabled (JEP 486, release 24; the API is
-   retained, not removed); the memory-access methods of `sun.misc.Unsafe` are deprecated for removal (JEP 471,
-   release 23; use the variable handle or foreign-memory APIs) and the skill's word "removed" overstates it;
+   enabled at start-up and installing one at run time throws `UnsupportedOperationException` (JEP 486, release 24;
+   the API is retained, not removed, and removal is planned for a later release); the memory-access methods of
+   `sun.misc.Unsafe` are deprecated for removal (JEP 471, release 23; use the variable handle or foreign-memory
+   APIs), the first use of one prints a run-time warning from release 24 (JEP 498), and JEP 471's plan makes them
+   throw by default in release 26 or later before they are removed, so the skill's word "removed" overstates it;
    only the 32-bit x86 port is removed (JEP 503, release 25); loading agents into a running JVM prints a
    warning from 21 (JEP 451), which announces disallowing it by default in a later release, and the flag that
    silences the warning is `-XX:+EnableDynamicAgentLoading`.
@@ -45,7 +47,8 @@ rewritten. Its release facts are the skill's statements, not re-checked against 
 3. **A reflective access exception at run time is the 17 symptom** of the same encapsulation.
 
 ## 1.5 Spring Boot 2 to 3
-1. **Spring Boot 3 requires Java 17 or later and Jakarta EE 9 or later.** The `javax.persistence`,
+1. **Spring Boot 3 requires Java 17 or later and moves to the Jakarta EE 10 APIs** (the Boot 3.0 migration guide
+   names Servlet 6.0 and JPA 3.1; the skill said EE 9). The `javax.persistence`,
    `javax.validation` and `javax.servlet` imports become `jakarta` ones.
 2. **Search for the old imports with an exclusion for the packages that stay** (`javax.crypto`, `javax.net` in
    the skill's own command), so a blind replacement does not rename JDK packages.

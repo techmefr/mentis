@@ -64,3 +64,5 @@ Read again on 2026-10-20: the OpenSSF compiler hardening guide (dated 2026-08-20
 
 ### Tally
 Points 64. Sourced 15 (two of them extended with an added sentence), corrected 2, still unverified 47.
+
+Independent verification 2026-10-21: 139 checked, 139 matched, 0 corrected, 0 unverified (112 rule identifiers against the rule titles of the current published rule list, which confirms the mapping only, not the block's explanations; 22 flag and sanitizer claims against the OpenSSF hardening guide at repository head 04545ae; 5 header claims against the Google style guide). Sections 1 to 4 explanations beyond the rule titles stay own reasoning.

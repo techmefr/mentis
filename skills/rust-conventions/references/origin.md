@@ -62,3 +62,5 @@ The three guideline repositories named above were re-opened at the same pinned c
 
 ### Tally
 Points 96. Sourced 73, corrected 1, still unverified 22.
+
+Independent verification 2026-10-21: 35 checked, 34 matched, 0 corrected, 1 unverified (API Guidelines naming, interoperability, predictability, flexibility and future-proofing pages; Pragmatic Rust Guidelines builder, docs, features, MSRV, edition, lints, performance and panic files; ANSSI cargo-lock, profile and integer rules; unverified: 1.18 'mark growing enums non_exhaustive' is not on the API Guidelines future-proofing page, the Pragmatic features rule only mentions it for enum variants added under a feature, so it is own guidance).

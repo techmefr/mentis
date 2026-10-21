@@ -6,9 +6,11 @@ Sources: the CMake 4.4.4 reference manual (command pages read 2026-10-08) and th
 ## 2.1 Attach everything to a target, with a scope
 1. **`include_directories` and `add_compile_options` are directory-scoped.** The first adds the directories to
    the directory property and to every target in that directory; the second sets the directory's compile
-   options for all targets in it and below. The manual's note on both commands calls new use discouraged: they make unencapsulated changes with
-   broad effect and cannot express interface usage requirements, so it recommends the `target_*` commands, and
-   `target_include_directories` can propagate the directories to dependents.
+   options for all targets in it and below. In the 4.4.4 manual the `include_directories` page only says to
+   prefer `target_include_directories`, which can add the directories to individual targets and propagate them to
+   dependents, and the `add_compile_options` page carries no such note; the explicit "discouraged for new
+   development, unencapsulated changes" wording appears only in the 4.5 release-candidate manual. Treat the
+   `target_*` commands as the rule on both versions.
 2. **Use `target_*` commands with an explicit `PRIVATE`, `PUBLIC` or `INTERFACE` keyword.** For include
    directories, `PRIVATE` and `PUBLIC` items populate the target's own include directories, `PUBLIC` and
    `INTERFACE` ones populate what dependents see. A header directory used only to compile the library is
