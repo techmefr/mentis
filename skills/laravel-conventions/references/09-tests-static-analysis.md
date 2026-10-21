@@ -233,8 +233,10 @@
     readable diff cannot be reviewed, so prefer a textual snapshot a reviewer can diff in the pull request, and
     store the underlying output somewhere human-readable when a hash is used.
 49. **At Larastan level 8 a fresh Laravel model can fail on things the point 26 extension does not infer on its
-    own.** (a) A model that declares its casts in the `casts()` method rather than the `$casts` property is only
-    read for its casts when `parseModelCastsMethod: true` is set in `phpstan.neon` (Larastan docs). (b) A
+    own.** (a) A model that declares its casts in the `casts()` method rather than the `$casts` property gets,
+    by default, only the method's declared return type used; the body is read for its casts when
+    `parseModelCastsMethod: true` is set in `phpstan.neon` (Larastan docs; the dogfood run saw the casts go
+    unread with a plain `array` return type). (b) A
     relation method needs its generics (`/** @return BelongsTo<User, $this> */`) and `HasFactory` needs
     `/** @use HasFactory<OrderFactory> */`: these are the docblocks point 5 permits, because the signature
     cannot state them. (c) Own observation, not sourced: a `belongsTo` accessor read as nullable over a

@@ -61,3 +61,5 @@ documentation lists them. Not matched anywhere: that a view composer does not fe
 `skills/laravel-conventions`, `skills/laravel-date-via-localised-accessors`,
 `skills/laravel-precognitive-request-scoping`, `skills/accessibility`, `skills/csp-and-sanitiser-pitfalls`.
 Overlaps with `skills/laravel-conventions` §6 (2026-10-19); cross-referenced, not merged.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified.

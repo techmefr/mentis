@@ -61,3 +61,5 @@ Error Handling (no exception on 4xx/5xx, `throw`), Timeout (30 s and 10 s defaul
 Preventing Stray Requests. Not found in either source, so own guidance: the idempotency-key condition on
 state-changing retries is stated by the rule file but is not a documented framework feature; "never retry a 4xx".
 Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified.

@@ -39,8 +39,8 @@ Eloquent code (a builder, a factory, a custom collection, an accessor) is writte
    inside a transaction without deferring to commit (`skills/laravel-dispatch-after-commit`). Enable them one
    at a time and fix or baseline the first run, deliberately.
 4. **Opt-in rules with a stated false-positive risk stay a choice.** The catalogue itself warns that the
-   unused-views rule may report false positives; a missing-translations check can plausibly misreport too
-   (translations kept elsewhere, own reasoning); the Octane compatibility check is for apps that
+   unused-views rule may report false positives; the missing-translations check cannot see translations stored in a
+   database, so it stays off there (the catalogue says so); the Octane compatibility check is for apps that
    run on it; the implicit builder-call rule enforces `Model::query()->where()` over `Model::where()`.
    Turn them on when the team decided, not as a default.
 5. **Help the analyser see the schema.** It reads model properties from migrations (and squashed schema
@@ -48,8 +48,8 @@ Eloquent code (a builder, a factory, a custom collection, an accessor) is writte
    assumed to evaluate true; PostgreSQL schema dumps parse poorly with the default parser, so either use a
    parser the docs name (installing the second SQL parser package makes it switch automatically) or generate
    migrations it can read. Schema dumps have their own path option (`squashedMigrationsPath`, default
-   `database/schema`). Casts defined through a method body are only inferred when `parseModelCastsMethod` is
-   on, at a speed cost.
+   `database/schema`). By default only the declared return type of a `casts()` method is used; the method body is
+   parsed for cast types only when `parseModelCastsMethod` is on, at a speed cost.
 6. **Type the Eloquent extension points.** A custom builder (the model uses the builder trait, declares the
    builder class), a factory whose generic template is the model and which the model names, and a custom
    collection with its generic type give the analyser what it needs (the builder and collection traits are
@@ -57,7 +57,7 @@ Eloquent code (a builder, a factory, a custom collection, an accessor) is writte
    better than model scopes. An attribute accessor must be a protected method returning the attribute type
    with its generic types (getter type first, setter argument second). Where a project forbids
    scopes (`skills/laravel-no-fat-models`), the builder is the typed alternative.
-7. **Choose the level and hold it.** The sample config starts at level 5 on a ten-level scale; raise it as
+7. **Choose the level and hold it.** The sample config starts at level 5, and level 10 is the highest; raise it as
    the codebase allows, never lower it to pass. A raise is its own change.
 8. **An ignore is a reviewed decision.** Prefer fixing, then a PHPDoc type, then a narrow ignore with the
    error identifier and a reason (`skills/code-baseline` §8 point 13; own guidance, the documentation only shows
@@ -82,6 +82,6 @@ line, read 2026-10-20): the README (requirements, support matrix, config skeleto
 baseline), `docs/rules.md` (25 rules with defaults and parameters, every opt-in name in step 3 matched),
 `docs/custom-config-parameters.md`, `docs/features.md` (builders, factories, collections, accessors) and
 `docs/errors-to-ignore.md`. Not covered by the configuration page and therefore sourced to the rule catalogue
-only: the Octane, unused-views, missing-translations and implicit-builder options. Own guidance: the baseline
+only: the Octane, unused-views, missing-translations and implicit-builder options. Independent verification 2026-10-21: 20 checked, 17 matched, 3 corrected (casts() body versus return type, the scale wording, the translations remark was documented), 0 unverified. Own guidance: the baseline
 discipline of steps 7 to 9 beyond what the README shows, and the "diff must not add entries" rule. Mechanisms
 only, rewritten in our words. Version-sensitive: rule names, parameter names and defaults.

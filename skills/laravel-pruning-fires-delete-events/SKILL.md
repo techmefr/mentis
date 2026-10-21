@@ -46,3 +46,5 @@ Mass Pruning; Events, Muting Events; read for facts, our words) and the framewor
 `Prunable.php` (`pruneAll`, `prune`) and `MassPrunable.php` (`pruneAll`). Steps 1 and 3 and the house rule
 against the mass variant are our own policy, not a framework statement: the framework offers the mass trait and
 documents its trade-off.
+
+Independent verification 2026-10-21: 9 checked, 9 matched, 0 corrected, 0 unverified.

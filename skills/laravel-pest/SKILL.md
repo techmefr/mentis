@@ -82,3 +82,5 @@ assertions, known-value assertions and complete-result assertions. Every figure 
 and matched on 2026-10-20. Own guidance, not a documentation statement: step 6's "complements the static
 analyser", step 9 (skipped and todo tests, absent from both sources), and the advice to confine mutation runs
 to the diff's tests. Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified.

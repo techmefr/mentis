@@ -58,3 +58,5 @@ stamped above.
 ## Related blocks
 `skills/testing-anti-patterns`, `skills/laravel-permissions-not-roles`, `skills/laravel-conventions`,
 `skills/run-generated-tests`, `skills/laravel-tenant-context-by-default`. Overlaps with `skills/laravel-conventions` §9 (2026-10-19); cross-referenced, not merged.
+
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified.
