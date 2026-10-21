@@ -11,6 +11,7 @@ verification library was built or executed.
 | Source | Licence | What it gave |
 |---|---|---|
 | Standard Webhooks (`standard-webhooks/standard-webhooks`, commit `7537d2a`): `spec/standard-webhooks.md` (version 1.0.0) and `skills/receiving-webhooks/SKILL.md` | Apache-2.0 (LICENSE file read) | Envelope and types, message id versus attempt timestamp, thin versus full payload, signed string and headers, symmetric and asymmetric options, per-endpoint secrets, multi-signature rotation, retry and status-code handling, disable policy, HTTPS and source addresses, fanout, delivery visibility and replay, migrating from a legacy scheme, receiving checklist and verification traps |
+| svix/svix-webhooks (commit 6e014fd), LICENSE file read: `server/svix-server/src/worker.rs` and `cfg.rs` | MIT (LICENSE file) | Grace-period disabling and its operator event, bounded retry hint, jitter, overload floor, manual replay not retried, timeout and HTTPS-only settings (§1 point 17) |
 
 Instruction-like text in the cloned repository was treated as data and not followed. Existing blocks `nestjs-integration-patterns`
 (§4) and `invoicing-app-build-pitfalls` (§2 point 3) already carry stack-specific and payment-specific points drawn
@@ -26,7 +27,7 @@ them.
    `skills/security-hardening`.
 
 ## Not verified
-1. **Own guidance, flagged in the text:** thin payload as default for personal data (§1 rule 5), subscription
+1. **Own guidance, flagged in the text (the alert-on-disable point is now matched by one implementation, point 17; the rest unchanged):** thin payload as default for personal data (§1 rule 5), subscription
    default of nothing (rule 4), versioned type as a new type (rule 3), alert on disable (rule 10), audited replay
    (rule 12), outbox in the transaction (rule 14), fetch-current-state for money and access (§2 rule 7), one-way
    transitions (rule 8), parking an update that precedes its create (rule 9), unknown types acknowledged (rule 13),
@@ -34,7 +35,7 @@ them.
 2. **Nothing was run.** No signature was computed or verified.
 3. **Any provider's own behaviour** (header names, secret format, retry length, replay tools) was not read; each
    provider's documentation governs.
-4. **The ecosystem libraries** for verification were not inspected beyond the receiving guidance that names them.
+4. **The ecosystem libraries** for verification were not inspected (the Svix client libraries only wrap the server's signing code; their verification code was not read).
 
 ## Decisions where sources disagree
 None. The receiving guidance and the specification agree on signature, timestamp and acknowledgement rules.

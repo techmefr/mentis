@@ -1,6 +1,6 @@
 # llm-pii-and-data-handling-pitfalls §2 — After sending
 
-Source: the attack-scenario text of the sensitive-data output scanner of llm-guard (MIT), read 2026-10-20. Points marked "own guidance" are not from a source. Not legal advice.
+Sources: the attack-scenario text of the sensitive-data output scanner of llm-guard (MIT), read 2026-10-20, and the Presidio decision-process page (MIT), same date. Points marked "own guidance" are not from a source. Not legal advice.
 
 ## 2.1 The vendor
 1. **Provider terms differ by tier and endpoint** (own guidance): retention period, whether inputs are used to
@@ -17,6 +17,12 @@ Source: the attack-scenario text of the sensitive-data output scanner of llm-gua
 1. **Prompt and completion logs are a second database of personal data** (own guidance). Symptom: a debug
    flag left on, full conversations in a log service with broad access. Fix: default to ids, token counts and
    outcome; gate full capture by a short-lived switch with an owner; apply `telemetry-sensitive-data-pitfalls`.
+1a. **Diagnostic modes of the redaction tool itself can write the raw text.** The Presidio decision-process page says
+   its logging is off by default and, once on, writes to standard output; the sample line it shows contains the
+   tokenised input text next to the scores. Symptom: the tool meant to remove personal data fills the logs with it.
+   Check: grep the logs of a test run with a seeded identifier (§3.3) with every diagnostic flag on. Fix: keep
+   such flags off outside a short, owned debugging session. Source: Presidio decision-process page (MIT), read
+   2026-10-20.
 2. **Caches repeat data across users** (own guidance). A response or prompt cache keyed without the tenant serves
    one customer's answer to another. Fix: include the scope in the key, or do not cache prompts that carry personal data.
 3. **Embeddings are personal data too** (own guidance). A vector derived from a person's text can be inverted

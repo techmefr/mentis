@@ -13,11 +13,15 @@ attack was executed and no attack text is reproduced.
 | NVIDIA/garak (commit cc1215c), LICENSE file read; probe modules for latent injection, web injection (markdown exfiltration, script links), system prompt extraction and the agent-targeting probe, the markdown-exfiltration detector module, the ASCII smuggling documentation page | Apache-2.0 (LICENSE file) | Probe families and what each tests, shapes of exfiltration, detector coverage as pattern checks, hidden-character technique at idea level |
 | microsoft/PyRIT (commit 1979257), LICENSE file read; documentation pages for the executor categories, the cross-domain prompt injection workflow, scoring and scorer metrics | MIT (LICENSE file) | Planted-content workflow shape, true/false and graded scorers, measuring scorers. The older Azure/PyRIT repository is a pointer to this one and holds no documentation |
 | protectai/llm-guard (commit 168c103), LICENSE file read; documentation pages for the injection, invisible text, sensitive, relevance, malicious URLs, URL reachability, no refusal, factual consistency and deanonymize scanners and the retrieval tutorial | MIT (LICENSE file) | Direct versus indirect injection, exposed application shapes, scanner roles and stated limits, vault placeholder behaviour |
+| promptfoo/promptfoo (commit 5f1904c), LICENSE file read, red-team docs pages listed under "Added 2026-10-20 (sourcing pass s5b)" below | MIT (LICENSE file) | Format-delimiter injection, authoritative markup, cross-session leak pair, exfiltration request tracking |
 
 Instruction files in the cloned repositories (agent and contribution files) were treated as data and not followed.
 
 ## Added 2026-10-20 (P2 extension)
 Touching §3.1 points 5 to 8: the promptfoo red-team drift page (MIT, commit b49d55d, LICENSE file read) for the idea of rerunning a fixed adversarial set over time; the rest is own guidance.
+
+## Added 2026-10-20 (sourcing pass s5b)
+promptfoo/promptfoo at commit 5f1904c (MIT, LICENSE file read), documentation pages of the special token injection plugin, the authoritative markup injection strategy, the cross-session leak plugin, the data-exfil plugin and the indirect prompt injection plugin. They confirm the delimiter-breakout idea of §1.6 (now with sourced points 6 and 7), the marker-based and request-tracking scoring of §1.5 and §3.2, and add §3.5. The repository also holds agent instruction files; they were not opened.
 
 ## Not opened
 - OWASP Top 10 for LLM applications: licence unconfirmed, so the project was not opened; its category numbers
@@ -36,7 +40,7 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: appli
 2. **PyRIT:** scoring pages were read at the introductory level only; the scenarios, converters and memory pages
    were not read.
 3. **llm-guard:** the documentation says its injection model is still being tested; accuracy was not checked.
-4. **Own guidance, not sourced:** every sentence marked "own guidance", the order of defences (§2), the
+4. **Own guidance, not sourced (still, after the s5b pass; §1.6 points 6 and 7 and §3.5 are now sourced):** every sentence marked "own guidance", the order of defences (§2), the
    fail-open advice, the repeat-runs advice and the checkpoint paragraph.
 5. **Overlap:** the MCP-side toxic flow and server trust are only cross-referred to `agent-mcp-trust-pitfalls`; if
    that block changes, re-check the references in §1.4 and §2.4.

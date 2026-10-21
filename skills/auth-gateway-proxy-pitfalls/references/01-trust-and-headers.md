@@ -25,7 +25,7 @@
    reads the part an attacker writes.
 4. **Overwrite single-value client-IP headers at the edge.** For headers such as `X-Real-IP`, the
    documentation says to configure the edge proxy to overwrite any value the client supplied. The default
-   header oauth2-proxy reads is `X-Real-IP`, so an edge that appends rather than overwrites hands the
+   header oauth2-proxy reads is `X-Real-IP`, and the documented nginx setup overwrites it with the transport peer address and sets the user and email headers itself, never passing a client value through, so an edge that appends rather than overwrites hands the
    decision to the client. The same idea holds for any header the gateway or the app trusts for identity.
 5. **Strip client-supplied identity headers before the gateway sets its own.** `--skip-auth-strip-headers`
    (default true) strips `X-Forwarded-*` style authentication headers and `Authorization` when they would
