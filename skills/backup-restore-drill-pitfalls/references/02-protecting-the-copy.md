@@ -14,7 +14,12 @@
    deleted, altered or shortened before retention ends, locks the setting after validating the policy, and adds
    soft delete, multi-person authorisation and role separation. Own guidance, product-independent: write-once
    storage or a vault lock, with the lock applied only after the policy is confirmed, since an unlockable wrong
-   policy is itself a problem.
+   policy is itself a problem. Checked on one object store (AWS S3 Object Lock page, read 2026-10-20): it needs
+   versioning on the bucket; a compliance-mode lock cannot be shortened or removed by anyone, the account's root
+   user included, while a governance-mode lock can be bypassed by identities holding a specific permission; a
+   legal hold has no end date; a simple delete on a locked object only adds a delete marker; and a later
+   version written under the same key does not change the lock on older versions. Try governance mode first, then
+   compliance once the period is right.
 3. **Separate who administers backups from who administers production.** The guide isolates backup
    administration with separate privileged groups, just-in-time elevation, conditional access and break-glass
    accounts, and keeps production operators out of broad rights over the vaults. Symptom: the account that can
@@ -43,7 +48,7 @@
    the suspected compromise and repeat with an earlier one if validation fails. Own guidance: write how you
    decide when the damage began, from logs and from data, before you pick the point.
 10. **Cover the odd stores.** Own guidance: a managed service's snapshots may live and die with the resource,
-    deletion of the resource may delete its snapshots, and a SaaS tool you depend on may keep no backup you can
+    deletion of the resource may delete its snapshots (AWS RDS backups page, read 2026-10-20: automated backups are deleted with the database instance unless you choose to retain them, while manual and final snapshots are independent of the instance), and a SaaS tool you depend on may keep no backup you can
     reach. List each and either export it on a schedule or accept the loss in writing.
 11. **Account for cost and growth.** Own guidance: retention multiplies storage; check the bill and the restore
     time as data grows, since a restore that took an hour at a tenth of the size is the one that fails the

@@ -5,7 +5,7 @@ Sources: the `monorepo-management` skill of wshobson/agents at 0874a27, read 202
 ## 1.1 Phantom dependencies
 1. **A phantom dependency is an import that works because another package installed the module,** not because this package declares it. The source lists it as a common pitfall. Symptom: it builds locally and in a warm CI, and fails after a clean install or when the neighbour drops the module.
 2. **Declare every import in the package that makes it,** including development-only tools used by a package's scripts (own guidance).
-3. **Prefer a package manager mode that isolates each package's modules** so an undeclared import fails at once instead of months later (own guidance, re-read your manager's current default).
+3. **Prefer a package manager mode that isolates each package's modules** so an undeclared import fails at once instead of months later (own guidance for the general point; pnpm's page states only that a package sees the dependencies declared in its own manifest, and does not discuss phantom dependencies by name; re-read your manager's current default).
 4. **Reference sibling packages through the workspace's own protocol,** not a published version number, so the local code is used and a version bump does not decouple it silently (own guidance).
 5. **Check with a clean install and a build of one package alone** (own guidance); both must pass without the others' modules.
 
@@ -24,7 +24,7 @@ Sources: the `monorepo-management` skill of wshobson/agents at 0874a27, read 202
 
 ## 1.4 Versioning and release
 1. **Use a change-record tool for versioning** (the source names the changesets approach) so that each change states which packages bump, and the bump is reviewed with the code.
-2. **Private packages need no version discipline; published ones do.** Mark which are which, and never publish from a package that has a workspace-protocol dependency unrewritten (own guidance; re-read how your tool rewrites it on publish).
+2. **Private packages need no version discipline; published ones do.** Mark which are which, and never publish from a package that has a workspace-protocol dependency unrewritten (pnpm workspaces documentation, read 2026-10-20: the workspace protocol refuses to resolve to anything but a local package, and packing or publishing replaces it with the target's real version or range; other managers differ, re-read yours).
 3. **Document each package in a short readme** (the source says so): what it is for, who may depend on it.
 
 ## 1.5 Checks (own guidance)

@@ -24,8 +24,7 @@ Credit as the licence requires: Microsoft Writing Style Guide, Microsoft, https:
    fixed naming of it (CC BY-SA) was not opened.
 
 ## Not verified
-1. The guide's figures (two to seven list items, about seven steps per procedure) are quoted from the version
-   read on 2026-10-20 and may have changed; re-read before relying.
+1. Checked on the live pages 2026-10-20: the list range (two to seven, if possible) is confirmed; the "about seven steps per procedure" figure is not stated there (corrected to "fit one screen"). Re-read before relying.
 2. §3 is mostly own guidance. No source on documentation freshness or runbook rehearsal was read, and the claim
    that stale pages cost trust is observed craft knowledge, not measured.
 3. The guide targets one company's product documentation; its fit for a small repository README is our

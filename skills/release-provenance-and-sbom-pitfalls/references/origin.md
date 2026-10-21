@@ -23,8 +23,7 @@ Credit as the licences require: CycloneDX specification, OWASP Foundation and Ec
 3. **Tool names for generating or signing.** Not method.
 
 ## Not verified
-1. **The provenance framework's levels (v1.0 page, marked retired) and its verification page were read; the
-   current version, the provenance field names and the signing tools were not.** Points in §2 other than the digest
+1. **The provenance framework's levels (v1.0 page, marked retired) and its verification page were read; on 2026-10-20 the v1.2 build-requirements page was read too and the three level steps match. The provenance field names and the signing tools' options were not read; the keyless-signing overview page was read for facts only.** Points in §2 other than the digest
    binding, the level steps and the scorecard list remain own guidance; nothing there may be quoted as a source
    claim. Re-read the specification in force and the tools' documentation before relying on it.
 2. The scorecard's individual check rules beyond the summaries on its checks page were not read.

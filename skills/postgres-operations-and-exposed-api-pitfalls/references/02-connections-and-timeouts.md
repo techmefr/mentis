@@ -17,6 +17,7 @@ Sources: the `conn-limits`, `conn-pooling`, `conn-idle-timeout`, `conn-prepared-
 3. **Session pooling holds a connection for the whole session** and gives back the features that need it, at the cost of fewer clients per server connection.
 
 ## 2.3 Timeouts
+0. **Defaults:** the statement, idle-in-transaction, idle-session and lock timeouts all default to 0, which means disabled, so nothing ends a runaway query or a stuck session until you set them; the manual advises setting them per role or per session, not in the global file (PostgreSQL manual, client connection defaults).
 1. **Set an idle-in-transaction timeout.** A session that opened a transaction and went quiet holds locks and blocks cleanup (§1); the timeout ends it. Set it on the application's role, not server-wide, so maintenance sessions are not killed.
 2. **Set an idle-session timeout for clients that never close.** The pooler has its own idle timeouts; keep them coherent with the server's so one does not kill what the other still counts as alive.
 3. **Set a statement timeout for the role that serves requests,** and a shorter transaction-local one for a known-short unit. Without it one runaway query holds a connection until a person notices. With a tiny pool (one connection per instance, typical of serverless) the effect is sharper: one runaway query or one idle-in-transaction session blocks every request that instance serves, so the two timeouts matter more there, not less. Where the role cannot be altered, pass them as connection options in the driver.

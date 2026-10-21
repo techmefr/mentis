@@ -17,7 +17,7 @@
 - Desktop, web and server targets: not covered beyond the shared rules.
 
 ## Not verified
-1. **Checked:** default hierarchy template, expect and actual advice, shared-heap memory manager, exception crossing, suspend bridge, generics limits, name clashes. **Unverified:** default arguments and value classes in the export, sealed hierarchies, dispatcher injection, thread-affinity of callbacks, cancellation scoping, library choices (time, network, storage, serialisation, injection), version catalogue, build speed, Swift export, shared UI maturity, symbol upload. The memory model and interop tooling change between releases: re-read before relying.
+1. **Checked:** default hierarchy template, expect and actual advice, shared-heap memory manager, exception crossing, suspend bridge, generics limits, name clashes. **Also checked 2026-10-20:** value classes unsupported in the export, extension and top-level mapping, and the main-thread queue in unit tests. **Unverified:** default arguments in the export, sealed hierarchies, dispatcher injection, thread-affinity of callbacks, cancellation scoping, library choices (time, network, storage, serialisation, injection), version catalogue, build speed, Swift export, shared UI maturity, symbol upload. The memory model and interop tooling change between releases: re-read before relying.
 2. **Compose Multiplatform on iOS** maturity and component gaps change quickly; §2.3 is guidance on method, not a status report.
 3. **Library recommendations** are by category, not by name, on purpose.
 

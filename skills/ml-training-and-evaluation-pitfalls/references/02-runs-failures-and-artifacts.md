@@ -17,17 +17,17 @@ Sources: the troubleshooting reference of the sentence-transformer training skil
 
 ## 2.3 Ephemeral machines and timeouts
 1. **A rented training machine is thrown away at the end,** so results exist only if they were pushed to a hub or a bucket during the run. Enable the push, give the job write access, and verify the repository after a short test run, not after the long one.
-2. **The job's timeout must exceed the expected duration with margin.** The source warns that its default is too short for most training and that exceeding it loses all progress. Estimate the duration and cost first, and set the timeout above it.
+2. **The job's timeout must exceed the expected duration with margin.** The hub's jobs guide (read 2026-10-20) gives a default timeout of 30 minutes, after which the job stops on its own; set one explicitly for training (a number of seconds or a value with a unit). Estimate the duration and cost first, and set the timeout above it.
 3. **Prefer checkpointing to the hub or bucket at intervals,** so a failure at hour three loses minutes (own guidance).
 4. **Submit asynchronously and report the job identifier and monitoring link;** do not poll in a loop (the source advises checking on request). Logs may take a minute to appear.
 5. **For a demo on a small card, drop the evaluation set and its schedule to save memory,** and say that you did (the source gives this tip; re-read before relying on the saving).
 
 ## 2.4 Tokens, saving and loading
 1. **A hub push that fails with an authorization error is usually a token without write permission, a missing login on the machine, or a missing secret on the job.** Check who the machine thinks it is before regenerating anything.
-2. **Pass tokens to a job as secrets by reference,** never inline in the script or the log. The same applies to tracker keys.
+2. **Pass tokens to a job as secrets by reference** (the jobs guide encrypts secrets server side), never inline in the script or the log. The same applies to tracker keys.
 3. **A custom module defined inline in the training script is saved under the script's own entry-point name and cannot be loaded from any other script.** Put it in an importable module, or build the head from stock modules, or state that the model loads only from the same script.
 4. **Test the load path from a fresh process** (a different script, with only the saved folder and the package) before announcing the model (own guidance).
-5. **Prefer weight formats that cannot run code on load,** and treat a pickled checkpoint from a hub as code you are about to execute (own guidance, re-read the loader's current default before relying on it).
+5. **Prefer weight formats that cannot run code on load,** and treat a pickled checkpoint from a hub as code you are about to execute: unpickling can import and call arbitrary functions, and the hub's own security page says to load such files only from sources you trust and offers a code-free weight format as the alternative (Hub documentation, pickle scanning, read 2026-10-20; the loader's current default for weights-only loading was not confirmed, re-read it).
 6. **Pooling must match the architecture:** mean pooling over causal attention is wrong for decoder models, which want last-token pooling. A model that "loads" but encodes garbage often has the wrong pooling or the wrong base.
 
 ## 2.5 Checks (own guidance)

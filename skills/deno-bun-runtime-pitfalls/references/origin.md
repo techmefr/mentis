@@ -17,9 +17,9 @@
 - Framework-specific advice (web frameworks, ORMs) and the serverless platforms that host these runtimes: not covered.
 
 ## Not verified
-1. **Checked:** Deno permission defaults, scoping, subprocess and native-library caveats, shared privilege; Bun and Deno install-script handling; Bun lockfile format and frozen mode; Deno versioned specifiers and import mapping; compatibility is partial per module on both; Deno Node-API addon support. **Unverified:** Deno lockfile enforcement and how it is disabled, Bun native-addon level, module-resolution differences, built-in tooling semantics, bundler and compile behaviour, benchmarks, shutdown and signal behaviour, container practice, support paths. Both runtimes release often: re-read before relying.
+1. **Checked:** Deno permission defaults, scoping, subprocess and native-library caveats, shared privilege; Bun and Deno install-script handling; Bun lockfile format and frozen mode; Deno versioned specifiers and import mapping; compatibility is partial per module on both; Deno Node-API addon support. **Also checked 2026-10-20:** Deno lockfile default, frozen option and disabling in the project file; Bun Node-API support (most addons). **Unverified:** the Deno command-line flags for the lockfile, module-resolution differences, built-in tooling semantics, bundler and compile behaviour, benchmarks, shutdown and signal behaviour, container practice, support paths. Both runtimes release often: re-read before relying.
 2. **Compatibility level of any specific library** is not claimed.
-3. **Bun's missing permission model** is still the author's knowledge: none of the Bun pages read states it; re-read in case it changed.
+3. **Bun's missing permission model** is still the author's knowledge: none of the Bun pages read states it (the Node compatibility page read again 2026-10-20 does not mention permissions or signals); re-read in case it changed.
 
 ## Related blocks
 `node-container-runtime`, `package-manager-supply-chain-pitfalls`, `monorepo-task-graph-and-cache-pitfalls`, `load-and-capacity-testing-pitfalls`, `source-freshness`.

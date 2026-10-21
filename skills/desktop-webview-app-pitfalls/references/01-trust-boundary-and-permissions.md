@@ -37,7 +37,8 @@ Sources: the Electron security tutorial (docs/tutorial/security.md, efd4495) and
 ## 1.6 Navigation and external links
 1. **Limit navigation and new-window creation** in Electron: handle both events, allow a list of addresses, deny the rest.
 2. **Never pass untrusted text to the system opener** (`shell.openExternal` in Electron, the opener plugin in Tauri) without checking the scheme and the host. A custom scheme or a file address can start a program.
-3. **Do not leave debugging switches in production:** developer tools, the Node options variable, experimental web features.
+3. **Do not leave debugging switches in production:** developer tools, the Node options variable, experimental web features and the Chromium feature-enabling switch (Electron security checklist, read 2026-10-20: do not enable either without a known reason).
+4. **Embedded web views (`<webview>`):** do not allow popups on them unless needed, and in the main process strip preload scripts, force Node integration off and refuse unapproved sources when one attaches. Parse addresses with the URL parser when allow-listing navigation, not with string matching. Keep Electron current and move one major version at a time, reading the breaking-changes list (same checklist).
 
 ## 1.7 Checks (own guidance)
 1. Produce the table: window or webview, content origin (local or remote), permissions or bridge functions, scope. Any remote origin with a file, process or shell entry is a finding.

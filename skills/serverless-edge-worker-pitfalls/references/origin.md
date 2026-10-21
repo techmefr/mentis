@@ -12,6 +12,8 @@ function was written, deployed or tested while writing it.
 |---|---|---|
 | cloudflare/skills at commit 86505e4 (2026-10-15): `skills/workers-best-practices/SKILL.md`, `references/configuration.md`, `references/runtime-patterns.md`, `references/platform-apis.md`, `rules/workers.mdc` | Apache-2.0 (`LICENSE` read 2026-10-20; the repository's `NOTICE` was not looked for) | Compatibility date and flags, bindings and types, secrets, observability, shared state, promise lifetime, streaming, fail-open handling, queues, workflows, service bindings, pooling service, serialization table |
 | cloudflare/skills at 86505e4: `skills/durable-objects/SKILL.md`, `references/rules.md` | Apache-2.0 (same file) | One object per entity, reconstructible state, SQL-backed storage, hibernation, migration entry |
+| Cloudflare documentation: Workers limits, Queues delivery guarantees | product documentation, facts only, rewritten, read 2026-10-20 | Memory, CPU and background time figures, at-least-once delivery |
+| AWS Lambda developer guide: execution environment lifecycle | product documentation, facts only, rewritten, read 2026-10-20 | Freeze after return, reuse, initialisation outside the handler, global variables |
 
 ## Removed (stated in the sources, not carried)
 - The Wrangler command-line skill, the sandbox, email, Turnstile, Zero Trust, Next.js-on-Cloudflare, agents SDK and profiling skills: other subjects, not read.
@@ -19,9 +21,9 @@ function was written, deployed or tested while writing it.
 - The source's retrieval-first instruction (a harness behaviour) and its documentation URL tables.
 
 ## Not verified
-1. **Limits.** The memory cap, CPU limits per plan and the background-work time limit are stated in the files and not recited here; the figures in the files differ between their own pages (the files mention both a bundled and a standard CPU limit) and were not checked against the live limits page.
+1. **Limits.** Checked 2026-10-20 against the live limits page: the figures now quoted in §2.2 and §2.3 (30 s background, 128 MB, CPU per plan). They change; re-read before relying on them.
 2. **Configuration keys and command names** (observability switches, type generation, secret command, compatibility flag name) are the files' claims at the commit; none was run.
-3. **Non-Cloudflare platforms.** Section 3.6, the "freeze after response" remark (§2.2.5) and the timeout ordering are our own guidance; no AWS or other platform source was read. Re-read the platform's documentation before relying on them.
+3. **Non-Cloudflare platforms.** The freeze-after-response remark (§2.2.5) and warm-reuse points (the "Other platforms" heading of part 3, points 1 and 3) are now checked against the Lambda guide only; the timeout ordering (same heading, point 2) and other platforms stay own guidance.
 4. **Durable objects.** Only the rules file and skill summary were read; storage-gate, alarm and migration semantics were not.
 5. **Own guidance, labelled in the text:** the shared-memory-cache caution (§2.1.3), the write-retry caution (§3.2.2), and every "Checks" section.
 

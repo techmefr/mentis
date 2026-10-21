@@ -18,7 +18,7 @@
 - Board-, chip- and library-specific API names, pin tables, register values, endurance and current figures, protocol stacks and certification topics: not covered.
 
 ## Not verified
-1. **Checked in one RTOS's documentation:** short handlers and thread hand-off, thread-only calls, stack measurement, erase blocks and wear, write order for power-loss safety, two-slot update with confirmation. **Unverified:** fast-memory handlers during flash writes, torn reads on narrow chips, volatile and atomic rules, ring buffers, priority inheritance, watchdog feeding patterns (the Zephyr watchdog page returned an error), brown-out symptoms, heap fragmentation, power and radio, flash-string mechanisms. Re-read the datasheet of the part in use.
+1. **Checked in one RTOS's documentation:** short handlers and thread hand-off, thread-only calls, stack measurement, erase blocks and wear, write order for power-loss safety, two-slot update with confirmation. **Also checked 2026-10-20:** mutex priority inheritance and handler restriction (Zephyr mutex page). **Unverified:** fast-memory handlers during flash writes, torn reads on narrow chips, volatile and atomic rules, ring buffers, priority inheritance, watchdog feeding patterns (the Zephyr watchdog page read again 2026-10-20 holds no content, only a link to the API reference), brown-out symptoms, heap fragmentation, power and radio, flash-string mechanisms. Re-read the datasheet of the part in use.
 2. **PlatformIO and vendor toolchains** are not described; §2.5 is generic build advice.
 3. **Safety-critical and regulated devices** (medical, automotive) need their own standards; this block is not one.
 

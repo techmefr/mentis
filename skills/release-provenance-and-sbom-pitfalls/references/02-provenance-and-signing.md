@@ -18,7 +18,7 @@
    packaging step and sign that.
 3. **Prefer short-lived credentials to a stored key.** Own guidance: a signing key kept as a long-lived secret
    in the pipeline is a target and a rotation burden; identity-based, short-lived signing, tied to the
-   workflow that ran, removes the stored secret. Whichever is used, a build triggered by an untrusted change
+   workflow that ran, removes the stored secret. (Sigstore signing overview, read 2026-10-20: the keyless flow gets a short-lived certificate binding an ephemeral key to an OpenID Connect identity, and each signing is recorded with a timestamp in a public transparency log; the page gives no validity period and does not say what a verifier must check, so pin the expected identity yourself.) Whichever is used, a build triggered by an untrusted change
    must not be able to read the key (`skills/ci-workflow-hardening`, `skills/gha-trust-boundary-pitfalls`).
 4. **Build in an environment the producer controls, from a known source.** Own guidance: provenance is only as
    strong as the builder: a hosted, ephemeral build that takes pinned inputs and cannot be altered from the
@@ -27,7 +27,7 @@
    artefact was built, which catches mistakes and is easy to forge; level 2, a hosted platform generates and signs
    the provenance, which protects against tampering after the build; level 3, a hardened platform protects against
    tampering during the build, with isolated runs and protected signing secrets. The build track does not cover
-   source or dependencies. Re-read the version in force before quoting a level.
+   source or dependencies. Re-read 2026-10-20 on the v1.2 build-requirements page: the three levels are unchanged in substance (provenance naming the output digest; authentic, hosted-platform provenance; unforgeable provenance with isolated, ephemeral builds and signing secrets out of reach of user steps).
 5. **Verify once, from outside, and keep the command.** Own guidance: after the first signed release, run the
    verification as a consumer would, from a machine that did not build it, against the downloaded artefact, and
    keep the exact command in the release checklist. Symptom: months of signed releases that no one can verify

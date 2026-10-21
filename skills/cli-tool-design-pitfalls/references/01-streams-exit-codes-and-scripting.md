@@ -12,7 +12,7 @@ Source: own guidance, except the colour points checked on 2026-10-20 against the
 
 ## 1.2 Exit codes
 1. **Zero means success, non-zero means failure, always.** Test it: break the input and read the code that the shell reports.
-2. **Use distinct codes for distinct classes a caller would branch on** (usage error, not found, permission, conflict, network, internal error) and publish the table. Do not use more than a handful, and never use codes above the portable range.
+2. **Use distinct codes for distinct classes a caller would branch on** (usage error, not found, permission, conflict, network, internal error) and publish the table. Do not use more than a handful, and never use codes above the portable range. Checked against the POSIX shell specification (read 2026-10-20): a normal exit status is the value modulo 256, so stay within 0 to 255; 127 means command not found and 126 found but not executable, so do not reuse them for your own classes; a status above 128 means death by a signal, with the exact encoding left to the implementation (commonly 128 plus the signal number).
 3. **Commands that compare or search can use a non-failure non-zero code** (found nothing, differences found); document it, since a script run in strict mode treats it as an error.
 4. **A command that does several things reports the worst outcome,** and says which parts succeeded on standard error. A batch that fails half-way must not exit zero.
 5. **Usage errors exit non-zero and print the short usage on standard error,** not on standard output.

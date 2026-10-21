@@ -9,7 +9,7 @@ Source: official platform documentation read 2026-10-20 for facts only, rewritte
 4. **Set quotas and budget alerts** on the project, because an open endpoint is paid for by you (own guidance).
 
 ## 2.2 Administrator credentials
-1. **The administrator SDK and service account keys bypass the rules entirely.** Anyone holding such a key has full access to the project.
+1. **The administrator SDK and service account keys bypass the rules entirely.** Anyone holding such a key has full access to the project. Confirmed for the document database: the server client libraries bypass all its security rules and are governed by IAM instead (Firestore security get-started page, read 2026-10-20); the same page does not name the administrator SDK, and the custom-token page only warns that a service account file holds a sensitive private key to keep out of public version control.
 2. **They live on servers only,** in a secret store, never in a client bundle, a repository, a mobile package or a function's public source. Search the repository history too.
 3. **Prefer the platform's ambient identity** (the identity of the function or server runtime) to a downloaded key file, so there is no file to leak (own guidance).
 4. **Rotate a key found in the wrong place at once,** because removing the file from the repository does not make it private again.
