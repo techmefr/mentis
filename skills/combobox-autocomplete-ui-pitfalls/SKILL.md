@@ -46,4 +46,4 @@ tests in §3.7 exist. No checkpoint is written: a craft block, 🟡, nothing her
 - Facts about a standard or a library are for the date in `references/origin.md`; re-read before relying. A point in §2 that carries no credit to the authoring practices is still own guidance.
 
 ## Origin
-Own craft knowledge. The keyboard and attribute facts of §2 were checked on 2026-10-20 against the W3C ARIA authoring practices combobox pattern and its select-only example (facts only, credited, no text copied). No MIT, Apache-2.0 or CC BY source was read for this block. Details in [`references/origin.md`](./references/origin.md).
+Own craft knowledge. The keyboard and attribute facts of §2 were checked on 2026-10-20 against the W3C ARIA authoring practices combobox pattern and its select-only example (facts only, credited, no text copied). The DOM and HTML Standards (CC BY 4.0) were read for two minor points; the async and chip points have no permissive source. Details in [`references/origin.md`](./references/origin.md).

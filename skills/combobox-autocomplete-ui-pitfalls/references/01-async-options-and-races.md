@@ -1,6 +1,6 @@
 # combobox-autocomplete-ui-pitfalls §1 — Async options and races
 
-Own craft knowledge; no source read for this section.
+Own craft knowledge, except point 1.2.3 (DOM Standard abort semantics, CC BY 4.0, read 2026-10-20) and the reading of the authoring practices listbox page for 1.4.5 (facts only, read 2026-10-20).
 
 ## 1.1 Debounce and minimum length
 1. **Symptom: one request per keystroke, a flickering list and a rate-limited backend.** Check: type a six-letter word and count requests in the network panel. Fix: debounce the query so a request leaves only after a short pause in typing.
@@ -12,7 +12,7 @@ Own craft knowledge; no source read for this section.
 ## 1.2 Out-of-order and cancelled responses
 1. **Symptom: the list shows results for "pa" while the field says "paris".** Cause: two requests in flight, the older one answered last and overwrote the state.
 2. **Tag every request with its query (or a counter) and apply a response only if it is still the latest.** The simple form: compare the response's query with the current normalised query before setting state.
-3. **Abort what is no longer wanted.** Cancel the in-flight request when the query changes, the list closes or the component unmounts; an aborted request is not an error and must not show the error state (§3.1).
+3. **Abort what is no longer wanted.** Cancel the in-flight request when the query changes, the list closes or the component unmounts; an aborted request is not an error and must not show the error state (§3.1). The DOM Standard says an abort without a stated reason rejects with an `AbortError` exception, so the catch branch tests for that name and ignores it.
 4. **Cache by query for the life of the open list**, so deleting a letter returns the earlier answer at once instead of a spinner.
 5. **A library that keys data by query does 2 to 4 for you** (`data-fetching-state-conventions` §2). Check that it also keeps the previous list visible while the next loads (§1.3).
 
@@ -27,6 +27,8 @@ Own craft knowledge; no source read for this section.
 2. **The server ranks; the client does not re-sort it.** Exact and prefix matches first is a server decision; client re-sorting hides the ranking the backend computed.
 3. **Match on what users type**: accents, case, word order and spaces in names. Decide the rule once (§1.1) and test it with an accented name.
 4. **Highlight the matched part of each option with a visible, non-colour-only cue**, and keep the full label readable (`accessibility` §3).
+
+5. **Keep option names short and do not start every option with the same words** (authoring practices listbox page): a screen reader reads the whole name and the repeated prefix is heard before each distinct part; split a country-and-city list into two fields.
 
 ## 1.5 Two sources of truth
 1. **Symptom: the input shows the typed text after the user picked an option, or the chosen label after they started editing.** Separate three things: the typed query, the selected option, and the committed value.

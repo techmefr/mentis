@@ -18,7 +18,7 @@
 ## 2.2 Row-level errors
 1. **Each error carries row number, column, the offending value and a reason in plain language.** Symptom:
    "Invalid data". Fix: errors are data (a list), not a string.
-2. **Count rows as the person sees them.** Row 1 is the header in their spreadsheet; an off-by-one error
+2. **Count rows as the person sees them** (the W3C tabular data model notes that skipping rows changes the source row numbers, so keep the source line, not the post-header index, as the identity of a row). Row 1 is the header in their spreadsheet; an off-by-one error
    sends them to the wrong row. Number rows by spreadsheet line, and say so.
 3. **Report all errors up to a cap, not the first one.** Fixing one error per upload is the slowest loop. Cap
    at a number you state ("showing the first 200 of 1,340") and offer the full list as a file.

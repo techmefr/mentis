@@ -20,6 +20,7 @@
    what the screen counts; show "Exporting 12,408 rows" before starting, from the same query.
 
 ## 3.2 Content that goes wrong in spreadsheet programs
+0. **Context from the format's own definition.** RFC 4180 §3 describes CSV as passive text with little risk beyond buffer problems in a parser and the exposure of private data; it says nothing about spreadsheet programs interpreting cells, which is why the injection below is a property of the program that opens the file, not of the format.
 1. **Formula injection.** A cell whose text starts with an equals sign, plus, minus, at sign (and, in some
    programs, tab or carriage return) can be executed as a formula or link when the file is opened. Symptom: a
    user-supplied name that becomes a command or a data-leaking link in a colleague's spreadsheet. Fix: on export

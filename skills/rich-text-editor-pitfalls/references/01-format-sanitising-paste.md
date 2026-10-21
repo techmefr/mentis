@@ -1,6 +1,6 @@
 # rich-text-editor-pitfalls §1 — Format, sanitising and paste
 
-Sources: Lexical documentation on serialisation (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the rest is own craft.
+Sources: Lexical documentation on serialisation (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the DOMPurify README (licence file read 2026-10-20, facts only) for 1.3.3, 1.3.5 and 1.3.11; the HTML Standard link types and WCAG 2.2 SC 1.1.1 (read 2026-10-20, facts only) for 1.3.5 and 1.3.6; the rest is own craft.
 
 ## 1.1 Choosing the storage format
 1. **Three families, three trades.** Stored HTML is easy to render and index but mixes content with presentation and must be sanitised every time. A structured document tree (JSON) round-trips the editor exactly and can be validated against a schema, but needs the editor or a renderer to display. Markdown is human-diffable and portable, but cannot express everything an editor offers (colours, tables with merged cells, mentions) without extensions.
@@ -19,14 +19,17 @@ Sources: Lexical documentation on serialisation (MIT, commit stamped in origin.m
 ## 1.3 Sanitise on write and on render
 1. **Use an allow-list of tags, attributes and URL schemes**, small enough to read in one screen. Everything else is dropped, not escaped into view.
 2. **Sanitise at render as well as at write.** The allow-list changes, libraries get fixed, and rows written years ago pass through the new rules at the render point. Cost: cache the sanitised output keyed by content hash and list version.
-3. **Sanitise last, and ship what came out.** Do not concatenate, re-parse or post-process the sanitised string (`csp-and-sanitiser-pitfalls` §2).
+3. **Sanitise last, and ship what came out.** Do not concatenate, re-parse or post-process the sanitised string (`csp-and-sanitiser-pitfalls` §2). The DOMPurify README gives the same rule: changing the markup after sanitising, or handing it to another library that rewrites HTML, can undo the protection, because markup can change meaning when it is parsed again.
 4. **Server and client must apply the same list.** Symptom: preview looks fine, saved page strips the table. One shared configuration, or the client preview renders the server's result.
-5. **Links: allow `http`, `https`, `mailto`, `tel` only**, add `rel` for external targets, and never allow script or data URLs. Open in a new tab only on purpose.
-6. **Images: allow only URLs from your own storage or an allow-listed host**, require alternative text, and never let a stored URL make the reader's browser call an arbitrary host (tracking and mixed content). Upload handling is its own block.
+5. **Links: allow `http`, `https`, `mailto`, `tel` only** (the same default set the DOMPurify README lists, which blocks unknown schemes unless configured otherwise), and never allow script or data URLs. For external targets, the HTML Standard says a link opened with a new-tab target already behaves as if it had the no-opener type unless it says otherwise, so the extra `rel` is for the no-referrer effect (the Referer header is not sent), not for the opener. Open in a new tab only on purpose.
+6. **Images: allow only URLs from your own storage or an allow-listed host**, require a text alternative that serves the purpose of the image in its context, or an explicit empty one when it is decoration (WCAG 1.1.1: decoration should be ignorable by assistive technology, and a descriptive text on it is a failure), and never let a stored URL make the reader's browser call an arbitrary host (tracking and mixed content). Upload handling is its own block.
 7. **Styles: drop inline style attributes and classes** and map allowed formatting (bold, list, heading) to your own markup; colour and size belong to the design system, not the document.
 8. **Embeds (video, frames) go through an explicit allow-list of providers** and a sandboxed frame, or are not offered.
 9. **Add a content security policy as the second layer**, not the first (`csp-and-sanitiser-pitfalls` §1).
 10. **Test with real hostile samples** (attribute handlers, nested tags, malformed markup, encoded schemes), from a maintained list, not invented once.
+
+11. **Keep the sanitiser current and give it a real DOM on the server.** The DOMPurify README says bypasses are fixed in releases, and that server-side use needs a DOM implementation such as jsdom, kept to the latest version because old ones have known script-enabling bugs; it treats the server-side DOM as part of the trusted base. Check: the sanitiser and its DOM are in the dependency audit, and a new release is read, not only installed.
+12. **A hook that rewrites values after sanitising is not checked again** (the same README): put any filter of attacker-influenced values in the stage before the output is produced, and never call the sanitiser from inside its own hook.
 
 ## 1.4 Output encoding is still needed
 1. **A rich field is not an excuse for unescaped plain fields.** Titles, mentions' display names and link text from the same editor are escaped as text unless they pass through the sanitiser.

@@ -1,6 +1,6 @@
 # modal-drawer-dialog-ui-pitfalls §3 — Mobile, URL and tests
 
-Own craft knowledge; platform behaviours are remembered, not re-checked (see origin.md).
+Own craft knowledge, except where a credit is given: WCAG 2.2 Understanding SC 1.4.10 and SC 1.4.4 (facts only) and the HTML Standard session history section (CC BY 4.0), all read 2026-10-20 (see origin.md). Platform behaviours otherwise are remembered, not re-checked.
 
 ## 3.1 Mobile and small screens
 1. **Symptom: the footer buttons sit under the on-screen keyboard, or the dialog is taller than the viewport.** Fix: size to the visible viewport (dynamic viewport units, not the layout viewport), make the body scroll, keep the actions in a footer that stays visible, and scroll a focused field into view.
@@ -14,7 +14,7 @@ Own craft knowledge; platform behaviours are remembered, not re-checked (see ori
 
 ## 3.2 Orientation and zoom
 1. **Landscape on a phone leaves little height**; the dialog body must scroll, and the header must not take a third of it.
-2. **Zoomed text (200 percent) must not clip or hide the actions**: no fixed heights on the dialog body (`accessibility` §3).
+2. **Zoomed text (200 percent) must not clip or hide the actions**: no fixed heights on the dialog body (`accessibility` §3). WCAG 1.4.4 lists clipped, truncated or obscured text or controls at 200 percent as a failure and recommends containers that grow with the text; WCAG 1.4.10 asks for no loss of content or function at a width of 320 CSS pixels (a 1280 pixel window at 400 percent zoom), which a dialog with a fixed width fails.
 3. **Do not lock the viewport zoom** to make a dialog fit.
 
 ## 3.3 Media and reduced motion
@@ -25,7 +25,7 @@ Own craft knowledge; platform behaviours are remembered, not re-checked (see ori
 ## 3.4 URL-addressable dialogs
 1. **Symptom: a user shares the link to an open dialog and the recipient sees the bare page, or reloads and loses it, or presses back and leaves the site.**
 2. **Put the dialog's identity in the URL** (a path or a query value that names the record and the mode) when it is a view people will link to: a record's details, an edit form, an image.
-3. **Opening pushes a history entry; closing goes back to it**, so the back button closes the dialog and the URL returns to the page. Avoid pushing an entry on each internal step.
+3. **Opening pushes a history entry** (the standard defines `pushState` as adding an entry whose state is a serialised copy of the data, so functions and DOM nodes cannot be stored there, and `replaceState` as updating the current entry; the new URL must keep the same origin, and browsers may cap the entries per page) **; closing goes back to it**, so the back button closes the dialog and the URL returns to the page. Avoid pushing an entry on each internal step.
 4. **Closing from the close button, Escape or the backdrop uses the same path** (go back when the entry was pushed by this open; replace the URL when the page was loaded directly on the dialog).
 5. **A page loaded directly on the dialog URL renders the page behind it and the dialog on top**, or a standalone view when the background is unknown; either way focus goes into the dialog and a close goes somewhere sensible (the parent list).
 6. **Permissions and missing records apply**: an unauthorised or deleted record shows the proper error, not an empty dialog (`security-hardening` §3).

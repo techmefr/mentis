@@ -44,5 +44,5 @@ checkpoint is written: a craft block, 🟡, nothing here was run against a provi
 - Facts about a provider or library are for the date stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with points checked on 2026-10-20 against RFC 7946 (GeoJSON), the OpenStreetMap Foundation tile usage policy and the W3C Geolocation specification (facts only, credited). Every other point stays unsourced. Details in
+Own craft knowledge, with points checked on 2026-10-20 against RFC 7946 (GeoJSON), the OpenStreetMap Foundation tile usage policy and the W3C Geolocation specification (facts only, credited). On a third pass the Supercluster and Leaflet.markercluster documentation (ISC and MIT, licence files read) and WCAG 2.5.1 and 2.1.2 were added. Every other point stays unsourced. Details in
 [`references/origin.md`](./references/origin.md).

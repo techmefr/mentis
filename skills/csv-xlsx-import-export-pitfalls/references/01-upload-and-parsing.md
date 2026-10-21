@@ -1,5 +1,7 @@
 # csv-xlsx-import-export-pitfalls §1 — Upload and parsing
 
+Third pass 2026-10-20 (facts only, own words): W3C Model for Tabular Data on the Web (parsing defaults), the Papa Parse documentation (MIT, licence file read) and RFC 4180 §3; credited at the points below and in origin.md.
+
 ## 1.1 Accepting the file
 1. **Set limits before parsing: bytes, rows, columns, cell length.** Symptom: a 2 GB upload or a ten-million
    row file takes a worker down. Check: upload a file just over each limit. Fix: refuse early with the limit
@@ -18,18 +20,18 @@
    record into this scope (tenant, project). See `skills/field-and-row-permission-ui-api-pitfalls` §3.
 
 ## 1.2 Encoding, delimiter, quoting
-1. **Do not assume UTF-8.** Symptom: accented letters turn into two odd characters, or into question marks.
+1. **Do not assume UTF-8** (the W3C tabular data model defaults to UTF-8 and accepts CRLF or LF line ends, which is a default for new files, not a promise about files you receive). Symptom: accented letters turn into two odd characters, or into question marks.
    Check: import a file saved by a desktop spreadsheet program in a non-English locale. Fix: detect (byte-order
    mark first, then validate as UTF-8, then fall back to a configured legacy encoding), show the detected
    encoding in the preview and let the person change it.
 2. **A byte-order mark at the start becomes part of the first header.** Symptom: the first column is never
    found though its name looks right. Fix: strip a leading mark before reading headers.
 3. **The delimiter is a locale artefact.** Spreadsheet programs in locales that use a decimal comma write
-   semicolons (Excel takes its separator from the operating system list separator and decimal separator settings, per the Microsoft Support page read 2026-10-20). Symptom: the whole row lands in one column. Fix: detect among comma, semicolon, tab and pipe by
+   semicolons (Excel takes its separator from the operating system list separator and decimal separator settings, per the Microsoft Support page read 2026-10-20). Symptom: the whole row lands in one column. Fix: detect among comma, semicolon, tab and pipe (Papa Parse tries comma, tab, pipe, semicolon and the two ASCII separator characters when no delimiter is set, and its row preview limit does not shrink the detection sample, so state the delimiter when you know it) by
    consistency of field counts over the first rows, and let the person override.
 4. **Quoting follows the common CSV rules** (RFC 4180 §2 items 5 to 7; real files deviate, and the RFC itself notes that some programs do not quote at all): fields with the
    delimiter, quote or line break are quoted, quotes are doubled inside, and an unquoted field holds no quote. Symptom: a note with a line break splits
-   into two rows. Fix: use a real parser, never split on newline, and test with embedded newlines and quotes.
+   into two rows. Fix: use a real parser, never split on newline, and test with embedded newlines and quotes. The W3C tabular data model agrees: line endings inside a quoted cell are kept as they are, and a doubled quote inside a quoted cell stands for one quote.
 5. **Line endings and trailing blank lines vary.** RFC 4180 §2 items 1 and 2 name CRLF as the record separator and make the final line break optional, while §3 admits other endings exist. Ignore fully empty trailing rows, report fully empty rows in
    the middle rather than silently dropping them.
 6. **Number and date text follows the file's locale, not yours.** Parsing rules are in
@@ -42,9 +44,9 @@
 ## 1.3 Headers and mapping
 1. **Match headers by normalised name** (trimmed, case-folded, accents and punctuation folded), with a synonym
    list per column, then offer a mapping screen for what did not match. Symptom: a trailing space in a header
-   makes the whole column silently ignored. Fix: never ignore an unmatched column without telling the person.
+   makes the whole column silently ignored. Fix: never ignore an unmatched column without telling the person. A parser that reports field-count mismatches per row (Papa Parse groups its errors as quote, delimiter and field-count kinds, and some do not mean the parse failed) gives you the raw material for that message.
 2. **Reject duplicate headers or require the person to choose.** Two columns named the same make the last win
-   in most parsers.
+   in many parsers; Papa Parse instead renames the repeated names so no value is overwritten and lists the renames in its result metadata, so check what your parser does and surface it either way (Papa Parse documentation).
 3. **Required columns missing is a file-level error, before any row work.** Say which ones.
 4. **Extra columns are listed as ignored in the preview**, not discarded quietly.
 5. **A template file helps more than a description.** Offer a downloadable template with the exact headers, one

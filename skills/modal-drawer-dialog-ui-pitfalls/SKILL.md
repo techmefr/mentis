@@ -47,4 +47,4 @@ run in an application.
 - Facts about a browser feature or library are for the date in `references/origin.md`; re-read before relying. A point without a credit to the HTML Standard or the authoring practices is still own guidance.
 
 ## Origin
-Own craft knowledge. The platform facts of §1.2 to §1.4 and §2.4 were checked on 2026-10-20 against the HTML Standard (CC BY 4.0, licence file read) and the W3C ARIA authoring practices modal dialog and alert dialog patterns (facts only, credited, no text copied). No other permissive source was read. Details in [`references/origin.md`](./references/origin.md).
+Own craft knowledge. The platform facts of §1.2 to §1.4 and §2.4 were checked on 2026-10-20 against the HTML Standard (CC BY 4.0, licence file read) and the W3C ARIA authoring practices modal dialog and alert dialog patterns (facts only, credited, no text copied). The W3C authoring practices dialog example and WCAG 2.2 understanding pages, the CSS overscroll draft and the HTML Standard session history section were read on a third pass (facts only, credited in origin.md). Details in [`references/origin.md`](./references/origin.md).

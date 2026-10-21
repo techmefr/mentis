@@ -14,9 +14,12 @@
 | W3C Geolocation specification (w3.org/TR/geolocation/), read 2026-10-20, first 100000 of 128646 characters | W3C document licence, facts only | permission, secure context, minimisation, error codes, accuracy hint (§1.6.2, §1.6.4, §1.6.10) |
 | W3C WCAG 2.2 Understanding SC 4.1.3, read 2026-10-20 | W3C document licence, facts only | results count as status message (§2.3.7) |
 | Leaflet, `LICENSE` (BSD 2-Clause, Copyright Volodymyr Agafonkin and CloudMade) and API reference page (leafletjs.com/reference.html), read 2026-10-20 | BSD-2-Clause (`LICENSE` read) | Default coordinate system and projection, popup strings rendered as HTML (§1.1.2, §2.2.5) |
+| mapbox/supercluster `LICENSE` and README (github.com/mapbox/supercluster), read 2026-10-20 | ISC, Copyright (c) 2024 Mapbox (`LICENSE` read) | Pixel radius, zoom range, minimum points, static index, bounding box order, member listing and expansion zoom, no antimeridian statement (§1.2.2a) |
+| Leaflet/Leaflet.markercluster `MIT-LICENCE.txt` and README, read 2026-10-20 | MIT, Copyright 2012 David Leaver (licence file read) | Chunked loading, off-screen removal, zoom on click, spiderfy at maximum zoom, maintainers' marker count claim (§1.2.2b) |
+| W3C WCAG 2.2 Understanding SC 2.5.1 Pointer Gestures and SC 2.1.2 No Keyboard Trap, read 2026-10-20 | W3C document licence, facts only | Single-pointer alternative with map zoom buttons as example; keyboard exit and advising how to leave (§2.1.4, §2.3.5) |
 | W3C WCAG 2.2 Understanding SC 1.4.1, read 2026-10-20 | W3C document licence, facts only | Colour not the only means (§2.1.10) |
 
-Not opened: the MapLibre and OpenLayers repositories and their licences (licence unverified, not opened), the OpenStreetMap wiki (share-alike licence), any commercial map or geocoding provider terms. No permissive source found for clustering, geocoding quotas, or the non-map accessibility alternative, searched: only the pages above.
+Opened by mistake, nothing used: the vector tile specification README (github.com/mapbox/vector-tile-spec) was fetched on 2026-10-20 before its lack of any licence statement was seen; no sentence, fact or structure was taken from it. The MapLibre GL JS `LICENSE.txt` was read (BSD-3-Clause style, Copyright (c) 2023 MapLibre contributors) but no MapLibre documentation was opened. Not opened: the OpenLayers repository and their licences (licence unverified, not opened), the OpenStreetMap wiki (share-alike licence), any commercial map or geocoding provider terms. No permissive source found for clustering, geocoding quotas, or the non-map accessibility alternative, searched: only the pages above.
 
 ## Own craft, not from a source
 Coordinate order and datum, range validation, clustering and viewport loading, the tile-terms and attribution checklist, geocoding and autocomplete limits, routing caveats, location consent method, states and interaction, the non-map accessibility alternative, performance, security, test list and framework pointers.
@@ -29,6 +32,9 @@ Coordinate order, datum, antimeridian, precision, one public tile server's polic
 
 ## Verified on the second pass, 2026-10-20
 3 verified (default projection of one library, popup HTML rendering, colour as sole means), 0 corrected, 0 deleted. Projection facts for other libraries, clustering, geocoding quotas and provider terms were not checked.
+
+## Verified on the third pass, 2026-10-20
+6 sourced (cluster index inputs and limits, chunked loading, click-to-zoom and member listing, single-pointer alternative for gestures, keyboard exit), 0 corrected, 0 deleted; 3 points added (§1.2.2a, §1.2.2b, the gesture note in §2.1.4). Geocoding quotas, provider storage terms and the non-map alternative as a whole stay unsourced: no permissive source found, searched: the library repositories and W3C pages above.
 
 ## Not verified
 1. **Everything not cited above is own knowledge**: clustering, geocoding and autocomplete limits, routing, states, performance and the non-map alternative were not checked.
