@@ -61,6 +61,8 @@ main branch (`LICENSE`, BSD-3-Clause, re-read); Laravel "Queues" page (whole pag
   notification, search, dashboards.
 Counts: 8 claims re-checked, 0 wrong, 2 pitfalls added.
 
+Independent verification 2026-10-21: 11 checked, 11 matched, 0 corrected, 0 unverified
+
 ## Related blocks
 `skills/feature-flag-lifecycle`, `skills/field-and-row-permission-ui-api-pitfalls`, `skills/laravel-no-cascade-delete`,
 `skills/laravel-idempotent-jobs`, `business/data-protection`.

@@ -59,6 +59,8 @@ re-read), Kill Bill `invoicing-overview.adoc` (v3 branch, `LICENSE` Apache-2.0),
   master, section 2 permissions and build order.
 Counts: 8 points re-checked, 0 wrong.
 
+Independent verification 2026-10-21: 12 checked, 12 matched, 0 corrected, 0 unverified
+
 ## Related blocks
 `skills/gl-subledger-reconciliation-pitfalls`, `skills/accounts-payable-duplicate-and-match-pitfalls`,
 `skills/e-invoicing-obligations-pitfalls`, `skills/vat-handling-in-software-pitfalls`,

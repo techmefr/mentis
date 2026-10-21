@@ -63,6 +63,8 @@ Functions", 15 U.S.C. section 260a (Cornell LII).
 - Still unverified: the European change dates (the official text could not be retrieved); the rest of the block.
 Counts: 14 claims re-checked, 1 corrected.
 
+Independent verification 2026-10-21: 15 checked, 13 matched, 2 corrected, 1 unverified
+
 ## Related blocks
 `skills/helpdesk-ticketing-app-build-pitfalls`, `skills/hr-leave-and-time-tracking-app-pitfalls`,
 `skills/inventory-stock-app-pitfalls`, `skills/python-patching-and-time-pitfalls`,

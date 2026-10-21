@@ -55,7 +55,7 @@
 11. **Valuation is a stated policy, kept apart from quantity.** Methods exist (average, first in first out,
     standard cost, specific identification), each with accounting and sometimes legal consequences; the choice
     is the accountant's. Store a unit cost on receipt movements, derive value from the chosen method in a
-    separate calculation, and never mutate old movement costs; a cost correction is a new revaluation entry. The ERP model keeps a unit cost with a currency on the stock item and on each detail row (source 1), which fits storing cost on the movement.
+    separate calculation, and never mutate old movement costs; a cost correction is a new revaluation entry. The ERP model keeps a unit cost and a currency code on the stock item, and a unit cost (no currency field of its own) on each detail row (source 1), which fits storing cost on the movement; carry the currency with the movement yourself.
     Do not state any rule as required here: this block is not accounting advice.
 12. **Tenant and warehouse boundaries on every row.** Tenant id on items, locations, movements, reservations
     and counts, and scope once by default (see `skills/laravel-tenant-context-by-default`). A user's access to a

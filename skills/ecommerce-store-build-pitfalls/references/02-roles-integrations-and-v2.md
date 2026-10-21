@@ -7,7 +7,7 @@
    order. Fix: guest checkout with an order lookup by a signed link or order number plus email, an optional
    account created after purchase that adopts earlier orders by verified email, and no change to the order when
    the account is created. Account pages show only the logged-in customer's orders; check by id guess (see
-   `skills/laravel-scope-dont-check-after-fetch`). The reference framework makes a deliberate trade-off here: it lets anyone holding a valid order id read that order without signing in, so that a guest sees the confirmation page, and relies on random ids as the credential, while listing a customer's orders requires authentication; it documents how to add stricter rules when guest checkout is not offered (source 1). A signed link or order number plus email, as in this point, is the stronger choice.
+   `skills/laravel-scope-dont-check-after-fetch`). The reference framework makes a deliberate trade-off here: it lets any request carrying the store's publishable API key and a valid order id read that order without signing in, so that a guest sees the confirmation page, and relies on random ids as the credential, while listing a customer's orders requires authentication; it documents how to add stricter rules when guest checkout is not offered (source 1). A signed link or order number plus email, as in this point, is the stronger choice.
 2. **Staff roles are abilities.** Typical shape: owner, catalogue editor, order handler, support agent,
    read-only finance. Symptom: anyone with a back-office login can refund. Fix: named abilities (edit price,
    refund, cancel, export customers, change stock) checked in one place (see `skills/laravel-permissions-not-roles`),

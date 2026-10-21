@@ -65,6 +65,8 @@ enterprise directory).
   attachments, time and ordering, section 2 assignment, views, retention.
 Counts: 17 claims re-checked, 2 corrected (one stated as normative that is not).
 
+Independent verification 2026-10-21: 20 checked, 18 matched, 2 corrected, 0 unverified
+
 ## Related blocks
 `skills/support-queue-design-pitfalls`, `skills/customer-escalation-pitfalls`,
 `skills/troubleshooting-kb-article-pitfalls`, `skills/booking-and-scheduling-app-pitfalls`,

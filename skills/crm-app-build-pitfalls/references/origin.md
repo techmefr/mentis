@@ -56,6 +56,8 @@ Re-opened (raw files at the default branch): Atomic CRM `doc/src/content/docs/us
   visibility, exports, reports, build order). No permissive CRM documentation beyond this one was found.
 Counts: 6 points re-checked against the source, 0 wrong, 2 pitfalls added.
 
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified
+
 ## Related blocks
 `business/outbound-sales-and-crm-hygiene-pitfalls`, `business/data-protection`, `skills/laravel-no-cascade-delete`,
 `skills/laravel-recognise-state-machine-or-pipeline`, `skills/light-erp-document-flow-pitfalls`.
