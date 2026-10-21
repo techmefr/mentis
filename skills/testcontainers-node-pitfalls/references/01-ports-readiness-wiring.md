@@ -37,8 +37,24 @@
    with that name exists; the documentation points to a network and network aliases for container-to-container
    traffic, and also marks a custom host name not recommended.
 8. **To let a container call a service on the host**, the library can expose a host port; containers then reach
-   it at a fixed alias for the host, through a helper container that forwards the port. Own guidance: that is
+   it at a fixed alias for the host (`host.testcontainers.internal`), through a helper container running an SSH
+   daemon that forwards the port. Own guidance: that is
    an exception to keep for a service you cannot containerise.
 9. **Read the container's logs when it does not start.** A log consumer can be attached before start, and the
    log-message wait needs a log driver that can be read; one option sets the default log driver for hosts whose
    driver cannot be read. Own guidance: a wait that times out is a log to read, not a number to raise.
+10. **In a compose environment, a wait strategy is keyed by container name, not service name.** The compose page
+    says so, and gives the usual v2 name for a first replica as the service name followed by `-1`. Symptom: the
+    wait you set seems ignored and the test starts early; check: print the container names. Fix: key the strategy
+    by the container name, or set a default strategy for the whole environment. The default there is the same as
+    for one container: a health check if defined, otherwise listening ports (compose page, read 2026-10-20).
+11. **A module's own options beat hand-built configuration.** The module pages exist for about forty services;
+    the PostgreSQL page warns that a snapshot cannot be taken when the container's database is named `postgres`,
+    because the snapshot logic drops the connected database and needs the system one for its commands, and that
+    the SSL options expect certificate and key files that already exist (they generate nothing). Fix: give the
+    container a database of its own name when snapshots are used (module page, read 2026-10-20).
+12. **On Colima or Rancher Desktop, expect two local-runtime failures.** The documentation says neither has IPv6
+    support while Node 18 and later prefers IPv6 when resolving, which shows up as connection refused; set
+    `NODE_OPTIONS=--dns-result-order=ipv4first` or turn IPv6 off. It also says these runtimes forward ports
+    several seconds late, so a log or health-check wait can pass before the port answers: add a
+    listening-ports check to the wait strategy (a combination).

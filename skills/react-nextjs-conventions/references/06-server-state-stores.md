@@ -67,12 +67,18 @@
 17. **`useSuspenseQuery` throws to the nearest boundary instead of returning a status, and it accepts a
     narrower option set than `useQuery`.** `enabled` and `placeholderData` are not available on it, because
     a query that might not run and a query that always suspends are two different contracts — a
-    conditional fetch stays on `useQuery` with §5.6's rendered states, or the condition moves above the
+    by default only an error with no cached data is thrown to the boundary, and several queries inside one
+    component run one after the other, which is a waterfall; a conditional fetch stays on `useQuery` with §5.6's rendered states, or the condition moves above the
     component that suspends. Reaching for the suspense form to get the type-level guarantee that the data
     is never `undefined` and then trying to bolt `enabled` back on is the tell the wrong hook was picked.
 18. **Prefetching in a Server Component and reading the same query in a Client Component are two different
     caches unless connected.** A `useQuery` inside a Client Component refetches on mount regardless of what
     the server already fetched, because the client's query cache starts empty — the connection is a
-    dehydrated cache passed down and rehydrated on the client, not the props themselves. Skipping that step
-    is the usual reason a page fetches everything twice, once on the server and once in the browser, with
+    dehydrated cache passed down and rehydrated on the client, not the props themselves. Two further causes of the double fetch: a query client created at module scope on the server shares its
+    cache between requests (create one per request, one per browser), and a default stale time of zero makes the
+    client refetch right after hydration (set it above zero). Do not pass a Server Action as a query function:
+    client calls to actions run one after the other and queries can stall; actions are for mutations. Skipping
+    the connection step is the usual reason a page fetches everything twice, once on the server and once in the browser, with
     the second one racing the first paint.
+
+> Checked 2026-10-20 against the TanStack Query suspense guide (MIT): §6.17 is confirmed: the suspense hook has no `placeholderData`, and a query under it cannot be conditionally enabled. Other points: see `origin.md`.

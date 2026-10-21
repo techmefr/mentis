@@ -13,7 +13,8 @@
    child real, list it with `false`: `stubs: { Child: false }`.
 3. **The more you stub, the less production-like the test.** The page's rule of thumb is that tests resembling
    real use give more confidence; with one or two irrelevant children, prefer `mount` with a few `stubs` over
-   `shallow`, and keep asserting on inputs and outputs (part 1.5).
+   `shallow`, and keep asserting on inputs and outputs (part 1.5). The Vue testing guide goes further and
+   advises not mocking child components at all (read 2026-10-20), so a stub is a choice to justify, not a default.
 4. **A stub does not render its slots.** Under `shallow` a stubbed `CustomButton` renders no slot content, so a
    test of the text a parent puts in the slot cannot pass. `config.global.renderStubDefaultSlot = true`
    renders the default slot of stubs, and only the default slot.
@@ -73,8 +74,11 @@
 
 ## 3.7 Fake system time
 1. **Mount after `vi.setSystemTime`.** The FAQ says Vue's scheduler depends on the system time, and mounting
-   before the call may break reactivity. Own guidance: call it in `beforeEach`, mount inside the test, and
-   restore real timers in `afterEach`.
+   before the call may break reactivity. Own guidance: call it in `beforeEach` and mount inside the test.
+2. **Restore the clock afterwards.** The Vitest API page says `vi.useFakeTimers` fakes timers and `Date` until
+   `vi.useRealTimers` is called, that `vi.setSystemTime` fires no timer, and that without fake timers it mocks
+   only date calls; `useRealTimers` also discards timers scheduled while faked. So call `vi.useRealTimers()` in
+   `afterEach` (read 2026-10-20).
 
 ## 3.8 Verify
 Print the wrapper's HTML for one stubbed test and see the stub tags; for a teleport, check that `find` fails

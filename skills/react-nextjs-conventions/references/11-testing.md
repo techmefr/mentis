@@ -11,7 +11,7 @@
    the behaviour leaves it green; a test that breaks on a rename was testing the structure.
 2. **Query by role and accessible name first.** The order of preference follows what assistive technology
    uses: role with its name, then label text for form fields, then visible text for non-interactive content,
-   then alt text for images; the project's test-id attribute is the last resort for what has no accessible
+   then the display value, then alt text and title; the project's test-id attribute is the last resort for what has no accessible
    handle, and then it is a sign the element is missing a role or label. A test that finds a button by role and
    name also fails when the name is wrong, which a test id never does. Use the "query" variant to assert
    absence and the "find" variant for what appears later; the plain "get" variant throws when missing.
@@ -70,3 +70,5 @@
 16. **Coverage is a map of what no test touched.** Read it for the error branch and the state never rendered.
     This block sets no percentage, and a target is met by tests that execute lines without asserting
     (`skills/testing-anti-patterns`).
+
+> Checked 2026-10-20 against the Testing Library documentation (MIT) and the TanStack Query testing guide (MIT): points 2 (query priority, `queryBy` for absence, `findBy` = `getBy` plus waiting), 3 (a user-event session per `setup()`, calls awaited in the examples) and 6 (a new client per test, retries default to three and are turned off in tests). Points 5, 9 to 16 stay unsourced; see `origin.md`.

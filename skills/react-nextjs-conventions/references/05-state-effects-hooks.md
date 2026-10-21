@@ -88,13 +88,17 @@
     child of the `<form>`, not the component holding the state — stays reusable across every form without
     prop-drilling a boolean into it.
 22. **`useOptimistic` is for the update the user should see immediately, never for the response you have
-    not received yet.** It renders a pending value on top of the real state and reverts to whatever the
+    not received yet.** The setter runs inside a transition or an action (an action prop already is one); outside one
+    the value flashes and reverts at once, and React logs a warning. Calling it during render throws. An absolute
+    value can go stale if the base changes mid-action: use an updater or a reducer. It renders a pending value on top of the real state and reverts to whatever the
     real state settles to — success or failure — so the rollback is automatic and exactly point 6's
     invalidate-don't-hand-write rule applies to it: an optimistic entry is not the source of truth, the
     server's answer still is.
 23. **`use()` reads a promise or a context conditionally, which the other hooks cannot.** It is not a
     replacement for `useEffect`+`useState` on a fetch a component owns (§6.1 already answers that); its
-    place is reading a promise a Server Component started and passed down, or reading a context after an
+    place is reading a promise a Server Component started and passed down (a promise created during render in a
+    Client Component is recreated on every retry and the fallback never goes away, so cache it or receive it as a
+    prop; a rejection reaches the nearest error boundary, and a `try`/`catch` around `use` does not catch it), or reading a context after an
     early return — where the rules-of-hooks restriction in point 1 would otherwise force the read above
     a check that makes it pointless.
 24. **A compiler that auto-memoises does not repeal point 4, it changes the default answer.** Where the

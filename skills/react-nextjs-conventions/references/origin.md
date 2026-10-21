@@ -185,3 +185,59 @@ Two real gaps, both added to §14 (rules 21-22): the missing `partialPrefetching
 about, and a GET route handler that becomes static when its awaited data resolves instantly. `instant = false`,
 marked `[verify]` before, was accepted by 16.4.2. Not exercised: `use cache`, `cacheLife`, tags, tests, an
 idempotency key.
+
+**Re-check pass, 2026-10-20 (sourcing).** Shallow clones read, each LICENSE file read first: reactjs/react.dev (CC BY 4.0,
+LICENSE-DOCS.md), testing-library/testing-library-docs (MIT, copyright 2019 Alex Krolick), TanStack/query (MIT, copyright
+2021-present Tanner Linsley); Next.js was read earlier (MIT). Confirmed and credited, rewritten in our own words:
+- §11.2, §11.3, §11.6: Testing Library query priority and `findBy`/`queryBy`, user-event sessions, TanStack testing guide.
+- §12.2, §12.4, §12.11, §12.12: React reference pages on error boundaries, `useSyncExternalStore`, `forwardRef` (ref as a prop
+  in React 19) and `createPortal`.
+- §6.17: TanStack suspense guide (no conditional enabling, no `placeholderData`).
+The earlier line "written from knowledge and not re-fetched" is therefore now false for those points only; it still
+holds for the rest of §11 to §13. **Searched, not opened because of licence:** the OWASP cheat sheets (CC BY-SA) and the
+MDN pages (CC BY-SA) behind §13; **no permissive source found, searched:** react.dev for CSP, prototype pollution and
+`rel` on new-window links (not covered by those docs). **Still unsourced:** §11.5, §11.9 to §11.16, §12.1, §12.3,
+§12.5 to §12.10, §12.13 to §12.15, §13 in full, §1 to §10 (market catalogues and the org catalogue, none re-opened), §16
+(read on 2026-10-08, not re-read), and the version-gated React 19.2 and Next APIs. The `vercel-labs/agent-skills` clone
+attempted in this pass failed, so §16 was not re-checked. Nothing was found to correct or delete.
+
+**Source pass 2026-10-20.** Closes part of the "written from knowledge, not re-fetched" gap of the 2026-10-02
+testing, boundaries and security pass, and checks the 2026-09-09 React 19 and TanStack Query points. Read, as
+facts rewritten in our words, nothing copied:
+
+| Source | Licence (file read 2026-10-20) | Used for |
+|---|---|---|
+| React documentation (`reactjs/react.dev`): `Component` (error boundaries), `useSyncExternalStore`, `createPortal`, `useOptimistic`, `use`, the React 19 release post | CC BY 4.0 (`LICENSE-DOCS.md`, title line read) | §12.2, 12.4, 12.11, 12.12, §5.21-23 |
+| TanStack Query docs (`TanStack/query`, `docs/framework/react/guides`: suspense, advanced SSR) | MIT (`LICENSE` read) | §6.17, 6.18 |
+| Testing Library docs (`testing-library/testing-library-docs`: queries, guiding principles, user-event intro) | MIT (`LICENSE` read) | §11.1-3 |
+| Next.js documentation (`vercel/next.js`, `docs/01-app`: content security policy, `poweredByHeader`, `productionBrowserSourceMaps`) | MIT, as for the §14 pass | §13.4, 13.7 |
+| HTML standard (WHATWG), the `noopener` and `noreferrer` link types | read for facts only | §13.1 |
+
+Not opened on purpose: the OWASP cheat sheets (CC BY-SA 4.0) and MDN (CC BY-SA); their facts stay as written.
+The `useFormStatus` reference page returned 404; its behaviour is confirmed only through the React 19 post.
+
+**Confirmed** (credit added, marker dropped for that point): §12.4 external-store hook for consistent reads and a
+server snapshot; §12.11 ref as a prop on 19; §12.12 portal events follow the React tree and focus is the
+component's job; §5.21 action state and pending flag; §5.22 automatic revert; §5.23 conditional `use`;
+§6.17 no `enabled` or `placeholderData` on the suspense hook; §11.1-3 query priority and awaited user-event
+(user-event setup before render is now stated); §13.1 `target="_blank"`; §13.7 `X-Powered-By` and production
+source maps.
+**Corrected:** §12.2 said boundaries miss all asynchronous code; the documented exception is an error thrown in a
+transition function (now stated). §13.1 said "current browsers"; the source is the HTML standard (default
+`noopener`, `noreferrer` implies it). §13.7 said source maps are "not served publicly unless the project decides":
+Next serves them publicly when enabled and they are off by default (reworded). §11.2 query order lacked display
+value and title (added).
+**Added** (concrete pitfalls, from the pages above): snapshot-caching loop and stable subscribe (§12.4);
+`useOptimistic` outside a transition (§5.22); promise created in render with `use`, and a rejection not caught by
+`try`/`catch` (§5.23); suspense-query error and waterfall behaviour (§6.17); per-request client, stale time above
+zero and Server Action as query function (§6.18); nonce needs dynamic rendering (§13.4).
+**Deleted:** nothing.
+
+**Still unsourced after this pass:** §13.2 (script-context escaping), §13.3 (prototype pollution), §13.4
+report-only rollout (the Next page does not mention it), §13.5-6, §13.8-10, §11.4-16 beyond the three read
+principles, §12.1, 12.3, 12.5-10, 12.13-15, §1-4 and §8, §10 (written from the org catalogue and craft
+knowledge), and the idempotency rule of §15 (derived, as stated above). The React `useActionState` and
+`useFormStatus` reference pages were not read directly. A permissive prose source for component-composition
+guidance was not found beyond the Vercel repository already credited (searched: react.dev, TanStack docs,
+Testing Library docs).
+

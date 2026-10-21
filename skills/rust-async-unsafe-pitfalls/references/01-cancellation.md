@@ -42,8 +42,15 @@ Sources: the Rust async book (part guide chapters on async/await and on composin
    out of the loop, add an `if` guard on the branch (evaluated only when the macro starts, not on each poll),
    or use a fused future or stream.
 4. **Without an `else` branch, a `select!` whose branches are all disabled panics**; the `else` branch runs
-   when all branches have stopped without running a block.
-5. **Prefer spawning tasks plus a channel or token** when cancellation needs cleanup: a cancelled task can be
+   when all branches have stopped without running a block. A branch is disabled when its `if` precondition is
+   false or its result does not match its pattern; the async expression of a disabled branch is still
+   evaluated, only never polled, and re-entering the macro in a loop resets the state.
+5. **Branches are polled in random order by default,** so an always-ready branch cannot starve the others.
+   `biased;` polls top to bottom instead, which is cheaper and predictable but makes fairness your job: put a
+   shutdown signal above a busy stream, or the stream can crowd it out.
+6. **Do not test a timer's state beside the `select!`.** Tokio documents that checking something like
+   `is_elapsed` outside the macro can race with the timer firing; keep the condition inside the macro.
+7. **Prefer spawning tasks plus a channel or token** when cancellation needs cleanup: a cancelled task can be
    asked to tidy up, which a dropped future cannot. Spawning also gives the scheduler fairer shares, since
    futures joined or selected on one task share that one task's time slice.
 

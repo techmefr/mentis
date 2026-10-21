@@ -29,7 +29,7 @@
    proposed removing it. Return values replace it.
 2. **If it is used, call it exactly once on every path.** The page's bad example calls `next({ name: 'Login'
    })` in an `if` and then `next()` unconditionally, so the unauthenticated user triggers both; the fix is an
-   `else`. Own guidance: a path through the guard that never calls it leaves the navigation pending.
+   `else`. A path through the guard that never calls it leaves the navigation pending: the page says a navigation stays pending until every hook has resolved (re-read 2026-10-20; it does not spell out the `next` case, so this is the consequence, not a quoted rule).
 3. **`next` with a callback exists only for `beforeRouteEnter`**, where the component instance does not yet
    exist; the callback receives it after the navigation is confirmed. The other in-component guards already
    have `this`.

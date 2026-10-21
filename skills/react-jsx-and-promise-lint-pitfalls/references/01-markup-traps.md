@@ -51,8 +51,10 @@
    uncontrolled input.
 3. **Options relax the rule:** `ignoreMissingProperties` and `ignoreExclusiveCheckedAttribute`. The page does
    not describe them in the part read, so own guidance: leave them off and fix the markup.
-4. **Verify** (own guidance) by clicking the box in a browser: a controlled input with no handler stays at the
-   value of its `checked` prop.
+4. **Verify** by clicking the box in a browser: a controlled input with no handler stays at the
+   value of its `checked` prop. The React reference for `input` (CC BY 4.0, read 2026-10-20) says the same: a
+   `value` without `onChange` makes typing impossible because the input is forced to the passed value, and
+   checkboxes take `checked` or `defaultChecked`.
 
 ## 1.5 Rules that this block leaves to the main block
 Keys built from an array index, `&&` with a number or a string on the left, and state set inside effects are

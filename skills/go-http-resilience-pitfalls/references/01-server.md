@@ -28,7 +28,11 @@ Applies to the standard `net/http` package; each rule names a version where it i
    underlying reader on `Close`, and, where it can, asks the `ResponseWriter` to close the connection once
    the limit is passed. Check for that error type in the handler and answer with a client-error status (own guidance).
 3. **`MaxHeaderValueCount`** (Go 1.27 and later) bounds the number of header values a server will parse; it
-   defaults to `DefaultMaxHeaderValueCount` when zero. Not available on earlier toolchains.
+   defaults to `DefaultMaxHeaderValueCount` (500 in the package documentation) when zero. Comma-separated
+   values on one line count once while each repeated header line counts, and trailers are counted apart. Not
+   available on earlier toolchains.
+4. **The server closes the request body itself;** a handler does not need to close it. The body limit of
+   point 2 is still the handler's job.
 
 ## 1.3 Use the standard mux first
 **From Go 1.22, `http.ServeMux` patterns can carry a method and wildcards** (`"POST /items/create"`,
@@ -39,6 +43,9 @@ own guidance. Two version notes: the change breaks backward compatibility in sma
 of 301.
 
 ## 1.4 Do not expose profiling by accident
-gosec flags a profiling endpoint that is exposed automatically (G108). The Go diagnostics guide shows
-profile handlers registered by hand on a custom mux served on its own port. Keep profiling on a separate,
-internal listener and never on the public one. The "internal" part is own guidance drawn from that example.
+gosec flags a profiling endpoint that is exposed automatically (G108). The `net/http/pprof` package
+registers its handlers on the default mux by default, and the Go diagnostics guide shows them registered by
+hand on a custom mux served on its own port, so any server that uses the default mux and imports the package
+(even for side effects) serves them. Keep profiling on a separate, internal listener and never on the public
+one. The "internal" part is own guidance: the guide presents the custom mux and port as a way to change the
+path and port, and does not call it a security measure.

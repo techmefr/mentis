@@ -52,8 +52,12 @@ onBeforeRouteUpdate(async (to, from) => {
    the split for that page. Build the app, open the bundle report and check that each page appears in its own
    chunk and not in the entry chunk.
 6. **A lazy route fails when its chunk cannot be fetched** (offline, or a new deploy removed the old file). The
-   page does not describe this case; own guidance: make `router.onError` visible during a manual test with the
-   network offline, so the failure is a decision and not a blank page.
+   router page does not describe this case. The Vite build guide does: a failed dynamic import fires a
+   `vite:preloadError` event on `window`, and calling `preventDefault()` on it stops the error being thrown. The
+   usual cause is a visitor still running the previous release whose chunks the host deleted; the common
+   handling is to reload the page, and the guide advises serving the HTML file with `Cache-Control: no-cache`
+   so that stale HTML does not point to old file names. Own guidance: also make `router.onError` visible during
+   a manual test with the network offline, so the failure is a decision and not a blank page.
 
 ## 3.4 History mode, the server fallback and the 404 page
 1. **`createWebHistory` is the recommended mode and needs a server fallback.** Without it, opening

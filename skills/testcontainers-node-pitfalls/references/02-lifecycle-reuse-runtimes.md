@@ -34,8 +34,8 @@
 6. **Some options need a runtime that allows them.** The documentation says ulimits and resource quotas are not
    supported in rootless runtimes, that bind mounts fail with Docker in Docker or a remote agent (point 1.6),
    that host networking only works on Linux, that one module needs a privileged container and so does not
-   work in rootless or Docker-in-Docker environments, and, for Podman, that the cleanup container does not
-   work when running rootless and has a privileged setting when rootful. Own guidance: before moving a suite to
+   work in rootless or Docker-in-Docker environments, and, for Podman on macOS, that the cleanup container does not
+   work when rootless (turn it off) and can work when rootful with its privileged setting. Own guidance: before moving a suite to
    a new runner type, run it once there with the debug logging of point 2.7.
 7. **Turn on the library's logs and the container's logs when a start fails.** A debug variable enables all
    library loggers or one at a time (containers, pulls, execs, builds, compose), and a log consumer can be
@@ -45,3 +45,14 @@
    hook. Own guidance: a test file that starts a container in a setup hook must have the matching stop in a
    teardown hook, even when the suite is also covered by point 2.3, because the safety net only fires at
    process exit.
+9. **Compose environments and built images follow the same lazy teardown.** Bringing an environment down
+   issues the command and returns at once to save time (compose page), so a following step that needs the
+   ports or the network released can race it; wait explicitly when it matters. Images built from a Dockerfile are
+   given a random name and removed on exit unless you name them and ask to keep them, and a never-pull policy
+   throws for Dockerfile builds because the build API cannot forbid pulling base images (images and compose
+   pages, read 2026-10-20). Symptom: a cache of built layers that is gone on the next run, or a build that fails
+   only under the never-pull policy; fix: name and keep the image on purpose, and use a pull policy that fits
+   a build.
+10. **Two compose defaults to know.** Bringing an environment down removes its volumes unless told not to.
+    Turning automatic cleanup off for a compose stack only drops the cleanup-container registration; an explicit
+    `down` or `stop` still tears it down (compose page, read 2026-10-20).

@@ -17,7 +17,11 @@ Sources: the Tokio 1.53.2 `Mutex`, `spawn_blocking`, `block_in_place` and crate-
 3. **Wrap the lock in a struct with non-async methods** that take the lock inside each method, or give an I/O
    resource to one task and talk to it by message passing (both patterns are Tokio's recommendation).
 4. **The lint has a known false positive for an explicitly dropped guard**; the workaround it names is
-   wrapping the `.lock()` call in a block instead.
+   wrapping the `.lock()` call in a block instead. A sibling lint, `await_holding_refcell_ref` (group
+   `suspicious`, since Clippy 1.49.0), flags a `RefCell` borrow held across an await, where a second borrow
+   then panics at run time; scope the borrow in a block the same way.
+   Also: Tokio's `blocking_lock` panics when called from async code; wrap it in `spawn_blocking` or
+   `block_in_place` if it is truly needed, and `lock_owned` gives a `'static` guard for moving into a task.
 5. **The async mutex is not magic either.** Its `lock` is not cancellation safe (§1.2), it does not poison on
    panic, and a lock held across an await while other futures on the same task wait for it deadlocks (§1.4).
    Limit the scope, keep few locks and take them in a fixed order.
@@ -28,14 +32,19 @@ Sources: the Tokio 1.53.2 `Mutex`, `spawn_blocking`, `block_in_place` and crate-
    and Tokio both say to use only non-blocking I/O in a task, and the standard library offers only blocking
    I/O.
 2. **Run blocking code with `spawn_blocking`**, which uses a thread dedicated to blocking work; Tokio spawns
-   more such threads on demand up to a configured limit and queues beyond it.
+   more such threads on demand up to a configured limit and queues beyond it. That limit is very high by
+   default because the function is meant for I/O, so for CPU-heavy work bound the concurrency yourself (a
+   semaphore) or use a CPU-parallelism library. **`abort` on a running blocking task does nothing;** only one
+   that has not started can be prevented, and runtime shutdown waits for started ones (`shutdown_timeout`
+   stops the waiting, not the work). A loop that lives as long as the process belongs on its own
+   `std::thread`, since it would hold a pool thread for good.
 3. **`block_in_place` is narrower:** it panics on a `current_thread` runtime, it suspends everything else in
    the same task (a `join!` sibling, for example), and what runs inside it cannot be cancelled, so runtime
    shutdown waits for it unless `shutdown_timeout` is used. Prefer `spawn_blocking` when in doubt.
 4. **Work that cannot be moved off the task should yield.** The Microsoft guideline says long CPU work with
    no I/O in between should call `yield_now().await` at regular intervals, and suggests 10 to 100
    microseconds of work between yields as a starting point under its stated assumptions (task switches costing
-   hundreds of nanoseconds and a thread-per-core model); treat the figure as theirs. When the number of
+   hundreds of nanoseconds and a thread-per-core model); treat the figure as theirs. Its stated reason is keeping switch overhead under 1% of the work between yields. When the number of
    operations is unpredictable it suggests the runtime's budget query.
 
 ## 2.3 Watch the size of hot futures

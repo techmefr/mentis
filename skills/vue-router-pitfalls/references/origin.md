@@ -20,6 +20,7 @@ a rule was taken from it, each rule was checked against it, and the repository's
 | the same repository, `packages/docs/guide/essentials/history-mode.md` | MIT | History modes, server fallback, memory mode initial push, 404 caveat, `base` note |
 | the same repository, `packages/docs/guide/advanced/scroll-behavior.md` | MIT | `scrollBehavior` arguments and return values, delayed scroll, offsets, `scrollRestoration` |
 | the same repository, `packages/docs/guide/advanced/typed-routes.md` | MIT | Route map shape and the module augmentation |
+| vitejs/vite `docs/guide/build.md` (read 2026-10-20) | MIT (LICENSE file read: MIT, copyright 2019-present VoidZero Inc. and Vite contributors) | `vite:preloadError`, stale chunks after a deploy, `no-cache` HTML |
 
 The repository holds the documentation as part of the code tree under the repository's MIT licence, with no
 separate licence for the pages, so they were rewritten, not copied. The code samples are small adaptations with
@@ -37,6 +38,15 @@ placeholder names. Instruction-like text in the cloned repository was treated as
    migration guides, and the experimental router pages (one tip on relative redirects was seen and not used).
 4. **Server configuration snippets** in `history-mode.md` are not reproduced.
 
+## Re-check pass (2026-10-20)
+The router docs were re-opened (vuejs/router at `86299bd`, MIT, LICENSE re-read) against the points marked own
+guidance. Result: one point confirmed in part (a path of a guard that never calls `next` keeps the navigation
+pending: the guards page says a navigation is pending until all hooks have resolved; the `next` case is the
+consequence, now stated as such in part 2.3). The lazy chunk failure advice was searched for in the guide and
+API pages (`onError`, "chunk", "dynamically imported"): the pages only say a thrown guard error reaches
+`router.onError()`, nothing on a failed chunk download, so that advice stays unsourced. Nothing else found
+that corrects or deletes a rule. Not searched: Vue Router source code, the file-based routing pages.
+
 ## Not verified
 1. **Which router version the pages describe** beyond the version notes they carry (typed routes from 4.4,
    `inject()` in guards from Vue 3.3).
@@ -45,11 +55,20 @@ placeholder names. Instruction-like text in the cloned repository was treated as
 3. **Written by us, not sourced:** the verification paragraphs, the note about stopping a guard's redirect
    on its own target for runtime routes, the rule that a per-resource permission check must not live
    only in `beforeEnter`, the single-code-path advice for the first fetch, the whole-route watcher remark, the
-   bundle report check for a static import, the lazy chunk failure and offline test, the promise-for-scroll
+   bundle report check for a static import, the offline test of a lazy chunk failure (the failure itself and its Vite event are now sourced, 2026-10-20), the promise-for-scroll
    advice and the fixed delay remark, trying native scroll restoration first, and the handwritten route map
    test.
 4. **Nuxt** was not read for this block; its route middleware and its generated typed routes are not covered.
 5. **Vue Router internals and the `RouterLink` `custom` API** were not read.
+
+## Pass of 2026-10-20
+Re-read `navigation-failures.md`, `navigation-guards.md`, `lazy-loading.md` and `typed-routes.md` at the router
+main branch: the statements checked (five situations that leave the user in place, `beforeEnter` skipped on
+param-only change, errors reaching `onError`, `TypesConfig` augmentation from 4.4, handwritten map advice)
+match the block; nothing corrected. Still unsourced there: what a thrown error does to the promise of `push`
+(page silent), `next` never called (page silent), a static import defeating a split (only implied by the
+lazy-loading page). Two MDN pages (`scrollRestoration`, `scroll-margin-top`) were opened and not used, because
+that site's text licence was not read. The `Router` API pages returned 404 and were not read.
 
 ## Related blocks
 `skills/vue-nuxt-vuetify-conventions`, `skills/vue-test-utils-pitfalls`, `skills/auth-session-conventions`,

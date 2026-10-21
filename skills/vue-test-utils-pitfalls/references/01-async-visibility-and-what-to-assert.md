@@ -27,7 +27,11 @@ await flushPromises()
 expect(wrapper.text()).toContain('some mocked data')
 ```
 
-3. **Own guidance:** if the assertion still races after `flushPromises`, the code has a timer or a chain of
+3. **Restore the spy after the test.** `vi.restoreAllMocks` puts the original method back for spies made with
+   `vi.spyOn` (call it in an `afterEach`, or set the `restoreMocks` option); it does not reset the call history of
+   automocks, and a spy that was restored has to be created again before a new return value takes effect
+   (Vitest API page, read 2026-10-20).
+4. **Own guidance:** if the assertion still races after `flushPromises`, the code has a timer or a chain of
    awaits across modules; wait for the visible outcome (the text or the element appearing) rather than adding
    a second flush.
 
@@ -45,9 +49,14 @@ expect(wrapper.text()).toContain('some mocked data')
 3. **`isVisible()` needs the wrapper attached to the document.** Mount with `attachTo: document.body`. The
    page warns that without it CSS-driven visibility, such as `v-show`, may not be detected, especially under
    happy-dom.
-4. **Own guidance:** when you attach to the document, remove the wrapper (`wrapper.unmount()`) at the end of
-   the test so the next test does not find the old markup.
-5. **`get()` is for what must be there** (it throws if missing); `find()` with `exists()` is for what may be
+4. **When you attach to the document, remove the wrapper at the end of the test.** The API reference says that
+   mounting onto the same node in several tests piles up rendered elements unless `wrapper.unmount()` is called
+   after each (unmounting works on the root wrapper only). It also offers `enableAutoUnmount`, which takes the
+   runner's teardown hook (an `afterEach`) and unmounts every wrapper for you. Read 2026-10-20.
+5. **A native form submit needs an attached wrapper.** The forms page says that clicking a submit button
+   submits a form only when the component is attached to the document; triggering `submit` on the form element
+   works without it. Read 2026-10-20.
+6. **`get()` is for what must be there** (it throws if missing); `find()` with `exists()` is for what may be
    absent.
 
 ## 1.5 What to assert
@@ -63,7 +72,10 @@ expect(wrapper.text()).toContain('some mocked data')
    rendered.
 4. **A CSS selector in `findComponent` returns a looser wrapper type.** Pass the component type as the generic
    to get a `VueWrapper`.
-5. **Make components easy to test.** The page suggests extracting API calls and complex methods into their own
+5. **The Vue testing guide says the same in other words.** Test the public interface (props, events, slots),
+   behaviour rather than implementation, interact like a user, do not rely on snapshots alone, and move a
+   method that needs thorough testing into its own utility with its own unit test. Read 2026-10-20.
+6. **Make components easy to test.** The page suggests extracting API calls and complex methods into their own
    modules, so they can be tested alone or mocked.
 
 ## 1.6 Verify

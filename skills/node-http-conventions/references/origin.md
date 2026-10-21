@@ -12,10 +12,8 @@ house voice, no prose copied). A fact not found in a read source was left out ra
 | Fastify documentation (`fastify/fastify`, `docs/`, main branch): Recommendations, Validation and Serialization, Hooks, Testing | MIT (repository `LICENSE`, read) | §2. Rewrite with credit. |
 | Helmet README (`helmetjs/helmet`) | MIT (repository `LICENSE`, read) | §1.8. |
 
-**Read but not used for rules:** the Express security and performance best-practice pages are not in the
-repository clone that was read (the tree has the guides only), so no rule on cookies, sessions, rate limiting or
-process managers is claimed for Express. The Fastify lifecycle, server and plugin-encapsulation reference pages,
-the Helmet FAQ and the Node.js documentation were not read. Left out: NestJS, Koa, Hono, serverless adapters.
+**Left out:** NestJS, Koa, Hono, serverless adapters, the Helmet FAQ, rate limiting and process-manager choice
+(only mentioned by the Express pages, no rule written).
 
 **Version stamp.** Express documentation at major 5 (the 4.x guides sit beside it and differ on async handling).
 Fastify documentation as of the main branch on the read date; the version was not recorded in the pages read,
@@ -25,3 +23,21 @@ may change). Expiry: when the framework major changes (`skills/source-freshness`
 
 **Status.** 🟡, "base to confront with the real thing", like `go-conventions`. Nothing here was run against a
 Node service.
+
+## Source pass 2026-10-20
+
+Read this day, as facts rewritten in our words, nothing copied: the Express site pages for security best
+practice, performance best practice and the 5.x migration guide (site and repository licence: the repository
+`LICENSE.md` read again, title "Creative Commons Attribution 4.0 International Public License", CC BY 4.0, credit
+kept); from `fastify/fastify` (MIT, licence read 2026-10-02) the Server, Lifecycle and Encapsulation reference
+pages on the default branch; the Helmet README (`helmetjs/helmet`, MIT, licence read 2026-10-02) re-read for the
+default header list (13 confirmed, X-XSS-Protection sent as `0`) and the CSP option behaviour.
+
+Result: Express 1.1 to 1.9 unchanged and confirmed by the performance page (async rejections forwarded; production
+mode; crash-and-restart). Added Express 10 to 14 and Fastify 14 to 17, each a concrete pitfall from those pages.
+Helmet point 8 extended. Nothing deleted, nothing found wrong.
+
+Still unverified: the Fastify version of the Server page (not recorded in the page, main branch), the Express
+claim that production mode speeds an app threefold (stated by the page, deliberately not repeated), any
+Express-4-only behaviour, and the performance side of Fastify point 12 (rule of thumb, from the documentation,
+not measured). No permissive source for rate limiting was read (searched: Express security page only).

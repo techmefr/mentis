@@ -30,8 +30,10 @@ for everything below.
   local deadline, use `AbortSignal.any([callerSignal, AbortSignal.timeout(ms)])` (Node 20.3 and 18.17). The
   reason of the combined signal is the reason of whichever source fired first, which lets a handler tell a
   timeout from a client disconnect.
-- Pass it to what accepts one: `fetch(url, { signal })`, `timers/promises` functions, `stream.pipeline`,
-  `fs.promises` reads, `events.once`, database drivers that document an abort option. Check the driver
+- Pass it to what accepts one: `fetch(url, { signal })`, `timers/promises` functions, `stream.pipeline`
+  (promise form), `fs.promises.readFile` and `writeFile`, `events.once`, database drivers that document an
+  abort option. Abort on the file calls is best effort: it stops the internal buffering, not the individual
+  operating-system requests, and a cancelled write may already have written part of the data. Check the driver
   documentation: a client without signal support needs its own cancel call (a statement cancel, a
   connection destroy), and that call is the cancellation path to wire.
 - A budget is shared, not restarted. A request with a five-second deadline that makes three sequential
@@ -68,7 +70,10 @@ listeners, locks, pooled connections, open files, child processes, temporary fil
 - Listeners: a listener added to a long-lived signal or emitter per call and never removed accumulates. The
   runtime eventually prints a possible-leak warning for emitters, and memory grows linearly with traffic.
   Pass `{ once: true }` where one firing is the contract, and remove the listener in the `finally` path.
-- Put release in `finally` (or `using` where the runtime supports explicit resource management), never only
+  An `AbortSignal` does not raise the emitter max-listeners warning, so this leak is silent: nothing prints
+  while the listener count grows. A plain `abort` listener can also be skipped by a third party calling
+  `stopImmediatePropagation`; `events.addAbortListener` (Node 20.5 and 18.18) is immune and returns a disposable.
+- Put release in `finally` (or `using` where the runtime supports explicit resource management, which ships with Node 24's V8 13.6), never only
   after the success path. Await the release when its completion matters, for example a connection returned
   to the pool before the next request needs it. Close only what this scope opened; a handle received as a
   parameter belongs to its owner.

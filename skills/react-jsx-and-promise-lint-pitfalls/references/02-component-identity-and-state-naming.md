@@ -15,7 +15,7 @@
    (`footer={() => <div />}` where the receiver writes `<Footer />`); and the same inside a class `render`.
 3. **The fix is to move the component out.** Declare it at module level and pass what it needs as props. The
    rule accepts passing an element instead of a function (`footer={<div />}`).
-4. **Own guidance, verify:** type into an input inside the nested component, then cause the parent to
+4. **Verify** (the React page on preserving and resetting state, CC BY 4.0, read 2026-10-20, warns against nesting component definitions and shows exactly this): type into an input inside the nested component, then cause the parent to
    re-render; the text disappears. Move the component out and repeat; the text stays.
 
 ## 2.2 Render props are the allowed case, when they are called
@@ -34,7 +34,7 @@
 2. **With no dependencies, move the definition out safely.** With dependencies, the page says to restructure so
    the component can move out of the render function (own guidance: usually by passing the dependency as a
    prop).
-3. **If you want the state thrown away on purpose, use a `key`.** The page offers this as the alternative:
+3. **If you want the state thrown away on purpose, use a `key`.** The page offers this as the alternative, and the React page on resetting state with a key (read 2026-10-20) describes it, forms included:
    changing the `key` on a component resets its state, deliberately and visibly.
 4. **Own guidance:** a memoized nested component with dependencies still gets a new identity whenever the
    dependencies change, which makes the state reset appear at random moments; prefer the explicit `key`.
