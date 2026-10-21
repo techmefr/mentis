@@ -1,6 +1,6 @@
 # ai-product-ux-pitfalls §2 — Control and failure states
 
-Point 2.2.4 comes from W3C WCAG 2.2 documents (see `origin.md`); the rest is own guidance.
+Points 2.2.1, 2.2.3, 2.2.4 and 2.3.3 draw on W3C and vendor documentation (see `origin.md`); the rest is own guidance.
 
 ## 2.1 Control
 1. **Editing must be cheaper than redoing.** Symptom: users regenerate five times or copy the text into another
@@ -17,15 +17,21 @@ Point 2.2.4 comes from W3C WCAG 2.2 documents (see `origin.md`); the rest is own
 ## 2.2 Waiting
 1. **Streaming shows progress but also half-formed answers.** Symptom: users act on the start of a response that
    later changes. Fix: stream text, but enable actions (copy, send, apply) only when the response is complete; let
-   the person stop it.
+   the person stop it. Two provider facts make this concrete: Anthropic's streaming page says an error event can arrive
+   in the stream after output has started, and its refusal page shows a refusal ending a stream that already held text;
+   OpenAI's streaming guide adds that partial output is harder to moderate and that moderation scores arrive only once
+   the full output exists. So the text on screen may still be withdrawn: mark it as unfinished until the end event.
 2. **Long tasks need steps, not a spinner.** Show what is happening (searching, reading, drafting), allow
    cancel, and say what happens to partial work.
 3. **Time out visibly.** After the budget set in the design, show what failed and the options, rather than an
-   endless spinner. Timeouts and retry limits are in `llm-cost-latency-control-pitfalls`.
+   endless spinner. If the limit is yours and the person must act within it (a session, an approval), WCAG 2.2
+   criterion 2.2.1 (level A) asks that they can turn it off, adjust it or extend it, with exceptions for real-time events,
+   essential limits and limits above twenty hours (W3C Understanding 2.2.1). Timeouts and retry limits are in `llm-cost-latency-control-pitfalls`.
 4. **Waiting and result states must be announced, not only drawn.** Symptom: a screen reader user hears nothing
    while a long answer is generated, or when the result arrives. WCAG 2.2 criterion 4.1.3 (level AA) asks that status
    messages (busy, progress, "18 results", errors) be programmatically determinable so they are announced without moving
-   focus; the status line counts, the streamed content itself does not. Check: run the flow with a screen reader and
+   focus; the status line counts; the page's own example excludes a list of search results from status messages, and by that
+   reading the streamed answer itself is content, not a status (our reading, not stated for streams). Check: run the flow with a screen reader and
    confirm busy and done are spoken without a focus jump. Fix: put the state in a status or alert region. Criterion
    2.2.2 (level A) adds that information that updates by itself next to other content needs a way to pause, stop or hide
    it, or to control the update frequency, unless it is essential; check whether a live-updating panel is essential.
@@ -35,7 +41,10 @@ Point 2.2.4 comes from W3C WCAG 2.2 documents (see `origin.md`); the rest is own
 1. **Slow:** progress, cancel, and the manual path.
 2. **Wrong:** a report button next to the output, and the corrected value stays corrected in the session.
 3. **Refused:** say it was refused, whether the cause is policy or capability, and what to try; never show a raw
-   provider error.
+   provider error. Anthropic's page says that after a refusal the conversation must be reset before continuing, or the
+   refusals continue, so "try again" in the same thread is the wrong advice there: offer to start from the last
+   unrefused turn. WCAG 3.3.1 (level A) applies to your own input errors: the failing item is identified and the
+   problem described in text, not by colour or a re-displayed form alone (W3C Understanding 3.3.1).
 4. **Empty or irrelevant:** suggest rephrasing, show what was searched, offer a person or the search page.
 5. **Down or rate-limited:** a plain message, the manual path, and no loss of what the person typed.
 6. **Partial:** if a batch half-succeeded, list what did and did not, and let the person retry the rest.

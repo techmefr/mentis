@@ -52,4 +52,4 @@ source.
 
 ## Origin
 Rewritten in our own words from the enterprise-search skills of a plugin repository (Apache-2.0), read
-2026-10-20. 🟡: never dogfooded; open points are in [`references/origin.md`](./references/origin.md).
+2026-10-20 and re-opened the same day, with Anthropic and OpenAI documentation for the answer-writing points (facts only). 🟡: never dogfooded; open points are in [`references/origin.md`](./references/origin.md).

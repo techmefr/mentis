@@ -47,5 +47,5 @@ to continue the task without the model (§2). Over-reliance and ignoring are bot
   documents. Nothing was tested with users while writing it. See [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Mostly own craft guidance; accessibility points checked against W3C WCAG 2.2 Understanding pages (facts only, no text copied). 🟡: never run by us; open points are in
+Mostly own craft guidance; accessibility points checked against W3C WCAG 2.2 Understanding pages and the citation, refusal and streaming points against Anthropic and OpenAI documentation (facts only, no text copied). 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

@@ -2,7 +2,9 @@
 
 > Part 3 of `skills/computer-use-agent-pitfalls`. Read it when the agent is about to touch a real screen or site.
 > Sources, read 2026-10-20: the macOS computer-use reference, the Docker computer-use demo README and the first-run
-> helper skill of anthropics/claude-quickstarts (MIT). Sentences marked "own guidance" are ours.
+> helper skill of anthropics/claude-quickstarts (MIT); Anthropic's computer-use tool page, OpenAI's computer-use
+> guides and Google's computer-use page, re-read the same day for the points that cite them (product documentation,
+> facts only). Sentences marked "own guidance" are ours.
 
 1. **Screen content is untrusted input.** The demo's own warning: in some circumstances the model follows commands
    found in content even when they conflict with the user's instructions, and instructions in web pages or inside
@@ -12,16 +14,25 @@
 2. **Run it on a disposable machine.** Both reference READMEs say to run the agent in a virtual machine or
    container, because outside one it has full control of the pointer, the keyboard and the screen, takes
    screenshots that may hold sensitive information and sends them to the API, and can delete or overwrite data. Fix:
-   a throwaway VM or container, restored from a snapshot, with nothing on it you cannot lose.
+   a throwaway VM or container, restored from a snapshot, with nothing on it you cannot lose. Anthropic's tool page lists
+   the same precautions in its security section, Google's asks for a sandboxed VM or container, and OpenAI's advises a
+   fresh browser profile or isolated desktop; its browser setup also passes an empty environment so the browser
+   inherits no host variables and disables extensions and local file access where possible.
 3. **Keep sensitive data out of view.** The demo's advice: do not give the model access to login information
    or other data that could be stolen. Every screenshot leaves the machine. Own guidance: no password manager
-   unlocked, no personal mail in a tab, no other windows open.
+   unlocked, no personal mail in a tab, no other windows open. OpenAI's guide says to keep credentials out of page
+   text and screenshots; Anthropic's prompting advice allows giving a login in the prompt, and itself warns that
+   applications requiring a login raise the risk of injection and points to its injection-mitigation guidance first.
 4. **Limit the network to an allowlist of domains.** The demo recommends it to reduce exposure to hostile content.
    Own guidance: the list is also the list of places the agent can be sent, so keep it as short as the task.
 5. **A person confirms what matters.** The demo asks for human confirmation of decisions with real-world
    consequences and of anything needing affirmative consent: accepting cookies, executing a financial transaction,
    agreeing to terms. Own guidance: make the stop mechanical (the tool returns "needs approval" for a list of
-   page patterns and button labels) rather than trusting the model to remember.
+   page patterns and button labels) rather than trusting the model to remember. Two vendors give you the hook: Google's
+   response may carry a safety decision marked as needing user confirmation, which your code must handle whatever
+   policy overrides you set, and its page names accepting terms or binding contracts without a person as a blocked
+   behaviour; OpenAI's sample stops on pending safety checks until you add an approval callback, and its guide asks for
+   approval before making changes.
 6. **Sign-in and bot checks are not the agent's.** Own guidance: when a login, a one-time code or a bot check appears,
    stop and hand over; do not let the agent type credentials, and do not let it work around the check.
 7. **Browser-only is the safer default.** The reference can disable the desktop tools and run only a headless
@@ -37,7 +48,8 @@
 10. **Record every run.** The reference writes each run as a transcript plus the screenshots and ships a viewer
     that shows what the model saw and decided, step by step. Own guidance: a run nobody can replay cannot be
     debugged, and the recordings contain whatever was on screen, so store them as sensitive data and expire
-    them.
+    them. Anthropic's page says screenshots, actions and inputs are stored in your environment, not by the vendor, and
+    asks you to review the logs.
 11. **Exercise tools without the model.** The reference has a panel that calls each tool by hand from a form and
     lets you click on a returned screenshot to see the coordinate in both spaces. Own guidance: use it, or an
     equivalent script, to check scaling, key names and permissions before a model is in the loop.
@@ -46,4 +58,10 @@
     a re-authorisation prompt now and then (the reference notes one on a recent macOS).
 13. **Watch the usage line.** The reference prints tokens and cache reads for every turn. Own guidance: a run
     whose cached share falls toward zero is rebuilding its screenshot history each turn
-    (`llm-cost-latency-control-pitfalls` §1.2).
+    (`llm-cost-latency-control-pitfalls` §1.2). Anthropic's page explains the usual cause: pruning a screenshot every
+    turn changes the prefix every turn, so prune in batches.
+14. **Tell users and get consent before turning it on in a product.** Anthropic's page asks for this explicitly, since
+    every screenshot is processed by the vendor.
+15. **Check the result in the application, not in the model's report.** OpenAI's guide asks you to check the saved result
+    before reporting success, and its samples verify the page state themselves; Anthropic's notes say the model
+    sometimes assumes an action worked. Check: after a run, read the changed record or page from outside the model.

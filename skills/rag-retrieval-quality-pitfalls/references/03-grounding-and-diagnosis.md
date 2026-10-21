@@ -12,7 +12,9 @@
    answer to the right question can still invent its content.
 4. **Decide what happens with nothing.** Symptom: confident answers to questions the corpus cannot answer.
    Fix: when retrieval returns nothing, or nothing above a relevance floor you chose on the reference set,
-   return "not found" or ask a clarifying question instead of calling the model (own guidance). Check with
+   return "not found" or ask a clarifying question instead of calling the model. A relevance floor exists in
+   a hosted product (OpenAI file search takes a score threshold from 0 to 1, and its guide warns a higher
+   value may drop useful chunks), which is why the floor has to be chosen on the reference set. Check with
    the no-answer questions of §2.1.
 5. **An instruction to answer only from the documents is a request, not a control** (own guidance): measure it
    with faithfulness on the reference set.
@@ -20,17 +22,23 @@
 ## 3.2 Citations
 1. **A citation is a claim about a claim.** Symptom: the link exists, the sentence is not in the page. Check:
    for a sample, open each cited passage and mark whether it supports the sentence it is attached to.
-2. **Let the system supply the citation, not the model** (own guidance): attach the identifiers of the chunks
+2. **Let the system supply the citation, not the model:** attach the identifiers of the chunks
    that were in the context, then have the model select among those identifiers; reject any identifier not
-   in the context. A model that writes a URL or reference from memory will invent plausible ones.
-3. **Cite at the unit a reader can check:** the passage or page, not only the document title (own guidance).
+   in the context. Anthropic's search-results feature is built this way: each citation carries the source and
+   title you passed in, an index into the search-result blocks of the request, and the exact text of the cited
+   blocks. A model that writes a URL or reference from memory will invent plausible ones (own guidance).
+3. **Cite at the unit a reader can check:** the passage or page, not only the document title. The same page
+   says smaller content blocks give finer citation boundaries, while one big block makes every citation return
+   the whole text.
 4. **Cited and retrieved are different sets.** An answer can use a chunk it did not cite or cite one it did
    not use. Compare the cited identifiers with the claim-level check of §3.1 on a sample (own guidance).
 5. **Show the date and version of the source** (own guidance) so a reader can judge staleness (§1.2).
 
 ## 3.3 Diagnosis order
 Work through the stages in this order and stop at the first that fails. Each step names the evidence.
-1. **Look at the trace of the failing question first.** The Ragas improvement guide ties every result row to a
+1. **Look at the trace of the failing question first.** With a hosted retrieval tool the retrieved chunks may
+   not be in the response unless requested (the OpenAI file-search guide returns them only when asked through
+   an include option), so turn that on before diagnosing. The Ragas improvement guide ties every result row to a
    trace so a person can see what was retrieved and generated; do the same (what query, which chunks in
    which order, what prompt, what answer). Without it every step below is a guess.
 2. **Corpus.** Is the answer in the indexed documents at all, in a current version? If not, it is a content or

@@ -49,4 +49,4 @@ developed on is not verified.
 
 ## Origin
 Rewritten from the computer-use reference implementations of Anthropic's claude-quickstarts (MIT), read 2026-10-20,
-with own guidance flagged in the references. 🟡: never run by us.
+with own guidance flagged in the references; sizing, tool-turn and safety points re-checked on 2026-10-20 against Anthropic, OpenAI and Google computer-use pages (facts only). 🟡: never run by us.

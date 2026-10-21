@@ -6,7 +6,8 @@
    background job causes most of the tokens.
 2. **Record input tokens, output tokens and the cached share separately.** Providers price output tokens
    separately from input tokens (Anthropic models overview; no price is stated here, re-read the price page) and
-   output is the slower part of a response (own guidance). Cached reads and writes show up in their own usage fields
+   output is the slower part of a response (OpenAI's latency guide calls generating tokens almost always the
+   highest-latency step). Cached reads and writes show up in their own usage fields
    (Anthropic and OpenAI caching docs), so log them rather than the total only.
 3. **Find the cost per successful outcome,** not per call. A cheap call that fails and is retried or
    escalated can cost more than one good call. Count retries and fallbacks in the numerator.
@@ -16,8 +17,11 @@
 ## 1.2 Caching repeated prefixes
 1. **Provider-side prompt caching reuses an identical beginning of the prompt.** Anthropic documents the order as
    tool definitions, then system, then messages, with a hit requiring an exact match up to the marked block;
-   OpenAI documents the same exact-prefix rule. The two differ on opt-in: one provider requires marking, the other
-   caches automatically on supported models. Both have a minimum cacheable length, lifetime and price that are
+   OpenAI documents the same exact-prefix rule, and says a changed setting such as reasoning effort can change the
+   rendered prefix. The two differ in how the cached part is chosen, and both moved since the first version of
+   this block: Anthropic takes a cache-control field either once at the top level (automatic placement) or on
+   individual blocks, OpenAI offers implicit or explicit breakpoints, with the options depending on
+   the model. Check which mode your model and version use. Both have a minimum cacheable length, lifetime and price that are
    provider-specific; re-read them (caching docs of both). The consequence for layout
    holds everywhere: long stable text first (instructions, tool definitions, reference material), variable text
    last.
@@ -36,12 +40,15 @@
    rules: key on everything that shapes the answer, never cache a failure, expire entries, and give the test
    suite a way to bypass the cache.
 5. **Never cache across users when the answer depends on user data** (own guidance). The key must include the
-   tenant and the permissions that shaped retrieval, or one user's answer is served to another.
+   tenant and the permissions that shaped retrieval, or one user's answer is served to another. OpenAI's
+   documentation offers an optional cache key that keeps cache accounting apart per customer or workspace.
 6. **A cached answer is stale on a model or prompt change.** Include the prompt bundle hash in the key.
 7. **A cache hit is not guaranteed even when the prefix is identical.** One provider says its prefix lifetime is short
    by default, refreshed on each use, and counted from the start of the request that wrote or read it, so a long
-   generation eats into it; another says its routing key helps but does not guarantee a hit. Treat hit share as
-   measured, never assumed (caching docs of both).
+   generation eats into it; another says its minimum lifetime governs eligibility for cache-read pricing but does
+   not guarantee that every request reuses stored state or gets lower latency, and that traffic above about 15
+   requests per minute on one prefix can overflow to other machines. Treat hit share as measured, never assumed
+   (caching docs of both).
 
 8. **Bulky tool results make the history the cost.** An agent that receives a screenshot or a large document on
    almost every turn re-sends all of them on every call; a long run's history can dwarf the instructions.
@@ -71,14 +78,16 @@
 
 ## 1.3 Token budgets
 1. **Cap output explicitly** per request class with the provider's maximum-output setting, and design the
-   caller to cope with a cut answer. Symptom of a missing cap: one runaway generation costs more than a day of
+   caller to cope with a cut answer: Anthropic's latency guide warns the response is cut off, perhaps mid-word,
+   when the cap is reached and calls it a blunt tool suited to short answers. Symptom of a missing cap: one runaway generation costs more than a day of
    normal traffic.
 2. **Budget the input too:** instructions, examples, retrieved passages and history each get a share. A prompt
    that grows by appending is a cost incident on a timer. In retrieval apps, trimming the number of passages is
    a quality decision first (`rag-retrieval-quality-pitfalls` §2).
 3. **Summarise or drop history on a rule,** not when the window overflows; see `agent-context-hygiene-pitfalls`.
 4. **Ask for the short form when the caller needs it,** and measure that the shorter answers still pass the
-   quality cases; length instructions interact with the model's behaviour.
+   quality cases; length instructions interact with the model's behaviour. The same guide says a limit stated in
+   sentences or paragraphs works better than an exact word count, because models count tokens.
 5. **Hard limits are enforced outside the model:** a per-user or per-key cap that refuses by default is
    `spend-guard-fail-closed`, not a prompt line.
 
@@ -100,14 +109,15 @@
 ## 1.5 Batching and offline work
 1. **Work nobody waits for can use a batch interface** where the provider offers one, at lower cost and with a
    delivery window instead of an immediate answer: the Anthropic batch page says most batches finish quickly, that a
-   batch expires if not finished within its window, and that results stay downloadable only for a limited time
+   batch expires if not finished within its window, and that results stay downloadable only for a limited time;
+   OpenAI's batch guide describes a discounted, separate-rate-limit, 24-hour-window service the same way
    (re-read the figures, none is stated here). Evaluation runs, backfills and nightly
    enrichment are the typical candidates.
 2. **Design the job to be resumable and idempotent:** a batch can partly fail, expire or return out of order.
    Match results to requests by an identifier, never by position (the Anthropic page states results may come back in
    any order and gives each request its own identifier). A result can be succeeded, errored, canceled or expired,
    and the last two are not billed on that provider; collect and resubmit them, and download results before they
-   age out. Batches have their own queue and rate limits, and caching inside a batch is best effort.
+   age out. Batches have their own queue and rate limits, and caching inside a batch is best effort, since requests run concurrently and in any order (Anthropic batch page, FAQ).
 3. **Dedupe before sending:** identical inputs in one batch should be one call.
 4. **Use the cache for evaluation reruns:** rerunning an unchanged case set against an unchanged bundle should
    cost nothing (§1.2.4), and a rerun after a change should cost exactly the cases that changed.

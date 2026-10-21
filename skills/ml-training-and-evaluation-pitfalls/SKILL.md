@@ -46,6 +46,6 @@ saved model was loaded from a fresh process.
 - Library names, option names and defaults move between versions; re-read the version in use before relying on one (🟡, nothing here was run).
 
 ## Origin
-Rewritten from the `huggingface/skills` repository (Apache-2.0, commit c3ff942), read 2026-10-20. Leakage and
+Rewritten from the `huggingface/skills` repository (Apache-2.0, commit c3ff942), read 2026-10-20, and checked 2026-10-20 against scikit-learn (BSD-3-Clause), Google Crash Course (CC BY 4.0) and vendor documentation. Remaining
 reproducibility points beyond the source are our own guidance and are labelled. See
 [`references/origin.md`](./references/origin.md).

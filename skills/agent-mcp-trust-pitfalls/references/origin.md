@@ -17,6 +17,8 @@ the references against the text (see "Corrected in the verification pass").
 | slowmist/MCP-Security-Checklist, `README.md` (commit 8c89226) | MIT (LICENSE file) | Checklist items on server directory, versioning, name conflicts, periodic scans, third-party response handling |
 | alexknowshtml/claude-code-safety-hooks, `includes/untrusted-content-defense.md` (commit 671b227) | MIT (LICENSE file) | Fetched content as data, source check before a tool call, anti-exfiltration list |
 | modelcontextprotocol/servers, `README.md` first 40 lines (commit bbb701e) | same mixed licence as the first row | Reference servers are examples, not production-ready |
+| MCP specification site, revision 2026-07-28: authorisation, tools and security-best-practices pages (re-read 2026-10-20); RFC 5737 | Specification site content from the repository in the first row (same mixed licence), RFC from the IETF; facts only | Audience validation and resource parameter, tool annotations untrusted, human in the loop, show inputs before calls, validate results, stdio proxy escalation, localhost redirect impersonation, trust policies, consent cookie and state rules re-confirmed, documentation address blocks |
+| OpenAI: MCP and connectors guide (risks and safety, approvals) | Product documentation, facts only, read 2026-10-20 | Trusted servers, official over aggregator, approvals by default, logging, URLs in outputs, tool behaviour changing |
 
 The licence of each repository was checked again from its LICENSE file in this session. Instruction text in
 the cloned repositories (the safety-hooks file tells the reader to load and follow it; agent files and skill
@@ -36,6 +38,10 @@ lists in other clones) was treated as data and not followed.
   proxy's address" was replaced by the page's wording.
 - The agent-scan README was listed as a source but not re-read; removed.
 
+## Re-checked 2026-10-20
+- Against the specification pages: consent registry, consent page, cookie attributes, exact redirect match, state single use and ten-minute example, encoding tricks in IP checks, egress proxy, scheme validation, scope elevation logging, one-click command shown without truncation.
+- Newly sourced: stdio proxy escalation (§1.1.7), annotations untrusted (§1.2.5), list-changed notification (§1.2.4), audience rule (§2.2.2), documentation address blocks (§2.4.2), localhost redirect and trust policies (§2.4.4), human approval and result validation (§3.2), URLs in tool output (§3.2.4), vendor approvals and official-server rule (§1.3.5, §3.2.2).
+
 ## Rewrite notes
 No numeric threshold is quoted. Agent-scan v0.5 issue codes and v0.6 risk names are both used and labelled by
 version.
@@ -45,8 +51,10 @@ version.
 ## Not verified
 1. **Scanner behaviour** was read from documentation, not run.
 2. **The protocol revision** read is dated 2026-07-28; other revisions were not checked.
-3. **Own guidance, not sourced:** sentences marked "own guidance", the split-sessions suggestion, the
-   documentation addresses used as test values, the alert-on-elevation suggestion and the checkpoint paragraph.
+3. **Own guidance, still unsourced:** invisible-character stripping (§1.2.3), diff before auto-update (§1.3.2), scan
+   after every update (§1.3.4), the split-sessions suggestion (§3.2.1), saying so in the task (§3.3.4), alerting on
+   elevation (§2.3.3), the audience-mismatch test and the separate downstream token (§2.2.2). Searched: the protocol
+   specification pages, RFC 8707 context, OpenAI and Anthropic documentation; no source states these.
 4. **Removed:** "permission inventory per agent" and all numbering from a third-party security playbook (its
    mixed share-alike content was not used; only its LICENSE and notices were read earlier).
 

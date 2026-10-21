@@ -1,8 +1,9 @@
 # unattended-agent-run-pitfalls §1 — The run contract
 
 > Part 1 of `skills/unattended-agent-run-pitfalls`. Read it when the prompt, the permissions or the tool list of a
-> job nobody watches are written. Source, read 2026-10-20: the daily digest and triage agents of
-> anthropics/claude-quickstarts (MIT). Sentences marked "own guidance" are ours.
+> job nobody watches are written. Sources: the daily digest and triage agents of
+> anthropics/claude-quickstarts (MIT, re-opened 2026-10-20); for points 2 and 15 one agent CLI's headless and
+> permissions pages (product documentation, facts only, read 2026-10-20). Sentences marked "own guidance" are ours.
 
 1. **Say in the prompt that nobody is watching.** The sample's digest agent opens by stating that no one can approve
    anything and that it must decide, act and record rather than stop to ask. Symptom of leaving this out: the
@@ -11,7 +12,9 @@
 2. **Every permission prompt is a hang.** A tool set that asks before each call parks the session forever in a
    headless run. Check: list every tool the job may call and decide, per tool, allow or off. Own guidance: allow
    a tool only when what it can do is bounded by something other than the agent's judgement (a read-only
-   credential, a destination fixed in a rule); turn everything else off.
+   credential, a destination fixed in a rule); turn everything else off. One agent CLI's documentation shows both
+   halves: its non-interactive mode takes a list of tools that run without prompting, and it offers a permission mode
+   that automatically denies every call that would otherwise prompt, so an unlisted tool fails fast and does not wait.
 3. **Where a tool cannot be bounded, remove it, do not ask.** The sample keeps its remote tool set open only
    because the token behind it is read-only, and says so in a comment next to the setting. Own guidance: write
    the reason for each "allow" beside it, so the next editor knows which setting the safety rests on.
@@ -51,6 +54,12 @@
 14. **List tools by name and default the rest off.** When a remote tool server may add tools later, enable the
     tools you reviewed and leave new ones disabled, so an upstream release cannot widen the job
     (`agent-mcp-trust-pitfalls`).
-15. **Say what the job must never do on its own.** Own guidance: edit the rules, answer a reader's reply, retry a
+15. **A scheduled run inherits the configuration of the repository it runs in.** The same CLI's permissions page says its
+    non-interactive and SDK runs never show the folder-trust dialog, and tells you, before running in a repository you did
+    not write, to decide what it may run: skip the project's settings and tool-server file, start in the mode that reads
+    no project hooks, skills, commands, subagents or plugins, and turn hooks off for the run. Symptom: a job that
+    checks out a repository and then executes that repository's hooks with the job's credentials. Check: list what
+    the runtime reads from the working directory, and run once in a directory you do not trust.
+16. **Say what the job must never do on its own.** Own guidance: edit the rules, answer a reader's reply, retry a
     post more than once, widen a search. Each is a sentence in the prompt and, where possible, a missing
     permission.

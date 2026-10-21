@@ -47,5 +47,5 @@ written down (§3). Diagnosing odd behaviour starts by listing what the run load
   while writing it. See [`references/origin.md`](./references/origin.md).
 
 ## Origin
-Mostly own craft guidance; a few facts checked in the LangGraph (MIT) and Letta (Apache-2.0) documentation, no text copied. 🟡: never run by us; open points are in
+Mostly own craft guidance; facts checked on 2026-10-20 in the LangGraph (MIT), Letta (Apache-2.0), Mem0 (Apache-2.0) and Google ADK (Apache-2.0) documentation and the Anthropic memory-tool page, no text copied. 🟡: never run by us; open points are in
 [`references/origin.md`](./references/origin.md).

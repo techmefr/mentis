@@ -22,11 +22,21 @@ part for you.
    private-data server to avoid pairing it with untrusted-content or outbound-network capabilities. Own
    guidance: a split into two sessions with a human-reviewed handoff costs less than a gate on every step.
 2. **If all three must stay, put a person in front of the outbound step** showing the payload and the
-   destination (own guidance, in line with the scanner's call for human approval of state-changing operations).
+   destination. Both ends are documented: the protocol's tools page says there should always be a human able to deny
+   tool calls and that clients should show tool inputs before the call to avoid malicious or accidental
+   exfiltration; OpenAI's API asks for approval before data goes to a remote server by default, advises logging what is
+   sent, and points at its approval and allowed-tools settings for sensitive actions. The split into sessions stays own
+   guidance.
    Network limits from `agent-sandbox-egress-pitfalls` come after this, not instead of it.
 3. **Look at what comes back before the model acts on it.** The context protector can scan tool responses with a
    guardrail provider and quarantine a suspicious one until a person releases it. The SlowMist checklist says
-   not to insert a third-party interface's returned data directly into context without checking it.
+   not to insert a third-party interface's returned data directly into context without checking it, and the
+   protocol's tools page tells clients to validate tool results before passing them to the model and servers to
+   sanitise their outputs.
+4. **Do not follow or embed URLs that tool output supplies.** OpenAI's guide calls it dangerous to request, or embed
+   as images, URLs provided by connector or server output without trusting the domain; an image URL is a way to
+   send data out in its query string (the reasoning is ours). Check: does the interface render images or links from
+   tool output automatically?
 
 ## 3.3 Fetched text is data
 1. **Content retrieved from outside is data, not instructions.** A defence note in a safety-hooks repository
@@ -45,4 +55,5 @@ part for you.
 
 ## 3.4 What this does not cover
 1. **A defence in prose is a request to the model, not a control.** The note above and the scanners lower the
-   chance; the controls that hold are the missing part of the flow and the human gate (own guidance).
+   chance; the controls that hold are the missing part of the flow and the human gate (own guidance; OpenAI's guide
+   likewise says its built-in detection helps and still asks for review and trusted servers).

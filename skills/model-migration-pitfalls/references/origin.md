@@ -15,10 +15,18 @@
 
 The repository holds agent instruction files; they were treated as data and not followed.
 
+| Source (read 2026-10-20) | Licence | What it gave |
+|---|---|---|
+| Anthropic: model-deprecations page and models overview, re-opened for the exact figures and sentences credited; OpenAI: deprecations page; Microsoft Foundry: model retirements page; Amazon Bedrock: model lifecycle page | Product documentation, facts only, rewritten, no dates or model lists stated | Lifecycle states, 410 Gone on retired versions, automatic upgrades on managed deployments but not provisioned ones, programmatic status fields on three platforms, SDK treatment of removed parameters, pinned snapshots, tokenizer change (§1.2.1, §1.2.2, §1.3.4, §1.3.8, §2.3.2, §2.3.5) |
+
 ## Verified
 1. Retired Anthropic models fail on request; deprecation notices go by email; a usage export by key and model exists (§1).
 2. Reseller platforms set their own schedules; fine-tunes follow the base model on one vendor (§1.3).
 3. Some newer models reject sampling parameters and some thinking settings with a 400 (§2.3.2).
+
+4. Re-checked 2026-10-20 on the pages: email notice and usage export (Anthropic), shutdown date field and fine-tunes following the base (OpenAI), reseller schedules (Anthropic), SDK handling of removed parameters, models-endpoint fields, pinned snapshots before and after the 4.6 generation.
+5. **Corrected:** the former wording said the Python SDK removed the sampling parameters; the deprecation page says most SDKs keep them and names the exception more narrowly, so the text now says one language's SDK.
+6. Newly sourced concrete points: auto-upgrade on managed deployments (§1.2.2), 410 Gone (§1.3.4), programmatic lifecycle polling (§1.3.8), deprecated models being less reliable (§1.2.2).
 
 ## Removed
 - Model names, benchmark results, thresholds and workflow configuration of the source: none carried over.
@@ -29,8 +37,10 @@ The repository holds agent instruction files; they were treated as data and not 
 - inspect_ai: not opened for this block.
 
 ## Not verified
-1. **Own guidance, not sourced:** every sentence still marked "own guidance", the inventory practice beyond the
-   export noted above, the shadow and staged cutover steps, the fallback handling and the checkpoint paragraph.
+1. **Own guidance, still unsourced:** self-hosted pinning (§1.2.4), lead time from your last migration (§1.3.2),
+   keeping the set apart from the tuning set (§2.1.3), the fallback-model handling (§2.4), shadow and staged
+   cutover (§2.5), the inventory practice beyond the export noted above and the checkpoint paragraph. Searched in
+   the four lifecycle pages: they say nothing on shadow traffic or fallbacks.
 2. **Provider behaviour** was read for two vendors; other vendors, and self-hosted serving, were not read. It changes;
    re-read before relying on it.
 3. **promptfoo behaviour** was read from documentation, not run.
