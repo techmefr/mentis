@@ -57,3 +57,13 @@ them in separate tables and says so.
 ## Related blocks
 `skills/credential-lifecycle-pitfalls`, `skills/jwt-verification`, `skills/security-hardening`,
 `skills/android-security-hardening`, `skills/secret-leak-response-pitfalls`.
+
+## Verification pass 2026-10-20
+No new source was opened for this block in this pass: the points flagged "own guidance" or "re-read before relying" stay unverified. Only the sources already listed above were considered; the OWASP cheat-sheet and API Security pages are share-alike and were not reopened.
+
+## Verification pass 2026-10-20
+Read for facts only, restated in our words, no text copied: RFC 5116 (AEAD interface) and RFC 5869 (HKDF), rfc-editor.org.
+- Confirmed and credited: no partial plaintext on failed decryption (§1.5, RFC 5116 section 2.1), one derived key per purpose through a distinct context value (§3.5, RFC 5869 section 3.2).
+- Added: a fast derivation function is not a password hash (RFC 5869 section 4).
+- Corrected scope: RFC 5116 does not say that every failure must look identical to the caller, so "do not say which check failed" stays our guidance.
+- Still unverified: the XChaCha20 or secretstream default (§1.10), salt and parameters carried with the ciphertext (§1.3), the reading of the 2^32 and 2^16 rows (§2.3), final tag insistence (§2.9), secrets generated after instance start (§3.3), the deterministic generator rule (§3.2), age recipient choices (§3.7, §3.10, §3.11). RFC 9106, RFC 8446, RFC 8018 and NIST SP 800-132 and 800-38D were not opened in this pass.

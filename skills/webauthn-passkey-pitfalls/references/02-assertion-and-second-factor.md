@@ -12,7 +12,7 @@
    them in that order and then checks the signature.
 2. **In a second-factor step, the credential must belong to the authenticated user.** The page bolds it: skipping
    the check lets an attacker skip the second factor entirely, because any registered credential would satisfy
-   the signature check. Pass that user's credentials as the allowed list for non-discoverable keys. Own guidance:
+   the signature check. Pass that user's credentials as the allowed list for non-discoverable keys. The specification's assertion steps (WebAuthn Level 3 section 7.2, steps 5 and 6) have the server check that the returned credential ID is in the allowed list and that a returned user handle equals the account's. Own guidance:
    the library takes whichever stored credential you hand it and has no notion of users, so the ownership check
    is yours; look the credential up by credential ID and user ID in one query and treat "not found" like a
    failed signature.
@@ -34,7 +34,7 @@
    one device you store the counter and require it to rise, and that passkeys, which are meant to be shared across
    devices, can ignore it. The library rejects a response when the counter is not greater than the stored one,
    but only if either of the two is above zero, and returns the new counter to store. So a credential that
-   always reports zero passes; do not build a policy that treats a zero counter as an error.
+   always reports zero passes; do not build a policy that treats a zero counter as an error. WebAuthn Level 3 section 6.1.1 agrees: a counter that does not rise, with both values nonzero, may mean a clone, a fault or out-of-order processing; it does not say which side cloned, so the response is the relying party's risk decision, and an authenticator without a counter reports zero.
 7. **Cross-origin ceremonies are rejected unless you expect them.** When the client data says the call came from
    a cross-origin frame, the library requires a configured expected top origin, and when it is not cross-origin
    it rejects a top origin that is present. Its source notes that Safari did not support the top origin field as

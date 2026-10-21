@@ -31,7 +31,7 @@
    and separates domains to mitigate accidental bugs: the same key and id under two contexts give different
    outputs. Contexts need not be secret or high-entropy, and one application-wide context is acceptable. The id can
    reach 2^64 - 1, but with 128-bit subkeys deriving more than 2^48 of them is not safe; at 160 bits or more it
-   is. A password is not a master key (§1.2). Own guidance: one subkey per purpose (encryption, authentication,
+   is. A password is not a master key (§1.2). RFC 5869 section 3.2 binds each derived key to its use through a distinct context input, the same idea: one subkey per purpose (encryption, authentication,
    each tenant) rather than one key reused for several.
 6. **Ciphertext length is visible; pad before encrypting when length matters.** Most modern constructions disclose
    message lengths. `sodium_pad` rounds a buffer up to a multiple of a block size (ISO/IEC 7816-4 padding,
@@ -59,3 +59,4 @@
     quantum computers, built into age 1.3.0 and later; the recipients are about 2000 characters long and the
     README says this may become the default. Own guidance: choose hybrid keys for archives that must stay
     confidential for many years, and confirm that every tool that must read them supports them.
+12. **A key-derivation function that is fast is not a password hash.** Symptom: a login password or passphrase is turned into a key with HKDF or a bare hash. Check: where the input is a human-chosen secret, the call must be a deliberately slow password-hashing function (§1.2). Fix: use the slow function for passwords and keep the extract-and-expand function for inputs that are already random. RFC 5869 section 4 says its extract step cannot add randomness and has no slowdown against guessing.
