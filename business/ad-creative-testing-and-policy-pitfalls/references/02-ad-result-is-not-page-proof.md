@@ -11,7 +11,10 @@ page around the winner. The screen is useful; the leap is not.
 3. **Optimised delivery shows variants to different people.** When a platform steers each variant to the
    audience it expects to respond, two ads are no longer compared on like-for-like viewers. Ordinary ad
    variants under optimised delivery are exploratory. Whether and how a platform offers a randomised ad
-   comparison is a point to read on its current help page (`re-read before relying`).
+   comparison is a point to read on its current help page (`re-read before relying`). One platform's developer
+   documentation, read 2026-10-20, describes a split test that divides the audience into mutually exclusive
+   groups, advises one variable per test, and returns per-ad confidence values; such a test is the comparison to
+   ask for, not the default delivery.
 4. **Many variants raise the chance of a lucky winner.** Screening a large set and taking the best one picks
    noise as often as signal; account for the number of comparisons when reading it
    (`skills/experiment-design-pitfalls`).

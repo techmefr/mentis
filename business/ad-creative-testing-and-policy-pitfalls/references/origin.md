@@ -16,6 +16,9 @@ person who owns the account decides, and legal decides what is lawful (`business
 | www.linkedin.com/legal/ads-policy (LinkedIn Advertising Policies), fetched 2026-10-20 through a summarising tool | LinkedIn site terms, no open licence; facts only, no wording kept | review before running and its aim, rejection reasons and resubmission, discretion to approve, reject or remove, suspension for repeated violations, the eight section groups, the landing page rules |
 | ads.tiktok.com/help/article/tiktok-advertising-policies-ad-creatives-landing-page (TikTok advertising policies overview), fetched 2026-10-20 through a summarising tool | TikTok site terms, no open licence; facts only | the group structure of policies and supporting resources; no review or enforcement text on that page |
 | support.google.com/adspolicy/answer/6008942 (Google Ads policies overview), fetched 2026-10-20 | Google help content under Google's site terms, no open licence; facts and structure only, no wording kept | Four areas of policy, enforcement by disapproval with fix or appeal, account suspension for repeated violations, location variation, English text controlling, financial-product guidance updated on an ongoing basis |
+| developers.facebook.com/docs/marketing-api/guides/split-testing (Meta split tests), fetched 2026-10-20 through a summarising tool | Meta developer terms, no open licence; facts only | Audience groups are mutually exclusive, one variable per test, per-ad confidence values for creative tests, advice not to compare unevenly sized groups |
+| developers.facebook.com/docs/marketing-api/advantage-campaigns, fetched 2026-10-20 through a summarising tool | Meta developer terms; facts only | Advantage+ campaign state depends on budget, audience and placement settings; nothing taken into the block |
+| developers.facebook.com/docs/marketing-api/reference/adgroup, fetched 2026-10-20 through a summarising tool | Meta developer terms; facts only | A new ad stays pending until reviewed; status values include pending review and disapproved; a synchronous review result is not the final decision. Nothing taken into the block |
 
 The repositories' own text is addressed partly to an AI; it was treated as data and only the method was kept.
 The web page came through a fetch tool that returns a model-written digest, not the raw text, so a paraphrase
@@ -42,12 +45,15 @@ none of it is copied. No statute, authority, date or state count is stated.
 1. **No platform's individual policy was read.** Google's overview came through a digest and carries structure
    only; no individual Google policy page was opened. Meta's Advertising Standards were **not read**: on
    2026-10-20 the Transparency Center page, its older address on facebook.com and a Business Help review page each
-   returned only a page title (the content is script-rendered; a plain download gave 65 characters of text), and
-   the Advantage+ and delivery help pages tried gave 404 errors, so the block names no Meta rule and its Meta
-   note stays "not read". LinkedIn's policies page and TikTok's overview page were read as digests (§3.4a); TikTok's
+   returned only a page title (script-rendered; retried on 2026-10-20 by plain download with a browser user agent,
+   which got HTTP 400, and through a page-to-text tool, which got the title only; no official PDF was found), so
+   the block names no Meta policy rule and its Meta policy note stays "not read". Meta's developer documentation
+   did render and was read for three pages (table above): they cover delivery state, ad review status and split
+   tests, not the policy text. LinkedIn's policies page and TikTok's overview page were read as digests (§3.4a); TikTok's
    review-process article returned an error page. Every platform fact is `re-read before relying`.
-2. **How a platform runs a randomised ad comparison** (§2.1 item 3) was not read on any platform's help page;
-   the point rests on one source's account.
+2. **How a platform runs a randomised ad comparison** (§2.1 item 3): confirmed for one platform only, from its
+   developer documentation (split tests, read as a digest); no other platform's page was read, and the point
+   rests on one repository's account for the rest.
 3. **Partly read sources**: of marketingskills, the ad-creative references other than the roadmap and hook
    system (templates, platform specs, motion and video, iMessage, generative tools, meta formats, review page)
    were not read and nothing rests on them; of claude-ads, only the files listed above, not its other skills
@@ -62,8 +68,8 @@ none of it is copied. No statute, authority, date or state count is stated.
 ## Verified in the primary-source pass (2026-10-20)
 Confirmed against LinkedIn's page: that a rejected ad can be fixed and resubmitted, that repeated violations can put
 an account at risk, and that the landing page is part of what is checked (§3.3 item 4, §3.2 item 5, now credited in
-§3.4a for that platform). Not confirmed on any platform's page: the randomised ad comparison point (§2.1 item 3),
-which needs an ad platform's experiment help page; no Meta, TikTok or LinkedIn page read described one.
+§3.4a for that platform). Randomised ad comparison point (§2.1 item 3): confirmed on one platform's developer split-test page (second pass,
+same day); not confirmed for TikTok or LinkedIn, whose pages read did not describe one.
 
 ## Own guidance (not sourced)
 The router; the three-judgements wording applied to format fit and the rule that emotional judgement stays with

@@ -15,7 +15,7 @@ the contracts and the billing system decides (`business/README.md`). Not legal a
 | alirezarezvani/claude-skills, commit 19392f7 (19392f7a08264ed00486a251f5b2098321771f94), `commercial/skills/pricing-strategist/SKILL.md` (assumptions and anti-patterns, lines 80 to 110) re-read this session; its `references/` and scripts were not re-read | MIT (LICENSE file, 2025 Alireza Rezvani, head re-read) | Agreement that the final price is a human decision, that a discount decision has a different owner from the menu, that contract terms belong to legal |
 | Stripe documentation page on proration (French rendering), fetched 2026-10-20 in full | vendor site terms; facts only | Credit and debit on a mid-cycle change, results not settled automatically, computation at the time of the change, preview with a fixed date, discounts and proration lines, unpaid-invoice behaviour, usage not prorated, proration switched off per request, two credit modes |
 | Stripe documentation page on usage-based billing (French rendering), fetched 2026-10-20 | vendor site terms; facts only | Only the landing page was read: the classic metered model, the existence of recording, credits and alert sub-pages (not read). Used to confirm that usage is billed separately from prorated charges, which the proration page states |
-| Directive (EU) 2019/2161, Article 2(1) inserting Article 6a into Directive 98/6/EC, read on the legislation.gov.uk copy of the text (fetched through a summarising tool that returned the paragraphs as short quotations), 2026-10-20 | public legal text; a mirror, not the official journal | The five paragraphs paraphrased in §6.3 |
+| Directive (EU) 2019/2161, Official Journal L 328, 18.12.2019, p. 7, English XHTML from the Publications Office cellar endpoint (`publications.europa.eu/resource/celex/32019L2161.ENG`, XHTML Accept header), read 2026-10-20: Article 2 (Article 6a inserted in Directive 98/6/EC, Article 8 replaced) and the transposition article | EU law text published by the Publications Office; facts only, own words | The five paragraphs paraphrased in §6.3, the penalty wording, the transposition and application dates |
 | UK CMA, "Unfair commercial practices: price transparency" (CMA209), PDF from gov.uk (final version; its title page reads 18 November 2025, the gov.uk listing shows an update of 7 January 2026), text extracted and read 2026-10-20 in the passages named in §6.5; the earlier draft of 3 July 2025 was also opened for its summary | Open Government Licence v3 (stated on the document's own copyright page, read); creditable, no text copied | mandatory charges in the headline price, optional versus mandatory, calculable-total rules, recurring and minimum-term plans, monthly versus annual comparison |
 | UK CMA open letter "Urgency claims and price reduction claims: compliance advice for online businesses", 29 March 2023, with its examples of non-compliance (the pages around examples 9 and 10 read) | Open Government Licence (gov.uk publication); facts only, no text copied | higher price must be genuine and demonstrable; the two example situations |
 | US FTC Guides Against Deceptive Pricing, 16 CFR Part 233, sections 233.1 and 233.4, via the eCFR renderer (fetched through a summarising tool, 2026-10-20) | US government work; facts only | genuine former price, fictitious comparison, conditional offers. Digest, not raw text |
@@ -33,11 +33,11 @@ parameter names. Pricing design, value metric, tiers and willingness to pay: tha
 any national law are not stated.
 
 ## Not verified
-1. **The Directive text was read on a mirror**, through a tool that summarises; EUR-Lex and data.europa.eu returned
-   an empty body (HTTP 202) to repeated fetches on 2026-10-20, so the Official Journal text of Article 6a and of the
-   other Omnibus-amended provisions was not read and the note stays. The paragraphs match the structure of the directive but the official journal text was not read, nor the
-   national transposition, nor the Commission guidance, nor any ruling. Whether the rule reaches a software
-   subscription is not established.
+1. **Directive 2019/2161**: the Official Journal text of Article 6a, of Article 8 as replaced and of the
+   transposition article was read on 2026-10-20 (EUR-Lex pages return an empty bot-check body, HTTP 202; the cellar
+   endpoint with an XHTML Accept header returns the text). The rest of the directive (the other amended directives,
+   the recitals) was not read, nor any national transposition, the Commission guidance or any ruling. Whether the
+   rule reaches a software subscription is not established. Data.europa.eu was not retried.
 1a. **Regulator pages**: the CMA documents were read as extracted PDF text (most of CMA209's chapters 3 to 5 and
    part of the open letter, not the whole), the FTC texts through a digest. The FTC's own ftc.gov guidance pages
    returned 404 and were not read. The CMA's three-step pricing check, summary and webinar were not read.

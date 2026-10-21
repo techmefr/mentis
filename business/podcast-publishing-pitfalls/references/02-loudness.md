@@ -29,8 +29,13 @@
    programmes unchanged at -23.0 LUFS with correct loudness metadata, and gives an interim distribution range
    of -20.0 to -16.0 LUFS only where the broadcaster controls the dynamic treatment and no metadata is used.
    That range is an EBU statement about its members' streams, not a podcast-platform requirement.
-4. **No platform figure.** Apple's requirements page, as fetched 2026-10-20, does not mention loudness and links
-   no audio page. No podcast platform's page with figures was read. This block carries no platform number.
+4. **No podcast platform figure.** Apple's requirements page, as fetched 2026-10-20, does not mention loudness and
+   links no audio page. Spotify's help page on loudness normalisation (read 2026-10-20 as a digest) is about
+   music playback: it names a reference level based on ITU-R BS.1770, gives true-peak advice for lossy encodes,
+   and lists listener volume settings, but does not say whether it applies to podcasts, so it is not used as a
+   podcast target. A second Spotify page (audio specifications) returned a not-found page, YouTube's help
+   addresses tried returned 404, and an Apple page tried was the wrong page. This block carries no platform
+   number; a platform's figure is quoted only with its page, per §2.3.
 
 ## 2.2a What the standard measures (ITU-R BS.1770-5)
 1. **LKFS and LUFS are the same unit.** R 128 says so in a footnote. A mismatch in the name is not a mismatch
