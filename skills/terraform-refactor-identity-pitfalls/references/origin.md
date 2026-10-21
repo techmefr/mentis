@@ -49,6 +49,18 @@ inert (§2.2.3), `removed` rules (§2.3.4 new), lock file practice and constrain
 advisory (§3.3.4). Corrected: `moved` across providers (not an absolute ban), import-block removal (optional).
 Not confirmable from those pages: every version floor in the §3.1 table (OpenTofu docs state none), error texts.
 
+## Independent verification 2026-10-21
+Checked against: the Terraform documentation tree (1.9 to 1.16 trees of the hashicorp web-unified-docs repository, whose licence is
+BUSL 1.1; facts only, nothing copied, and the integrator may drop what rests on it), the OpenTofu 1.6.0 and 1.7.0 changelogs
+(MPL-2.0 repository), and the three credited repositories at their current heads.
+Corrected: (a) terrashark's "OpenTofu 1.5+" for `import` blocks: no OpenTofu 1.5 exists, the first release is 1.6.0 (§2.2.1, §3.1
+intro); (b) the S3 native lock file row of §3.1: the 1.10 backend page labels `use_lockfile` experimental, the 1.11 page does not.
+Confirmed on vendor pages: `moved` 1.1, `removed` 1.7 with a required `lifecycle` block, tests 1.6, mocking 1.7, `ephemeral` 1.10,
+write-only 1.11, `nonsensitive` 0.15, `moved` cannot turn a resource into a data source, `check` blocks only warn, the removed and
+import blocks may be kept or deleted afterwards. Floors for `try`, `nullable`, `optional` defaults, `import` and `check` blocks,
+provider-defined functions and cross-variable validation are as terraform-skill states them: no vendor page of the trees read
+repeats them.
+
 ## Not verified
 1. **Every version floor** in the table in §3.1 (and the `removed` and `import` floors in §2) is as the sources
    state it; none was checked against the official documentation. OpenTofu floors are stated by the sources only
@@ -67,3 +79,5 @@ Not confirmable from those pages: every version floor in the §3.1 table (OpenTo
 ## Related blocks
 `terraform-state-and-secrets-pitfalls`, `terraform-ci-delivery-pitfalls`, `devops-conventions`,
 `ci-workflow-hardening`, `testing-anti-patterns`.
+
+Independent verification 2026-10-21: 24 checked, 15 matched, 2 corrected, 7 unverified

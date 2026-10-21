@@ -44,6 +44,12 @@ the rule against `uv run` as the production command are our synthesis from the e
 6. **Per-worker connection pools** (§2.3.3) are general behaviour; the server-workers page says nothing on pools.
 7. **FastAPI pages are the master branch** (0.156.8 in the version file) and may not match the release a project pins.
 
+Corrected 2026-10-21: §2.2.3 said forwarded headers have to be enabled with `--proxy-headers`; the `fastapi-cli`
+source on main defaults it to on, so only `--forwarded-allow-ips` is a real choice (the docs pages still show the flag).
+The `dev` and `run` host and reload defaults (127.0.0.1 with reload; 0.0.0.0 without) were confirmed in that source.
+
 ## Related blocks
 `node-container-runtime` (the Node counterpart), `devops-conventions`, `security-hardening`,
 `ci-workflow-hardening`, `python-sqlalchemy-fastapi-pitfalls`.
+
+Independent verification 2026-10-21: 15 checked, 14 matched, 1 corrected, 0 unverified

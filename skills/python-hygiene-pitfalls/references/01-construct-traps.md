@@ -31,8 +31,8 @@ are only pointers to where a linter detects the same trap; the rules are ours.
 
 ## 1.3 File encoding
 1. **`open()` in text mode without `encoding=` uses a locale-specific default** (what `locale.getencoding()`
-   returns) **unless UTF-8 mode is on,** not UTF-8 as many readers assume. The `open()` page of the current
-   development documentation records that Python 3.15 makes UTF-8 the default (PEP 686); up to 3.14 the
+   returns) **unless UTF-8 mode is on,** not UTF-8 as many readers assume. The `open()` page of the Python 3.15.0
+   documentation records that 3.15 makes UTF-8 the default (PEP 686); up to 3.14 the
    locale default applies, so state the encoding for as long as the project supports those releases. A file written on one machine and read on another may decode differently or raise. The Ruff
    documentation (PLW1514) cites PEP 597, which recommends using UTF-8 for text files and opening them with
    `encoding="utf-8"`.

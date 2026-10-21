@@ -30,8 +30,8 @@ moved {
 ```
 
 ## 2.2 Adopting existing resources: import
-1. **Prefer declarative `import` blocks to the CLI `import` command** (stated 1.5+ for both Terraform and OpenTofu
-   in terrashark). They are reviewable and tracked in version control. For several resources, `for_each` works on
+1. **Prefer declarative `import` blocks to the CLI `import` command** (Terraform 1.5+; terrashark also says
+   OpenTofu 1.5+, but OpenTofu's first release is 1.6.0, which has the block). They are reviewable and tracked in version control. For several resources, `for_each` works on
    an `import` block (terrashark).
 2. **Confirm the remote object matches the configuration shape before importing**, import it at the right address,
    and plan: the result must show no changes. If it shows changes, align the configuration with the real object

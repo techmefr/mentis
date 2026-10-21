@@ -15,7 +15,8 @@
    under the same controls. This is why secret handling (§5.2) tries to keep values out of state altogether.
 3. **Make the backend enforce locking.** A lock stops two runs writing at once. On the object-store backend
    for AWS the native lock file (the `use_lockfile` argument) replaces the older table-based lock, which the
-   documentation now marks deprecated; the native form exists from Terraform 1.10. Other backends have their own
+   documentation now marks deprecated; the native form was introduced in Terraform 1.10 as experimental (the 1.10
+   backend page says so) and is documented without that label from 1.11 on. Other backends have their own
    locking, and some (for example local files) have none. Choose the backend for its locking model, and
    configure the permissions the lock needs (they include writing the lock object).
 4. **Separate states for separate lifecycles and separate blast radii.** One monolithic state makes every plan
@@ -47,4 +48,4 @@
 of the table-based lock), sensitive data in state, and the plan command; and the open terraform-skill guide
 (Apache-2.0) for the state-organisation, lock-handling and drift-alert practice, read 2026-10-02. Points 4
 (exact split criteria), 7 and 8 are reasoning of ours, informed by those guides. Version-bound: the native lock
-file needs Terraform 1.10 (the secondary guide states it; the vendor page read states only the deprecation); OpenTofu numbers its releases differently, so confirm the floor on the runtime in use.
+file was introduced in Terraform 1.10 as experimental and is unlabelled from 1.11 (vendor backend pages of both versions, read 2026-10-21); OpenTofu numbers its releases differently, so confirm the floor on the runtime in use.

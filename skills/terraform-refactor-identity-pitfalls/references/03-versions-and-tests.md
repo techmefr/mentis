@@ -5,8 +5,9 @@ behaviour. And a green `terraform test` with mocks says less than it appears to.
 
 ## 3.1 The version floor table
 Floors are as terraform-skill states them for Terraform; the official documentation was not read, so re-check at
-writing time. OpenTofu is named by the sources only for `import` (1.5), tests (1.6) and `removed` (1.7); for the
-rest the OpenTofu floor is not stated.
+writing time. OpenTofu is named by the sources only for `import`, tests (1.6) and `removed` (1.7); for the
+rest the OpenTofu floor is not stated. OpenTofu has no 1.5 release: its first release is 1.6.0, which already carries
+the `import` block and a stable `tofu test`, and `removed` arrived in 1.7.0 (OpenTofu changelogs, read 2026-10-21).
 
 | Feature | Stated floor | Mistake it guards against |
 |---|---|---|
@@ -21,7 +22,7 @@ rest the OpenTofu floor is not stated.
 | mock providers, `removed` blocks | 1.7+ | asserting computed values in plan mode; deleting with no lifecycle transition |
 | provider-defined functions | 1.8+ | data sources for simple transformations |
 | cross-variable validation | 1.9+ | pushing every check into postconditions |
-| S3 native lock file, `ephemeral` values | 1.10+ | a DynamoDB lock table on 1.10+; confusing `ephemeral` with `sensitive` |
+| S3 native lock file (experimental in 1.10, unlabelled from 1.11), `ephemeral` values (1.10+) | 1.10+ | a DynamoDB lock table where the native lock is available; confusing `ephemeral` with `sensitive` |
 | `write_only` arguments | 1.11+ | `sensitive = true` assumed to keep state safe |
 
 1. **State the target runtime first, then check each feature against its floor.** Below the floor, write the

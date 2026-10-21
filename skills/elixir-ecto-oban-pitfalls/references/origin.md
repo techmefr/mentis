@@ -44,3 +44,5 @@ Oban instance was run. Overlaps with `skills/elixir-phoenix-conventions` (2026-1
 
 ## Related blocks
 `background-jobs-conventions` §1 to §5, `security-hardening` §4, `testing-anti-patterns` §1, `source-freshness` §3.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified
