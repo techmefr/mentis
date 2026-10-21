@@ -34,8 +34,14 @@ Sources: the Ecto 3.14.2 documentation in `lib/ecto/changeset.ex` and `lib/ecto/
    transaction rolls back to the savepoint and carries on, or handle the failure outside the transaction by
    letting the `{:error, _}` end it and recording the failure afterwards. A changeset that is invalid before it reaches the database sends no statement, and does not abort anything.
 3. **`Repo.transact/2` exists in 3.14.2 and `Repo.transaction/2` is deprecated in its favour.** `transact`'s
-   function returns `{:ok, value}` or `{:error, reason}`; an `{:error, _}` return rolls back. Use `transact` in new
-   code.
+   function returns `{:ok, value}` or `{:error, reason}`; an `{:error, _}` return rolls back, and a raised
+   exception rolls back and bubbles up. The function may take no argument or one, in which case it receives the
+   repo of the transaction (confirmed in the documentation of the development branch). Use `transact` in new code.
 4. **A transaction belongs to one process.** A process started inside it uses a separate connection and is not
    part of the transaction. In tests with the SQL sandbox, sharing the parent's connection with a child that the
    parent is waiting on can deadlock.
+5. **A nested `transact` call is not a second transaction.** Called inside another transaction, the function is
+   simply run in the outer one. If the inner call fails, even when its error is rescued, or rolls back, the whole outer
+   transaction is aborted and nothing is committed, as the `Repo.transact/2` documentation states. A helper that opens
+   its own `transact` and is reused inside a caller's therefore cannot fail alone: return its error to the caller,
+   or give the statement that may fail `mode: :savepoint` (point 3.2).

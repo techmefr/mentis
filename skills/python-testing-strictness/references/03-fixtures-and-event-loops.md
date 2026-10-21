@@ -14,7 +14,7 @@ earlier work behind, and an async fixture that lives on a different event loop t
 3. **Keep fixtures that fetch or build without changing state out of this rule:** the rule is about
    changes to something that outlives the test (a row, a container, a file, a remote account).
 4. **The alternative is a finalizer registered right after each step** (`request.addfinalizer`), but the
-   documentation calls it harder to maintain than splitting fixtures; use it when the steps cannot be split.
+   documentation says that approach can become complex and hard to maintain; use it when the steps cannot be split.
 5. **After a test run, check that nothing was left behind:** leaked rows, containers and temporary
    directories are how this shows up, and they make the next run depend on the last.
 
@@ -43,8 +43,9 @@ earlier work behind, and an async fixture that lives on a different event loop t
 4. **A wide loop for a wide fixture is a deliberate trade:** tests sharing one loop share its pending tasks
    and state. Use it for expensive shared resources (a pool, a container client) and keep per-test state in
    function-scoped fixtures.
-5. **Tests are run one after another on their loop,** not concurrently; sharing a loop does not make them
-   parallel, so it does not need locking between tests.
+5. **Tests are run one after another on their loop,** not concurrently (the plugin states it runs async tests
+   sequentially, as pytest does synchronous ones); sharing a loop does not make them parallel, so it does not need
+   locking between tests.
 
 ## Verification
 - A fixture was made to fail in its second setup step and the first step's resource was gone afterwards.

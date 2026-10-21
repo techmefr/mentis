@@ -9,7 +9,9 @@ the decision.
    variable instead of the code. Declare the variable with a typed object (list or map), iterate it with `for_each`,
    and read the current element through `<label>.value` (and `<label>.key` for a map) inside `content` (Terramate).
 2. **Do not use `dynamic` for one or two fixed blocks.** Write them out; a dynamic block adds complexity and is only
-   worth it when the count or the content varies by input or by environment (Terramate).
+   worth it when the count or the content varies by input or by environment (Terramate; the OpenTofu `dynamic`
+   page says the same: overuse hurts readability, use it to hide details for a reusable module, write blocks out
+   literally where possible).
 3. **An optional block uses `for_each` over a one-element or empty list.** `cond ? [1] : []` creates the block when
    the condition holds and omits it otherwise; the same shape works for "only if a list of CIDRs was provided"
    with a `length()` test (Terramate).

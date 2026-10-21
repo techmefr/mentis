@@ -11,8 +11,9 @@ Three blocks tell Terraform that a change of address, of ownership or of managem
    so for a `count` to `for_each` switch one per old index (terrashark).
 3. **Read the plan: it must report moves, not replacements.** Apply in a lower environment first (terrashark).
 4. **Prefer reviewable `moved` blocks to `terraform state mv` in automation** (terrashark; terraform-skill).
-5. **Limits of `moved`** (terraform-skill, stated 1.1+): it cannot cross a provider boundary (use `removed` plus
-   `import`), it cannot cross a state file or backend key (see `terraform-state-and-secrets-pitfalls` §3.4), and a
+5. **Limits of `moved`** (terraform-skill, stated 1.1+): it does not cross a provider boundary in general (the OpenTofu refactoring page allows a change of type or
+   provider only where the new provider supports migration from the old resource; otherwise use `removed` plus
+   `import`), it cannot turn a resource into a data source, it cannot cross a state file or backend key (see `terraform-state-and-secrets-pitfalls` §3.4), and a
    `moved` block left inside a module that is itself being removed silently stops working, so the resources are
    destroyed. Put the `moved` in the parent.
 
@@ -35,9 +36,11 @@ moved {
 2. **Confirm the remote object matches the configuration shape before importing**, import it at the right address,
    and plan: the result must show no changes. If it shows changes, align the configuration with the real object
    before applying (terrashark).
-3. **Remove the `import` blocks after a successful apply**; they are one-time directives (terrashark).
+3. **Remove the `import` blocks after a successful apply, or keep them as a record**: the OpenTofu import page says a
+   block becomes inert once the object is tracked and removal is optional (terrashark says to remove them).
 4. **`plan -generate-config-out=<file>` generates configuration for imports**; review it and merge it by hand
-   (terraform-skill).
+   (terraform-skill). The OpenTofu import page marks `-generate-config-out` experimental and says how it works may
+   change.
 5. **Unknown ownership of an imported resource is a red flag** in a migration (terrashark).
 
 ```hcl
@@ -66,6 +69,12 @@ resource "aws_s3_bucket" "logs" {
    and its `required_providers` entry, run `init`, and expect an empty plan (terraform-skill).
 3. **Deleting a resource block with no lifecycle transition is the model mistake the `removed` block exists for**
    (terraform-skill).
+4. **In OpenTofu, `removed.from` cannot carry an instance key** (`aws_instance.web[0]` is rejected), and a `removed`
+   block with no `lifecycle` block draws a warning; write `lifecycle { destroy = false }` explicitly. A `lifecycle
+   { destroy = false }` on a live resource block is persisted in state and keeps later removal or replacement from
+   destroying the object. Symptom: a rejected address or an object that survives a destroy you expected; check the
+   block and the state; fix: a keyless address, and change the setting back to `true` before the destroy
+   (OpenTofu documentation).
 
 ```hcl
 removed {

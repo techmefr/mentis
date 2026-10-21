@@ -19,22 +19,36 @@ built and no process was started while writing it.
 
 The share-alike Node best-practice repository was used for no phrasing.
 
+### Second pass, read 2026-10-20 (facts only, rewritten)
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| Node.js API documentation, main branch (`cli`, `process`, `typescript`, `v8` pages) and the Node.js release changelogs for the 22, 24 and 25 lines | MIT (Node.js repository LICENSE read) | All stripping versions in §3.1 (default 23.6.0 and 22.18.0, no warning 24.3.0 and 22.18.0, stable 25.2.0 and 24.12.0, transform flag removed 26.0.0), erasable-syntax list, decorators parse error, `--env-file` versions and precedence, `--env-file-if-exists` 22.9.0, `loadEnvFile` and `NODE_OPTIONS`, `--max-old-space-size` 1536 example, percentage flag precedence; the changelogs date the percentage flag to 24.6.0 and 22.21.0. Corrected §2.3.2 (the `NODE_OPTIONS` caveat belongs to `loadEnvFile`, not to `--env-file`) |
+| Node.js Docker image repository, `docs/BestPractices.md` (main) | MIT (LICENSE read) | PID 1 and `SIGINT`, `--init`, `node` user uid 1000, `-m 300M --memory-swap 1G`, `CMD` bypassing npm, global prefix, node-gyp on Alpine, multi-stage |
+| Docker documentation, build secrets page (main) | Apache-2.0 (documentation repository LICENSE read) | Build arguments and environment variables persist in the final image, secret mount id and default path, `--secret` flag |
+| tini README (master) | MIT (LICENSE read) | An init reaps zombies and makes default signal handlers apply to the process it runs |
+| Nest documentation, SWC recipe (master) | MIT (LICENSE read) | `--type-check` and CLI plugins, `decorators`, Jest options, `Relation<>` wrapper, ESM and Vitest defaults, Rspack in Nest 12. Corrected §3.3.2 to §3.3.5 |
+| tsconfig bases repository: `node22`, `node24`, `strictest`, `node-ts` | MIT (LICENSE.md read, Microsoft) | Flag sets quoted in §3.4 |
+
 ## Rewrite notes
 Rules are re-explained principle first. The "headroom" figure restates the Node documentation's own example.
 The "one variable per concern" rule and the "never gate security on NODE_ENV alone" rule are the practitioner
 argument adopted as our guidance, not a Node fact.
 
 ## Not verified
-1. **`--max-old-space-size-percentage`**: the version it was added in was not found in the documentation read.
-2. **Cgroup awareness**: the Node documentation read does not say whether the default heap limit or
-   `heap_size_limit` follows a container memory limit; §1 says to measure.
-3. **Exit codes** (137, 143) are common knowledge about signals and the container runtime, not from the
-   sources above.
-4. **The stripping version numbers** are as in the Node main-branch docs; a given release line may differ.
-5. **SWC and circular-import behaviour**, and "newer Nest projects generate ESM and Vitest", are from the
-   Nest 12 docs and were not run.
-6. **Written by us, not sourced:** the verification lists, "pin the base image on purpose", and the
-   advice not to use `staging` as a `NODE_ENV`.
+1. **Resolved 2026-10-20:** the release that added `--max-old-space-size-percentage` (24.6.0 and 22.21.0, from the changelogs).
+2. **Cgroup awareness:** neither the CLI page nor the `v8` page says whether the default heap limit or the percentage
+   follows a container memory limit; the measure-first point of the runtime-config reference still says to measure.
+3. **Exit codes** (137, 143) are common knowledge about signals and the container runtime, not from the sources above.
+4. **Stripping version numbers** are as in the main-branch pages and the changelogs; a given release line may differ.
+5. **Nest 12 claims:** ESM and Vitest defaults and Rspack are the recipe statements, not run; the `.js` import
+   extension remark could not be confirmed on the page and was removed from §3.3.5.
+6. **Written by us, not sourced:** the verification lists, "pin the base image on purpose", the advice not to use
+   `staging` as a `NODE_ENV`, and the "one variable per concern" rule. The practitioner note named in the sources table
+   above could not be identified again in this pass and its licence was not re-read, so that row is unconfirmed; a
+   web search found no page stating the argument, and no source was opened for it.
+7. **Whether `NODE_OPTIONS` inside an `--env-file` is applied before V8 starts** is read only as the page statement
+   that such variables are "parsed and applied".
 
 ## Related blocks
 `devops-conventions` (CI and image policy), `security-hardening`, `nestjs-reliability` (shutdown

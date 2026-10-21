@@ -41,6 +41,14 @@ Left out as outside the item:
 2. **`moved` versus `state mv`**: both sources prefer `moved` in automation; terraform-skill also documents
    `state mv` for manual refactors, kept in the state block, not recommended here for automation.
 
+## Second pass 2026-10-21 (OpenTofu documentation, facts only)
+Docs read from the OpenTofu repository (MPL-2.0, `LICENSE` read): refactoring, import, generating configuration,
+resource behavior, resource syntax (`removed`), `for_each`, `count`, version constraints, dependency lock, checks,
+custom conditions. Sourced: `for_each` and `count` known values (§1.2.1), `moved` limits (§2.1.5), `import` blocks
+inert (§2.2.3), `removed` rules (§2.3.4 new), lock file practice and constraint semantics (§3.2), `check` blocks
+advisory (§3.3.4). Corrected: `moved` across providers (not an absolute ban), import-block removal (optional).
+Not confirmable from those pages: every version floor in the §3.1 table (OpenTofu docs state none), error texts.
+
 ## Not verified
 1. **Every version floor** in the table in §3.1 (and the `removed` and `import` floors in §2) is as the sources
    state it; none was checked against the official documentation. OpenTofu floors are stated by the sources only

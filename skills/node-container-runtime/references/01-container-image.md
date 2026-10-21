@@ -22,8 +22,10 @@ user's home instead of running as root. A container that runs as root turns any 
 anywhere in the image.
 
 ## 1.3 Signals and PID 1
-1. **Node was not designed to run as PID 1.** As PID 1 the process gets the kernel's special signal rules
-   and no zombie reaping. Either run the container with `--init` (an init process is added for you), or
+1. **Node was not designed to run as PID 1.** The official image documentation says a Node process running as
+   PID 1 will not respond to `SIGINT` and similar signals; the tini README gives the cause (its init makes the
+   default signal handlers work for the program it runs) and adds that an init also reaps zombie processes, which
+   a PID 1 application does not. Either run the container with `--init` (an init process is added for you), or
    put a small init such as tini or dumb-init in the image and make it the entrypoint.
 2. **Start node directly.** Use the exec form `CMD ["node", "dist/main.js"]`. A command that goes through a
    package manager script (`npm start`) or a shell string puts a wrapper in between: the wrapper receives
@@ -39,8 +41,8 @@ change behaviour on it, and the package managers skip development dependencies. 
 and should not control is in §2.1 ([`02-runtime-config.md`](./02-runtime-config.md)).
 
 ## 1.5 Build secrets
-`ARG` and `ENV` are unsuitable for secrets: both end up in the image and its history. Use a build secret
-mount instead: `RUN --mount=type=secret,id=<name> ...` makes the secret available during that instruction
+`ARG` and `ENV` are unsuitable for secrets: the Docker build documentation says build arguments and environment
+variables persist in the final image. Use a build secret mount instead: `RUN --mount=type=secret,id=<name> ...` makes the secret available during that instruction
 only, under `/run/secrets/<name>` by default, and it is supplied at build time with `docker build --secret`.
 A private registry token for installing dependencies is the typical case. A secret needed at run time is
 not a build concern: inject it when the container starts (see `security-hardening`).
@@ -54,9 +56,11 @@ not a build concern: inject it when the container starts (see `security-hardenin
    threads. Setting the old-space size equal to the container limit ends in the kernel's OOM kill (exit 137)
    rather than a clean out-of-memory report. The Node documentation's own example for a 2 GiB machine is
    1536 MiB, roughly three quarters.
-3. **A percentage flag exists** (`--max-old-space-size-percentage`, a share of available system memory, and
-   it takes precedence over the size flag). Whether it, and the default limit V8 picks, follow the
-   container's cgroup limit rather than the host's was not verified; read the value the process reports
+3. **A percentage flag exists** (`--max-old-space-size-percentage`, a share of available system memory, above 0
+   and up to 100, and it takes precedence over the size flag). The Node release notes list it as a
+   semver-minor addition in 24.6.0 and 22.21.0. Whether it, and the default limit V8 picks, follow the
+   container's cgroup limit rather than the host's is not stated by the CLI or `v8` pages (they say "available
+   system memory" and describe `heap_size_limit` without mentioning containers); read the value the process reports
    (`v8.getHeapStatistics().heap_size_limit`) inside the container before relying on a default.
 4. **Pass the flag through `NODE_OPTIONS` or the command**, not by editing code; and watch the heap over
    time (see `node-async-performance` §3) before raising it: a leak grows into any limit.

@@ -50,8 +50,10 @@ def test_thirty_seconds_pass_on_demand():
 
 ## 2.4 asyncio and a frozen monotonic clock
 1. **The event loop reads monotonic time, and monotonic time is frozen,** so `asyncio.sleep()` and other asyncio
-   functions that depend on it can stop working under a freeze. The first half is the README's statement about
-   `real_asyncio`; the consequence of "stops working" is our reading of its remark that the option avoids breaking them.
+   functions that depend on it can stop working under a freeze. The asyncio documentation says the event
+   loop uses monotonic clocks to track time (it does not name `time.monotonic()`); the README says
+   `real_asyncio` lets the loops see real monotonic time while `time.monotonic()` stays frozen. That a frozen clock
+   makes a sleep never return is our reading of the README's remark that the option keeps such functions working.
 2. **`real_asyncio=True` lets the event loops see real monotonic time while `time.monotonic()` stays frozen** for the code
    under test.
 3. **Use it on the freeze of any async test that sleeps or awaits a timeout.**

@@ -114,3 +114,20 @@ argument-escaping functions) and the PHPUnit documentation (strictness settings,
 providers, code-coverage drivers), written from knowledge of them and **not re-fetched on the day**. The
 runner's configuration attribute names and the attribute form of data providers depend on its major version
 and must be re-read against the one the project uses.
+
+**Second pass, read 2026-10-20 (facts only, rewritten in our own words).** The 2026-10-02 section 6 had been written
+from knowledge and not re-fetched; the points below were checked against the pages named, and two were wrong.
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| Composer documentation, source pages in the Composer repository (main, development version): basic usage, libraries, CLI, config reference | MIT (repository LICENSE read) | Lock file committed, `install` from it, `allow-plugins` (since 2.2.0, default none allowed), `platform`, `optimize-autoloader` and `classmap-authoritative`, `--no-dev`, `audit`, `cooldown`. **Corrected §6.1:** the documentation now recommends committing the lock file for a library too |
+| PHP manual (php.net), pages on PDO error handling, `PDO::setAttribute`, PDO_MySQL, the 8.0 and 8.1 migration guides, `htmlspecialchars`, `escapeshellarg`, comparison and boolean conversion, `in_array`, `strtolower`, `array_combine`, `sort`, `array_first`, `round`, `fdiv`, `intdiv`, `json_encode`, `hash_equals`, `password_hash`, `uniqid`, `random_int`, `assert`, `unserialize`, cloning | PHP documentation, Creative Commons Attribution 3.0; facts only, no text copied; credit: the PHP Documentation Group | **Corrected §6.7:** PDO throws exceptions by default from 8.0; emulation and string results changed in 8.1. **Corrected §4.2** (the strings that matched before 8) and §5.12 (`strtolower` and the locale from 8.2). Confirmed §4.1, §4.3, §4.8, §4.12, §4.14, §4.15, §5.6 (the default rounding mode), §5.8, §5.13, §5.14, §3.9 and §3.16 (readonly properties re-initialised while cloning since 8.3) |
+| PHPUnit repository (main, 13.5-dev): `phpunit.xsd` and the 11.0.0 and 12.0.0 change logs | BSD-3-Clause (LICENSE read) | Attribute names and defaults for `failOnWarning`, `failOnRisky`, `failOnDeprecation`, `beStrictAboutOutputDuringTests`, `executionOrder` (all `fail*` settings default to false, `beStrictAboutTestsThatDoNotTestAnything` to true); doc-comment metadata deprecated in 11.0 and removed in 12.0 |
+| php-code-coverage repository, `Driver/XdebugDriver.php` | BSD-3-Clause (LICENSE read) | Xdebug has no mode for branch coverage without path coverage |
+
+Still unverified: that `getLastErrors()` reports a warning with an error count of 0 for an impossible day (§5.15; the
+page returned no usable text), the finally-return behaviour of §2.6, the claim that the debugger extension slows every
+run by a large factor (§6.13; the extension's own documentation has a custom licence and was not opened), the timing
+detail of `===` on secrets (the `hash_equals` page says the known string length may leak, not the prefix), and every
+rule in §1 to §3 not named above, which keep the earlier reading. The PHPUnit documentation repository carries no
+licence file and was not used.

@@ -10,15 +10,21 @@
    among the paths PHPStan analyses. Constructor arguments can be passed when registering. Own guidance: a test
    class that is not registered contributes nothing and the run stays green, so a rule is only verified once it
    has been seen failing.
-2. **A rule is a public method named `test_...` or carrying `#[TestRule]`, returning a rule.** Own guidance:
-   a method that misses both is not a rule and is skipped without a message.
+2. **A rule is a public method whose name starts with `test` (what follows is free, `testFoo` and `test_foo` both
+   qualify) or that carries `#[TestRule]`, returning a rule builder or an iterable of them.** The test parser in
+   PHPat's source walks the public methods of each registered class and keeps those two kinds; any other method is
+   ignored, with no message, so a misnamed rule is silent. A rule that is built but incomplete (no subjects, no
+   assertion, no constraint, or a relation assertion with no targets) is not silent: the validator throws an
+   exception that names the rule. The rule's reported name is the class, the method and, for an iterable, the key.
 3. **Say what to select with the selector that states it.** The documented selectors include
    `inNamespace`, `classname`, `withFilepath`, `extends`, `implements`, `appliesAttribute`, `isFinal`,
    `isReadonly`, `isEnum`, `isInterface`, `isTrait`, `isAbstract`, and combinators `Not`, `AllOf`, `AnyOf`,
    `NoneOf`, `OneOf`, `AtLeastCountOf` and `AtMostCountOf`. Name, namespace and path selectors accept a
-   regular expression only when the `regex` argument is true; the page shows the argument set explicitly.
-   Own guidance: pass the flag and a delimited pattern together, and do not rely on a bare string being read
-   as a pattern.
+   regular expression only when the `regex` argument is true; the page shows the argument set explicitly. The
+   source shows what each mode does: with the flag the string is handed unchanged to `preg_match`, so it needs its
+   own delimiters; without it a namespace selector is a prefix match on whole segments (`App\Domain` matches
+   `App\Domain\Sub`, not `App\DomainX`) and a class name selector is an exact match. Pass the flag and a
+   delimited pattern together, and do not rely on a bare string being read as a pattern.
 4. **Prefer "can only depend on" to "must not depend on" for inner layers.** `shouldNot->dependOn()` is a deny
    list: anything not listed is allowed, including a vendor package nobody thought of. `canOnly->dependOn()`
    asserts that the selected classes depend on nothing outside the target set, and the page uses it for the
@@ -26,7 +32,7 @@
    things that must never be used anywhere, and the allow form for the layer boundaries.
 5. **Know what counts as a dependency.** Two options change it: `ignore_built_in_classes` (relations with PHP
    and extension classes, default false) and `ignore_doc_comments` (relations that appear only in doc comments,
-   default false). Own guidance: with the defaults, an allow-list rule on a domain layer also has to list
+   default false; the extension's default configuration file sets both, and `show_rule_names`, to false). Own guidance: with the defaults, an allow-list rule on a domain layer also has to list
    `DateTimeImmutable` and the like, and a class named only in a doc comment counts as used; decide both on
    purpose and write the decision into the rule's `because()` text.
 6. **Pick the assertion that says the intention.** The assertion set covers: extend, implement, include (a

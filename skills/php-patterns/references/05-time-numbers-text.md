@@ -51,8 +51,9 @@
     structure deeper than the depth limit, `NAN`, or a recursive reference all produce `false`/`null` —
     which the caller then passes on as if it were an empty payload. Pass `JSON_THROW_ON_ERROR` so a
     serialisation failure is a failure, and set the depth deliberately where the data is nested.
-12. **Case-insensitive comparison of non-ASCII text needs the multi-byte functions.** `strtolower` works
-    byte by byte, so accented characters are left alone and two spellings that a reader would call the
+12. **Case-insensitive comparison of non-ASCII text needs the multi-byte functions.** From PHP 8.2 `strtolower`
+    no longer depends on the locale and converts only ASCII characters (before that the result depended on
+    `setlocale()`), so accented characters are left alone and two spellings that a reader would call the
     same string compare as different — which turns into a duplicate account, a failed lookup, or a
     deduplication that quietly keeps both. Normalise with an explicit encoding, and normalise on the way
     in rather than at each comparison.

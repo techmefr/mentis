@@ -14,7 +14,7 @@ Sources: learn.microsoft.com `about_Functions_CmdletBindingAttribute`, `about_Fu
    and a call with no declaration (`ShouldProcess`).
 3. **Set `ConfirmImpact` for the function's risk.** The prompt appears only when the function's `ConfirmImpact`
    (default `Medium`) is at or above `$ConfirmPreference` (default `High`). With the defaults a `Medium`
-   function does not prompt by itself, so set `High` for destructive operations (own guidance on which to choose).
+   function does not prompt by itself, so set `High` for destructive operations. The `about_Functions_CmdletBindingAttribute` page confirms the default and the comparison and says to set the argument only together with `SupportsShouldProcess`; choosing `High` for destructive work is our guidance.
 
 ## 3.2 Input and parameters
 1. **Handle pipeline input in a `process` block.** The function body outside it executes once, while a
@@ -30,7 +30,9 @@ Sources: learn.microsoft.com `about_Functions_CmdletBindingAttribute`, `about_Fu
 1. **A script block that runs in another runspace or session cannot see the caller's variables.** Pass them with
    the `$using:` scope modifier, which expands to the caller's value, not to the variable
    (`UseUsingScopeModifierInNewRunspaces`). `$using:x = ...` does not work: the value cannot be assigned back.
-2. **A variable defined in the local session is not defined in a remote one,** so a remote script block that
+2. **`ForEach-Object -Parallel` needs `$using:` too.** Its page passes outer variables into each parallel script block
+   that way and says some types are not thread-safe even then.
+3. **A variable defined in the local session is not defined in a remote one,** so a remote script block that
    uses it without `$using:` reads nothing.
 
 ## 3.4 Strict mode and comparisons

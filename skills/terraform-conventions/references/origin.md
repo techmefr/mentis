@@ -22,6 +22,11 @@ defaults). One rule the secondary sources state flatly was qualified by the vend
 workflow of the secondary guide (tooling, harness-bound), compliance-framework mappings (a different subject),
 the numeric thresholds for splitting state (not a standard).
 
+**Second pass 2026-10-21 (OpenTofu documentation, facts only, labelled as such).** Read from the OpenTofu
+repository docs tree (MPL-2.0, `LICENSE` read): resource behavior (`prevent_destroy` limit confirmed, §3.7),
+lock file and version constraints (§4.6, §4.7), `for_each` and `count` (§3.1), refactoring. No OpenTofu floor is
+stated by those pages, so floors remain Terraform-stated and unchecked. Corrected: none in this block.
+
 **Version stamps.** Terraform pages "latest" read 2026-10-02. OpenTofu was not read; its release numbering and
 feature floors differ and every floor in this block is stated for Terraform.
 

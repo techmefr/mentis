@@ -16,6 +16,16 @@ published while writing it. Overlaps with `skills/flutter-conventions` (2026-10-
 | dart-lang/site-www: `tools/pub/security-advisories.md` | same | Part 2.5 |
 | Melos (commit fb8b35b): `docs/getting-started.mdx` (first sections) | Apache-2.0 (LICENSE re-read) | Part 1.5 |
 
+### Second pass, re-read 2026-10-20 (pages of the main branch, facts only)
+
+| Source | Licence | What it confirmed |
+|---|---|---|
+| dart-lang/site-www (main): `workspaces.md`, `automated-publishing.md`, `publishing.md`, `security-advisories.md` | CC BY 4.0 prose, BSD-3-Clause code (the repository licence notice read again); credit: the Dart authors | Workspace support from Dart 3.6.0 and the `^3.6.0` member constraint, glob entries from 3.11, nested workspaces, stray lock and package-configuration files deleted and a stray pubspec failing the get, overrides respected once per workspace, tag-triggered publishing only, tag pattern with the version placeholder, first version published by hand, exported keys as the long-lived fallback, `id-token: write`, reusable workflow strongly encouraged and generated code preferably checked in, required environment, audit log entry, `.pubignore` and `--dry-run`, retraction within seven days and restoration within seven days, advisories read from the GitHub database and `ignored_advisories` affecting the root only |
+| Melos documentation (main): `docs/getting-started.mdx` | Apache-2.0 (LICENSE read) | Reading the workspace guide first, Melos as a dev dependency of the root pubspec, no application in the root, `useRootAsPackage`, glob support from Dart 3.11.0 |
+
+No statement of §1 or §2 needed correction. Points not re-opened in this pass: the Google Cloud Build sections after the
+service-account step (still not read) and the exact wording of the admin-tab labels.
+
 ## Removed in the verification pass (no page supporting them)
 - "Apps run from their own folder" and "one analyzer context" as workspace rules from an agent-rules repository
   (MIT): that repository was not opened; the analyzer-context point is kept only as the Dart page's statement.

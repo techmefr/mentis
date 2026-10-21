@@ -237,6 +237,17 @@ generation and the SQL-database tutorial (persistence stays §7). The `scope` ar
 0.121 or later and the yield-cleanup timing was changed in 0.106 (the documentation lists both); expiry: at each
 FastAPI minor, re-read §11.4 to §11.7 first.
 
+**Re-sourced 2026-10-21 (§9, §10).** Pages re-read: CPython `Doc/library` `pickle`, `subprocess`, `tempfile`, `secrets`,
+`hmac`, `random`, `tarfile`, `zipfile`, `xml` (PSF licence file read; facts only, own words); the FastAPI docs for
+response models, CORS, testing dependencies, async and OAuth2/JWT (MIT, `LICENSE` read); PyJWT `usage` and `api`
+(MIT, `LICENSE` read); pip `secure-installs` and `pip install` reference (MIT, `LICENSE.txt` read). The OWASP cheat
+sheets are not opened (share-alike licence); the points that rested on them stay unsourced. Sourced or confirmed:
+§9.4, 9.7, 9.8 (partly), 9.10, 9.14, §10.2, 10.3, 10.5, 10.6, 10.7, 10.12. Corrected: §10.8 (the old text overstated entity
+and external-read behaviour; the page ties the risk to the Expat version), §10.14 (pip has no index priority). The
+§10.5 interpreter-version statement is now stated per version (3.12 added, 3.14 default). Unsourced: §9.1-3, 9.5-6,
+9.9, 9.11-13, 9.15, §10.1, 10.4, 10.9-11, 10.13, 10.15, JWT claim checks beyond the `decode` signature, SSRF
+mechanics, SQL binding, the scanner and audit tool claims.
+
 **Dogfooded again, 2026-10-19.** `~/dogfood/py/app`: pydantic boundary model (`frozen`, `extra="forbid"`),
 frozen slotted dataclass, `NewType`, `StrEnum`/`Enum`, `TypedDict`, a `Protocol` store, a file store with
 explicit encoding and exception chaining, a `@contextmanager`, an async service (`Semaphore`, `TaskGroup`,

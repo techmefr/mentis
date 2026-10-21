@@ -31,16 +31,20 @@ none of the three. So:
 ## 3.3 SWC with Nest
 1. **Fast, but unchecked.** `nest start -b swc` compiles with SWC and does no type-checking; add
    `--type-check` (runs the compiler in no-emit mode next to it) and keep the type check in CI.
-2. **The SWC config must enable decorators** (`decorators: true` and decorator metadata); the Jest transform
-   needs the legacy-decorator and decorator-metadata options as well.
-3. **Circular imports behave differently.** SWC evaluates metadata references eagerly, so two files that
-   import each other can hit an undefined class at load. Wrap the type with the documented wrapper type
-   (the `Relation<>` pattern) in the injected position.
-4. **The CLI plugins** (Swagger introspection and similar) need `--type-check` or the plugin's metadata
-   generator under SWC, and do not run in Jest with a plain SWC transform; see `nestjs-integration-patterns`
-   §2.4.
-5. **Newer Nest projects** generate ESM, Vitest and `.js` import extensions, and monorepos default to Rspack
-   in the Nest 12 docs; check what the scaffold produced before copying an older config.
+2. **The SWC builder is preconfigured for Nest;** a custom `.swcrc` must keep `decorators: true` in the parser
+   options, and the Jest transform needs the `legacyDecorator` and `decoratorMetadata` options as well.
+3. **Circular imports behave differently.** The Nest recipe says SWC does not handle circular imports well:
+   the reflection metadata saves the type of a property, so two files that import each other can hit a class that
+   is not defined yet. Wrap the type with the documented wrapper type (the `Relation<>` pattern, a type alias
+   of the type itself) so the type is not saved in the metadata; the recipe asks for the same wrapper on circular
+   dependency injections.
+4. **The CLI plugins** (Swagger introspection and similar) run under SWC only through `--type-check`, which
+   produces a metadata file the application loads, or through the plugin metadata generator the recipe describes
+   for the webpack builder and for Jest; see `nestjs-integration-patterns` §2.4.
+5. **Newer Nest projects** use ES modules and Vitest by default and, as of Nest 12, monorepos default to the
+   Rspack builder (the recipe says so); the SWC builder emits ES modules when `package.json` sets `"type":
+   "module"`. Whether the scaffold also adds `.js` extensions to relative imports is not stated on the page read;
+   check what the scaffold produced before copying an older config.
 
 ## 3.4 tsconfig flags worth setting
 Pick a maintained base preset for the Node major (module `nodenext`, a `lib` matching the runtime, `strict`,

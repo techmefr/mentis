@@ -39,6 +39,9 @@ rest the OpenTofu floor is not stated.
    `~> 5.0.1` allows patches only (terraform-skill). Pick one per repository and write it down.
 3. **Ship runtime and provider upgrades separately from functional changes** where possible (terrashark;
    terraform-skill lists merging them as a model mistake).
+4a. **The OpenTofu version-constraints page** says reusable modules should constrain only a minimum, root modules should
+   use a `~>` bound for each provider, and `~> 1.0.4` allows `1.0.5` and `1.0.10`; its lock-file page says to
+   commit `.terraform.lock.hcl`, review changes after `init -upgrade`, and commit them deliberately.
 4. **An unpinned provider means two `init` runs on different days can get different versions** and behaviour
    (Terramate rule). In CI this is the usual cause of "the CI plan differs from the local plan"; see
    `terraform-ci-delivery-pitfalls` §3.1.
@@ -52,7 +55,8 @@ rest the OpenTofu floor is not stated.
 3. **A set-typed nested block cannot be indexed with `[0]`**; check the real schema, then use a `for` expression
    under `command = apply` (terraform-skill).
 4. **Only `validation`, `precondition` and `postcondition` gate an apply**; a `check` block is advisory and emits
-   warnings (terraform-skill).
+   warnings (terraform-skill; the OpenTofu checks page says the same and notes that the first plan of a check with a
+   scoped data source can fail because the object does not exist yet).
 5. **Exercise `validation` blocks with invalid input**, not only the happy path, and run `plan -detailed-exitcode`
    after an apply to catch non-idempotent changes (terraform-skill).
 6. **Gate real-cloud integration tests behind the main branch or a schedule**, not every commit (terraform-skill).

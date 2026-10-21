@@ -31,7 +31,7 @@ rule documentation (tree of 2026-09-22).
    Wrap the whole unit of work in one `try`, and treat the `catch` as the place that stops the script.
 4. **Set a preference once, at the top of the script.** The documentation says a preference variable applies to
    the scope it is set in and its child scopes, so a change partway through (or in a shared module) reaches
-   every later call (own guidance for where to put it).
+   every later call. The page says a preference change applies only to the scope it is made in and its children, which is why one early assignment covers the script (placing it at the top is our choice).
 
 ## 1.3 Handling
 1. **Put one `try` around the whole transaction**, not one per statement, and keep `catch` for recovering,
@@ -49,3 +49,7 @@ rule documentation (tree of 2026-09-22).
    which became stable in 7.4 (experimental in 7.3). A non-zero exit then raises a non-terminating error that
    follows `$ErrorActionPreference`, so with `Stop` it is catchable. The variable defaults to false.
 3. **`$LASTEXITCODE` is not changed by cmdlets,** so it can hold a stale value from an earlier native call.
+4. **Some native programs use non-zero exit codes for information,** and with the variable on they then raise
+   errors. The preference-variables page shows `robocopy`: set the variable to false inside a script block
+   (the change reverts when the block exits), then test `$LASTEXITCODE` against that program's own documented
+   success range. Symptom: a successful copy aborts the script; check the program's exit-code table; fix as above.

@@ -30,8 +30,9 @@
    publisher follows semantic versioning with a disciplined release process. An unpinned remote module is a
    change you did not review arriving at the next init. Upgrade modules, providers and the runtime in a pull
    request of their own, never mixed with a functional change, so the plan diff has one cause.
-7. **Commit the dependency lock file.** It records the exact provider versions and checksums chosen at init, so
-   every machine and every pipeline run uses the same providers. An init that changes it prints a message: review
+7. **Commit the dependency lock file** (the OpenTofu lock-file page says so).  It records the exact provider versions and checksums chosen at init, so
+   every machine and every pipeline run uses the same providers. The OpenTofu version-constraints page adds that
+   reusable modules should constrain only a minimum version and root modules should bound each provider with `~>`. An init that changes it prints a message: review
    the diff and commit it as a deliberate change. An upgrade is an explicit act (the upgrade option of init), not
    a side effect.
 8. **Don't read provider values you can pass.** Reaching into a data source or a remote state from inside a

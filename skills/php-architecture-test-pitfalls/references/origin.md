@@ -29,6 +29,13 @@ followed.
 4. **Pages not read, so nothing is taken from them:** PHPat `project-guidelines.md`, `UPGRADE-0.10.md`,
    `CHANGELOG.md`; Deptrac `upgrade.md`, `bc_policy.md`, `blog`, `examples/`.
 
+## Second pass, read 2026-10-20 (facts only, rewritten)
+
+| Source | Licence | What it confirmed or corrected |
+|---|---|---|
+| PHPat repository (main): `src/Test/TestParser.php`, `src/Test/RuleValidator.php`, `src/Selector/ClassNamespace.php`, `src/Selector/Classname.php`, `src/Selector/Selector.php`, `extension.neon` | MIT (LICENSE read 2026-10-16, unchanged) | **Corrected part 3, point 2:** the name test is "starts with `test`", not `test_`; non-matching methods are skipped silently, incomplete rules throw. Regex flag behaviour and prefix matching, and the three configuration defaults, now read from code (the former own-guidance sentences) |
+| Deptrac repository (main): `docs/concepts.md`, `docs/collectors.md`, `docs/configuration.md`, `docs/formatters.md`, `src/Contract/Config/Ruleset.php` | MIT (LICENCE.md read 2026-10-16, unchanged) | Default-deny ruleset and the uncovered-dependency options, `analyser.types` defaults (`class` and `use`) and the opt-in types, `skip_violations` and the baseline formatter, the composer collector statements. The `+` ruleset prefix of part 1, point 9 was **not found** in the documentation pages of the current main branch or in the `Ruleset` config class, so that point keeps its earlier reading at commit `66595d1` and is marked unconfirmed |
+
 ## Not verified
 1. **Own guidance, flagged in the text:** loose-pattern pitfalls beyond the page's own sample (part 1, point 3),
    overlapping layers (point 2), the consequence of a class in no layer, of a missing analysis type and of a
@@ -47,3 +54,8 @@ followed.
 ## Related blocks
 `skills/no-catch-all-layer`, `skills/archi`, `skills/domain-modeling`, `skills/php-patterns`.
 Overlaps with `skills/laravel-conventions` §9 and §10 (2026-10-19); cross-referenced, not merged.
+
+Added 2026-10-20: the point about a misnamed rule being silent (part 3, point 2) is now sourced from the PHPat code, no
+longer own guidance; the unregistered-class half stays own guidance because the registration happens through the PHPStan
+container and no code of it was read. Overlapping layers, one config per view, review of baseline entries and the
+`final` base rule remain own guidance (design judgement, no page states them).

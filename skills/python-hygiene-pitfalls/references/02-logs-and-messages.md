@@ -9,7 +9,9 @@ below are about what that reader can trust and search for.
    `.format()`.
 2. **Two reasons, both from the sources.** Formatting is deferred until a handler actually emits the
    record, so a message below the configured level costs no formatting (the Ruff documentation, G004, makes
-   the same point about eager formatting). And some logging systems collect the unexpanded pattern as a
+   the same point about eager formatting; the logging HOWTO states that formatting of message arguments is
+   deferred until it cannot be avoided). Computing the arguments is not deferred: an expensive call passed as
+   an argument still runs, and the HOWTO's remedy is to guard it with `isEnabledFor()`. And some logging systems collect the unexpanded pattern as a
    queryable field, which lets you group every occurrence of one message regardless of its values.
 3. **Prefer the structured form your logger offers for values you will filter on** (the `extra` mapping, or
    key-value fields in a structured logger), over interpolating them into text.

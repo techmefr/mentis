@@ -34,7 +34,7 @@
 7. **Guard what must not be destroyed.** A lifecycle argument that makes the plan fail instead of destroying a
    resource is cheap insurance on stateful resources (databases, volumes, keys). It guards only while the
    argument is present in the configuration: deleting the whole resource block removes the guard and the destroy
-   goes through, which the vendor documents. So pair it with deletion protection set on the cloud resource where
+   goes through, which the vendor documents (the OpenTofu resource behavior page states it too). So pair it with deletion protection set on the cloud resource where
    the provider offers it, and review a diff that deletes a resource block as a destroy.
 8. **Read the destroy plan in full before any destroy, targeted or not.** Run the plan in destroy mode first and
    read every resource listed, not only the ones you named: a targeted destroy also removes everything that depends

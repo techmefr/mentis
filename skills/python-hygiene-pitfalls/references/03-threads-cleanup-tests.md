@@ -30,8 +30,9 @@ release is left to the garbage collector, and a test that passes for the wrong l
    assertions, never run. The Ruff documentation (PT012) describes this.
 2. **Do the setup before the block** and the assertions after it. The block contains only the call under
    test.
-3. **Match the message when the type alone is too broad** (the `match` argument), so a different error of
-   the same type does not satisfy the test.
+3. **Match the message when the type alone is too broad** (the `match` argument, which pytest runs with
+   `re.search`, so escape regex characters in a literal message), so a different error of the same type does not
+   satisfy the test.
 4. **A test that passes for the wrong reason is the case in `python-conventions` §8.14:** make it fail once
    by changing the code under test.
 

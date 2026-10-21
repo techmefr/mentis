@@ -22,7 +22,7 @@
 4. **Every endpoint that returns application data declares its response model.** The declared model is a
    filter: the framework serialises only its fields, so a field added to the database row does not appear on
    the wire until someone adds it on purpose. Returning an ORM object or a dictionary with no declared model
-   is how a password hash, a token or another tenant's column reaches a client. Response models never include
+   is how a password hash, a token or another tenant's column reaches a client (the FastAPI response-model page says the declared model limits and filters the output, and shows a shared input model returning a plaintext password). Response models never include
    credentials, hashes, tokens, internal flags or authorisation state.
 5. **Constraints belong in the model.** Length, range, pattern, enum membership and cross-field rules are
    declared on the model and validated before the handler runs; a hand-written `if` in the handler repeats
@@ -36,18 +36,18 @@
    cache) end to end; a blocking call inside it stalls the event loop for every other request (§4). A plain
    `def` endpoint is run in a worker thread by the framework and is the right form for CPU-bound or blocking
    code that has no async equivalent. Mixing the two silently, an `async def` calling a synchronous driver, is
-   the failure.
+   the failure. The FastAPI async page confirms that a plain `def` endpoint, and a plain `def` dependency, runs in an external threadpool.
 8. **Token validation checks everything the token claims.** A JWT verification names the accepted
    algorithms in a fixed list (never the one the token's header asks for), checks the signature against the
    issuer's key, and checks expiry, issuer and audience. Accepting an unsigned token or a token whose
    algorithm field selects the verification method is the classic bypass. Keys come from configuration and
-   are rotated; the claim set is minimal. The session and cookie rules are `skills/auth-session-conventions`.
+   are rotated; the claim set is minimal. In PyJWT, `decode` takes an `algorithms` list and optional `audience` and `issuer` arguments, so pass all three rather than relying on defaults (PyJWT API page; the precise default of each check was not read). The session and cookie rules are `skills/auth-session-conventions`.
 9. **Authorisation is checked per object, in the dependency or the service.** Authentication says who; the
    check that this user may read this record (not merely that some user is logged in) runs for every handler
    that takes an identifier from the path, or the endpoint is an enumeration oracle (`skills/security-hardening`
    §3).
 10. **CORS lists origins, per environment.** The allowed origins are an explicit list from configuration; a
-    wildcard is not combined with credentials; the allowed methods and headers are the ones the front end
+    wildcard is not combined with credentials (the FastAPI CORS page says a wildcard excludes everything involving cookies and authorization headers); the allowed methods and headers are the ones the front end
     uses. Origins differ between development, staging and production, and the production list is reviewed
     when it changes.
 11. **Rate limits cover the entry points that cost something or can be guessed.** Login, token exchange,
@@ -62,7 +62,7 @@
     exception handlers registered once, so a handler raises a domain error and never builds an error
     response by hand (`skills/api-design`).
 14. **Tests override the exact dependency the handler declares.** The framework's override mapping is keyed
-    by the dependency callable used in the signature, so overriding a different function with the same name
+    by the dependency callable used in the signature (FastAPI testing-dependencies page: the key is the original function, and an empty dict resets it), so overriding a different function with the same name
     changes nothing and the real dependency runs. The mapping is cleared in teardown, since it is
     process-wide and the next test inherits it (§8, point 12). Use the async test client for an async
     application, and assert the refusal paths (401 without a token, 403 for another user's record, 422 for an
