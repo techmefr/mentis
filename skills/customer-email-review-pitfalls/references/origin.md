@@ -55,3 +55,9 @@ Every rule in the two references was compared with the attributed files, reopene
 ## Related blocks
 `business/customer-success`, `business/incident-communication`, `security-advisory-comms-pitfalls`,
 `business/ux-writing`.
+
+## Added 2026-10-21
+§1.2b (gaps noted inline, two matching records listed rather than guessed): rewritten from the data-gap habits of
+the small-business plugin set in anthropics/knowledge-work-plugins (Apache-2.0, root LICENSE file read; the plugin
+has no licence file of its own). Own wording; the source's connector detail and examples are not carried.
+Never run on real correspondence.

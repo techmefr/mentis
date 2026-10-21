@@ -54,6 +54,25 @@ hire's first weeks, or someone (voluntarily or not) leaving the company.
    infer a cause from small numbers.
 10. **Tell candidates what to expect and when**, then keep to it, including a short reply to those who are
     declined. Silence is the common complaint and costs the employer's reputation.
+11. **Write the rubric before reading any application.** A rubric written after seeing the pile gets shaped to
+    fit whoever looked good, and cannot be defended later. Three tiers: a short list of must-haves where absence
+    truly disqualifies (a legally required licence, availability for the real shift), weighted should-haves that
+    produce the ranking, and nice-to-haves that never disqualify. Each criterion must be checkable on a CV
+    ("has worked on site with customers"), never a vague trait ("strong communicator", "culture fit") that turns
+    into a proxy for polish or schooling. Symptom: "here are the five strongest" with no measure behind it.
+12. **Score only what the rubric names, with a quoted line per score.** Name, age, photo, address, school
+    prestige, a gap in employment, typos beyond what the job needs and CV layout are not criteria. Score the
+    described work against the criteria, and bring identity back after the ranking. If a score has no quoted
+    evidence, it is an impression.
+13. **Keep a "cannot assess" band apart from a rejection.** A missing fact (the CV never says whether the
+    required licence is held) is not a zero: mark the criterion as not assessed, leave its weight out of both the
+    points and the total, report the score as a share of the weight actually assessed beside that weight, and send
+    a short question to the candidate. Symptom: a candidate declined for a formatting gap.
+14. **The ranking is not the decision.** Present the order with the evidence per candidate and where a lower
+    overall score is higher on what the team lacks; the person who hires holds context no CV carries. In a batch
+    message to that person, name each candidate in each group (invite, hold, decline, question) rather than
+    giving counts, so a mis-sorted list is visible before anything is sent, and send nothing to candidates
+    without that person's approval. Never state an invented reason in a decline; give a true one or none.
 
 ### 2. Onboarding: the first 90 days have a plan
 1. **A new hire gets a written plan before day one**, broken into phases: the first 30 days is about
@@ -122,6 +141,8 @@ captured during the notice period, and an owner per step.
   to convenience.
 - Never treat knowledge transfer as something that happens automatically through documentation that
   already exists — if it wasn't written down before, it needs to be, during the notice period.
+- Never read applications before the rubric exists, and never count a missing fact as a zero: write the rubric
+  first and use a "cannot assess" band (§1, points 11 to 13).
 - Never let a rating that compares people across teams go final without a calibration pass, and never
   invent a promotion criterion after the decision it's meant to justify.
 - This block has no dedicated in-house HR expertise behind it yet: a solid set of structural defaults,
@@ -143,4 +164,8 @@ fix (a documented trail of check-ins, cross-manager calibration before ratings a
 promotion criteria before the decision) are established performance-management guidance, not
 internally validated. Stamped 2026-08-11. §1 points 6 to 10 (job-posting review, anchored scorecards,
 process consistency, pool check, candidate communication) added 2026-10-20 from general recruiting practice; no
-source read, employment and discrimination law not covered.
+source read, employment and discrimination law not covered. §1 points 11 to 14 (rubric before reading, scoring only
+the rubric with quoted evidence, a "cannot assess" band, ranking versus decision and named batch summaries) added
+2026-10-21, rewritten in our own words from the hiring-screener notes of a small-business plugin set
+(anthropics/knowledge-work-plugins, Apache-2.0, read 2026-10-20); its weights, scale and scoring formula were not
+carried and its US-specific lawfulness remarks are not repeated here.

@@ -1,6 +1,6 @@
 ---
 name: inventory-stock-app-pitfalls
-description: "Use when an inventory or stock application is designed or built: item, variant, location and lot or serial model, stock as an append-only movement ledger rather than an editable quantity, on-hand versus reserved versus available, concurrent decrements and oversell, unit of measure and conversion, receipts, transfers, adjustments and counts, valuation method as a stated policy, negative stock, archive versus delete, multi-warehouse and multi-tenant boundaries, imports and scanner or marketplace sync, roles, what to split first and what gets regretted at v2. Method only; accounting valuation rules are not stated and this is not accounting advice."
+description: "Use when an inventory or stock application is designed or built, or when sell rate, days of cover and reorder quantity are estimated (a stockout is not zero demand): item, variant, location and lot or serial model, stock as an append-only movement ledger rather than an editable quantity, on-hand versus reserved versus available, concurrent decrements and oversell, unit of measure and conversion, receipts, transfers, adjustments and counts, valuation method as a stated policy, negative stock, archive versus delete, multi-warehouse and multi-tenant boundaries, imports and scanner or marketplace sync, roles, what to split first and what gets regretted at v2. Method only; accounting valuation rules are not stated and this is not accounting advice."
 ---
 
 # inventory-stock-app-pitfalls
@@ -28,6 +28,7 @@ and checkout are in `business/ecommerce-store-quality-pitfalls`; idempotent writ
 |---|---|---|---|
 | 1 | Item and location model, movement ledger, reservation, concurrency, units, lots, valuation, counts, archive versus delete, tenants | a schema or the stock write path is designed | [`01-movements-and-quantities.md`](./references/01-movements-and-quantities.md) |
 | 2 | Roles, imports and exports, scanner and marketplace sync, what to split first, v2 regrets, framework pointers | permissions, an integration or the first release are planned | [`02-roles-integrations-and-v2.md`](./references/02-roles-integrations-and-v2.md) |
+| 3 | Replenishment demand method: a stockout is not zero demand, short and long windows, bulk orders, stock as-of dates, inbound stock, stale reorder points, variant level, units with money | a tool or an agent estimates sell rate, cover or reorder quantity | [`03-replenishment-demand-method.md`](./references/03-replenishment-demand-method.md) |
 
 ## Output / checkpoint
 Before building: the item, variant and location list, the movement types with the sign and the document each
@@ -50,9 +51,14 @@ difference as a movement. Nothing here was run by us.
   check and a source-of-truth decision (§2, point 3).
 - Never delete an item, a location or a movement that has history; archive (§1, point 10).
 - Never mix units in one quantity column; store a base unit and convert at the edge (§1, point 6).
+- Compute a sell rate over the days the item was in stock. Never treat a stockout day as a day with no demand
+  (§3, point 1).
+- Subtract stock already on order and date the stock count. Never size a buy from an undated count or ignore the
+  inbound quantity (§3).
 
 ## Origin
 Written from craft knowledge of building inventory and stock applications, then checked on 2026-10-20 against the
 Apache OFBiz data model (Apache-2.0) and the Medusa inventory documentation (MIT), credited in the origin file;
-no text was taken. See
+no text was taken. §3 (replenishment demand method) was added 2026-10-21, rewritten from the inventory-planner
+notes of a small-business plugin set (Apache-2.0). See
 [`references/origin.md`](./references/origin.md). 🟡: never run by us.

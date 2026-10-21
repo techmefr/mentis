@@ -33,6 +33,20 @@
 6. **Voice** is judged against the workspace's own style guide, not generic taste. The source's house voice
    rules (a punctuation ban, banned phrases) are that repository's own and are not carried.
 
+## 1.2b Gaps in the data the draft rests on
+> Added 2026-10-21 from the data-gap habits of a small-business plugin set (Apache-2.0, anthropics/knowledge-work-plugins,
+> read 2026-10-20), rewritten in our own words.
+1. **When a fact the draft needs is missing or uncertain, the note goes at the sentence it affects, not in a
+   footer.** A caveat at the bottom of an email is read after the claim has been believed. Symptom: "your
+   payment arrived on the 3rd" with a note at the end that the date was not confirmed.
+2. **Two records that both match, list both and ask.** Do not pick the latest one on the guess that it is the
+   right one; a payment, an order or a contact chosen wrongly becomes the customer's record.
+3. **Say the gap in plain words in the draft itself**: what is not known, and what the sender will do to find
+   out, in a form the customer can read. Reporting a gap to the sender and writing it into the customer's copy
+   are two different jobs; say which one the review does.
+4. **A figure in a draft that comes from an incomplete pull is partial**: see
+   `skills/agent-data-gap-honesty-pitfalls` §1.
+
 ## 1.3 Say what you think, scaled to the draft
 1. **Be specific and direct.** The useful sentences are of the kind "the ask is buried in the fourth
    paragraph", "this changes what was agreed on the call", "this is polite and will not get a reply".

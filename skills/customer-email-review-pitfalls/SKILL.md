@@ -42,6 +42,8 @@ checkpoint; the sender owns the email.
 - Never manufacture criticism: a good draft gets "send it" (part 1).
 - Never launder an unverifiable claim into cleaner prose; pull it out and flag it (part 1).
 - Never recommend an action whose precondition was not checked (part 1).
+- Put a note about missing data at the sentence it affects and list both candidates when two records match.
+  Never bury a gap in a footer or pick the latest of two matches (part 1, §1.2b).
 - Never send a forwardable note with a claim about the product that was not flagged for checking (part 2).
 - This block is one small MIT repository's practice, never run by us on real correspondence; a second human read
   is warranted. Sources and open points are in [`references/origin.md`](./references/origin.md).

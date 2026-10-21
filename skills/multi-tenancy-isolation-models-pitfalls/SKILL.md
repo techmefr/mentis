@@ -13,7 +13,9 @@ and `skills/laravel-tenant-replica`; the decision about who may do what inside a
 `skills/authorization-models-and-entitlements-pitfalls` and `skills/field-and-row-permission-ui-api-pitfalls`;
 row-level security mechanics and grants are `skills/sql-conventions` §6 and
 `skills/postgres-operations-and-exposed-api-pitfalls`; personal data duties in general are
-`business/data-protection`; load testing a shared system is `skills/load-and-capacity-testing-pitfalls`.
+`business/data-protection`; load testing a shared system is `skills/load-and-capacity-testing-pitfalls`. The
+mirror question on the agent side, which tenant a connected drive, mailbox or CRM is signed into before it is
+read, is `skills/agent-data-gap-honesty-pitfalls` §3 (not an app design question, so it was not added here).
 
 ## When
 - A product moves from one customer to many, or a sales promise ("dedicated data", "EU only") must be honoured.
