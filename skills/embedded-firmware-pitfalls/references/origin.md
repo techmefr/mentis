@@ -27,3 +27,5 @@
 
 ## Related blocks
 `c-conventions`, `cpp-conventions`, `cpp-build-and-lifetime-pitfalls`, `source-freshness`.
+
+Independent verification 2026-10-21: 29 checked, 27 matched, 2 corrected, 0 unverified

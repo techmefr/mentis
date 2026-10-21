@@ -24,3 +24,5 @@
 
 ## Related blocks
 `node-container-runtime`, `package-manager-supply-chain-pitfalls`, `monorepo-task-graph-and-cache-pitfalls`, `load-and-capacity-testing-pitfalls`, `source-freshness`.
+
+Independent verification 2026-10-21: 33 checked, 33 matched, 0 corrected, 0 unverified
