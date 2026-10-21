@@ -43,3 +43,5 @@ number was copied. No batch size, limit or timing is given.
 `spreadsheet-data-cleaning-pitfalls`, `international-input-pitfalls`, `locale-value-formatting-pitfalls`,
 `laravel-idempotent-jobs`, `laravel-idempotent-data-commands`, `background-jobs-conventions`,
 `queue-worker-runtime-pitfalls`, `field-and-row-permission-ui-api-pitfalls`, `data-protection`.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 1 unverified

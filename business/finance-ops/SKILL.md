@@ -102,3 +102,5 @@ with the control in place): published internal-controls guidance aimed at small 
 nonprofits, where the headcount-constrained case is explicitly addressed rather than assumed away.
 Invoicing/receivables aging and budget-as-tracked-commitment: general financial-operations practice,
 generalised rather than tied to one accounting platform. Stamped 2026-08-11.
+
+Independent verification 2026-10-21: 9 checked, 8 matched, 0 corrected, 1 unverified

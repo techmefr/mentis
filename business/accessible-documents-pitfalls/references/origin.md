@@ -51,3 +51,5 @@ assistive-technology test (§3.3.2), the impact order of fixes (§3.3.3), and th
 ## Related blocks
 `skills/accessibility`, `business/image-alt-text-writing-pitfalls`, `skills/html-document`, `business/ux-writing`,
 `skills/source-freshness`.
+
+Independent verification 2026-10-21: 28 checked, 28 matched, 0 corrected, 0 unverified

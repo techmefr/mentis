@@ -42,7 +42,7 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    prospect**, each new contact resetting the clock; **client data** — for the duration of the
    commercial relationship, then **up to 3 years from its end** (e.g. from the last order), before
    archiving or deletion; **cookies and trackers** — lifetime capped at **13 months**, with data
-   collected through them kept no more than **25 months** (point 3 below). *Re-read 2026-10-20: CNIL's retention guide (PDF) confirms the prospect rule (active base until consent is withdrawn or 3 years from the last contact coming from the prospect, the start point sliding at each new contact) and gives billing data as kept 10 years under the commercial code even once the person is no longer a client; the retention web page confirms the "presumption of conformity" wording, up to 2 years for unsuccessful job candidates in the active base and 5 years for payslip copies. The "3 years after the end of the relationship" client figure, the 13- and 25-month cookie figures (not on the cookies FAQ or recommendation pages read) and the log range were not found in what was read: they stay unverified, and a client's billing records follow the 10-year rule above.* **connection/access
+   collected through them kept no more than **25 months** (point 3 below; **unverified**: not found on any CNIL page read on 2026-10-21, re-read the CNIL cookie guidelines before relying on either figure). *Re-read 2026-10-20: CNIL's retention guide (PDF) confirms the prospect rule (active base until consent is withdrawn or 3 years from the last contact coming from the prospect, the start point sliding at each new contact) and gives billing data as kept 10 years under the commercial code even once the person is no longer a client; the retention web page confirms the "presumption of conformity" wording, up to 2 years for unsuccessful job candidates in the active base and 5 years for payslip copies. The "3 years after the end of the relationship" client figure, the 13- and 25-month cookie figures (not on the cookies FAQ or recommendation pages read) and the log range were not found in what was read: they stay unverified, and a client's billing records follow the 10-year rule above.* **connection/access
    logs** — CNIL's own recommendation (délibération n°2021-122 du 14 octobre 2021 on journalisation)
    gives a **range, not a single figure — roughly 6 months to 1 year, extensible up to around 3 years
    or more for a duly justified higher-risk case**, deliberately not a single number to hard-code:
@@ -57,9 +57,10 @@ departure is documented — which is a DPO/legal decision, not one this checklis
 3. **Cookie/tracker consent follows CNIL's recommandation cookies**, which establishes, among other
    things
    ([CNIL — FAQ cookies](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/FAQ)):
-   **"refuser aussi facilement qu'accepter"** — refusing has to take the same number of actions as
-   accepting, and the practical bar reported is a **symmetrical one-click accept / one-click
-   refuse**, not an "Accept all" button front and center with "refuse" buried two clicks deep in a
+   **refusing must be as easy as accepting** (CNIL's FAQ, read 2026-10-21: refusal may be deduced from silence or be an
+   action as simple as accepting; CNIL considers a "refuse all" button at the same level and look as "accept all" at the
+   first layer a clear and simple means; the FAQ does not make that button mandatory). The "symmetrical one-click" bar below is
+   our reading, not CNIL wording, and means not an "Accept all" button front and center with "refuse" buried two clicks deep in a
    settings panel; **no pre-ticked consent, no soft opt-out** — "continuing to browse implies consent"
    is not valid consent under the current recommendation, consent has to be a genuine, informed,
    specific, freely-given action; **non-essential trackers wait for consent** — strictly necessary
@@ -91,8 +92,8 @@ departure is documented — which is a DPO/legal decision, not one this checklis
    is **mandatory** for: public authorities/bodies (with narrow exceptions); organisations whose core
    activity requires **large-scale, regular and systematic monitoring** of individuals; and
    organisations whose core activity is **large-scale processing of special-category data** (health,
-   biometrics, etc.) or criminal-conviction data. Outside those cases, designation is not required; the CNIL page
-   (read 2026-10-20) says the EDPB encourages it, and many organisations do voluntarily. **Engineering
+   biometrics, etc.) or criminal-conviction data. Outside those cases, designation is not required and many organisations do it voluntarily (the claim that
+   CNIL's page says the EDPB encourages it was not found on the CNIL pages read 2026-10-21: unverified). **Engineering
    consequence:** "large-scale" and "core activity" are judged on what the *product* actually does,
    not on company size — a small team building a health-tracking app or a behavioural-analytics
    platform can cross the mandatory threshold well before it has the headcount to intuitively expect

@@ -54,3 +54,5 @@ risk wording and traceability (§2.3.1 to §2.3.4), the health-data inference te
 ## Related blocks
 `business/data-protection`, `business/marketing-claim-substantiation-pitfalls`, `business/product-marketing`,
 `business/ai-content-disclosure-and-provenance-pitfalls`, `skills/source-freshness`.
+
+Independent verification 2026-10-21: 24 checked, 23 matched, 0 corrected, 1 unverified

@@ -85,7 +85,7 @@ Take these to compliance/legal rather than guessing — same posture as `busines
 
 6. **Idempotency keys have limits worth knowing** (processor documentation read 2026-10-20). The processor
    saves the first response for a key, including an error, and returns it on retry; a retry with different
-   parameters is rejected; keys can be pruned after about 24 hours, after which a reused key starts a new
+   parameters is rejected; keys can be pruned after at least 24 hours (stated for API v1), after which a reused key starts a new
    request; and a request that failed validation or collided with a concurrent one saves nothing, so it may
    be retried. Symptom: a "retry" that charges twice after a day, or that keeps returning a stale error.
    Fix: generate one key per intended operation, keep it for as long as retries can happen, and never derive
@@ -95,7 +95,7 @@ Take these to compliance/legal rather than guessing — same posture as `busines
    production, behind a body-parsing middleware. Fix: verify before any parsing, with the library the
    processor provides, and reject on failure.
 8. **Webhooks arrive more than once, late and out of order.** The documentation says the same event can be
-   delivered several times (store handled event ids), delivery is retried for up to three days, and order
+   delivered several times (store handled event ids) and order
    is not guaranteed (do not infer sequence from the timestamp, which has one-second resolution). Fix:
    dedupe by event id, make every transition valid from the current state, and re-read the object from the
    API when order matters.
@@ -118,8 +118,8 @@ Take these to compliance/legal rather than guessing — same posture as `busines
     two-phase pending, post or void flow. Own guidance: these are design checks for ours, not requirements.
 12. **Sanctions screening: some facts to hand to compliance.** OFAC's FAQ page (read 2026-10-20) states that
     an entity owned 50 percent or more, directly or indirectly or in aggregate, by blocked persons is itself
-    blocked even if not listed, that OFAC issues no "safe list" or non-inclusion certificate, and points to
-    its own sanctions list search and compliance framework. So a name-only match against a list is not the
+    blocked even if not listed (verified 2026-10-21 on FAQ 398-399; the claims that OFAC issues no "safe list" or
+    non-inclusion certificate and the retry window of webhooks (point 8) were not found on the pages read: unverified, re-read before relying). So a name-only match against a list is not the
     whole check. Who is screened and how strictly stays compliance's decision.
 
 ## Output / checkpoint
@@ -171,3 +171,5 @@ integration practice, generalised beyond one named processor. The money-as-value
 new here — it cross-references `skills/design-patterns` §4.5, added 2026-08-11 from the real
 the org catalogue's design-patterns plugin — this block is where its highest-stakes case gets spelled
 out. Stamped 2026-08-11.
+
+Independent verification 2026-10-21: 22 checked, 19 matched, 1 corrected, 2 unverified

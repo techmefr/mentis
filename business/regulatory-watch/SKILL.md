@@ -85,10 +85,11 @@ of §4.2 routed to a named owner.
 Commission AI Act policy page, its Cyber Resilience Act page, the French business-service news page and the tax
 office's e-invoicing fiche (PDF text extracted locally), plus search summaries. Confirmed: both dated examples
 above (the Annex III date of 2 December 2027 and the 1 September 2026 and 2027 e-invoicing phasing).
-Corrected: nothing in the examples. Still unverified: the omnibus regulation's number and publication date
-(only secondary commentary), that "the e-invoicing scope was reworked more than once" (the pages read mention
-one postponement fixed by the 2024 finance law), and the Official Journal wording, since EUR-Lex returned
-empty pages. No licence statement was read on these official pages; no text is reproduced.
+Corrected: nothing in the examples. Independent verification 2026-10-21 read the Official Journal text through the Publications Office endpoint:
+Regulation (EU) 2026/1744 of 8 July 2026 (Digital Omnibus on AI), published 24.7.2026, in force on the third day after
+publication, sets Annex III high-risk application at 2 December 2027 and Annex I at 2 August 2028. Still unverified:
+that "the e-invoicing scope was reworked more than once" (the pages read mention
+one postponement fixed by the 2024 finance law). No licence statement was read on these official pages; no text is reproduced.
 
 The mechanism is Anthropic's `claude-for-legal` suite rewritten: its regulatory-change monitors, its
 freshness gate on bundled reference content, and its rule that citations from model knowledge alone are
@@ -107,3 +108,5 @@ facts, verified 2026-08-06, and are examples of volatility rather than statement
 modes from the `prawo-pl-eli` and `emendrix` repositories (both MIT) and from one date read in
 Regulation (EU) 2024/2847 as published in the Official Journal; it flags which sentences are ours and
 that the texts read are original publications, not consolidated versions.
+
+Independent verification 2026-10-21: 12 checked, 11 matched, 0 corrected, 1 unverified

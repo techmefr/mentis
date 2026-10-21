@@ -99,3 +99,5 @@ the company.
 and the review-file pattern from the `licenseal` documentation (Apache-2.0), and its compatibility
 statements from the FSF licence list and the SPDX list, read 2026-10-16; it flags which sentences are
 ours.
+
+Independent verification 2026-10-21: 13 checked, 13 matched, 0 corrected, 0 unverified

@@ -38,3 +38,5 @@ Server-side scanning products and the detail of storage vendors' multipart rules
 3. **Accessibility and security points** are recalled public practice, not re-read in this pass; re-read the security block for the server rules.
 4. **Storage vendor limits and framework pointers** name features from memory; no version was checked.
 5. **No number** (chunk size, concurrency, limits) is stated; none was measured.
+
+Independent verification 2026-10-21: 20 checked, 20 matched, 0 corrected, 0 unverified

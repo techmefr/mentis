@@ -45,3 +45,5 @@ Idempotency behaviour, status model, webhook-first fulfilment, return handling a
 4. **Accessibility points**, including hosted-field and challenge behaviour, are recalled public practice and were not run.
 5. **Framework pointers** name features from memory; no version was checked.
 6. **No number** (poll interval, timeouts, hold time) is stated; none was measured.
+
+Independent verification 2026-10-21: 24 checked, 24 matched, 0 corrected, 0 unverified

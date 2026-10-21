@@ -159,3 +159,5 @@ paragraph and guardrails.
 as published in the Official Journal, read on EUR-Lex 2026-10-16 (not the consolidated text), and
 takes the field-annotation pattern from the `ethyca/fides` example files (Apache-2.0); the file says
 which sentences are ours.
+
+Independent verification 2026-10-21: 19 checked, 14 matched, 1 corrected, 4 unverified

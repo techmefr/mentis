@@ -60,7 +60,7 @@
     must issue from that date, and small and micro companies from 1 September 2027. The Commission's Cyber
     Resilience Act page gives entry into force 10 December 2024, reporting obligations from 11 September 2026 and
     main application 11 December 2027. These confirm the two examples in `SKILL.md`. The CRA Chapter IV date of
-    11 June 2026 (point 3) was not on that page and was not re-confirmed.
+    11 June 2026 (point 3) was not on that page; it was re-confirmed 2026-10-21 in Article 71(2) of the Official Journal text.
 13. **A page on the right site can carry old dates.** Symptom, seen 2026-10-20: a search result from the tax
     office's own site that gave obsolete e-invoicing emission dates while the fiche updated in June 2026 gave the
     current ones. Check: the "updated" date on the page, and a second official page. Fix: quote the page with its
@@ -69,4 +69,6 @@
     the corporate sustainability reporting directive and an omnibus regulation all came back empty, matching
     point 10. Nothing from those pages was used; the dates above come from the Commission and national pages named.
     The omnibus regulation's number and Official Journal date were therefore taken only from secondary commentary
-    (a regulation number 2026/1744 and a publication on 24 July 2026 appeared there) and stay `[verify]`.
+    on that day. Read again 2026-10-21 through the Publications Office endpoint (CELEX identifier in the path, request
+    header Accept: application/xhtml+xml and Accept-Language: eng, redirects followed): it answers with the full text. The act is Regulation (EU) 2026/1744 of
+    8 July 2026, OJ L of 24.7.2026, in force on the third day after publication; the secondary commentary was right.
