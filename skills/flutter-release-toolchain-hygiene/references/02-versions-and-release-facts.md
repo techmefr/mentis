@@ -15,13 +15,13 @@ Android pages were read through a fetch tool that summarises pages.
    that, the pubspec line stops being the only source and the rule above no longer holds.
 
 ## 2.2 Build numbers are never reused
-1. **Play rejects an upload whose version code was already used** and requires each release to use a greater
-   one; its largest allowed value is 2100000000 (Android versioning page).
+1. **Play rejects an upload whose version code was already used**, and each successive release should use a
+   greater one (the Android versioning page says "should", with an exception for multiple APKs using preset
+   ranges); its largest allowed value is 2100000000 (same page, re-read 2026-10-20).
 2. **Each iOS upload needs a unique build number** (Flutter iOS page), and App Store Connect identifies a
    build by that string within the app and version (Apple upload page).
-3. **So bump, never reuse.** The Apple page was not found to say what happens to the number of a failed
-   upload; assume a number that reached either store's servers is spent, and bump rather than retry (our
-   guidance).
+3. **So bump, never reuse.** The Flutter iOS page (re-read 2026-10-20) says a build number may be reused only
+   until an archive is uploaded; treat a number that reached either store as spent, and bump rather than retry.
 4. **Split-per-architecture builds change the code:** the Flutter Android page says the framework adds a
    per-architecture offset (the architecture value times 1000) to the version code, because Play does not
    allow several APKs of one app to share a code; leave room for it.

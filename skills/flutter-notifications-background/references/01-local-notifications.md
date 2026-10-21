@@ -35,7 +35,9 @@ the id but not the fire time; that assumption was not checked against the plugin
    instant in the local zone when scheduling.** A stored UTC instant sits an hour off the wall clock after
    each daylight-saving change. A true one-off moment may stay a UTC instant. (Design rule.)
 2. **The plugin needs the time-zone database initialised before any zoned scheduling,** and the README says
-   a local location may optionally be set as the default with `setLocalLocation`. Set it once at startup from
+   a local location may optionally be set as the default with `setLocalLocation`. The README also says the
+   time-zone package cannot detect the device's zone, so a separate package or a channel has to supply the
+   zone name (re-read 2026-10-20). Set it once at startup from
    the device's zone name, before the first scheduling call (README for the call; the "at startup" placement
    is ours and belongs in the launch path of `flutter-startup-error-hooks`).
 3. **The plugin's date-component matching parameter schedules a daily or weekly repeat** from a single call
@@ -48,8 +50,9 @@ the id but not the fire time; that assumption was not checked against the plugin
    because they can significantly affect battery life.
 2. **The two exact-alarm permissions differ.** The one the user grants is revocable by the user or the
    system, is not pre-granted to fresh installs that target Android 13, and has a runtime check
-   (`canScheduleExactAlarms`). The one granted automatically cannot be revoked and is limited by Google Play
-   policy to a narrow set of apps (the Android page). Declare the automatic one only for an alarm, timer or
+   (`canScheduleExactAlarms`). The one granted automatically cannot be revoked and has a narrower set of intended uses; the Android page
+   (re-read 2026-10-20) says it is subject to a Play policy and does not state the exact scope, so what Play
+   allows has to be read on Play's own pages (the earlier text said it was limited to a narrow set of apps). Declare the automatic one only for an alarm, timer or
    calendar app; everything else declares the user-granted one or none.
 3. **Exact scheduling is an opt-in with a silent fall back to inexact** when the check fails, and the
    permission state change broadcast is the cue to run the reconcile again (the Android page describes the
@@ -66,7 +69,8 @@ not a documented number.
 
 ## 1.6 Reboot
 Alarms are cancelled at shutdown (Android page). The page's recipe is a boot-completed receiver that
-re-creates them; the plugin states it detects the reboot so that it can reschedule (README). That covers what
+re-creates them, which only works once the user has launched the app at least once (same page, re-read
+2026-10-20); the plugin states it detects the reboot so that it can reschedule (README). That covers what
 the plugin scheduled; it does not make the foreground reconcile of §1 optional.
 
 ## 1.7 Permission to show notifications

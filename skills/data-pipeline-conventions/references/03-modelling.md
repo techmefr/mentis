@@ -15,12 +15,18 @@
    history matters for the analysis, rather than a plain `UPDATE` that loses the previous state. The
    test is whether any question is asked about the past: an order's total has to be computed with the
    price that applied then, and an `UPDATE`-in-place makes last year's revenue change every time a
-   price does.
+   price does. dbt snapshots implement this as type-2 history with
+   `dbt_valid_from` and `dbt_valid_to` (null while current by default); the `timestamp` strategy is the recommended
+   one, the `check` strategy compares a stated column list for sources with no reliable update column (dbt
+   snapshots page, read 2026-10-20).
 4. **A transformation belongs in one tier, and the tiers are what keep a source change cheap.**
    Cleaning and renaming per source table, joins and business logic above it, the final tables an
    analyst queries at the top: a rule duplicated across two of those, or a top-level table reading a
    raw source directly, is a boundary being skipped rather than modelling being too heavy
-   (`business/data-analytics` §3.3).
+   (`business/data-analytics` §3.3). The dbt guide on structuring a project (read 2026-10-20) has the same three tiers:
+    staging as the only place that reads a source, one model per source table, limited to renaming, casting, basic
+    computation and bucketing, with no joins and no aggregation, then intermediate logic, then marts named after
+    business entities.
 5. **Never let a business rule live in two models.** The same filter or derivation written twice
    diverges at the first change, and the divergence surfaces as two dashboards disagreeing — at which
    point both are defensible from their own code, which is the argument
@@ -34,7 +40,9 @@
    history, and the join that used to be right is now pointing at somebody else.
 8. **Deletion in the source is an event, not an absence.** A row that disappears upstream has to be
    recorded as deleted rather than vanishing from the model, or a historical count changes retroactively
-   with no trace — and the reason nobody can find is that the evidence was the row.
+   with no trace — and the reason nobody can find is that the evidence was the row. dbt's snapshot `hard_deletes` setting (1.9 and later) offers `ignore` (the default),
+    `invalidate`, and `new_record`, which adds a row flagged `dbt_is_deleted`; the page suggests the last when
+    continuous history with explicit delete tracking is wanted (snapshots page, read 2026-10-20).
 9. **Say what a column means in the same place it is defined.** A code column with no stated
    vocabulary, an amount with no currency, a timestamp with no timezone: each gets interpreted by the
    first analyst to use it, and their interpretation propagates into every report built afterwards.
@@ -83,4 +91,6 @@
     for point 3's historisation inside the dimension itself.** Periodically copying a whole table's current
     state captures history at the resolution of the snapshot interval, which misses every change between
     two snapshots — it is a coarser, cheaper mechanism for a different question, not a replacement for
-    tracking the change itself when the analysis needs the exact moment it happened.
+    tracking the change itself when the analysis needs the exact moment it happened. The dbt snapshots page describes snapshots as batch change
+    capture meant to run between hourly and daily, to be kept in their own schema since they cannot be rebuilt, and
+    to ignore `--full-refresh` so history survives (read 2026-10-20).

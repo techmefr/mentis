@@ -11,7 +11,9 @@
 2. Table partitioning/clustering aligned with the real query patterns (the most frequent filter), not
    chosen arbitrarily. Aligned with the wrong column it costs the same and buys nothing, since every
    query still reads everything — and the layout is expensive to change afterwards because it means
-   rewriting the table.
+   rewriting the table. Snowflake's clustering page (read 2026-10-20) says clustering suits very large tables of
+   multiple terabytes, queried often and changed rarely, where many queries filter on the same columns; BigQuery
+   says the cost of a query on a clustered table is only known after it runs.
 3. **Incremental is only correct if you can say what "new" means.** A high-water mark on a column the
    source updates in place, a timestamp that is set at insert but not at correction, a clock that
    differs between systems: each produces a pipeline that runs cheaply and quietly stops picking things
@@ -48,15 +50,24 @@
     on a coarse, frequently-filtered column (a date) lets the engine skip whole physical segments before
     it even starts scanning; clustering orders the data within what is left so a second, finer filter (an
     id, a status) still prunes rather than reading every row in the partition — choosing one without the
-    other leaves the query pruning on only one axis of its actual filter.
+    other leaves the query pruning on only one axis of its actual filter. BigQuery's clustering and partitioning pages (read 2026-10-20)
+    confirm the combination (clustering happens within each partition), advise partitions averaging about 10 GB
+    or more and clustering instead when partitions would be smaller, allow up to four clustering columns and say
+    their order matters; Snowflake advises three or four columns at most, ordered from lowest to highest cardinality.
 12. **A clustering or partition key chosen for today's query is stale the day the dominant query
     changes.** The layout is expensive to rewrite, so the choice is revisited against the query patterns
     that actually run — measured, per point 4 — rather than assumed still correct because nobody
-    complained.
+    complained. Changing the layout is not free: BigQuery does not recluster existing data when an unclustered table
+    is altered, and Snowflake reclustering consumes credits and creates new micro-partitions while the old ones stay
+    for Time Travel and Fail-safe (read 2026-10-20).
 13. **A function wrapped around the partition or clustering column defeats pruning even when the filter
-    value would have matched.** `WHERE DATE(created_at) = ...` on a column partitioned by `created_at`
+    value would have matched.** `WHERE EXTRACT(MONTH FROM created_at) = 3` on a column partitioned by `created_at`
     forces a full scan the same way an unindexed predicate would in a transactional database — the
-    filter has to be written on the raw column for the engine to prune on it.
+    filter has to be written on the raw column for the engine to prune on it. This depends on the engine: BigQuery prunes only for a listed set of functions
+    with constant arguments (for example `DATE_TRUNC` and `TIMESTAMP_TRUNC`), not for `FORMAT_DATE`, a month
+    `EXTRACT`, arithmetic on the column or a comparison to a subquery, and a dry run shows whether pruning
+    applies; in Snowflake an expression in a clustering key must preserve the column's ordering (both read
+    2026-10-20).
 14. **Compute is usually the majority of the bill, and it hides in what a warehouse's autoscaling
     quietly grants.** A warehouse or cluster left to scale up during a spike and never scale back down
     accumulates cost nobody attributes to a specific pipeline; the fix is measuring per-job cost, not
@@ -75,7 +86,9 @@
     warehouse resized for a one-off backfill and left at that size runs every routine job afterwards at
     the inflated cost, and because nothing failed, nothing draws attention to it — the fix is a scheduled
     check on the running size against the workload actually queued, not a one-time resize decision assumed
-    to still be correct.
+    to still be correct. Snowflake's compute cost page (read 2026-10-20) confirms that a running warehouse consumes
+    credits whether or not it works, billed per second with a 60-second minimum on each resume; the page does not
+    describe the size left behind after a backfill, so that part is own guidance.
 18. **A cost regression is a diff worth reviewing like a correctness one.** A query rewritten for a new
     feature that adds an unfiltered join or a wider scan passes every test in point 10's "correct first"
     ordering while quietly changing what the run costs — the measurement recorded in point 4 is what turns

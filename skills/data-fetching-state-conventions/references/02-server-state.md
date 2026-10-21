@@ -33,14 +33,19 @@
    `retry` per error class. In tests, turn retries off or an error case times out.
 8. **Disable with a condition, not with a conditional call.** The `enabled` option (or the type-safe skip token)
    gates a dependent query. A disabled query with no data is pending and idle, so a spinner keyed on "pending"
-   shows forever: key it on "pending and fetching". A skipped query cannot be refetched manually; if a manual
-   trigger is needed use the `enabled: false` form.
+   shows forever: key it on "pending and fetching". A skipped query cannot be refetched manually (its refetch throws a missing-function error); if a manual
+   trigger is needed use the `enabled: false` form. A disabled query also ignores invalidation and refetch
+   calls from elsewhere (disabling-queries page, re-read 2026-10-20), so a mutation that invalidates the key
+   does not refresh it while the condition is false.
 9. **Server rendering: a client per request.** Create the cache client for each request (or each server
    component), prefetch in the loader, dehydrate it into the page, and hydrate it on the client. Dehydration
    keeps only successful queries by default; a failed prefetch is retried on the client and the server output
    shows a loading state, which is right for non-critical content; for critical content, await the fetch
-   without swallowing errors and answer with the right status. The serialiser of most frameworks cannot carry
-   `undefined`, `Error`, `Date`, `Map`, `Set` or `BigInt` out of a query: return plain data.
+   without swallowing errors and answer with the right status. Return plain data from a query that is dehydrated: the advanced-rendering page (re-read 2026-10-20) says
+   non-JSON values need explicit serialise and deserialise transformers, and a default stale time above zero
+   avoids an immediate client refetch of what the server just fetched. The exact list of types a given framework
+   serialiser cannot carry (undefined, errors, dates, maps, sets, big integers) was not on that page and is
+   unconfirmed.
 10. **Data rendered on the server and fetched again by a client component can drift.** The cache cannot
     revalidate a server component. Pick one owner per piece of data, or accept `staleTime: Infinity` for it.
 

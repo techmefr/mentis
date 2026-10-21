@@ -323,3 +323,33 @@ ran (prerender of `/`, SSR of the three routes checked by `curl`: fetched data i
 the server HTML). `vue-tsc --noEmit` did not run (see §3.23). Three gaps fixed: §1.24 (destructured `defineProps`
 is legal on 3.5, with the `watch()` build error, verified with `@vue/compiler-sfc`), §5.22 (`"type": "module"`),
 §3.23 (`vue-tsc` against TypeScript 7). Not exercised: browser hydration, tests, eslint.
+
+**Verification pass, 2026-10-20 (§14, §15, §16).** The 2026-10-02 note above says the facts of these three sections
+were written from knowledge and not re-fetched. They were re-opened on the day through a fetch tool that
+summarises pages (wording not compared sentence by sentence; facts only, nothing copied, licence files not
+read for these sites except as already recorded above). Pages and what each confirmed:
+
+| Page | Confirmed |
+|---|---|
+| Vue security guide | interpolation and attribute values escaped; HTML, URL, style and event-attribute binding as the dangers; never use untrusted content as a template; sanitise URLs preferably on the backend; user HTML not fully safe outside a sandboxed frame (§16.1-16.4, 16.6) |
+| Vue Test Utils asynchronous-behaviour and transitions pages | triggers and setters return the next-tick promise, promise-flushing helper, transitions mocked by default (§14.3, 14.11) |
+| Pinia testing page | actions stubbed by default, `stubActions: false`, spy factory when no global spies, fresh pinia per test (§14.6) |
+| Nuxt testing page | `mountSuspended`, `mockNuxtImport` once per import per file and hoisted, `mockComponent`, `registerEndpoint`, end-to-end `setup`, `$fetch`, `createPage`; environment chosen by project include globs; runtime and end-to-end helpers not in one file; shared global state (§14.16-14.22) |
+| Nuxt route-middleware page | `to` and `from`, return a navigation or an abort, runs on server then client, route composable inaccurate there (§15.12) |
+| Vue Router navigation-guards page | optional `next` argument, return values (§15.11) |
+| Vue TypeScript composition page | injection-key typing, `inject` returns the value or undefined, string keys unknown (§15.1-15.2) |
+| Query library key page | keys are arrays, include the variables the function uses, order matters (§15.6-15.7) |
+| Nuxt data-fetching page | payload serialiser versus JSON for server routes, `toJSON`, `pick` and `transform` shrink payload not requests, request-bound fetch forwards cookies (§15.19, §16.9, §16.13) |
+| Nuxt runtime-config page | public section exposed, private server-only, do not pass private keys to shared state (§16.8-16.9) |
+| h3 request utilities | the three validated readers' names (§16.11) |
+| Nuxt rendering page, page-meta page, server-only SEO meta page | route rules per route, not available under static generation; custom meta typing; server-only meta composable deprecated (§15.14, 15.15, 15.18) |
+
+Corrected: §14.16 (the Nuxt environment is selected by project include globs, not per file), §15.14 (route rules
+are unavailable with static generation, and the build-and-start timing claim is unconfirmed), §15.15 (the
+static-only claim is not on the page, which lists reactive types for one option; flagged), §15.18 (the server-only
+meta composable is deprecated, the ordinary one inside a server branch is the documented form), §16.11 (no 400
+default is stated for the validated readers). Still unsourced after this pass: §14.1-14.2, 14.4-14.5, 14.7-14.10,
+14.12-14.15, 14.23 (reasoning), §15.3-15.5, 15.8-15.10, 15.13, 15.16-15.17, 15.20, §16.5, 16.7 (content security
+policy; the Vue guide does not mention it), 16.10, 16.12, 16.14-16.15, and every section other than §14-§16 outside
+the pages already credited above. The helper names in §14 exist on the current Nuxt 4 testing page; the installed
+major still has to be checked in a real project. Status unchanged, 🟡.

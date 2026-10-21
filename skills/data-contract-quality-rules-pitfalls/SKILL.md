@@ -51,5 +51,5 @@ a read of the text. No pipeline checkpoint.
 
 ## Origin
 Rewritten from four documentation pages and the v3.2.0 JSON schema of the Open Data Contract Standard
-repository (Apache-2.0), read 2026-10-16. 🟡: never run by us against a validator or a quality engine; open
+repository (Apache-2.0), read 2026-10-16 and re-read 2026-10-20. 🟡: never run by us against a validator or a quality engine; open
 points are in [`references/origin.md`](./references/origin.md).

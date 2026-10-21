@@ -7,12 +7,19 @@ received path into screens, guards that remember the destination and the back st
 
 ## 3.1 Android app links
 1. **Host the Digital Asset Links file at `/.well-known/assetlinks.json` on every host named in the intent
-   filter, over HTTPS and without a redirect.** For each unique host the system fetches that file (Android
-   page); the Flutter cookbook says to verify the browser can reach it and that redirects are not allowed.
+   filter, over HTTPS.** For each unique host the system fetches that file (Android page). The Flutter
+   cookbook says to verify the browser can reach it. Corrected 2026-10-20: neither the Android verification
+   page nor the cookbook says redirects are disallowed, so "without a redirect" is unconfirmed here; check
+   Android's website-association guide before relying on it. Verification runs asynchronously (wait at least 20
+   seconds after install), and on Android 15 and later re-verification is periodic, so a changed file can take
+   up to seven days, while older versions pick it up on install or update.
 2. **Mark the intent filter for automatic verification.** With it set on at least one filter, installing the
    app on Android 6.0 or later makes the system verify the hosts (Android page).
-3. **The fingerprint in the file must match the signing certificate of the build under test.** For a store
-   build the Flutter cookbook says to use the app signing key shown in the Play console, not the upload key;
+3. **The fingerprint in the file must match the signing certificate of the build under test.** The Flutter
+   cookbook says the fingerprint comes from the Play console's app-signing page or from a local keystore, and
+   that flavors each add their own; it does not say which of the Play upload key or the app-signing key to use.
+   The Flutter Android deployment page (read 2026-10-20) says users receive the package signed with the app
+   signing key, which is why a store build is checked against that key and not the upload key (our reading);
    debug builds have their own fingerprint. One list entry per fingerprint, so a flavor with its own signing
    adds its own. A link that verifies in debug proves nothing about the store build.
 4. **A failed verification leaves states such as a legacy failure or a denial, and only one app at a time can
@@ -20,8 +27,9 @@ received path into screens, guards that remember the destination and the back st
 
 ## 3.2 iOS universal links
 1. **Host the association file at `/.well-known/apple-app-site-association`, with no file extension, over
-   HTTPS and without a redirect.** Its app identifier is the team identifier and the bundle identifier joined
-   by a dot (Flutter cookbook).
+   HTTPS.** Its app identifier is the team identifier and the bundle identifier joined by a dot (Flutter
+   cookbook, re-read 2026-10-20). The cookbook is silent on redirects, so the earlier "without a redirect" is
+   unconfirmed here. A personal development team does not support the associated-domains capability.
 2. **Add the associated-domains entitlement with an `applinks:` entry for the host** in the Runner's
    entitlements file.
 3. **Apple's content delivery network may take up to 24 hours to fetch the file** after a change, so a

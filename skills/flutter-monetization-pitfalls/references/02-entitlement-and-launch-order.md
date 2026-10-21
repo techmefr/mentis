@@ -6,17 +6,22 @@ e073e5e, read 2026-10-16), rewritten.
 ## 2.1 The purchase
 1. **One non-consumable unlock plus a visible Restore control.** Not a subscription for a one-time capability,
    and not a consumable currency sold for cash where an opt-in rewarded path already exists. The Restore button
-   is required by store review for a non-consumable (the reference's statement).
+   is required by store review for a non-consumable (the reference's statement; Apple's guideline 3.1.1, read
+   2026-10-20, requires a restore mechanism for any restorable in-app purchase, without using the word
+   non-consumable).
 2. **Re-check the entitlement silently on every launch**, so a reinstall or a new device re-grants it without a
-   support ticket.
+   support ticket. The Play Billing page (read 2026-10-20) says to query purchases once the connection is up and
+   again on resume, which covers a purchase made on another device, outside the app, or completed while the app
+   was not running.
 3. **On the app's first release, ship the unlock in the same review submission as the app version.** The skill's
    statement is that the first purchase of each type must ride a version, and shipping the version alone gets the
    submission closed unreviewed; check the current store rules before relying on it.
 4. **Persist the purchase through the single write path before the UI reacts.** One committed transaction, then
    the screen changes because the gate re-emits; never dismiss the paywall optimistically. A crash in between
    must leave a state the next launch's restore repairs, not a "paid but not entitled" ghost.
-5. **Complete a pending purchase exactly once, and always.** The reference says an unacknowledged purchase is
-   refunded by the store after a grace period, which looks to the user like the app took the money and removed
+5. **Complete a pending purchase exactly once, and always.** On Google Play an unacknowledged purchase is
+   refunded automatically after three days (Play Billing integration page, read 2026-10-20; the three days
+   start when a pending purchase becomes purchased, so a pending one is not acknowledged), which looks to the user like the app took the money and removed
    the feature.
 
 ## 2.2 One gate

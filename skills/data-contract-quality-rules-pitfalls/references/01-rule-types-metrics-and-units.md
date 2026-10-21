@@ -23,9 +23,11 @@
    `missingValues` argument (the page's example lists null, the empty string and two spellings of "not
    available"). A column filled with empty strings or placeholder text passes a null check and fails a
    missing-values check; write the sentinel list down, because the contract is the only place it lives.
-3. **`invalidValues` takes a `validValues` list or a `pattern`.** The page's pattern example puts `pattern` at
-   the same indentation as `arguments`, which does not nest it. Nest it under `arguments`, as the arguments
-   table says, and validate the file (own guidance on checking the example before copying it).
+3. **`invalidValues` takes a `validValues` list or a `pattern`.** Both go under `arguments`, as the
+   arguments table says. Correction 2026-10-20: an earlier reading of this block said the page's pattern example
+   put `pattern` beside `arguments`; at the commit recorded in `origin.md` the example nests it under
+   `arguments`, so that warning is withdrawn. Validating a copied example against the schema is still sensible
+   (own guidance).
 4. **`duplicateValues` at schema level takes a `properties` list**, the way a compound key is checked: the
    combination must be unique, not each column. At property level it counts duplicates in one column.
 5. **`rowCount` compares the object's total rows**; a value range (the page's example gives a lower and upper

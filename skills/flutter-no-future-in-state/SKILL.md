@@ -30,5 +30,8 @@ already-resolved data (or an explicit loading/error marker), never the awaitable
   rendered through — this file only covers what state should *hold*.
 
 ## Origin
-No external source: this is `skills/flutter-conventions` §7.6 extracted to its own trigger. Written
-2026-09-09, same restructuring pilot as `laravel-no-db-enums`.
+Extracted from `skills/flutter-conventions` §7.6 (written 2026-09-09). Checked 2026-10-20: the Flutter
+cookbook and the `FutureBuilder` API page source the underlying mechanism (a future created during `build`
+restarts on every rebuild, and the page says to hold it in state created once). They do not discuss a state
+holder (cubit, bloc) whose state class contains a `Future` or `Stream`, nor the comparability and
+double-builder claims in step 1, which stay our reasoning. Site terms not read, facts only. 🟡: never run by us.

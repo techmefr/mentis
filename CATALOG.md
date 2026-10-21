@@ -816,9 +816,9 @@ closing this costs nothing that made this repo cheaper to load.
 | laravel | 65 / 79,825 | 3 / 53,275 | −26,550 | x1.5 |
 | csharp | 37 / 56,718 | 1 / 34,631 | −22,087 | x1.64 |
 | design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 23,422 | +2,650 | x0.89 |
-| nuxt | 21 / 19,869 | 1 / 25,392 | +5,523 | x0.78 |
-| python | 20 / 22,097 | 2 / 24,597 | +2,500 | x0.9 |
+| flutter | 40 / 20,772 | 1 / 24,020 | +3,248 | x0.86 |
+| nuxt | 21 / 19,869 | 1 / 26,010 | +6,141 | x0.76 |
+| python | 20 / 22,097 | 2 / 25,558 | +3,461 | x0.86 |
 | project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
 | bi, design, xefi | 16 / 17,306 | 4 / 32,687 | +15,381 | x0.53 |
 | global | 18 / 20,280 | 6 / 36,617 | +16,337 | x0.55 |
@@ -848,9 +848,9 @@ remembered — the defect that produced two unreproducible rows before this scri
 ```
 laravel: laravel-conventions 38,551, php-patterns 7,175, inertia-conventions 7,549
 csharp: dotnet-conventions 34,631
-python: python-conventions 19,061, data-pipeline-conventions 5,536
-flutter: flutter-conventions 23,422
-nuxt: vue-nuxt-vuetify-conventions 25,392
+python: python-conventions 19,061, data-pipeline-conventions 6,497
+flutter: flutter-conventions 24,020
+nuxt: vue-nuxt-vuetify-conventions 26,010
 global: code-baseline 10,384, security-hardening 11,599, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 10,118, spec 6,884
 design-patterns: design-patterns 10,994

@@ -23,7 +23,8 @@ Rules hold for the current MongoDB manual (read 2026-10-08). The validation leve
 2. **Bound it by subsetting or referencing.** Keep only the recent or top items embedded and put the rest in
    a separate collection that points back by id, as the anti-pattern page does for book reviews.
 3. **State the bound in code,** for example a capped push (`$push` with `$slice`) or a count check, and test
-   an insert past it (own guidance; the pages give the problem and the two designs).
+   an insert past it (own guidance; the pages give the problem and the two designs). Monitor real document
+   sizes with the size operator `$bsonSize` (MongoDB agent skills, schema design skill, re-read 2026-10-20).
 
 ## 1.3 Validate with a rollout path
 1. **Write a `$jsonSchema` validator for every collection that other code writes to.** A flexible schema does
@@ -33,11 +34,18 @@ Rules hold for the current MongoDB manual (read 2026-10-08). The validation leve
    and to updates of documents that already match; updates to documents that already violate the rules are not
    required to pass, while `strict` (the default) applies them to every insert and update.
 3. **Introduce a validator on a populated collection as `warn` with `moderate`,** read the logged violations,
-   fix the data or the rule, then move to `error` (own guidance built on the two settings above).
+   fix the data or the rule, then move to `error`. The MongoDB agent skills' validation reference (re-read
+   2026-10-20) gives this same four-step rollout: apply with those two settings through `collMod`, find the
+   non-conforming documents by querying with `$nor` against the current validator, fix them, then switch to
+   strict and error. It recommends `strict` and `error` as the settled state.
 
 ## 1.4 Version the schema in the document
 1. **Add a `schemaVersion` field and migrate lazily.** The schema versioning pattern keeps documents of
    different shapes in one collection, told apart by that field, which avoids a single large migration; code
-   reads every version it may meet and writes the newest.
-2. **Expect more indexes.** If the same field sits at different depths in different versions, one index no
+   reads every version it may meet and writes the newest. The agent skills' versioning reference (re-read
+   2026-10-20) adds: a validator accepting both versions during the migration, a bump only for a rename, a type
+   change or a restructure (a new optional field or index needs none), and drift checks (count by version, or
+   documents failing the current validator) before old read paths are removed.
+2. **Expect more indexes** (unconfirmed 2026-10-20: the agent skills' reference does not discuss indexes across
+   versions). If the same field sits at different depths in different versions, one index no
    longer serves every document, so queries on it may need an index per location.

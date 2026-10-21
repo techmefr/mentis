@@ -10,7 +10,8 @@
    transformation that produced something the source never contained.
 2. The four quality dimensions verified explicitly where relevant: completeness (nothing missing),
    accuracy (correct value), consistency (same fact, same value across systems), timeliness (data up
-   to date at the moment of use).
+   to date at the moment of use). In dbt, timeliness is checked by `dbt source freshness`, which a build does not
+   include, so it has to be scheduled on purpose (dbt source freshness page, read 2026-10-20).
 3. An external source (third-party API, partner file) is treated as unreliable by default: schema
    checked on every ingestion, not assumed stable over time. The change that hurts is not a removed
    column, which fails loudly: it is a column that starts arriving empty, a code whose meaning was
@@ -26,7 +27,9 @@
 5. **Say how many rows failed, not only that something did.** One row rejected and a third of the file
    rejected are different incidents with different responses, and a boolean result cannot distinguish
    them. The count, with an example, is what makes the alert actionable
-   (`skills/observability-instrumentation` §4.3).
+   (`skills/observability-instrumentation` §4.3). dbt counts a test's failures as the rows its query returns and
+   lets `error_if` and `warn_if` set thresholds on that count, with any non-zero count failing by default (dbt
+   severity page, read 2026-10-20).
 6. **A validation with no owner is a validation that gets disabled.** The first time a check blocks a
    run at an inconvenient hour, somebody will loosen it, and the loosening is permanent unless someone
    owns the rule. Name who decides, and record the reason next to the threshold.
@@ -53,21 +56,29 @@
 12. **A quality check is code and needs a test.** A validation that never fires because its condition
     can never be true is worse than none: it reports green forever and the dashboard says the data is
     verified. Force it to fail once, the same way an alert is forced
-    (`skills/observability-instrumentation` §4.2).
+    (`skills/observability-instrumentation` §4.2). dbt documents the inverse pattern for a test expected to find rows:
+    `error_if: "<1"` with `warn_if: "<0"` (severity page, read 2026-10-20).
 13. **Uniqueness is its own dimension, not a corollary of completeness.** A row can be fully populated,
     accurate and current and still be a duplicate, and a duplicate silently inflates every sum built on
     top of it — a count check that only looks at nulls and ranges never catches it, which is why it needs
-    its own explicit assertion rather than riding along with point 2's four dimensions.
+    its own explicit assertion rather than riding along with point 2's four dimensions. dbt ships `unique` and `not_null` as two separate
+    generic tests, alongside `accepted_values` and `relationships` (data tests page, read 2026-10-20).
 14. **A schema test and a unit test check different failures, and neither substitutes for the other.** A
     post-materialisation check (point 1) catches what the data actually is; a test against the
     transformation's logic on fixed input catches what the SQL or the code *would* produce before it runs
     against anything real — a logic bug that happens to produce plausible output on today's data passes
-    the first and fails the second.
+    the first and fails the second. dbt states the split: a unit test checks the logic against static input rows and
+    runs before the model is materialised, while data tests run only after the build; unit tests exist from dbt 1.8,
+    are advised for development and CI rather than production, and testing the merge result of an incremental model
+    is not supported (unit tests page, read 2026-10-20), which is why point 1.18's double run stays necessary.
 15. **A published contract on a table's schema is a promise checked before the data lands, not after.**
     Declaring the expected columns, types and nullability up front and failing the build when the model
     would violate it catches a breaking rename or a dropped column at merge time, before a consumer's
     dashboard breaks on the next refresh — which is strictly earlier than the input check in point 1 can
-    fire.
+    fire. Correction from the dbt contracts page (read 2026-10-20): the preflight check compares column names and
+    data types, ignoring order, and a failure stops the build; nullability and other constraints are enforced only
+    when the platform enforces them (`not_null` is the one most often enforced, some constraints are metadata only),
+    and a contract covers every column of a table or incremental model but not sources, seeds or snapshots.
 16. **Validity is not accuracy, and conflating them hides the harder problem.** A value can be
     well-formed, in range and pass every schema check while still being wrong — a plausible but incorrect
     account number, a rounded amount that no longer matches its source. Point 2's four dimensions
@@ -76,7 +87,7 @@
 17. **An old data-quality framework choice is a freshness question in itself.** A validation library or a
     contract format adopted once and never revisited accumulates the gap between what it can express and
     what the pipeline actually needs — the check to make periodically is not only whether the rules still
-    hold, but whether the tool enforcing them is still the currently maintained one.
+    hold, but whether the tool enforcing them is still the currently maintained one (own guidance, not confirmed against a source on 2026-10-20).
 18. **A quarantine needs a way back in, or it is just a second silent failure.** Point 4's quarantine
     stops bad rows from reaching the destination, but a quarantine nobody reviews and nothing ever
     reprocesses out of is equivalent to deleting the rows — the quarantine is a queue with an owner, not
@@ -85,7 +96,9 @@
     the value.** Feeding fixed rows straight into the SQL or the transformation function and asserting the
     output catches a logic error at the speed of a function call, whereas point 1's post-materialisation
     check only fires after a full build — the two are complementary, not redundant, precisely because one
-    is cheap to run on every commit and the other needs real infrastructure.
+    is cheap to run on every commit and the other needs real infrastructure. Correction from the dbt unit tests page (read 2026-10-20): the parent
+    relations must still exist in the warehouse (they can be built empty with `--empty`), so the gain is running
+    before the model is materialised, not running without a warehouse, apart from an experimental local mode.
 20. **A data contract is a promise checked at the boundary between producer and consumer, not a shared
     understanding kept in someone's head.** Whichever format states it — a schema file, a YAML contract, a
     registry entry — the discipline is the same as the destination-side migration rule in §1.11: the

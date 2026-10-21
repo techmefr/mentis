@@ -43,8 +43,12 @@ point is our own guidance it says so.
    background thread, and Pigeon exposes this through a task-queue annotation for platform channels only
    (README). A handler that blocks (disk, network, a long computation) goes to a task queue or a thread of
    its own.
-4. **Even though messages are asynchronous, a channel method must be invoked on the platform's main thread**
-   as the page's note states; do not assume "async" means "any thread".
+4. **Which side must be on the main thread.** Corrected 2026-10-20: the earlier text said a channel method
+   must always be invoked on the platform's main thread. The current platform-channels page says that only
+   calls from the platform side into Flutter must be made on the platform's main thread, that Dart can call the
+   platform from the root isolate or a registered background isolate, and that platform handlers can be invoked
+   asynchronously from any thread. Keep platform-to-Dart calls on the main thread; a handler that must not
+   run there goes to a task queue (point 3).
 
 ## 1.4 Replying and failing
 1. **The native side replies exactly once.** Pigeon notes that a host method written as synchronous makes it
@@ -56,7 +60,9 @@ point is our own guidance it says so.
    types. How Dart maps the exception to a user-facing failure is `flutter-conventions` §8.
 
 ## 1.5 What can cross
-Channels and Pigeon use the standard message codec, which carries booleans, numbers, strings, byte buffers,
-lists and maps (platform-channels page); Pigeon adds custom classes, nested types and enums. Anything else
+Channels and Pigeon use the standard message codec, which carries null, booleans, numbers (an integer of 32
+bits or fewer maps to the platform's int, larger ones to a long), strings, typed lists of bytes, 32 and 64 bit
+integers and 32 and 64 bit floats, lists and maps (platform-channels page, re-read 2026-10-20); Pigeon adds
+custom classes and nested types (the page names nested classes; enums were not confirmed). Anything else
 needs a custom codec or conversion on one side. Keep the payload small and structured: a channel is not a
 file transfer.

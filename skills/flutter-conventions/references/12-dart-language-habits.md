@@ -4,14 +4,16 @@
 > awaited, generated code is touched, a null is forced, a JSON payload is decoded, or the analyser is
 > configured. The other sections and the guardrails stay in `SKILL.md`.
 
-1. **One import style per project, enforced by the analyser.** The language's own style guide prefers
-   relative imports between files of the same package's library directory; many teams prefer package imports
+1. **One import style per project, enforced by the analyser.** The language's own style guide (Effective
+   Dart usage, read 2026-10-20) says to prefer relative paths and never to let a path reach into or out of
+   `lib`, and it prefers relative imports between files of the same package's library directory; many teams prefer package imports
    everywhere for greppability. Either is defensible and the two lints that enforce them are mutually
    exclusive, so pick one in the analysis options and let the tool decide every case. Outside the library
    directory (tests, tool scripts) a package import is the only option. A file that mixes the styles is the
    half-migrated state, and a debate in review is a sign the lint is missing.
 2. **A future that is not awaited says so.** A call that starts asynchronous work and drops the result is
-   either a bug or deliberate; the analyser's unawaited-future lint tells them apart. When it is deliberate
+   either a bug or deliberate; the analyser's unawaited-future lint tells them apart (it checks futures
+   inside async function bodies and accepts the explicit marker from `dart:async`). When it is deliberate
    (analytics, a cache warm-up), wrap it in the explicit marker and put the error handling inside the
    operation, because an error raised in a future nobody awaits ends in the zone's uncaught handler and is
    reported as a crash with no caller. Never silence the lint by adding an `async` that awaits nothing.
@@ -23,11 +25,13 @@
    the project has taken that position).
 4. **Every `!` is an assertion with no message.** A null-forcing operator turns a missing value into an
    exception at a distance from its cause. Prefer making the compiler see the check: copy a field to a local
-   before testing it (fields are not promoted, locals are), use a pattern with a null check, or return early.
+   before testing it (public or mutable fields are not promoted, locals are; a private final field is promoted from Dart
+   3.2, per the language's non-promotion page, read 2026-10-20), use a pattern with a null check, or return early.
    A bang is acceptable immediately after a check the compiler cannot follow, and never on data from the
    network, a file or user input, where "cannot be null" is a hope.
 5. **`late` is a promise about initialisation order, so keep the promise obvious.** A `late` field with an
-   initialiser is lazy and fine. A `late` field without one is assigned by a lifecycle method and read after
+   initialiser is lazy and fine (the language's variables page, read 2026-10-20: the initialiser runs at
+   first use, and an uninitialised late variable fails at runtime when used). A `late` field without one is assigned by a lifecycle method and read after
    it; if the assignment is conditional, asynchronous or can be skipped, the field is nullable with a guard
    instead, because a read before assignment throws at runtime in a place the analyser accepted.
 6. **A default value is not a recovery.** Writing `?? ''` or `?? 0` on a value that should exist replaces a
@@ -39,11 +43,16 @@
    scattered through the widgets turn a changed server field into a crash on whichever screen reads it first.
 8. **Model closed sets as sealed types and match exhaustively.** A state, an event or a result with a fixed
    set of variants is a sealed hierarchy (§7), and the switch over it has no default branch, so adding a
-   variant is a compile error at every place that must handle it. A default branch converts that error into
+   variant is a compile error at every place that must handle it (class modifiers page, read 2026-10-20:
+   a sealed type's subtypes live in one library and the compiler checks a switch over them for
+   exhaustiveness with no default; the compile error on a new variant follows from that, the page does not
+   state it). A default branch converts that error into
    silent behaviour.
 9. **Records are for local multiple returns; a public API returns a named type.** A record in a method
    signature that crosses a layer boundary is an unnamed concept whose fields are positional or ad hoc; give
-   it a class, so it can carry documentation by name, validation and equality.
+   it a class, so it can carry documentation by name, validation and equality. The records page (read
+   2026-10-20) agrees on the cost: a record's shape is part of its type, so changing it breaks callers, and
+   a class is the stable choice for an API that may evolve. Records do get structural equality for free.
 10. **Value types define equality and hash together, over immutable fields.** A class compared by value
     overrides both operators from the same fields (or is generated to), and its fields are final; a mutable
     field in the hash makes an object vanish from a set after a change. State holders emit new instances
@@ -57,7 +66,8 @@
     results (plain data, not widgets or closures capturing them). A frame budget is gone when decoding a
     megabyte of JSON runs inside a build or a listener.
 13. **Catch specific types, and never catch what signals a programming error.** A catch clause names the
-    exception it handles. The error class marks bugs (a bad argument, a failed state check) and is not caught
+    exception it handles (Effective Dart: avoid catches without an `on` clause, and do not explicitly
+    catch `Error` or its subtypes). The error class marks bugs (a bad argument, a failed state check) and is not caught
     to be handled; letting it propagate to the reporter is the point. A catch that logs and continues
     (the general rule is `skills/code-baseline` §3) leaves the screen in a state nobody designed.
 14. **The analyser configuration is the project's contract, and an ignore directive is a finding.** Enable

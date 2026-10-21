@@ -59,7 +59,11 @@ read here, and add a zone only when that guide asks for one.
    should not count on receiving every notification: when the OS ends the process abruptly no notification is
    sent and some states are skipped. Anything that must survive is written when it changes; the flush only
    narrows the window.
-3. **Features expose a flush on their own repository or notifier,** and the root observer calls it, rather
+3. **The state to flush on differs by platform.** The `AppLifecycleState` page (re-read 2026-10-20) says the
+   paused state exists only on iOS and Android, that a hidden state sits between inactive and paused, and
+   that inactive means a visible view without input focus. A flush wired to paused alone never runs on
+   desktop or web; wire it to hidden as well, and keep it idempotent since several states can arrive in a row.
+4. **Features expose a flush on their own repository or notifier,** and the root observer calls it, rather
    than each widget implementing the lifecycle callback (own guidance, from the same startup skill).
 
 ## 1.7 Logging the cause

@@ -19,6 +19,23 @@ so nothing is added to an existing block.
 | Riverpod site docs: retry, auto dispose, mutations, eager initialisation pages (files) | MIT, read 2026-10-08 | Retry defaults and rules, eager consumer, dispose callback, experimental mutations |
 | Bloc docs: three lint-rule pages (files) | MIT, read 2026-10-08 | Public surface rules and the lint package version of the void rule |
 
+## Re-read 2026-10-20 (verification pass)
+Official pages re-opened and each figure checked against the point it supports: the Flutter error-handling page
+(both hooks, presenting the error, the platform-dispatcher hook for errors with no Flutter callback on the
+stack; the page does not mention zones, which matches 1.4), the `PlatformDispatcher.onError` API page (true when
+handled, false falls back to printing, not invoked when the VM or process ends first, child isolates must
+forward their errors; it does not say whether an error thrown inside the callback is covered, so 1.3 stays own
+guidance), the `addPostFrameCallback` page (once, cannot be unregistered, requests no frame, silent on a
+callback that throws), the `AppLifecycleState` page (no guaranteed notifications, abrupt termination sends none;
+state definitions added at 1.6.3), the Riverpod retry page (10 retries, 200 ms to 6.4 s, `Error` and
+`ProviderException` not retried, policy function returning a duration or null, scope or per provider, dependents
+of a provider with retry disabled are not retried, `.future` waits through retries), the Riverpod eager
+initialisation page (watch under the scope, child unchanged, public widget near the root, loading and error in
+that widget), the Riverpod mutations page (its caution note says experimental, may break without a major bump)
+and the three Bloc lint-rule pages (public Cubit methods return void, no public Bloc methods, no public fields;
+void rule introduced in lint package 0.2.0-dev.2). No licence file was read for these pages; they are used for
+facts only. The earlier table rows above stand as written.
+
 ## Removed in the verification pass (no page supporting them)
 The claim that returning `false` makes the process exit or hang (the API reference says only that a fallback
 such as printing to the error stream is used), the "about 38 seconds" retry total and "about ten tries up to a
@@ -26,8 +43,9 @@ few seconds" paraphrases (replaced by the documented 10 retries, 200 ms to 6.4 s
 as universal (two sources disagree).
 
 ## Not verified
-1. **Own guidance, flagged in the text:** an error hook never throws (1.3), features expose a flush (1.6.3),
-   the retry judgement for local deterministic failures (2.1.3).
+1. **Own guidance, flagged in the text, still unsourced after 2026-10-20:** an error hook never throws (1.3),
+   features expose a flush (1.6.4), the retry judgement for local deterministic failures (2.1.3). The launch
+   order of 1.1.1 rests only on the MIT repository file, which was not re-read on 2026-10-20.
 2. **The current setup guide of any crash SDK** was not read, so whether a given SDK wants a zone is open.
 3. **Riverpod and Bloc versions:** the clone's documentation was read, not the released package pages; the
    Riverpod pages sit under the version 3 concepts folder.
