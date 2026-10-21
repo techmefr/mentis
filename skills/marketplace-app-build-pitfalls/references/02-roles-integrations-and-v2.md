@@ -1,7 +1,7 @@
 # marketplace-app-build-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/marketplace-app-build-pitfalls`. Read it when onboarding, a provider integration or the
-> first release are planned. Mostly craft knowledge; point 2 carries facts from the payment platform pages in `references/origin.md` (sources 3 and 4), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
+> first release are planned. Mostly craft knowledge; point 2 carries facts from the payment platform pages and point 4 one from a framework's queue documentation, in `references/origin.md` (sources 3, 4 and 6), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Roles are abilities per scope.** Typical shape: platform admin, platform support, seller owner, seller
    staff, buyer. Platform support sees orders and disputes but not payout bank details; a seller staff member
@@ -22,7 +22,7 @@
    policy owned by a person who can answer for them; none is stated here.
 4. **Notifications follow the state machine.** Each order, payout and dispute transition names who is told,
    through which channel, and what link they get (see `skills/in-app-notifications-pitfalls` and
-   `skills/laravel-mail-via-notifications`). A notification is sent after the transaction commits, not inside it.
+   `skills/laravel-mail-via-notifications`). A notification is sent after the transaction commits, not inside it. The framework's queue documentation describes the same trap: a job dispatched inside an open transaction can run before the commit and miss its data, and the framework can hold dispatch until commit and discard jobs of a rolled-back transaction, per connection or per job (source 6).
    Symptom: a seller learns of a dispute from the buyer.
 5. **Imports and exports follow the same visibility.** Bulk listing upload from a spreadsheet is staged,
    previewed and idempotent (see `skills/csv-xlsx-import-export-pitfalls`); a seller's order export uses the

@@ -1,6 +1,6 @@
 # rich-text-editor-pitfalls §2 — Mentions, collaboration, access and tests
 
-Sources: Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, commit stamped in origin.md, read 2026-10-20) and the Yjs threat model (MIT, read 2026-10-20) for the facts marked as such; the rest is own craft.
+Sources: Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, commit stamped in origin.md, read 2026-10-20) and the Yjs threat model (MIT, read 2026-10-20) for the facts marked as such; the W3C ARIA Authoring Practices toolbar and button patterns and the WAI-ARIA 1.2 definitions (W3C document licence, facts only, read 2026-10-20) for the toolbar and state points; the rest is own craft.
 
 ## 2.1 Mentions
 1. **A mention is a reference, not text.** Store the user id with the displayed name as a cache, so a rename updates it and a deleted user shows a neutral label. Symptom: "@Ana" stays after Ana became "Ana Martin", and a text match mentions the wrong Ana.
@@ -32,11 +32,11 @@ Sources: Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, 
 5. **Printing and dark mode**: stored colours break on a dark background, which is another reason to drop inline colours (§1.3).
 
 ## 2.4 Accessibility
-1. **The editing surface is a textbox, so it needs a name.** Associate a visible label with it, set the multi-line role where the library does not, and keep the description and error text linked (`accessibility`, `long-and-multistep-form-pitfalls`).
+1. **The editing surface is a textbox, so it needs a name.** Associate a visible label with it, mark it as a multi-line text box (the `aria-multiline` property of the textbox role) where the library does not, and keep the description and error text linked (`accessibility`, `long-and-multistep-form-pitfalls`).
 2. **Tab must leave the editor.** If Tab indents lists, document the key and give an Escape route that blurs the editor so the next Tab moves on. The Lexical documentation states the same contract: Tab follows normal focus order by default, and the indent behaviour is an opt-in that still needs Escape to release focus.
-3. **The toolbar is one tab stop.** Arrow keys move between its buttons and Tab leaves it as a whole, with a documented shortcut to jump from editor to toolbar. The library documentation lists the same pattern for its toolbar.
-4. **Toolbar buttons have names and pressed state** (`aria-pressed` for bold, a label for icon-only buttons). A colour swatch needs a text name, not a hex only.
-5. **State changes are announced politely**: "link added", "bold on", character limit reached. Use one live region and avoid announcing on every keystroke (`in-app-notifications-pitfalls` §2.3).
+3. **The toolbar is one tab stop.** Arrow keys move between its buttons and Tab leaves it as a whole, with a documented shortcut to jump from editor to toolbar. The library documentation lists the same pattern for its toolbar, and the ARIA Authoring Practices toolbar pattern gives the same keys: Tab and Shift+Tab move focus into and out of the toolbar, arrow keys move among its controls, and focus may return to the control that last had it. The pattern recommends the toolbar role only for groups of three or more controls.
+4. **Toolbar buttons have names and pressed state** (`aria-pressed` for bold, a label for icon-only buttons). The button pattern adds a rule: a toggle's label must not change with its state ("Bold" stays "Bold"); change the label instead of using `aria-pressed`, never both. A colour swatch needs a text name, not a hex only.
+5. **State changes are announced politely**: "link added", "bold on", character limit reached. The `status` role is the ARIA live-region type for advisory information that is not urgent enough for an alert; use one such live region and avoid announcing on every keystroke (`in-app-notifications-pitfalls` §2.3).
 6. **Formatting must survive without sight.** Headings are real headings, lists are real lists, links have descriptive text and images have alternative text; the editor should warn on an empty alternative.
 7. **Modal pieces trap and restore focus**: the link dialog, the image dialog and the emoji picker return focus to the editor on close.
 8. **Contrast and zoom**: toolbar and editor text meet the contrast rules and reflow at zoom without clipping the toolbar.

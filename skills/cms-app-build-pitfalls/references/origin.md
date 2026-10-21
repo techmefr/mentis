@@ -10,6 +10,8 @@
 | # | Source | Licence | What it gave |
 |---|---|---|---|
 | 1 | Payload documentation (`payloadcms/payload`, commit `582c25b`): `docs/versions/overview.mdx`, `docs/versions/drafts.mdx`, `docs/versions/autosave.mdx`, `docs/admin/locked-documents.mdx`, `docs/live-preview/overview.mdx` | MIT: file `LICENSE.md` read | Status field with three admin states, draft saves without required checks, unpublish as status change, scheduled publish needing a job worker, document lock with take-over and expiry, versions in a separate collection with author and a per-entry cap, draft reads returning the newest version, live preview in a frame |
+| 2 | RFC 9110 (IETF), section 15.4 redirection, read through a page fetch of the document | IETF RFC text, read for facts only and restated; no sentence copied | 301 and 308 as permanent moves, method change allowed on 301 and kept on 308, clients to detect redirect cycles |
+| 3 | RFC 9111 (IETF), section 5.2.2.5 no-store | IETF RFC text, read for facts only and restated; no sentence copied | no-store meaning and its stated limit as a privacy mechanism |
 
 Neighbouring blocks were read to avoid duplication: `skills/rich-text-editor-pitfalls`, `skills/astro-images-templates-pitfalls`
 (building a site, not the CMS), `skills/admin-back-office-pitfalls`, `skills/document-file-management-pitfalls`,
@@ -19,6 +21,7 @@ no block that covers building a CMS, so a new block was justified.
 
 ## Verified
 1. §1 points 2, 4, 5 and 6 and §2 point 1: source 1, as the points now say.
+2. Second pass 2026-10-20: §1 point 8 (permanent redirect, cycle detection by clients) against source 2; §2 point 1 (no-store meaning and limit) against source 3. The chain check and the no-index header were not checked.
 
 ## Corrected
 1. None: no earlier statement contradicted the source.

@@ -1,11 +1,11 @@
 # kanban-board-ui-pitfalls §2 — Drag, keyboard and access
 
-Sources: dnd-kit documentation, accessibility guide and keyboard sensor page (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the rest is own craft.
+Sources: dnd-kit documentation, accessibility guide and keyboard sensor page (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the W3C WCAG 2.2 Understanding pages for 2.5.7, 2.5.8, 2.3.3 and 1.4.1 and the Media Queries Level 5 draft (W3C document licence, facts only, read 2026-10-20) for the criteria named; the rest is own craft.
 
 ## 2.1 A keyboard route for every drag
-1. **Symptom: a board that cannot be used without a mouse.** A drag gesture is a pointer-only operation; the standard rule is that every operation reachable by pointer has an equivalent by keyboard (`accessibility` §1).
+1. **Symptom: a board that cannot be used without a mouse.** A drag gesture is a pointer-only operation, and two criteria apply: a keyboard equivalent for every operation, and, under WCAG 2.2 SC 2.5.7 (level AA), a way to do anything that needs dragging with a single pointer and no dragging, unless dragging is essential (`accessibility` §1). Keyboard drag alone does not meet 2.5.7; the "Move to..." menu of §2.1.3 does.
 2. **Make the drag handle or the card focusable and operable with both Enter and Space.** The library documents that its drag activator must take focus and respond to both keys, and that arrow keys then move the item, Enter or Space drops it and Escape cancels it. Keep those defaults.
-3. **Offer a second, non-drag route that needs no gesture at all:** a "Move to..." menu on each card listing columns and positions ("Top of In progress", "After Fix login"), reachable by keyboard and by voice control. This is the more robust alternative, and it also serves switch users, who find sustained key sequences hard.
+3. **Offer a second, non-drag route that needs no gesture at all:** a "Move to..." menu on each card listing columns and positions ("Top of In progress", "After Fix login"), reachable by keyboard and by voice control. This is the more robust alternative, it is the single-pointer route that SC 2.5.7 asks for, and it also serves switch users, who find sustained key sequences hard.
 4. **Arrow movement should land on meaningful targets,** the next card or column slot, not a fixed pixel step. The library says its default step is arbitrary and recommends tailoring it; for a sortable list it already jumps to the neighbouring item.
 5. **Keep the keyboard order of the board natural:** columns left to right, cards top to bottom, reading order equal to visual order (`accessibility` §1).
 6. **Escape cancels everywhere,** for pointer drags too, and puts the card back where it was.
@@ -22,13 +22,13 @@ Sources: dnd-kit documentation, accessibility guide and keyboard sensor page (MI
 1. **Symptom: on a phone the page scrolls instead of dragging, or dragging blocks scrolling.** Separate the gestures: a drag handle that starts a drag, the rest of the card scrolls. Long-press activation is a common alternative; state it in the instructions.
 2. **Add a small activation distance or delay** so a click on the card (open details) is not read as a drag. Symptom: the details dialog never opens on touch.
 3. **Auto-scroll when the pointer nears the edge of the board or of a column,** vertically for long columns and horizontally for many columns. Without it a card cannot be dragged to a column off screen.
-4. **Targets are large enough to hit** and the drop zones are the whole column body, not a thin line (`accessibility`).
+4. **Targets are large enough to hit**: at least 24 by 24 CSS pixels, or enough spacing around smaller ones (WCAG 2.2 SC 2.5.8, level AA, which also accepts an equivalent control elsewhere on the page). Drop zones are the whole column body, not a thin line (`accessibility`).
 5. **Pointer capture and cancel:** release outside the window, on a disabled column or with a lost pointer cancels the drag and restores the card; never leave it floating.
 6. **A drag overlay (the ghost) must not become the only copy.** Keep the original in place, dimmed or outlined, so the board does not collapse and the layout does not jump.
 
 ## 2.4 Do not rely on colour or animation
-1. **WIP warnings, forbidden columns and conflicts use text and an icon as well as colour** (`accessibility` §3).
-2. **Respect reduced motion:** the settle animation after a drop becomes an immediate move for users who ask for less motion (`accessibility` §7). Keep the drop indicator static and visible.
+1. **WIP warnings, forbidden columns and conflicts use text and an icon as well as colour** (WCAG SC 1.4.1, level A: colour is not the only visual means of conveying information; `accessibility` §3).
+2. **Respect reduced motion:** the settle animation after a drop becomes an immediate move when the `prefers-reduced-motion` media feature reports `reduce` (`accessibility` §7). WCAG SC 2.3.3 (level AAA) asks that motion triggered by interaction can be disabled unless essential, so treat it as the target, not a floor. Keep the drop indicator static and visible.
 3. **Keep the drop indicator contrast sufficient** against both column backgrounds, in light and dark themes.
 4. **Do not move focus or content under the user during a drag** (a live update inserting a card above the pointer shifts every drop target).
 

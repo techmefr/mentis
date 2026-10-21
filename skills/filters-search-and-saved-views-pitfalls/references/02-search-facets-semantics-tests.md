@@ -15,7 +15,7 @@ Sources: own craft, with the faceting and filtering facts from the TanStack Tabl
 3. **Minimum length is a product choice, not a default**: searching on one character may be expensive on the server; if you wait for more characters, show a hint.
 4. **Keep the previous results visible while the new ones load**, with a busy mark; flashing an empty list per keystroke reads as a failure.
 5. **Server limits are the real protection**: rate-limit and cap query cost and length on the server; the debounce is only politeness.
-6. **IME composition**: do not fire a search in the middle of composing characters (languages entered through composition); wait for the composition to end.
+6. **IME composition**: do not fire a search in the middle of composing characters (languages entered through composition); wait for the composition to end. UI Events defines a composition session as one start, one or more updates and one end, and marks key and input events inside it with an isComposing flag, which is the check to use (W3C UI Events, read 2026-10-20).
 7. **Escape clears and returns focus**; the clear button is a real, named button.
 
 ## 2.3 Facets

@@ -14,6 +14,7 @@ Sources: TanStack Table guides for sorting, pagination, row selection (MIT, comm
 2. **Keyset (cursor) paging asks for "rows after this key".** It stays fast on deep data and is stable under inserts, but gives no page number, no jump to the end and no cheap total.
 3. **Choose by what users do.** Search-and-jump interfaces on a few thousand rows: offset. Feeds, logs, audit trails, imports, anything append-heavy or deep: keyset.
 4. **A keyset needs a total order.** Sort on the chosen column plus a unique tiebreaker (the primary key); without it, rows with equal values are skipped or repeated at the page boundary.
+   The Laravel documentation (source 2) confirms both sides: offset paging can skip or repeat rows when data is written between requests, and a cursor needs a unique order and does not support null in the ordering columns.
 5. **Changing the sort invalidates the cursor.** Drop it and start again; never reuse a cursor from another sort order.
 6. **Show a total only if it is cheap or labelled.** Counting a large filtered set on every request is often the slowest query on the page; show "more than N" or "next / previous" instead, or count lazily.
 7. **An unknown last page needs a "next" button that knows the end.** The library documents this: with an unknown page count the "last page" action does not exist and the next button follows a "has next" flag from the server.

@@ -7,8 +7,10 @@
 2. **Carry a version token with the record.** A version counter, an update timestamp with enough resolution,
    or a hash of the content. On HTTP the entity tag (ETag) is that token: the client sends it back in a
    conditional header (If-Match) and the server answers 412 Precondition Failed when a condition in the request tested false
-   (RFC 9110 section 15.5.13, read 2026-10-20; the If-Match section itself was not reached in the pages read, so the exact
-   comparison rule is unverified). 428 Precondition Required lets the server insist that the request be conditional, and
+   (RFC 9110 section 15.5.13 and section 13.1.1, read 2026-10-20). The server must compare with the strong function, so a
+   weak tag never matches, and it must not run the method when the condition is false. It may answer 412, and it may
+   instead answer 2xx when the change already appears applied, for example after a lost response; for counters and
+   similar shared state the RFC prefers 412, so do not treat a 2xx as proof that your write was the one stored. 428 Precondition Required lets the server insist that the request be conditional, and
    RFC 6585 §3 presents it as the guard against a lost update; the response should say how to resubmit, and servers are
    not obliged to use it, so a client cannot count on it. Symptom of a missing token: an update that cannot tell stale from
    current.

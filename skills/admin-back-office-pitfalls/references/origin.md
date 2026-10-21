@@ -10,6 +10,7 @@
 | # | Source | Licence | What it gave |
 |---|---|---|---|
 | 1 | Django documentation (`django/django`, commit `45ce894`): `docs/ref/contrib/admin/index.txt` (the log entry model, per-model permission methods), `docs/ref/contrib/admin/actions.txt` (bulk actions, the delete action, action permissions), `docs/ref/contrib/auth.txt` (the active flag) | BSD-3-Clause: file `LICENSE` read; the documentation sits in the same repository and states no other licence | Admin log row shape, bulk delete skipping the model's delete method, confirmation page on delete, permission per action, deactivating accounts instead of deleting them, a separate staff flag |
+| 2 | Laravel documentation, page "Queues" (`laravel.com/docs/12.x/queues`), first 100000 characters only | Vendor documentation, no open licence read: facts only, restated | Job batches with progress, cancel and failure callbacks, a batches table, a batch failure cancels the rest unless allowed |
 
 Neighbouring blocks of this repository were read to avoid duplication: `skills/feature-flag-lifecycle`
 (flag creation, ramp and removal), `skills/field-and-row-permission-ui-api-pitfalls`,
@@ -20,11 +21,14 @@ covered, so this block only cross-links it.
 
 ## Verified
 1. §1 points 1, 2, 3, 8 and 9 and §2 point 1: backed by source 1, as the points now say.
+2. §2 point 11, queued batches with progress: source 2.
 
 ## Corrected
 1. §1 point 3 now states what the reference log does not hold (before and after values, effective actor, reason), so
    the extra columns are clearly our own requirement.
 2. §1 point 1 now separates what the framework does from what is ours (second factor, separate host).
+
+2. §2 point 11 no longer asks for a separate progress table: the batch record holds progress; a table stays useful for per-row outcomes.
 
 ## Removed
 1. **Every numeric threshold, cap, expiry and retention period.** None is stated; set them by policy.

@@ -1,7 +1,7 @@
 # ecommerce-store-build-pitfalls §1 — Model and pitfalls
 
 > Part 1 of `skills/ecommerce-store-build-pitfalls`. Read it when a schema or the checkout flow is designed.
-> Mostly craft knowledge; points 1, 2, 5, 6, 7, 8, 9 and 10 carry facts from an open-source commerce framework's documentation (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix. Not legal advice.
+> Mostly craft knowledge; points 1, 2, 5, 6, 7, 8, 9 and 10 carry facts from an open-source commerce framework's documentation (MIT), and points 5 and 9 from two payment-platform pages, read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix. Not legal advice.
 
 1. **Product, variant and stock keeping unit are different things.** Symptom: a size or colour is a separate
    product, or stock is kept on the product so one size sells out the whole line. Fix: a product (title,
@@ -31,7 +31,7 @@
    order, or one payment creates two orders, because the browser closed or a webhook came twice. Check: kill
    the request after the provider confirms, and replay the event. Fix: create the order record before asking
    for payment in a pending state or keep a checkout record that holds everything needed; confirm from the
-   provider's signed event, not the redirect; a unique key on the provider payment id so a replay is a no-op;
+   provider's signed event, never from the redirect alone (the redirect page may call the same idempotent fulfilment step to show the result at once, as the payment platform's own guide does, but the event is what guarantees every payment is handled; source 3); a unique key on the provider payment id so a replay is a no-op;
    and a reconciliation job that finds paid checkouts with no order and orders pending with no payment (see
    `skills/unknown-payment-outcome-pitfalls` and `skills/laravel-idempotent-jobs`). Never store card data; keep
    only the provider's reference and display fields. The reference framework's documentation names the failure this point guards against: a payment action on the front end can be interrupted so that the payment is processed with no order created, which is why it listens to the provider's webhook events (source 1). It also lets one payment collection hold several payment sessions and payments, for split or incremental payment, so the order should not assume a single payment.
@@ -59,7 +59,7 @@
    tracking, status) separate from the order so partial shipping works; a return request with lines, reason and
    states (requested, approved, received, inspected, closed); refund records against the order or payment with
    an amount, a currency, a reason and a provider refund id; a check that cumulative refunds do not exceed the
-   amount paid; a decision on whether returned stock goes back on sale; and a credit document when the
+   amount paid (the payment platform allows several refunds on one payment but refuses a total above the original amount, and a card refund can fail later, so a refund record keeps a status and a failure reason; source 3); a decision on whether returned stock goes back on sale; and a credit document when the
    business issues invoices. The return window and rights are legal and policy questions; the checkout and the
    confirmation must state the same policy (see `business/ecommerce-store-quality-pitfalls`). The reference framework models a return item with a received quantity, which may go back on sale, and a separate damaged quantity, which may not, a refund amount on the return, and refunds as transaction records on the order (source 1).
 10. **Order status is derived from facts where possible.** Symptom: "shipped" is set by hand while no shipment

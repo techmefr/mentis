@@ -12,7 +12,7 @@ Source: own craft knowledge, with one point checked on 2026-10-20 (see origin.md
 7. **Popups are short, focus-managed and dismissible**; a popup that hides the pin it describes, or cannot close on touch, is a defect. Prefer a side or bottom panel for rich content.
 8. **Touch targets**: markers, clusters and map controls are large enough to hit on a phone, and not so densely packed that a tap picks the neighbour (`webperf`, `01-responsive-touch-interface`).
 9. **Controls**: zoom, locate-me and layer toggles are real buttons with names; keep them out of the way of attribution.
-10. **Do not rely on colour alone** for categories on pins: add shape, label or icon (`accessibility`, `03-contrast-perception`).
+10. **Do not rely on colour alone** for categories on pins (WCAG 2.2 SC 1.4.1, level A): add shape, label or icon (`accessibility`, `03-contrast-perception`).
 11. **Remember the user's view and layer choice** per device where useful, as a convenience that can be reset (`settings-and-preferences-page-pitfalls`).
 
 ## 2.2 Content and data on the map
@@ -20,7 +20,7 @@ Source: own craft knowledge, with one point checked on 2026-10-20 (see origin.md
 2. **Cluster and label at readable sizes**: avoid label collisions with collision handling or by showing labels only at higher zoom.
 3. **Opening hours, availability and prices shown on the map are time-bound**: show their freshness or compute them at request time, in the place's zone (§1.1).
 4. **Do not expose private places**: a map of customers, staff or incident locations shows only what each viewer is permitted, enforced on the server per row and by precision (`field-and-row-permission-ui-api-pitfalls`).
-5. **Sanitise popup content** from user-provided fields before putting it in HTML (`csp-and-sanitiser-pitfalls`).
+5. **Sanitise popup content** from user-provided fields before putting it in HTML (`csp-and-sanitiser-pitfalls`). The Leaflet reference warns that a string given to a popup or tooltip is rendered as HTML, and says to sanitise untrusted input or pass an element whose text is set safely.
 
 ## 2.3 Accessibility: the non-map alternative
 1. **A map canvas is mostly invisible to assistive technology and hard by keyboard.** Treat it as a supplementary view. Every task the map supports (find a place, see its details, get directions, choose a location) must have a path that does not need the map: a results list, a table, a text address field, a "get directions" link (`accessibility`).

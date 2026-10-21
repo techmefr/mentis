@@ -1,7 +1,7 @@
 # light-erp-document-flow-pitfalls §1 — Documents, numbering and history
 
 > Part 1 of `skills/light-erp-document-flow-pitfalls`. Read it when a schema, a status or a numbering rule is
-> designed. Mostly craft knowledge; points 1, 2, 4, 5, 6 and 11 carry facts from two open-source data models and docs (Apache-2.0), read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 and 2). Everything not marked as sourced is our own guidance. No accounting or tax rule is stated; ask the accountant.
+> designed. Mostly craft knowledge; points 1, 2, 4, 5, 6 and 11 carry facts from two open-source data models and docs (Apache-2.0), and the sequence remark in point 3 from the PostgreSQL manual, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 to 3). Everything not marked as sourced is our own guidance. No accounting or tax rule is stated; ask the accountant.
 
 1. **One header, many lines, one shared shape.** A document has a header (type, series, number, status, party,
    dates, currency, totals, owner) and lines (product or free text, quantity, unit, unit price, discount, tax
@@ -17,7 +17,9 @@
    one number, or a hole after a rollback. Check: post fifty documents in parallel and compare. Fix: a
    counter row per tenant, series and year or period, locked while the number is taken, taken only when the
    document leaves draft, and written in the same transaction as the status change. Drafts carry a temporary
-   id, not a number. A database sequence is not transactional on rollback and leaves holes; whether holes are
+   id, not a number. A database sequence is not transactional on rollback and leaves holes: the PostgreSQL manual says a value taken
+   from a sequence is not given back when the transaction aborts, that a crash or an insert that hits a conflict
+   clause can also leave gaps, and that a sequence therefore cannot produce gapless numbers (source 3). Whether holes are
    acceptable, and how a void is recorded, is a legal and accounting policy you must obtain, not guess. State
    the policy in the spec: gapless with a voided-number record, or gaps allowed and explained.
 4. **Conversion tracks remaining quantity per line.** Quote to order to delivery to invoice, often in parts.

@@ -1,7 +1,7 @@
 # booking-and-scheduling-app-pitfalls §1 — Time, availability and conflicts
 
 > Part 1 of `skills/booking-and-scheduling-app-pitfalls`. Read it when a schema or the reservation write path is
-> designed. Mostly craft knowledge; points 1 to 4 and the new point 12 carry facts from the iCalendar standard and the IANA time zone database notes, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 and 2). Everything not marked as sourced is our own guidance.
+> designed. Mostly craft knowledge; points 1 to 4 and the new point 12 carry facts from the iCalendar standard and the IANA time zone database notes, and point 6 from the PostgreSQL manual, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 to 3). Everything not marked as sourced is our own guidance.
 
 1. **Instant or wall time: decide per field.** Symptom: a weekly 09:00 appointment moves to 10:00 after the
    clocks change, or a flight-like event shifts when the viewer travels. Fix: a booking that happened or will
@@ -40,7 +40,7 @@
    the list and the confirmation check; the browser only displays; the response states the zone it used.
 6. **Double booking is prevented where the data lives.** Symptom: two customers confirm the same slot a
    second apart. Check: fire N parallel requests for one slot and assert one wins. Fix: a database constraint
-   that rejects overlapping ranges for one resource where the database supports it, otherwise a unique
+   that rejects overlapping ranges for one resource where the database supports it (in PostgreSQL an exclusion constraint on a range column with the overlap operator and a GiST index; to restrict it to one resource, add equality on the resource column, which needs the btree_gist extension; a plain unique constraint is usually unsuitable for ranges; a deferrable constraint cannot arbitrate an insert that uses a conflict clause: source 3), otherwise a unique
    constraint on (resource, slot start) for fixed slots, or a row lock on the resource inside the
    transaction; never "select free, then insert" in application code. The losing request gets a clear
    "no longer available" with alternatives, not a server error. Capacity above one (a class of twelve) is a

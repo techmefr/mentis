@@ -11,6 +11,8 @@
 |---|---|---|---|
 | 1 | tus resumable upload protocol (`tus/tus-resumable-upload-protocol`, commit `c6a11fa`): `protocol.md`, core protocol and the expiration, checksum and termination extensions | MIT: file `LICENSE.txt` read | Offset-based resume, conflict on a mismatched offset, maximum size, per-chunk checksum, expiry of unfinished uploads, termination to free resources |
 | 2 | Amazon S3 User Guide, pages "Configuring a bucket lifecycle configuration to delete incomplete multipart uploads" and "Download and upload objects with presigned URLs" (`docs.aws.amazon.com`) | Vendor documentation, no open licence stated: facts only, rewritten, no sentence copied | Abort-incomplete-upload lifecycle rule as a cost measure, presigned link validity bounded by the signing credentials |
+| 3 | MDN Web Docs, page "X-Content-Type-Options" | Documentation site; read for facts only, restated, no sentence copied | What the no-sniff value does to pages, scripts and stylesheets |
+| 4 | RFC 6266, Use of the Content-Disposition Header Field in HTTP (IETF, 2011), the filename parameter sections | IETF standard text, read for facts only and restated | `filename*` in UTF-8, ASCII `filename` fallback, filename advisory, last path segment |
 
 Neighbouring blocks of this repository were read to avoid duplication: `skills/security-hardening` (web
 hardening), `skills/dsar-handling-pitfalls`, `skills/light-erp-document-flow-pitfalls` (document numbering and
@@ -21,7 +23,8 @@ sharing, retention, scanning). Upload and viewer screens are written by a siblin
 so this block covers data, storage and rules only.
 
 ## Verified
-1. §1 point 11 (layered limits, chunked uploads, abandoned partial uploads) and point 9 (signed short-lived links): sources 1 and 2.
+1. §1 point 10 (no-sniff header, source 3) and point 13 (disposition filename encoding, source 4); the rest of those points stays our own guidance.
+2. §1 point 11 (layered limits, chunked uploads, abandoned partial uploads) and point 9 (signed short-lived links): sources 1 and 2.
 
 ## Added
 1. §1 point 15, signed link lifetime bounded by the signing credentials: source 2.
@@ -33,8 +36,8 @@ so this block covers data, storage and rules only.
 
 ## Not verified
 1. **Still our own guidance:** opaque keys and layout (§1 points 1 to 3), versions and duplicates (points 4 and 5), permission
-   inheritance and sharing links (points 6 to 8), content-type detection and safe serving (point 10), quarantine scanning
-   (point 12), filenames (point 13), tenants (point 14), and the whole of §2: retention classes, holds, trash, purge,
+   inheritance and sharing links (points 6 to 8), content-type detection and safe serving (point 10, beyond the no-sniff header), quarantine scanning
+   (point 12), filenames (point 13, beyond the header encoding), tenants (point 14), and the whole of §2: retention classes, holds, trash, purge,
    erasure, previews, quotas, search, conflicts, integrations, exports, build order and v2 regrets. No permissive document
    system documentation was identified (searched: the upload protocol and the vendor pages above; no document-management
    project documentation was read).

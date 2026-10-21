@@ -1,7 +1,7 @@
 # document-file-management-pitfalls §1 — Metadata, storage, versions and safety
 
 > Part 1 of `skills/document-file-management-pitfalls`. Read it when a schema, a storage layout or an upload
-> path is designed. Mostly craft knowledge; points 9 and 11 and the new point 15 carry facts from an open-source upload protocol (MIT) and two pages of a storage vendor's documentation, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 and 2). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the
+> path is designed. Mostly craft knowledge; points 9, 10, 11 and 13 and the new point 15 carry facts from an open-source upload protocol (MIT), two pages of a storage vendor's documentation, a browser-documentation page and an IETF standard, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 to 4). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the
 > fix.
 
 1. **Metadata and bytes are two things.** Symptom: moving or renaming a file rewrites the stored object, or a
@@ -51,7 +51,7 @@
     SVG, then open them. Fix: detect the type from content (magic bytes), compare with an allow-list per
     feature, store the detected type, serve with a fixed content type from that list, a no-sniff header, a
     forced-download disposition for anything not meant to render, a content-security policy on the download
-    host, and ideally a separate cookieless domain for user content. Treat SVG, HTML and office files with
+    host, and ideally a separate cookieless domain for user content. The browser documentation confirms the no-sniff header: with it, a response declared as plain text is not interpreted as a page even if it contains markup, and a script or stylesheet with the wrong declared type is blocked (source 3). Treat SVG, HTML and office files with
     macros as active content. See `skills/security-hardening`.
 11. **Upload limits are layered and consistent.** Symptom: the front accepts 200 MB, the proxy cuts at 1 MB and
     the user sees a generic error; or an unbounded body fills the disk. Fix: size and count limits set at the
@@ -68,7 +68,7 @@
     with a stated outcome for "too big to scan" decided by policy. Re-scan on signature updates only if the
     policy asks for it. Scanning reduces risk; it does not prove safety.
 13. **Filenames on download are safe.** Strip control characters and quotes from the suggested name, encode
-    non-ASCII correctly in the disposition header, and never reflect the name unescaped in a page.
+    non-ASCII correctly in the disposition header, and never reflect the name unescaped in a page. The header standard says to put the UTF-8 encoded name in the extended `filename*` parameter, with a plain ASCII `filename` before it as a fallback for old clients, and to treat the name as advisory: clients should keep only the last path segment, with both slash kinds as separators (source 4). That duty is the client's; the server still strips separators (point 2).
 14. **Every record belongs to a tenant from the first migration.** Tenant column on files, versions, folders,
     shares and scan rows, one default scope (see `skills/laravel-tenant-context-by-default`), storage prefix
     from the tenant, and a test per path.

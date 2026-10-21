@@ -31,6 +31,8 @@ verified).
 4. **Own guidance, not sourced:** all points on rule definition, hide versus disable versus mask, allow-listing,
    bulk actions, layers and bypasses, the matrix test and the review checklist.
 
+Second pass 2026-10-20: no further checkable fact found that a permissive or official source covers; cache scoping, enumeration timing and mass assignment stay own guidance (security cheat sheets are CC BY-SA, not opened).
+
 ## Related blocks
 `laravel-permissions-not-roles`, `laravel-scope-dont-check-after-fetch`, `laravel-tenant-context-by-default`,
 `postgres-operations-and-exposed-api-pitfalls`, `firebase-rules-and-client-trust-pitfalls`, `auth-session-conventions`,

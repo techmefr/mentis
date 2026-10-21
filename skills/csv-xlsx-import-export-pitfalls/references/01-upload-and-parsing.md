@@ -25,7 +25,7 @@
 2. **A byte-order mark at the start becomes part of the first header.** Symptom: the first column is never
    found though its name looks right. Fix: strip a leading mark before reading headers.
 3. **The delimiter is a locale artefact.** Spreadsheet programs in locales that use a decimal comma write
-   semicolons. Symptom: the whole row lands in one column. Fix: detect among comma, semicolon, tab and pipe by
+   semicolons (Excel takes its separator from the operating system list separator and decimal separator settings, per the Microsoft Support page read 2026-10-20). Symptom: the whole row lands in one column. Fix: detect among comma, semicolon, tab and pipe by
    consistency of field counts over the first rows, and let the person override.
 4. **Quoting follows the common CSV rules** (RFC 4180 §2 items 5 to 7; real files deviate, and the RFC itself notes that some programs do not quote at all): fields with the
    delimiter, quote or line break are quoted, quotes are doubled inside, and an unquoted field holds no quote. Symptom: a note with a line break splits
@@ -56,7 +56,7 @@
 1. **Which sheet?** Default to the first visible sheet, show the choice in the preview, and let the person
    pick. Hidden sheets are a common source of "wrong data".
 2. **Cell values come as stored, not as displayed.** Dates are numbers with a format, identifiers typed as
-   numbers lose leading zeros before you ever see them, and a formula cell has a cached result that may be
+   numbers lose leading zeros before you ever see them (Excel applies default formats per column when it opens a CSV, and keeping zeros needs a text column, per the same Microsoft page), and a formula cell has a cached result that may be
    stale or absent. Fix: read cached values only, say that formulas are not evaluated, and for identifier columns
    require text format in the template.
 3. **Merged cells, multi-row headers and notes above the table** break column mapping. State the expected

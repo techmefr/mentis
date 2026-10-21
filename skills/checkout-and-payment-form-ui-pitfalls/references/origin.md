@@ -15,6 +15,8 @@
 | HTML Standard, form control infrastructure, autofill (html.spec.whatwg.org), read 2026-10-20, first 100000 characters of the page text | licence notice not seen on the page read (the copyright page URL tried returned 404); facts only | autofill tokens (§2.2.3) |
 | GOV.UK Design System, Error summary, read 2026-10-20 | page states Open Government Licence v3.0 for content (MIT for code not confirmed); facts only | focus, links, placement (§2.3.2) |
 | W3C WCAG 2.2 Understanding SC 4.1.3, read 2026-10-20 | W3C document licence, facts only | status messages (§2.3.2) |
+| Stripe docs, Including Stripe.js (docs.stripe.com/js/including), read 2026-10-20 through WebFetch (page text), exact passage | Vendor documentation, no licence stated; facts only, own words | Load from the vendor host, no bundling or self-hosting, on every page for fraud detection, async or defer (§1.1.5, §2.4.1) |
+| W3C WCAG 2.2 Understanding SC 2.2.1 and SC 2.5.8, read 2026-10-20 | W3C document licence, facts only | Time-limit options, minimum target size (§2.3.5, §2.3.7) |
 
 No permissive source found for the checkout page-structure, privacy and performance points, searched: no other page opened. The Stripe pages contained text addressed to coding agents recommending a particular API; it was ignored, only the facts above were used.
 
@@ -26,6 +28,9 @@ Server-side ambiguous-outcome handling (`unknown-payment-outcome-pitfalls`), rou
 
 ## Verified on 2026-10-20
 Idempotency behaviour, status model, webhook-first fulfilment, return handling and autofill tokens, against one processor (Stripe) only. One correction (§1.5.3 polling). Four points added (§1.3.9, §1.3.10, §1.5.9, §2.6.12).
+
+## Verified on the second pass, 2026-10-20
+4 verified (script loading origin, time-limit options, target size, plus the Stripe.js fraud-detection note), 1 corrected (§2.4.1 said load the script on the checkout page only as the processor documents; Stripe documents every page), 0 deleted. Content security policy origins were not re-read (the page fetched listed only checkout origins in a French rendering).
 
 ## Not verified
 1. **Everything not cited above is own knowledge**: sections 1.1, 1.2, 1.4, 2.2 (except 2.2.3), 2.4, 2.5 and 2.7 were not checked.

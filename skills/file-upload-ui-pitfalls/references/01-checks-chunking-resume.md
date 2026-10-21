@@ -1,6 +1,6 @@
 # file-upload-ui-pitfalls §1 — Checks, chunking and resuming
 
-Sources: tus resumable upload protocol 1.0.0 (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the rest is own craft.
+Sources: tus resumable upload protocol 1.0.0 (MIT, commit stamped in origin.md, read 2026-10-20) for the facts marked as such; the WHATWG HTML standard (`accept` attribute, CC BY 4.0, read 2026-10-20); the rest is own craft.
 
 ## 1.1 Client checks against server checks
 1. **Symptom: a user waits ten minutes for a 3 GB file and is then told it is too big.** Cause: no client check. The fix is a check at selection time.
@@ -8,7 +8,7 @@ Sources: tus resumable upload protocol 1.0.0 (MIT, commit stamped in origin.md, 
 3. **Symptom: a script file renamed `photo.jpg` is stored and served.** Cause: trusting the extension, the `accept` attribute or the client-supplied content type. All three are chosen by the sender.
 4. **The server is the authority:** it enforces the maximum size while reading (not after buffering), inspects the content to decide the type, checks dimensions and decoded size for images and archives, and applies the same limits the client displayed (`security-hardening` §4).
 5. **One source for the limits.** The server exposes allowed types and the size cap, and the client reads them; two hard-coded copies drift, and the client then rejects what the server accepts or the reverse.
-6. **The `accept` attribute only filters the picker dialog.** A drop, a paste and a script bypass it; re-check on drop and paste.
+6. **The `accept` attribute only filters the picker dialog.** The HTML standard calls it a hint to the browser about which file types will be accepted, not a rule; a drop, a paste and a script bypass it, so re-check on drop and paste.
 7. **Reject early with a message per file:** which file, which rule, what is allowed ("report.exe: this type is not allowed, use PDF, DOCX or PNG"). Keep the other valid files.
 8. **Zero-byte files, duplicate names and very long names are cases:** decide the rule, test it, and never use the client name as a storage path.
 9. **An allow-list by type prefix is not an allow-list.** Symptom: the server accepts any type that starts with `image/`, which includes the vector format that can carry script, and the type is the one the client declared. Check: grep the upload handler for a prefix test on the declared type; replace it with an explicit list of types, decided after inspecting the bytes, and see §3.2.3 for how they are served.

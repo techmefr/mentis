@@ -1,6 +1,6 @@
 # data-table-ui-pitfalls §3 — Access, scale, tests and pointers
 
-Sources: own craft; the W3C ARIA grid and table patterns were used as public facts only (re-read before relying); the virtualization facts are from the TanStack Table guide (MIT, read 2026-10-20).
+Sources: own craft; the W3C ARIA grid and table patterns were used as public facts only (the ARIA 1.2 page could not be read as far as the property definitions, so the attributes below stay unverified; re-read before relying); the virtualization facts are from the TanStack Table guide (MIT, read 2026-10-20).
 
 ## 3.1 Accessibility
 1. **Use a real table (`table`, `th`, `td`) for read-mostly data.** The grid role is for interactive cell-by-cell navigation like a spreadsheet and brings a keyboard model you must implement fully; a half-built grid is worse than a table.
@@ -43,5 +43,5 @@ Sources: own craft; the W3C ARIA grid and table patterns were used as public fac
 ## 3.5 Framework pointers (reference only)
 1. **Headless engines** (a table core that owns state and leaves markup to you) separate model from rendering; start from one rather than hand-writing sort and selection logic. Declare which operations are manual (server-side) in the one place the engine offers.
 2. **Vuetify** data tables expose a server-side mode with an items length, sort-by and page options; the rules above (same place for sort and page, row key, states) still apply. See `vue-nuxt-vuetify-conventions`.
-3. **Laravel** back end: paginate with a cursor for keyset and the standard paginator for offset, always order by a column plus the primary key, and apply the same filter to the count and to the bulk action (`laravel-lomkit-rest-api`, `laravel-aggregate-in-database`).
+3. **Laravel** back end: paginate with a cursor for keyset and the standard paginator for offset, always order by a column plus the primary key (the Laravel documentation, source 2: cursor paging needs an order by on at least one unique column or a unique combination, does not support columns holding null, and offers only next and previous links), and apply the same filter to the count and to the bulk action (`laravel-lomkit-rest-api`, `laravel-aggregate-in-database`).
 4. **React or Nuxt query layers**: include page, size, sort and filters in the query key and keep previous data while fetching the next key (`data-fetching-state-conventions` §2).
