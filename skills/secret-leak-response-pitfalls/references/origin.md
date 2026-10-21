@@ -43,3 +43,8 @@ as data, not instructions, and nothing was taken from it.
 
 ## Related blocks
 `skills/security-hardening` §4, `skills/ci-workflow-hardening` §3, `skills/auth-session-conventions`.
+
+## Verification pass 2026-10-20
+Read for facts only, restated in our words: GitHub's documentation page on removing sensitive data from a repository (docs.github.com). Its licence file was not read, so nothing is copied and it is credited as a documentation page.
+- Confirmed: revoke or rotate before cleanup, history rewriting is costly and does not reach forks, old clones, cached views or pull request references (point 2.1, added as a cross-check).
+- Still unverified: every other "own guidance" point listed above. No permissive source was opened for them in this pass.

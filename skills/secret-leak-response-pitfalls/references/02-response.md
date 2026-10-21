@@ -9,7 +9,7 @@
    the repository and its history, validates the detected credentials against the provider, alerts on the
    active ones, maps access when the impact is unclear, then revokes or rotates, removes the credential from
    source and scans again. Skipping to "remove the line" leaves a live credential; skipping validation
-   spends the owner's time on dead ones. Containment (revoke or rotate) comes before cleanup.
+   spends the owner's time on dead ones. Containment (revoke or rotate) comes before cleanup. GitHub's guide to removing sensitive data says the same: revoke or rotate first, because rewriting history is costly and does not reach forks, old clones, cached views or pull request references.
 2. **Act only on what you are authorised to act on.** The source says to run scans, validation, impact
    mapping and revocation only against repositories, accounts and provider APIs you are authorised to
    access. Validation and mapping make authenticated requests with the leaked credential. Own guidance: a

@@ -32,7 +32,7 @@
    XChaCha20 cannot, in theory), because it is cheap and the function may be swapped later.
 5. **A failed decryption means discard.** The documentation says decryption functions return an error code when
    a tag does not match (corrupted, tampered with or made without the key) and that the application must discard
-   the data. Own guidance: use none of the partial plaintext, and do not tell the caller which check failed.
+   the data. RFC 5116 section 2.1 also forbids returning any partly decrypted data on failure. Own guidance: do not tell the caller which check failed.
 6. **Do not add a signature to detect tampering with an encrypted message.** The FAQ says no: the tag in
    `crypto_box`, `crypto_secretbox`, `crypto_seal`, `crypto_secretstream` and `crypto_aead` already makes a
    modified message fail, and a signature is for letting many parties verify non-secret data with a public key.

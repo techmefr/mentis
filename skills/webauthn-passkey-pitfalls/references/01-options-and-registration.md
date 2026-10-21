@@ -19,7 +19,7 @@
    it was initiated by a user interaction such as a button click.
 4. **`user.id` is random bytes, not your database ID.** The page says it can differ from the ID the application
    uses; the library generates 32 random bytes, notes the specification caps the field at 64 bytes, and no
-   longer accepts a string. Own guidance: it is stored on the authenticator, so put no email address or other
+   longer accepts a string. WebAuthn Level 3 (sections 5.4.3 and 14.6.1) says the handle holds no personally identifying information and is at most 64 bytes. It is stored on the authenticator, so put no email address or other
    personal data in it.
 5. **Send the user's existing credentials as the exclude list**, so the same authenticator is not registered
    twice (both sources).

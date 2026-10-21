@@ -36,7 +36,7 @@ service that had none.
 6. **An absolute session lifetime, on top of the rolling per-token TTL.** The refresh mechanism can
    otherwise renew a session indefinitely as long as the user stays active, which is a different
    guarantee from "expires N minutes after issue": a hard cap forces re-authentication periodically
-   regardless of activity, bounding how long a hijacked session stays usable.
+   regardless of activity, bounding how long a hijacked session stays usable. NIST SP 800-63B-4 (sections 2 and 5.2) asks for both an overall timeout and an inactivity timeout, ending the session when either expires.
 
 ### 2. Storage and transport
 1. **Never a token in a URL, in any form.** Not in the path, not in the query string, not in a
@@ -45,7 +45,7 @@ service that had none.
    credential allowed to travel in a redirect URL is a **short-lived, single-use authorization
    code**, exchanged once against the backend (see the reference flow below). This is the one rule
    in this block we hold against pressure: some teams do ship SSO by handing the token over in the
-   redirect URL, and adopting it "to be consistent with them" would be adopting the leak.
+   redirect URL, and adopting it "to be consistent with them" would be adopting the leak. RFC 6750 section 2.3 also discourages bearer tokens in a query string because URLs are logged and kept in history, and RFC 9700 section 4.2 forbids access tokens in query parameters.
 2. A token lives in a cookie (`Secure`, `SameSite`), never in `localStorage`: `localStorage` is
    readable by any injected script and survives with no expiry semantics. **Why this pattern isn't
    also a CSRF exposure**: classic CSRF relies on the browser attaching a cookie *automatically* to a
@@ -57,7 +57,7 @@ service that had none.
 3. **Known trade-off in our own pattern, stated rather than hidden**: our frontends set that cookie
    client-side and attach the token themselves as a `Bearer` header, so the cookie is **not**
    `httpOnly` and an injected script can read it. `httpOnly` + a server-set cookie is strictly
-   stronger and is the target for a new service that can be built that way. On an existing
+   stronger and is the target for a new service that can be built that way. NIST SP 800-63B-4 section 5.1 likewise recommends HttpOnly, the `__Host-` name prefix, SameSite Lax or Strict and an opaque identifier. On an existing
    frontend, don't half-migrate: a token that's both in a JS-readable cookie and expected in a
    header gains nothing until the whole chain moves.
 4. **Never a token in a log either**, and a clean URL doesn't get you this for free: the usual leak
@@ -76,7 +76,7 @@ service that had none.
    a log is a valid credential sitting in a system with wider read access than the app itself, and
    with a much longer retention than the token's own TTL.
 5. Logout **invalidates on the server side** too: clearing the client store while the token stays
-   valid server-side is not a logout.
+   valid server-side is not a logout. NIST SP 800-63B-4 section 5.1 asks for the session secret to be erased or invalidated at logout.
 
 ### 3. Authorisation: the check lives on the server
 1. Every permission check is enforced **server-side**; the frontend check only hides UI, it never
@@ -124,7 +124,7 @@ A new frontend follows it rather than inventing a variant.
    A leftover scoped selection is what leaks one user's context into the next session. The
    `Clear-Site-Data` response header on the logout call is the browser-level equivalent for anything
    the app itself doesn't track (cache, storage, service workers) — cheap insurance on a shared
-   machine.
+   machine. The W3C working draft (2017, not a standard) says its cookies directive clears cookies for the whole registered domain, cannot spare one cookie, and is best effort; expire a single cookie with `Set-Cookie` instead.
 
 ### 5. Verification before shipping
 1. Replay the journey: login → expiry → refresh → logout, plus one protected route with an
@@ -179,34 +179,4 @@ path exercised.
   realms) is infra reality and stays outside this repo.
 
 ## Origin
-Gap found while scouting a market per-technology agent catalogue (separate `jwt`, `oauth-oidc`,
-`keycloak` and `auth0` agents, with no equivalent anywhere in our roster), crossed with a
-documented internal incident: a token refresh flow broken by a change, merged, and left broken
-because the normal loop never observed the post-expiry path. The per-provider agents were **not**
-retained (per-library fragmentation, against our per-role doctrine); what's kept here is the
-flow-level discipline that the incident showed was missing. Transport rules follow OWASP
-session-management guidance.
-
-Section 4 is **not** sourced from the market: it's extracted from the two real implementations
-already running on our own Nuxt frontends against a Laravel backend, read side by side. Where the
-two disagreed, the stronger one became the reference and the reason is stated inline (single-flight
-refresh: cross-context lock + cross-tab broadcast beats an in-memory promise). Where our own
-practice is weaker than the generic rule, that gap is stated rather than smoothed over (§2.3, the
-non-`httpOnly` cookie). The token-in-the-URL prohibition is written as a rule to hold precisely
-because the surrounding practice on other teams goes the other way.
-
-Re-checked directly against the OWASP Session Management Cheat Sheet on 2026-08-10: three real gaps
-closed — renewal/invalidation on a privilege-level change rather than waiting for natural expiry (§1.5),
-an absolute session lifetime on top of the rolling TTL (§1.6), and `Clear-Site-Data` on logout (§4.8).
-The CSRF note in §2.2 was added the same pass: the cheat sheet leans on `SameSite` for CSRF defence,
-which this block already set — what was missing was saying explicitly *why* the Bearer-header transport
-closes the classic CSRF vector too, rather than leaving a reader to wonder if a CSRF token is also
-needed. Session-ID-regeneration-at-login and idle-timeout ranges stay out: they're framed for a
-server-side session store, and this reference flow is a stateless bearer token, where the equivalent
-guarantee is already the expiry-margin/refresh discipline in §1.
-
-Section 6 added 2026-10-02 from two IETF documents read that day, in full text: RFC 8252 (OAuth 2.0 for native
-apps, a best current practice) and RFC 7636 (proof key for code exchange). Mechanisms restated, no wording
-copied. Not read: the OAuth 2.0 security best current practice document, the device authorization grant and the
-OpenID Connect specifications, so nothing is claimed here for the device flow (a command-line tool without a
-browser) or for token binding. Expiry: if either RFC is obsoleted by a later one, re-read §6 first.
+Gap found while scouting a market agent catalogue, crossed with an internal incident (a refresh flow broken by a change and left broken). Section 4 is extracted from two of our own frontends. Transport rules follow session-management guidance, section 6 follows RFC 8252 and RFC 7636, and the 2026-10-20 pass added RFC 6750, RFC 9700, NIST SP 800-63B-4 and the W3C Clear-Site-Data draft. Full provenance and what is still unsourced: [`references/origin.md`](./references/origin.md). 🟡: never run by us.

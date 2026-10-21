@@ -28,7 +28,7 @@
    ```
 
 3. **The code and everything it returns are credentials.** The response carries an access token and may
-   carry a refresh token and an expiry. Own guidance: none of them is logged, put in a URL, or passed to
+   carry a refresh token and an expiry. RFC 9700 sections 3 and 4.2 name logs and browser history as leak paths and forbid access tokens in query parameters. Own guidance: none of them is logged, put in a URL, or passed to
    the front end unless the front end calls the provider itself; the cookie-and-storage rules are
    `skills/auth-session-conventions` §2.
 4. **An access token is not a session.** The source says it should never be used as a replacement for
@@ -37,7 +37,7 @@
    provider tokens server-side, only if you need to call the provider later.
 5. **Key the account on the provider's stable identifier, not on the email.** The source's example fetches
    the profile with the access token and stores the provider's user ID, which finds the registered account
-   when the user returns. For OIDC the ID token always carries a unique identifier in `sub`. Own guidance:
+   when the user returns. For OIDC the ID token always carries a unique identifier in `sub`, which OpenID Connect Core section 2 says is unique within one issuer and never reassigned. Own guidance:
    the key is the pair of provider and that identifier, because a `sub` is only unique within one issuer
    and an email can change hands.
 6. **An email from the provider may be unverified; do not assume otherwise.** The source says the address
@@ -48,7 +48,7 @@
    prompt them to verify first. This is the account-takeover path: an attacker registers at a provider that
    does not check addresses with the victim's email and signs into the victim's account with you.
 7. **An ID token is verified, not decoded.** Check its signature, issuer and audience the way
-   `skills/jwt-verification` section 1 says, and check the `nonce` if you sent one. The oauth2-proxy
+   `skills/jwt-verification` section 1 says, and check the `nonce` if you sent one (OpenID Connect Core section 3.1.3.7: optional in the code flow, but once sent it must come back equal), and that your client ID is in `aud`, with `azp` equal to it when present. The oauth2-proxy
    documentation names three options `insecure`: allowing an unverified email in an ID token
    (`--insecure-oidc-allow-unverified-email`, default false), skipping issuer verification
    (`--insecure-oidc-skip-issuer-verification`, default false, noted as needed for one multi-tenant
@@ -59,4 +59,10 @@
 8. **Where the user lands after login is a redirect target.** If the login route accepts a "return to"
    value, validate it against a list of your own paths or hosts before storing it with the state; an
    unvalidated one is an open redirect on your own domain. The Copenhagen Book points to its open-redirect
-   page for this, which was not read; the output rules are `skills/security-hardening` §2.
+   page for this, which was not read; RFC 9700 sections 1.2 and 4.1.3 say a client must not expose an endpoint that forwards the browser to a URL taken from a parameter, and show it leaking tokens; the output rules are `skills/security-hardening` §2.
+9. **With more than one provider, bind the expected issuer to the attempt.** Symptom: a callback meant for
+   provider A is processed as if it came from provider B (mix-up), and the code is sent to the wrong token
+   endpoint. Check: the callback reads the issuer stored with the state, and compares it with the `iss`
+   parameter (or the issuer in the ID token); abort on a mismatch. Fix: store the intended issuer per attempt,
+   bound to the browser like the state; distinct redirect URIs per provider are only the fallback. RFC 9700
+   sections 2.1 and 4.4.
