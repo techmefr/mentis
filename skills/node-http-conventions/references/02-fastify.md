@@ -2,7 +2,8 @@
 
 > Section 2 of `skills/node-http-conventions`. Read it when a Fastify route, schema, hook, plugin, deployment
 > setting or test is written. Read 2026-10-02 from the Fastify documentation (main branch): recommendations,
-> validation and serialization, hooks, testing.
+> validation and serialization, hooks, testing; server options, lifecycle and encapsulation pages added
+> 2026-10-20 (same repository, MIT).
 
 1. **Every route has a schema for what it accepts and what it returns.** The input schema validates; the output
    schema serializes through a compiled serializer, which is faster than generic JSON serialization and keeps
@@ -48,3 +49,23 @@
     needs no open port, and returns the response to assert on. Build the app in a function that takes options
     so each test gets a fresh instance, and close it at the end of each test so connections to external
     services are released. Start a real listener only for what injection cannot cover.
+14. **Read the request order before placing a check.** The per-request stages run in this order: routing,
+    `onRequest`, `preParsing`, body parsing, `preValidation`, validation, `preHandler`, the handler, then
+    `preSerialization`, `onSend`, response, `onResponse`. A check that needs the parsed body cannot sit before
+    `preValidation`; one that must run only on valid input belongs in `preHandler`. A thrown error goes to the
+    error hook and then to the error handler, and the error hook does not send the reply: the error handler
+    does.
+15. **Encapsulation: a decorator or hook registered in a child is invisible to its parent and siblings.**
+    Symptom: a property that is `undefined` in one route group and present in another. Wrapping a plugin with
+    the plugin helper makes only that plugin share its decorations with its parent; plugins registered inside it
+    still get their own scope. Register shared decorations at the root or through a wrapped plugin, and register
+    an auth hook inside the group whose routes it protects.
+16. **The documented defaults that matter for exposure.** Proxy trust is off unless set; the request timeout and
+    connection timeout default to no limit, and the guide says to set a request timeout when no proxy sits in
+    front; the keep-alive timeout is 72 seconds, so compare it with the idle timeout of whatever sits in front; the body limit is 1 MiB; a route parameter longer than 100 characters falls to the not-found
+    route; `/foo` and `/foo/` are different paths unless the trailing-slash option is on. Check each against the
+    traffic, do not rely on the default by habit.
+17. **Close is graceful only if nothing holds the server open.** On close the server answers new requests with
+    503, lets in-flight ones finish and drains idle connections; upgraded connections such as WebSockets are not
+    tracked and can block shutdown, so close them in a pre-close hook. Symptom: a deploy that hangs until the
+    orchestrator kills the pod.

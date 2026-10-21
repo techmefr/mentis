@@ -32,7 +32,8 @@ documentation for `missing_safety_doc` and `undocumented_unsafe_blocks`.
 3. **`mem::zeroed` is valid only if all-zero bytes are a valid value of the type.** It is immediate undefined
    behaviour for references and function pointers. Zero is fine for integers; check every other field of a
    struct before zeroing it, and prefer `MaybeUninit::zeroed` with an explicit `assume_init` at the point the
-   claim is made (own guidance on the second half).
+   claim is made. The documentation says `zeroed` is equivalent to that pair, "generally to be avoided", and
+   that padding bytes are not guaranteed zero; putting the claim at the `assume_init` call is own guidance.
 4. **Converting an array of `MaybeUninit<T>` to `[T; N]` is allowed with `transmute`, but a container of
    `MaybeUninit<T>` is not generally the same layout as the container of `T`**: the book's example is
    `Option<bool>`, which uses niche values a `bool` has and an uninitialised one may not.
@@ -60,12 +61,15 @@ documentation for `missing_safety_doc` and `undocumented_unsafe_blocks`.
 2. **A green Miri run is not a proof of soundness.** It runs one execution of your test, so it only reports UB
    on that input and interleaving; vary `-Zmiri-seed` and the inputs to widen it. It follows its own
    approximation of undefined behaviour, so consult the Reference for the definition.
-3. **Miri does not support most platform APIs and FFI.** Gate unsupported tests with `cfg(miri)` and
+3. **Widen coverage with seeds and targets.** `-Zmiri-many-seeds` runs a range of seeds (0 to 64 by default), and
+   `--target` interprets for another platform such as a big-endian one, useful for byte-order code.
+   `-Zmiri-native-lib` for calling native code is experimental and unsound.
+4. **Miri does not support most platform APIs and FFI.** Gate unsupported tests with `cfg(miri)` and
    `#[cfg_attr(miri, ignore)]`, and say in the change which tests were excluded. For intricate atomics, use
    `loom` (`rust-test-supply-chain-ci` §1) as the Miri README itself advises.
-4. **Its isolation is not a sandbox and its random numbers are fake**, so do not run Miri on code that handles
+5. **Its isolation is not a sandbox and its random numbers are fake**, so do not run Miri on code that handles
    real keys or generates cryptographic material.
-5. **State the Miri flags used and the toolchain** in the change, since the aliasing model and the flag set
+6. **State the Miri flags used and the toolchain** in the change, since the aliasing model and the flag set
    move between nightly versions (own guidance, from the README's statement that Miri follows the compiler).
 
 ## 3.5 Documenting unsafe

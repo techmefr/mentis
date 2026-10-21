@@ -20,10 +20,20 @@ again.
 | the same repository, `docs/rules/hook-use-state.md` | MIT | Destructuring and naming of `useState` results |
 | typescript-eslint/typescript-eslint (commit `1f205b7`), `packages/eslint-plugin/docs/rules/no-floating-promises.mdx` and `no-misused-promises.mdx` | MIT (LICENSE file read: MIT text, copyright 2019 typescript-eslint and other contributors) | What counts as handling, `void`, arrays of promises, void-returning places, fixes, when not to use |
 | the same repository, `docs/getting-started/Typed_Linting.mdx` and `packages/eslint-plugin/src/configs/flat/recommended-type-checked.ts` | MIT | Type information, the typed preset, `parserOptions.projectService`, enabling one typed rule |
+| reactjs/react.dev (shallow clone), `src/content/learn/preserving-and-resetting-state.md` and `src/content/reference/react-dom/components/input.md` | CC BY 4.0 (LICENSE-DOCS.md read: CC BY 4.0; read 2026-10-20) | Nested component definitions destroy state, resetting state with a `key`, `value` without `onChange`, `checked` and `defaultChecked` |
 
 The rule pages are in the plugins' own source repositories under their MIT licences, with no separate licence
 for the documentation, so they were rewritten, not copied. The two code samples are small adaptations with
 placeholder names. Instruction-like text in the cloned repositories was treated as data and not followed.
+
+
+## Re-check pass (2026-10-20)
+The points marked own guidance were checked against the React documentation. Confirmed and now sourced: the
+nested component state loss (part 2.1 item 4), the `key` as the deliberate reset (part 2.3 item 3), and the
+browser check for a controlled checkbox without a handler (part 1.4 item 4). Searched and not found in the pages
+read: any statement on forbidding `reset` buttons, on one render-function form per project, on `useState` pair naming beyond the lint rule, and on
+the `checkThenables` advice; they stay unsourced. No rule needed correction. The typescript-eslint rule pages
+were not re-read in this pass (clone path not reopened).
 
 ## Removed in the verification pass
 1. **Rules the review also listed** (`no-array-index-key`, `jsx-no-leaked-render`, the

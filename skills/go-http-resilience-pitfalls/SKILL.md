@@ -35,7 +35,7 @@ healthy one. `go vet ./...` is clean, and `go-conventions` §3 and §4 still hol
 ## Guardrails
 - Never serve with the package-level `http.ListenAndServe` or `http.Get` in code that runs in production
   (§1.1, §2.1).
-- Never retry a request that is not safe to repeat (§3.2).
+- Never retry a request that is not safe to repeat (§3.3).
 - Versions: each rule names its Go version. Nothing was run while writing this block.
 
 ## Origin

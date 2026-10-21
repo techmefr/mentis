@@ -81,8 +81,8 @@ Choose the capture for the question:
 | Why did it stall or die? | Diagnostic report (`--report-on-signal`, `--report-on-fatalerror`) | a point-in-time snapshot of stacks, libuv handles and resource use |
 
 A CPU profile cannot find a leak, and a heap snapshot cannot find a hot function. Taking the wrong one is the
-usual reason an investigation produces a convincing graph and no fix. A snapshot pauses the process and
-roughly doubles its memory while it is written, so take it from one replica taken out of rotation, not from
+usual reason an investigation produces a convincing graph and no fix. A snapshot blocks the event loop while it is written (the pause grows with
+the heap) and the runtime documentation puts its memory need at about twice the heap size, so an out-of-memory kill is a real risk; so take it from one replica taken out of rotation, not from
 the instance serving traffic near its limit. `--diagnostic-dir` sets where these files land.
 
 ## 3.4 Synchronous core APIs do not belong on a request path

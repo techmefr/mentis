@@ -6,9 +6,8 @@
 > URL schemes, redirects, tokens, Server Component payloads), which it does not repeat; the background is
 > `skills/security-hardening`. The other sections and the guardrails stay in `SKILL.md`.
 
-1. **A link that opens a new browsing context does not hand over the opener.** Current browsers treat a
-   `target="_blank"` link as `noopener` by default, but the attribute is still written explicitly as
-   `rel="noopener"`, and `noreferrer` is added when the destination must not learn which page the user came
+1. **A link that opens a new browsing context does not hand over the opener.** The HTML standard makes a `target="_blank"` link imply `noopener` unless `rel` says `opener`, but the
+   attribute is still written explicitly as `rel="noopener"`, and `noreferrer` (which also implies `noopener`) is added when the destination must not learn which page the user came
    from. A link to a user-supplied address additionally passes the scheme check of §9, point 6. The lint rule
    for it stays on, since older embedded browsers do not apply the default.
 2. **Data serialised into an inline script is escaped for a script context.** A page that embeds state as
@@ -24,8 +23,10 @@
    it has, so spread only objects your own code constructed.
 4. **A content security policy is deployed, and starts strict.** A policy that forbids inline script unless
    it carries a per-response nonce, restricts script, frame and form targets, and reports violations turns
-   many injection bugs into console errors. The nonce is generated per request in middleware and passed to
-   the framework's script tags; a static value is no protection. Roll it out in report-only mode, fix what it
+   many injection bugs into console errors. The nonce is generated per request in middleware and the framework applies it to its own scripts; a
+   third-party script component takes it as a prop; a static value is no protection. A nonce needs dynamic
+   rendering, since a statically built page has no request to carry one. React uses `eval` in development, so
+   a development policy may need that source and the production one must not. Roll it out in report-only mode, fix what it
    reports, then enforce; a permissive wildcard or an unsafe-inline source defeats the point.
 5. **A third-party component or script runs with the page's rights.** Pin its version in the lock file, load
    it from one declared place, give a script from another origin an integrity hash, and review what it loads
@@ -36,9 +37,10 @@
 6. **Message listeners check the origin and the shape.** A `message` event handler verifies the sender's
    origin against an allow-list and validates the payload before using it; "any window can post here" is the
    default and is almost never the intent.
-7. **Production builds do not publish the source or the toolchain.** Source maps are generated for the
-   error tracker and not served publicly unless the project decides to; the header that announces the
-   framework is removed; development-only code paths and debugging helpers are removed by the build and
+7. **Production builds do not publish the source or the toolchain.** Source maps for the browser bundle are off in production by default; when switched on, the framework
+   writes them beside the scripts and serves them publicly, and the build gets slower and heavier, so send
+   them to the error tracker from a separate build step instead; the header that announces the
+   framework (sent by default) is removed; development-only code paths and debugging helpers are removed by the build and
    checked in the built output. The environment variables inlined into the bundle are listed and each read as
    public (§9, point 3).
 8. **Form submissions and mutations carry their own anti-forgery.** A server action carries an origin check

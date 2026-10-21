@@ -59,8 +59,9 @@ reading the fulfilled values is a defect to flag. Reasons are untyped (`unknown`
 `void doThing()` and a bare `doThing()` call without `await` both create a promise nobody observes. The
 `void` operator only tells the linter you meant it; it attaches no handler. If that promise rejects, the
 rejection is unhandled. Node's default for unhandled rejections is to raise them as an uncaught exception
-and terminate the process, since Node 15 (stated from the CLI documentation's `--unhandled-rejections`
-modes; not re-verified on a page fetch in this pass).
+and terminate the process, since Node 15, when the default mode of `--unhandled-rejections` changed from a warning to `throw`
+(Node CLI documentation, read 2026-10-20). A no-op `.catch` suppresses the event for that promise, which is why
+it is a decision to make and not a way to silence the log.
 
 What a reader sees: a process that crashes at a random moment, hours after the request that triggered the
 background call returned success; or, where a handler for `unhandledRejection` is installed, a log line with
