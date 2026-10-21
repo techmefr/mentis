@@ -45,5 +45,5 @@ checkpoint is written: a craft block, 🟡, nothing here was run in an applicati
 - Facts about a protocol or library are for the commit stamped in `references/origin.md`; re-read before relying.
 
 ## Origin
-Own craft knowledge, with the resumable upload facts re-read in the tus protocol specification (MIT, read 2026-10-20).
+Own craft knowledge, with the resumable upload facts re-read in the tus protocol specification (MIT, read 2026-10-20), and on a third pass the drag, status-message, filename-header and nosniff facts re-read in WCAG 2.2, RFC 6266 and the Fetch Standard (credited in origin.md).
 Details in [`references/origin.md`](./references/origin.md).

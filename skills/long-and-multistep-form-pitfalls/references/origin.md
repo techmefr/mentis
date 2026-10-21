@@ -16,6 +16,10 @@ writing it.
 | RFC 6585 §3 (read 2026-10-20) | IETF standard, facts only | 428 purpose, optional use |
 | RFC 9110 (pages read 2026-10-20, If-Match section 13.1.1 re-read from the text version) | IETF standard, facts only | 412 meaning (section 15.5.13); If-Match strong comparison, evaluation, 412 or 2xx on failure (section 13.1.1) |
 | Government design system, error-summary page (read 2026-10-20) | page text, facts only, own words; the frontend repository licence file (MIT, Crown copyright) was read 2026-10-20, the design-system repository licence file was not reachable | summary placement, focus, linking, page title prefix, message at field |
+| IETF datatracker page for draft-ietf-httpapi-idempotency-key-header (read 2026-10-20) | IETF Internet-Draft page, facts only | Still a draft, revision 07, expired, header name (§1.3.6) |
+| W3C Page Visibility Level 2 and Beacon API (read 2026-10-20) | W3C document licence, facts only; Page Visibility is marked discontinued | Hidden event cases; queued POST, size limit, no result (§2.1.2) |
+| HTML Standard, web storage (read 2026-10-20, through a summarising fetcher) | CC BY 4.0 (WHATWG) | Quota error, user clearing, sensitivity (§2.1.6a) |
+| W3C ARIA Authoring Practices, keyboard interface; WCAG 2.2 Understanding SC 3.3.4 (read 2026-10-20) | W3C document licence, facts only | Disabled against aria-disabled; review before final submit (§3.3.5, §3.3.3a) |
 | WCAG 2.2 understanding pages for SC 2.2.1 and SC 3.3.1 (W3C, read 2026-10-20) | W3C document, facts only, own words, page credited | timing options, error text rules, native validation caveats |
 | HTML Standard, autofill section (read 2026-10-20) | CC BY 4.0 (licence file read 2026-10-20), WHATWG | purpose tokens, section prefix, off |
 
@@ -26,6 +30,9 @@ number was copied. No numeric threshold is given.
 ## Removed
 - Debounce delays, session lengths and field-count thresholds: no verified source, so none given.
 - Any claim about a particular form library's behaviour: not read.
+
+## Verified on the third pass, 2026-10-20
+5 sourced (idempotency draft status, visibility and beacon limits, storage failure, disabled controls, review step), 1 corrected (the idempotency header is an expired draft, not a pending one), 0 deleted; 2 points added (§2.1.6a, §3.3.3a). Drafts, dirty state, step routing, conflict screens and merge rules stay own guidance: no permissive source found, searched: W3C, WHATWG and IETF pages above, the government design-system pages; the HTML text on the unload prompt was not re-read here.
 
 ## Not verified
 1. **RFC details:** problem details and 428 were re-read; the If-Match comparison rule (RFC 9110 section 13.1.1) was re-read and verified

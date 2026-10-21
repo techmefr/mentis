@@ -1,6 +1,6 @@
 # combobox-autocomplete-ui-pitfalls §3 — States, multi-select, creation and tests
 
-Own craft knowledge; no source read for this section.
+Own craft knowledge, except 3.6.1 (authoring practices listbox page, facts only, read 2026-10-20) and 3.8.4 (HTML Standard, datalist element, CC BY 4.0, read 2026-10-20).
 
 ## 3.1 States
 1. **Six states, each visibly different: idle (closed), loading with nothing to show, results, no match, error, and disabled or read-only.** Symptom: a blank panel that could mean any of them.
@@ -38,7 +38,7 @@ Own craft knowledge; no source read for this section.
 5. **Permissions apply**: hide or disable the create row for a user who may not create, and let the server refuse anyway.
 
 ## 3.6 Performance
-1. **Symptom: the field lags on an option list of a few hundred rows with rich rows.** Fix first at the server (smaller pages, §1.4); render only visible rows (virtual list) when a long list is genuinely needed, and keep keyboard scrolling and `aria-activedescendant` correct with a virtualised list (set the position and total on each option when the full set is not in the page).
+1. **Symptom: the field lags on an option list of a few hundred rows with rich rows.** Fix first at the server (smaller pages, §1.4); render only visible rows (virtual list) when a long list is genuinely needed, and keep keyboard scrolling and `aria-activedescendant` correct with a virtualised list (the listbox pattern says to set the position and set size attributes on each option when the full set is not in the DOM).
 2. **Do not re-render the whole list for a hover.** Highlight state belongs to one index, not to each option.
 3. **Measure before optimising** and keep the budget as a number your team set, not one from a library page.
 
@@ -56,4 +56,4 @@ Facts to re-read in the version you use; none was checked here.
 1. **Headless libraries** for React and Vue ship the pattern with keyboard and ARIA done; prefer one over a hand-built field, and check that it supports async options and a value outside the loaded list.
 2. **Vuetify and similar kits** offer an autocomplete and a combobox component; check the options-load hook, the "selected not in items" behaviour and chip slots before relying on defaults.
 3. **Server-rendered stacks** (Livewire, htmx) debounce with an attribute and cancel previous requests differently; confirm the older response cannot replace the newer (`htmx-protocol-pitfalls`).
-4. **The native `datalist`** is cheap and accessible for short static lists and weak for async data, rich rows and styling.
+4. **The native `datalist`** is cheap for short static lists and weak for async data, rich rows and styling. The HTML Standard defines it as a set of suggestions linked to an input through the `list` attribute; its options may carry a separate value and label, and it does not constrain the value, so it is not a required-choice control.

@@ -48,5 +48,5 @@ when to try again without revealing more (§2.5); a code, where the product has 
 - Facts about a browser or a standard are for the date in `references/origin.md`; re-read before relying. A point without a credit to the HTML Standard or GOV.UK is still own guidance.
 
 ## Origin
-Own craft knowledge. The autocomplete token and input-mode facts were checked on 2026-10-20 against the HTML Standard (CC BY 4.0), and the password, code-entry and reset points against the GOV.UK Design System pages (facts only, credited, content licence not verified, no text copied). No MIT or Apache-2.0 source was found for the screens themselves. Details in
+Own craft knowledge. The autocomplete token and input-mode facts were checked on 2026-10-20 against the HTML Standard (CC BY 4.0), and the password, code-entry and reset points against the GOV.UK Design System pages (facts only, credited, content licence not verified, no text copied). On a third pass NIST SP 800-63B, RFC 9700 and the HTML Standard web messaging section were read for password rules, redirects and tab signalling (facts only, credited). No MIT or Apache-2.0 source was found for the screens themselves. Details in
 [`references/origin.md`](./references/origin.md).

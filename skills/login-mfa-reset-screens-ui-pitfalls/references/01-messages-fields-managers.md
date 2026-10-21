@@ -1,6 +1,6 @@
 # login-mfa-reset-screens-ui-pitfalls §1 — Messages, fields and password managers
 
-Points credited "HTML autofill", "HTML inputmode" or "GOV.UK" were checked on 2026-10-20 (facts only, own words; see origin.md). The rest is own craft or recalled.
+Points credited "HTML autofill", "HTML inputmode" or "GOV.UK" were checked on 2026-10-20 (facts only, own words; see origin.md). Third pass 2026-10-20 (facts only, own words): NIST SP 800-63B (as served at pages.nist.gov/800-63-4) for 1.4 and 1.3.7. The rest is own craft or recalled.
 
 ## 1.1 No account enumeration in the interface
 1. **Symptom: "No account with this email" or "wrong password" on the sign-in screen.** Anyone can now test which emails are registered. Fix: one message for every failed sign-in ("Email or password is incorrect"), the same wording, the same layout and the same status (GOV.UK passwords: do not reveal which credential was wrong).
@@ -28,14 +28,14 @@ Points credited "HTML autofill", "HTML inputmode" or "GOV.UK" were checked on 20
 4. **A two-step login keeps the username field present** (hidden but filled, or visible) on the password step, or managers lose the pairing.
 5. **Do not disable autocomplete on credential fields** and do not use random field names to defeat autofill.
 6. **A single-page app must submit the form** (or call the credential API) so the manager notices the sign-in; a success without a form submit saves nothing.
-7. **Email fields use the email type and a suitable input mode** (the email keyword shows extra keys such as the at sign, HTML inputmode); do not force lower-casing or trimming without telling, but trim whitespace on submit.
+7. **Email fields use the email type and a suitable input mode** (the email keyword shows extra keys such as the at sign, HTML inputmode); do not force lower-casing or trimming without telling, but trim whitespace on submit (NIST SP 800-63B allows trimming leading and trailing whitespace of a password, which is a decision to state, since it changes what the stored secret is).
 8. **Label every field** with a visible label (`accessibility` §4); a placeholder alone disappears and is not read as a label.
 
 ## 1.4 Paste, show password and strength
 1. **Never block paste** on a password or code field; it breaks password managers and pushes users to short passwords (GOV.UK password input). WCAG 2.2 SC 3.3.8 (Level AA, Understanding page read 2026-10-20) treats blocked paste or blocked password-manager fill on a login or verification code field as a failure unless another way in is offered. Do not set a maximum length attribute on a password field: pasted or autofilled text is truncated silently; show an error if a limit is truly needed. Turn off spellcheck and automatic capitalisation on the field.
 2. **A show-password control is a real button with a name and a pressed state**, reachable by keyboard, defaulting to hidden; announce the state change. With two password fields, each button gets a distinct name. Browsers and password managers can reveal the text without the button, so the label may disagree with the field; do not rely on the button as the single source of state. On submit, switch the field back to the password type so the browser does not store the value as general autofill. (GOV.UK password input)
 3. **Do not split the password or the code into hidden multi-field tricks that break paste** (§2.1 treats code boxes).
-4. **Do not impose composition rules the product cannot justify** (forced symbols, expiry every month); follow your security policy and show it before the user types, not after the failure (`security-hardening` §9 for storage).
+4. **Do not impose composition rules the product cannot justify** (forced symbols, expiry every month); follow your security policy and show it before the user types, not after the failure (`security-hardening` §9 for storage). NIST SP 800-63B says verifiers must not impose composition rules and must not force periodic changes without evidence of compromise, should accept at least 64 characters including spaces and Unicode, should offer to show the password while typed, must allow password managers and autofill, and should allow paste. It also requires rejecting a password found on a blocklist of common or breached values and telling the user why, which is a new-password rule, never a sign-in one.
 5. **A strength meter is advice, not the rule**; if used, it has a text alternative, never colour alone, and the server's rule is the authority.
 6. **Offer the passkey or password-manager path where the product supports it** (`webauthn-passkey-pitfalls`), without removing the password path unless the product decided so.
 7. **Caps lock and keyboard-layout hints** help on mobile; keep them quiet and accessible.

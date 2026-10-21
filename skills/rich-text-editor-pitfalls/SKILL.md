@@ -43,4 +43,4 @@ block, 🟡, nothing here was run in an application.
 
 ## Origin
 Own craft knowledge, with editor, serialisation, accessibility and collaboration facts re-read in the Lexical documentation
-and the Yjs threat model (both MIT, read 2026-10-20). Details in [`references/origin.md`](./references/origin.md).
+and the Yjs threat model (both MIT, read 2026-10-20). A third pass re-read the DOMPurify documentation (Apache-2.0), HTML link types, WCAG 1.1.1 and UI Events composition (facts only, credited). Details in [`references/origin.md`](./references/origin.md).

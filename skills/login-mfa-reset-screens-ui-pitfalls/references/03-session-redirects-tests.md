@@ -1,6 +1,6 @@
 # login-mfa-reset-screens-ui-pitfalls §3 — Session expiry, redirects and tests
 
-Own craft knowledge; the token and cookie mechanics are in `auth-session-conventions` and are not repeated (see origin.md).
+Own craft knowledge, except 3.3.2 (RFC 9700, read 2026-10-20), 3.4.1 (HTML Standard web messaging, read 2026-10-20, CC BY 4.0) and 2.4.3 in the codes file (RFC 9700); the token and cookie mechanics are in `auth-session-conventions` and are not repeated (see origin.md).
 
 ## 3.1 Session expiry in the interface
 1. **Symptom: the user clicks Save after twenty minutes and is thrown to a login page, or sees a vague error and a blank table.** Cause: the request got an unauthenticated answer and the client has no plan for it.
@@ -21,7 +21,7 @@ Own craft knowledge; the token and cookie mechanics are in `auth-session-convent
 
 ## 3.3 Redirects after login
 1. **Symptom: the user opens a deep link, signs in and lands on the home page, or is bounced from an expired session to the login and, after signing in again, lands on the default page.** Keep the intended destination through the login (a path stored server side or in a short-lived parameter, validated per §3.3.2) on both entries: the guard that sends a signed-out visitor to the login, and the expiry handler of §3.1. Check that every sign-in success path (password, emailed link, code) reads it, not only one.
-2. **Allow only relative paths of your own application** as the destination; an absolute URL, a protocol-relative URL or a script scheme in the value is an open redirect and a phishing aid.
+2. **Allow only relative paths of your own application** as the destination; an absolute URL, a protocol-relative URL or a script scheme in the value is an open redirect and a phishing aid. RFC 9700 says clients must not expose an endpoint that sends the browser to any address given in a query parameter, and that redirects go only to pre-approved targets; it also requires exact string comparison of registered redirect addresses and warns that pattern matching has led to real attacks, so compare your destination against a fixed set or require a relative path, not a prefix or wildcard test.
 3. **Do not redirect to the login page for an API call**; a page request redirects, an API request returns an authentication error that the client handles (§3.1).
 4. **After sign-out, go to a public page and clear the history entries that show private content**; the back button must not display a cached private page (`security-hardening` §6 on caching).
 5. **Already signed in, visiting the login page, redirects onward** instead of showing the form.
@@ -29,7 +29,7 @@ Own craft knowledge; the token and cookie mechanics are in `auth-session-convent
 7. **A new account lands on the right first screen**, not an empty dashboard with no hint.
 
 ## 3.4 Multi-tab, sign-out and shared devices
-1. **Symptom: the user signs out in one tab and keeps working in another.** Notify the other tabs (a storage or broadcast event) and move them to the signed-out state.
+1. **Symptom: the user signs out in one tab and keeps working in another.** Notify the other tabs (a storage or broadcast event) and move them to the signed-out state. A broadcast channel reaches same-origin pages of the same browser profile by channel name, does not deliver a message to the sending object itself (the tab that signed out must act on its own), copies the data, and should be closed when no longer needed (HTML Standard); a private window or another browser is not reached, so the server session end stays the real guarantee.
 2. **Sign-out is a real action**, not a link that clears local data only; the server ends the session (`auth-session-conventions`).
 3. **A "sign out everywhere" option exists and says what it does**; it is offered after a reset or a suspected compromise.
 4. **Sensitive screens should not stay readable** after a long idle on a shared device: an idle lock or a shorter session is a product decision stated in the policy.

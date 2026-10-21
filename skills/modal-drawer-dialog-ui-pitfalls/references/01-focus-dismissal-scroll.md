@@ -1,6 +1,6 @@
 # modal-drawer-dialog-ui-pitfalls §1 — Focus, dismissal and scroll
 
-Points credited "APG dialog", "APG alertdialog" or "HTML dialog" were checked on 2026-10-20 (facts only, own words; see origin.md). The rest is own craft or recalled, not re-read.
+Points credited "APG dialog", "APG alertdialog" or "HTML dialog" were checked on 2026-10-20 (facts only, own words; see origin.md). Third pass 2026-10-20 (facts only, own words): the authoring practices modal dialog example, CSS Overscroll Behavior (W3C draft), WCAG 2.2 Understanding pages for SC 2.4.11. The rest is own craft or recalled, not re-read.
 
 ## 1.1 Dialog or page
 1. **Symptom: a dialog with tabs, three steps and a table inside.** Cause: it was quicker to build than a route. A dialog suits a short, single decision or a small form that the user finishes or abandons without losing their place.
@@ -14,7 +14,8 @@ Points credited "APG dialog", "APG alertdialog" or "HTML dialog" were checked on
 3. **On close, return focus to the trigger** (APG dialog). Symptom: after closing, the next Tab starts at the top of the page. Keep a reference to the element that was focused before opening. The native element records the previously focused element and restores it on close when focus was inside or the dialog was modal (HTML dialog); a different target is legitimate when the workflow calls for it (a new row, for example), and stating it is the point.
 4. **When the trigger no longer exists** (the row was deleted, the menu item unmounted), return focus to a stated fallback: the list heading, the next row, or the page main region; decide it once.
 5. **Focus must be visible** inside the dialog (`accessibility` §1), including the close button on a dark backdrop.
-6. **Opening from a menu**: close the menu first, then open the dialog, and return to the menu's own button, not the vanished item.
+6. **A sticky footer or header inside the dialog must not fully cover the focused field** (WCAG 2.2 SC 2.4.11 fails an author-created overlay that entirely hides the focused component; scroll padding that equals the sticky height is the listed technique). A properly built modal passes the criterion for the page behind it, because focus is held inside until it is dismissed.
+7. **Opening from a menu**: close the menu first, then open the dialog, and return to the menu's own button, not the vanished item.
 
 ## 1.3 Escape, backdrop and close controls
 1. **Escape closes the top layer only** (APG dialog: Escape closes the dialog). Symptom: a combobox list open inside a dialog, Escape closes the dialog and loses the form. Fix: the innermost open layer consumes the key (`combobox-autocomplete-ui-pitfalls` §2.2).
@@ -25,7 +26,7 @@ Points credited "APG dialog", "APG alertdialog" or "HTML dialog" were checked on
 
 ## 1.4 Trap and inert page
 1. **Symptom: Tab walks into the page behind a modal and a screen reader reads it.** A dark overlay hides nothing from assistive technology.
-2. **Prefer the platform**: the native dialog element opened as a modal (the script method that opens it as modal, not the plain open method) makes the rest of the document inert, puts the dialog in the top layer with a backdrop pseudo-element, and routes a close request such as Escape through a cancelable cancel event (HTML dialog). The backdrop is a pseudo-element, not a dismissal rule: clicking outside closes a dialog only when its close-behaviour attribute is set to the value that allows it and it is the topmost dialog; the default for a modal is close requests only (HTML dialog, `closedby`; check browser support for that attribute). Check its support and its behaviours in the browsers you target before choosing a hand-built one. For an app that ships inside a webview shell, state the oldest webview version it targets and check the element against that, not against a desktop browser; if the version cannot be established, say so and treat the choice as unverified.
+2. **Prefer the platform** (the authoring practices example itself is hand-built: it moves focus to a stated element on open, returns it to the trigger or to a remembered original trigger when a second dialog closes, wraps Tab at both ends, closes on Escape, uses `aria-modal` and says nothing about clicking the backdrop, so backdrop dismissal is a product decision, §1.3.3): the native dialog element opened as a modal (the script method that opens it as modal, not the plain open method) makes the rest of the document inert, puts the dialog in the top layer with a backdrop pseudo-element, and routes a close request such as Escape through a cancelable cancel event (HTML dialog). The backdrop is a pseudo-element, not a dismissal rule: clicking outside closes a dialog only when its close-behaviour attribute is set to the value that allows it and it is the topmost dialog; the default for a modal is close requests only (HTML dialog, `closedby`; check browser support for that attribute). Check its support and its behaviours in the browsers you target before choosing a hand-built one. For an app that ships inside a webview shell, state the oldest webview version it targets and check the element against that, not against a desktop browser; if the version cannot be established, say so and treat the choice as unverified.
 3. **A hand-built modal needs three things**: the page siblings marked inert (or hidden from the accessibility tree), a focus trap that wraps Tab and Shift+Tab at the ends (APG dialog), and the dialog role with `aria-modal`. Set `aria-modal` to true only when the application really blocks interaction outside and the outside is visually obscured; otherwise some assistive technology users lose content they should reach. It replaces the older practice of hiding each outside element, which if kept must not put the dialog inside a hidden ancestor (APG dialog).
 4. **The trap must handle content that changes**: a field that appears, a button that becomes disabled, and an empty dialog (focus the container).
 5. **Live regions and toasts outside the dialog** are not reached; show errors for the dialog's actions inside it.
@@ -38,7 +39,7 @@ Points credited "APG dialog", "APG alertdialog" or "HTML dialog" were checked on
 2. **Lock the document scroll while a modal is open and restore the exact position on close**; reserve the scrollbar width (stable gutter) so the layout does not shift.
 3. **The dialog body scrolls, the header and actions stay**; a tall dialog on a short viewport must never push its buttons off screen.
 4. **Count locks.** Two dialogs both locking and unlocking restore the page early; unlock only when the last one closes.
-5. **Overscroll must not chain to the page behind** on touch devices (§3.1).
+5. **Overscroll must not chain to the page behind** on touch devices (§3.1). The CSS overscroll-behavior property with the contain value blocks scroll chaining from the dialog body to the page; the none value also removes the local overscroll effect (CSS Overscroll Behavior, W3C draft).
 6. **Never lock scroll for a non-modal panel.**
 
 ## 1.6 Rendering and timing

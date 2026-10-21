@@ -60,5 +60,5 @@ guessed.
 
 ## Origin
 Written from general practice in business-application forms; the problem-details, conditional-request, precondition-required, WCAG and
-autofill facts, and the error-summary pattern, were re-read on 2026-10-20 (facts only, own words); no text was copied. 🟡: never run by us. Details in
+autofill facts, and the error-summary pattern, were re-read on 2026-10-20 (facts only, own words); a third pass added the idempotency draft status, Page Visibility, Beacon, web storage, disabled-control and review-step facts (facts only, credited); no text was copied. 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

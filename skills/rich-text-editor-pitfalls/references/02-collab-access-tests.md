@@ -1,6 +1,6 @@
 # rich-text-editor-pitfalls §2 — Mentions, collaboration, access and tests
 
-Sources: Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, commit stamped in origin.md, read 2026-10-20) and the Yjs threat model (MIT, read 2026-10-20) for the facts marked as such; the W3C ARIA Authoring Practices toolbar and button patterns and the WAI-ARIA 1.2 definitions (W3C document licence, facts only, read 2026-10-20) for the toolbar and state points; the rest is own craft.
+Sources: W3C UI Events (composition events, read 2026-10-20, facts only) for 2.5.5; Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, commit stamped in origin.md, read 2026-10-20) and the Yjs threat model (MIT, read 2026-10-20) for the facts marked as such; the W3C ARIA Authoring Practices toolbar and button patterns and the WAI-ARIA 1.2 definitions (W3C document licence, facts only, read 2026-10-20) for the toolbar and state points; the rest is own craft.
 
 ## 2.1 Mentions
 1. **A mention is a reference, not text.** Store the user id with the displayed name as a cache, so a rename updates it and a deleted user shows a neutral label. Symptom: "@Ana" stays after Ana became "Ana Martin", and a text match mentions the wrong Ana.
@@ -48,7 +48,7 @@ Sources: Lexical documentation (keyboard accessibility, collaboration FAQ; MIT, 
 2. **Warn before leaving with unsaved changes**, and clear the warning on save.
 3. **Undo works after paste, formatting and mention insertion**; test the sequence.
 4. **Do not lose the content on a failed save**; keep the editor state, show the error and retry.
-5. **Mobile keyboards change selection and composition**: test with input method editors and dictation, since composition events are where editors break.
+5. **Mobile keyboards change selection and composition**: test with input method editors and dictation, since composition events are where editors break. UI Events defines a composition session between a start, one or more update and an end event, and flags keyboard and input events inside it as composing: a key handler (Enter to send, a shortcut, a mention trigger) must ignore keys while the session is active, or it fires in the middle of a candidate pick.
 6. **Right-to-left text and mixed direction** need direction per block (`rtl-and-bidi-layout-pitfalls`).
 
 ## 2.6 Search and export

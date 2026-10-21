@@ -41,4 +41,4 @@ exist. No checkpoint is written: a craft block, 🟡, nothing here was run in an
 
 ## Origin
 Own craft knowledge, with the paging and state facts re-read in the TanStack Table documentation (MIT, read
-2026-10-20). Details in [`references/origin.md`](./references/origin.md).
+2026-10-20); the ARIA table, grid and sort facts and the status-message and target-size facts were re-read on a third pass in W3C pages (facts only, credited). Details in [`references/origin.md`](./references/origin.md).

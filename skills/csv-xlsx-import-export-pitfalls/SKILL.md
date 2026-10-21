@@ -56,5 +56,5 @@ export spec naming columns, types, encoding, row scope and the injection guard (
   [`references/origin.md`](./references/origin.md). No file was parsed and no program was run.
 
 ## Origin
-Written from general practice in business import and export features and from the CSV format description (RFC 4180) and one vendor limits page, both read 2026-10-20, facts only and credited; no text was copied. 🟡: never run by us. Details in
+Written from general practice in business import and export features and from the CSV format description (RFC 4180) and one vendor limits page, both read 2026-10-20, facts only and credited, plus on a third pass the W3C tabular data model and the Papa Parse documentation (MIT); no text was copied. 🟡: never run by us. Details in
 [`references/origin.md`](./references/origin.md).

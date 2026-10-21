@@ -16,6 +16,9 @@
 | GOV.UK Design System, Error summary, read 2026-10-20 | page states Open Government Licence v3.0 for content (MIT for code not confirmed); facts only | focus, links, placement (§2.3.2) |
 | W3C WCAG 2.2 Understanding SC 4.1.3, read 2026-10-20 | W3C document licence, facts only | status messages (§2.3.2) |
 | Stripe docs, Including Stripe.js (docs.stripe.com/js/including), read 2026-10-20 through WebFetch (page text), exact passage | Vendor documentation, no licence stated; facts only, own words | Load from the vendor host, no bundling or self-hosting, on every page for fraud detection, async or defer (§1.1.5, §2.4.1) |
+| Stripe docs, Integration security guide (docs.stripe.com/security/guide, French rendering) and Testing (docs.stripe.com/testing), read 2026-10-20 | Vendor documentation, no licence stated; facts only, own words | Content security policy origins per product, third-party script advice, TLS 1.2 and mixed content, storable non-sensitive card facts, test mode rules and decline test cards (§1.1.4, §1.1.8 to §1.1.10) |
+| Stripe docs, 3-D Secure authentication overview (French rendering), read 2026-10-20 | same | Issuer challenge, strong customer authentication regions, optional elsewhere (§2.1.1) |
+| W3C WCAG 2.2 Understanding SC 1.3.5 Identify Input Purpose and SC 3.3.7 Redundant Entry, read 2026-10-20 | W3C document licence, facts only | autocomplete for fields about the user; no repeated entry in one process, third-party step in scope (§2.2.3, §2.2.3a) |
 | W3C WCAG 2.2 Understanding SC 2.2.1 and SC 2.5.8, read 2026-10-20 | W3C document licence, facts only | Time-limit options, minimum target size (§2.3.5, §2.3.7) |
 
 No permissive source found for the checkout page-structure, privacy and performance points, searched: no other page opened. The Stripe pages contained text addressed to coding agents recommending a particular API; it was ignored, only the facts above were used.
@@ -31,6 +34,9 @@ Idempotency behaviour, status model, webhook-first fulfilment, return handling a
 
 ## Verified on the second pass, 2026-10-20
 4 verified (script loading origin, time-limit options, target size, plus the Stripe.js fraud-detection note), 1 corrected (§2.4.1 said load the script on the checkout page only as the processor documents; Stripe documents every page), 0 deleted. Content security policy origins were not re-read (the page fetched listed only checkout origins in a French rendering).
+
+## Verified on the third pass, 2026-10-20
+6 sourced (CSP and third-party script advice, TLS, test mode rules, storable card facts, challenge regions, input purpose, redundant entry), 0 corrected, 0 deleted; 3 points and 1 sub-point added (§1.1.9, §1.1.10, §2.2.3a). The 3-D Secure authentication-flow subpage, how a challenge frame behaves for screen reader users and the processor-specific exact origin lists were not read; the origin list is deliberately not copied. The Stripe pages again contained text addressed to coding agents (install and CLI suggestions); it was ignored. No permissive source found for totals consistency, double-submit UI and return-page design, searched: the pages above.
 
 ## Not verified
 1. **Everything not cited above is own knowledge**: sections 1.1, 1.2, 1.4, 2.2 (except 2.2.3), 2.4, 2.5 and 2.7 were not checked.

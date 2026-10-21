@@ -43,6 +43,7 @@
 2. **Tie each message to its field** (accessible description and an invalid state on the input), and keep the
    message text in the page, not only in a colour or an icon. The basics are in `skills/accessibility`
    reference 04.
+3a. **A review step before a final submit meets WCAG 3.3.4** for submissions that make a legal or financial commitment, change or delete user data, or submit test answers: at least one of reversible, checked with a chance to correct, or confirmed on a review screen before finalising. The criterion does not ask for a confirm on every save (WCAG 2.2 Understanding SC 3.3.4, read 2026-10-20).
 3. **Announce step changes.** Symptom: pressing "next" swaps the content and the screen reader stays on the
    removed button. Fix: after the swap move focus to the new step heading, and update the page title or a
    progress region ("Step 3 of 5: Delivery").
@@ -52,7 +53,7 @@
    least ten times. Exceptions: real-time events, essential limits, and limits longer than 20 hours. A session that expires
    mid-form is such a limit.
 5. **Keep disabled "next" buttons explained.** A disabled control that does not say why is invisible to some
-   users; prefer an enabled control that reports what is missing on activation.
+   users; prefer an enabled control that reports what is missing on activation. The authoring practices keyboard page backs the first half: a control with the `disabled` attribute leaves the tab sequence and screen reader users are far less likely to find it, while `aria-disabled` keeps it focusable; it suggests the plain attribute only when nearby focusable elements make the disabled one's existence obvious (W3C ARIA Authoring Practices, keyboard interface, read 2026-10-20).
 6. **Autocomplete and input purpose.** Fields for the person's own data should declare their purpose so the
    browser can fill them. The HTML Standard (CC BY 4.0, read 2026-10-20) defines purpose tokens such as given-name, email, tel,
    street-address and postal-code, optional shipping or billing prefixes, a section- prefix that groups fields into one set

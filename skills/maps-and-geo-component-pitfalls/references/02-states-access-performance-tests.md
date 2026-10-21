@@ -1,12 +1,12 @@
 # maps-and-geo-component-pitfalls §2 — States, accessibility, performance and tests
 
-Source: own craft knowledge, with one point checked on 2026-10-20 (see origin.md). Unmarked points have no source.
+Source: own craft knowledge, with one point checked on 2026-10-20 and, on a third pass the same day, WCAG 2.2 Understanding SC 2.5.1 and SC 2.1.2 (facts only, see origin.md). Unmarked points have no source.
 
 ## 2.1 States and interaction
 1. **Render separately**: loading (tiles and data), loaded, empty (no places match), filtered empty (places exist, filters hide them), error with retry, offline, and location denied. Never show an empty map as "no results" when the request failed (`data-table-ui-pitfalls` §2.1, `onboarding-and-empty-state-pitfalls` §2.1).
 2. **Filtered empty keeps the map and the filters**, says what is filtered and offers to clear or widen, and may zoom out to the nearest results when that is honest ("Nearest result is 40 km away").
 3. **Symptom: the map jumps while the user is reading or dragging.** Cause: data refresh recentres or fits bounds on every update. Fit bounds on first load and on an explicit search, not on each refresh; never move the view under the user's hands.
-4. **Scroll and gesture conflicts**: a full-width map captures page scroll, trapping the user. Offer two-finger or modifier-key panning on the page, or a clear "Interact" state, and keep an easy way past the map (`responsive-layout`).
+4. **Scroll and gesture conflicts**: a full-width map captures page scroll, trapping the user. Offer two-finger or modifier-key panning on the page, or a clear "Interact" state, and keep an easy way past the map (`responsive-layout`). A multipoint gesture is not enough on its own: WCAG 2.2 SC 2.5.1 asks that anything done with a pinch, spread or other multipoint or path-based gesture also work with a single pointer, and gives plus and minus buttons for map zoom as the example; keyboard support alone does not satisfy it.
 5. **Selection is one state shared by map, list and detail**: selecting a pin highlights its row and opens the detail; selecting a row pans to its pin. Two components with separate selection drift.
 6. **Keep map state in the URL** (centre, zoom, filters, selected id) so back, reload and sharing work, with sensible rounding of the numbers; do not put a private position in a shareable link.
 7. **Popups are short, focus-managed and dismissible**; a popup that hides the pin it describes, or cannot close on touch, is a defect. Prefer a side or bottom panel for rich content.
@@ -27,7 +27,7 @@ Source: own craft knowledge, with one point checked on 2026-10-20 (see origin.md
 2. **Make the list the primary structure** for screen-reader and keyboard users: sortable by distance where location is known, with each item's name, address, distance and a link to details, and the same filters as the map (`data-table-ui-pitfalls`).
 3. **Keep the list and the map in sync, but independent**: operating the list never requires the map, and the map is not the only place a selection can be made.
 4. **Offer a "list view" toggle visibly**, reachable before the map in tab order for users who need it, not hidden behind the map controls.
-5. **Map controls are keyboard-operable**: pan, zoom and recentre by keys where the library supports it, visible focus, and a way to leave the map with Tab and Escape without a trap; check the library's own claims by testing, not by reading its page (`01-semantics-keyboard`).
+5. **Map controls are keyboard-operable** (and WCAG 2.1.2 asks that focus can leave the map with the keyboard alone; if the way out is not Tab, an arrow key or a standard exit such as Escape, say how to leave in text beside or inside it): pan, zoom and recentre by keys where the library supports it, visible focus, and a way to leave the map with Tab and Escape without a trap; check the library's own claims by testing, not by reading its page (`01-semantics-keyboard`).
 6. **Give the map region an accessible name and a short description** of what it shows, and mark decorative tile layers as such; individual pins that matter are reachable or covered by the list.
 7. **Announce meaningful changes politely**: "12 places found", "Showing results near Lyon", in one live region created at load, without moving focus (WCAG 2.2 SC 4.1.3 lists a results count as a status message; `in-app-notifications-pitfalls` §2.3).
 8. **Pin popups and detail panels return focus** to the control that opened them on close, and are closable by Escape.

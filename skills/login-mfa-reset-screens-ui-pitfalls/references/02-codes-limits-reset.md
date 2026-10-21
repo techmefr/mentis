@@ -2,7 +2,7 @@
 
 Applicability: §2.1 to §2.3 apply only when the product has a typed one-time code or a second factor. §2.4 and §2.5 apply to any reset or emailed-link flow and any limit message.
 
-Own craft knowledge, except points credited "HTML autofill", "HTML inputmode" or "GOV.UK" (checked 2026-10-20, facts only; see origin.md). The server rules are in other blocks.
+Own craft knowledge, except points from NIST SP 800-63B (read 2026-10-20, facts only) at 2.2.5 and 2.5.2, and points credited "HTML autofill", "HTML inputmode" or "GOV.UK" (checked 2026-10-20, facts only; see origin.md). The server rules are in other blocks.
 
 ## 2.1 One-time-code entry
 1. **Symptom: the code arrives by SMS or email and the user types it by hand, or cannot paste it.** Fix: one input (or boxes that accept a pasted full code and distribute it), the one-time-code autocomplete token so the phone can offer it (HTML autofill), numeric input mode for numeric codes on a text-type input (HTML inputmode: a numeric keyboard suited to PIN entry; GOV.UK security code does exactly this), and no change of case or spaces by the field.
@@ -18,7 +18,7 @@ Own craft knowledge, except points credited "HTML autofill", "HTML inputmode" or
 2. **The timer uses the server's time, not the browser's clock**; a drifting clock lies about the deadline.
 3. **A countdown is also text for a screen reader**, updated at a sane rate, not every second.
 4. **An expired code says so and offers resend in place**, keeping the user's context; it does not drop them back to the first screen. GOV.UK shows a distinct expired message with a new code sent, and treats a very old code as simply incorrect (GOV.UK security code). Example only: that service uses fifteen minutes and keeps an earlier code valid until its own expiry; the product's own policy decides both.
-5. **A resend failure is its own message** ("could not send, try again"), and it does not reset the countdown.
+5. **A resend failure is its own message** ("could not send, try again"), and it does not reset the countdown. A new code must not reset the count of failed attempts either: NIST SP 800-63B says generating a new secret does not reset the failure count, and that each secret is accepted once within its lifetime, so a resend loop cannot buy unlimited guesses.
 6. **Do not show more resends than the limit allows**; when the limit is reached say what to do (§2.5).
 7. **Email codes arrive late; say it** ("it can take a minute, check your spam folder") without blaming the user.
 
@@ -33,7 +33,7 @@ Own craft knowledge, except points credited "HTML autofill", "HTML inputmode" or
 ## 2.4 Reset flow screens
 1. **Request screen**: one field, the neutral confirmation of §1.1, and no hint whether the address exists.
 2. **The link screen reads the token from the URL, then shows the new-password form**; if the token is bad or expired, say "this link is no longer valid" with a way to request a new one, and do not say why more than that. If the product has an emailed sign-in link (single use), a distinct "already used" message is a deliberate trade: it helps a user who clicked twice and tells only someone who holds the token; decide it once and write it down, and do not apply the same distinction to a reset or code screen where the extra information has a cost.
-3. **Do not leave the token in the address bar or history after use**: redirect to a clean URL when the page loads, and keep it out of third-party requests (`security-hardening` §6 on referrer). Check: the page reads the token from the query and never replaces the address (grep for the query read with no history replace), and the responses carry a restrictive referrer policy; this applies to emailed sign-in links as much as to reset links.
+3. **Do not leave the token in the address bar or history after use** (RFC 9700 lists the referrer header as a leak path for codes and state, and the remedies: no third-party resources or external links on the page that shows the code, a no-referrer policy, single-use codes): redirect to a clean URL when the page loads, and keep it out of third-party requests (`security-hardening` §6 on referrer). Check: the page reads the token from the query and never replaces the address (grep for the query read with no history replace), and the responses carry a restrictive referrer policy; this applies to emailed sign-in links as much as to reset links.
 4. **The new-password form has the new-password token and rules shown in advance (§1.4)**, and a confirmation field only if the product wants one; a show-password button often replaces it.
 5. **On success, say so and go to sign-in (or sign in directly if the product decided)**, and state that other sessions were ended when that is true. Email the owner that the reset happened (GOV.UK passwords). Send a link or code, never the password itself, and time-limit it; the duration is not given by the source.
 6. **A reset while signed in is a different screen** (change password) and asks for the current password or a fresh login (§3.2).
@@ -42,7 +42,7 @@ Own craft knowledge, except points credited "HTML autofill", "HTML inputmode" or
 
 ## 2.5 Rate limit and lockout feedback
 1. **Symptom: "too many attempts" with no time, or a shaking form and nothing else.** A user cannot tell if it is broken or blocked.
-2. **Say that attempts are limited and when to retry**: "Too many attempts. Try again in a few minutes." A precise countdown is allowed only when it does not depend on whether the account exists.
+2. **Say that attempts are limited and when to retry** (NIST SP 800-63B requires a limit on consecutive failures per authenticator, lists increasing delays and bot challenges as optional measures, and says a successful sign-in clears the earlier failures): "Too many attempts. Try again in a few minutes." A precise countdown is allowed only when it does not depend on whether the account exists.
 3. **The limit message appears for known and unknown accounts alike**, otherwise it enumerates (§1.1). Rate limits keyed by address or session, not only by account, make that possible (`security-hardening` §7).
 4. **Do not show remaining-attempt counts on sign-in**; they confirm the account and help an attacker plan. For orientation only, GOV.UK allows five to ten wrong attempts before a lock or extra checks, and a time delay after ten wrong codes (GOV.UK passwords, security code); the product sets its own numbers.
 5. **A lockout never reveals its cause on the form**; the account owner learns by email, with a way to unlock or reset.
