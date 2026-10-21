@@ -35,3 +35,25 @@ give each pinned fact above a verdict (`skills/source-freshness` §3); stamp the
 
 **Not taken.** The sourcing notes listed an ESLint plugin for Tailwind; it was not read and no rule here
 depends on it.
+
+## Re-verified 2026-10-20 (🟡, nothing run)
+
+The code repository `tailwindlabs/tailwindcss` was read through its licence file (**MIT**, "Tailwind Labs, Inc.") and its
+changelog (4.3.3 released 2026-07-16 is the latest tagged section; an Unreleased section exists). The documentation
+repository stays not open-licensed (above): on this pass its pages were read on the official site as product
+documentation, for facts only, and nothing was copied.
+
+| Page read | Points confirmed |
+|---|---|
+| upgrade guide | §3.1 (browser floor), §3.2 to §3.7 and the new §3.9: separate packages, `@import`, removed options, `@config`, renames, outline, ring, border, space and divide selectors, gradients, container, preflight changes, important and prefix shapes, Node 20 |
+| detecting classes in source files | §1.1 to §1.4 (plain-text scan, ignored paths, `@source`, `not`, `source(none)`, `source()` base, `inline()`, braces and ranges) |
+| functions and directives | §2.7, §2.8, §2.10, §3.4 (directive and function list, `@reference`, `theme()` deprecated, `--alpha()`, `--spacing()`) |
+| theme variables | §2.1 to §2.5 |
+| dark mode, responsive design, hover and states, compatibility, editor setup | §2.10 to §2.13, §3.8, §1.10 |
+| styling with utility classes, adding custom styles | §1.5 to §1.7, §2.7, §2.9, §2.14 |
+
+**Corrected:** the `@property`/`color-mix()` dependency and the Vite-plugin speed claim (both unstated, now worded as
+such); the `@apply` escape attribution (§1.6); the data-type hint syntax (§1.5). **Added:** §3.9 (four silent changes).
+**Still unverified:** the `@property`/`color-mix()` dependency, the Vite plugin speed advantage, the claim that variant
+stacking order matters beyond the upgrade note (the states page documents no order rule), `--value()` type list
+beyond the page's excerpt, the ESLint plugin remark. **Not re-opened:** preflight, the plugin API, per-utility pages.

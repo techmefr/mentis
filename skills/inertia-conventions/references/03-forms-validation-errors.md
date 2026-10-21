@@ -40,12 +40,15 @@
    can no longer see. Password fields are the exception worth stating: clear those on failure too, but
    keep everything else.
 9. **A form carrying a file is sent as multipart, and PHP does not populate the form data for `PUT` or
-   `PATCH`.** The method has to be spoofed through a `_method` field — `useForm`'s own `put`/`patch` do it
-   when a file is present, a hand-built request does not, and the symptom is an empty request body with
-   validation failing on every field. The same conversion is what forces a file form to be `post`.
+   `PATCH`.** The simplest fix is to upload with `POST`, or to send `POST` with a `_method` field that Laravel's
+   method spoofing turns into `PUT` or `PATCH`; the file-uploads page shows the field added by hand and does not say
+   Inertia adds it, and no `_method` handling was found in the `useForm` sources of the 3.x core or the Vue, React and
+   Svelte adapters (an earlier version of this point claimed `put`/`patch` do it, which is not supported). The symptom
+   of getting it wrong is an empty request body with validation failing on every field. Inertia converts the data to
+   `FormData` itself when a file is present, and `forceFormData: true` forces it.
 10. **A large upload with no progress reads as a frozen page.** The visit exposes upload progress; a form
     that ignores it gives the reader nothing to distinguish a 40 MB upload from a hang, and they will
-    press the button again (point 6) or navigate away. Show progress, and say what happens if they leave.
+    press the button again (point 6) or navigate away. Show progress (the form helper's `progress.percentage`), and say what happens if they leave.
 11. **The 422 becomes an errors prop only for an Inertia request.** The same controller reached by a
     non-Inertia client gets the JSON validation body instead. That is a feature — the FormRequest is the
     shared contract and both callers are validated identically — but it means a test asserting the JSON
@@ -63,7 +66,8 @@
     form's state in the history entry, so the back button returns the reader to what they had typed
     rather than to an empty form. Reach for it when losing the input would mean retyping minutes of work.
 15. **`useForm`'s Precognition support is built in — the wiring point 3 asks for is the route's
-    `HandlePrecognitiveRequests` middleware, not a client-side integration.** Nothing about the form's
+    `HandlePrecognitiveRequests` middleware, not a client-side integration (own guidance: the Precognition page could not be
+    re-read on 2026-10-20, it returned 404).** Nothing about the form's
     submit changes: the same `useForm` instance validates a field on blur/change against the live
     FormRequest and later submits for real, so point 1's single-owner-of-form-state rule holds without a
     second helper or a separate as-you-type endpoint. Point 3 stands as the reason to reach for it; this

@@ -23,7 +23,7 @@
    form, past participle (or present participle when the verb has a direct object) for the non-mutating one
    (`sort`/`sorted`, `stripNewlines`/`strippingNewlines`). Noun operation: the noun for the non-mutating
    form, the `form` prefix for the mutating one (`union`/`formUnion`).
-9. **Boolean members read as assertions** about the receiver (`isEmpty`, `intersects(_:)`). Protocols that say
+9. **Boolean members read as assertions** about the receiver when the use is nonmutating (`isEmpty`, `intersects(_:)`). Protocols that say
    what something is read as nouns; capability protocols end in `able`, `ible` or `ing`. Other types,
    properties, variables and constants are nouns.
 10. **Terminology.** Avoid obscure terms where a common word works; if a term of art is used, use it in its

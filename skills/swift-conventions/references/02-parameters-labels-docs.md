@@ -20,7 +20,8 @@
    - Label every other argument. A defaulted argument can be omitted, so it never takes part in a phrase and
      is always labelled.
 4. **Name tuple members and closure parameters** where they appear in an API, chosen like parameter names.
-5. **Document every declaration of a published API.** The documentation comment begins with a one-fragment
+5. **Document every declaration of a published API.** (The guidelines say every declaration; limiting it to published
+   declarations is the house no-comment rule at work.) The documentation comment begins with a one-fragment
    summary ending in a period, saying what a function does and returns (omitting null effects), what a
    subscript accesses, what an initializer creates, or what any other entity is. Further paragraphs use full
    sentences; use the recognised markup keywords for parameters, returns, throws, complexity and notes. If the

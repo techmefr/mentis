@@ -22,8 +22,8 @@ a build script is written or modified, during `code` (6) or `ship` (9).
 ### 1. What reaches the browser
 1. **Every variable whose name starts with `VITE_` is written into the client bundle at build time.** It is
    public, not a configuration value. A secret never carries the prefix, and a key that must stay secret is
-   used by a backend, a serverless or edge function. The prefix is changeable (`envPrefix`); changing it to an
-   empty string or a broad one exposes everything, so it is a finding.
+   used by a backend, a serverless or edge function. The prefix is changeable (`envPrefix`); a broad one exposes
+   more than intended and is a finding, and an empty string makes Vite throw an error (shared-options page).
 2. **Variables arrive as strings.** `VITE_FLAG=false` is truthy. Parse numbers and booleans once, in a typed
    module, and type the names by augmenting `ImportMetaEnv` in a `vite-env.d.ts` that contains **no `import`**
    (an import turns the file into a module and the augmentation silently stops working).
@@ -55,7 +55,7 @@ a build script is written or modified, during `code` (6) or `ship` (9).
 2. **Linked workspace packages are treated as source** and are not pre-bundled; if one is not ESM, add it to
    `optimizeDeps.include`, and restart with `--force` after changing it. A dependency imported only through a
    plugin transform is not discovered by the scan: add it to `include` too.
-3. **Barrel files hurt dev and bundles.** Importing one export from `./utils` loads and transforms every file the
+3. **Barrel files hurt dev.** The performance page describes the dev server only. Importing one export from `./utils` loads and transforms every file the
    barrel re-exports. Import from the file (also a rule in `skills/angular-conventions` §1 for lazy chunks).
 4. **Write extensions and use `moduleResolution: "bundler"`** so resolution checks one path instead of walking a
    list; narrowing `resolve.extensions` is allowed if node_modules still resolves.
@@ -80,8 +80,17 @@ a build script is written or modified, during `code` (6) or `ship` (9).
 7. **SSR is a low-level API** for framework authors. In an application, prefer the framework's integration; if
    you do wire it yourself, use middleware mode, build the client and the server entry separately, and branch
    with `import.meta.env.SSR`.
-8. **Library mode** externalises the framework and outputs ES plus UMD or CJS; CSS comes out as a separate file
+8. **Library mode** needs the framework externalised by you (`rolldownOptions` external list) and outputs two
+   formats by default (ES plus UMD for one entry, ES plus CJS for several; `build.lib.formats` changes it); CSS comes out as a separate file
    to export from `package.json`; `process.env.*` is not replaced in library mode, so consumers can set it.
+9. **Vite 8 changed the default import of a CommonJS module.** Symptom: after the 7 to 8 move, `import x from 'cjs-pkg'`
+   gives the whole `module.exports` object, or `undefined`, where it used to give its `default`. Check: the migration
+   guide's description of the "ambiguous default import" case (the module has no `__esModule` flag and no `default`
+   property). Fix: report it to the package or import the named members; `legacy.inconsistentCjsInterop: true` restores
+   the old behaviour temporarily and is deprecated.
+10. **Do not set `build.target` to ES5 for the legacy plugin on Vite 8**: transforming to ES5 and below with the legacy
+    plugin is listed as unsupported in the migration guide, and naming several versions of one browser in
+    `build.target` now errors.
 
 ### 5. Speed
 1. **Audit plugins first.** A slow `config`, `configResolved` or `buildStart` delays the server start; slow
@@ -118,7 +127,7 @@ grep -rnE "vite:preloadError" src
 
 ## Origin
 Rewritten from the official guide and configuration reference of Vite (documentation in the `vitejs/vite`
-repository, MIT licence), read on 2026-10-02 from a shallow clone at the 8.3.2 release: environment variables
+repository, MIT licence), read on 2026-10-02 from a shallow clone at the 8.3.2 release and again on 2026-10-20 from the default branch (licence file read: MIT, "VoidZero Inc. and Vite contributors"; latest release that day 8.3.5), pages `env-and-mode`, `server-options`, `shared-options`, `build`, `build-options`, `assets`, `features`, `dep-pre-bundling`, `performance`, `ssr` and `migration`: environment variables
 and modes, features and assets, build, dependency pre-bundling, performance, SSR, the server options, and the
 migration guide from 7 to 8. Mechanisms and defaults are the project's, the rules, grouping and wording are ours;
 no text was copied. **Facts that move, with their pin (Vite 8):** the default build target values, the move from
@@ -127,3 +136,16 @@ names, and the server defaults. **Not read, a stated gap:** the plugin API, the 
 the JavaScript API, and the HMR API; Rspack, Webpack and Turbopack were not read. Refresh: re-read the migration
 guide of the next major and the server and build option pages, give each pinned fact a verdict
 (`skills/source-freshness` §3), stamp the date even when unchanged. Written 2026-10-02, never run on real work.
+
+**Re-verified 2026-10-20 (🟡, nothing run).** Confirmed point by point against the pages above: Section 1 (prefix and
+bundling, strings, load order and the process-variable priority, `.local` ignore, restart on edit, the mode and
+`NODE_ENV` table, HTML `%NAME%`), Section 2 (host default, `allowedHosts` and `cors` danger notes, `fs.strict`,
+`fs.allow` disabling root detection, the deny list and the unfiltered public directory), Section 3 (pre-bundling in
+dev only, linked packages, `--force`, `include` for plugin-created imports, barrels, extensions and
+`moduleResolution: bundler`), Section 4 (target Chrome 111, Edge 111, Firefox 114, Safari 16.4; no polyfills;
+`BASE_URL` literal; `codeSplitting`; `vite:preloadError`; `assetsInlineLimit` 4 KiB; `public/` rules; `isolatedModules`;
+`vite/client`; no type check; SSR low-level and middleware mode; library mode CSS and `process.env`) and Section 5
+(plugin audit, profile, warmup, SVG as URL). **Corrected:** `envPrefix` empty string (Vite throws), barrel scope (dev
+only in the page), library mode wording. **Added:** Section 4 points 9 and 10. **Still unverified:** the exact
+DNS-rebinding versus cross-origin split in point 2.2, the bundle-size effect of barrels, `vite --debug` flag names
+beyond `plugin-transform`, and the `vite-env.d.ts` file location advice (the page puts it in `src`).

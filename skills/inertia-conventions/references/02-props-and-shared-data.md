@@ -17,9 +17,12 @@
    filtered table re-requesting only the table's data, not the whole page's props again) — cheaper than
    a full prop payload, and the reason to reach for it is a measured or obvious cost, not a default on
    every visit. Reached for by default it becomes the mechanism behind point 8's stale sections.
-4. **A prop that's expensive to compute and not needed for the first paint is `Inertia::lazy()`/deferred**
+4. **A prop that's expensive to compute and not needed for the first paint is `Inertia::optional()` or deferred**
    rather than computed eagerly on every request that touches the page, including ones that never scroll
-   to where it's used.
+   to where it's used. The partial-reloads page documents `optional` (left out of normal visits, evaluated only when a
+   partial reload names it in `only`) and `always` (sent on every response); `Inertia::lazy()` is the older name and
+   the 3.x line no longer has it (read in the inertia-laravel source), so code copied from 1.x or 2.x material needs the
+   rename.
 5. **Everything in `share()` is serialised into every page the user can reach.** Sharing a whole model
    ships every column it doesn't hide — not just the ones the layout reads — to every page, including the
    ones where it is never rendered. Share the handful of fields the shared layout actually uses. The
@@ -64,14 +67,22 @@
     framework, but it fires on navigation rather than on a parent re-render, which makes it look like
     Inertia lost the update. Derive from the prop, or key the component so it is recreated.
 15. **`Inertia::defer()` fires its own request after the initial page load, without waiting for anything to
-    ask for it — `Inertia::lazy()`/point 4's on-demand form fires only when a later partial reload
+    ask for it — point 4's `Inertia::optional()` form fires only when a later partial reload
     requests it.** Reaching for `defer` on a prop nothing above the fold needs is still the right instinct
-    of point 4, made automatic instead of requiring a second visit; grouping several deferred props under
-    the same name makes them arrive as one request instead of one each, which matters as soon as there is
-    more than one below-the-fold section.
+    of point 4, made automatic instead of requiring a second visit; by default all deferred props arrive in one request
+    after the first render, and naming a group splits them: props sharing a group load together, separate groups load in
+    parallel (deferred-props page). The client `Deferred` component holds its children until the named props arrive; pass
+    `rescue: true` to `defer()` so one failing prop is left out and reported instead of failing the response, with a
+    `rescue` slot on the client for the fallback.
 16. **`<WhenVisible>` requests a prop when its placeholder scrolls into view, which is a third trigger
     next to point 15's on-load and point 3's on-visit.** It is the honest answer to a long page with
     several independently expensive sections — a comment thread twelve screens down should not be part of
     either the first payload or the deferred-on-load batch — but each one is still a real request, so a
     page of twenty `<WhenVisible>` sections a fast scroll passes over fires twenty requests in a row,
     which is point 11's payload-cost argument arriving through request count instead of size.
+
+17. **A partial reload can wipe the errors the page is showing.** The Laravel adapter shares the error bag through
+    `Inertia::always()`, so it travels with every response, and an empty bag from a request that validated nothing can
+    overwrite client-side errors (partial-reloads page). Symptom: field errors vanish after a polling tick or an
+    unrelated reload. Check: reload with `only` while an error is displayed. Fix: pass `preserveErrors: true` on that
+    visit so existing errors are kept when the server returns none.

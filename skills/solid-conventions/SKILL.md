@@ -9,7 +9,7 @@ paths: "**/*.tsx, **/*.jsx"
 Step 6 of the pipeline (`WORKFLOW.md`), for the signal-based UI library whose JSX looks like React's but whose
 runtime does not re-render components. **Status: a base to confront with real work**, no in-house project behind it
 yet (same status as `go-conventions`). Pinned to Solid 1.x (the documentation read 2026-10-02 describes the 1.x
-API; latest release on the package registry that day: solid-js 1.9.15). A project on a later major re-reads the
+API; latest release on the package registry that day: solid-js 1.9.15; 1.9.17 on 2026-10-20). A project on a later major re-reads the
 reactivity pages first. The full-stack meta-framework (SolidStart) and the router are not covered. Habits carried
 over from React are the main source of defects here, so each rule says what to unlearn.
 
@@ -50,7 +50,8 @@ As soon as a `.tsx`/`.jsx` file importing `solid-js` is written or modified, dur
 4. **`onMount` runs once after set-up and tracks nothing; `onCleanup` runs when the component unmounts.** Pair every subscription, timer or listener created in an effect with an `onCleanup`.
 
 ### 4. Rendering
-1. **Use the control-flow components instead of JavaScript branching in JSX.** `<Show when fallback>` for a
+1. **Use the control-flow components instead of JavaScript branching in JSX** (this preference is the block's: the
+   official pages present these components and neither recommend against a ternary nor against `.map`). `<Show when fallback>` for a
    condition (its `when` may be a function), `<Switch>`/`<Match>` for several, `<For each>` for a list of objects
    whose order or length changes (it moves DOM nodes and gives the index as a signal, called as `index()`), and
    `<Index each>` when the order and length are stable and the content changes (the item is the signal). `<Dynamic
@@ -109,4 +110,19 @@ with their pin (Solid 1.x):** the API names (`createSignal`, `createMemo`, `crea
 `splitProps`, `createStore`) and the control-flow components. **Not read, a stated gap:** the reference pages
 (secondary primitives, reactive utilities, `batch`, `untrack`, `createResource`, `lazy`, `Suspense`), server
 rendering and hydration, SolidStart, the router, TypeScript configuration, and testing. Refresh with
-`skills/source-freshness` on the next major. Written 2026-10-02, never run on real work.
+`skills/source-freshness` on the next major. Re-verified on 2026-10-20 against the official documentation site (docs.solidjs.com), pages read for facts only and
+credited, no text taken, the documentation repository staying unlicensed: components and props (destructuring and
+`const name = props.name` lose reactivity, `mergeProps`, `splitProps`, props read-only), effects (run once at start,
+rerun on dependency change, order not guaranteed, nested effects track separately, `onMount` tracks nothing,
+`onCleanup` at unmount, do not write signals in effects), signals (getter and setter, updater form, in-place mutation
+notifies nobody), memos (executed once per dependency change, strict-equality skip, use for expensive derivations),
+event handlers (delegation, case-insensitive delegated names, case-sensitive `on:`, array form, handler not
+reactive), stores (proxy, direct reads in tracking scopes, setter for writes), intro to reactivity (components run
+once, JSX, effects and memos as scopes, reads outside a scope are one-shot), conditional and list rendering (`Show`
+`when` boolean or function, `Switch`, `For` against `Index`), `ErrorBoundary` (rendering and update errors only, `err`
+and `reset`), `Portal` (default mount `document.body`, container element, `isSVG`), context (large trees, fewer than
+a few layers: restructure first, signals imported directly as the simplest option). The code repository
+(solidjs/solid) licence file was read: MIT, not otherwise used. Nothing was found wrong. **Still unverified:** `Dynamic`
+and the `class`, `classList` and `style` attribute rules (§4.1, §4.4), the "provider must be replaced (tests, repeated
+widgets)" reason for context (§5.1), and the delegation caveats the page lists (not carried here). Written 2026-10-02,
+never run on real work.

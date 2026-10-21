@@ -21,16 +21,20 @@
    source file.
 5. **Prefer the value you can see.** `top-[117px]` is an inline style that still takes variants (`hover:`,
    `lg:`); use it for a genuine one-off, and a theme variable (§2.1) when the value will occur twice. A space
-   inside an arbitrary value is written with an underscore; if the type is ambiguous (`text-[length:var(--x)]`
-   against `text-[color:var(--x)]`), give it a data-type hint.
+   inside an arbitrary value is written with an underscore (kept where a space would be invalid, as in a `url()`); if
+   the type is ambiguous, give a data-type hint (`text-(length:--x)` against `text-(color:--x)`), and a CSS variable is
+   `fill-(--brand)`, the shorthand of `fill-[var(--brand)]`.
 6. **Duplication is solved the usual way, not with `@apply`.** In order: the repeated markup is already rendered
    in a loop (one class list exists); a block of one file is edited in one pass; a repeated block across files
    becomes a component (or a template partial in a server-rendered app) with the classes inside it; only when a
-   partial would be heavy for a single element, a small custom class using theme variables. `@apply` and the
-   `components` layer are the escape for HTML you do not own (a Markdown renderer, a third-party widget).
+   partial would be heavy for a single element, a small custom class using theme variables. The
+   `components` layer is where the documentation puts styles for a third-party component (a Markdown renderer, a
+   widget); that `@apply` is the escape for HTML you do not own is the block's own reading, since the pages read do not
+   say it.
 7. **Never put two classes on one element that set the same property.** The one that comes later in the
    generated stylesheet wins, not the later one in the attribute, so `flex grid` yields a grid for a reason
-   invisible in the markup. Choose the class you mean.
+   invisible in the markup (the utility-classes page gives this exact `grid flex` case and advises choosing by
+   condition). Choose the class you mean.
 8. **A component does not take free-form extra classes from its consumers.** Outside classes conflict with the
    component's own. Expose props (size, tone, density) that select complete class names inside the component;
    if a class slot is unavoidable, document that it must not override the component's own properties.

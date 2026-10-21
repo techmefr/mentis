@@ -15,14 +15,19 @@ accessible surface proves only that a node exists.
 4. **Do not reach through nodes** with `closest`, `lastChild`, indexes into a list of nodes, or call `click()`
    or `select()` on a node: use queries and `userEvent` instead (`no-node-access`). `focus()` and `blur()` are
    not reported, because calling them on the element is recommended over firing the focus events, and an element
-   that cannot take focus then fails the assertion (`no-node-access`).
+   that cannot take focus then fails the assertion (`no-node-access`). The library's own FAQ shows `container`
+   queries as a way out for someone who does not want to use the queries, so this rule is the plugin's and the
+   block's stance, not a library requirement.
 5. **Verify** by moving the control to a different element or class and re-running: a role or label query still
    passes, a selector query does not.
 
 ## 1.2 Test ids: a decision
 1. **The plugin's `no-test-id-queries` rule bans every `*ByTestId` query**, because a test id couples the test to
    an implementation detail instead of to how the control is used, and points to `getByRole` and
-   `getByLabelText`. Playwright's own guide leads with role and label as well (`playwright-e2e-pitfalls` §1.1).
+   `getByLabelText`. Playwright's own guide leads with role and label as well (`playwright-e2e-pitfalls` §1.1). The Testing
+   Library documentation gives the same order of priority: role first, then label, placeholder, text and display
+   value, then alt text and title, and test ids last, for cases where role or text cannot match or the text is
+   dynamic (its queries "About" page).
 2. **The project's doctrine uses `data-test-*` attributes as the stable selector** (`tdd`, which points at the
    test-casebook contract). Goldberg's guide (section 3.2) says to query by attributes unlikely to change, such as a
    form label, and to add a dedicated test attribute when the element has none.
@@ -32,7 +37,10 @@ accessible surface proves only that a node exists.
 4. **A dedicated attribute needs Testing Library to read it.** The plugin's `consistent-data-testid` page notes
    that the queried attribute can be overridden in the Testing Library configuration and exposes a
    `testIdAttribute` option for it. That rule validates the attribute's values against a pattern you supply and,
-   per its page, is available for the React flavour only. The configuration call itself was not re-read.
+   per its page, is available for the React flavour only. The documentation's configuration page shows the call as
+   `configure({testIdAttribute: ...})` with a single attribute name in each example, so a convention of several
+   `data-test-*` names is not one `testIdAttribute` value; check how the project reads its attributes before
+   relying on `*ByTestId`.
 
 ## 1.3 `get`, `query` and `find` each mean something
 1. **`getBy*` throws when the element is missing, so use it to assert presence**: the error is descriptive.

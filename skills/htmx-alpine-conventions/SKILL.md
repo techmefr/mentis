@@ -9,7 +9,7 @@ paths: "**/*.html, **/*.jinja, **/*.j2, **/*.twig, **/*.blade.php, **/*.erb, **/
 Step 6 of the pipeline (`WORKFLOW.md`), for the hypermedia style: the server renders HTML, htmx fetches and
 swaps fragments, Alpine.js holds small bits of in-browser state. **Status: a base to confront with real work**,
 no in-house project behind it yet (same status as `go-conventions`). Pinned to **htmx 2.0** and **Alpine.js 3**
-(read 2026-10-02; registry latest that day: htmx.org 2.0.11, alpinejs 3.17.4). The server templating language is
+(read 2026-10-02; registry latest that day: htmx.org 2.0.11, alpinejs 3.17.4; 2.0.11 and 3.17.5 on 2026-10-20). The server templating language is
 not covered; escaping and CSRF are the server stack's (`skills/security-hardening`, `skills/laravel-conventions`,
 `skills/django-conventions`).
 
@@ -131,4 +131,19 @@ ours; no text was copied. **Facts that move, with their pin (htmx 2, Alpine 3):*
 template rules, the CSP build's limits. **Not read, a stated gap:** htmx extensions other than the ones named,
 WebSocket and SSE support, the event and API reference pages one by one, Alpine plugins (morph, persist, focus,
 mask), and any server-side integration. Refresh with `skills/source-freshness` on the next major of either.
+Re-verified on 2026-10-20 against the same repositories (licence files read: htmx Zero-Clause BSD, Alpine MIT; htmx
+`master` and `dev` carry package version 2.0.11, `v2` carries 2.0.10): the htmx documentation page (default
+`responseHandling` of 204, 2xx and 3xx swapped, 4xx and 5xx not swapped and an error, the 422 example; history
+snapshot in local storage, `hx-history="false"`, `historyRestoreAsHxRequest`, the `HX-History-Restore-Request`
+header; the `Vary: HX-Request` advice; validation integration and events; morph swaps as extensions; the security
+section with `hx-disable`, `selfRequestsOnly`, `allowScriptTags`, `allowEval`, `historyCacheSize` and the
+`htmx:validateUrl` event; the scrub-and-allow-list advice with `hx-` and `data-hx` attributes; CSRF with `hx-headers`
+and the `hx-boost` note on `html` and `body`), the attribute pages `hx-target` (relative forms), `hx-swap` (`delete`,
+`none`), `hx-sync` (`drop` as the default, `abort`, `replace`, `queue`) and `hx-boost`, and for Alpine the
+`x-data` scope and getters (not cached), `x-if` and `x-for` on a `template` with one root, `x-ignore`, `x-html` (trusted
+content only), the lifecycle page (`$watch` lazy, `x-effect` runs at once, `alpine:init`) and the CSP build page
+(Function declarations still need `unsafe-eval`, the separate build, no complex expressions, no global variables,
+no HTML injection). Nothing was found wrong. Not re-opened: the Alpine `x-show` page beyond the transition mention,
+`Alpine.store` and `Alpine.data` pages beyond their use here, `x-cloak`, and the `hx-validate` page. The sentence of
+§4.1 that Alpine's `x-`, `@` and `:` attributes are stripped by the same reasoning stays our own extension.
 Written 2026-10-02, never run on real work.

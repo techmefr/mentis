@@ -13,8 +13,8 @@
 3. **Prefer structured concurrency.** Child tasks of a group or `async let` have a parent: cancelling the
    parent cancels them, priority escalates through the tree, task-local values propagate. An unstructured
    task has no parent and you are fully responsible for its lifetime, so create one only when no structured
-   form fits, keep its handle, and cancel it. A detached task inherits no isolation, priority or task-local
-   state; use it deliberately, not as the default way to leave the main actor.
+   form fits, keep its handle, and cancel it. A plain `Task { }` inherits the current isolation, priority and task-local state, while a detached task
+   does not; use it deliberately, not as the default way to leave the main actor.
 4. **Cancellation is cooperative.** A task must check for it at sensible points, by throwing the cancellation
    check or reading the cancelled flag (use the flag when clean-up is needed before stopping). Responding
    means throwing, returning nothing, or returning the partial work done. In a group, add children with the
@@ -27,7 +27,8 @@
 6. **UI state lives on the main actor.** Annotate the type or the specific properties and methods that touch
    the UI. Frameworks usually annotate their protocols and base classes already, so conforming types inherit
    it; do not add redundant annotations. The pattern is: do the long or heavy work off the main actor, then
-   hop to it for the UI update. The main actor is not the same thing as the main thread: you interact with
+   hop to it for the UI update (calling a main-actor function from elsewhere needs `await`, since the switch is a possible
+   suspension point). The main actor is not the same thing as the main thread: you interact with
    the actor.
 7. **An actor's state is read from outside with `await`; inside it, without.** An actor method with no
    suspension point cannot be interleaved, so a multi-step update that temporarily breaks an invariant is
@@ -35,8 +36,9 @@
    suspension point.
 8. **Types crossing concurrency domains are sendable**: a value type of sendable parts, a type with no
    mutable state, or a type that serialises its own access (main-actor-isolated, or queue-confined). Mark a
-   type that must not cross as explicitly non-sendable. Do not silence a sendability diagnostic by an
-   unchecked escape; fix the shared state.
+   type that must not cross as explicitly non-sendable. The explicit marker is an unavailable
+   conformance to `Sendable`. Do not silence a sendability diagnostic by an unchecked escape; fix the shared state (own
+   guidance: the book describes sendability and the marker, not the escape).
 9. **Adopt concurrency from the top down.** Asynchronous code cannot be called from synchronous code except
    through a task; there is no bottom-up route, and the standard library omits the blocking bridge on
    purpose. Do not block a thread waiting for an asynchronous result.

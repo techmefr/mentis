@@ -15,7 +15,8 @@
    and cookies, DOM behaviour a template cannot express, canvas or third-party chart rendering. Effects run
    asynchronously during change detection and always at least once.
 4. **Never call `mutate` on a signal**: use `set` or `update`, so every change is a new value that consumers
-   can compare.
+   can compare. The method was removed from `WritableSignal` in Angular 17.0.0 (breaking-change note of the framework
+   changelog), so on a current major it is a compile error and the finding is on code copied from older material.
 5. **Async data is a `resource`, not a subscription copied into a signal.** `params` is the reactive input,
    `loader` is the async function; a `params` that returns `undefined` leaves the resource `idle` and the loader
    unrun, which is the way to express "no id yet". Use `stream` for sources that emit many values (sockets,

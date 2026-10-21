@@ -11,29 +11,41 @@
 
 1. **Markup describes what the page shows.** The data in the JSON-LD matches the visible content, word for
    word where it names things. Marking up content a visitor cannot see, or a rating nobody gave, is a
-   violation of the engine's guidelines and risks losing the enhancement entirely.
+   violation of the engine's guidelines and risks losing the enhancement entirely (Google's structured-data
+   policies: no markup for content not visible to readers, none for fake reviews, markup placed on the page it
+   describes; reviews and ratings must come from real users, or a manual action can follow).
 2. **Only on pages that can be indexed.** A page excluded from the index carries no structured data
-   (§5.10). Data is placed once per entity, on the page that is the entity's home.
-3. **The syntax is valid first.** One `script` of type `application/ld+json` per block, parseable JSON, a
+   (§5.10). Markup goes on the page it describes; organisation data goes on the home page or one page describing the
+   organisation, not on every page (Google's Organization page). The pages read do not say whether markup on a
+   `noindex` page is considered, so the first sentence is our rule.
+3. **The syntax is valid first** (JSON-LD is the format Google recommends, ahead of Microdata and RDFa). One `script` of type `application/ld+json` per block, parseable JSON, a
    `@context` of schema.org, a `@type`, and nested entities in the shape the vocabulary defines. The
    parse is a build check; the engine's rich-result tester is a manual step for a person, never a
    dependency.
 4. **One line per type that earns its place.** For each, the required and recommended properties are
    read from the engine's page for that feature at writing time.
-   - `Article` (or its subtypes): headline, image, publication and modification dates, author.
+   - `Article` (or its subtypes): headline, image, publication and modification dates, author. All are recommended
+     and none is required (Google's Article page); each person shown as author gets an entry whose `name` holds only
+     the name, with a `url` to a page that identifies them.
    - `Product`: name, image, and `offers` with price, currency and availability; review and rating
-     properties only from genuine, visible reviews.
+     properties only from genuine, visible reviews. Google requires `name` and one of `review`, `aggregateRating` or
+     `offers`, with the price inside the offer; currency and availability are recommended; the rich result supports
+     only pages focused on one product (Google's product-snippet page).
    - `Review` and `AggregateRating`: attached to a real reviewed item, never to the page's own
-     organisation as self-service.
-   - `VideoObject`: name, description, thumbnail and upload date, on the page where the video plays.
+     organisation as self-service. Google makes the reviewed item mandatory and says a local business or
+     organisation that controls the reviews about itself is ineligible for the star feature (its review-snippet page).
+   - `VideoObject`: name, description, thumbnail and the player or file address, on a page whose main purpose is that video
+     (Google's video page, which does not list the upload date as required; whether it is needed was not confirmed).
    - `Organization`: name, URL, logo and the profiles that really belong to it (`sameAs`); once, on the
-     home or about page.
+     home or about page (Google's Organization page: no required property, name, url, logo and `sameAs` recommended).
    - `WebSite`: name and URL; any search-box enhancement is a current-support question.
-   - `FAQPage`: only real questions that are answered on the page; the enhancement's availability has
-     been restricted by the engine, so it is not a default.
+   - `FAQPage`: only real questions that are answered on the page; Google's changelog says the rich result
+     was limited to well-known government and health sites in 2023, stopped appearing from 2026-05-07 and had its
+     documentation removed in June 2026: do not add it to obtain the rich result.
    - `BreadcrumbList`: one list item per level with position, name and URL, equal to the visible trail
-     (`skills/accessibility` §8.12).
-   - `Person`: for an author who has a page of their own; never an invented name.
+     (`skills/accessibility` §8.12). Google requires `itemListElement` with at least two items and describes a typical
+     user path rather than the URL structure; it does not state equality with the visible trail, which stays our rule.
+   - `Person`: for an author who has a page of their own; never an invented name (Google's helpful-content page treats fabricated author profiles as deception).
 5. **Authors and organisations are published only when a page exposes them.** A byline links to an author
    page that states who the person is; the organisation data is the one the legal pages state. Structured
    data does not create credibility the page does not show (§7).
@@ -41,14 +53,16 @@
 ## Dates
 
 6. **The publication date never moves; the modification date moves for a substantive edit.** Correcting a
-   typo is not a modification, and a refreshed date with no change is an attempt to look fresh that
-   engines discount. The date in the data, the visible date, the `Last-Modified` header and the sitemap's
+   typo is not a modification, and a refreshed date with no change misstates the page (Google's dates page asks that dates describe a real
+   publication or update, visible and in the markup, in ISO 8601 with a timezone recommended, never in the future; its
+   sitemap page uses `lastmod` only when it is consistently accurate; that engines discount a refreshed date was not
+   found in a page read). The date in the data, the visible date, the `Last-Modified` header and the sitemap's
    `lastmod` tell one story, and they are generated from one stored value, not typed in four places.
 
 ## Social previews
 
 7. **The Open Graph set is complete.** The protocol's four base properties (title, type, image, URL) plus a
-   description and an image alternative text; `og:url` is the canonical URL (§1.2), not the address
+   description (optional) and an image alternative text (the protocol says to give one when `og:image` is given; ogp.me); `og:url` is the canonical URL (§1.2), not the address
    with tracking parameters. A card type for the platforms that read their own tag.
 8. **The preview image is reachable and sized for its consumer.** An absolute, secure URL that returns a
    success without authentication, an aspect ratio and minimum dimensions read from each platform's
@@ -56,7 +70,7 @@
    happen (and present in the description too, `skills/accessibility` §6.12).
 9. **Previews are cached by the platform.** After a change, the new image appears only after the platform
    is asked to re-read the URL; a share-card change is released with that step, and the image URL changes
-   when the image does.
+   when the image does. Items 8 and 9 describe platform behaviour; no platform page was read, they are own guidance.
 
 ## Mechanical checks
 

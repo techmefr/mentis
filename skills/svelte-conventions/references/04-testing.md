@@ -17,8 +17,9 @@
    hand is brittle, because it is coupled to the component's structure: use a testing library that queries by
    role and text.
 5. **Bindings, context and snippet props are tested through a wrapper component** written for that test, and
-   the wrapper is what gets mounted. For a component that reads context, the mount API also accepts a context
-   map (5.49+); the context applies to that mounted tree only.
+   the wrapper is what gets mounted. For a component that reads context, the mount API also takes a `context` map (in its
+   type declarations), and `createContext` works with programmatic mounting from 5.50 (framework changelog); the context
+   applies to that mounted tree only. The version that introduced the `context` option was not found.
 6. **Stories can double as component tests.** With Storybook, a story's play function drives interactions with
    the testing library and the runner's assertions in a real browser (`skills/frontend-testing`).
 7. **End-to-end tests do not know about Svelte.** They drive the DOM through the browser; the choice of tool

@@ -14,11 +14,12 @@
    named factory functions.
 5. **Throw by kind of fault.** A caller-supplied argument that makes the call impossible: the argument
    precondition (throws an illegal-argument error). A wrong object state: the state precondition (throws an
-   illegal-state error). A branch that must not be reached: the unreachable helper. Messages say what was
+   illegal-state error). A branch that must not be reached: the `error()` helper (the exceptions page describes it as signalling a condition that
+   logically should not occur; it throws an illegal-state error too). Messages say what was
    expected and what was received. Preconditions on nullable values also smart-cast.
 6. **Exceptions are unchecked.** Catch only what you can handle or translate; keep the original cause when
-   rethrowing another type; release resources with the language's scoped-use function rather than by hand in
-   a `finally`. The serious `Error` branch (memory exhaustion, stack overflow) is not something to catch and
+   rethrowing another type; release resources with the language's scoped-use function (`use`, which the exceptions page presents as the way to
+   close file streams, as a `finally` would) rather than by hand in a `finally`. The serious `Error` branch (memory exhaustion, stack overflow) is not something to catch and
    recover from.
 7. **A custom exception** extends the most specific standard type that fits and carries the cause.
 8. **Library code (a published module) adds three rules:** explicit visibility on every member, explicit

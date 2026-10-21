@@ -10,9 +10,10 @@
    for work that must outlive it. A parent waits for its children and cancelling it cancels them, so the tree
    is what makes cancellation and failure predictable. Do not launch from an initialiser with a scope nobody
    owns.
-2. **No global scope.** It is a delicate API: it has no lifecycle, hardcodes the context and blocks controlled
-   execution in tests. The one legitimate use, a root coroutine for the whole application, is opted into
-   explicitly. Inject a scope instead.
+2. **No global scope.** The library marks it a delicate API that needs an explicit opt-in; the vendor's best-practices page
+   gives three reasons: it encourages hardcoding values such as dispatchers, it makes tests hard because the code runs
+   in an uncontrolled scope, and its coroutines cannot share a common context. Inject a scope instead; the same page
+   accepts the global scope as a default parameter value only.
 3. **A suspending function is safe to call from the main thread.** It switches to its own dispatcher
    internally (a context switch inside the function), so callers never have to know which thread the work
    needs. Dispatchers are injected, not named in the body, so a test can replace them.
@@ -33,7 +34,8 @@
    parent. A handler installed on a child of a regular scope has no effect; handlers belong on root
    coroutines and cannot recover. For an async result the exception is held until it is awaited.
 8. **Use a supervisor only when sibling failure must be independent**, such as sub-tasks of a screen where one
-   failing should not cancel the others. Do not reach for it to hide an exception.
+   failing should not cancel the others (the exception-handling page: a failure does not propagate to the supervisor
+   job or its other children). Do not reach for it to hide an exception (own guidance).
 9. **Shared mutable state needs a real mechanism.** A volatile flag does not make an increment atomic. Choose
    one: a thread-safe structure or atomic for a simple counter, confinement of the state to a single
    dispatcher in coarse chunks (fine-grained switching per update is very slow), or a mutex for critical
@@ -47,4 +49,12 @@
     exposes the read-only state flow or flow, so every change goes through one class. The data and business
     layers expose suspending functions and flows, so the caller decides when the work runs and can cancel it.
 12. **A view model creates the coroutines for its screen**, so the logic is unit-testable and the work
-    survives configuration change; exceptions of those coroutines are caught at that boundary.
+    survives configuration change (work started in `viewModelScope` does); exceptions of those coroutines are caught at
+    that boundary. The vendor page accepts a suspending function on a view model only when one value is needed; data
+    that changes over time is exposed as a stream.
+13. **A coroutine started by a library call that wraps a callback must use the cancellable bridge.** Symptom: the
+    caller is cancelled but the callback-based work keeps running and the coroutine resumes with a value anyway. Check: grep
+    for `suspendCoroutine`. Fix: `suspendCancellableCoroutine`; the cancellation page says custom functions built on
+    `suspendCoroutine` do not react to cancellation. Also: a suspended coroutine that is cancelled resumes with a
+    `CancellationException` even when its value was already available, so code after the call must not assume the
+    value arrived.
