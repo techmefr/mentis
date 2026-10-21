@@ -157,3 +157,5 @@ no longer holds on Nest 12). Added: §1.5 (`@Optional()` no longer inherited, fr
 ~5 percent figure (§5.2). Still ours, not stated on a page: §3.3 (the repair order beyond the page's "avoid
 the cycle"), §3.6, §4.1 (service locator reasoning), §5.5, the §6 test recipes, and the symptoms described
 for each trap.
+
+Independent verification 2026-10-21: 12 checked, 12 matched, 0 corrected, 0 unverified. Includes the Nest 12 request-scoped gateway statement (§5.4), the `@Optional()` inheritance change (§1.5) and the ~5 percent figure, all re-read against the Nest documentation repository.

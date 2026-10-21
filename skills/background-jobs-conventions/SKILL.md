@@ -153,3 +153,5 @@ permissive: a dead-letter destination as a rule (BullMQ keeps or removes failed 
 with timeouts, scheduled tasks overlapping themselves, in-flight payload compatibility across deploys, and passing ids
 rather than objects (BullMQ job page and Oban worker module do not say it; the share-alike guide does). Those stay
 unsourced and are our guidance. Left unread: Sidekiq docs, Postgres-queue libraries.
+
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified. Checked: BullMQ exponential formula, jitter and the -1 stop, stalled jobs returning to waiting, the idempotent-jobs page, Oban cancel and snooze returns, the 20-attempt default and the padded exponential backoff with jitter, the PostgreSQL skip-locked warning, the Django on_commit rules.

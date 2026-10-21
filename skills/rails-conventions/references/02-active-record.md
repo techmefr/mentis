@@ -55,9 +55,7 @@
     otherwise run first and delete the children of a record that then refuses to be deleted. Anything that
     must happen only if the transaction commits belongs in `after_commit` (§4.8).
 14. **A transaction is left by an exception or by falling off the end.** What `return`, `break` and `throw`
-    inside a `transaction` block do depends on the version: on Rails 7.0 and 7.1 they rolled it back (7.1 behind
-    the `commit_transaction_on_non_local_return` setting), and Rails 7.2 removed that rollback and restored the
-    earlier behaviour, so the transaction commits. Do not leave the block that way on any version; use `next`
+    inside a `transaction` block do depends on the version: from Rails 6.1 until 7.1 they rolled it back; 7.1 added the `commit_transaction_on_non_local_return` setting to restore the historical commit (the default for applications created on 7.1), and Rails 7.2 removed the rollback, so the transaction commits. Do not leave the block that way on any version; use `next`
     to commit and raise (`ActiveRecord::Rollback` to roll back silently) so the intent is in the code.
 15. **Scopes and `default_scope`.** Named scopes are cheap and chain; when a scope with parameters gets
     complicated, write a class method that returns a relation. Avoid `default_scope`: it changes every query

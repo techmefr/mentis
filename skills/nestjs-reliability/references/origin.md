@@ -77,3 +77,5 @@ five minute fetch limit, 408 and Redis failover are now **verified against the s
 `background-jobs-conventions` (§1 at-least-once and idempotent jobs, §3 overlap guards, §4 payload
 compatibility), `api-design` (the replay and conflict status codes are part of the contract), and
 `nestjs-node-conventions` (module and DI layout this block assumes).
+
+Independent verification 2026-10-21: 15 checked, 15 matched, 0 corrected, 0 unverified

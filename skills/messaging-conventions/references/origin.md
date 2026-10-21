@@ -45,3 +45,5 @@ replicated"), 3.6 (prefetch 1 is conservative, 100 to 300 suggested), 3.3, 3.10 
 idempotent-over-deduplication advice to RabbitMQ only.
 Not found on any page read: a partition-count-change warning, an explicit unclean-election default value (the design page implies it),
 queue length and message-age monitoring advice, the memory risk of unbounded prefetch.
+
+Independent verification 2026-10-21: 24 checked, 23 matched, 1 corrected, 0 unverified. Corrected Kafka 2.2: the default of unclean leader election is false in the topic configuration source, but the since-0.11 version is on no page read and was removed. Re-checked the in-flight limit (throws even with default idempotence) and quorum queues cannot be exclusive: correct

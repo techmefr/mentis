@@ -39,3 +39,5 @@ to §1.10 and §2.2 first.
 
 **Status.** 🟡, "base to confront with the real thing", like `go-conventions`. Nothing here was run against a
 Symfony project.
+
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified. All ten against the 7.4 framework source (hasher chain order native, sodium, pbkdf2; throttling 5 per 1 minute and a global limiter at five times; form login CSRF off; first-match access map; 404 on a missing entity; worker limits; private services by default)

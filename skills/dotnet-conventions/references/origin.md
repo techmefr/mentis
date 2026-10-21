@@ -681,3 +681,5 @@ container-built internal classes (new §4.47, with CA1303 added to the guardrail
 **`ValidateOnStart` runs at `StartAsync`**, so a build-and-resolve path never validated at boot and failed later
 in a constructor (new §2.43; it also corrects §2.16's package claim for the web SDK). Not exercised: tests
 (no package restore), `IAsyncEnumerable`, channels, EF Core.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified. Rule defaults re-read on the .NET 10 rule pages: CA2007, CA2000, CA1063, CA1851, CA1008, CA1515, CA1812 and CA1303, CA1707 not enabled, CA1822 as suggestion; the standard handler retries every method and honours Retry-After by default (checked in the extensions source)

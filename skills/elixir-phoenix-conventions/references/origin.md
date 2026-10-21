@@ -40,3 +40,5 @@ remark is ours); 3.7 no longer claims distinct statuses (the guide's plug answer
 3.14 default exit status; 3.15 PostgreSQL caveat and the non-stated controller-test remark removed.
 Relabelled as ours: 3.1 controllers never build queries, 3.2 purpose-built names, 3.4 the authentication-versus-ownership
 contrast. Not found on any page: a "let it crash" phrasing, a Sobelow CI setup guide.
+
+Independent verification 2026-10-21: 11 checked, 11 matched, 0 corrected, 0 unverified

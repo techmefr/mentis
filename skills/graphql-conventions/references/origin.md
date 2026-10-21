@@ -43,3 +43,5 @@ Relabelled as ours: `[Item!]!` shape, input three-state advice, descriptions, sm
 deprecation reason. HTTPS, timeouts and private caching come from the security page, not the HTTP page.
 Draft status: the HTTP page still carries a callout saying the over-HTTP specification is in development and not finalised on 2026-10-20,
 so 2.5 stays the point most likely to move. The GraphQL-over-HTTP specification and the GraphQL specification were not opened.
+
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified

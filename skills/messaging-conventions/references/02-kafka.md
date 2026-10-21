@@ -12,7 +12,7 @@
    in sync, which can be just the leader if the others have fallen out. Set the topic's minimum in-sync-replica
    count (for a replication factor of three, the usual choice is two) so a write is refused rather than accepted
    on a single copy, and accept that writes then stop when too few replicas are in sync. That is the documented
-   trade between consistency and availability. Also leave unclean leader election off (the default since 0.11) so
+   trade between consistency and availability. Also leave unclean leader election off (off by default in the topic configuration source read; the design page names the trade-off but states no default and no version) so
    an out-of-date replica never becomes leader; turn it on only for data where staying up beats being complete.
 3. **Turn idempotence on, and don't fight it.** The idempotent producer attaches a producer id and a sequence
    number so the broker discards a retried duplicate and preserves order across retries. It requires the "all"

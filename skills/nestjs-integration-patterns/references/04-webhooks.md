@@ -18,20 +18,17 @@ delivery, signed bodies, no ordering, and an endpoint the sender can stop callin
 ## 4.2 Sending: signing
 1. **Sign `id.timestamp.body`** with HMAC-SHA256 under a per-endpoint secret and send three headers
    (`webhook-id`, `webhook-timestamp`, `webhook-signature` with a version prefix such as `v1,` and the
-   base64 digest), the layout the Nest chapter calls its `standard` scheme (the chapter does not name the Standard Webhooks
-   specification; the resemblance of the three header names is ours).
+   base64 digest), the layout the Nest chapter calls its `standard` scheme and states follows the Standard Webhooks specification.
 2. **Sign the exact bytes sent.** The chapter says the signed body is the exact JSON serialised at dispatch.
-   Storing it as text rather than a parsed JSON column, so replays see the same bytes, is our reading.
-3. **Secrets are random, shown once, and sealed at rest** (the chapter shows a `whsec_` format and an encrypted
-   store; the 32-byte size is our choice, not stated for endpoint secrets). Rotation overlaps the old and new secret
+   The chapter stores the body as text, not as a JSON column, so replays carry the same bytes.
+3. **Secrets are random, shown once, and sealed at rest** (the chapter generates a Standard Webhooks `whsec_` secret of 32 random bytes and can seal it at rest). Rotation overlaps the old and new secret
    for a window (24 hours in the Nest chapter) and sends two signatures; for a leaked secret, rotate with no
    overlap.
 
 ## 4.3 Sending: retry, backoff, stop
 1. **Default schedule in the Nest chapter**: 10 attempts, backoff starting at 5 seconds, multiplied by 4,
    capped at one day, with jitter, so about two days in total.
-2. **Honour `Retry-After`.** The chapter reads `Retry-After` into the retry delay (capped by the maximum delay); pausing the whole
-   endpoint on `429`, `502`, `503` or `504` is our policy, not stated there. A `410
+2. **Honour `Retry-After`.** The chapter reads `Retry-After` into the retry delay (capped by the maximum delay); on a `429`, `502`, `503` or `504` the chapter also pauses the whole endpoint until then (five seconds when no header is sent). A `410
    Gone` ends the delivery and disables the endpoint. Never follow redirects.
 3. **Disable an endpoint after a long run of failure** (5 days in the chapter) and tell its owner; alert on
    the disable event.
