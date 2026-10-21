@@ -1,8 +1,8 @@
 # email-deliverability-and-sender-requirements-pitfalls §2 — Unsubscribe mechanics
 
 An unsubscribe that works in a test and fails in a mailbox is a deliverability problem and a trust problem at
-once. The header rules below come from RFC 8058 as returned by a fetch digest that quoted sections 1, 3.1, 3.2,
-4 and 6 on 2026-10-20; `re-read before relying` against the RFC text. What the law requires of an
+once. The header rules below come from the raw text of RFC 8058, read on 2026-10-20 (sections 1, 3.1, 3.2, 4 and 6);
+`re-read before relying` in case a later RFC updates it. What the law requires of an
 unsubscribe is not here: `business/data-protection` and the person who owns that function.
 
 ## 2.1 The headers
@@ -23,10 +23,11 @@ unsubscribe is not here: `business/data-protection` and the person who owns that
    token.
 2. **It does not answer that POST with a redirect** (section 3.1: the sender must not return an HTTPS
    redirect). A common failure is an endpoint behind a web server rule or a shortening layer that redirects.
-3. **A GET to the same address shows a page**, because a person or a scanner may fetch it that way. Whether
-   a scanner's fetch of a header address is a concern is addressed by the RFC's background (section 1: anti-spam
-   software often fetches URLs found in headers) and by the receiver's consent rule below; the RFC digest did
-   not say that POST avoids scanner fetches, so treat any claim that it does as a hypothesis.
+3. **A GET to the same address shows a page**, because a person or a scanner may fetch it that way. The RFC's
+   section 1 says anti-spam software often fetches every resource in the message headers automatically and a
+   sender cannot tell that from a person; that is why a header address that unsubscribes on a plain GET removes
+   people by accident, and why the older pattern was a landing page with a confirmation step. The one-click
+   POST is the mechanism that replaces the confirmation step: do not unsubscribe on a GET.
 4. **The receiver must not POST without user consent** (section 3.2); how consent is obtained is not defined.
    So the sender cannot assume a POST means the user acted in a given way.
 5. **Check it from outside.** Post to the address the way a receiver would, without cookies, and read the
@@ -34,13 +35,16 @@ unsubscribe is not here: `business/data-protection` and the person who owns that
    mailbox.
 
 ## 2.3 What the two providers add
-1. **Google** (read on its sender guidelines page): marketing and subscribed mail from the 5,000-a-day group
-   supports one-click and carries a clearly visible link in the body. Offering other options (a list review, an
-   automatic removal after bounces) is allowed but must not replace one-click.
+1. **Google** (sender guidelines page, raw): marketing and subscribed mail from the 5,000-a-day group
+   supports one-click and carries a clearly visible link in the body, and the page shows the two headers and
+   the POST the sender receives. Offering other options (a list review, an automatic removal after bounces) is
+   allowed but must not replace one-click.
 2. **Yahoo** (read on its sender requirements page): a functioning header supporting one-click for marketing
    and subscribed mail; the RFC 8058 method is highly recommended and a mailto method is acceptable; a visible
    body link that may lead to a preference page; unsubscribes processed within two days; no login required.
-3. **Google's page does not state a processing time.** Do not quote Yahoo's two days as Google's.
+3. **Both name a time.** Yahoo asks for processing within two days. Google's FAQ recommends fulfilling
+   requests within 48 hours and lists "unsubscribe requests not honoured within 48 hours" among the problems
+   it reports; the guidelines page itself states no time. Treat 48 hours as the outer limit and aim well inside it.
 4. **A preference page is a good addition and never the only exit.** The failure to name is a body link that
    leads only to a preference page while the header does nothing.
 

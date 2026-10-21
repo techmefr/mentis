@@ -1,19 +1,24 @@
 # email-campaign-measurement-and-testing-pitfalls §1 — Opens and clicks
 
 Both counts feel like people. Both are, mechanically, requests for a resource. This section says what that
-costs. The Apple facts were read on Apple's Mail Privacy Protection page on 2026-10-20 through a fetch
-digest; `re-read before relying`.
+costs. The Apple facts were read on Apple's Mail Privacy Protection page on 2026-10-20 as raw page text;
+the vendor and gateway facts on the pages named in §1.1 item 6 and §1.3 item 2. `re-read before relying`.
 
 ## 1.1 What an open is
 1. **An open is a fetch of a small remote image (a tracking pixel), not a person reading.** It is recorded when
    the image is requested.
-2. **Apple's page** says its privacy feature downloads remote content in the background by default, whether or
-   not the message is opened ("regardless of whether you engage with the email"). The traffic goes through two
-   relays: one knows the reader's IP address and not the content, the other knows the content and not the IP
-   address. The setting can be turned off in Mail settings.
+2. **Apple's page** says its privacy feature (named "Protect Mail Activity" on the current page, beside a
+   separate "Hide IP Address" setting) downloads remote content in the background by default, whether or not
+   the message is opened. The traffic goes through two relays: one knows the reader's IP address and not the
+   content, the other knows the content and not the IP address. The reader can turn the feature off in the Mail
+   settings of each device.
 3. **So for readers behind it, an open can mean "the provider fetched it".** Their count is inflated. Readers
    who block images produce no open at all. The count is therefore wrong in both directions, for different
    people, and nothing in the number tells you the mix.
+6. **An email vendor's own help page agrees.** Mailchimp's page on open and click rates says an open is counted
+   when its tracking image is downloaded, that a client with images off registers no open, that a click is also
+   counted as an open when the image did not load, and that bot activity such as Apple's feature can falsely
+   inflate both opens and clicks. A vendor that sells the open rate says it is not 100 percent accurate.
 4. **Not known from the pages read**: the share of your readers using that feature, which operating-system
    versions apply, and whether Google or Yahoo pre-fetch images. Apple's per-OS support pages and the other
    two providers' documentation were not read; one independent tester's claim that background download did
@@ -38,11 +43,13 @@ digest; `re-read before relying`.
 
 ## 1.3 What a click is
 1. **A click is also a fetch**: a request to a tracking address that redirects to the destination.
-2. **Something other than the person can make that request.** RFC 8058's background section (read through a
-   digest) says anti-spam software often fetches URLs found in message headers automatically, without any user
-   action. That is about header addresses. **A primary page on whether security gateways also follow links in the
-   body was not read.** So "security scanners inflate body-link clicks" is a hypothesis here, not a fact, and
-   the next point is how to test it.
+2. **Something other than the person can make that request.** RFC 8058's section 1 (raw text) says anti-spam
+   software often fetches resources in message headers automatically and a sender cannot tell that from a
+   person. For body links: Microsoft's Safe Links page says Defender for Office 365 scans URLs in inbound mail
+   during mail flow, rewrites them, and verifies them again at the time of click; and Mailchimp's page says
+   bot activity can inflate click metrics. Neither page says a gateway always requests the destination, or what
+   the sender's log then shows, so "scanners inflate body-link clicks" is supported but its size on your list
+   is unknown; the next point is how to test it.
 3. **Look for the pattern, do not assume it.** A click that arrives within seconds of delivery, on every link,
    in the recipients' list order, before any open or session, is the signature to check for in the raw click
    log. If it is present, filter those clicks or count only a click followed by a session on the destination.

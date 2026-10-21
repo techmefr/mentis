@@ -6,7 +6,8 @@ zone, refresh); this section adds the causes specific to advertising and an orde
 
 ## 3.1 Structural reasons for a gap
 1. **Date basis.** An ad platform books a conversion to the day of the click; an analytics product books it to
-   the day it happened. For a long cycle this alone makes the recent window differ, and recent ranges grow
+   the day it happened. Google Ads' help page says its primary conversion columns are computed by click time,
+   because spend is too, and that separate by-conversion-time columns exist for comparing with other tools. For a long cycle this alone makes the recent window differ, and recent ranges grow
    afterwards.
 2. **Credit rule.** A platform credits its own clicks; an analytics product with a cross-channel model splits
    credit across all channels, so it usually gives a paid channel less.
@@ -16,11 +17,16 @@ zone, refresh); this section adds the causes specific to advertising and an orde
    per session.
 5. **Attribution window.** A conversion on day ten after the click exists for a platform with a thirty-day
    window and is invisible to one with a seven-day window. Windows differ by platform and change; read the
-   one in use (`re-read before relying`).
+   one in use (`re-read before relying`). Google Ads' help page gives defaults (click 30 days, engaged video
+   view 3 days, view-through 1 day, each settable), says a window change is not applied retroactively, and
+   GA4 has its own key event lookback setting that applies to all its models. Do not carry those numbers; they
+   show that the same sale can sit inside one window and outside another.
 6. **Modelled conversions.** Where consent signals reduce what can be observed, platforms and analytics each
    fill the gap with their own estimate, by their own method. Two estimates are two opinions.
 7. **Processing lag.** Reports fill in over hours or days, and imports from one system to another add more.
-   The newest days are incomplete in every source.
+   The newest days are incomplete in every source. Google's help page on conversion delay says a conversion can
+   be reported up to 90 days after the click, depending on the window, so recent weeks look worse until the
+   late ones arrive while spend is already fully counted.
 8. **Time zone and currency.** Different day boundaries and conversions of value move rows across days.
 9. **Two senders of the same action.** A native tag plus an import, or browser plus server without a shared
    identifier, inflate one side (§2.4). This is a defect, not a structural gap, and it is the first thing to

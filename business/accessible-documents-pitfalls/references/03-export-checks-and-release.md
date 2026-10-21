@@ -7,7 +7,9 @@ The structure made in the source file is not a promise about the exported file. 
 image or converting between formats can keep it, flatten it or drop it.
 
 ## 3.1 Export
-1. **Export with the option that writes tags.** Symptom: the PDF opens, looks perfect and has no structure; a
+1. **Export with the option that writes tags.** Microsoft's PDF page says to run the checker on the source first,
+   then save as PDF with the option for document structure tags ticked, and describes tags as what lets
+   assistive software use headings, tables, hyperlinks, bookmarks and alt text. Symptom: the PDF opens, looks perfect and has no structure; a
    screen reader reads it as unlabelled text or not at all. Fix: use the export function that produces a tagged
    file, not "print to PDF".
 2. **Check the exported file, not the source.** Open it in a viewer that shows the tag tree or reading order,
@@ -16,7 +18,9 @@ image or converting between formats can keep it, flatten it or drop it.
    of the export is the last resort, and is lost at the next export.
 4. **Do not lock the file in a way that blocks assistive software.** A security setting that forbids text
    extraction for accessibility stops the reader.
-5. **Prefer a web page to a PDF where both are possible.** The Section508.gov PDF page says federal policy is to
+5. **Prefer a web page to a PDF where both are possible.** GOV.UK's publishing guidance calls HTML the most
+   accessible format and the first choice, treats a new PDF as a last resort with an HTML version beside it, and
+   says PDF and PDF/A cannot be made fully accessible to every assistive technology. The Section508.gov PDF page says federal policy is to
    prioritise HTML and use PDF only when necessary, because PDFs are often less accessible and less mobile friendly;
    it also publishes a PDF testing checklist and a remediation guide to start from.
 6. **Provide an accessible alternative where a format cannot be fixed**, such as a web page or a plain text
@@ -24,7 +28,9 @@ image or converting between formats can keep it, flatten it or drop it.
 
 ## 3.2 Scans
 1. **A scan is a picture.** Symptom: no text can be selected or searched, and a screen reader has nothing to
-   read. Fix: recognise the text, then correct it.
+   read. Fix: recognise the text, then correct it. GOV.UK says a scan converted straight to PDF/A cannot be
+   searched or read by a screen reader and that the text is to be recognised first (OCR); it says nothing on
+   checking the recognised text, which stays our own advice.
 2. **Read the recognised text.** Recognition errors are silent: a wrong digit in a figure, a lost column, a
    merged line. Check: compare a sample of numbers and names with the page image. Never publish a result nobody
    compared.
@@ -33,7 +39,9 @@ image or converting between formats can keep it, flatten it or drop it.
 4. **Prefer the born-digital source** over a scan of its printout whenever it exists.
 
 ## 3.3 Check and release
-1. **Run an automatic checker, then a human pass.** A checker finds missing tags, titles and alternatives; it
+1. **Run an automatic checker, then a human pass.** Microsoft's checker page ranks findings as errors, warnings
+   and tips and marks machine-generated alternatives for review; GOV.UK calls the built-in checker a basic one.
+   A checker finds missing tags, titles and alternatives; it
    cannot tell whether an alternative is meaningful, whether the order makes sense or whether a heading is the
    right level. Report the two separately.
 2. **Test with the assistive technology your readers use**, on one realistic page: navigate by headings, read a

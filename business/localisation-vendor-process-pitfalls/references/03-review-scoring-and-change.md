@@ -52,10 +52,15 @@
 1. **Treat a late change as a new job.** Symptom: a sentence changed in the source after the freeze and a
    vendor's version describes the old one. Fix: send the diff, list the strings affected and re-check the ones
    that sit next to them, since context shifts.
-2. **Send only the changes, with their old translations**, so the linguist sees what moved and the memory is
+2. **Check that a changed meaning is a new string.** Mozilla's guide says a string whose meaning changed needs a
+   new identifier so every tool reports it as untranslated and linguists redo it, while an English-only typo fix
+   does not; with no new identifier the old translations stay in use and nobody is told. Symptom: the source
+   says "primary password" and every locale still says "master password". Check: diff the source, and look for
+   changed text under an unchanged key.
+3. **Send only the changes, with their old translations**, so the linguist sees what moved and the memory is
    updated, not rebuilt.
-3. **Version the source and the delivery together**, so any shipped string can be traced to a source version.
-4. **Plan the release for the slowest language**, or decide in advance to ship with a fallback language for a
+4. **Version the source and the delivery together**, so any shipped string can be traced to a source version.
+5. **Plan the release for the slowest language**, or decide in advance to ship with a fallback language for a
    pending one and say so.
-5. **A new language is a new project**, not a copy of the last: a market brief, a reviewer, a glossary, a layout
+6. **A new language is a new project**, not a copy of the last: a market brief, a reviewer, a glossary, a layout
    check (right-to-left and expansion: `skills/rtl-and-bidi-layout-pitfalls`) before the strings are bought.

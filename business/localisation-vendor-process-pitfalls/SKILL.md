@@ -13,7 +13,7 @@ repository `skills/i18n-catalog-workflow-pitfalls`, locale formats `skills/local
 right-to-left `skills/rtl-and-bidi-layout-pitfalls`. Choosing and scoring the vendor is `business/vendor-management`
 and `skills/vendor-claims-and-scoring-pitfalls`; wording of the source is `business/ux-writing`.
 
-It states method only. The MQM error typology and scoring pages (CC BY 4.0) were read for facts; translation-industry
+It states method only. The MQM error typology and scoring pages (CC BY 4.0) and Mozilla's localization documentation (CC BY 4.0) were read for facts; translation-industry
 standards were not. Any named error taxonomy or threshold is something to take from the version the parties agree on, and a contract
 with a vendor is not legal advice here.
 
@@ -56,5 +56,6 @@ content owner and a native reviewer in the market decide acceptance.
 
 ## Origin
 Written from general localisation-management practice; the scoring section was checked against the MQM Council
-pages (CC BY 4.0, read 2026-10-20). 🟡: never run by us.
+pages (CC BY 4.0, read 2026-10-20), and the brief, kit and string-change points against Mozilla's localization
+documentation (CC BY 4.0), with Google's style guide (CC BY 4.0) and Crowdin's documentation read for facts. 🟡: never run by us.
 Details in [`references/origin.md`](./references/origin.md).

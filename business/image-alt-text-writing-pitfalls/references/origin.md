@@ -14,25 +14,32 @@ block structures a decision; the person who owns the content decides, and their 
 | a11yproject/a11yproject.com, `src/posts/alt-text.md` (Susan Robertson, updated by Scott O'Hara), `are-you-making-these-five-mistakes-when-writing-alt-text.md` (Daniel Sage) and `alternate-text-and-automation.md` (Eric Bailey) (commit 27de226) | Apache-2.0 (LICENSE-APLv2 file); posts have individual authors and no separate content licence, so attributed here | Attribute versus text, three kinds, context, phrasings, keywords, captions, logos and linked images, complex images, limits of automation |
 | MicrosoftDocs/microsoft-style-guide, `styleguide/accessibility/graphics-design-media.md` (commit c6945c3) | CC-BY-4.0 (LICENSE file; attribution given here) | Alt text for non-text elements, link to details for complex elements, captions and transcripts, text links beside image maps |
 
+| W3C WAI Images tutorial pages: decision tree, decorative, informative, functional, complex, images of text, and WCAG 2.2 Understanding 1.1.1, read raw 2026-10-20 | W3C document licence, facts only, own words | Empty value for decorative, no attribute means file name announced, author judgment, functional images state the action, two-part alternative for complex images with adjacent long description, decoration ignored (§1.1, §1.2, §1.3, §3.1) |
+| RGAA, criteria 1.1, 1.2, 1.3, 1.6 and 1.8 (accessibilite.numerique.gouv.fr/methode/criteres-et-tests, read raw 2026-10-20) | Etalab Open Licence 2.0 (footer read), facts only, own words | Informative image has an alternative, decorative image ignored, relevance of the alternative, detailed description where needed (with longdesc still among its techniques), image of text replaced by styled text (§1.2, §3.1, §3.2) |
+
 The licence of each repository was verified again from its LICENSE file in this session. The files contain
 no directive text addressed to an AI that was acted on.
 
 ## Own guidance (not sourced)
 Labelled "Own guidance" in the references: recording an empty field as a decision and deciding per
-placement and not per asset (part 1), answering keyword checklists (part 2), the nearby-text reading for
-charts, a picture of text, treating overlay promises as unverified, using generated text only as a draft
-(part 3). The router and guardrails are ours.
+placement and not per asset (part 1; the W3C pages support the judgment-by-purpose idea, not the shared-library
+point), answering keyword checklists (part 2), treating overlay promises as unverified and using generated text only
+as a draft (part 3). The nearby-text reading for charts and the picture-of-text rule moved from own guidance to
+confirmed in the 2026-10-20 pass. The router and guardrails are ours.
 
 ## Removed (not carried, on purpose)
 1. **The search-engine employee statement about ranking** quoted in the five-mistakes post: a dated claim
    about a third party. The block only says not to stuff keywords.
 2. **Legal damages figures and traffic anecdotes** in the post (settlement amounts, an image-search traffic
    gain): unverified here and not needed for the method.
-3. **Criterion numbers** of WCAG and RGAA: the standards were not opened.
+3. **Criterion numbers** of WCAG and RGAA: kept out of the block text, except the RGAA numbers named in §1.2 and §3.1;
+   the criteria themselves were read on 2026-10-20.
 4. **Named tools and product screenshots** used as examples in the posts.
 
 ## Not verified
-1. **Whether the three-kind split matches current WCAG and RGAA wording**: the standards were not read.
+1. **The three-kind split** is a simplification of the five W3C kinds and RGAA's criteria (stated in §1.2); WCAG
+   and RGAA wording was read for the points above only, not end to end. RGAA's wording of criterion 1.3 on exceptions was
+   not read.
 2. **Screen reader behaviour** described in the posts (announcements, fallback to image recognition): taken
    from the posts, not tested.
 3. **Current text of the sources**; check with `skills/source-freshness`.

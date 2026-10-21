@@ -38,11 +38,10 @@ cadence, which is a reason not to trust such numbers. Payback and cohort arithme
 `business/marketing-claim-substantiation-pitfalls` and the owner of legal or compliance.
 
 ## Not verified
-1. **The platform mechanics in §2** (that queries below a volume are withheld, how the conversion columns and
-   goals combine, click-date booking, the length of change history, the learning state, what resets learning)
-   come from marketingskills' own account of one platform and its API. None was checked against that
-   platform's help pages in this session (Google Ads Help pages on conversion lag, learning status and
-   search-term visibility were not read). Marked `re-read before relying` where stated.
+1. **The platform mechanics in §2** that were not confirmed in the second pass (experiment arms and their serving
+   status, which editors never appear in the log, what exactly resets learning) come from marketingskills' own
+   account of one platform. The withheld queries, conversion columns, click-date booking, change-history length
+   and learning status were checked on Google's pages (section above). Marked `re-read before relying` where stated.
 2. **The block has never been used on a real account.**
 3. **The arithmetic in §3 was recomputed** (the 95 percent bound, the break-even rate and the 59-click
    example), but the choice of 95 percent, and whether it is the right level for a decision, was not
@@ -62,6 +61,16 @@ confirmed or edited from them. Meta's policy pages remain unread, LinkedIn's pol
 describe policy, not account reading. The block stays free of policy statements, as §4.2 says; policy review is
 `business/ad-creative-testing-and-policy-pitfalls` §3. Item 1 above (Google platform mechanics) is still unread
 against Google's help pages.
+
+## Second pass, 2026-10-20: Google help pages, raw text, facts only, own words (Google site terms, no open licence)
+- support.google.com/google-ads/answer/2472708 (search terms report): terms with too little query activity are omitted.
+- support.google.com/google-ads/answer/6270625 (understand your conversion tracking data): primary conversions column, all-conversions column, goal settings, click-time booking, by-conversion-time columns, lag.
+- support.google.com/google-ads/answer/13020501 (Smart Bidding learning): status up to 7 days, three kinds of cause, budget and target edits do not trigger it.
+- support.google.com/google-ads/answer/19888 (change history): past 2 years, older data unavailable, API changes show the tool.
+- support.google.com/google-ads/answer/6239119 (conversion delay): conversions reported up to 90 days after the click.
+Corrected: the earlier "history is short, confirm the periods" became the 2-year statement; the learning-state point gained
+the two-pages-disagree note. Still unread: how withheld-query ratios are computed, experiment arm statuses, and what
+resets learning beyond what the two pages say.
 
 ## Own guidance (not sourced)
 The router; the order of questions in §4.1 (measurement first); the "date or never" rule on a readable sample

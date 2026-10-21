@@ -36,8 +36,8 @@ is stated here (`re-read before relying`). It is not legal advice.
 3. **Severity comes from the observed consequence and the exposure**, not from the category's name.
 4. **A fix is the smallest change that meets the rule**, with an owner and the appeal or re-review route. A
    disapproval can often be fixed or appealed through the platform's own process; repeated violations can put
-   the whole account at risk (from Google's overview, read as a digest; `re-read before relying` for every
-   platform).
+   the whole account at risk (Google's overview, read raw 2026-10-20, says it can disapprove ads and suspend accounts for repeat or egregious
+   violations and runs a strike system for repeat offenders; `re-read before relying` for every platform).
 
 ## 3.4 Higher-risk categories are a trigger, not a table
 1. **Some topics call for a deeper review against the current source.** The list used by the source read
@@ -53,7 +53,8 @@ is stated here (`re-read before relying`). It is not legal advice.
 3. **Structure, as Google's overview describes it**: four areas (prohibited content, prohibited practices,
    restricted content and features, editorial and technical requirements), rules that vary by place, some
    policies updated continually, the English text controlling, and disapproval that can be fixed or appealed.
-   Read as a digest; confirm on the page before relying. No individual Google policy page was read.
+   Read raw on 2026-10-20 and confirmed; confirm again on the page before relying. No individual Google policy
+   page was read.
 
 ## 3.4a Two more overview pages, read 2026-10-20 (re-read before relying)
 Read on LinkedIn's advertising policies page and TikTok's advertising policies overview page. Facts only, own

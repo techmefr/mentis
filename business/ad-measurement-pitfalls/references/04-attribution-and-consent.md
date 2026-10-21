@@ -24,14 +24,19 @@ and is marked `re-read before relying`.
 
 ## 4.2 Credit from data needs volume
 1. **A model that assigns credit from the paths of many people (data-driven) needs enough conversions to be
-   stable.** With few, it tends to fall back towards last-click and its apparent precision is noise. The
-   platform's own page states a recommended volume; the figure the source quotes was not verified here, so
-   read the current figure on the platform's page (`re-read before relying`) and do not carry a number.
+   stable.** With few, it tends to fall back towards last-click and its apparent precision is noise. Google
+   Ads' own page says every conversion action is eligible regardless of volume and that performance improves
+   with more data, and it states a recommended minimum of conversions and interactions. The figure changes, so
+   read the current one on the page (`re-read before relying`) and do not carry a number.
 2. **It can only weigh touches it was shown.** Offline events, private sharing and touches lost to cookies are
    invisible to it, so a business with a lot of word of mouth gets a confident model that is blind to it.
 3. **Credit is modelled correlation, not proof of cause.** It reflects what co-occurs with conversion. The
    test that says what would have happened anyway is a holdout (§4.3).
-4. **Availability changes.** The selectable models in the platforms' own reports have been narrowed over time
+4. **Availability changes.** Google Ads' help page says first click, linear, time decay and position-based
+   models are no longer supported (actions that used them were moved to data-driven; last click and data-driven
+   remain), and the GA4 help page says the same four are no longer available as of November 2023 and lists
+   three models in its attribution reports (data-driven, paid and organic last click, Google paid channels last
+   click). Symptom: a saved report or a vendor guide teaches a model the product no longer offers
    (`re-read before relying`); the rule-based ones remain useful as ways to score your own data from the CRM or
    a warehouse.
 

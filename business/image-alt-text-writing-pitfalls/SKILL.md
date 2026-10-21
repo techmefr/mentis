@@ -9,8 +9,8 @@ Business layer (`business/README.md`), communication. `business/social-publishin
 every image and `skills/seo` lists it as a check; neither says how to write it or when to leave it empty.
 This block is the writing side: the few mistakes that make alt text useless to the people who depend on it.
 
-Accessibility standards and their criterion numbers were not opened here. For a conformance claim, cite the
-standard itself (WCAG, or RGAA in France), not this block.
+The W3C images tutorial and a few RGAA criteria were read to check the method (2026-10-20), but this block is not
+an audit tool. For a conformance claim, cite the standard itself (WCAG, or RGAA in France), not this block.
 
 ## When
 - Publishing or reviewing images on a page, a social post, a newsletter or a deck.
@@ -45,5 +45,6 @@ transcript for audio and video.
 
 ## Origin
 Rewritten from three posts of the A11Y Project site (Apache-2.0 repository, individually authored posts,
-attributed) and the accessibility page of the Microsoft style guide (CC-BY-4.0), read 2026-10-16. 🟡:
+attributed) and the accessibility page of the Microsoft style guide (CC-BY-4.0), read 2026-10-16, checked
+against the W3C WAI images tutorial and RGAA criteria 1.1 to 1.8 on 2026-10-20. 🟡:
 never dogfooded. Details in [`references/origin.md`](./references/origin.md).

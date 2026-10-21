@@ -6,7 +6,11 @@
    method is no longer valid (mistake 4).
 2. **Put the information as text beside the image** (a data table, a summary paragraph) and keep the alt
    text short. The Microsoft style guide says to link to a separate page with more details for complex
-   elements. The nearby-text option is an own-guidance reading of the two.
+   elements. The W3C complex images page confirms the pattern: a two-part alternative, a short description that
+   names the image and says where the long one is, and a long description in text, reached by an adjacent link
+   or sitting next to the image. RGAA criterion 1.6 asks for such a detailed description where one is
+   needed, and still lists the old longdesc attribute among accepted techniques although the A11Y post calls
+   it no longer valid: prefer the adjacent text or link.
 3. **A reader should get the whole story from either the picture or the written description** (Microsoft
    style guide, "Images, image maps, and multimedia").
 
@@ -15,8 +19,9 @@
    (Microsoft style guide).
 2. **Provide captions, transcripts or descriptions for audio and video** (same page).
 3. **Provide text links in addition to image maps** (same page).
-4. **Own guidance:** a picture of text belongs in the page as text; the alt text then does not need to
-   repeat it.
+4. **A picture of text belongs in the page as text** where the presentation can be done in real text; RGAA
+   criterion 1.8 and the W3C images-of-text page both say to prefer styled text. The alt text of an image of
+   text that stays then carries the text.
 
 ## 3.3 A human who looked
 1. **Alt text needs a person's input to be effective** (A11Y Project, automation post).
