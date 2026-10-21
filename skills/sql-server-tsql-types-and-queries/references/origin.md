@@ -3,6 +3,8 @@
 > Provenance of `skills/sql-server-tsql-types-and-queries`. Read it when a rule has to be traced to its source
 > or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified
+
 **Status: 🟡.** Written from documentation and reading, never run by us. No SQL Server instance was used while
 writing it. Overlaps with `skills/sql-conventions` (2026-10-19); cross-referenced, not merged. SQL
 Server has no coverage anywhere else in the repository.

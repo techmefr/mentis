@@ -3,6 +3,8 @@
 > Provenance of `skills/postgres-operations-and-exposed-api-pitfalls`. Read it when a rule has to be traced to
 > its source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 21 checked, 19 matched, 2 corrected, 0 unverified
+
 **Status: 🟡.** Written from documentation-style skill files, never run by us against a PostgreSQL server or a
 Supabase project. No statement, setting or policy was executed while writing it.
 

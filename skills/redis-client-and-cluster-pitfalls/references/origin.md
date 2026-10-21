@@ -3,6 +3,8 @@
 > Provenance of `skills/redis-client-and-cluster-pitfalls`. Read it when a rule has to be traced to its
 > source or checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 24 checked, 24 matched, 0 corrected, 0 unverified
+
 **Status: 🟡.** Written from documentation-style skill files, never run by us against a Redis server. No Redis
 instance, cluster or client library was started while writing it.
 

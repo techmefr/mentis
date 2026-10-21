@@ -3,6 +3,8 @@
 > Provenance of `skills/mysql-pitfalls`. Read it when a rule has to be traced to its source or checked for
 > freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 21 checked, 20 matched, 0 corrected, 1 unverified
+
 **Status: 🟡.** Written from documentation and reading, never run by us. No MySQL server was used while
 writing it. Overlaps with `skills/sql-conventions` §7 and `skills/devops-conventions` (2026-10-19); cross-referenced, not merged.
 

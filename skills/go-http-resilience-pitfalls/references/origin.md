@@ -3,6 +3,7 @@
 > Provenance of `skills/go-http-resilience-pitfalls`. Read it when a rule has to be traced to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified
 **Status: 🟡.** Written from documentation and reading, never run by us. Overlaps with `skills/go-conventions` (2026-10-19); cross-referenced, not merged.
 
 ## Sources (all read 2026-10-08, rewritten in our own words, no text copied)

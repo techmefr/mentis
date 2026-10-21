@@ -3,6 +3,8 @@
 > Provenance of `skills/sql-conventions`. Read it when tracing a rule to its source or checking freshness
 > (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 23 checked, 23 matched, 0 corrected, 0 unverified
+
 Written 2026-10-02 from primary sources read that day. Status: **new block, base to confront with a real
 project**, no in-house production experience (🟡 in `CATALOG.md`).
 

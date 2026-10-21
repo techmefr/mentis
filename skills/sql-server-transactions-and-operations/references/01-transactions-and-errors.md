@@ -49,5 +49,5 @@ END CATCH;
    that level takes no shared locks, is not blocked by exclusive locks, and can read uncommitted changes
    (dirty reads). It names the alternatives that cut contention while protecting against dirty reads: the
    `SNAPSHOT` isolation level, or `READ COMMITTED` with the `READ_COMMITTED_SNAPSHOT` database option on.
-2. **The default is `READ COMMITTED`,** which prevents dirty reads but allows nonrepeatable and phantom reads
+2. **The default is `READ COMMITTED`** (on SQL Server it uses shared locks; on Azure SQL Database and SQL database in Fabric the `READ_COMMITTED_SNAPSHOT` option is on by default, so it uses row versioning), which prevents dirty reads but allows nonrepeatable and phantom reads
    between statements. Raise the level for the block that needs it rather than the whole connection.

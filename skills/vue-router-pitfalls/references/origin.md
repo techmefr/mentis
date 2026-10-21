@@ -3,6 +3,8 @@
 > Provenance of `skills/vue-router-pitfalls`. Read it when a rule has to be traced to its source or checked
 > for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 38 checked, 38 matched, 0 corrected, 0 unverified (docs read at current main, not the stamped commit)
+
 **Status: 🟡 never dogfooded.** Written from documentation, never run by us: no router was created, no guard
 was run and no bundle was built while writing it. Every file below was re-opened and read on 2026-10-16 before
 a rule was taken from it, each rule was checked against it, and the repository's LICENSE file was read again.

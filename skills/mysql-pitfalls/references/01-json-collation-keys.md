@@ -6,7 +6,7 @@ another version or format.
 ## 1.1 JSON operators and indexes
 1. **`->` returns a JSON value, so a string comes back quoted and with its escapes.** `column->path` is a
    synonym for `JSON_EXTRACT(column, path)`. The inline operator `->>` returns the unquoted value (it is
-   `JSON_UNQUOTE(JSON_EXTRACT(...))`). Use `->>` when the target is text.
+   `JSON_UNQUOTE(JSON_EXTRACT(...))`; that equivalence is not on the JSON type page, re-read the JSON function reference before relying on it). Use `->>` when the target is text.
 2. **Cast before comparing with native types.** `CAST(json AS type)` succeeds only when the JSON is a single
    scalar of that type; otherwise it returns `NULL` with a warning. `BETWEEN`, `IN()`, `GREATEST()` and
    `LEAST()` are not supported with JSON values: the manual's workaround is to cast to a native numeric or

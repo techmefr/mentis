@@ -3,6 +3,7 @@
 > Provenance of `skills/rust-async-unsafe-pitfalls`. Read it when a rule has to be traced to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+Independent verification 2026-10-21: 22 checked, 22 matched, 0 corrected, 0 unverified
 **Status: 🟡.** Written from documentation and reading, never run by us. Nothing was compiled, no Miri run was
 made. Overlaps with `skills/rust-conventions` (2026-10-19); cross-referenced, not merged.
 
