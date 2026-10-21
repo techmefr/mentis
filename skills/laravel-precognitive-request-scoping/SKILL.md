@@ -52,3 +52,5 @@ Handling File Uploads, Managing Side-Effects, Testing) and the framework source 
 false positive on a row about to be created and that the full validation re-runs on every keystroke; neither is
 supported by those sources and both were removed. Not verified: the exact moment the dispatcher stops the
 controller (that code sits in classes not opened). Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 8 checked, 8 matched, 0 corrected, 0 unverified.

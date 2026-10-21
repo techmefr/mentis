@@ -87,3 +87,5 @@ was re-matched against that file on 2026-10-20. Not confirmed elsewhere: the doc
 that one file, which contradicts itself on dotted paths. Steps 1 (extend rather than parallel, and the advice
 not to push the package onto a project without it) and 3's reference to tenant scoping are our own guidance.
 Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 16 checked (shipped guidance file plus package source and config), 16 matched, 0 corrected, 0 unverified.

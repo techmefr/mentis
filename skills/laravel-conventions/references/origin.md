@@ -871,3 +871,5 @@ points were not re-checked on 2026-10-21 and keep the source or marker they had.
 
 **Not read:** the Faker documentation, the engine manuals on online DDL, Horizon, Telescope and the Scout
 documentation; point 7 of §4 (search-index ceiling) has no source.
+
+Independent verification 2026-10-21: 99 checked, 98 matched, 1 corrected, 0 unverified (checked against the cloned `laravel/framework` default branch and `laravel/docs` 12.x; §9 point 49a corrected: `casts()` return type is used by default, the body only with `parseModelCastsMethod`). The earlier-pass corrections (composite keys, `Event::fake(except:)`, `assertOnlyJsonPath`, `prepareForValidation` before `authorize`, `Http::fake` unmatched URLs) were each re-confirmed in source or docs.

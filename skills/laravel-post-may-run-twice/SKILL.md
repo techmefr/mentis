@@ -22,8 +22,10 @@ users double-click, proxies replay.
    supplies and the server checks before creating the row.
 3. **A check-then-insert in PHP loses the race it was written for.** The window between the check and
    the insert is exactly where the second concurrent request lands. The framework's `unique` validation rule
-   and `firstOrCreate` are both a lookup followed by an insert (documentation, Validation and Eloquent): they
-   reduce duplicates, they do not rule them out without a unique index underneath.
+   and `firstOrCreate` are both a lookup followed by an insert (the Eloquent documentation describes `firstOrCreate`
+   as locating the record and inserting if absent; the `unique` rule is a lookup by definition): they
+   reduce duplicates, they do not rule them out without a unique index underneath (own reasoning, not a
+   documented statement).
 4. **If the caller supplies an idempotency key, the server decides what a repeat means.** Public API practice
    (Stripe's idempotent-requests page; the expired IETF draft `draft-ietf-httpapi-idempotency-key-header-07`,
    sections 2.2 to 2.7): the key is unique per operation and not reusable with a different payload (the draft says
@@ -53,6 +55,7 @@ methods and automatic retry; IETF text, facts only); the expired Internet-Draft
 `draft-ietf-httpapi-idempotency-key-header-07` sections 2.2 to 2.7 (a draft, not a standard: its status codes are
 SHOULD-level and may change); Stripe's "Idempotent requests" API page (facts about keys, storage and expiry;
 vendor documentation, facts only); the framework's documentation for the `unique` rule, `firstOrCreate` and
-atomic locks (12.x). Not found in a source, so our policy: that the guarantee must be a database constraint and
+atomic locks (12.x). Independent verification 2026-10-21: 12 checked, 11 matched, 1 corrected (step 3 credited the documentation for the race statement, which is our reasoning), 0 unverified.
+Not found in a source, so our policy: that the guarantee must be a database constraint and
 never application logic (the documentation neither says the unique rule alone is racy nor recommends a
 constraint), and step 5's reasoning. Mechanisms only, rewritten in our words.

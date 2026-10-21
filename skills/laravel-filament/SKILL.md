@@ -85,3 +85,5 @@ guarding mass assignment; the documentation does not, so step 6 follows the docu
 reasoning of ours: step 5's "name a removed scope in review", steps 7 (field rules as the only trusted
 validation) and 8 (declarative resource; relation manager preferred to a nested form: the overview does not
 compare them) and 10. Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 14 checked, 14 matched, 0 corrected, 0 unverified (read against the 5.x branch; a 6.x documentation branch also exists at this date with PHP 8.3+ and Laravel 12.0+, no 6.x release tag).

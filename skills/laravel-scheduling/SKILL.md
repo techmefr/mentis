@@ -55,3 +55,5 @@ Server (drivers, atomic lock, `name()` for closures), Background Tasks (`command
 Constraints, Schedule Groups, Task Output. The statements that the scheduler cannot enforce a deadline and that
 background tasks need their own monitoring come from the rule file only; the documentation does not say them.
 Steps 7 and 8 are own guidance. Mechanisms only, rewritten in our words.
+
+Independent verification 2026-10-21: 9 checked, 9 matched, 0 corrected, 0 unverified.
