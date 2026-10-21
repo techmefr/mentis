@@ -23,7 +23,10 @@
    cells, and a Word table's header-row option must be set before conversion (PDF technique 6). Symptom: a screen reader user hears cells with no
    column name. Check: the header-row option is set, and a header cell is a real header, not bold text.
 2. **Keep tables simple.** No merged or split cells where avoidable, no blank cells used as spacing, one header
-   row. A complex table is split into several simple ones.
+   row. A complex table is split into several simple ones. Microsoft's Word, PowerPoint and Excel pages give the
+   reason: a screen reader finds its place by counting cells, so a merged, split or nested cell makes it lose the
+   count, and blank cells can suggest the table has ended. GOV.UK says the same: tables for data only, no
+   splitting or merging.
 3. **Never use a table for layout.** It is read cell by cell in a sequence the reader did not choose.
 4. **Do not let a table break across a page without repeating its header** where the format supports it.
 
@@ -49,10 +52,17 @@
 
 ## 2.5 Slides and spreadsheets
 1. **Use the slide layouts, not text boxes drawn on a blank slide.** Layouts give each slide a title and a
-   reading order; a deck of untitled slides cannot be navigated.
+   reading order; a deck of untitled slides cannot be navigated. Microsoft's PowerPoint page says a screen
+   reader reads objects in the order they were added, which can differ from how they appear, and that built-in
+   layouts and its accessibility checker help.
 2. **One title per slide, and unique.** A repeated "Overview" title is a navigation list of identical entries.
+   Microsoft's page asks for a unique, descriptive title on every slide, even a hidden one, because people skim
+   the list of titles to move around.
 3. **Spreadsheets: name sheets, mark the header row, avoid merged cells, blank spacer rows and columns, and
-   comments as the only place a fact lives.** Put a short note on the first sheet saying what each sheet
+   comments as the only place a fact lives.** Microsoft's Excel page confirms sheet names (screen readers read
+   them, defaults like Sheet1 tell nothing), no blank sheets, text in cell A1 because reading starts there,
+   header information, simple tables without merged cells, and descriptive table and range names. Comments as
+   the only home of a fact: not found in the sources, own guidance. Put a short note on the first sheet saying what each sheet
    contains.
 4. **Animation and auto-advance** are an access problem for some readers; keep the content complete in a static
    form.

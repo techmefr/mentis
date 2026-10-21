@@ -2,8 +2,7 @@
 
 Every attribution number rests on a link that carried the right labels to the right page. When it did not, the
 traffic still arrives, only under the wrong name or no name. Points 1.1, 1.3 and the auto-tagging fact were
-checked against two Google help pages on 2026-10-20 (read through a fetch tool that returns a digest, not the
-raw page); the rest is method.
+checked against two Google help pages on 2026-10-20 (read as raw page text); the rest is method.
 
 ## 1.1 Campaign link hygiene (checked against Google's UTM page)
 1. **Always set source, medium and campaign.** The page names more parameters (an identifier, the originating

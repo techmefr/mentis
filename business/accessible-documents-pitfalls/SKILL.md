@@ -12,7 +12,7 @@ instead of a table. This block is the check to run on a document before it is se
 pages are `skills/accessibility`; the wording of an image description is `business/image-alt-text-writing-pitfalls`;
 a document built as HTML is `skills/html-document`; plain-language wording is `business/ux-writing`.
 
-It states method only. The standard for tagged PDF (PDF/UA, an ISO standard) was not read; WCAG pages were read for facts; a legal duty to publish accessible documents depends on the jurisdiction, so
+It states method only. The standard for tagged PDF (PDF/UA, an ISO standard) was not read; WCAG pages, GOV.UK's publishing guidance, Section508.gov and Microsoft Support pages were read for facts; a legal duty to publish accessible documents depends on the jurisdiction, so
 this is not legal advice.
 
 ## When
@@ -52,5 +52,6 @@ certificate; the document owner decides whether the file is released.
 
 ## Origin
 Written from general document-accessibility practice; criteria and PDF techniques checked against W3C WCAG 2.2
-pages (facts only, no text copied) and Section508.gov. 🟡: never run by us. Details
+pages (facts only, no text copied), GOV.UK's publishing guidance (Open Government Licence v3.0), Section508.gov and
+Microsoft Support pages. 🟡: never run by us. Details
 in [`references/origin.md`](./references/origin.md).

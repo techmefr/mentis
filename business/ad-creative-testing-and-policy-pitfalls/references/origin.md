@@ -21,8 +21,14 @@ person who owns the account decides, and legal decides what is lawful (`business
 | developers.facebook.com/docs/marketing-api/reference/adgroup, fetched 2026-10-20 through a summarising tool | Meta developer terms; facts only | A new ad stays pending until reviewed; status values include pending review and disapproved; a synchronous review result is not the final decision. Nothing taken into the block |
 
 The repositories' own text is addressed partly to an AI; it was treated as data and only the method was kept.
-The web page came through a fetch tool that returns a model-written digest, not the raw text, so a paraphrase
-error is possible and everything taken from it is marked `re-read before relying`.
+Second pass 2026-10-20: the Google overview, LinkedIn's policies page, TikTok's overview page and Meta's split-test
+guide (its markdown form, since the HTML page is script-rendered) were downloaded and read as raw page text, and
+confirmed the points in the rows above: Google's four areas, English text enforcing, disapproval then fix or
+appeal, suspension and a strike system for repeat or egregious violations; LinkedIn's review before running
+(usually within 24 hours), rejection reasons, edit and resubmit, discretion to approve, reject or remove, suspension
+or termination for repeat violation, link behaviour rules, policies changed without notice; TikTok's overview dated
+August 2025 as a group index only; Meta's mutually exclusive groups, one variable, KPIs and confidence fixed in
+advance, comparable sizes, 2 to 7 creative cells with confidence by ad. Everything stays `re-read before relying`.
 
 **Lineage caveat.** Several marketingskills files state that passages are re-expressed from third-party
 material (a published tier list of ad formats, practitioner courses). Those originals were not read and their
@@ -42,17 +48,17 @@ guidance note, endorsement guides, a quoted regulation number) was not verified 
 none of it is copied. No statute, authority, date or state count is stated.
 
 ## Not verified
-1. **No platform's individual policy was read.** Google's overview came through a digest and carries structure
+1. **No platform's individual policy was read.** Google's overview (re-read raw on 2026-10-20) carries structure
    only; no individual Google policy page was opened. Meta's Advertising Standards were **not read**: on
    2026-10-20 the Transparency Center page, its older address on facebook.com and a Business Help review page each
    returned only a page title (script-rendered; retried on 2026-10-20 by plain download with a browser user agent,
    which got HTTP 400, and through a page-to-text tool, which got the title only; no official PDF was found), so
    the block names no Meta policy rule and its Meta policy note stays "not read". Meta's developer documentation
-   did render and was read for three pages (table above): they cover delivery state, ad review status and split
-   tests, not the policy text. LinkedIn's policies page and TikTok's overview page were read as digests (§3.4a); TikTok's
+   is readable in markdown form and was read for the split-test page (raw, second pass); the campaign-state and
+   ad-review pages were read as digests and nothing is taken from them. LinkedIn's policies page and TikTok's overview page were re-read raw (§3.4a); TikTok's
    review-process article returned an error page. Every platform fact is `re-read before relying`.
 2. **How a platform runs a randomised ad comparison** (§2.1 item 3): confirmed for one platform only, from its
-   developer documentation (split tests, read as a digest); no other platform's page was read, and the point
+   developer documentation (split tests, read raw in markdown form); no other platform's page was read, and the point
    rests on one repository's account for the rest.
 3. **Partly read sources**: of marketingskills, the ad-creative references other than the roadmap and hook
    system (templates, platform specs, motion and video, iMessage, generative tools, meta formats, review page)

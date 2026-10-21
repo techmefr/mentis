@@ -60,8 +60,7 @@ decides what is lawful.
   verify as unknown. Never infer a pass from the absence of a disapproval (§3.2, §3.3).
 - Treat platform recommendations and generated variants as proposals and review them like any change. Never
   accept one because it is labelled best practice (§3.5).
-- This block is a method written from three young public repositories and one Google policy overview (read
-  as a digest) and never run on a real account by us. Source status and open points are in
+- This block is a method written from three young public repositories and policy overview pages (Google, LinkedIn, TikTok, read as raw text) and never run on a real account by us. Source status and open points are in
   [`references/origin.md`](./references/origin.md).
 
 ## Origin

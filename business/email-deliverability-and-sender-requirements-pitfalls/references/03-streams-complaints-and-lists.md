@@ -1,8 +1,7 @@
 # email-deliverability-and-sender-requirements-pitfalls §3 — Streams, complaint rate and lists
 
 The three subjects share a cause: reputation is attached to a domain or an address, and what one kind of mail
-does to it, the other kind inherits. Platform figures were read on 2026-10-20 through a digest:
-`re-read before relying`.
+does to it, the other kind inherits. Platform figures were read on 2026-10-20 on the raw pages: `re-read before relying`.
 
 ## 3.1 Keep the streams apart
 1. **Transactional and marketing mail are different categories.** Yahoo's page advises not sending bulk or
@@ -17,8 +16,10 @@ does to it, the other kind inherits. Platform figures were read on 2026-10-20 th
    without having subscribed to anything.
 
 ## 3.2 A complaint rate has a source and a denominator
-1. **Google** (sender guidelines page): the spam rate is read in Postmaster Tools; the page gives 0.10
-   percent as a target and says to stay below 0.30 percent and never reach it. The page does not define the
+1. **Google** (sender guidelines page and FAQ): the spam rate is read in Postmaster Tools; the page gives 0.10
+   percent as a target and says to stay below 0.30 percent and never reach it. The FAQ says the rate is
+   user-reported, calculated daily, that rates above 0.10 percent already hurt inbox delivery for bulk senders,
+   and that above 0.30 percent a bulk sender is ineligible for mitigation. Neither page defines the
    denominator.
 2. **Yahoo** (sender requirements page): below 0.3 percent, computed on mail delivered to the inbox, and the
    page asks the sender to enrol in the complaint feedback loop and to expect its figures to differ from the

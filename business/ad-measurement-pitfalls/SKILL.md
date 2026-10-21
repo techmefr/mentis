@@ -68,6 +68,6 @@ and, where personal data is involved, legal, reads it and decides.
 
 ## Origin
 Rewritten in our words from the conversion-tracking and attribution skills of an MIT marketing skills
-repository, the attribution audit of an MIT paid-media skills repository, and two Google help pages (UTM
-parameters in Analytics; auto-tagging in Google Ads), read 2026-10-20. 🟡: never run by us, written without
+repository, the attribution audit of an MIT paid-media skills repository, and Google help pages (UTM
+parameters, auto-tagging, conversion windows and delay, attribution models, adjustments, transaction IDs), read 2026-10-20. 🟡: never run by us, written without
 measurement expertise. Details in [`references/origin.md`](./references/origin.md).

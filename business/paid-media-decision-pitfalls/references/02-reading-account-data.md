@@ -3,11 +3,14 @@
 Ad reports are partial by design and plausible by accident. Default views leave data out without saying so,
 names suggest contents they do not have, and a small account produces numbers that look like findings. Most
 wrong conclusions come from not knowing this, not from poor reasoning. The mechanics below come from a
-practitioner repository's account of one search platform's reporting; they are the kind of fact to confirm
-against the platform's current help pages (`re-read before relying`), and none was checked here.
+practitioner repository's account of one search platform's reporting. Five of them were checked on that
+platform's help pages (raw text, 2026-10-20) and are marked "confirmed" below; the rest stay unchecked. All of it
+is the kind of fact to re-read before relying.
 
 ## 2.1 A search-terms report is a sample
-1. **Platforms may withhold queries searched by too few people**, so the terms you can see are a skewed
+1. **Platforms may withhold queries searched by too few people** (confirmed: Google's help page says terms
+   with too little query activity are omitted from the report for privacy and grouped, without the queries, in a
+   separate insights view), so the terms you can see are a skewed
    subset of what triggered the ads. Before any sentence about what a campaign "buys", write the ratio:
    disclosed clicks (the sum of clicks in the report) against total clicks for the same window, and the
    difference as withheld.
@@ -22,7 +25,10 @@ against the platform's current help pages (`re-read before relying`), and none w
 
 ## 2.2 "Conversions" is several things in one column
 1. **The headline conversion column counts the actions marked as the ones to optimise on**, plus others a
-   campaign's own goal setting pulls in; a second column counts everything. Check each campaign's goal as well
+   campaign's own goal setting pulls in; a second column counts everything (confirmed: the page says the main
+   column covers primary actions, is the one generally used for bidding, can be narrowed by an account-default
+   goal setting and by a campaign-level setting, and that the all-conversions column adds secondary actions and
+   view-through conversions). Check each campaign's goal as well
    as each action's setting. One campaign's figure can mix a page-view proxy, a trial and a booked demo.
 2. **Segment by conversion action before calling anything a lead or a demo.** Read each action's counting
    rule (every occurrence or one per click) and its click window on the same pass.
@@ -37,7 +43,8 @@ against the platform's current help pages (`re-read before relying`), and none w
    serving nothing. Check the experiment type and serving status before believing a duplicate exists.
 
 ## 2.3 Dates, lag and the last few days
-1. **Conversions are booked to the click date.** A conversion recorded today can appear dated a week earlier,
+1. **Conversions are booked to the click date** (confirmed: the primary columns are computed by click time
+   because spend is, and separate by-conversion-time columns exist). A conversion recorded today can appear dated a week earlier,
    so "we got one today" and "the pull says the 11th" can both be true. Say "clicked on the 11th".
 2. **The most recent days undercount** wherever conversion lag exists. Read them as incomplete and never call
    a trend from them alone.
@@ -52,10 +59,15 @@ against the platform's current help pages (`re-read before relying`), and none w
    comparisons but leaves intent and audience questions readable.
 3. **Do not judge a bid strategy the platform marks as still learning.** Fixing a verified break (tracking
    down, wrong URL) still comes first; restructuring a learning campaign as a reflex often costs more than the
-   dip it was meant to cure.
-4. **History is short.** The change log of the platform covers a limited period with detail and a longer one
-   without it (confirm the periods). Past that, a shift may have no recoverable explanation, and the right
-   sentence is that it cannot be explained, not a guess.
+   dip it was meant to cure. Google's page on the status says it shows for up to 7 days after major structural
+   changes (a new or reactivated strategy, or campaigns, ad groups or keywords added to or removed from it) and
+   that budget, target and targeting edits do not trigger it. Another Google page says frequent manual
+   adjustments of budgets, targets or goals reset a 7 to 14 day learning period. The two pages disagree, so say
+   which one you rely on and do not state a learning length as fact.
+4. **History is short.** Google's change history page says the tool lists changes to the account, campaigns
+   and ad groups for the past 2 years and that older data is not available. Past that, a shift may have no
+   recoverable explanation, and the right sentence is that it cannot be explained, not a guess. A change made
+   through the API may show the tool's name in the user column.
 5. **Other actors change the account**: client staff, automated rules, scripts, agents. Report which client
    made a change and not a guess about who or why; some editors do not appear in the log at all, so a missing
    change is not proof nobody made one. A repeating weekday and time under one user is a scheduled job.

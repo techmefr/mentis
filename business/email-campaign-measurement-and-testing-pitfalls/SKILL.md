@@ -63,12 +63,12 @@ the program reads it and decides.
   sources' "best days and hours" (§3.4).
 - State which signal defined an engagement segment and over what window. Never call someone lapsed on opens
   (§3.5).
-- This block is a method written from vendor guides and one primary page read through a digest, and never run
+- This block is a method written from vendor guides and primary pages read as raw text, and never run
   by us on a real programme. Source status and open points are in
   [`references/origin.md`](./references/origin.md).
 
 ## Origin
 Rewritten in our words from the analytics, testing and lifecycle notes of several MIT-licensed marketing
-skill repositories, with Apple's Mail Privacy Protection page and RFC 8058 as primaries, read 2026-10-20.
+skill repositories, with Apple's Mail Privacy Protection page, Mailchimp's open and click help, Microsoft's Safe Links page and RFC 8058 as primaries, read 2026-10-20.
 🟡: never run by us, written without email-marketing expertise. Details in
 [`references/origin.md`](./references/origin.md).

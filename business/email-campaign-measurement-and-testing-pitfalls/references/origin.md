@@ -16,8 +16,10 @@ and the owner of the programme decides (`business/README.md`). Not legal advice.
 | hyperfx-ai/marketing-skills, commit 7c1dd65 (7c1dd6554e7c24ee1903c3925a6de1ef9c82dd3d), `skills/email-lifecycle/SKILL.md`, read in part (lines 1 to 120) | MIT (LICENSE file, 2026 hyperfx.ai, head re-read) | The point that a flow's success metric is the conversion, with open and click diagnostic. Tool surface, provider selection and sequence patterns not taken |
 | resend/resend-skills, commit b2ae7b1 (b2ae7b1798b70134faf679f35fc05b4331462988) | MIT (LICENSE file, 2026 Resend, head re-read) | Nothing taken here |
 | alirezarezvani/claude-skills, commit 19392f7 (19392f7a08264ed00486a251f5b2098321771f94), rampstackco/claude-skills, commit 9b90db2 (9b90db257f7395fab76ff9bfcb808456709f6af3) | MIT (LICENSE files re-read: 2025 Alireza Rezvani; 2026 RampStack Co.) | Nothing taken |
-| Apple Mail Privacy Protection page (apple.com/legal/privacy/data/en/mail-privacy-protection/), fetched 2026-10-20 | Apple site terms; facts only, own wording | Background download of remote content by default whether or not the message is opened, the two relays and what each knows, the setting can be turned off. The page does not say what senders can still learn when the feature is on |
-| RFC 8058 (rfc-editor.org/rfc/rfc8058), fetched 2026-10-20 | IETF document; the IETF Trust notice was not read. Facts only, own wording | Only the background statement (section 1, through a digest) that anti-spam software often fetches URLs in message headers |
+| Apple Mail Privacy Protection page (apple.com/legal/privacy/data/en/mail-privacy-protection/), fetched 2026-10-20, raw page text re-read | Apple site terms; facts only, own wording | Background download of remote content by default whether or not the message is opened (the feature is now called Protect Mail Activity, with a separate Hide IP Address), the two relays and what each knows, the setting can be turned off. The page does not say what senders can still learn when the feature is on |
+| Mailchimp help, "About open and click rates" and "About bot activity and bot filtering" (mailchimp.com/help), fetched 2026-10-20, raw page text | Mailchimp site terms; facts only, own wording | Opens counted by image download, not 100 percent accurate, images off register nothing, clicks counted as opens, Apple's feature can falsely inflate opens and clicks. The bot-filtering page held no click detail in the text read |
+| Microsoft Learn, "Safe Links" overview for Defender for Office 365 (learn.microsoft.com/defender-office-365/safe-links-about), fetched 2026-10-20, raw page text | Microsoft site terms (docs repository not opened for licence); facts only, own wording | URL scanning and rewriting of inbound mail, time-of-click verification. Does not say the destination is requested or what the sender sees |
+| RFC 8058 (rfc-editor.org/rfc/rfc8058.txt), fetched 2026-10-20, raw text | IETF document; the IETF Trust notice was not read. Facts only, own wording | Only the background statement (section 1) that anti-spam software often fetches resources in message headers |
 
 The repositories' own text is addressed partly to an AI (personas, install steps, repository instruction
 files); it was treated as data and only the method was kept.
@@ -29,13 +31,15 @@ engagement-depth and heatmap features, a bot-detection product answer, sequence 
 Anything on consent, tracking or marketing-mail law (`business/data-protection`).
 
 ## Not verified
-1. **Apple**: which operating-system versions and what share of readers it covers were not read (the per-OS
-   support page tried first was unrelated). An independent tester's claim that background download did not occur
-   in his set-up was not verified.
+1. **Apple**: which operating-system versions and what share of readers it covers were not read. The page was
+   found renamed (Protect Mail Activity) when re-read raw on 2026-10-20 and the block text follows the new name.
+   An independent tester's claim that background download did not occur in his set-up was not verified.
 2. **Google and Yahoo image pre-fetching** was not read.
-3. **Body-link scanning by security gateways**: no primary page read. The scanner-click point is a
-   hypothesis; RFC 8058 only covers header addresses, and through a digest.
-4. **Digest, not raw page.** Both primary pages came through a fetch tool that returns a model-written digest.
+3. **Body-link scanning by security gateways**: Microsoft's Safe Links page and Mailchimp's bot note support it;
+   neither says the destination is requested or in what pattern. The size of the effect is unknown and the block
+   keeps the pattern check. RFC 8058 only covers header addresses.
+4. **Raw pages** were read for Apple, Mailchimp, Microsoft Safe Links and RFC 8058 (2026-10-20); the Gmail
+   images help page was fetched and held nothing on prefetching.
 5. **SendX smart-segmentation and email-copywriting and the marketingskills email-types audit checklist** were
    not read.
 6. **The block has never been used on a real programme.**

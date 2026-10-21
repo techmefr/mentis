@@ -11,7 +11,7 @@ in which to look, and the points where the public sources and the vendors' guide
 person who owns the sending domain: a marketer, a founder, the one who set up the provider.
 
 It states method, and platform facts only where a primary page was read on 2026-10-20 (marked `re-read before
-relying`: the pages change, and the fetch returned a digest, not the raw page). Microsoft's
+relying`: the pages change; Google, Yahoo and the RFCs were read as raw text). Microsoft's
 requirement is stated from its own announcement (read in full 2026-10-20), including the point that the post
 disagrees with itself on junk versus reject. It carries no benchmark, no warm-up schedule, no bounce
 band and no week count, because the sources contradict each other on them. It is not legal advice: what a
@@ -64,12 +64,12 @@ the domain reads it and decides; the block changes no DNS record and sends no ma
 - Change one thing at a time and diagnose in the fixed order. Never conclude a deliverability problem from a
   low open rate (§4.2).
 - Test phishing or campaign tests belong on a domain you can lose, not the production domain (§4.4).
-- This block is a method written from vendor guides and a handful of primary pages read through a digest, and
+- This block is a method written from vendor guides and a handful of primary pages and RFCs read as raw text, and
   never run by us on a real domain. Source status and open points are in
   [`references/origin.md`](./references/origin.md).
 
 ## Origin
 Rewritten in our words from the deliverability and unsubscribe notes of several MIT-licensed email skill
-repositories, checked against the Google and Yahoo sender pages, RFC 8058 and RFC 9989, read 2026-10-20.
+repositories, checked against the Google and Yahoo sender pages and FAQ, RFC 8058, RFC 7208, RFC 6376 and RFC 9989, read 2026-10-20.
 🟡: never run by us, written without email-operations expertise. Details in
 [`references/origin.md`](./references/origin.md).
