@@ -14,7 +14,7 @@ writing it.
 |---|---|---|
 | RFC 9457 problem details (rfc-editor.org page, read 2026-10-20) | IETF standard, facts only, own words | members, media type, extension rule, errors-with-pointer example, do-not-parse-detail |
 | RFC 6585 §3 (read 2026-10-20) | IETF standard, facts only | 428 purpose, optional use |
-| RFC 9110 (pages read 2026-10-20; the If-Match section was not in the slices read) | IETF standard, facts only | 412 meaning only (section 15.5.13) |
+| RFC 9110 (pages read 2026-10-20, If-Match section 13.1.1 re-read from the text version) | IETF standard, facts only | 412 meaning (section 15.5.13); If-Match strong comparison, evaluation, 412 or 2xx on failure (section 13.1.1) |
 | Government design system, error-summary page (read 2026-10-20) | page text, facts only, own words; the frontend repository licence file (MIT, Crown copyright) was read 2026-10-20, the design-system repository licence file was not reachable | summary placement, focus, linking, page title prefix, message at field |
 | WCAG 2.2 understanding pages for SC 2.2.1 and SC 3.3.1 (W3C, read 2026-10-20) | W3C document, facts only, own words, page credited | timing options, error text rules, native validation caveats |
 | HTML Standard, autofill section (read 2026-10-20) | CC BY 4.0 (licence file read 2026-10-20), WHATWG | purpose tokens, section prefix, off |
@@ -28,8 +28,8 @@ number was copied. No numeric threshold is given.
 - Any claim about a particular form library's behaviour: not read.
 
 ## Not verified
-1. **RFC details:** problem details and 428 were re-read; the If-Match comparison rule (RFC 9110 section 13.1.1) and the
-   idempotency-key header draft status were not; check them before relying.
+1. **RFC details:** problem details and 428 were re-read; the If-Match comparison rule (RFC 9110 section 13.1.1) was re-read and verified
+   2026-10-20; the idempotency-key header draft status was not; check it before relying.
 2. **Browser behaviour** (unload confirmation text, visibility-change delivery of requests, local storage limits)
    differs by browser and version; test it.
 3. **Accessibility claims:** the timing criterion, error text and error summary were checked; focus management on step

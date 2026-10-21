@@ -1,7 +1,7 @@
 # cms-app-build-pitfalls §1 — Minimal model and its pitfalls
 
 > Part 1 of `skills/cms-app-build-pitfalls`. Read it when a schema or a write path is designed. Mostly craft knowledge;
-> points 2, 4, 5 and 6 carry facts from the Payload documentation (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
+> points 2, 4, 5 and 6 carry facts from the Payload documentation (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1); point 8 carries HTTP redirect facts from RFC 9110 (source 2). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
 
 1. **Content model changes are migrations, in three steps.** Symptom: an editor-facing "delete field" or "change
    type" on a content type with entries wipes data or makes old entries fail validation and break the site.
@@ -43,7 +43,7 @@
 8. **Slugs are unique, editable and redirected.** Symptom: a title change moves the URL and every inbound link
    404s, or two entries share a slug. Fix: a slug unique within its scope (type, locale, parent), generated
    from the title once and then independent, a history table of past slugs with a permanent redirect to the
-   current one, a reserved list for system paths, and a check that a redirect never forms a chain or a loop.
+   current one, a reserved list for system paths, and a check that a redirect never forms a chain or a loop. The HTTP specification (RFC 9110, source 2) defines 301 and 308 as permanent moves: 301 lets a client turn a POST into a GET on the follow-up request, 308 keeps the method, and clients are expected to detect redirect cycles. The chain check itself is our own guidance.
 9. **Locales are linked variants, with a fallback rule.** Symptom: a translated page points at a deleted
    original, the fallback shows the wrong language silently, or changing the source leaves translations marked
    current. Fix: a translation group id linking the variants, a status per locale (missing, draft, published,

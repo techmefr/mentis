@@ -1,7 +1,7 @@
 # task-tracker-app-build-pitfalls §1 — Model, workflows, ordering and dependencies
 
 > Part 1 of `skills/task-tracker-app-build-pitfalls`. Read it when a schema or a write path is designed. Mostly
-> craft knowledge; points 3, 4, 6, 9, 10 and 15 carry facts from an open-source tracker's code (MIT), read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
+> craft knowledge; points 3, 4, 6, 9, 10 and 15 carry facts from an open-source tracker's code (MIT), and point 6 one fact from the PostgreSQL documentation, read 2026-10-20 and restated in our words (`references/origin.md`, source 1). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix.
 
 1. **Minimal model, each entity with one owner.** Workspace or tenant, project (a container with members and a
    workflow), task (a unit of work in one project), subtask (a task with a parent, one level or a bounded
@@ -38,8 +38,8 @@
    number, or a short lexicographic string) so a move writes one row; compute the new key from the two
    neighbours the client saw; when keys get too close or too long, rebalance that list in one background
    job; resolve ties by id so order is deterministic. Order is per list (project backlog, a status column, a
-   saved view), so keep the list identity in the key's scope. Re-read before relying: the exact precision limit
-   depends on the database type; test it. The reference tracker is the dense-integer counter-example: it keeps integer positions per column and swimlane and, on every move, reads the other open tasks in order and rewrites each one's position, ties broken by id (source 1). That confirms the symptom (one drag writes every row of the list) and the id tie-break; the sparse key itself is our own guidance.
+   saved view), so keep the list identity in the key's scope. The exact precision limit
+   depends on the database type; test it. The PostgreSQL documentation states that its double precision type keeps at least 15 decimal digits and is an inexact binary approximation (source 2), so a fractional key placed between two neighbours repeatedly runs out of room and must be rebalanced; how many moves that takes is our inference, not a stated figure. The reference tracker is the dense-integer counter-example: it keeps integer positions per column and swimlane and, on every move, reads the other open tasks in order and rewrites each one's position, ties broken by id (source 1). That confirms the symptom (one drag writes every row of the list) and the id tie-break; the sparse key itself is our own guidance.
 7. **A move changes status and position together.** Symptom: a card dropped into another column keeps its old
    status until a refresh, or lands but is refused later. Fix: one server operation takes target status and
    neighbours, validates the transition (point 3), writes status, position and history in one transaction, and

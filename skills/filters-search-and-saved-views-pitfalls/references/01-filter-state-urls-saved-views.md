@@ -15,7 +15,7 @@ Sources: own craft, with the filter-state facts from the TanStack Table filterin
 2. **Use readable, stable parameter names and one encoding scheme** (repeat a key for a list, or a documented separator); a nested JSON blob in the URL is fragile and leaks structure.
 3. **Validate on read.** A parameter can be missing, hand-edited, from an older release, or hostile: unknown fields are ignored with a visible notice, bad values fall back to the default, nothing is injected into a query as a raw string.
 4. **Keep sensitive values out of the URL** (personal data, tokens, free text a user would not paste into a chat); URLs go to logs, referrers and history. Use an id and look the value up.
-5. **Do not push a history entry per keystroke.** Replace the entry while typing and push on commit; otherwise Back walks through every letter.
+5. **Do not push a history entry per keystroke.** Replace the entry while typing and push on commit; otherwise Back walks through every letter. The HTML Standard defines the two history calls as one routine with a push or replace mode, both staying in the same document, the URL must be one the page may rewrite or a SecurityError is thrown, and browsers may cap the state entries a page adds, so a push per keystroke can also hit that cap (HTML Standard, history API, read 2026-10-20).
 6. **Short URLs for long filters**: past a few hundred characters, store the filter as a saved view or a server-side object and put its id in the URL.
 7. **A date in the URL is a date with a rule**: store an absolute ISO date, or a named relative range ("last 30 days") resolved at read time and say which; never a locale-formatted string.
 8. **Default values stay out of the URL** so a link with no parameters stays the clean default view.

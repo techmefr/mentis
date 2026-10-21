@@ -40,9 +40,10 @@ leave or time-tracking application, so a new block was justified.
    overtime ownership, timers, privacy, roles, payroll export, build order and v2 regrets. No permissive source states them.
 2. **Employment law by jurisdiction** was not read; re-read the owner's rules before relying on any default. No other permissive HR or
    timesheet documentation was identified (searched: the data model files above).
-3. **Nothing was run.** The ledger, accrual-twice, day-count, overlap and lock tests named in the checkpoint were
+3. **Second pass 2026-10-20:** no remaining point states a checkable standard, limit or product behaviour (the rest is design method or policy), so nothing further was sourced.
+4. **Nothing was run.** The ledger, accrual-twice, day-count, overlap and lock tests named in the checkpoint were
    not written or executed.
-4. **Framework pointers** were not checked against a current release; re-read before relying.
+5. **Framework pointers** were not checked against a current release; re-read before relying.
 
 ## Related blocks
 `skills/booking-and-scheduling-app-pitfalls`, `skills/inventory-stock-app-pitfalls`,

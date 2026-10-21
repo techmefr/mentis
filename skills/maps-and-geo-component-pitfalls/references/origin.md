@@ -13,8 +13,10 @@
 | OpenStreetMap Foundation, Tile Usage Policy (operations.osmfoundation.org/policies/tiles/), read 2026-10-20 | page states no licence; facts only, own words | conditional use, attribution, no bulk or prefetch, caching, User-Agent and Referer (§1.3.1 to §1.3.3, §1.3.11, §1.3.12) |
 | W3C Geolocation specification (w3.org/TR/geolocation/), read 2026-10-20, first 100000 of 128646 characters | W3C document licence, facts only | permission, secure context, minimisation, error codes, accuracy hint (§1.6.2, §1.6.4, §1.6.10) |
 | W3C WCAG 2.2 Understanding SC 4.1.3, read 2026-10-20 | W3C document licence, facts only | results count as status message (§2.3.7) |
+| Leaflet, `LICENSE` (BSD 2-Clause, Copyright Volodymyr Agafonkin and CloudMade) and API reference page (leafletjs.com/reference.html), read 2026-10-20 | BSD-2-Clause (`LICENSE` read) | Default coordinate system and projection, popup strings rendered as HTML (§1.1.2, §2.2.5) |
+| W3C WCAG 2.2 Understanding SC 1.4.1, read 2026-10-20 | W3C document licence, facts only | Colour not the only means (§2.1.10) |
 
-Not opened: the Leaflet, MapLibre and OpenLayers repositories and their licences (licence unverified, not opened), the OpenStreetMap wiki (share-alike licence), any commercial map or geocoding provider terms. No permissive source found for clustering, geocoding quotas, or the non-map accessibility alternative, searched: only the pages above.
+Not opened: the MapLibre and OpenLayers repositories and their licences (licence unverified, not opened), the OpenStreetMap wiki (share-alike licence), any commercial map or geocoding provider terms. No permissive source found for clustering, geocoding quotas, or the non-map accessibility alternative, searched: only the pages above.
 
 ## Own craft, not from a source
 Coordinate order and datum, range validation, clustering and viewport loading, the tile-terms and attribution checklist, geocoding and autocomplete limits, routing caveats, location consent method, states and interaction, the non-map accessibility alternative, performance, security, test list and framework pointers.
@@ -24,6 +26,9 @@ Specific provider names, prices, quotas and terms; library-specific code; routin
 
 ## Verified on 2026-10-20
 Coordinate order, datum, antimeridian, precision, one public tile server's policy, geolocation permission and error model, status messages. One correction (§1.3.1: conditional, not flatly forbidden). Four points added (§1.1.11, §1.3.11, §1.3.12, §1.6.10) plus test §2.6.13.
+
+## Verified on the second pass, 2026-10-20
+3 verified (default projection of one library, popup HTML rendering, colour as sole means), 0 corrected, 0 deleted. Projection facts for other libraries, clustering, geocoding quotas and provider terms were not checked.
 
 ## Not verified
 1. **Everything not cited above is own knowledge**: clustering, geocoding and autocomplete limits, routing, states, performance and the non-map alternative were not checked.

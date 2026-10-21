@@ -14,6 +14,7 @@
 | 3 | Stripe documentation, page "Refund and cancel payments" (`docs.stripe.com/refunds`) | Same: facts only | Refunds drawn from available balance and pending when short, platform debited for refunds on indirect charges |
 | 4 | Stripe documentation, pages "Receive Stripe events in your webhook endpoint" (`docs.stripe.com/webhooks`) and "Idempotent requests" (`docs.stripe.com/api/idempotent_requests`) | Same: facts only | Raw-body signature check, fast success response, duplicates, ordering, retries, idempotency keys |
 | 5 | Medusa documentation (`medusajs/medusa`, commit `829a622`): `www/apps/resources/app/recipes/marketplace/page.mdx` | MIT: file `LICENSE` read (its enterprise carve-out lists role-based access and single sign-on files only) | Vendor and vendor-admin records linked to products and orders, vendor-only routes, one order per vendor from a multi-vendor cart |
+| 6 | Laravel documentation, page "Queues" (`laravel.com/docs/12.x/queues`), first 100000 characters only | Vendor documentation, no open licence read: facts only, restated | Dispatch after commit, per connection or per job; rolled-back transaction discards its jobs |
 
 Neighbouring blocks of this repository were read to avoid duplication: `skills/crm-app-build-pitfalls` and
 `skills/invoicing-app-build-pitfalls` (shape and depth), `business/ecommerce-store-quality-pitfalls` (store
@@ -23,6 +24,7 @@ overlap check found no block that covers designing a two-sided marketplace appli
 
 ## Verified
 1. §1 points 5, 6 and 8 and §2 point 2: backed by sources 1 to 4, as the points now say.
+2. §2 point 4, notifications after commit: source 6.
 
 ## Added
 1. §1 point 14, who bears refunds, chargebacks and fees per charge model: source 1.

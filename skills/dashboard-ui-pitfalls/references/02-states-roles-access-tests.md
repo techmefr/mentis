@@ -1,6 +1,6 @@
 # dashboard-ui-pitfalls §2 — States, roles, access and tests
 
-Sources: own craft, except §2.5, checked against WCAG 2.2 (W3C Recommendation of 12 December 2024, facts only; success criteria cited as SC). Status messages (SC 4.1.3) were not read; point 2.5.5 stays unsourced.
+Sources: own craft, except §2.5, checked against WCAG 2.2 (W3C Recommendation of 12 December 2024, facts only; success criteria cited as SC). Status messages (SC 4.1.3, understanding page read 2026-10-20) back point 2.5.5 in part.
 
 ## 2.1 States per widget
 1. **Each widget loads, fails and empties on its own.** One slow or failing query marks one card with a retry; the page, the range control and the other cards stay usable. Symptom: a white page or a spinner over everything because one aggregate times out.
@@ -42,7 +42,7 @@ Sources: own craft, except §2.5, checked against WCAG 2.2 (W3C Recommendation o
 2. **Charts need a text alternative** (SC 1.1.1: non-text content needs an equivalent text; SC 1.3.1: information shown visually must also be available as text or structure): a short description of what it shows and the main reading, plus a data table or the underlying list reachable by keyboard; hover-only tooltips are not accessible, so show values on focus too.
 3. **Colour is never the only encoding** (SC 1.4.1): patterns, labels or direct values (`accessibility`); graphical parts needed to understand the chart, such as series lines and bars, need at least 3:1 contrast against their neighbours (SC 1.4.11, level AA).
 4. **Interactive points and cards are keyboard-operable** (SC 2.1.1) in a sensible order, with a visible focus.
-5. **Live updates are announced sparingly**: a polite live region for meaningful changes, never for every tick.
+5. **Live updates are announced sparingly**: a polite live region for meaningful changes, never for every tick. SC 4.1.3 suggests the status role for results and state, with aria-atomic when a changed figure such as a count must be read whole, and lists assertive or alert on unimportant content as a failure.
 6. **Respect reduced-motion** for count-up animations and chart transitions (SC 2.3.3, level AAA, asks that interaction-triggered motion can be switched off).
 7. **Range and comparison controls are labelled**, and their result is announced once settled.
 8. **Auto-updating widgets can be paused.** Information that starts by itself and refreshes alongside other content needs a way to pause, stop, hide or slow it (SC 2.2.2, level A), unless the updating is essential. Check: a polling widget has a pause control or a visible interval setting.

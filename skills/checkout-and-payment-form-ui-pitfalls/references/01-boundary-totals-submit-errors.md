@@ -7,7 +7,7 @@ Source: own craft knowledge, except the points marked with a citation, checked o
 2. **Keep the surrounding page from observing the fields.** Exclude the payment area from session recording, heatmaps and form analytics, and from error-report breadcrumbs that capture input values (`telemetry-sensitive-data-pitfalls`).
 3. **Send the processor's token or intent id, not card data, to your server.** The server charges or confirms against that reference.
 4. **Content security policy matters here**: the page allows only the processor's script and frame origins, from the processor's documentation, and nothing else injects into the payment page (`csp-and-sanitiser-pitfalls`).
-5. **Load the processor script from the processor's own origin, as documented**, never copied or bundled, so fixes and fraud signals reach it.
+5. **Load the processor script from the processor's own origin, as documented**, never copied or bundled, so fixes and fraud signals reach it. Stripe's documentation says the same for Stripe.js: load it directly from its own host, not in a bundle and not self-hosted (Stripe, including Stripe.js).
 6. **Never prefill or store card fields yourself.** Saved cards are processor-held payment methods referenced by id, shown as brand and last four digits only.
 7. **Never put payment values in a URL**, a local storage key, or a query string; those end up in history, referrers and logs.
 8. **Test with the processor's published test values** in its test mode, never real cards, and keep test and live keys apart (`credential-lifecycle-pitfalls`).

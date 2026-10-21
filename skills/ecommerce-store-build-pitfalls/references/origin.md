@@ -11,6 +11,8 @@
 |---|---|---|---|
 | 1 | Medusa documentation (`medusajs/medusa`, commit `829a622`): `www/apps/resources/app/commerce-modules/` pages `cart/concepts`, `cart/tax-lines`, `order/order-versioning`, `order/transactions`, `order/secure-order-retrieval`, `order/return`, `payment/payment-collection`, `payment/webhook-events`, `pricing/concepts`, `pricing/tax-inclusive-pricing`, `inventory/inventory-in-flows`, `inventory/reservations-lifecycle` | MIT: file `LICENSE` read (its enterprise carve-out lists role-based access and single sign-on files only, not these pages) | Product options and variants, price per currency with date-bound price lists and a separate tax-inclusive preference, decimal major-unit amounts, cart currency fixed by region, payment webhooks for interrupted checkouts, several payments per collection, versioned order lines with unversioned original details, stock check at cart then reservation at order, tax lines per line and shipping method needing a country, return items with received and damaged quantities, outstanding amount from transactions, order retrieval by random id |
 | 2 | Stripe documentation, page "Receive Stripe events in your webhook endpoint" (`docs.stripe.com/webhooks`) | Vendor documentation, no open licence stated: facts only, rewritten, no sentence copied | Raw-body signature check, fast success response, duplicate events, no ordering guarantee |
+| 3 | Stripe documentation, pages "Refund and cancel payments" (`docs.stripe.com/refunds`) and "Fulfill orders" (`docs.stripe.com/checkout/fulfillment`), read in their French versions | Vendor documentation, no open licence stated: facts only, rewritten, no sentence copied | Several refunds allowed but total capped at the original amount, refunds can fail later with a failure reason; webhooks required for fulfilment, redirect page may also trigger it, fulfilment function must tolerate repeat and concurrent calls |
+| 4 | Laravel documentation, page "Queues" (`laravel.com/docs/12.x/queues`), first 100000 characters only | Vendor documentation, no open licence read: facts only, restated | Dispatch after commit, discarded on rollback |
 
 Neighbouring blocks of this repository were read to avoid duplication: `business/ecommerce-store-quality-pitfalls`
 (audit of catalogue, feed, checkout friction and price display; this block is the build counterpart and links to it
@@ -21,8 +23,10 @@ checkout state, order snapshots, reservation, refunds), so a new block was justi
 
 ## Verified
 1. §1 points 1, 2, 5, 6, 7, 8, 9 and 10 and §2 points 1 and 3: backed by sources 1 and 2, as the points now say.
+2. §1 point 9 (refund cap, failed refunds) and point 5 (fulfilment from events): source 3. §2 point 5 (after commit): source 4.
 
 ## Corrected
+0. §1 point 5 (second pass): the block said to confirm from the signed event, not the redirect; the payment platform's guide uses both, the event as the guarantee and the redirect as an extra trigger of the same idempotent step. The point now says so.
 1. §1 point 2: the reference framework stores exact decimal major-unit amounts, so integer minor units is no longer
    presented as the only exact choice.
 2. §2 point 3: the "not read" remark now says that one platform's webhook page was read.
@@ -39,8 +43,8 @@ checkout state, order snapshots, reservation, refunds), so a new block was justi
    documentation was identified (searched: the Medusa commerce modules tree).
 2. **Legal and tax questions** (rates, place of supply, price display, return rights, retention, erasure) belong
    to a qualified person; this is not legal advice.
-3. **Nothing was run.** The tests named in the checkpoint were not written or executed. Refund behaviour of any payment
-   provider was not read.
+3. **Nothing was run.** The tests named in the checkpoint were not written or executed. Refund behaviour of other payment
+   providers was not read (one platform's refund page was).
 4. **Framework pointers** (Laravel, Nuxt) were not checked against a current release; re-read before relying.
 
 ## Related blocks

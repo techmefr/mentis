@@ -18,6 +18,7 @@ Own craft knowledge; only §2.4.2 and §2.3.8 were checked against sources (APG 
 5. **On success, close, return focus (§1.2) and show the result** (a toast, or the updated row highlighted), not only a silent close.
 6. **The action order is consistent**: primary on one side everywhere in the product, cancel next to it, destructive visually distinct and never the default focus.
 7. **Labels name the action** ("Delete project", "Save changes"), not "OK" and "Yes".
+8. **A native dialog can close itself from a form**: a form whose method is the dialog keyword, placed inside the dialog, closes it on submit instead of sending a request, and the dialog return value takes the value of the clicked submit button (HTML Standard form submission and dialog example, read 2026-10-20; the excerpt implied the return value through an example rather than stating it). Use it for plain choices; a form that must send data still needs its own request and an explicit close on success.
 
 ## 2.3 Dirty state and discarding
 1. **Symptom: a user types a long message, clicks outside, and everything is gone.** Fix: track "dirty" (a value differs from the initial one) and guard every exit: Escape, backdrop, close button, route change and browser navigation.

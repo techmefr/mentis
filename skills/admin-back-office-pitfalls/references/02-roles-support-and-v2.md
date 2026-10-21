@@ -1,7 +1,7 @@
 # admin-back-office-pitfalls §2 — Roles, support workflows and v2 regrets
 
 > Part 2 of `skills/admin-back-office-pitfalls`. Read it when staff permissions, support tooling or the first
-> release are planned. Mostly craft knowledge; point 1 carries a fact from the Django documentation (BSD-3-Clause) in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
+> release are planned. Mostly craft knowledge; point 1 carries a fact from the Django documentation (BSD-3-Clause) and point 11 one from the Laravel queue documentation, in `references/origin.md` (sources 1 and 2), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Every staff member has a named account and least privilege.** Symptom: a shared admin login, nobody
    accountable, a departed employee still able to sign in. Fix: individual accounts with second factor,
@@ -44,7 +44,7 @@
     biggest table. Each is cheap at the first migration and expensive after the data and the habits exist.
 11. **Laravel and Nuxt pointers, short.** In Laravel: a dedicated guard and route group for staff, policies and
     gates for abilities, an action class per admin operation that writes the audit row inside one database
-    transaction, queued jobs with batches and a progress table for bulk work, and a separate database role for
+    transaction, queued jobs with batches for bulk work (the framework's batch record already holds progress and supports cancel and failure callbacks, source 2; keep your own table for per-row outcomes), and a separate database role for
     the audit table with insert and select only. In Nuxt: a separate layout or app for the admin, route
     middleware as convenience only, a persistent banner component driven by the session's effective-actor flag,
     and confirmation dialogs that require the typed target name before enabling the button.

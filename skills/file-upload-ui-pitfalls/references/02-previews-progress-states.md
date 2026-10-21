@@ -1,10 +1,10 @@
 # file-upload-ui-pitfalls §2 — Previews, progress and states
 
-Sources: own craft; no source text taken.
+Sources: the W3C File API (object URLs), the WHATWG XMLHttpRequest standard (progress events) and the WHATWG HTML standard (unload prompt), read 2026-10-20, facts only; the rest is own craft.
 
 ## 2.1 Previews
 1. **Symptom: the page gets slower with every file picked, and memory climbs.** Cause: an object URL created for each preview and never released.
-2. **Create a preview with an object URL and revoke it** when the item is removed, replaced or the component is destroyed, and after the image has loaded when the preview is transient.
+2. **Create a preview with an object URL and revoke it** when the item is removed, replaced or the component is destroyed, and after the image has loaded when the preview is transient. The File API says the mapping keeps the blob from being garbage collected until it is revoked or the creating page goes away, and that revoking an unknown URL fails silently, so a missing revoke shows up only as memory.
 3. **Do not read the whole file as a data URL for a preview;** it doubles memory and blocks the thread for large files.
 4. **Downscale before showing a large image** (a thumbnail through a canvas or a bitmap), or generate thumbnails on the server after upload; a 40 MB photo in a 64 px preview is waste.
 5. **Previews apply the image's orientation metadata,** or photos from phones appear rotated; modern browsers handle it for display, canvas paths may not. Test with a phone photo.
@@ -15,12 +15,12 @@ Sources: own craft; no source text taken.
 
 ## 2.2 Progress
 1. **Symptom: a bar that jumps to 100 percent and then waits.** Cause: the bar measures bytes sent from the browser, while the server still stores, scans and processes. Show two phases: "Uploading" and "Processing".
-2. **Upload progress events measure bytes sent, not bytes stored.** The authoritative end is the server's reply.
+2. **Upload progress events measure bytes sent, not bytes stored.** The authoritative end is the server's reply. A progress event carries `loaded` always and `total` only when `lengthComputable` is true, so draw an indeterminate state when it is false.
 3. **Show text with the bar:** percentage or "12 MB of 80 MB", and, for long uploads, time left with a modest claim (an estimate smoothed over several seconds, not a flickering number).
 4. **An indeterminate state is honest when the size is unknown,** a spinner with text, never a fake bar.
 5. **Progress is a labelled element with current value and range** for assistive technology (§3.1), not an image of a bar.
 6. **Do not block the whole page on one upload;** let the user continue and keep a visible tray of uploads in progress, which survives route changes in a single-page app.
-7. **Warn before leaving with uploads running** (a page-unload prompt) when resume is not persisted (§1.4.4).
+7. **Warn before leaving with uploads running** (a page-unload prompt) when resume is not persisted (§1.4.4). The browser decides the wording (a custom message is ignored), and per the HTML standard it may skip the prompt when the user never interacted with the page or when it judges the prompt annoying, so never rely on it as the only guard.
 
 ## 2.3 Multiple files and concurrency
 1. **Symptom: one failure hides among twenty successes.** Cause: a single aggregate bar. Give every file its row: name, size, status, progress, cancel, retry.

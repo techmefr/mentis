@@ -1,7 +1,7 @@
 # ecommerce-store-build-pitfalls §2 — Roles, integrations and v2
 
 > Part 2 of `skills/ecommerce-store-build-pitfalls`. Read it when permissions, an integration or the first
-> release are planned. Mostly craft knowledge; points 1 and 3 carry facts from the sources in `references/origin.md` (sources 1 and 2), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
+> release are planned. Mostly craft knowledge; points 1, 3 and 5 carry facts from the sources in `references/origin.md` (sources 1 to 4), read 2026-10-20. Everything not marked as sourced is our own guidance. Not legal advice.
 
 1. **Guests and accounts both work.** Symptom: a forced account loses buyers, or a guest cannot find their
    order. Fix: guest checkout with an order lookup by a signed link or order number plus email, an optional
@@ -21,7 +21,7 @@
    silent skip. Shipping rates are a quote with an expiry stored on the checkout, not a number recalculated at
    payment.
 5. **Emails and notices follow the state.** Order confirmation, shipment, refund and return emails are sent
-   after the transaction commits, once per event, through notifications (see `skills/laravel-mail-via-notifications`
+   after the transaction commits (a queued send dispatched inside a transaction can run before the commit unless dispatch is held until commit, source 4), once per event, through notifications (see `skills/laravel-mail-via-notifications`
    and `skills/in-app-notifications-pitfalls`). The confirmation states the same totals, tax treatment and
    return policy the checkout showed.
 6. **Imports and exports are staged and scoped.** Catalogue import by spreadsheet: staging, preview, create and

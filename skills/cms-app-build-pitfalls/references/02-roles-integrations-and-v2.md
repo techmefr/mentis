@@ -1,12 +1,12 @@
 # cms-app-build-pitfalls §2 — Preview, delivery, roles and v2
 
 > Part 2 of `skills/cms-app-build-pitfalls`. Read it when preview, an API, permissions or the first release are
-> planned. Mostly craft knowledge; point 1 carries facts from the Payload documentation in `references/origin.md` (source 1), read 2026-10-20. Everything not marked as sourced is our own guidance.
+> planned. Mostly craft knowledge; point 1 carries facts from the Payload documentation and RFC 9111 in `references/origin.md` (sources 1 and 3), read 2026-10-20. Everything not marked as sourced is our own guidance.
 
 1. **Preview and delivery are different paths.** Symptom: a draft appears on the public API, a preview link
    found in a chat shows unpublished text to anyone, or a preview renders with stale cached content. Fix: the
    public delivery path reads only published snapshots; preview goes through a separate route that requires a
-   signed, expiring, entry-scoped token or a signed-in editor, sends no-index and no-store headers, bypasses
+   signed, expiring, entry-scoped token or a signed-in editor, sends no-index and no-store headers (RFC 9111, source 3: no-store tells a cache not to keep or reuse the response, and the RFC calls it no reliable privacy mechanism on its own, so the signed token stays the protection), bypasses
    caches, and shows a visible "preview" banner. Check: request a draft without the token on every public
    route, including the API, the feed, the sitemap and the search index. The Payload documentation shows why the check on the API matters: a read with its draft flag returns the newest version whether or not it was published, so public access rules must refuse drafts, and its live preview renders the front end in a frame inside the admin and exchanges messages with it (source 1).
 2. **Unpublish and update must reach every copy.** Symptom: an entry pulled for a legal reason is still served

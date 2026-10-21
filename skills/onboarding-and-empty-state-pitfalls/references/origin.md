@@ -13,6 +13,8 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: pre-a
 |---|---|---|
 | W3C ARIA Authoring Practices, modal dialog pattern, read 2026-10-20 | W3C copyright notice with W3C permissive licence (terms not read in full), facts only | focus in, Tab trap, Escape, focus return, safe initial focus (§2.3.5, §2.3.10) |
 | W3C WCAG 2.2 Understanding SC 4.1.3 Status Messages, read 2026-10-20 | W3C document licence, facts only | results count as status message (§2.3.2) |
+| W3C WCAG 2.2 Understanding SC 1.1.1, 1.4.1, 2.2.1, 2.3.3, 2.5.8, read 2026-10-20 | W3C document licence, facts only | Decorative images, colour not the only means, time-limit options, interaction animation can be disabled, 24 by 24 CSS pixel targets (§2.3.3, §2.3.4, §2.3.6, §2.3.8, §2.3.9) |
+| W3C Media Queries Level 5, `prefers-reduced-motion`, read 2026-10-20 | W3C document licence, facts only | `reduce` value (§2.3.8) |
 
 No permissive source found on onboarding or empty-state design itself, searched: none opened beyond the two W3C pages above; product-design and growth articles were not fetched.
 
@@ -25,8 +27,11 @@ Wizard validation and drafts (`long-and-multistep-form-pitfalls`), vendor onboar
 ## Verified on 2026-10-20
 Modal tour focus behaviour and the announcement of result messages. One point added (§2.3.10).
 
+## Verified on the second pass, 2026-10-20
+6 verified (decorative image rule, colour not sole means, time-limit options, reduced-motion media feature and interaction-animation criterion, minimum target size), 0 corrected, 0 deleted. Flow, persistence, sample-data and copy points are craft, not checkable facts.
+
 ## Not verified
 1. **Everything outside §2.3.2, §2.3.5 and §2.3.10 is own knowledge**: section 1 and the rest of section 2 were not checked against any source.
-2. **Other accessibility points** (no timeouts on guidance, step status as text, reduced motion) are recalled public practice, not re-read.
+2. **Other accessibility points** (hover and position cues, heading level, focus handling in checklist widgets) are recalled public practice, not re-read; timeouts, status as text, reduced motion and target size were re-read on the second pass.
 3. **Framework pointers** name features from memory; no version was checked.
 4. **No number** (reminder frequency, checklist length, activation rate) is stated; none was measured.
