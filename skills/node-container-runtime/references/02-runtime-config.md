@@ -38,8 +38,10 @@ defaulted to something wrong. The fix for both is the same: read once, validate 
    `--env-file` flags a later file overrides an earlier one; a missing file is an error.
    `--env-file-if-exists` (v22.9.0) tolerates a missing file.
 2. **`process.loadEnvFile(path)`** loads one from code (v21.7.0 and v20.12.0, stable from the same
-   versions as above); the default path is `./.env`. Setting `NODE_OPTIONS` inside an env file has no
-   effect, so memory flags (see `01-container-image.md` §1.6) must be set in the real environment.
+   versions as above); the default path is `./.env`. The documentation says `NODE_OPTIONS` in the file has no
+   effect when loaded this way, so memory flags (see `01-container-image.md` §1.6) must be in the real
+   environment or on the command line. The `--env-file` flag differs: its page says the variables that configure
+   Node.js, such as `NODE_OPTIONS`, are parsed and applied.
 3. **In a container, prefer the orchestrator's environment** over a file baked into the image; use the flag
    for local runs.
 4. **If a framework config module already loads the file**, do not add a second loader: two loaders disagree

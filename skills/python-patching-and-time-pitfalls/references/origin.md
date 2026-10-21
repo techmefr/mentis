@@ -17,16 +17,26 @@ and no sample was run while writing it. Open points are listed under "Not verifi
 The three code samples (§1.1, §2.2 and §2.4) are our own and were not run. No sample code was copied. The pytest and
 freezegun documents contain no agent directives.
 
+### Second pass, read 2026-10-20 (facts only)
+
+| Source | Licence | What it confirmed |
+|---|---|---|
+| pytest `how-to/monkeypatch.rst` (main) and the `MonkeyPatch` entry of the reference page | MIT (pytest repository licence, read 2026-10-16) | The timing of `setattr`, the builtins warning and its three flags (hedged: "might help"), `raising` defaults and the helpers without it, `setenv` `prepend`, `syspath_prepend` invalidating the import caches (the page also names a `pkg_resources` call, not carried), the autouse network guard, `context()`, explicit dependencies |
+| pytest `how-to/tmp_path.rst` (main) | MIT | Per-function uniqueness, retention of three runs, option names (no defaults given on the page), `--basetemp` cleared blindly, xdist, legacy fixtures |
+| freezegun `README.rst` (master; no version shown on the page) | Apache-2.0 (repository licence, read 2026-10-16) | Frozen functions, monotonic note, default arguments, `tick` ignored with `auto_tick_seconds`, the `tz_offset` example, `real_asyncio`, the ten default ignore entries, `configure`, class decorator caveat |
+| Python documentation: `unittest.mock` ("where to patch"), reference (`from` import binding), `asyncio` event loop, `time` | Python documentation licence (PSF); facts only | The lookup principle behind §1.1 (now sourced), the event loop's monotonic clock, `time.monotonic()` reference point |
+
 ## Rewrite notes
 Version-bound facts carry their version: the freezegun default ignore list is that of 1.5.5, and the pytest pages are
 those of the development line at the commit above. The retention count of three, the `tmp_path_retention_count` and
 `tmp_path_retention_policy` option names and the `--basetemp` semantics are pytest's current documented behaviour and
 may differ in older releases.
 
-**Own guidance, not from a source:** the "show the patch bites" check (§1.1.4), the lookup inference behind the
-`from` import rule (§1.1.3), the wrapper-seam advice for builtins (§1.2.3), the reason to keep `raising` on by default
-(§1.5.2), the preference for manual ticking (§2.2.3), the date-boundary test (§2.3.4), the asyncio consequence wording
-(§2.4.1), and the ignore-list confirmation step (§2.5.5).
+**Own guidance, not from a source (still):** the "show the patch bites" check (§1.1.4), the wrapper-seam advice for
+builtins (§1.2.3), the reason to keep `raising` on by default (§1.5.2), the preference for manual ticking (§2.2.3), the
+date-boundary test (§2.3.4, built on the README's own offset example) and the ignore-list confirmation step (§2.5.5).
+**Sourced on 2026-10-20 and no longer marked:** the lookup rule behind the `from` import (§1.1.3), and the asyncio
+consequence wording (§2.4.1) apart from its last clause.
 
 ## Removed or corrected from the review item
 1. **Corrected:** the item said to give `--basetemp` a unique value per concurrent run under xdist. The page says
@@ -40,6 +50,8 @@ may differ in older releases.
    exists only on another branch is cited.
 
 ## Not verified
+0. **Resolved 2026-10-20:** that the event loop uses a monotonic clock is the asyncio page's statement; it does not
+   say the clock is `time.monotonic()`, which is CPython behaviour read nowhere here.
 1. **The `pkg_resources` part of `syspath_prepend`** was left out because it is a packaging detail that may have changed;
    only the import-cache note is carried.
 2. **Behaviour under pytest-xdist** beyond the sentence in the tmp_path page was not checked.

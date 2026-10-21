@@ -5,7 +5,11 @@
 > test runner's configuration is touched. Uploads, secrets handling and the audit of a dependency's trust
 > are `skills/security-hardening` §4; this section is the PHP and Composer mechanics.
 
-1. **The lock file is committed for an application and not for a library, and CI installs from it.** An
+1. **The lock file is committed, for an application and for a library, and CI installs from it.** Composer's
+   documentation recommends committing it for a library too, with the caveat that it does not reach projects that
+   depend on the library: they install whatever the constraints allow, so a library also runs a CI job with
+   `update` (and `update --prefer-lowest`), with no secrets and no write access, and never runs `update` in a build
+   or release step. An
    install from the lock gives every machine the versions that were tested; an update resolves anew and
    produces a different tree from one day to the next. A deploy runs the install command, never the update
    command, and a changed lock in a diff is read like code (what moved, by how many versions, and why).
@@ -23,16 +27,23 @@
 5. **The audit runs in CI and on a schedule.** The package manager's audit lists known advisories and
    abandoned packages for the locked set. New advisories appear without any change to the repository, so a
    job that only runs on pushes is silent exactly when a vulnerability is published. An abandoned package is
-   replaced; a fork patched in place is a dependency with one maintainer.
+   replaced; a fork patched in place is a dependency with one maintainer. `composer audit` reports advisories and
+   abandoned packages (and, in the development documentation, packages flagged as malware); that same
+   documentation describes a `cooldown` setting that withholds newly released versions for a period during
+   `update` and `require`, a mitigation for a release compromised just after publication. Both belong to Composer
+   releases newer than the oldest one a project may pin: confirm the release in use.
 6. **Production installs exclude development packages and optimise the autoloader.** The no-dev flag keeps
    test tools and debuggers off the server, where they are attack surface and sometimes expose a dashboard.
    The optimised or classmap-authoritative autoloader removes filesystem lookups per class; with the
    authoritative option a class created at run time is not found, which is the behaviour to want.
 7. **Database statements are prepared, and the connection is configured to fail loudly.** Values go through
    bound parameters; a column or table name cannot be bound and comes from a closed list in code. Set the
-   error mode to throw exceptions (the default of silent warnings hides a failed query behind a `false`) and
-   turn off emulated prepares, so the driver prepares the statement natively and types are not coerced into
-   strings on the way.
+   error mode to throw exceptions: it is the default only from PHP 8.0, and before that the default only set an
+   error code, so a failed query came back as `false` and the code kept running; stating it costs nothing on 8.x
+   and protects older runtimes. Turn off emulated prepares where the driver offers them (the manual says the MySQL
+   driver emulates by default, and that PDO falls back to emulation when the driver cannot prepare a statement), so
+   the server prepares the statement. The old effect of emulation, integers and floats returned as strings, was
+   changed in PHP 8.1, which returns native types in both modes, with an option to restore strings.
 8. **An include path, a class name and a function name are never built from input.** `include` or `require`
    on a request-derived path executes whatever file that resolves to; a variable class or callable name
    chosen from input instantiates or calls what the caller names. Map an input value to a known entry in a

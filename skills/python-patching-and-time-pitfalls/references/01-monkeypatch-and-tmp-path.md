@@ -10,8 +10,9 @@ patches are right patches applied to the wrong name, or to something pytest itse
    if your module does `from os import getcwd`, patch `mymodule.getcwd`, not `os.getcwd`.
 3. **Why:** the `from` import copied the name into your module, so replacing the original afterwards changes nothing
    there. When code calls `requests.get(...)` through the module at call time, patching the `get` attribute of that
-   module takes effect, which is the documentation's own example. The inference about the lookup is ours, drawn from
-   those two examples.
+   module takes effect, which is the documentation's own example. The standard library's `unittest.mock` page states the
+   same principle: patch where an object is looked up, not where it is defined, and a `from` import leaves the
+   importing module holding its own reference to the real object.
 4. **Show that the patch bites.** Own guidance: remove it once and see the test reach the real function.
 
 ```python
@@ -49,7 +50,8 @@ def test_project_dir_uses_patched_name(monkeypatch):
 
 ## 1.5 The raising flag
 1. **`raising` decides whether a missing target fails.** `setattr`, `delattr`, `delitem` and `delenv` default to raising
-   `AttributeError` or `KeyError` when the target does not exist.
+   `AttributeError` or `KeyError` when the target does not exist. `setitem` and `setenv` have no such
+   parameter.
 2. **Use `raising=False` only when absence is expected,** for example to test the path where an environment variable is
    missing and it may not be set on this machine; leave the default on everywhere else, so a typo in the target name
    fails loudly. The second half is our reasoning.

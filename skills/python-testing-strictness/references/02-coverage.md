@@ -7,9 +7,11 @@ doing, not by reading the configuration. The settings are coverage.py's.
 1. **Turn branch measurement on (`branch = true`).** Line coverage says a line ran; branch coverage says
    both outcomes of a condition ran. A guard clause whose failing side is never exercised is fully covered by
    lines and untested.
-2. **The threshold counts statements and branches together.** A `fail_under` of 90 with branch measurement
-   on can pass at a lower branch-only rate, so read the branch column of the report when branches are the
-   point, rather than trusting the total.
+2. **The threshold counts statements and branches together.** The coverage.py branch page defines the percentage
+   as executions divided by execution opportunities, each line and each branch destination being one opportunity,
+   so a `fail_under` of 90 with branch measurement on can pass at a lower branch-only rate. Read the branch column
+   of the report when branches are the point, rather than trusting the total. (The configuration page, on its own,
+   says only that `fail_under` is compared with the total.)
 
 ## 2.2 A threshold that can trip
 1. **Set `fail_under` in the 80 to 90 band and ratchet it up, not to 100.** A 100 target pushes people to
@@ -18,15 +20,19 @@ doing, not by reading the configuration. The settings are coverage.py's.
 2. **Prove it trips once.** Run the suite with a threshold the code cannot meet (100 on a partly covered
    project) and confirm a non-zero exit. A gate that has never been seen failing may not be wired: a wrong
    source path or a data file never written both give a number that looks fine.
-3. **Gate on non-zero, not on one exit code.** The tools disagree on the code they return for a coverage
-   failure, and pytest uses a different one when no tests were collected.
+3. **Gate on non-zero, not on one exit code.** coverage.py exits with status 2 when the total is under
+   `fail_under`, which pytest uses for "interrupted by the user"; pytest returns 5 when no tests were collected.
+   One number therefore does not identify the failure.
 
 ## 2.3 Parallel and subprocess runs
 1. **A parallel test run needs `parallel = true` and `relative_files = true`** in the coverage run settings:
-   each process writes its own data file, and relative paths let files from different machines or
-   directories be combined later.
+   each process writes its own data file (the name gets the machine name, process id and a random number
+   appended), and relative paths (`relative_files`, added in coverage 5.0) let files from different machines or
+   directories be combined later. With `relative_files`, `source` has to be set in the configuration file, not on
+   the command line.
 2. **Subprocesses started by tests are measured only if enabled.** With coverage 7.10 and later this is the
-   `patch = ["subprocess"]` run setting; without it, code that only runs in a child process reports as
+   `patch = ["subprocess"]` run setting (the page marks `patch` as added in 7.10; the subprocess patch turns on
+   `parallel`, so the data files must be combined before reporting); without it, code that only runs in a child process reports as
    unexecuted, or the whole report comes back empty.
 3. **Combine, then report once** (`coverage combine`, then `coverage report`) after a parallel run.
 

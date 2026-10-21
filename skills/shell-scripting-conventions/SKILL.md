@@ -21,12 +21,17 @@ logic in it, a deploy or migration script, anything run by a scheduler.
 
 ### 1. Make failure the default
 1. **`set -euo pipefail` at the top.** Exit on error, fail on an unset variable, and propagate a failure
-   from anywhere in a pipeline instead of only the last command.
-2. **Know where `-e` doesn't save you** — inside `if`, `&&`/`||` chains, and command substitution in some
-   positions. Check exit codes explicitly there.
-3. **Quote every expansion**: `"$var"`, `"$@"`, `"${arr[@]}"`. An unquoted empty variable makes an
+   from anywhere in a pipeline instead of only the last command. Two limits of `-u`: the Bash manual excludes
+   `$@` and `$*`, and a non-interactive shell exits on the error.
+2. **Know where `-e` doesn't save you.** Bash does not exit when the failing command is the test of an `if`,
+   follows `while` or `until`, is in an `&&` or `||` list anywhere but last, is negated with `!`, or is in a
+   pipeline but the last (unless `pipefail`). A function or compound command run in such a context ignores
+   `-e` for its whole body, even if it sets `-e` itself. Check exit codes explicitly there.
+3. **`local x=$(cmd)` hides the failure of `cmd`:** `local` returns zero unless misused, so `-e` never sees it.
+   Declare first, assign on the next line.
+4. **Quote every expansion**: `"$var"`, `"$@"`, `"${arr[@]}"`. An unquoted empty variable makes an
    argument disappear, which turns `rm -rf "$dir/"*` into something else entirely.
-4. **`cd` is checked**: `cd "$dir" || exit 1`. A failed `cd` followed by a destructive command is the
+5. **`cd` is checked**: `cd "$dir" || exit 1`. A failed `cd` followed by a destructive command is the
    classic shell disaster.
 
 ### 2. Fail closed, and only on the path you guard
@@ -35,7 +40,7 @@ logic in it, a deploy or migration script, anything run by a scheduler.
 2. **But guard narrowly.** Blocking on every unexpected input makes the script unusable and it gets
    removed. Fast-path out with a cheap check that needs no parser, and only fail closed once you know the
    protected case is in play.
-3. **Never depend on a tool being present without checking.** `command -v` first, and decide what its
+3. **Never depend on a tool being present without checking.** `command -v` (zero if found, non-zero if not, per the Bash manual) first, and decide what its
    absence means — for a gate it means block, for a convenience it means skip.
 4. **Exit codes are the interface.** For hooks, the host's contract defines which code blocks; get it
    from the documentation, not from memory (`source-freshness`).
@@ -47,7 +52,7 @@ logic in it, a deploy or migration script, anything run by a scheduler.
    or a variable breaks in ways the error message won't explain. Strip it, and never assume the editor
    didn't add it.
 3. **The executable bit is part of the change.** A tool rewriting the file can drop it; git tracks it
-   (`git update-index --chmod=+x`), and a script committed 100644 fails on someone else's clone with
+   (`git update-index --chmod=+x` sets it, per the git manual), and a script committed 100644 fails on someone else's clone with
    "Permission denied" and no other clue.
 4. **Prefer a real language past ~50 lines of logic.** Shell has no types, no test framework you'll
    actually use, and error handling you have to remember. Parsing structured data is the usual signal.

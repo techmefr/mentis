@@ -11,7 +11,8 @@ names, a silence about changes made elsewhere.
 2. **The guard lives in the configuration it protects.** The source's way to destroy anyway is to remove the
    argument from the configuration first, so anything that deletes the resource block, or the argument, removes the
    guard together with the resource. Treat it as protection against an accidental destroy, not as access control
-   (Terramate; the reading is ours).
+   (Terramate; the OpenTofu `resource behavior` page confirms it: the guard is removed along with the block, and it
+   also blocks the `destroy` command while present).
 3. **The state bucket is the exception to "put it in the same configuration".** Terramate shows `prevent_destroy` on
    a state bucket; `terraform-state-and-secrets-pitfalls` says never to manage the backend bucket from the root that
    uses it as its active backend. Both hold: protect the bucket with `prevent_destroy` in its own bootstrap root
@@ -25,9 +26,11 @@ names, a silence about changes made elsewhere.
    balancer when its image changes, that is downtime; with `create_before_destroy = true` the new one is created,
    references are updated, and the old one is destroyed (Terramate).
 2. **The source applies it to security groups, IAM roles and launch templates, which are referenced by other
-   resources, and gives each a `name_prefix` instead of a fixed `name`** (Terramate). Our reading is that a fixed
-   name could not exist twice during the overlap, so replacement would collide; the source does not state the
-   reason, and the provider behaviour was not checked (our own guidance).
+   resources, and gives each a `name_prefix` instead of a fixed `name`** (Terramate). The OpenTofu
+   `resource behavior` page gives the reason: many remote object types need unique names or have other constraints
+   that cannot hold for an old and a new object at once, and some types offer a random-suffix option. It also says
+   the setting is propagated to the resource's dependencies, so check what a dependency does when it is replaced
+   first (OpenTofu documentation, facts only; provider behaviour not run).
 
 ```hcl
 resource "aws_launch_template" "web" {
@@ -56,7 +59,11 @@ resource "aws_launch_template" "web" {
    data file changes or a module's output changes (Terramate). No source read states a version floor for it, so
    check the runtime's documentation before using it; the floors the sources do state are in
    `terraform-refactor-identity-pitfalls` §3. Terramate's example uses `null_resource` as the trigger and Babenko
-   names `terraform_data` for runtime 1.4 and later (§3.4).
+   names `terraform_data` for runtime 1.4 and later (§3.4). The OpenTofu `terraform_data` page adds that
+   `replace_triggered_by` accepts only managed resources, so a plain variable or local is not valid there; route it
+   through a `terraform_data` `input`. Symptom: an error on a variable inside `replace_triggered_by`; fix: the
+   `terraform_data` indirection. For `ignore_changes`, the OpenTofu page says the arguments still count on create,
+   `all` makes OpenTofu never propose an update, and meta-arguments cannot be ignored.
 
 ## 3.4 Provisioners and baked images
 1. **Do not deploy software to a host with `remote-exec`.** The source's problems: configuration drift between
@@ -79,6 +86,11 @@ resource "aws_launch_template" "web" {
    Terraform with `null_resource` and `local-exec`; Babenko's costs (no drift detection, output in CI logs) apply
    to exactly that. Build and push the image in the pipeline outside Terraform, and let the configuration take an
    image reference as an input (our own decision from the two sources).
+4a. **Destroy-time provisioners are skipped under `create_before_destroy`, and rerun after a failure.** The OpenTofu
+   provisioners page says a destroy-time provisioner that fails errors the run and runs again at the next apply,
+   so it must be safe to repeat, and that it does not run when the resource sets `create_before_destroy = true`.
+   Symptom: cleanup that never happens on replacement; check the resource for both settings; fix: move the cleanup
+   out of the provisioner. The page also says provisioners are a last resort.
 5. **A stateful resource stays mutable, with guards instead of replacement.** The source keeps a database in place
    with `prevent_destroy`, deploys changes from a snapshot where it needs an "immutable-like" update, and leaves the
    password management outside Terraform (Terramate; see §3.3 for the password).

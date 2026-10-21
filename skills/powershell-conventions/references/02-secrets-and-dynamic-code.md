@@ -25,6 +25,8 @@ documentation set, read 2026-10-08), and the PSScriptAnalyzer rule documentation
    page's own caution says to verify anything a user enters and to prefer predefined input options over free-form
    input. A value that came from a file, a parameter or the network is user input.
 2. **Call the command directly with the value as an argument**, or build a parameter hashtable and splat it
-   (`& $command @arguments`), so the value is data and not syntax (own guidance; the splatting page was not read).
+   (`& $command @arguments`), so the value is data and not syntax. The `about_Splatting` page says a hash table
+   passes parameter name and value pairs and an array passes positional values; that a splatted value is never
+   re-parsed as code is our inference from that, not a sentence of the page.
 3. **A script block built from a string is the same hazard.** The documentation does not say so for each API;
    treat any call that compiles a string into code as `Invoke-Expression` (own guidance).

@@ -20,7 +20,8 @@ created, even when the configuration looks the same to a reader.
    environment first (terrashark). The mechanics are in §2.1.
 
 ## 1.2 for_each keys must be known at plan time
-1. **The key set has to be resolvable during planning.** Keys derived from another resource's computed attributes
+1. **The key set has to be resolvable during planning** (the OpenTofu `for_each` and `count` pages state the same
+   known-value requirement, and that one block cannot use both). Keys derived from another resource's computed attributes
    (IDs, ARNs) fail with `Invalid for_each argument` (terraform-skill; terrashark).
 2. **`depends_on` does not fix it.** It orders applies; it does not make a value known at plan time
    (terraform-skill).

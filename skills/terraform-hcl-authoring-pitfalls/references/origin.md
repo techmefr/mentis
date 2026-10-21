@@ -57,6 +57,14 @@ again in the files above. Left out or changed:
 3. **The state bucket and `prevent_destroy`**: Terramate puts it on the state bucket; the state block says the bucket
    is not managed by the root that uses it as its backend. The block keeps both, in the bootstrap root (§3.1).
 
+## Second pass 2026-10-21 (OpenTofu documentation, read from the OpenTofu repository docs tree, facts only)
+The repository is MPL-2.0 (`LICENSE` read); no text copied, and these pages are labelled OpenTofu throughout.
+Sourced or confirmed: reason for `name_prefix` and propagation of `create_before_destroy` (§3.2), `prevent_destroy`
+limits (§3.1.2), `ignore_changes` semantics (§3.3.1-2), `replace_triggered_by` accepts resources only (§3.3.4),
+destroy-time provisioner behaviour (new §3.4.4a), `dynamic` guidance (§2.1.2). Corrected: the "our reading" of the
+`name_prefix` reason is now the documentation's own statement. Still unsourced: all provider names and floors,
+the security-group inline-rule claims, the `terraform_data` runtime floor, our own guidance listed below.
+
 ## Not verified
 1. **Every provider resource name and version note** (`aws_vpc_security_group_ingress_rule`,
    `aws_security_group_rule`, the AWS provider major version 5, `aws_iam_policy_document`) is as the sources state

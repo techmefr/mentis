@@ -10,7 +10,10 @@ start from an interpreter that is where the virtual environment expects it. The 
    command as installing the dependencies but not the project, and the point is cache behaviour: the
    dependency layer is rebuilt only when the manifest or lockfile changes, not on every source edit.
 2. **Bind-mount the manifest and the lockfile for the first step** rather than copying the whole tree, so
-   that nothing but those two files invalidates the layer.
+   that nothing but those two files invalidates the layer. The example repository mounts both files and uses
+   `--locked`; the integration guide mounts only `uv.lock`, uses `--frozen` for that first sync and copies
+   `pyproject.toml` with the source before the final `--locked` sync. Either is consistent: `--locked` needs the
+   manifest present to check the lockfile, `--frozen` skips the check.
 3. **Use a cache mount for uv's cache** and set `UV_LINK_MODE=copy`: the documentation explains the cache
    and the target are on different file systems, so the default linking cannot be used.
 
@@ -19,7 +22,8 @@ start from an interpreter that is where the virtual environment expects it. The 
    An image built from a resolution nobody committed is not the one that was tested.
 2. **A workspace with several members needs `--frozen` for the first step and `--locked` after all members
    are copied.** The documentation gives the reason: the lockfile cannot be checked as up to date without
-   every member's manifest.
+   every member's manifest. For the first step the guide uses `--no-install-workspace`, which leaves out the
+   project and every member, in place of `--no-install-project`.
 3. **Leave development dependencies out** with `UV_NO_DEV=1` (or the equivalent flag). Test runners and
    linters in a production image are size and attack surface with no use.
 4. **Enable bytecode compilation** with `UV_COMPILE_BYTECODE=1`. The documentation says it improves startup

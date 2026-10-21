@@ -10,8 +10,9 @@
    conditions whose meaning changed without the line being edited — and the ones that mattered were
    in guards, where the change flips an authorisation or a filter.
 2. **`in_array` and `array_search` compare loosely unless told not to.** Pass the strict flag every
-   time: without it, `in_array(0, ['a', 'b'])` was true before PHP 8, and `in_array('1abc', [1])` is a
-   match on the number. The lists these run against are usually allow-lists and role checks, which is
+   time: without it, `in_array(0, ['a', 'b'])` was true before PHP 8 and `in_array('1abc', [1])` matched the number
+   (the migration table lists `0 == "foo"` and `42 == "42foo"` as true before 8.0 and false since). Code that still
+   runs on 7.x, or that compares two numeric-looking strings, keeps the loose behaviour. The lists these run against are usually allow-lists and role checks, which is
    the worst place for a comparison that says yes to the wrong value.
 3. **Six different values are falsy, and two of them are real data.** `""`, `"0"`, `0`, `0.0`, `[]` and
    `null` are all false in a condition — so `if ($count)` treats a legitimate zero as missing, and
