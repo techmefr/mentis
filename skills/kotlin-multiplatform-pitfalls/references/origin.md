@@ -25,3 +25,5 @@
 
 ## Related blocks
 `kotlin-android-data-flow-and-api-pitfalls`, `kotlin-android-conventions`, `swift-conventions`, `mobile-crash-symbolication-pitfalls`, `mobile-release`, `source-freshness`.
+
+Independent verification 2026-10-21: 29 checked, 28 matched, 0 corrected, 1 unverified

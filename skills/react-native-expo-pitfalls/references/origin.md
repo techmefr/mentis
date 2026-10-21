@@ -38,3 +38,5 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: appli
 ## Related blocks
 `mobile-release` (store submission, signing, version codes), `react-nextjs-conventions` (React rules shared with
 web), `mobile-crash-symbolication-pitfalls`, `source-freshness`.
+
+Independent verification 2026-10-21: 10 checked, 10 matched, 0 corrected, 0 unverified

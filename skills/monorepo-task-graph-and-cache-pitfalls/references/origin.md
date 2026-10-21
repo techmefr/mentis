@@ -30,3 +30,5 @@ repository: no orchestrator, package manager or build was executed while writing
 ## Related blocks
 `package-manager-supply-chain-pitfalls`, `vite-bundler-conventions`, `ci-workflow-hardening`,
 `cpp-build-and-lifetime-pitfalls`, `dart-pub-workspace-and-publish-pitfalls`, `source-freshness`.
+
+Independent verification 2026-10-21: 17 checked, 17 matched, 0 corrected, 0 unverified

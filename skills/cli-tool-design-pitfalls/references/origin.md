@@ -36,3 +36,5 @@ Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: a ski
 ## Related blocks
 `shell-scripting-conventions`, `bash-pitfalls-and-bats`, `mcp-server-design-pitfalls`, `api-design`,
 `deprecation-migration`, `credential-lifecycle-pitfalls`.
+
+Independent verification 2026-10-21: 14 checked, 12 matched, 0 corrected, 2 unverified

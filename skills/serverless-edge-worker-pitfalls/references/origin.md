@@ -33,3 +33,5 @@ function was written, deployed or tested while writing it.
 ## Related blocks
 `nestjs-reliability` and `queue-worker-runtime-pitfalls` (long-lived workers), `postgres-operations-and-exposed-api-pitfalls`
 (connection budget), `secret-leak-response-pitfalls`, `observability-instrumentation`, `source-freshness`.
+
+Independent verification 2026-10-21: 9 checked, 9 matched, 0 corrected, 0 unverified

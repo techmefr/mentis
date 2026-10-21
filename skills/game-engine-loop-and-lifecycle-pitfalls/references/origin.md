@@ -23,3 +23,5 @@
 
 ## Related blocks
 `c-conventions`, `cpp-conventions`, `source-freshness`.
+
+Independent verification 2026-10-21: 25 checked, 25 matched, 0 corrected, 0 unverified

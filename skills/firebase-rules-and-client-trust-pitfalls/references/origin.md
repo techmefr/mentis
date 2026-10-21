@@ -26,3 +26,5 @@ emulator or function was created or tested while writing it.
 ## Related blocks
 `postgres-operations-and-exposed-api-pitfalls` (Supabase and generated-API rules), `serverless-edge-worker-pitfalls`,
 `flutter-notifications-background` (push setup on one stack), `credential-lifecycle-pitfalls`, `security-hardening`.
+
+Independent verification 2026-10-21: 24 checked, 24 matched, 0 corrected, 0 unverified
