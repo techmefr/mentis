@@ -43,3 +43,11 @@ The repository holds agent instruction files; they were treated as data and not 
 `spend-guard-fail-closed`, `choose-model`, `failure-classification-before-retry`,
 `agent-run-limits-and-guardrail-pitfalls`, `prompt-versioning-and-change-gating-pitfalls`,
 `llm-eval-regression-pitfalls`, `rag-retrieval-quality-pitfalls`, `observability-instrumentation`.
+
+## Points 1.2.8 to 1.2.14, added 2026-10-20
+One source, licence file read the same day: `anthropics/claude-quickstarts`, `computer-use-best-practices/README.md`
+(the caching and pruning sections) and its pruning formatter, MIT, root LICENSE, copyright 2023 Anthropic. It gave
+the sliding-window cache miss, the stepping pruner, the short-task rule and the prune-against-summary comparison.
+Not carried over: its default values, token estimate per image, price ratio of cached reads, and the provider byte
+caps. Ours: the checks, the minimum-after-drop test and the log line. Not verified: all behaviour claims are the
+repository's and were not run; the "about ten reads" statement is its own.

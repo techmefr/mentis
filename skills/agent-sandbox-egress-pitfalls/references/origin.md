@@ -46,3 +46,10 @@ Numeric defaults (search depth, proxy port range, caps) are not quoted; the bloc
 ## Related blocks
 `agent-mcp-trust-pitfalls`, `agent-hook-guard-pitfalls`, `ci-workflow-hardening`, `security-hardening`,
 `credential-lifecycle-pitfalls`.
+
+## Section 2.4, added 2026-10-20
+One source, licence file read the same day: `anthropics/claude-quickstarts`, `managed-agents/daily-brief` and
+`managed-agents/sentry` agent definitions (MIT, root LICENSE, copyright 2023 Anthropic). It gave the statement that
+vendor-run web tools sit outside the sandbox allowlist and the practice of disabling them for jobs that read
+untrusted text. Not verified: that claim is the sample's own comment, not checked against the platform's current
+documentation, and nothing was run.

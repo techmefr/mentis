@@ -60,3 +60,13 @@ source to the review-only rule.
 
 ## Related blocks
 `receiving-review-pitfalls`, `review`, `over-engineering-review`, `mr-conventions`, `testing-anti-patterns`.
+
+## Section 5 (`05-agent-written-code-debt.md`), added 2026-10-20
+**Status: 🟡.** One source, licence file read the same day: `wshobson/agents`,
+`plugins/skill-forge-essentials/skills/ai-debt-detector/SKILL.md` (MIT, root LICENSE, copyright 2024 Seth Hobson;
+the plugin manifest declares MIT for its own author). It gave the five audit questions (failure modes, orphans,
+edge cases, invented dependencies, drift from patterns), the red-flag list and the "compilation is not
+correctness" reminder (points 1 to 3, 4, 5, 7 to 9). Ours: the registry lookup for new packages and the
+no-rate statement (points 5 and 11), deprecated interfaces (6), asking for the command run (10). Not taken:
+its rate claim ("significantly higher than people"), which cites nothing, and the trigger of "20 or more lines
+generated". Not run on a real review. This section is not Google material and carries no CC BY text.

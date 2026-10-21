@@ -21,6 +21,9 @@ During `code`, at the first unexpected error or the second identical failure.
    another method.
 2. State **a single** hypothesis and verify it (a targeted log or test) **before changing anything**.
    Changing code to see what happens is how a second bug gets introduced next to the first.
+3. When the cause is still open after a first round, or several people or agents investigate, test competing
+   hypotheses one at a time with criteria written before looking, and arbitrate on evidence:
+   `references/07-competing-hypotheses.md`. It extends this rule; it does not allow several fixes at once.
 
 ### 2. Trace backwards to the origin
 The error surfaces deep in the stack; the instinct is to fix it there, which fixes the symptom.
@@ -107,3 +110,5 @@ disappears, the same "written instruction + hook" pairing as `gate`'s evidence r
 Section 5 (`references/05-feedback-loop-first.md`: the feedback loop first, minimising, tagged logs, the correct-seam rule) was added 2026-10-19; its provenance and the reconciliation with the single-hypothesis rule are in [`references/origin.md`](./references/origin.md).
 
 Section 6 (`references/06-component-boundaries.md`: instrument each component boundary once, locate the failing layer from the evidence) was added 2026-10-19; its provenance and what it deliberately does not duplicate are in [`references/origin.md`](./references/origin.md).
+
+Section 7 (`references/07-competing-hypotheses.md`: competing hypotheses, the evidence protocol, arbitration) was added 2026-10-20; its provenance is in [`references/origin.md`](./references/origin.md).

@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-452-2f6feb?style=flat-square">
+  <img alt="skills" src="https://img.shields.io/badge/skills-454-2f6feb?style=flat-square">
   <img alt="agents" src="https://img.shields.io/badge/agents-35-8250df?style=flat-square">
   <img alt="business blocks" src="https://img.shields.io/badge/business%20blocks-55-6e7781?style=flat-square">
   <img alt="hooks" src="https://img.shields.io/badge/hooks-13-bf8700?style=flat-square">
@@ -31,7 +31,7 @@ brainstorm → spec → plan → TDD → code → debug → gate → ship.
 
 | | Count | Maturity |
 |---|---:|---|
-| 🧩 **Skills** — the method, one file per rule | **452** | 🟢 9 with real production use · 🟡 the rest written, not run |
+| 🧩 **Skills** — the method, one file per rule | **454** | 🟢 9 with real production use · 🟡 the rest written, not run |
 | 🤖 **Agents** — who executes it | **35** | 🟢 21 dogfooded or production-run · 🟡 the rest written |
 | 💼 **Business blocks** — the company's other functions | **55** | 🟡 by contract, they never gate ([why](./business/README.md)) |
 | 🪝 **Hooks** — the gate pair, the test guard, the install guard, nine opt-in guards | **13** | 🟢 the first 4 wired into one real repo, 2026-09-09; 🟡 the 9 opt-in |
@@ -455,6 +455,8 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `secret-leak-response-pitfalls` | 6 (new 2026-10-15) | Secret scanning setup and the order of response to a leak, with revocation traps |
 | `package-manager-supply-chain-pitfalls` | 6 (new 2026-10-15) | npm and pnpm resolve, install and publish settings, cooldown, dependency confusion, package evaluation |
 | `redis-client-and-cluster-pitfalls` | 6 (new 2026-10-15) | Redis key and type choices, client pooling, pipelines, SCAN and blocking calls, cluster CROSSSLOT and hash tags |
+| `unattended-agent-run-pitfalls` | 6 (new 2026-10-20) | Agents run by a scheduler or trigger with nobody to approve: decide-and-record contract, per-source bookmarks and a ledger, unreadable is not quiet, re-verify before posting, one idempotent post, dry run, run record on every run |
+| `computer-use-agent-pitfalls` | 6 (new 2026-10-20) | Screen and browser agents: pre-resizing screenshots and scaling clicks back, hosted against explicit tool and who runs the injection checks, multi-action turns and not-executed answers, untrusted screen content, disposable machine, confirmations, safe first run |
 | `authorization-models-and-entitlements-pitfalls` | 6 (new 2026-10-20) | Role, attribute and relationship models, one decision point with default deny, listing what a person may see, grants kept in step with the source of truth, decision cache staleness after revocation, plan entitlements apart from permissions |
 | `offline-first-sync-and-conflict-pitfalls` | 6 (new 2026-10-20) | Online, optimistic, persisted-overlay and local-database write paths, conflict rules per field, idempotent queued writes, tombstones, subset sync scope, public sync endpoint, long-offline limits, offline test list |
 | `cdc-capture-and-ingestion-quality-pitfalls` | 6 (new 2026-10-20) | Log-based change capture: replication slots holding the log, heartbeats, replica identity and missing old values, incremental snapshots, deletes and tombstones, outbox table, lag and reconciliation, batch validation suites |
@@ -1212,7 +1214,7 @@ stable and applied. The honest breakdown:
 
 | | Count | State |
 |---|---:|---|
-| 🧩 Skills | 452 | 🟢 9 marked real production use; the rest 🟡 |
+| 🧩 Skills | 454 | 🟢 9 marked real production use; the rest 🟡 |
 | 💼 Business blocks | 55 | 🟡 by contract — the layer can't reach higher, see [`business/README.md`](./business/README.md) |
 | 🤖 Agents | 35 | 🟢 21 with real production or dogfooded experience — full list in `CATALOG.md`; the rest written, not dogfooded |
 | 🪝 `hooks/` | 13 scripts (4 wired set, 9 opt-in) | Wired into one real repo on 2026-09-09, which is where two defects in `guard-test-changes` came from (18 cases now) and one false positive in `block-installs` (77 checks, including the executable bit it had been missing since August). The gate pair is inert outside the mentis pipeline; `block-installs.sh` is the one worth wiring anywhere an agent has a shell |

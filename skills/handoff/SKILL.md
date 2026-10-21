@@ -40,6 +40,17 @@ completed task.
    rediscover the state on its own.
 4. The next session reads the handover document first, before any other exploration: it saves the
    re-contextualisation time.
+5. **The reading side: reconcile before any work.** A handover, a state file or a notes document says what was true
+   when it was written. Before building on it, check the live state against it with the cheapest real check: the
+   revision the environment is serving, the branch and its recent commits, the working tree, the open ticket.
+   Where they disagree, say so first ("the document says X, the live system returns Y"), treat the live state as
+   authoritative, and settle or confirm the difference before doing anything else. Mark what you inferred
+   against what was recorded. A session that ended without writing its handover (a crash, a forced quit) is the
+   same case: rebuild from the commits and the live state, and say that you did.
+6. **Update by targeted edits and report old to new.** When the document is stale, change only the fields that
+   changed, never rewrite the file, and state each change as old value to new value. Write the fields the moment
+   the fact is confirmed, rather than batching everything for the end, and skip the write entirely when a session
+   changed nothing.
 
 ## Output / checkpoint
 A handover document exists, cites every artefact by its exact path/URL (no duplicated content),
@@ -49,6 +60,8 @@ from it without the incoming agent asking anyone.
 ## Guardrails
 **Never hand over a premise as a finding.** What was observed in this session and what was inferred or assumed
 are marked apart, because the incoming agent will treat anything unmarked as settled.
+
+**Never trust a state document over the live system.** The document is a claim; the check in step 5 is the fact.
 
 Never duplicate content already written elsewhere: the whole principle of this block is
 referencing, not copying. A handoff that ends up longer than the artefacts it references has
@@ -65,3 +78,5 @@ the working method of `slopless` (MIT, same date). Rewritten in our words, no te
 obligations of the Apache licence do not apply.
 
 The reboot-checkpoint line in the output section comes from the six-question reboot test of `planning-with-files` (MIT, read 2026-10-19); its provenance is in `skills/when-stuck/references/origin.md`.
+
+The reading-side reconciliation (steps 5 and 6: verify live state first, flag the mismatch, targeted edits, old-to-new report) was added 2026-10-20 from the session-start and session-end agents of the operating-kit plugin of `wshobson/agents` (MIT, root licence; the plugin manifest declares MIT for its author). Rewritten in our words, no text copied; its templated placeholders, model settings and briefing layout are not carried over. Not run on a real session.
