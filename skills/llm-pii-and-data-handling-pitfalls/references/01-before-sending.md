@@ -1,6 +1,6 @@
 # llm-pii-and-data-handling-pitfalls §1 — Before sending
 
-Source: documentation of the anonymise and deanonymise input and output scanners of llm-guard (MIT), read 2026-10-20. Points marked "own guidance" are not from a source. Not legal advice.
+Sources: documentation of the anonymise and deanonymise input and output scanners of llm-guard (MIT) and of the Presidio analyser and anonymiser (MIT), read 2026-10-20. Points marked "own guidance" are not from a source. Not legal advice.
 
 ## 1.1 Send less
 1. **Start from the task, not from the record** (own guidance). Symptom: a whole customer row, ticket thread or
@@ -27,6 +27,23 @@ Source: documentation of the anonymise and deanonymise input and output scanners
    neutral placeholders when the output is shown to humans.
 5. **Placeholders keep structure but remove meaning.** If the task depends on the value (a date range, a city),
    redaction changes the answer; transform the value instead (offset, generalise) and say so.
+6. **A hashed stand-in is only stable if you keep the salt.** The Presidio anonymiser documentation says its hash
+   operator uses a random salt by default since a version it names as breaking, so the same value gets a different
+   hash in each entity and each call; to get the same stand-in for the same person across records you must pass
+   your own salt, and the library keeps no state between calls. Symptom: the model sees "the same customer" as
+   three strangers, or, with a fixed guessable salt, a short value such as a name or phone number can be found by
+   hashing candidates (the second half is own guidance). Fix: decide between per-call placeholders (no linkage)
+   and a long random salt held like a secret, scoped to the tenant. Source: the Presidio anonymiser page (MIT),
+   read 2026-10-20.
+7. **Reversible masking needs a key, and the key is the new secret.** The same page lists encryption with a
+   supplied key and a matching decrypt step as the reversible option, next to replace, mask, redact and hash
+   which cannot be reversed. Choose reversible only when the answer has to be restored; keep the key out of the
+   prompt path and out of the repository.
+8. **Overlapping detections are resolved by a fixed rule.** The documentation says that for fully overlapping
+   spans the higher score wins, a span containing another wins even with a lower score, and partly intersecting
+   spans are each replaced and concatenated. Consequence: a low-score true entity can be dropped under a
+   higher-scoring wrong label, and the placeholder type may be wrong. Check: include overlapping cases (a name
+   inside an address) in the labelled sample of §1.3.
 
 ## 1.3 What a detector misses
 1. **Detection is statistical.** The source builds on a named-entity recogniser plus patterns for formats such
@@ -35,7 +52,14 @@ Source: documentation of the anonymise and deanonymise input and output scanners
    patterns passes through. Record the entity list as the list of what you claim to cover.
 2. **Language matters.** The source says entity detection is English-specific, with a separate recogniser for
    Chinese. A French or German prompt can pass with names and addresses intact. Check: run a labelled sample in
-   each language you serve and count misses.
+   each language you serve and count misses. The Presidio documentation agrees and adds a subtlety: pattern
+   recognisers are language-agnostic, but the context words that raise their confidence are not, each recogniser
+   serves one language, and the default setup ships English models only. A card number may still be found in
+   French while a weakly scored pattern (a short number next to the word for "account") is not boosted. Source:
+   the Presidio languages page (MIT), read 2026-10-20.
+2a. **No tool promises completeness.** The Presidio home page states that, because detection is automated, there is
+   no guarantee it finds all sensitive information and that further protections should be used. Say so in the
+   design: the detector is a second layer behind sending less (§1.1), never the only one.
 3. **Context identifiers are missed by design** (own guidance): a rare job title plus an employer, a unique
    incident description, a free-text complaint. These identify without matching any pattern. Fix: minimise first
    (§1.1); do not lean on detection for them.

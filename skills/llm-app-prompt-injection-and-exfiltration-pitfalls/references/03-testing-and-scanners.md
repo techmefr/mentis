@@ -62,3 +62,7 @@
    is refused or allowed, and alert on it (own guidance).
 4. **A clean scan does not license a risky capability.** The capability decisions of §2.4 stand regardless.
 5. **List, per scanner, what it does not catch,** next to the control that does (the checkpoint of this block).
+
+## 3.5 One user's data must not answer another user's question
+1. **Symptom: a stored note, memory or cached answer from one account shows up for another.** Test it as a pair of requests from two accounts: the first states a unique value, the second asks for it indirectly ("what did the last customer tell you"). The promptfoo cross-session-leak page describes exactly this pair and compares the expected value case-insensitively, so a differently capitalised echo is still counted as a leak. Fix: scope every memory, cache and retrieval index by account before the model sees it (isolation itself is `skills/llm-pii-and-data-handling-pitfalls` §3). Source: the cross-session-leak plugin page (MIT, commit 5f1904c), read 2026-10-20.
+2. **A tool-calling agent should be tested against the page content it fetches.** The data-exfiltration plugin page tracks whether the agent requests a planted URL carrying a placeholder secret, scoring the request rather than the wording, which agrees with §1.5.3 and §3.2. Source: the data-exfil plugin page, same commit, read 2026-10-20.

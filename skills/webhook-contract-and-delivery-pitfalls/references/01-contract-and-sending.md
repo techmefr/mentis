@@ -53,7 +53,7 @@
 10. **Disable on sustained failure, and tell the owner another way.** After a long run of failures stop sending,
     mark the endpoint disabled, and notify the customer by a channel that does not depend on the broken endpoint
     (email, dashboard banner). Provide a way to re-enable that replays what was missed (see rule 12). Own guidance:
-    alert your own team on every disable, because it usually means an outage on either side.
+    alert your own team on every disable, because it usually means an outage on either side (the sender in point 17 emits an operator event on every disable).
 11. **Keep a delivery log the consumer can read.** Each attempt: time, status, a bounded excerpt of the response,
     next attempt. Customers debug from it. Prune it on a policy; a log nobody prunes becomes the largest table.
 12. **Offer replay by message and by range.** The spec treats manual replay of one message or a time range as
@@ -76,3 +76,9 @@
     a retry that resends the same id, a rotation window where both secrets verify, a disabled endpoint that stops
     receiving. A library from the spec's ecosystem is a reasonable verifier; do not write the check by hand if one
     exists for your language.
+17. **What one open-source sender does with failures, as a cross-check of rules 9, 10 and 12.** The Svix server source (MIT) shows these behaviours; they describe one implementation, not a standard, so use them as questions to ask of your own sender:
+    - **Disabling needs failures only, for a whole grace period.** The first failure starts a clock; any success clears it; the endpoint is disabled only when the clock has run out with no success in between, and a "disabled" operational event is emitted for the operator. Symptom of the opposite design: an endpoint that fails one minute a day is switched off, or one that fails for a week never is. Check: write down the grace period and what resets it.
+    - **A receiver's retry hint is bounded, not obeyed.** The hint can move the next attempt only between the scheduled delay and twice that delay, timeouts and rate-limit answers push the delay to at least a floor, and a random spread is applied to every delay. Consequence for receivers: a very long hint will not park the sender, so shed load with the status code and capacity, not with the hint alone.
+    - **A failed manual replay is not retried.** A replay triggered by an operator records its failure and stops, whereas an automatic delivery follows the schedule. Symptom: an operator replays a message, sees "queued", and nothing ever arrives. Fix: show the replay result to the operator and say that it will not retry itself.
+    - **The request timeout is configurable inside a bounded range, and an HTTPS-only switch exists** for endpoint URLs. Decide both in policy (rules 9 and 13) rather than inheriting a default.
+    Source: `server/svix-server/src/worker.rs` and `cfg.rs` of svix/svix-webhooks (MIT, commit 6e014fd), read 2026-10-20; no number from the source is carried.
