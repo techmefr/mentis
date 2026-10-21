@@ -44,7 +44,7 @@ traps and the advice to prefer queues for hand-off between threads are ours (the
    that the same timestamp differs across hosts is the direct consequence of the documented local-time
    conversion, not a quoted sentence.
 2. **`contextlib.contextmanager`** was not re-opened; `pytest.raises` `match` confirmed.
-3. **Python 3.15 UTF-8 default:** read in the development documentation, which describes an unreleased
+3. **Python 3.15 UTF-8 default:** re-read 2026-10-21 on the 3.15.0 documentation page (a release, no longer the development version); the first read described an unreleased
    interpreter; confirm against the release the project pins before dropping `encoding=`.
 4. **Structured logging advice** (§2.1.3) is ours; the logging HOWTO page opened does not mention `extra`.
 5. **Dropped for lack of a reliable source:** a general claim that a module-level cache is per process in a
@@ -54,3 +54,5 @@ traps and the advice to prefer queues for hand-off between threads are ours (the
 ## Related blocks
 `python-conventions` (typing, exceptions, async, tests), `python-no-bare-except`,
 `python-async-no-blocking-calls`, `python-testing-strictness`, `python-sqlalchemy-fastapi-pitfalls`.
+
+Independent verification 2026-10-21: 14 checked, 13 matched, 1 corrected, 0 unverified

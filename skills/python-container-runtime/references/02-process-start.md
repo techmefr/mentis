@@ -32,7 +32,9 @@ application, whether its shutdown code runs, and how many copies of it share the
    explicitly to `run`. The port exposure and who may reach it is a deployment decision.
 3. **Behind a TLS-terminating proxy, enable forwarded headers** so the server trusts the forwarded scheme and
    client address from that proxy. The container page of the FastAPI deployment documentation passes
-   `--proxy-headers`; the behind-a-proxy page says the server interprets those headers only for the addresses
+   `--proxy-headers`. In the FastAPI CLI source (main, read 2026-10-21) that option already defaults to on for both
+   `dev` and `run`, while `--forwarded-allow-ips` defaults to unset, so the address list is what you must set; the
+   flag is harmless to repeat, and an older CLI release may default differently. The behind-a-proxy page says the server interprets those headers only for the addresses
    given in `--forwarded-allow-ips`, and that `"*"` trusts every address, acceptable only when nothing but the proxy
    can reach the server. Without it, generated URLs (the redirect to `http://localhost:8000/items/` instead of the
    public HTTPS address) and client-address checks see the proxy. A client can send those headers itself, so name

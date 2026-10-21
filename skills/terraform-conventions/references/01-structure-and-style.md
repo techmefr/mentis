@@ -1,7 +1,7 @@
 # § 1 — File layout, naming, order
 
 > Section 1 of `skills/terraform-conventions`. Read it when any configuration is written. These are the
-> conventions the vendor's style guide and the community guides agree on; they are cheap and they make every
+> conventions the vendor's style guide and the community guides largely agree on (point 4 notes where they differ); they are cheap and they make every
 > later review and every state move easier. `terraform fmt` enforces part of the layout rules mechanically.
 
 1. **Run the formatter and the validator before every commit,** and in the pipeline. The formatter normalises
@@ -20,8 +20,10 @@
    for every resource. Use underscores in Terraform names and hyphens inside values a human will see (a DNS
    name). Cloud resources have their own naming limits; this rule is about Terraform's own identifiers.
 4. **Order the contents of a resource block consistently:** the repeat meta-argument (`count` or `for_each`)
-   first, then ordinary arguments, then nested blocks, then tags if the resource supports them, then
-   `depends_on`, then `lifecycle`, with one blank line between groups. A reader then finds the
+   first, then ordinary arguments, then nested blocks, then the last two meta-arguments, with one blank line
+   between groups. The two sources disagree on the last two: the vendor's style guide puts the `lifecycle` block
+   and then `depends_on`; the community best-practices guide puts tags last among the real arguments, then
+   `depends_on`, then `lifecycle`. Pick one order and apply it everywhere. A reader then finds the
    repeat/identity-defining argument and the dangerous lifecycle settings without searching.
 5. **Order variable and output blocks too:** a variable carries its type, then description, then default,
    then sensitivity, then validation; an output carries description, value, sensitivity. Every variable and every

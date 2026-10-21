@@ -48,3 +48,5 @@ owner and a date" rule are ours. The ratchet framing is the rule already in `pyt
 
 ## Related blocks
 `python-conventions` (toolchain and tests, async), `tdd`, `testing-anti-patterns`, `ci-workflow-hardening`.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified

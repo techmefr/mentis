@@ -125,9 +125,15 @@ from knowledge and not re-fetched; the points below were checked against the pag
 | PHPUnit repository (main, 13.5-dev): `phpunit.xsd` and the 11.0.0 and 12.0.0 change logs | BSD-3-Clause (LICENSE read) | Attribute names and defaults for `failOnWarning`, `failOnRisky`, `failOnDeprecation`, `beStrictAboutOutputDuringTests`, `executionOrder` (all `fail*` settings default to false, `beStrictAboutTestsThatDoNotTestAnything` to true); doc-comment metadata deprecated in 11.0 and removed in 12.0 |
 | php-code-coverage repository, `Driver/XdebugDriver.php` | BSD-3-Clause (LICENSE read) | Xdebug has no mode for branch coverage without path coverage |
 
-Still unverified: that `getLastErrors()` reports a warning with an error count of 0 for an impossible day (§5.15; the
-page returned no usable text), the finally-return behaviour of §2.6, the claim that the debugger extension slows every
+Re-read 2026-10-21 from the PHP manual sources (doc-en repository): `getLastErrors()` reporting one warning and zero
+errors for `2020-02-30` is the manual's own "rolled over dates" example (§5.15 confirmed). For §2.6 the manual page on
+`finally` states only that a `return` inside `finally` replaces the returned value; that a pending exception is
+discarded as well is not stated there, so it is our reading, to be shown by running it.
+
+Still unverified: the finally-return discarding of a pending exception in §2.6 (see above), the claim that the debugger extension slows every
 run by a large factor (§6.13; the extension's own documentation has a custom licence and was not opened), the timing
 detail of `===` on secrets (the `hash_equals` page says the known string length may leak, not the prefix), and every
 rule in §1 to §3 not named above, which keep the earlier reading. The PHPUnit documentation repository carries no
 licence file and was not used.
+
+Independent verification 2026-10-21: 15 checked, 14 matched, 0 corrected, 1 unverified

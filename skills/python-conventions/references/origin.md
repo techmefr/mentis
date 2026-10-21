@@ -257,3 +257,5 @@ RUF009 on a `datetime.now()` dataclass default (§5.33 added) and pytest failing
 layout while ruff and mypy passed (§8.29 added). TRY300, EM102, TRY003, T201 and mypy's missing-return
 were already covered by §2, §4 and §5. Final run: ruff clean, mypy clean, 4 passed. Not exercised:
 §6, §7, §9 to §11.
+
+Independent verification 2026-10-21: 17 checked, 16 matched, 1 corrected, 0 unverified

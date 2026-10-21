@@ -53,3 +53,5 @@ argument adopted as our guidance, not a Node fact.
 ## Related blocks
 `devops-conventions` (CI and image policy), `security-hardening`, `nestjs-reliability` (shutdown
 behaviour once the signal arrives), `node-async-performance` (heap diagnosis), `typescript-patterns`.
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified

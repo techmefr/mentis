@@ -33,8 +33,11 @@
    the handler returns and before the response is sent, which suits a session used only to check the caller
    when the response is a long stream, so the connection is not held while bytes travel. The
    sub-dependencies of a request-scoped dependency must themselves be request-scoped.
-7. **Background tasks get their own resources.** From 0.106 the exit code of a `yield` dependency no longer waits
-   for background tasks, so a task must not use a session yielded by a dependency: open a new one inside the
+7. **Background tasks get their own resources.** The documentation's history says 0.106 stopped the exit code of a
+   `yield` dependency from waiting for background tasks, and that 0.118 and 0.121 moved the default back to running
+   it after the response is sent ("very similar" to the pre-0.106 behaviour, its own words); whether the exit code
+   now also waits for background tasks is not stated. The documentation still tells you to give a task its own
+   resources, so a task must not use a session yielded by a dependency: open a new one inside the
    task and pass identifiers, not loaded objects. The framework's background tasks run in the same process after
    the response and suit small jobs such as a notification; work that is heavy, must survive a restart, or must
    run on other machines goes to a queue (`skills/background-jobs-conventions`).

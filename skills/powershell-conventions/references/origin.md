@@ -42,3 +42,5 @@ Sourced or confirmed: preference scope (§1.2.4), native-command preference and 
 
 ## Related blocks
 `security-hardening` §4, `testing-anti-patterns` §1, `shell-scripting-conventions` §1, `source-freshness` §3.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

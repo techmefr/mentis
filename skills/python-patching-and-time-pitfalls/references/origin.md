@@ -62,3 +62,5 @@ consequence wording (§2.4.1) apart from its last clause.
 
 ## Related blocks
 `python-testing-strictness`, `testing-anti-patterns`, `flaky-test-triage-pitfalls`.
+
+Independent verification 2026-10-21: 18 checked, 18 matched, 0 corrected, 0 unverified

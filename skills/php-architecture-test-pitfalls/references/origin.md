@@ -55,7 +55,13 @@ followed.
 `skills/no-catch-all-layer`, `skills/archi`, `skills/domain-modeling`, `skills/php-patterns`.
 Overlaps with `skills/laravel-conventions` §9 and §10 (2026-10-19); cross-referenced, not merged.
 
+Added 2026-10-21: the `+` ruleset prefix (part 1, point 9) is confirmed in the Deptrac source, `src/Core/Layer/LayerProvider.php`
+(a leading `+` on an allowed layer adds that layer's own allowed layers, recursively, and a cycle throws); no documentation page
+states it, so the statement rests on the code, not on a page.
+
 Added 2026-10-20: the point about a misnamed rule being silent (part 3, point 2) is now sourced from the PHPat code, no
 longer own guidance; the unregistered-class half stays own guidance because the registration happens through the PHPStan
 container and no code of it was read. Overlapping layers, one config per view, review of baseline entries and the
 `final` base rule remain own guidance (design judgement, no page states them).
+
+Independent verification 2026-10-21: 16 checked, 16 matched, 0 corrected, 0 unverified

@@ -85,6 +85,18 @@ the security-group inline-rule claims, the `terraform_data` runtime floor, our o
    secrets-in-encoded-values note in §1.2, the secret-behind-`ignore_changes` note in §3.3, and the three decisions
    above.
 
+## Independent verification 2026-10-21 (Terraform documentation, 1.16 tree of the hashicorp web-unified-docs repository, licensed BUSL 1.1, facts only, nothing copied; AWS provider docs, MPL-2.0)
+Read and confirmed: the lifecycle block accepts literal values only (so the Terramate combined example with
+`prevent_destroy` set from a variable expression is invalid, which closes open point 4 above), `prevent_destroy` guards
+only while present in the configuration, `create_before_destroy` propagation and the unique-name reason, destroy-time
+provisioners skipped under `create_before_destroy`, `ignore_changes = all`, `replace_triggered_by` limited to managed
+resources, `dynamic` overuse guidance, provisioners as a last resort, and the AWS provider's own warning against inline
+security group rules and against mixing them with the separate rule resources. The vendor validation page gives
+Terraform 1.2.0 as the floor for preconditions and postconditions (open point 5 now has that floor). Still not read on any
+vendor page: the `terraform_data` floor of 1.4 and the AWS provider major version that introduced the separate rule resources.
+
 ## Related blocks
 `terraform-state-and-secrets-pitfalls`, `terraform-refactor-identity-pitfalls`, `terraform-ci-delivery-pitfalls`,
 `security-hardening`, `source-freshness`.
+
+Independent verification 2026-10-21: 18 checked, 16 matched, 0 corrected, 2 unverified

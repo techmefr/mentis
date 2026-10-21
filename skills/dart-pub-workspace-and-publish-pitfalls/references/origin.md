@@ -47,3 +47,5 @@ service-account step (still not read) and the exact wording of the admin-tab lab
 
 ## Related blocks
 `flutter-conventions`, `ci-workflow-hardening`, `flutter-release-toolchain-hygiene`.
+
+Independent verification 2026-10-21: 15 checked, 15 matched, 0 corrected, 0 unverified
