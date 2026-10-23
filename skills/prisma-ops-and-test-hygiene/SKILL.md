@@ -1,6 +1,6 @@
 ---
 name: prisma-ops-and-test-hygiene
-description: "Use when a Node service uses Prisma in production or its tests are being written or hardened: connection pool size and poolers, query logging and latency, replacing client middleware with extensions, reading generated migration SQL before it runs (renames, new required columns, enum changes, risky statements, expand and contract), and test hygiene for Node services (assert the five outcomes, port 0 for servers, event listener order and error events, no sleeping, realistic data, property-based and mutation testing)."
+description: "Use when a Node service uses Prisma in production or its tests are being written or hardened: connection pool size and poolers, query logging and latency, replacing client middleware with extensions, reading generated migration SQL before it runs (renames, new required columns, enum changes, risky statements, expand and contract), Postgres row-level security behind Prisma (application role without superuser or BYPASSRLS, separate migration URL, set_config per transaction, a test that proves isolation), and test hygiene for Node services (assert the five outcomes, port 0 for servers, event listener order and error events, no sleeping, realistic data, property-based and mutation testing)."
 ---
 
 # prisma-ops-and-test-hygiene
@@ -27,6 +27,7 @@ assertion) and not at the line that was written**.
 | 1 | Prisma operations: pool, logging, extensions, migration review by version | the client is configured, queried slowly, or a migration is applied | [`01-prisma-operations.md`](./references/01-prisma-operations.md) |
 | 2 | Test hygiene for Node services | a test is written or reviewed | [`02-test-hygiene.md`](./references/02-test-hygiene.md) |
 | 3 | Property-based and mutation testing | the suite's strength, not its size, is in question | [`03-property-and-mutation-testing.md`](./references/03-property-and-mutation-testing.md) |
+| 4 | Postgres row-level security with Prisma: application role, migration URL, per-transaction context, the proving test | tenant isolation relies on RLS policies and the client is Prisma | [`04-postgres-rls.md`](./references/04-postgres-rls.md) |
 
 ## Output / checkpoint
 Prisma: the SQL of each migration was read and its risky statements named before applying (§1.4), and the
@@ -36,6 +37,7 @@ test that never failed, is not verified.
 
 ## Guardrails
 - Never apply a generated migration to shared or production data without reading its SQL (§1.4).
+- Never let the application connect as the role that owns the tables or bypasses RLS (§4).
 - Never read a rename as a rename: the generator may drop and add (§1.4.1).
 - Never run a migration, reset or seed against a non-local database on your own: a human decision.
 - Never assert on a mock's call count as the only evidence an effect happened (§2.1).

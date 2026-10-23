@@ -13,7 +13,12 @@ settings that have to differ, and of the limits that keep a correct endpoint fro
    error into a page of stack trace, configuration values, environment variables and sometimes source
    lines, served to whoever caused the error. It is the single most expensive misconfiguration to leave
    on, and the commonest because the development default is the on position. Make the production value
-   the default and the development value the explicit override, never the reverse.
+   the default and the development value the explicit override, never the reverse. The same shape hides
+   in conditions: "everything except production opens something" (a debug route, a disabled check, a
+   permissive CORS origin, a seeded admin) is on in staging, preview and any environment whose variable is
+   unset or misspelled. List them: `grep -rnE "(NODE_ENV|APP_ENV|ENVIRONMENT|env)[^=!]*(!==?|===?) *['\"](prod|production|dev|development|local)['\"]" src app config`,
+   then read each hit. A branch that opens something must test for the one environment that needs it
+   (`=== 'development'`), never for the absence of production.
 2. **Configuration is validated when the process starts, not when it is first used.** A missing secret,
    a malformed URL or an unset required value should stop the boot with a message, because the
    alternative is a service that starts, serves traffic, and fails on the first request to touch that

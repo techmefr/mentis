@@ -87,6 +87,8 @@ def rank(query, vectors, idf):
 
 
 CASES = [
+    ("upstream released a fix for the shadcn components we copied into the repo, how do we update our copies", "scaffolded-code-updates"),
+    ("row level security policies with Prisma, the app role must not bypass RLS", "prisma-ops-and-test-hygiene"),
     ("review this Angular component that uses signals and OnPush", "angular-conventions"),
     ("write a Svelte 5 component with runes and a SvelteKit load function", "svelte-conventions"),
     ("my Tailwind classes are built dynamically and the styles disappear in production", "tailwind-conventions"),

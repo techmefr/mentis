@@ -394,6 +394,7 @@ split: [`WORKFLOW.md`](./WORKFLOW.md).
 | `nestjs-di-traps` | Injection tokens, duplicate providers, cycles and service locators in Nest |
 | `node-container-runtime` | Node container image, runtime configuration and how TypeScript is executed |
 | `nestjs-integration-patterns` | Transports, versioning, webhooks, queues, rate limits and request logging in Nest |
+| `scaffolded-code-updates` | Keeping generated or copy-in code up to date: origin manifest, drift diff, codemods, security fan-out |
 | `prisma-ops-and-test-hygiene` | Prisma pool, migrations and queries in production; test hygiene, property and mutation testing |
 | `angular-signals-rxjs-ssr-pitfalls` | Angular signals and RxJS interop, SSR and hydration, zoneless, template mistakes |
 | `htmx-protocol-pitfalls` | htmx responses, polling, request UX and inheritance, integration |

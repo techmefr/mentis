@@ -43,8 +43,10 @@ not asked.
    - An unawaited Promise (missing `await`) on an operation with a side effect, a silent error or a race condition.
    - NestJS dependency injection: a provider with the wrong scope (default singleton vs a needed
      `REQUEST`/`TRANSIENT`), a module that doesn't export a provider used elsewhere.
-   - An input DTO with no `class-validator` (`@IsString()`, `@IsOptional()`...), unvalidated input reaching the
-     business layer.
+   - An input with no validated shape, so unvalidated input reaches the business layer. Either form counts as
+     validated: a DTO class with `class-validator` decorators, or a Standard Schema (Zod, Valibot, ArkType) run
+     by a pipe (`nestjs-node-conventions` §2.4). Follow the form the repo already uses; never flag a schema-based
+     input for lacking decorators.
    - A Zod/tRPC contract changed in a non-backwards-compatible way without flagging it (a field removed/renamed on the
      server side breaks an existing consumer).
    - Prisma repository: a query with no explicit `select`/`include` bringing back more data than necessary, or a
@@ -55,7 +57,7 @@ not asked.
 2. **nestjs-node-conventions** (also to be checked against the repo's existing code before asserting; if the repo
    already does otherwise everywhere, note the inconsistency rather than imposing the rule solo):
    - Module/controller/service: constructor DI, never a manual instantiation of one service inside another.
-   - DTO + `class-validator` on every HTTP input.
+   - A validated shape on every HTTP input: a `class-validator` DTO or a Standard Schema, one form per repo (§2.4).
    - Zod/tRPC contracts as the source of truth for types, `z.infer` rather than an interface duplicated by hand.
    - The repository pattern on top of Prisma, no raw `PrismaClient` injected into a business service.
    - An import alias rather than a hard-coded relative path across folders (if the repo's architecture linter resolves

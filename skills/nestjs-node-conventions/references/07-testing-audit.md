@@ -36,12 +36,18 @@ grep -rnE "forwardRef" src
 grep -rnE "process\.env" src
 grep -rnE "console\.(log|error|warn)" src
 grep -rnE "@Res\(\)" src
+grep -rnE "redact|serializers|LoggerModule|pino" src
 ```
 
 - A manual `new Service()` is a DI bypass (`references/01`).
 - An end-to-end file without `app.close()` leaks the application.
 - `console.*` in services bypasses the framework logger; use the logger (JSON output in production, levels
   from configuration).
+- The request logger redacts. An empty result for `redact` while a logger module is configured is a finding:
+  authorisation headers, cookies and tokens reach the log. Read the list: it covers the request headers
+  (`authorization`, `cookie`), the response `set-cookie`, and the body fields that carry secrets or personal
+  data. A custom `req` or `res` serializer replaces the default one and must keep the same exclusions
+  (`skills/security-hardening` §7.12).
 
 ## Read-only audit of an existing backend
 Used when asked to review or assess a Nest codebase without changing it. It writes no code and runs no
