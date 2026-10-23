@@ -245,6 +245,7 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | nestjs-di-traps | 6 (new 2026-10-08) | the Nest 12 documentation (MIT) and amirtaherkhani/nestjs-agent-skills (MIT) | 🟡 (written, not dogfooded yet) |
 | node-container-runtime | 6 (new 2026-10-08) | the Nest 12 documentation and nodejs/docker-node best practices (MIT), the Node.js documentation; unverified version claims listed in `references/origin.md` | 🟡 (written from documentation, nothing run) |
 | nestjs-integration-patterns | 6 (new 2026-10-08) | the Nest 12 documentation (MIT; the deprecation chapter is CC BY 4.0, attributed in `references/origin.md`) and three MIT agent-skill catalogues; the rate-limiter failure policy and two OpenAPI/request-id rules are our own judgement and labelled so | 🟡 (written from documentation, nothing run) |
+| scaffolded-code-updates | cross-cutting (new 2026-10-23) | public documentation of copy-in component registries and project generators; manifest, three-way merge and security fan-out are internal synthesis | 🟡 (written, not run on a real update) |
 | prisma-ops-and-test-hygiene | 6 (new 2026-10-08) | the Prisma documentation and an MIT migration-review skill; MIT testing catalogues; Stryker and fast-check documentation; CC-BY-SA repos idea-only | 🟡 (written, not dogfooded yet; Prisma version boundaries noted in `references/origin.md`) |
 | angular-signals-rxjs-ssr-pitfalls | 6 (new 2026-10-08) | the Angular and angular-eslint repositories (MIT) and the Angular documentation, plus an MIT agent-skill catalogue; a counter-example catalogue with harmful rules was read and ruled out; overlaps with `skills/angular-conventions` (2026-10-19); cross-referenced, not merged | 🟡 (written from documentation, nothing built; doc snapshot is main-branch, versions to check) |
 | htmx-protocol-pitfalls | 6 (new 2026-10-08) | the htmx repository (BSD Zero-Clause, v2.0.x only; no `hx-partial` material used) cross-checked in docs and source | 🟡 (written, not dogfooded yet) |
@@ -821,7 +822,7 @@ closing this costs nothing that made this repo cheaper to load.
 | python | 20 / 22,097 | 2 / 25,939 | +3,842 | x0.85 |
 | project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
 | bi, design, xefi | 16 / 17,306 | 4 / 32,687 | +15,381 | x0.53 |
-| global | 18 / 20,280 | 6 / 36,617 | +16,337 | x0.55 |
+| global | 18 / 20,280 | 6 / 36,690 | +16,410 | x0.55 |
 | react | 36 / 9,302 | 1 / 19,843 | +10,541 | x0.47 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
@@ -851,7 +852,7 @@ csharp: dotnet-conventions 34,631
 python: python-conventions 19,442, data-pipeline-conventions 6,497
 flutter: flutter-conventions 24,087
 nuxt: vue-nuxt-vuetify-conventions 26,010
-global: code-baseline 10,384, security-hardening 11,599, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
+global: code-baseline 10,384, security-hardening 11,672, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 10,118, spec 6,884
 design-patterns: design-patterns 10,994
 react: react-nextjs-conventions 19,843

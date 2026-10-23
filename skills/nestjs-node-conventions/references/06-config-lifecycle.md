@@ -45,7 +45,8 @@
     do not run on `SIGTERM`; they always run on an explicit `app.close()`. The sequence is `onModuleDestroy()`
     for every module, then `beforeApplicationShutdown()`, then connections close, then `onApplicationShutdown()`;
     each awaits a returned promise. Put "stop accepting work and drain" in the first, "close resources" in the
-    last.
+    last. Call it **unconditionally**: wrapped in an environment test or a flag, it is off in the one place
+    that receives `SIGTERM`, and a grep for the name still finds it.
 12. **Release what you open in the destroy hooks**: database pools, queue consumers, timers, subscriptions. A
     leaked handle is why a process does not exit.
 13. **A process that will not exit** usually has an open handle or a long-lived keep-alive connection. The
@@ -76,4 +77,7 @@ grep -rnE "validationSchema|validate:|getOrThrow" src
 
 - `process.env` outside the configuration factory and the entry point is a finding (rule 1).
 - A `setInterval`, a pool or a subscription with no matching destroy hook is a leak (rule 12).
+- `enableShutdownHooks` found is not enough: read the lines around it. A call inside an `if`, a ternary or a
+  `&&` is a finding (rule 11). `grep -rnE -B3 "enableShutdownHooks" src | grep -nE "if *\(|\?|&&|NODE_ENV"`
+  lists the suspects.
 - A request-scoped provider is listed with its reason and checked against rule 9.

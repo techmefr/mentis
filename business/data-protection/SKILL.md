@@ -59,11 +59,20 @@ than "how long is normal?"
    means a developer writing a bespoke query each time, it will be slow and eventually wrong.
 2. **Deletion**: an actual mechanism, and know what it does about backups, logs, analytics and search
    indexes. Deleting the row while the record survives in a search index and three log lines is the
-   normal outcome of not asking.
+   normal outcome of not asking. Backups are not edited; deletion survives a restore by a method:
+   1. Every erasure writes an entry to an erasure journal (subject identifier or its hash, date, scope),
+      stored outside the backed-up database, and kept as long as the oldest backup.
+   2. The restore procedure replays the journal after the restore and before the service takes traffic.
+      A restore runbook without that step brings deleted people back.
+   3. The proof is a restore drill (`skills/backup-restore-drill-pitfalls`): erase a test subject, restore a
+      backup taken before, replay, and check the subject is gone from the database and the search index.
 3. **Correction**: editable, or a route to get it corrected.
 4. **Never personal data in logs or URLs.** Same reasoning as credentials
    (`skills/auth-session-conventions` §2.1 and §2.4): logs have wider read access and longer retention
-   than the system that produced them, and URLs travel into history, `Referer` and every proxy.
+   than the system that produced them, and URLs travel into history, `Referer` and every proxy. The method
+   is an allowlist at the logger, not a cleanup later: log identifiers, never names, emails or bodies;
+   configure the logger's redaction for headers, cookies and known fields; and check it with a test that
+   sends a request carrying a marker email and asserts the captured log output does not contain it.
 5. **Non-production environments.** A production dump in a dev database is a real disclosure with real
    consequences. Anonymise or generate; if you must copy, that's a decision someone senior takes
    knowingly.

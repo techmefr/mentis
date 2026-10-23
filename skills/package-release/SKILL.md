@@ -20,8 +20,10 @@ themselves skip steps 2 and 3 and keep the rest.
 1. **Pick the version from the change, not from the calendar.**
    1. The public surface is declared (documentation or exported symbols). Without a declared surface there
       is nothing to promise.
-   2. Below 1.0 nothing is promised: anything may change. Staying there indefinitely while others depend on
-      the package withholds a promise they need.
+   2. Below 1.0 nothing is promised: anything may change. **Never publish a 0.x version to a public
+      registry**: the first published version is 1.0.0. A package not ready for that promise is not published;
+      it is consumed from the workspace or a git reference until it is. In npm the caret range treats every
+      0.x minor as breaking, so a 0.x dependency is pinned in practice and never receives a fix.
    3. Once released, the contents of a version never change; any fix is a new version.
    4. Deprecating existing behaviour raises the minor number; removal waits for the next major.
    5. In ecosystems whose module path carries the major (Go, from 2 up), a major bump is a new import path,
@@ -39,6 +41,11 @@ themselves skip steps 2 and 3 and keep the rest.
       when no signature changed. Error message wording is not a contract unless you export something
       matchable.
 
+   4. JavaScript and TypeScript (npm): removing or renaming an entry in `exports`, narrowing a
+      `peerDependencies` range or adding a peer, dropping a module format (ESM or CommonJS) or a runtime
+      version from `engines`, and widening an exported type a consumer passes in. Adding `exports` to a
+      package that had none is breaking: every deep import stops resolving.
+
 3. **Compare the surface mechanically before the tag.** Run the ecosystem's API-diff tool against the last
    release and read its verdict, rather than judging by eye. Run it on every change that touches the public
    surface, so a break is found in review and not after the tag. Where no such tool exists, diff the exported
@@ -54,7 +61,22 @@ themselves skip steps 2 and 3 and keep the rest.
       oldest version you actually need, not the one you run.
    2. Dependency minimums stay as low as the code allows.
 
-6. **Tag only a clean tree.**
+6. **An npm package declares its surface in the manifest.** Checked on every release of a JavaScript or
+   TypeScript package:
+   1. `exports` lists every public entry point, with `types` first in each condition. Anything not listed
+      cannot be imported, which is the point: the map is the public surface of step 1.1.
+   2. `type` is set (`module` or `commonjs`), and the files in `exports` match it.
+   3. A library the consumer must share one copy of (a framework, a runtime with state, a plugin host) is a
+      `peerDependencies` entry with the widest range tested, mirrored in `devDependencies` for the build.
+      It is never in `dependencies`, which installs a second copy.
+   4. `files` is an allowlist (the build output and the licence), and `npm pack --dry-run` shows the
+      tarball holds nothing else: no source maps pointing at unpublished sources, no tests, no `.env`.
+   5. `sideEffects` is `false`, or lists the files that do run code on import (a stylesheet, a polyfill).
+      Leaving it out disables tree-shaking for every consumer.
+   6. Consumers import only from the entry points. A deep import into the build output is a finding:
+      `grep -rnE "from ['\"][^'\"]+/(dist|lib|build|src)/" <consumer>` returns nothing.
+
+7. **Tag only a clean tree.**
    1. No local override of a dependency in the tagged manifest: in Go, `replace` applies only in the main
       module, so dependents get something other than what you tested. Workspace files do not ship either.
    2. The lockfile or checksum file is regenerated in the same change as the version bump, and the tidy
@@ -62,7 +84,7 @@ themselves skip steps 2 and 3 and keep the rest.
    3. Build, vet, test (with the race detector where the language has one) and the vulnerability scan pass
       on the tagged commit.
 
-7. **Publish with short-lived credentials, behind a person.**
+8. **Publish with short-lived credentials, behind a person.**
    1. Prefer the registry's trusted-publishing mechanism: the CI job proves its identity by OIDC and the
       registry issues a token that expires in minutes (PyPI states 15 minutes; npm supports it from CLI
       11.5.1 and Node 22.14.0 on its documented CI platforms, and then writes provenance for public
@@ -74,7 +96,7 @@ themselves skip steps 2 and 3 and keep the rest.
       repository dispatch events do). A release pipeline chained that way must use a dedicated app or
       credential, or be a single workflow.
 
-8. **A bad release is fixed forward.** Do not delete a published version or move its tag: the proxy or registry has
+9. **A bad release is fixed forward.** Do not delete a published version or move its tag: the proxy or registry has
    already cached it and your tag now disagrees with it. Ship a new version; where the ecosystem has a
    withdrawal marker, use it (Go: a `retract` directive with a reason, published in a higher version, which
    hides the version from latest queries while keeping it downloadable). Write release notes for humans:
@@ -82,7 +104,7 @@ themselves skip steps 2 and 3 and keep the rest.
 
 ## Output / checkpoint
 A release note, the API-diff output, the computed next version with the reason, and the clean-tree checks
-listed in step 6, attached to the `ship` checkpoint (`WORKFLOW.md` §5) as the proof that the merge is also a
+listed in steps 6 and 7, attached to the `ship` checkpoint (`WORKFLOW.md` §5) as the proof that the merge is also a
 releasable state. The operator triggers the publish.
 
 ## Guardrails
@@ -96,5 +118,7 @@ Rewritten, no text copied. Go compatibility, deprecation and recovery mechanics 
 `spf13/go-skills` release skill (read 2026-10-02) cross-checked against the Go modules reference; the version
 rules from the semantic versioning specification (CC-BY-3.0, items on public API, immutability, major
 zero, deprecation); Rust rules from the Cargo book's compatibility chapter; trusted publishing from the PyPI
-and npm documentation; the workflow-token behaviour from the GitHub Actions documentation. Binary
+and npm documentation; the workflow-token behaviour from the GitHub Actions documentation. The npm manifest rules
+(step 6) come from the Node.js packages documentation and the npm `package.json` reference; the no-0.x rule
+is a house decision. Binary
 distribution tooling (signing, packaging) was left out: not read deeply enough to state rules.
