@@ -133,10 +133,10 @@ Read this file when a skill is being drafted or revised and its body or its desc
     shorter word still triggers the behaviour by running the block.
 
 
-## Levers from a third source (points 39 to 44)
+## Levers from a third source (points 39 to 48)
 
-> From a 2026-11 secondary write-up of the vendor's updated skill best practices (see `origin.md`). 🟡: stated from that
-> write-up, not measured by us.
+> First taken from secondary write-ups, then **checked on 2026-11-10 against the vendor's skill best-practices page and
+> the open specification** (see `origin.md`): points 39 to 48 match them. 🟡 only for what we have not run ourselves.
 
 39. **A reference file past about 100 lines opens with a table of contents** that repeats its real headings. An
     agent deciding whether to load a file often reads only its first lines; without a contents list, rules lower
@@ -159,4 +159,18 @@ Read this file when a skill is being drafted or revised and its body or its desc
     and efficient; a top one asks whether it over-explains (if it does worse with the block than without, remove
     instructions until it improves). A block meant for distribution declares its target model in the frontmatter.
 44. **A block meant to be shared is checked against the open specification before it ships.** Run the specification's reference validator on the folder (`skills-ref validate ./<skill>`): `name` 1 to 64 characters, lowercase, digits and single hyphens, equal to the folder name; `description` 1 to 1,024 characters; no key outside the six portable ones (`name`, `description`, `license`, `compatibility` up to 500 characters, `metadata`, `allowed-tools`). A client that rejects unknown keys fails the whole upload, so a harness-specific key is a deliberate, documented choice (Rule D), never a leftover. 🟡 the validator was not run by us.
-
+45. **A script step says whether to run it or read it, and the script handles its own failures.** "Run `x`" executes
+    it and costs only its output; "see `x` for the algorithm" reads it into context. A script that fails and leaves
+    the agent to improvise has not solved the problem; it catches the expected errors and says what it did. Every
+    constant in it is justified in a line, or it is a guess the agent cannot check.
+46. **Write nothing that will go stale, and name each concept once.** A date-conditioned instruction ("before month X
+    do this, after it that") is wrong the day after; keep the current method in the body and the superseded one in a
+    short "old patterns" section. One term per concept throughout (never endpoint, URL and route for the same thing).
+47. **Name tools and packages in full, and state what the runtime allows.** A tool exposed by a server is cited with
+    its server prefix, or it is not found when several servers are present. A package is listed with how to install it,
+    and a runtime without network or install rights is stated rather than discovered. Paths use forward slashes.
+48. **Before writing the body, write three evaluations and a baseline.** Run the task without the block, record the
+    failures, write the smallest body that fixes them, and compare. Test on every tier the block targets (point 43).
+    Our `Use when ...` description form is an instruction to the agent (point 26); the vendor page asks for third
+    person because the description is injected into the system prompt. The two disagree on form, not on purpose: the
+    conflict is recorded here and the existing form is kept until `skill-trigger-evals` shows a difference.
