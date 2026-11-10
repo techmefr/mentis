@@ -1,5 +1,20 @@
 # nestjs-reliability §3 — Transactional outbox and consumer inbox
 
+## Contents
+
+- [3.1 The dual-write problem, in the three shapes it takes](#31-the-dual-write-problem-in-the-three-shapes-it-takes)
+- [3.2 The write side](#32-the-write-side)
+- [3.3 The relay](#33-the-relay)
+- [3.4 Ordering](#34-ordering)
+- [3.5 The inbox: consumer-side deduplication](#35-the-inbox-consumer-side-deduplication)
+- [3.6 Delivery guarantees, in one table](#36-delivery-guarantees-in-one-table)
+- [3.7 Retries and dead letters](#37-retries-and-dead-letters)
+- [3.8 The tables belong to the store](#38-the-tables-belong-to-the-store)
+- [3.9 Verification](#39-verification)
+- [3.10 Nest mapping](#310-nest-mapping)
+- [3.11 Related smaller rules](#311-related-smaller-rules)
+
+
 Saving a row and announcing it are two writes to two systems, and no transaction spans both. The outbox
 turns the announcement into a row written in the same transaction as the business change; a relay
 publishes committed rows afterwards; the consumer remembers which message ids it already processed. The

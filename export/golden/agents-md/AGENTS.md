@@ -365,6 +365,17 @@ the 2026-08-10 WCAG 2.2 re-check and the refresh log are in
 > client is French and above the private-sector threshold, or anyone has asked for an accessibility
 > declaration — not as a fifth independent topic on top of §1–4.
 
+### Contents
+
+- [5.0 What RGAA is, and what it isn't](#50-what-rgaa-is-and-what-it-isnt)
+- [5.1 The test methodology is the actual difference from "read WCAG and judge"](#51-the-test-methodology-is-the-actual-difference-from-read-wcag-and-judge)
+- [5.2 Who this legally binds](#52-who-this-legally-binds)
+- [5.3 The déclaration d'accessibilité: what's mandatory and what triggers it](#53-the-déclaration-daccessibilité-whats-mandatory-and-what-triggers-it)
+- [5.4 Consequences of non-compliance](#54-consequences-of-non-compliance)
+- [5.5 How this maps onto §1–4](#55-how-this-maps-onto-14)
+- [Guardrails specific to this section](#guardrails-specific-to-this-section)
+
+
 ### 5.0 What RGAA is, and what it isn't
 
 RGAA (Référentiel Général d'Amélioration de l'Accessibilité) is the French government's
@@ -505,6 +516,16 @@ test procedure and a legal packaging. Concretely:
 > embedded frame or object, an image that carries text or sits next to its own caption, or generates
 > identifiers. Each native structure has a minimal contract; the contract is what assistive technology and
 > a stylesheet-less reader rely on. Names and landmarks are §1 and §2, form wiring is §4.
+
+### Contents
+
+- [Tables](#tables)
+- [Lists and definition lists](#lists-and-definition-lists)
+- [Identifiers](#identifiers)
+- [Frames, objects and image inputs](#frames-objects-and-image-inputs)
+- [Things not done without a reason](#things-not-done-without-a-reason)
+- [Mechanical checks](#mechanical-checks)
+
 
 ### Tables
 
@@ -690,6 +711,13 @@ grep -rnE 'screen\.orientation\.lock|"orientation"\s*:|@media[^{]*orientation' s
 > the markup valid, then when building one of the recipes below. §2 says when ARIA is allowed; this section
 > says what a valid use looks like and how the common composite widgets are assembled. Role and attribute
 > tables are not copied here: they live in the standards and they change.
+
+### Contents
+
+- [Validity](#validity)
+- [Recipes](#recipes)
+- [Mechanical checks](#mechanical-checks)
+
 
 ### Validity
 

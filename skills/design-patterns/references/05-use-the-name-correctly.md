@@ -3,6 +3,28 @@
 > Section 5 of `skills/design-patterns`. Read it when a pattern name is about to appear in a class name,
 > a commit message, an ADR or a review comment.
 
+## Contents
+
+- 1. A misnamed pattern is worse than an unnamed structure
+- 2. Name it in the code or in the ADR, once
+- 3. When a pattern is deliberately not used
+- 4. The domain noun goes first, the pattern name second, or not at all
+- 5. A pattern name in a review comment has to point at the structure
+- 6. Half the catalogue's names mean different things in different communities
+- 7. The pattern name is not the interface's documentation
+- 8. A pattern that has been removed has to be removed from the ADR too
+- 9. Don't let the name settle an argument
+- 10. The best outcome of this section is often a name with no pattern in it
+- 11. A file or class suffix is a promise about behaviour, and the suffix has to be true on day one
+- 12. Naming drift is the failure mode of a correctly-named pattern left alone
+- 13. A test file's name should say what breaks, not which pattern it covers
+- 14. Two names for the same shape in the same codebase is worse than either name alone
+- 15. A pattern name in a variable or parameter, as opposed to a type name, is almost always noise
+- 16. A pattern name inside an error message or a log line is a debugging tell, not documentation
+- 17. Pattern vocabulary belongs in identifiers, never in user-facing strings
+- 19. One class filling two pattern roles under one name means the name has stopped being specific
+
+
 1. **A misnamed pattern is worse than an unnamed structure.** "Factory" on something that isn't one
    sends every future reader looking for indirection that doesn't exist. The cost is paid repeatedly and
    by other people: the name sets an expectation about how the class behaves — that it builds things,

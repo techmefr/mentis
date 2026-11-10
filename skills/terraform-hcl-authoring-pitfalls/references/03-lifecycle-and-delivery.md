@@ -1,5 +1,14 @@
 # terraform-hcl-authoring-pitfalls §3 — Lifecycle and delivery
 
+## Contents
+
+- [3.1 prevent_destroy](#31-preventdestroy)
+- [3.2 create_before_destroy](#32-createbeforedestroy)
+- [3.3 ignore_changes and replace_triggered_by](#33-ignorechanges-and-replacetriggeredby)
+- [3.4 Provisioners and baked images](#34-provisioners-and-baked-images)
+- [3.5 Image references](#35-image-references)
+
+
 The `lifecycle` block changes what Terraform does when a resource must be destroyed, replaced or has drifted. Each
 setting is a trade: a guard that can be removed by editing the same file, an order of replacement that needs unique
 names, a silence about changes made elsewhere.

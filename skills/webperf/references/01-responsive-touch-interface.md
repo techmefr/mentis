@@ -2,6 +2,18 @@
 
 > Reference of `skills/webperf`. Read it when a page has to work on a phone browser, a touch screen or a dark theme, or when an animation, an image or a long text block is added. Framework-neutral: it holds in Vue, React or plain HTML. Mobile here means the responsive web; a native app has its own rules.
 
+## Contents
+
+- [1. Animation and motion](#1-animation-and-motion)
+- [2. Touch and pointer](#2-touch-and-pointer)
+- [3. Safe areas, viewport and layout](#3-safe-areas-viewport-and-layout)
+- [4. Typography and content](#4-typography-and-content)
+- [5. Images, video and fonts](#5-images-video-and-fonts)
+- [6. Dark mode and theming](#6-dark-mode-and-theming)
+- [7. Navigation and state](#7-navigation-and-state)
+- [8. Forms on a phone](#8-forms-on-a-phone)
+
+
 ## 1. Animation and motion
 
 1. **Honour `prefers-reduced-motion`.** Parallax, large slides and auto-scrolling are vestibular triggers for some

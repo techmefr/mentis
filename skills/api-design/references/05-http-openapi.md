@@ -8,6 +8,24 @@
 > unchanged and adds native tag hierarchy among other things); a project still on 3.0 reads point 2 as its
 > migration note.
 
+## Contents
+
+- 2. State the OpenAPI version and read the rules of that version
+- 4. Reuse by reference, split by the URL hierarchy, tag everything
+- 5. Operation ids are unique, URL-safe and chosen on purpose
+- 6. Lint the description in CI with a ruleset checked into the repo
+- 7. One error shape: problem details, with a stable `type`
+- 8. Mint a problem type only when a client can act on it
+- 9. Error bodies never carry stack traces or implementation detail
+- 10. Specify every success and error response of every operation
+- 11. Intermediaries never rewrite what the application said, and never answer for it
+- 12. Make writes retry-safe, and choose the mechanism knowingly
+- 13. Paginate every collection from the first release, with an opaque cursor, and avoid the total
+- 14. Rate limits answer 429 with information the client can use
+- 15. URLs name things
+- 16. Every endpoint declares how it is protected, in the description
+
+
 1. **The description is written before the code, kept in one place, and kept in source control from the first
    commit.** An OpenAPI description is a source file that drives generation, mocks, tests and documentation,
    not an export; the first reason to write it first is practical: far more APIs can be built in code than

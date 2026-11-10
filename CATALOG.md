@@ -814,8 +814,8 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 53,518 | −26,307 | x1.49 |
-| csharp | 37 / 56,718 | 1 / 34,631 | −22,087 | x1.64 |
+| laravel | 65 / 79,825 | 3 / 56,621 | −23,204 | x1.41 |
+| csharp | 37 / 56,718 | 1 / 36,691 | −20,027 | x1.55 |
 | design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
 | flutter | 40 / 20,772 | 1 / 24,087 | +3,315 | x0.86 |
 | nuxt | 21 / 19,869 | 1 / 26,010 | +6,141 | x0.76 |
@@ -847,8 +847,8 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 38,551, php-patterns 7,418, inertia-conventions 7,549
-csharp: dotnet-conventions 34,631
+laravel: laravel-conventions 41,654, php-patterns 7,418, inertia-conventions 7,549
+csharp: dotnet-conventions 36,691
 python: python-conventions 19,442, data-pipeline-conventions 6,497
 flutter: flutter-conventions 24,087
 nuxt: vue-nuxt-vuetify-conventions 26,010

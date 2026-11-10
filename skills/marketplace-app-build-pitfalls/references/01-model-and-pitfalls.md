@@ -3,6 +3,25 @@
 > Part 1 of `skills/marketplace-app-build-pitfalls`. Read it when a schema or a money flow is designed. Mostly
 > craft knowledge; points 1, 5, 6 and 8 and the new points 14 and 15 carry facts from pages of one payment platform's documentation and an open-source commerce framework's recipe, read 2026-10-20 and restated in our words (`references/origin.md`, sources 1 to 5). Everything not marked as sourced is our own guidance. Each point gives the symptom, the check and the fix. Not legal advice.
 
+## Contents
+
+- 1. One identity, several capabilities
+- 2. A listing has a lifecycle and a snapshot
+- 3. The order is a record with two parties and its own state machine
+- 4. Fees are a snapshot, not a rate lookup
+- 5. Money has a currency, exact arithmetic and an idempotency key
+- 6. Payout is a state machine with a release condition
+- 7. Seller onboarding gates payouts, not listings
+- 8. A dispute is an object with states, evidence and deadlines
+- 9. Reviews are tied to a completed order and cannot be bought
+- 10. Off-platform leakage is a design input, not a content problem
+- 11. Every row belongs to a seller or buyer scope, from the first migration
+- 12. Delete and erase differently
+- 13. Time and place are stored precisely
+- 14. Decide who bears refunds, chargebacks and fees before designing the ledger
+- 15. A cart with several sellers becomes one order per seller
+
+
 1. **One identity, several capabilities.** Symptom: a seller who wants to buy needs a second account with a
    second email, or a user is both sides of the same order. Check: create one user who sells and buys, and try
    to buy from themselves. Fix: a user (login, contact data) with a seller profile and a buyer profile as

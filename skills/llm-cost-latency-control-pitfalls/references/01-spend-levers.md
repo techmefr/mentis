@@ -1,5 +1,14 @@
 # llm-cost-latency-control-pitfalls §1 — Spend levers
 
+## Contents
+
+- [1.1 Measure before pulling a lever](#11-measure-before-pulling-a-lever)
+- [1.2 Caching repeated prefixes](#12-caching-repeated-prefixes)
+- [1.3 Token budgets](#13-token-budgets)
+- [1.4 Routing work to a cheaper model](#14-routing-work-to-a-cheaper-model)
+- [1.5 Batching and offline work](#15-batching-and-offline-work)
+
+
 ## 1.1 Measure before pulling a lever
 1. **Attribute every call to a request class:** feature, prompt version (`prompt-versioning-and-change-gating-pitfalls`
    §1), model, and whether it was a retry. Symptom of skipping this: the team argues about "the model" while one

@@ -2,6 +2,25 @@
 
 > Section 6 of `skills/python-conventions`. Read it when a binding is declared or a lifetime is chosen. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 3. The lifetime of a dependency cannot exceed the lifetime of what it holds
+- 4. Scope is a design decision, and both wrong answers have a shape
+- 5. A resource-owning singleton needs a shutdown path
+- 6. Nothing is resolved from the container inside business code
+- 7. Inject the collaborator, not the container
+- 8. Bind to a protocol, not to the concrete class
+- 9. Six or more constructor dependencies is a god object
+- 10. Constructors do no work
+- 11. A circular dependency in the graph is a design problem, not a wiring problem
+- 13. An override in a test is undone after the test
+- 14. A registration with no consumer is an unenforced guarantee
+- 15. The graph is worth reading back rather than assumed
+- 16. Per-request state belongs in a `contextvars.ContextVar`, not a thread-local
+- 17. A factory is the honest answer to "this needs a runtime argument"
+- 20. A readiness or liveness check is a consumer of the graph, not a parallel one
+
+
 1. A binding's default is an application-lifetime singleton. Reach for a different lifetime **deliberately**:
    per-request scope for per-request state, transient for a fresh instance per resolution. The default is the
    right one because most collaborators are stateless behaviour, and one instance is then both cheaper and

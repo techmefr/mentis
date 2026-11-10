@@ -2,6 +2,37 @@
 
 > Section 16 of `skills/react-nextjs-conventions`. Read it when a list grows, an interaction feels heavy, a scroll or input handler is added, or a component re-renders more than it should. The other sections and the guardrails stay in `SKILL.md`. Measure first (`skills/webperf`): every point below is a candidate cause, not a routine pass.
 
+## Contents
+
+- 1. A state update that is not urgent goes in a transition
+- 2. `useDeferredValue` when the value arrives from above and cannot be wrapped
+- 3. A value that changes often and is not displayed lives in a ref, not in state
+- 4. Subscribe to the derived boolean, not to the raw value
+- 5. Read state at the point of use when it is only used in a callback
+- 6. Functional `setState` when the next value depends on the previous one
+- 7. Lazy initial state for anything that is not free to compute
+- 8. A default non-primitive prop value is a new reference on every render
+- 9. Do not memoise a primitive-returning expression that is cheaper than the memo
+- 10. Narrow effect dependencies to the primitives actually read
+- 11. Put interaction logic in the event handler, not in an effect that watches state
+- 12. Split a hook that computes several unrelated things from different inputs
+- 13. Hoist static JSX out of the component
+- 14. `content-visibility: auto` for a long list or a long page of independent blocks
+- 15. Animate a wrapper, not the SVG element
+- 16. Render conditionally with an explicit boolean, never with a bare number or string
+- 17. `<Activity>` (React 19.2+) to hide a subtree that comes back, instead of unmounting it
+- 18. Avoid a flicker between server and client by rendering the stored value before paint
+- 19. Event listeners that do not call `preventDefault` are registered `{ passive: true }`
+- 20. One global listener, shared, not one per component instance
+- 21. Version and minimise what goes in `localStorage`
+- 22. Batch DOM reads and writes; never read layout in the render
+- 23. Defer non-critical work to idle time
+- 24. Preload on intent, not on load
+- 25. Load third-party scripts after hydration
+- 26. Resource hints go through the framework, not hand-written `<link>` in a layout
+- 27. A navigation or list transition is a View Transition, not a hand-rolled animation
+
+
 1. **A state update that is not urgent goes in a transition.** Typing in a search box and filtering ten thousand
    rows from it are two updates of different priority; putting both in plain `setState` makes the keystroke wait
    for the list, so the input visibly lags behind the keyboard. `startTransition` (or `useTransition`) marks the

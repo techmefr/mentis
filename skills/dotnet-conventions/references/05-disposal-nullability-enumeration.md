@@ -3,6 +3,21 @@
 > Section 5 of `skills/dotnet-conventions`. Read it when a disposable is created, a null is tested or
 > silenced, or a sequence is enumerated or counted.
 
+## Contents
+
+- 6. Null tested with the pattern form
+- 7. One lookup per dictionary access
+- 8. Read the size from the receiver's own member
+- 9. Dispose what you own, and nothing else
+- 10. The shared HTTP client is the standard case of point 9 in both directions
+- 11. An async resource needs `await using`, not `using`
+- 12. Nullable annotations are compile-time only, and data from outside does not obey them
+- 13. A `default` struct bypasses its own constructor
+- 15. A double dispose has to be a no-op, not a second failure
+- 16. A nullable type parameter needs its own constraint, not an assumption from the call site
+- 22. `ConditionalWeakTable<TKey, TValue>` attaches data to an object's lifetime without extending it,
+
+
 1. An `IDisposable` created locally is disposed on **every** path, exception paths included
    (`using`/`using` declaration) — CA2000. The leaked resource is usually a connection or file handle, so
    the symptom is not memory but a pool that runs dry under load, in a request unrelated to the leaking

@@ -1,5 +1,16 @@
 # node-async-performance §2 — Concurrency in async code
 
+## Contents
+
+- [2.1 Promise.all neither limits concurrency nor cancels siblings](#21-promiseall-neither-limits-concurrency-nor-cancels-siblings)
+- [2.2 Bound the work with a limiter](#22-bound-the-work-with-a-limiter)
+- [2.3 allSettled only where partial failure is tolerated](#23-allsettled-only-where-partial-failure-is-tolerated)
+- [2.4 void does not handle a rejection](#24-void-does-not-handle-a-rejection)
+- [2.5 No async constructor](#25-no-async-constructor)
+- [2.6 State across suspension points](#26-state-across-suspension-points)
+- [2.7 Review checklist for this section](#27-review-checklist-for-this-section)
+
+
 JavaScript runs your code on one thread, but the operations you start run alongside each other in the
 runtime, the network and the database. "Single-threaded" therefore says nothing about how many operations
 are in flight, and that number is what saturates pools, sockets and downstream services.

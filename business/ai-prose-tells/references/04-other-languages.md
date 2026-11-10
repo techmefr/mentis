@@ -4,6 +4,16 @@
 > (`03-french.md` has its own file). It states a method, not a phrase list: no library exists here for
 > German, Italian, Portuguese or any other language, and none is invented.
 
+## Contents
+
+- [1. The method for any language](#1-the-method-for-any-language)
+- [2. The translated-draft signals](#2-the-translated-draft-signals)
+- [3. Code-switching is voice](#3-code-switching-is-voice)
+- [4. Spanish (to be checked by a native speaker)](#4-spanish-to-be-checked-by-a-native-speaker)
+- [5. German, Italian, Portuguese and the rest](#5-german-italian-portuguese-and-the-rest)
+- [6. Positive requirement](#6-positive-requirement)
+
+
 ## 1. The method for any language
 
 1. **Never apply the English lists silently.** English instances of a family ("delve", "it is worth

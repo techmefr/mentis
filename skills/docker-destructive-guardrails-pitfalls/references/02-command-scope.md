@@ -1,5 +1,14 @@
 # docker-destructive-guardrails-pitfalls §2 — What each command removes
 
+## Contents
+
+- [2.1 The prune family](#21-the-prune-family)
+- [2.2 Removing named things](#22-removing-named-things)
+- [2.3 -f does not mean the same thing everywhere](#23--f-does-not-mean-the-same-thing-everywhere)
+- [2.4 The scoped alternative](#24-the-scoped-alternative)
+- [2.5 Verify](#25-verify)
+
+
 Facts in this section come from Docker's guardrail skill and its CLI reference. Where the help text of a
 local Docker 29.4.1 (read on 2026-10-16, `--help` only) agrees, it is said; flags change between releases,
 so read the help of the version you run.

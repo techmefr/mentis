@@ -5,6 +5,28 @@
 > network the user does not control. These are the protections a browser enforces on your behalf **only
 > if you ask for them**: the application code is not the last line of defence, the client is.
 
+## Contents
+
+- 1. Response headers are configuration owned by the code, not by whoever deploys it
+- 3. Roll a policy out in report-only mode first
+- 4. A strict policy is why inline handlers and inline styles stop being acceptable
+- 5. Forbid the browser from guessing a content type
+- 6. Decide who may frame the page, and say it
+- 7. Choose a referrer policy instead of inheriting the browser default
+- 8. Switch off the browser features the page does not use
+- 9. Cross-origin isolation is a trade you make for a feature, not a hardening you apply for free
+- 10. A third-party script or stylesheet is code you run with your page's authority
+- 11. An integrity hash pins a version, so it needs a versioned URL
+- 12. A link that opens a new browsing context must not hand it the opener
+- 13. Every `postMessage` listener checks who sent it
+- 14. Never serve a secure page that loads an insecure sub-resource
+- 15. A form posts to a secure address, and a downgrade is a bug
+- 16. A cookie states its own limits, every time
+- 17. CORS is an exception you grant, so grant the smallest one
+- 18. A password field says what it is
+- 20. Prefer fewer browser-side secrets over better-hidden ones
+
+
 The specifications behind each point are named at the end of the section. The exact syntax of a header
 changes more slowly than anyone remembers and faster than a copy of it in this file should be trusted:
 read the current specification before writing a value you are not sure of (`skills/source-freshness`).

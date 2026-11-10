@@ -4,6 +4,16 @@
 > a point cited elsewhere has to keep resolving. Every point below was checked against the guide text in
 > `origin.md` before it was written; the wording is ours. 🟡: stated from documentation, not yet measured by us.
 
+## Contents
+
+- [Content that earns its place](#content-that-earns-its-place)
+- [Calibrating control](#calibrating-control)
+- [Patterns](#patterns)
+- [The description](#the-description)
+- [Levers from a second source (points 31 to 38)](#levers-from-a-second-source-points-31-to-38)
+- [Levers from a third source (points 39 to 44)](#levers-from-a-third-source-points-39-to-44)
+
+
 Read this file when a skill is being drafted or revised and its body or its description is the question.
 
 ## Content that earns its place

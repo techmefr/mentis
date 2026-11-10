@@ -1,5 +1,17 @@
 # node-async-performance §3 — Diagnosing Node performance and CPU-bound work
 
+## Contents
+
+- [3.1 Define the experiment before touching code](#31-define-the-experiment-before-touching-code)
+- [3.2 Event-loop delay is not CPU, and neither is latency](#32-event-loop-delay-is-not-cpu-and-neither-is-latency)
+- [3.3 RSS is not heap; a CPU profile is not a heap snapshot](#33-rss-is-not-heap-a-cpu-profile-is-not-a-heap-snapshot)
+- [3.4 Synchronous core APIs do not belong on a request path](#34-synchronous-core-apis-do-not-belong-on-a-request-path)
+- [3.5 CPU-bound work: await does not move it, a pooled worker does](#35-cpu-bound-work-await-does-not-move-it-a-pooled-worker-does)
+- [3.6 Regular expressions on user input: ReDoS](#36-regular-expressions-on-user-input-redos)
+- [3.7 Where to look first on a slow service](#37-where-to-look-first-on-a-slow-service)
+- [3.8 Result format](#38-result-format)
+
+
 Node serves many clients from one thread running your JavaScript, plus a small pool for some I/O and
 cryptography. The Node documentation's own summary of the model is that Node is fast when the work
 associated with each client at any moment is small. Almost every Node performance problem is either a piece

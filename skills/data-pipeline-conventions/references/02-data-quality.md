@@ -3,6 +3,25 @@
 > Section 2 of `skills/data-pipeline-conventions`. Read it when writing a pipeline's validations, or
 > when deciding what to do about a source you do not control.
 
+## Contents
+
+- 4. Failing loudly is the point, and it is a choice with a cost
+- 5. Say how many rows failed, not only that something did
+- 6. A validation with no owner is a validation that gets disabled
+- 7. Count what came in against what went out, every run
+- 8. Reconcile against the source, not only against yourself
+- 9. A null is not a zero and an absent row is not a null
+- 10. Duplicates are defined by a key you have to choose
+- 11. Never validate against what the pipeline itself produced
+- 12. A quality check is code and needs a test
+- 13. Uniqueness is its own dimension, not a corollary of completeness
+- 14. A schema test and a unit test check different failures, and neither substitutes for the other
+- 15. A published contract on a table's schema is a promise checked before the data lands, not after
+- 16. Validity is not accuracy, and conflating them hides the harder problem
+- 17. An old data-quality framework choice is a freshness question in itself
+- 18. A quarantine needs a way back in, or it is just a second silent failure
+
+
 1. Explicit validation of the expected constraints (non-null on required fields, key uniqueness,
    plausible value ranges) at the pipeline's input and output: a validation failure blocks the
    pipeline, it doesn't pass silently while producing wrong data. Both ends matter for different

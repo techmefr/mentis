@@ -2,6 +2,27 @@
 
 > Section 3 of `skills/vue-nuxt-vuetify-conventions`. Read it when props, emits, refs or a store return type are written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 7. Props are typed, not described
+- 8. Emits carry a typed payload
+- 9. A `ref` with no initial value includes `undefined` — say so once, at the declaration
+- 10. Don't hand-write a type the API already defines
+- 11. Validate at the boundary, then trust the type inside
+- 12. Prefer a discriminated union to a record of optionals
+- 13. Two ids that must not be swapped should not both be `string`
+- 14. `as const` on a literal table
+- 15. A generic component types its slot props
+- 16. The store's public surface is annotated
+- 17. `satisfies` over a plain annotation for a config or lookup object
+- 18. A `const` type parameter preserves the literal a generic call was given
+- 19. A template literal type for a family of names that follow one pattern
+- 20. `never` as the default branch of an exhaustive `switch`
+- 21. Derive a narrower shape from an existing type with `Pick`/`Omit`/`Partial` rather than retyping it
+- 22. Overload distinguishable call shapes instead of unioning the parameters
+- 23. Check that the type checker can run before relying on a green type-check step
+
+
 1. `any` is banned; `unknown` keeps the value opaque and forces the narrowing you needed anyway. The two
    narrow exceptions — an untyped third-party lib with no shim available, and a generic parameter
    defaulting for backwards-compatible inference — stay confined to one file. `any` does not fail where

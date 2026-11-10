@@ -2,6 +2,29 @@
 
 > Section 10 of `skills/flutter-conventions`. Read it when a file is placed or named, or tests are written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. A convention a person has to remember is a convention that drifts
+- 4. The deletion test tells you whether the folders are right
+- 5. Widget tests
+- 6. A test that has never failed proves nothing
+- 7. Fake every boundary the widget does not own
+- 8. Freeze time and randomness
+- 9. Each test stands alone
+- 10. Assert the refusal, not only the success
+- 11. Test the states that ship broken
+- 12. A pump that is too short passes for the wrong reason
+- 14. Golden tests need their inputs pinned
+- 15. Integration tests
+- 17. Locate by key, not by type, for anything the framework also builds
+- 18. The composition root is a third place, and neither layer of point 3 can hold it
+- 20. The test tree mirrors the source tree, one file per file, or a moved source file orphans its test
+- 22. An integration test needs its own entrypoint and driver, and skipping either runs nothing
+- 24. Arrange, act, assert, in that order and visibly separated
+- 26. A widget that tests drive owns its keys
+- 27. Put screen interaction behind a robot
+
+
 1. House casing per artefact kind (files, folders, classes, widgets, state holders, states, events, entities,
    gateways, use cases, data sources, variables, constants, enums, tests), applied without exception. The
    value is that a name becomes a type: seeing the symbol tells you what kind of thing it is and therefore

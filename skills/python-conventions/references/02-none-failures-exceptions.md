@@ -2,6 +2,29 @@
 
 > Section 2 of `skills/python-conventions`. Read it when a failure is returned or raised, or a resource is opened. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Never implicit truthiness where `None` is possible
+- 2. The same trap wears other clothes
+- 3. A public boundary returns its failures as values
+- 4. The reason is that Python's signature cannot state what a function raises
+- 5. `T | None` says *that* it failed, not *why*
+- 9. Catch the narrowest scope, not the paragraph
+- 11. Preserve the cause when you wrap
+- 12. Log-and-reraise at every layer reports one failure five times
+- 13. Nothing sensitive in an exception message
+- 15. A `finally` that can itself fail loses the original exception
+- 16. An expected failure is not a defect
+- 17. The failure path is asserted
+- 19. `contextlib.suppress` names the exceptions it swallows where a bare `try`/`except: pass` does not
+- 21. A retry is a decision about which failures are worth repeating, not a loop around the call
+- 25. `raise ... from None` says a cause was deliberately hidden, and that claim has to be true
+- 26. An exception hierarchy is a tool for callers to catch selectively, not a taxonomy for its own sake
+- 27. A library's public exceptions are as much its contract as its return types
+- 28. `except (ValueError, TypeError):` and two stacked `except` clauses answer different questions
+- 31. A `TimeoutError` from point-in-time code and one from `asyncio` share a name but not always a cause
+
+
 1. **Never implicit truthiness where `None` is possible.** `if x:` is also false for `0`, `""`, `[]`, `{}` —
    so a valid empty value takes the missing-value branch. `if x is None:` / `is not None`, always. The bug it
    produces is the one that never reproduces on the developer's data: a quantity of zero, an empty note, a

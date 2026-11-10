@@ -4,6 +4,14 @@
 > props, a server-state query is keyed, a route guard or middleware is written, or a page's title and meta
 > are set. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- [Provide and inject](#provide-and-inject)
+- [Keys of server-state queries](#keys-of-server-state-queries)
+- [Router and middleware](#router-and-middleware)
+- [Head and meta](#head-and-meta)
+
+
 ## Provide and inject
 
 1. **An injection key is a typed symbol defined once, never a string.** A string key collides with whatever

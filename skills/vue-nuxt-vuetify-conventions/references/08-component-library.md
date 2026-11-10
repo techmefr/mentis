@@ -2,6 +2,34 @@
 
 > Section 8 of `skills/vue-nuxt-vuetify-conventions`. Read it when a UI element is built, or custom CSS is about to be written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Toolkit first
+- 2. Go to the most specific component available
+- 3. Spacing, visibility and state utilities come from the toolkit's own classes
+- 4. Check a prop really exists in the project's version of the toolkit before passing it
+- 6. A carve-out from rule 1 is legitimate
+- 8. Don't wrap a toolkit component just in case
+- 9. A wrapper forwards attributes and slots explicitly
+- 10. Colours come from the theme, not from a hex in a component
+- 11. Don't reach into the library's internals with deep selectors
+- 12. The component's accessibility is only kept if you don't defeat it
+- 13. A data table's server-side mode is a different contract from its client-side mode
+- 14. One icon set, resolved through the toolkit's icon configuration
+- 15. `density` is the toolkit's own answer to "make this more compact"
+- 16. A data table's dynamic header/item slots (`header.<key>`, `item.<key>`) target one column
+- 17. Read the item payload the slot actually received before assuming it matches the row you passed in
+- 18. A checkbox rendered inside a table or list slot uses the toolkit's own selection primitive
+- 21. Know which major the project is on before applying any toolkit rule
+- 22. Version 4 raises the browser floor
+- 23. Upgrade in steps, by restoring behaviour first
+- 24. The traps that change behaviour silently in version 4
+- 25. A Vite dev-only z-index bug has a documented fix
+- 26. In Nuxt, pick one of two integrations and do not mix them
+- 27. A server-rendered app sets the toolkit's `ssr` option itself
+- 28. The build plugin must come after the Vue plugin in the bundler configuration,
+
+
 1. **Toolkit first**: if the chosen UI library ships a component, composable, directive or utility class
    for the need, use it rather than pulling another package or hand-rolling a `<div>`. Mixing a second UI
    library splits both the visual language and the mental model.

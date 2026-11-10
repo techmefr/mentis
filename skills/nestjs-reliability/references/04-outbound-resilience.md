@@ -1,5 +1,18 @@
 # nestjs-reliability §4 — Outbound resilience policy and unknown outcomes
 
+## Contents
+
+- [4.1 The time budget](#41-the-time-budget)
+- [4.2 Retry only what is safe, at one layer](#42-retry-only-what-is-safe-at-one-layer)
+- [4.3 The circuit breaker](#43-the-circuit-breaker)
+- [4.4 Fallbacks](#44-fallbacks)
+- [4.5 Bulkheads: cap the expensive work](#45-bulkheads-cap-the-expensive-work)
+- [4.6 Mapping upstream failures to your own answers](#46-mapping-upstream-failures-to-your-own-answers)
+- [4.7 Unknown outcome: after a timeout on a possible write](#47-unknown-outcome-after-a-timeout-on-a-possible-write)
+- [4.8 Verification](#48-verification)
+- [4.9 Nest mapping](#49-nest-mapping)
+
+
 Every call to another system will meet it slow or down. Without a plan, a slow dependency ties up your
 handlers, your clients wait until their own timeouts fire, and retries from every layer add load to the
 service that is already struggling. This section is the policy: how long to wait, whether to repeat, when to

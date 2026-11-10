@@ -5,6 +5,38 @@
 > test and the default-fail contract live in `skills/tdd`; the ways a green suite lies are in
 > `skills/testing-anti-patterns`; this section is the .NET mechanics of both.
 
+## Contents
+
+- 1. Unit and integration tests live in separate projects
+- 2. A test class is constructed once per test
+- 3. A fixture is shared state with a name, so decide who may mutate it
+- 4. Name the behaviour, not the method
+- 5. `[Theory]` is for one behaviour over many inputs, never for several behaviours behind a branch
+- 6. The built-in `Assert` class is enough
+- 7. Assert the typed result, not its text
+- 8. A double replaces a collaborator the code under test does not own
+- 9. Do not mock the logger; capture it
+- 10. Time is injected, so the test advances it
+- 11. Cancellation is a behaviour with its own test
+- 12. Async tests return `Task`, and nothing in a test blocks on one
+- 13. Go through the HTTP surface for anything the framework wires
+- 14. Replace what leaves the process, keep what is yours
+- 15. Authenticate through the real pipeline, and refuse through it too
+- 16. The in-memory EF provider is not a database
+- 17. Test the real engine in a throwaway container
+- 18. Isolate data per test, not per run
+- 19. Migrations are tested as an artefact
+- 20. Test data comes from builders that produce a valid minimal object
+- 21. Test the configuration that fails at boot
+- 22. Background work is tested through the unit it executes, not through the host's timing
+- 23. Null-forgiving in a test is an assertion in disguise
+- 24. Coverage reports lines executed, not behaviour verified
+- 25. Read the test run, not only its exit code
+- 26. Ask "which behaviour could change without a test failing?", not "what is the coverage?"
+- 27. Probe with mutations that would be observable
+- 28. Do not edit production code to prove a gap
+
+
 1. **Unit and integration tests live in separate projects.** An integration project references the web
    host, the database provider and a container library; a unit project references none of them. Mixing the
    two means the fast suite cannot be run without the slow suite's packages, and the day someone adds a

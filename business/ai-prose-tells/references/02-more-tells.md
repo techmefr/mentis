@@ -3,6 +3,17 @@
 > Reference for `business/ai-prose-tells`. Read it at the audit step, after `01-tells.md`, when a draft
 > still reads as machine-made but no family there names why. Family numbers continue from 14.
 
+## Contents
+
+- [1. Further families](#1-further-families)
+- [2. Writing about the document, and production residue](#2-writing-about-the-document-and-production-residue)
+- [3. Checks a count can settle](#3-checks-a-count-can-settle)
+- [3b. Tiers and weak-alone families](#3b-tiers-and-weak-alone-families)
+- [4. False positives for this file](#4-false-positives-for-this-file)
+- [5. The register test](#5-the-register-test)
+- [6. Further families, 46 to 55](#6-further-families-46-to-55)
+
+
 ## 1. Further families
 
 Same rule as before: judge the mechanism, not the word list. Each entry gives the test that decides

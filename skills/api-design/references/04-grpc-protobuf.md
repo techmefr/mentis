@@ -6,6 +6,14 @@
 > exposes §2, extension rather than breakage §3) apply unchanged; this section is what they become when the
 > schema is also a wire format. Stamped against sources read 2026-10-02 (see `references/origin.md`).
 
+## Contents
+
+- [Evolving a schema](#evolving-a-schema)
+- [Names and files](#names-and-files)
+- [Calls: deadlines, cancellation, retries, errors](#calls-deadlines-cancellation-retries-errors)
+- [Checking it](#checking-it)
+
+
 ## Evolving a schema
 
 1. **A tag number is spent forever.** Never reuse one, even for a field "nobody ever used": a serialized

@@ -2,6 +2,32 @@
 
 > Section 4 of `skills/flutter-conventions`. Read it when a screen renders async data. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. An async view renders all four states explicitly: loading, success, empty, error
+- 2. The four states belong to each data source, not to the screen
+- 4. Empty has two causes and they need different words
+- 6. Say which failure it was, where the user can act on it
+- 7. Retry has to actually retry the thing that failed
+- 8. A spinner with no deadline is an indefinite wait
+- 9. Refreshing is not loading
+- 10. After a failed refresh, the screen says the data is old
+- 12. A loading state announces itself
+- 13. A state you cannot reach is a state you have not written
+- 14. Optimistic success needs the path back
+- 15. The state is decided in the state holder, not by reading nullability in `build`
+- 16. A superseded request must lose, even if it answers last
+- 17. Debounce the trigger, not just the request
+- 18. A batch of independent items can partially fail
+- 19. An error announced only visually is not announced to a screen reader user
+- 20. The last known-good data outlives the request that fetched it
+- 21. The end of a paginated list and a failure mid-scroll are not the same footer
+- 23. `ConnectionState.none` and `ConnectionState.waiting` are not the same absence of data
+- 25. A shimmering skeleton is an animation, and point 9's off-screen-cost rule applies to it too
+- 26. An optimistic write can be rejected with a different final value, not just rejected outright
+- 28. A degraded success is a fifth thing the four-state model doesn't name
+
+
 1. **An async view renders all four states explicitly: loading, success, empty, error.** Never a blank
    screen, never stale content presented as fresh. This is the rule that makes a mobile app feel finished.
    The mechanism behind that impression is that a mobile network fails constantly — a lift, a tunnel, a

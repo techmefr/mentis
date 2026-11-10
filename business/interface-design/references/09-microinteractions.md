@@ -4,6 +4,34 @@
 > audited: a toggle, an inline edit, a delete, a save, a tooltip, a hover, a transition between two states.
 > The large shape of a screen is §7; the states a screen must have are §3.
 
+## Contents
+
+- 1. Four parts, named, for every interaction you design
+- 2. Feedback is proportional and immediate
+- 3. Silent success is allowed only where the result is visible
+- 4. Undo before confirm, for anything reversible
+- 5. An optimistic update shows the result at once, offers undo, and has a visible rollback
+- 6. Tooltips treat hover and focus differently on purpose
+- 7. Refuse these by default
+- 8. Motion carries meaning or it goes
+- 9. Durations and easings are named tokens of the design system
+- 10. Repeated interactions get quieter
+- 11. A loop has an exit
+- 12. When in doubt, cut
+- 13. Audit by forcing the states
+- 14. An exit is quicker than its entrance, and the two do not mirror
+- 15. A spinner that appears for a blink is worse than none
+- 16. One orchestrated entrance, shown once
+- 17. A transient layer never moves what is already on the page
+- 18. A ticking value is announced once, at its final value
+- 19. Know which criterion a motion falls under, because the preference does not cover all of it
+- 20. A product has one motion character, written down before the first animation
+- 21. Order and direction are decided, not defaulted
+- 22. Anticipation and settle are for interactions that have weight
+- 23. Review a motion that feels wrong by its symptom, then by its cause
+- 24. Dark surfaces and large areas amplify motion
+
+
 A microinteraction is one trigger, one response, and the rules between them. Most of the polish people
 notice, and most of the damage they notice, lives here: a control that does nothing visible, an animation
 that delays the next click, a confirmation for something that could simply have been undone.

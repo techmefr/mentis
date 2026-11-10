@@ -5,6 +5,13 @@
 > says what a valid use looks like and how the common composite widgets are assembled. Role and attribute
 > tables are not copied here: they live in the standards and they change.
 
+## Contents
+
+- [Validity](#validity)
+- [Recipes](#recipes)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## Validity
 
 1. **The standards are the source of truth.** Which roles exist, which states and properties each role

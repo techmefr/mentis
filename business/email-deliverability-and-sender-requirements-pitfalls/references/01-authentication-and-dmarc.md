@@ -1,5 +1,14 @@
 # email-deliverability-and-sender-requirements-pitfalls §1 — Authentication and DMARC
 
+## Contents
+
+- [1.1 Three questions, asked separately](#11-three-questions-asked-separately)
+- [1.2 What the mailbox providers ask](#12-what-the-mailbox-providers-ask)
+- [1.3 DMARC rollout starts by listing who sends](#13-dmarc-rollout-starts-by-listing-who-sends)
+- [1.4 The pct tag and spec drift](#14-the-pct-tag-and-spec-drift)
+- [1.5 Failure patterns](#15-failure-patterns)
+
+
 "Authentication is set up" hides three different questions. Most wrong diagnoses answer one and assume the
 other two. Google and Yahoo figures were read on 2026-10-20 as the raw text of their pages (Google's sender
 guidelines and FAQ, Yahoo's requirements page); the RFC points were read as raw RFC text. The pages change:

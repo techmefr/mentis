@@ -1,5 +1,15 @@
 # node-async-performance §1 — Cancellation and deadlines
 
+## Contents
+
+- [1.1 A race against a timer stops waiting, not the operation](#11-a-race-against-a-timer-stops-waiting-not-the-operation)
+- [1.2 Propagate an AbortSignal through every layer that waits](#12-propagate-an-abortsignal-through-every-layer-that-waits)
+- [1.3 Handle an already-aborted signal](#13-handle-an-already-aborted-signal)
+- [1.4 Clean up on every exit](#14-clean-up-on-every-exit)
+- [1.5 Consume or cancel every outbound response body](#15-consume-or-cancel-every-outbound-response-body)
+- [1.6 Review checklist for this section](#16-review-checklist-for-this-section)
+
+
 A deadline is a promise to the caller that they will hear back by a given time. Keeping that promise and
 stopping the work are two different things in Node, and most defects in this section come from treating them
 as one.

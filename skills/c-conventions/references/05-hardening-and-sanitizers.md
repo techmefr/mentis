@@ -7,6 +7,22 @@
 > flag, check the project's compiler and libc versions and the current text of the guide named in
 > `references/origin.md` (`skills/source-freshness`). The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Staged adoption
+- 2. Warning set
+- 3. Warnings as errors, in two forms
+- 4. Library fortification
+- 5. Stack and bounds
+- 6. Control flow and registers
+- 7. Production semantics
+- 8. Linking and loading
+- 9. Sanitizers in debug and test builds, never as production hardening
+- 10. Annotate for the compiler
+- 11. Fuzz the parsers
+- 12. Separate debug information, and check that the flags took effect
+
+
 **The model.** Hardening flags do two things: they make the compiler warn about constructs that often hide a
 defect, and they make the produced binary integrate with the operating system's run-time mitigations
 (address-space randomisation, non-executable stacks, read-only relocations, stack canaries, fortified libc

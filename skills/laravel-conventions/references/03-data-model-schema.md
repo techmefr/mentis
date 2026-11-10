@@ -2,6 +2,30 @@
 
 > Section 3 of `skills/laravel-conventions`. Read it when a migration, a column, an enum, a soft delete. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. No DB-level ENUM column
+- 2. Don't tune the column length to the longest value
+- 3. A set that changes at runtime isn't an enum at all
+- 4. An enum with per-case data puts the value on the enum as a method
+- 5. No cascade delete at the database level
+- 6. Keep the foreign key, drop only the cascade
+- 7. Cascade through a listener class
+- 8. Never both
+- 10. Where a DB cascade is genuinely fine
+- 11. Decide all of this at the ERD/plan stage, not at code review
+- 12. Don't factorise two concepts into one table, model or abstraction
+- 14. Pruning is deleting, and a sweep fires the same per-row events as a delete
+- 17. A custom cast class (`implements CastsAttributes`) is for a transformation the built-in casts don't 
+- 19. A composite index is ordered for the queries that use it, not for the column order in the migration
+- 20. A foreign key's `onDelete` action is a decision about the child's fate, not a default to leave alone
+- 22. `foreignId()->constrained()` is the shorthand and the constraint is not implied by the column alone
+- 23. Name a foreign key explicitly before the table is renamed
+- 25. Eloquent models support one primary key column, not a composite key
+- 26. A column that is a foreign key is not automatically a good index for every filter on that table
+- 34. `DB::transaction(callback, $attempts)`'s second argument retries the whole closure on a deadlock
+
+
 1. **No DB-level ENUM column.** Use a string column, with a PHP enum as the single source of truth, cast on
    the model, and validated through the framework's enum rule. Five reasons, and the first is the one that
    bites: **every value change is an `ALTER TABLE`** — adding one status to a 50-million-row table is a long

@@ -2,6 +2,26 @@
 
 > Section 6 of `skills/laravel-conventions`. Read it when a route, a controller action, a FormRequest, a response shape. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 3. Refer to routes by name, never by rebuilding the URL
+- 4. Route binding resolves, it does not authorise
+- 5. Validation in a FormRequest
+- 6. Use the validated payload, never the raw request afterwards
+- 7. `nullable`, `sometimes` and an absent key are three different contracts
+- 8. A FormRequest's `authorize()` is not the policy
+- 9. Query parameters are input too
+- 10. Serialise through a resource, not the model
+- 11. A response carries a status/type and a human-readable message
+- 12. The status code is part of the contract, and the defaults are not enough
+- 13. Never hand-roll content negotiation
+- 14. An HTTP API has consumers you do not deploy
+- 15. A `POST` may run twice
+- 19. A rate limit is declared per named limiter, not read inline in the route
+- 36. `Http::retry()` bounds how many times an outbound call is retried and with what wait
+- 37. CORS is one configuration, not a header set by hand in a controller or middleware
+
+
 **Before applying this section's REST/resource-routing point, or an installed catalogue's stricter
 version of it (e.g. a mandatory REST package), check the specific controller** — what it returns, where
 it's routed — **not just whether the project depends on that package.** A project can run Inertia for its

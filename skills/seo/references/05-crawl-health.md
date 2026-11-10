@@ -10,6 +10,17 @@
 > search engine's published documentation, re-read on 2026-10-20 (`references/origin.md`); the sitemap protocol
 > itself was not opened.
 
+## Contents
+
+- [What the walk records, per URL](#what-the-walk-records-per-url)
+- [Status and links](#status-and-links)
+- [Redirects](#redirects)
+- [Canonical and indexing directives](#canonical-and-indexing-directives)
+- [Sitemap](#sitemap)
+- [Link graph and URL shape](#link-graph-and-url-shape)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## What the walk records, per URL
 
 Final status, number of redirect hops, final URL, `Content-Type`, canonical (tag and `Link` header), robots

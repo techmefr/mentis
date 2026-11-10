@@ -2,6 +2,26 @@
 
 > Section 8 of `skills/flutter-conventions`. Read it when persistence, a secret, a platform permission. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Sensitive data on device goes in secure storage
+- 2. A secure read can fail, and failing is not crashing
+- 3. Logging out clears the device
+- 4. Anything cached to disk is a copy outside the deletion path
+- 6. A renamed key orphans its value
+- 8. A migration is tested from a real old database
+- 9. A heavy read blocks the frame
+- 10. Storage failures are real failures
+- 11. Runtime permissions handle every branch
+- 12. The system prompt is often a one-time chance
+- 13. Check at the point of use, not once at startup
+- 14. Ask for the narrowest thing that works
+- 17. Never log a credential, and never attach one to a report
+- 18. A parse moved off the main isolate becomes invisible to a widget test
+- 21. A write attempted with no network is not the same failure as a write the server rejected
+- 22. A file exported or shared leaves the app's own cache and is handed to another app entirely
+
+
 1. **Sensitive data on device goes in secure storage**: auth and refresh tokens, passwords, API secrets,
    biometric-gated secrets, personal data. Plain preferences storage is not encrypted — anything in it should
    be safe to read. On a rooted or jailbroken device, and in a device backup, the preferences file is a plain

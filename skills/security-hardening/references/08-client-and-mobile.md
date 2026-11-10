@@ -5,6 +5,12 @@
 > web view. §2 is the generic output rule; this section is where it breaks on the client, and where the
 > trust boundary is a device you do not control.
 
+## Contents
+
+- [Browser templates](#browser-templates)
+- [Mobile applications](#mobile-applications)
+
+
 ## Browser templates
 
 A component framework escapes text and ordinary attribute values for you. The vectors below are the

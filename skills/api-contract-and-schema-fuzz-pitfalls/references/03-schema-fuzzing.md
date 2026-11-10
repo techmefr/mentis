@@ -1,5 +1,16 @@
 # api-contract-and-schema-fuzz-pitfalls §3 — Schema fuzzing (Schemathesis 4.31.1)
 
+## Contents
+
+- [3.1 What it sends](#31-what-it-sends)
+- [3.2 Stop the destructive requests before the first run](#32-stop-the-destructive-requests-before-the-first-run)
+- [3.3 Authentication probes are security tests](#33-authentication-probes-are-security-tests)
+- [3.4 Narrowing a first run, and what it costs](#34-narrowing-a-first-run-and-what-it-costs)
+- [3.5 A baseline for known failures](#35-a-baseline-for-known-failures)
+- [3.6 Reproduce, replay, seed](#36-reproduce-replay-seed)
+- [3.7 CI gating](#37-ci-gating)
+
+
 A schema fuzzer derives requests from the OpenAPI document and checks the responses against it. Facts are from the
 Schemathesis documentation at version 4.31.1; configuration keys are version-bound, so check the version you run.
 

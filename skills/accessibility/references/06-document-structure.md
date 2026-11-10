@@ -5,6 +5,16 @@
 > identifiers. Each native structure has a minimal contract; the contract is what assistive technology and
 > a stylesheet-less reader rely on. Names and landmarks are §1 and §2, form wiring is §4.
 
+## Contents
+
+- [Tables](#tables)
+- [Lists and definition lists](#lists-and-definition-lists)
+- [Identifiers](#identifiers)
+- [Frames, objects and image inputs](#frames-objects-and-image-inputs)
+- [Things not done without a reason](#things-not-done-without-a-reason)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## Tables
 
 1. **A table is for data with two axes; layout belongs to CSS.** A table used to position content is read

@@ -2,6 +2,23 @@
 
 > Section 9 of `skills/vue-nuxt-vuetify-conventions`. Read it when SSR, `useFetch`/`useAsyncData`, or a value that only exists client-side. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Never
+- 4. `useAsyncData`/`useFetch` should get an explicit string key by default, not only inside a loop
+- 5. Nuxt 4: `useAsyncData`/`useFetch`'s returned `data` is a `shallowRef`, not a deep `ref`
+- 9. "It looks fine" is not evidence of hydration safety
+- 10. `<ClientOnly>` is a hole in the server render, not a free escape hatch
+- 11. Everything a server-side fetch returns is serialised into the HTML payload
+- 12. `useFetch` runs on the server and again on the client unless the payload is reused
+- 13. A server-side call to your own API is anonymous unless the request context is forwarded
+- 14. The server has no browser locale or timezone
+- 15. Checklist before merging a page/component
+- 17. A shared `useFetch` factory is the fix for options repeated at every call site, not a new primitive
+- 19. `useNuxtApp().payload` is the same object the checklist in point 15 is really about
+- 26. Awaiting a lazy fetch does not wait for it on a client navigation
+
+
 1. **Never** `Date.now()`, `Math.random()`, or any direct `window`/`document`/`navigator`/`localStorage`
    access at the level of the synchronous `setup()`: those globals don't exist server-side, and a
    non-deterministic value diverges between the two renders (hydration mismatch). Isolate it in

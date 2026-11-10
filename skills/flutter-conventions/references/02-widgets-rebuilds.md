@@ -2,6 +2,34 @@
 
 > Section 2 of `skills/flutter-conventions`. Read it when a widget is written, or a rebuild looks too wide. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Split a long `build` into small widget classes
+- 2. `const` wherever the subtree is constant
+- 3. Put `const` on your own widget's constructor
+- 4. Keep `build` free of work
+- 5. Narrow the rebuild scope
+- 6. `setState` rebuilds the widget it is called on, all of it
+- 7. A rebuild is cheap; a repaint is not always
+- 8. Profile before claiming a performance win
+- 9. A key decides identity
+- 10. `initState` runs once, and a widget's fields can change
+- 11. Inherited state is not available in `initState`
+- 12. A `builder` gets its own context; use that one
+- 13. A `GlobalKey` is a global variable with a layout cost
+- 15. A widget that fetches cannot be reused and cannot be tested cheaply
+- 16. `build` must be free of side effects
+- 17. `MediaQuery.of(context)` subscribes to the whole object
+- 18. A `RepaintBoundary` isolates the expensive layer, not the whole tree
+- 19. A widget in a `PageView` or `TabBarView` is disposed when it scrolls off-screen
+- 20. Key type is part of the identity contract, not decoration
+- 21. An `InheritedWidget` only rebuilds a dependent that changed what it depends on
+- 22. `==` on the data a `const` or a key depends on decides whether the shortcut fires at all
+- 23. DevTools' "Highlight Repaints" and "Track Widget Builds" overlays answer two different questions
+- 25. Element reuse is decided by `Widget.canUpdate`: same `runtimeType`, same `key`
+- 29. A `StatelessWidget` still rebuilds on every parent rebuild unless it's `const`
+
+
 1. **Split a long `build` into small widget classes**, each in its own well-named file under the feature's
    widgets folder — not into private `_buildXxx()` methods. The reason is mechanical, not stylistic: a helper
    method's widgets belong to the **parent's** element, so they rebuild with it and can never be skipped; a

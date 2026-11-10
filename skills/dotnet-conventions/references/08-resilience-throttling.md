@@ -7,6 +7,20 @@
 > that makes it survivable); this section is the half specific to this platform's own handlers, whose
 > defaults decide the behaviour you get when nobody chose one.
 
+## Contents
+
+- 1. A retry is a duplication decision, not a reliability setting
+- 2. Timeouts nest, and their budgets have to be arithmetic rather than round numbers
+- 3. Backoff without jitter synchronises the herd it exists to spread
+- 4. A circuit breaker converts a dependency outage into a fast local failure, and into silence
+- 6. A rejection has to be machine-readable, and the default is not
+- 7. A health endpoint is called on a schedule for ever, so what it does is a design decision
+- 8. One resilience pipeline per client, not several stacked
+- 9. Rate-limiting a call you make is a different problem from rate-limiting a call you receive
+- 10. A retry that succeeds on the second attempt still tells no one it needed a second attempt
+- 12. A load-shedding limiter and a queueing one fail two different ways under the same overload
+
+
 1. **A retry is a duplication decision, not a reliability setting.** The platform's standard resilience
    handler retries **every** HTTP method unless told otherwise, so a `POST` that inserts a row inserts it
    twice the first time an attempt times out after the server already committed. Retry what is idempotent

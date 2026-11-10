@@ -3,6 +3,21 @@
 > Section 3 of `skills/design-patterns`. Read it when a pattern has survived §1's threshold and §2's
 > subtraction pass. Not a rejection of the catalogue — these are the cases that hold up in our stacks.
 
+## Contents
+
+- 1. Adapter and Facade at a third-party boundary
+- 2. Strategy when the branches are real and growing
+- 3. Builder when construction genuinely has many optional parts
+- 4. Command when work must be queued, retried or audited
+- 5. State when the transitions are the domain
+- 6. Mediator when components must stay decoupled from each other, not just from the framework
+- 7. Memento when the requirement is explicitly "undo" or "restore a previous state"
+- 8. The common thread is containment, not reuse
+- 9. Each of these still owes the net-line test
+- 10. What this section owes at review time is one sentence per named pattern
+- 18. Proxy earns its place at a real access boundary the language's own runtime proxy doesn't reach
+
+
 1. **Adapter and Facade at a third-party boundary.** This is rule B in code: an external API gets one
    wrapper we own, so a breaking change upstream is one file. Even here, one caller is fine — the
    justification isn't reuse, it's containment. The test of whether the wrapper works is whether the

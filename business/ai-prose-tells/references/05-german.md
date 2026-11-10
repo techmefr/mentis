@@ -8,6 +8,14 @@
 > author's own sample outranks it (`SKILL.md` step 1), and for anything beyond the certain tier and the residue
 > strings (`02-more-tells.md` §3), a native reader decides before a sentence is rewritten.
 
+## Contents
+
+- [1. The families, with German instances](#1-the-families-with-german-instances)
+- [2. German-only signals: translated English](#2-german-only-signals-translated-english)
+- [3. What not to flag](#3-what-not-to-flag)
+- [4. Positive requirement](#4-positive-requirement)
+
+
 The method is unchanged from `04-other-languages.md` §1: judge by mechanism, in clusters, add no fact, drop no
 claim, respect native typography. This file only says where the families land in German and which tells are
 German-only. Quoted phrases are examples of a mechanism, not a ban list.

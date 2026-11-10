@@ -2,6 +2,33 @@
 
 > Section 9 of `skills/laravel-conventions`. Read it when tests are written, or Larastan/Pint is in play. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Two tiers, and no third
+- 2. The default is the feature test
+- 3. The routing is mechanical
+- 4. Arrange / Act / Assert, with exactly one Act
+- 5. Assert observable outcomes, never internal calls
+- 6. Four anti-patterns with the same root
+- 7. One test style across the project
+- 8. Seeders and factories: no orphans
+- 11. A change that introduces or changes persisted data ships its seed data in the same change
+- 13. Fake every external boundary explicitly
+- 14. A test that has never failed proves nothing
+- 15. Freeze time and randomness
+- 16. Each test stands alone
+- 17. Assert the refusal, not only the success
+- 18. Coverage is a smoke detector, not a target
+- 19. A slow suite gets skipped, so its speed is part of its design
+- 20. Pest's closures are a syntax choice, not a second tier
+- 21. A dataset replaces N near-identical tests, not N different behaviours
+- 23. Mutation testing answers what coverage cannot: whether the assertions would catch a real regression
+- 26. A test double for an external boundary should model the contract, not the happy path alone
+- 28. A snapshot or golden-file assertion is a substitute for naming what changed, not an upgrade on it
+- 42. Freeze the clock through the framework's helpers, not by calling the date library directly
+- 43. `RefreshDatabase`'s per-test transaction (point 24) wraps the connection the trait knows about
+
+
 1. **Two tiers, and no third.** A **feature test** boots the framework and asserts an observable outcome —
    a row written, a job dispatched, a notification sent, a response returned. A **unit test** covers code you
    wrote yourself with non-trivial logic and no framework coupling: a money converter, a period value object,
