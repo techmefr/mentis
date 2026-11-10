@@ -63,11 +63,11 @@ rewritten our way (Rule B).
 10. **Every scanner added locks its tiers with a regression test**, so a threshold cannot be loosened by
     editing the scanner alone.
 
-11. **Points 11 to 43 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
+11. **Points 11 to 44 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
     calibrating control, validation patterns and description-writing rules from the open Agent Skills guides,
     then completion criteria, positive steering, no-ops, pointer wording and pruning from a second source,
     then contents lists, the 500-line ceiling, freedom per step, verification loops, undeclared dependencies
-    and per-model testing from a third.
+    per-model testing and the pre-share validator from a third.
     Read it when drafting or revising a body or a description:
     [`references/11-authoring-rules.md`](./references/11-authoring-rules.md). Whether a description actually
     triggers is measured with `skill-trigger-evals`, not judged by eye.
@@ -108,4 +108,4 @@ the scanner regression test from the corpus's own history of unenforced guarante
 
 Points 31 to 38 (completion criteria, steering by the positive, no-ops, pointer wording, the environment as a source of truth, sediment, one meaning one place, leading words) added 2026-10-19 from `writing-for-agents` of `mattpocock/skills` (MIT), wording ours, details and the owner's decision on guardrail style in [`references/origin.md`](./references/origin.md).
 
-Points 39 to 43 (contents list past 100 lines, one-level pointers, freedom per step, verification that loops back, no assumed installs, per-model testing) added 2026-11-10 from a secondary write-up of the vendor's updated skill best practices, wording ours, details in [`references/origin.md`](./references/origin.md).
+Points 39 to 44 (contents list past 100 lines, one-level pointers, freedom per step, verification that loops back, no assumed installs, per-model testing, pre-share validation) added 2026-11-10 from two secondary write-ups of the vendor's updated skill best practices, wording ours, details in [`references/origin.md`](./references/origin.md).

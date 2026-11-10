@@ -123,7 +123,7 @@ Read this file when a skill is being drafted or revised and its body or its desc
     shorter word still triggers the behaviour by running the block.
 
 
-## Levers from a third source (points 39 to 43)
+## Levers from a third source (points 39 to 44)
 
 > From a 2026-11 secondary write-up of the vendor's updated skill best practices (see `origin.md`). 🟡: stated from that
 > write-up, not measured by us.
@@ -148,3 +148,5 @@ Read this file when a skill is being drafted or revised and its body or its desc
     guides enough (a missed step is clarified or turned into a script); a mid-tier one asks whether it is clear
     and efficient; a top one asks whether it over-explains (if it does worse with the block than without, remove
     instructions until it improves). A block meant for distribution declares its target model in the frontmatter.
+44. **A block meant to be shared is checked against the open specification before it ships.** Run the specification's reference validator on the folder (`skills-ref validate ./<skill>`): `name` 1 to 64 characters, lowercase, digits and single hyphens, equal to the folder name; `description` 1 to 1,024 characters; no key outside the six portable ones (`name`, `description`, `license`, `compatibility` up to 500 characters, `metadata`, `allowed-tools`). A client that rejects unknown keys fails the whole upload, so a harness-specific key is a deliberate, documented choice (Rule D), never a leftover. 🟡 the validator was not run by us.
+

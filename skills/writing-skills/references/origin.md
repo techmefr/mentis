@@ -43,7 +43,7 @@ Not taken: the model-invoked against user-invoked choice, splitting by invocatio
 3. Point 38 (leading words) is the source's claim about pretraining and was not measured; the example words are the source's.
 4. Nothing in points 31 to 38 was run against our own blocks, and `skill-trigger-evals` was not used to check point 34.
 
-## Points 39 to 43 (2026-11-10)
+## Points 39 to 44 (2026-11-10)
 
 Source: a secondary write-up of the vendor's updated skill best practices (mindstudio.ai blog, `claude-skills-best-practices-update`), read 2026-11-10. It is a summary, not the vendor text, so every point is 🟡 and should be re-checked against the vendor documentation on the next `source-freshness` pass. Wording ours.
 
@@ -56,3 +56,6 @@ Source: a secondary write-up of the vendor's updated skill best practices (minds
 | Test per model tier, declare the target model when distributing | 43 |
 
 Already held, not repeated: freedom matched to fragility (16), checklists (20), validate before moving on (21), bundled scripts (23).
+
+Second secondary source, same day: a claude-world.com article on the Agent Skills standard moving to the Agentic AI Foundation (Linux Foundation). Taken: the portable key list and limits, and the `skills-ref validate` step (point 44). Context only, not a rule: the name, logo, GitHub organisation and agentskills.io domain were handed to the foundation on 2026-10-22; the format is unchanged; as of 2026-11-04 the specification repository had no tagged release, so the roadmap (versioned releases, proposals process) is a proposal. Re-check on the next `source-freshness` pass.
+
