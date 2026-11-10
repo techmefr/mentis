@@ -3,6 +3,24 @@
 > Section 6 of `skills/dotnet-conventions`. Read it when an EF Core query or migration is written, when
 > the middleware pipeline is changed, or when a path, a clock or a culture is involved.
 
+## Contents
+
+- 4. Never read the ambient clock in business logic
+- 5. State the culture and the comparison instead of inheriting the ambient one
+- 6. A query inside a loop is N+1, and the fix is stated in the query, not the loop
+- 7. Know which half of the query runs on the server
+- 8. A migration is code and is reviewed like code
+- 9. A `DbContext` is scoped and is not thread-safe
+- 10. `SaveChanges` is the transaction boundary, so two calls are two transactions
+- 11. Enabling connection resiliency changes what a manual transaction may do
+- 12. A moment in time crosses the storage boundary with its offset or not at all
+- 13. Invariant globalization is a project-wide switch, and it makes point 5's second half throw
+- 14. Two collection includes in one query multiply the rows, and the fix has its own cost
+- 15. A bulk update or delete statement bypasses everything the rest of the code relies on
+- 16. Raw SQL has two forms and only one is a query
+- 18. Split-query behaviour is a per-query decision as often as a global default
+
+
 1. `AsNoTracking()` on every read-only EF Core query: without it there's a measured cost (~2x slower at
    scale) and unwanted state tracking. Tracking is what produces bugs rather than slowness: a tracked
    entity modified anywhere in the request is saved by the next `SaveChanges`, including one called by

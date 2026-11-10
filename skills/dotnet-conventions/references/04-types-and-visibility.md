@@ -4,6 +4,31 @@
 > chosen, or one of the constructs below is about to be used. These are stated as prohibitions on purpose:
 > "allowed but rare" is not a reviewable rule.
 
+## Contents
+
+- 1. No mutable global state
+- 2. No nested class
+- 3. No local function
+- 4. No tuple returned across a public or internal boundary
+- 5. No anonymous type crossing a boundary
+- 6. Explicit types over `var`
+- 7. No `unsafe`
+- 8. No `volatile`
+- 9. No bitwise operators
+- 11. Every new concrete class is `sealed` by default
+- 13. File-scoped namespaces
+- 14. No `#region`
+- 15. Every enum member carries an explicit numeric value
+- 16. A member that returns a sequence declares the read-only interface
+- 17. One casing per kind, one role suffix per type
+- 18. The `file` access modifier for a type meant to exist in exactly one file
+- 19. A struct that never mutates its own state is declared `readonly struct`
+- 20. A generic algorithm shared across numeric types goes through the platform's numeric interfaces
+- 29. `SetsRequiredMembersAttribute` on a constructor is a promise the compiler can only trust
+- 32. A `readonly` member on a mutable struct is a promise about that one member, not the struct
+- 43. There is no generic constraint for "must be a record"
+
+
 1. **No mutable global state**: no `public`/`internal static` mutable field or property, no singleton class
    with a static `.Instance` holding mutable state, no `[ThreadStatic]`. Ambient static reads
    (`DateTime.Now`, a static current-context accessor) are injected instead, which also makes them

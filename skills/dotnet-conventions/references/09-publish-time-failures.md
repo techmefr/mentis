@@ -5,6 +5,20 @@
 > in a project that might. Everything here compiles, runs locally and passes the tests: the failure appears
 > in the published artefact, which is the one nobody ran.
 
+## Contents
+
+- 1. Reflection-based serialisation is disabled in a trimmed or AOT publish
+- 2. Trimming keeps what it can see, and reflection over a name computed at run time is invisible to it
+- 3. The publish is part of the build, and CI has to run it
+- 4. Single-file and AOT change what the process knows about itself
+- 5. Test what you ship, at least once
+- 6. A publish warning suppressed is the root cause left in place, not removed
+- 7. Native AOT cannot generate code at run time, which is a different failure from trimming
+- 8. A third-party package's own trim/AOT compatibility is not assumed, it's read
+- 9. `RegexOptions.Compiled` asks the runtime to emit IL for the pattern, which Native AOT cannot do
+- 11. Explicitly rooting an assembly cancels trimming for it, and that trade is not free
+
+
 1. **Reflection-based serialisation is disabled in a trimmed or AOT publish**, and the code that used it
    throws at the first request rather than failing the build — an explicit "reflection-based serialisation
    has been disabled for this application", on the path that worked all through development. The answer is

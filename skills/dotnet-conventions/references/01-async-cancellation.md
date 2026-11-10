@@ -3,6 +3,25 @@
 > Section 1 of `skills/dotnet-conventions`. Read it when an `async` method, a cancellation token or any
 > concurrency is written or modified.
 
+## Contents
+
+- 10. Cancellation arrives as an exception, and it is not a failure
+- 11. Cancellation is cooperative: a token does nothing unless something checks it
+- 12. The request's token dies with the request, which is wrong for work that must outlive it
+- 13. `Task.WhenAll` reports one exception and hides the rest
+- 14. `WhenAll` over a collection whose size you don't control is unbounded parallelism
+- 15. A timeout cancels your waiting, not the remote work
+- 16. You cannot `await` inside a `lock`, and a `lock` around async work is the wrong primitive
+- 17. An async iterator's token is not the caller's until you say so
+- 18. The dedicated lock type is a different primitive wearing the old syntax
+- 19. A timeout is a second token linked to the caller's, not a replacement for it
+- 20. `ValueTask`/`ValueTask<T>` is a single-use optimisation, not a drop-in `Task`
+- 21. `AsyncLocal<T>` flows forward through `await` and into a child `Task.Run`, never back
+- 23. Thread-pool starvation looks like a slow dependency and is actually a thread shortage,
+- 24. `Parallel.ForEachAsync` is point 14's explicit bound, built into the API
+- 37. LINQ over `IAsyncEnumerable<T>` takes its cancellation on the operator chain, not on the source
+
+
 1. All I/O, concurrent and long-running work goes through `async`/`await` + `Task`/`Task<T>`. Raw threading
    primitives (`new Thread`, `Thread.Sleep`, `ThreadPool.QueueUserWorkItem`, `BackgroundWorker`, APM
    `Begin*`/`End*`, `Task.Factory.StartNew`) don't appear in new code. The point is not elegance: a thread

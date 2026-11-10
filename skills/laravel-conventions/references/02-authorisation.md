@@ -2,6 +2,21 @@
 
 > Section 2 of `skills/laravel-conventions`. Read it when an endpoint, a policy or a permission check. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Never check a role name in code
+- 2. Permissions are access rights only
+- 5. The list endpoint and the detail endpoint have to agree, and so do the aggregates beside them
+- 6. Authorise the write on the fields, not only on the route
+- 7. A policy is not a validation layer, and validation is not authorisation
+- 8. Read authorisation is authorisation
+- 9. Carve-outs, stated so they are not invented
+- 13. An authorisation denial is a contract worth a test, the same as the success path
+- 14. Policy discovery follows a naming convention, and a policy that breaks it is invisible
+- 20. A form's own conditional rendering is not authorisation, and cannot substitute for the server check
+- 21. A permission's own removal or rename is a data migration, not a code change alone
+
+
 1. **Never check a role name in code** — no `hasRole('admin')`, no `@role('manager')`. Check a **permission**
    (`can()`, a policy method, a gate). A role is a bundle of permissions that changes with the business; a
    role name in code is a deploy every time it does. The tell is a conditional naming a job title: ask what the caller may *do*. A check on one

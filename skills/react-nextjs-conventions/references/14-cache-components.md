@@ -8,6 +8,16 @@
 > the release a project has installed; read the docs shipped in the installed package
 > (`node_modules/next/dist/docs/`, from 16.2, `skills/source-freshness` §3.6) before relying on them.
 
+## Contents
+
+- [The model](#the-model)
+- [Writing cached code](#writing-cached-code)
+- [Dynamic routes](#dynamic-routes)
+- [Segment config and migration](#segment-config-and-migration)
+- [Invalidation (extends §7.6)](#invalidation-extends-76)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## The model
 1. **Nothing is cached unless you say so.** With the flag on, every fetch runs at request time until a
    `"use cache"` directive marks a page, a component or a function as cacheable. Existing `fetch`

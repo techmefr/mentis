@@ -38,7 +38,7 @@ anywhere in the image.
 ## 1.4 Production mode
 Set `NODE_ENV=production` in the final stage, before dependencies are installed there: several libraries
 change behaviour on it, and the package managers skip development dependencies. What the variable should
-and should not control is in §2.1 ([`02-runtime-config.md`](./02-runtime-config.md)).
+and should not control is in §2.1 (`02-runtime-config.md`).
 
 ## 1.5 Build secrets
 `ARG` and `ENV` are unsuitable for secrets: the Docker build documentation says build arguments and environment

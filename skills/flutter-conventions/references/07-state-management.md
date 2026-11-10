@@ -2,6 +2,27 @@
 
 > Section 7 of `skills/flutter-conventions`. Read it when a cubit, a bloc, any state holder. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. The event-driven form's actual reason to exist is controlling a burst of rapid calls
+- 4. The initial state is a real state, not an absence
+- 5. A failure is part of the state, not an exception the widget catches
+- 6. Never put a `Future` or a stream in state; put its result
+- 9. The holder receives its dependencies; it does not build them
+- 10. The network and the cache belong below the holder
+- 11. One owner per piece of data
+- 12. Scope is a decision, not a default
+- 13. Create it once
+- 14. Check whether the state holder is still alive before emitting after any `await`
+- 17. Test the sequence, not the destination
+- 18. Point 5's catch is `on Object`, not `on Exception`
+- 19. An awaited call into the holder does not tell the widget whether it worked
+- 20. A status enum is the right answer for flags and the wrong shape for payloads
+- 21. A generated provider disposes itself the moment nothing watches it, unless told otherwise
+- 22. `ref.watch` and `ref.read` are two different questions, not two spellings of the same read
+- 24. `AsyncValue.guard` is point 5's boundary catch, written once instead of at every mutation
+
+
 1. Prefer the **simplest state holder** the framework's chosen library offers for ordinary UI state (a
    Cubit-style holder over a full event/stream Bloc). Reach for the event-driven form only when there really
    is stream processing, debouncing or event replay to do — loading a list, submitting a form, deleting an

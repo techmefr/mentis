@@ -1,5 +1,22 @@
 # frontend-ux-antipattern-review-pitfalls §1 — State and recovery defects
 
+## Contents
+
+- [1.1 The axioms behind every finding](#11-the-axioms-behind-every-finding)
+- [1.2 Layout stability](#12-layout-stability)
+- [1.3 Feedback](#13-feedback)
+- [1.4 Errors and recovery](#14-errors-and-recovery)
+- [1.5 Forms and input](#15-forms-and-input)
+- [1.6 Focus stealing](#16-focus-stealing)
+- [1.7 Notifications and dialogs](#17-notifications-and-dialogs)
+- [1.8 Navigation and state in the URL](#18-navigation-and-state-in-the-url)
+- [1.9 Scroll](#19-scroll)
+- [1.10 Timing and races](#110-timing-and-races)
+- [1.11 Layering](#111-layering)
+- [1.12 Cumulative decay](#112-cumulative-decay)
+- [1.13 Review discipline](#113-review-discipline)
+
+
 Categories are read as questions about state and recovery. Each item names the pattern, what to look for and
 the usual fix. Responsive, touch and keyboard topics are in `webperf` and `accessibility`.
 

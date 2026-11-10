@@ -4,6 +4,15 @@
 > French DPO/legal team is the one who will eventually be asked. Not legal advice — a structured
 > pointer to CNIL's own published guidance, and the engineering consequence of each point.
 
+## Contents
+
+- 1. A PIA/AIPD is required when CNIL's own trigger grid says so, not on a gut feeling
+- 2. Retention periods CNIL has actually published
+- 3. Cookie/tracker consent follows CNIL's recommandation cookies
+- 6. Email prospecting: what CNIL's page states (read 2026-10-20)
+- Guardrails specific to this section
+
+
 GDPR states the law; CNIL (Commission Nationale de l'Informatique et des Libertés), France's
 regulator, publishes concrete guidance, recommended figures and enforcement practice on top of it.
 Where GDPR says "an appropriate retention period" or "a high-risk processing", CNIL is the body that

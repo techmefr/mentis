@@ -3,6 +3,13 @@
 > Provenance of `business/product-ownership`. Read it when a rule has to be traced back to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+## Contents
+
+- [Sources for §10 (re-read in full 2026-10-19, rewritten in our own words, no text copied)](#sources-for-10-re-read-in-full-2026-10-19-rewritten-in-our-own-words-no-text-copied)
+- [Removed (not carried, on purpose)](#removed-not-carried-on-purpose)
+- [Not verified](#not-verified)
+
+
 Written **without internal product-management expertise**. Sections 6 to 8 come from **an org skill catalogue
 for this function (9 skills: story structure, presentation charter, story creation checklist, story
 modification, label discipline, criticality modes, analysis axes, review output shape, decomposition with

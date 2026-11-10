@@ -2,6 +2,32 @@
 
 > Section 9 of `skills/flutter-conventions`. Read it when user-visible text, an animation, crash reporting. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Never assemble a sentence from fragments
+- 3. Plural is not two cases
+- 4. One key per meaning, never per coincidence
+- 5. Translated text is longer
+- 6. A right-to-left locale mirrors the layout
+- 8. Motion is an accessibility setting, not a style choice
+- 9. An animation off-screen still costs
+- 11. Without the release identifier and its symbols, a report is a wall of hex
+- 12. Report the non-fatals too
+- 13. An expected failure is not a crash
+- 14. Scrubbing is about what you attach, not only about what you redact
+- 16. The localisation layer is generated code, and it pins a dependency of its own
+- 17. A raw scale factor is already the wrong shape to read
+- 18. An implicit switch between two widgets needs a key, or nothing switches
+- 19. A `Hero` tag collision is invisible until two are on screen together
+- 20. `Opacity` repaints its child every frame it is faked through; the transition widgets do not
+- 21. A screen reader needs to be told what an animation only shows
+- 22. `SemanticsService.sendAnnouncement` is for a change with no widget to attach a live region to
+- 23. Reduced motion is one accessibility signal among several the platform exposes the same way
+- 25. A crash reporter's breadcrumb trail is what turns a report into a reproduction
+- 26. A cue that is only visual or only audible reaches half the audience the animation reached
+- 28. No user-visible string outside the presentation layer
+
+
 1. No user-facing string hardcoded in a widget: text, dates, numbers and currency go through the
    localisation layer with typed keys. Currency and date formats are locale rules, not string formatting —
    a decimal comma, a day-before-month order and a currency symbol that follows the amount are all decided

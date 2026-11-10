@@ -2,6 +2,33 @@
 
 > Section 3 of `skills/python-conventions`. Read it when a symbol, a domain value or a constant has to be named. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Placeholders survive because the first draft only has one thing in scope
+- 3. A name describes the value, not its type or where it came from
+- 4. Singular for one, plural for many
+- 5. A function name starts with a verb; a variable does not
+- 6. A leading underscore is a contract, not decoration
+- 7. No magic strings or numbers with domain meaning
+- 8. An enum crossing a boundary publishes its values
+- 9. `StrEnum` is a convenience with a cost
+- 10. A status field whose values move through named transitions is a state machine, not a column
+- 11. Two enums that share four values today are still two enums
+- 12. A generic name shared across domains cannot be read locally
+- 13. A module name is part of every import that uses it
+- 14. A constant is only constant by convention
+- 15. The name and the docstring say different things or one of them is wrong
+- 16. A type parameter is named for its role once there is more than one
+- 18. A keyword-only parameter is named for what the caller is choosing, not restating the function
+- 19. A test name states the scenario and the expected outcome, not the method under test restated
+- 20. An abbreviation saves the writer keystrokes and costs the reader a lookup
+- 23. A module named after a single symbol it exports is a name paid twice
+- 25. A decorator is named for what it does to the call, not for its implementation
+- 26. A name reused for two different things across a module's history is worse than a bad name chosen onc
+- 27. Pytest fixture names are part of the test's public vocabulary, not local variables
+- 28. A name that encodes a plan for future extension names a hypothesis, not the thing itself
+
+
 1. A name reveals **intent** — what the value represents or what it's for. `tmp`, `data`, `result`, `arr`,
    `item`, `value`, `x` push the meaning into the reader's head; `column_value`, `user_to_import`,
    `pending_applications` state it.

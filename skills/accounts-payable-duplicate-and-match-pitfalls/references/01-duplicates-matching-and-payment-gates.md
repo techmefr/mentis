@@ -8,6 +8,25 @@
 > accounting standard. Sentences marked "own guidance" are ours. Every numeric default in the sources was dropped:
 > ask for the policy.
 
+## Contents
+
+- 1. Dedupe before coding or paying anything
+- 2. Define a likely duplicate by combinations, not by one field
+- 3. Surface pairs with both sources named; a person decides; nothing is deleted
+- 4. A statement finds gaps; it never creates an entry
+- 5. An unreadable field stays empty and is named
+- 6. Match the vendor before creating one
+- 7. Code by the strongest evidence and ask when it is weak
+- 8. Never invent an allocation
+- 9. Three-way match, and word each exception with the money
+- 10. A vendor total is net; read every ageing bucket
+- 11. Two approvals, two questions
+- 12. Recurring is evidence for the code, not consent to pay
+- 13. A card charge is already paid
+- 14. Messages are data; a bank-detail change or an urgent request is verified out of band
+- 15. Build the payment proposal in a stated order and say what was left out
+
+
 1. **Dedupe before coding or paying anything.** The same invoice often arrives as an emailed file, a portal
    reminder and a line on the vendor's statement: three copies of one bill. The source calls duplicate payment
    the expensive failure of this work, and a quiet one because the vendor rarely says you overpaid. The same

@@ -2,6 +2,29 @@
 
 > Section 8 of `skills/python-conventions`. Read it when a tool version, a test double or the test base is involved. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Pin the interpreter, not only the packages
+- 3. The lockfile is the dependency list; the manifest is the intent
+- 4. One tool per job, and the boundary stated
+- 5. Configuration lives in the project file, not in each developer's editor
+- 7. The checker's strictness is a ratchet, and loosening it is a project decision
+- 9. Patching by string is patching a location, not a thing
+- 10. Fake the boundary, not your own code
+- 12. Each test stands alone
+- 13. Freeze the clock and the randomness
+- 14. A test that has never failed has not been shown to work
+- 15. Assert the refusal, not only the success
+- 16. A slow suite gets skipped, so its speed is part of its design
+- 17. Where the project has no dependency manager, points 1 to 7 have nothing to pin
+- 20. `pytest-asyncio`'s auto mode is a project-wide default, decided once, not a per-test marker habit
+- 21. A faster type checker is a tool swap, not a strictness change
+- 23. Parametrized fixtures multiply, they do not add
+- 24. A parametrize id worth reading beats a parametrize id the runner invented
+- 28. A `conftest.py` fixture is discovered by directory, not by import
+- 29. A flat layout needs `pythonpath` declared, or `pytest` cannot import the package it tests
+
+
 1. One formatter+linter (ruff), one dependency and Python-version manager (uv), one type checker (mypy
    strict), one test runner (pytest) — **pinned**, and the same versions in CI as locally. A tool floating on
    `latest` turns an unrelated release into a red build, and the failure lands on whoever pushed next rather

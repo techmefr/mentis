@@ -1,5 +1,14 @@
 # playwright-e2e-pitfalls §3 — CI, configuration and lint
 
+## Contents
+
+- [3.1 The configuration that separates CI from local](#31-the-configuration-that-separates-ci-from-local)
+- [3.2 Traces, not videos](#32-traces-not-videos)
+- [3.3 What CI runs](#33-what-ci-runs)
+- [3.4 Lint rules that catch silent failures](#34-lint-rules-that-catch-silent-failures)
+- [3.5 Skipped and focused tests](#35-skipped-and-focused-tests)
+
+
 The same suite behaves differently on a laptop and on a clean runner: no server is running, a stray `test.only`
 is easy to commit, and a retry can turn a real failure green. The config is where those differences are decided.
 

@@ -4,6 +4,35 @@
 > controller. The other sections and the guardrails stay in `SKILL.md`. `code-baseline` §3 governs what an
 > exception *is* (a named class, never a built-in with a message); this section governs what happens to it.
 
+## Contents
+
+- 1. Throw. Never build and return the error response yourself
+- 2. Reporting is not handling
+- 3. A `catch` earns its place by doing something
+- 4. Where a failure always means one HTTP status, make the exception HTTP-native
+- 5. Never hand-roll JSON-versus-HTML negotiation
+- 6. A guard that only narrows a type is not an error path
+- 7. A failure carries what the caller needs in order to act
+- 8. The exception message is for developers; the user-facing text is the handler's decision
+- 9. Inside a transaction, a throw is the rollback
+- 10. A retry re-runs everything before the failure point
+- 11. An external call fails in five ways, not one
+- 12. An expected failure is not a defect, and the tracker has to know the difference
+- 13. Attach identifiers to a report, not payloads
+- 14. The failure path is asserted
+- 15. All of this is configured in one place, `withExceptions()` in `bootstrap/app.php`
+- 17. A retried job re-dispatches the whole job, not a resumed continuation
+- 18. `Http::fake([...])` stubs only the URLs it names; any other request is actually sent
+- 19. A `ValidationException` and a bespoke domain "field is wrong" exception are not interchangeable
+- 20. A rate-limit failure (`ThrottleRequestsException`) is an expected outcome, not an incident
+- 21. A test that expects a throw asserts it, and asserting the exception type is not enough on its own
+- 25. `dontReportDuplicates()` collapses one exception reported twice in the same request into one entry
+- 26. `Context` added before a throw travels with the exception into the report,
+- 27. A concurrent call fails per branch, so check each result
+- 37. A render callback's return value is the response, so it is not a way to keep point 5's negotiation
+- 38. Hidden context is kept out of log entries, which is the reason to use it
+
+
 1. **Throw. Never build and return the error response yourself.** The framework's exception handler is the
    one place that turns a failure into a status, a body and an error-tracking event, and it only sees what
    is thrown. A hand-returned 500 is **invisible to error tracking** — the endpoint fails in production, the

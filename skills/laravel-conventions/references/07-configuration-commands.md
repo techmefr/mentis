@@ -2,6 +2,41 @@
 
 > Section 7 of `skills/laravel-conventions`. Read it when `config/`, `env()`, an artisan command, a seeder or a factory. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Third-party credentials and service settings live in config with an env-backed default
+- 3. A secret never enters the repository
+- 4. A config file is data, not code
+- 5. A console command declares an explicit signature and description
+- 6. A console command earns its place by being run more than once
+- 7. A command that changes data is idempotent, or it refuses to run twice
+- 8. A command reports what it did, in counts
+- 9. A destructive command asks, and prefers a dry run
+- 10. A long-running command works in batches and survives interruption
+- 11. A scheduled command declares its overlap policy and its failure visibility
+- 12. A seeder carries the reference data the application needs to run, and it is idempotent
+- 13. A factory is for tests and local development, never for production data
+- 14. A data backfill inside a migration is written against the schema, not against the model
+- 15. Run the command rather than writing it out
+- 18. A command's signature encodes optionality and shape, not just a name
+- 19. A scheduled task's timezone is a stated setting, and daylight saving time makes it risky
+- 21. A command is tested by invoking it, not by extracting its logic into something else to unit-test
+- 22. A package merges its config defaults into the application's copy one level deep
+- 24. A command's exit code is part of its contract, not a detail of how it happened to end
+- 25. `schedule:list` and `schedule:test` check a scheduled entry before waiting for its cron minute
+- 26. A command meant to run unattended in CI or a cron job never depends on an interactive answer
+- 28. Laravel Prompts replaces `$this->ask()`/`$this->choice()` for anything richer than a single line
+- 31. `php artisan about` reports the application's environment, cache and driver state in one place
+- 34. A scheduled command's output can be captured without redirecting it by hand
+- 35. `vendor:publish --tag=` publishes one group of a package's files
+- 38. `php artisan config:show <file>` shows one config file's resolved values without dumping the whole t
+- 44. `optimize:clear` reverses what `optimize` built, and it also empties the default cache store
+- 46. `artisan make:command --test` scaffolds the test file alongside the command class in the same step
+- 49. Every public method on a provider becomes a generator Faker exposes
+- 50. Reach for a locale or a community `fakerphp/faker` extension before writing a project provider
+- 52. In a layer-package (OSDD-style) project, there is no `config/` at the project root
+
+
 1. **Config file names and keys follow one casing convention; every value is read through the config
    layer**, never `env()` reached into from business code — outside config files, `env()` returns null once
    the config is cached. Local development usually has no cached config, so the code works where it was written

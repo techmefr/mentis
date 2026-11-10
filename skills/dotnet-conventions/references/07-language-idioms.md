@@ -4,6 +4,28 @@
 > Preferences rather than prohibitions, all of them: propose the form below, accept an informed override,
 > and never rewrite existing code to them unprompted (`code-baseline` §0).
 
+## Contents
+
+- 1. Test and bind in one step
+- 2. The expression form of a `switch` when every arm yields a value
+- 3. A collection expression where the target type is written on the left
+- 4. Arguments guarded at the top of the method
+- 5. `required` members for what must be set, rather than a comment saying so
+- 6. A raw string literal for anything containing quotes or backslashes
+- 8. A `switch` expression with no fallback arm throws at run time for an unlisted value
+- 9. Prefer the form that keeps the type visible where it is read
+- 10. The fallback arm exists for the compiler, not only for the unlisted value
+- 11. The backing-field keyword removes a declaration, not a decision
+- 12. An extension member is a call-site convenience, not a place for a dependency
+- 13. `nameof` for any name that must stay in sync with the declaration it names
+- 14. A list pattern for a check that is about shape, not a single element
+- 15. A `u8` suffix for a string literal that is going to be bytes anyway
+- 16. A `global using` for a namespace imported by nearly every file
+- 17. A `params` parameter typed as a collection or interface rather than only `T[]`
+- 18. The index and range operators (`array[^1]`, `items[1..^1]`) over hand-computed offsets
+- 24. A custom interpolated string handler for an interpolation that only sometimes needs to run
+
+
 1. **Test and bind in one step.** A type pattern that checks and names the value at once, rather than a
    conversion followed by a null check, an existence test followed by a separate cast, or a runtime type
    comparison. Multi-field conditions fold into property and relational patterns instead of a chain of

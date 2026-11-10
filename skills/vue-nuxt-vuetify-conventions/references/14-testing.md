@@ -5,6 +5,33 @@
 > ways a green suite lies are `skills/testing-anti-patterns`; this section is the Vue and Nuxt mechanics.
 > The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. A component is tested through its public interface and nothing else
+- 2. Mount fully by default; stub on purpose
+- 3. Every interaction and every prop change is awaited
+- 4. Locate the way the project's selector contract says
+- 5. Fake timers are installed per test and restored per test
+- 6. State holders are isolated
+- 7. A composable that uses only reactivity is a plain function call
+- 8. Provide what the component injects, with the real key
+- 9. The router is real or stubbed, never half-faked
+- 10. The component library is installed in the mount, once
+- 11. Transitions are stubbed, and that is fine
+- 12. A snapshot is not an assertion about a component
+- 13. Assert the states the screen ships
+- 14. One DOM emulator per project, chosen once
+- 15. Accessibility is asserted where it can be
+- 16. Two environments, kept apart
+- 17. Mount components that need the app through the suspense-aware helper
+- 18. Mock an auto-imported composable with the framework's import mock, not by module path
+- 19. Stub the backend at the endpoint
+- 20. Shared state is cleared between tests
+- 21. Server handlers are tested twice, cheaply
+- 22. The end-to-end helper is where SSR is proven
+- 23. Middleware is tested by navigating
+
+
 1. **A component is tested through its public interface and nothing else**: the props it receives, the
    events it emits, the slots it renders, and the DOM a user would perceive. Reaching into a component's
    internal refs or calling its methods couples the test to a structure the next refactor will change, and

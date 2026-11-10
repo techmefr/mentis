@@ -2,6 +2,22 @@
 
 > Section 4 of `skills/vue-nuxt-vuetify-conventions`. Read it when a symbol, a file or a CSS class has to be named. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 9. A name says what the thing is, not what type it has or where it came from
+- 10. A name has to survive being read somewhere else
+- 11. Abbreviate only in the domain's own words
+- 12. An emitted event says what happened, not what the parent should do
+- 13. Name the positive
+- 14. A translation key is not an identifier
+- 15. In a codebase that already chose, consistency beats correctness
+- 16. If a name needs a comment, the name is wrong
+- 17. A component name is always multi-word
+- 18. A prop is declared `camelCase` and bound `kebab-case` in the template — not a project choice
+- 19. An acronym in a name follows the artefact's own casing, not the acronym's own capitalisation
+- 24. A test file's name states what it verifies, not the tier it runs in
+
+
 1. Casing fixed per artefact kind (files, components, composables, stores, types, constants) and applied
    without exception.
 2. Booleans prefixed `is`/`has`/`can`/`should`. `loading` is ambiguous — a boolean? a promise? a count?

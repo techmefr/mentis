@@ -4,6 +4,25 @@
 > against data somebody handed you. Points 4 and 5 were added 2026-09-07 and are cited by number from
 > `references/origin.md`.
 
+## Contents
+
+- 4. A file someone handed you is never the working copy
+- 5. A destructive transformation is confirmed before it is applied, not after
+- 6. Idempotent means the whole run, not each statement
+- 7. A partial run has to leave a state you can resume from or discard
+- 8. Never key a run on "now"
+- 9. A late-arriving or corrected record is expected, not exceptional
+- 10. The reproducible unit is the code plus its inputs plus its configuration
+- 11. A schema change in the destination is a migration, not an edit
+- 12. A test on a sample is not a test on the volume
+- 14. A lookback window survives clock skew and late arrival better than a bare high-water mark
+- 15. A schema change in the source is a decision, not a crash
+- 17. Row-count trend, not just row-count-at-a-point, is what catches a broken filter
+- 18. Idempotency has to be provable from outside the code, not asserted in a comment
+- 19. `on_schema_change` is a policy to set, not a default to inherit
+- 20. A merge strategy still needs a deliberate answer for a row deleted at the source
+
+
 1. A pipeline replayed twice on the same source produces the same result (idempotent): never an
    `INSERT` that duplicates on every run with no deduplication or `UPSERT`. The reason this is the
    base and not an optimisation is that every pipeline gets replayed — a retry, a backfill, a crash

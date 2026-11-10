@@ -2,6 +2,32 @@
 
 > Section 5 of `skills/laravel-conventions`. Read it when a symbol has to be named, or a docblock written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Names reveal intent
+- 3. No magic strings or numbers with domain meaning
+- 4. Native typed properties and signatures
+- 6. Constructor property promotion
+- 8. A date rendered as text goes through the date library's own localised accessors
+- 11. All code in one language — English
+- 13. A method that answers reads as a question; a method that acts is named for its effect
+- 14. A class named after a pattern instead of a subject is a class with no subject
+- 15. An enum that every caller `match`es on is an enum missing a method
+- 16. A migration's file name is the only place its intent is legible
+- 18. A long collection pipeline gets named steps
+- 19. `array` and `mixed` in a signature are the absence of a type
+- 20. An exception is named for the condition, not for the layer that threw it
+- 21. A value object or a DTO is `readonly` unless something legitimately mutates it after construction
+- 22. A boolean property or parameter is named as a predicate, the same rule point 13 applies to methods
+- 23. A backed enum's backing type is chosen for what reads the value, not for what's shortest to type
+- 24. A class closed to extension by default is `final`, and the exception is deliberate, not an oversight
+- 27. A named argument beats a comment explaining a positional one
+- 29. A union type in a signature states every shape the caller may pass, not just the common one
+- 30. An intersection type (`Countable&ArrayAccess`) declares a parameter needs both capabilities
+- 34. A method that never returns — it always throws or exits the request — is typed `never`, not `void`
+- 43. A codebase's formatting standard is declared once and enforced by a tool, not by review comments
+
+
 1. House casing applied per artefact kind (classes, jobs, events, listeners, commands, resources, enums,
    views, routes, variables, methods, abilities) without exception.
 2. **Names reveal intent**: never `$temp`, `$data`, `$result`, `$array`, `$item`, `$value`, `$x`. The generic

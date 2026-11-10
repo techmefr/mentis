@@ -3,6 +3,12 @@
 > Provenance of `skills/security-hardening`. Read it when a rule has to be traced back to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+## Contents
+
+- [Verification pass 2026-10-20](#verification-pass-2026-10-20)
+- [Verification pass 2026-10-20](#verification-pass-2026-10-20)
+
+
 Rewrite of the `security-and-hardening` idea from a market generalist dev skill catalogue, which sat
 unwritten in our backlog on the assumption that `seraph` and the native `/security-review` already
 covered it. They don't cover the same moment: both look at code that already exists, and neither is

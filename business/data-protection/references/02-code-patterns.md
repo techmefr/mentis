@@ -4,6 +4,15 @@
 > `references/01-cnil-france.md` has settled *what* is required, and the question becomes *how* to
 > build it in a Laravel backend or a Nuxt/Vue frontend.
 
+## Contents
+
+- 1. Anonymising/pseudonymising a user record (Laravel)
+- 2. Cookie/tracker consent (Nuxt)
+- 3. Scheduled purge / retention job (Laravel)
+- 4. Keeping personal data out of logs and exception reporters
+- Guardrails specific to this section
+
+
 **These are illustrative patterns to adapt, not a certified implementation.** Written without
 internal legal expertise, same as the rest of this block (`business/README.md`): they show one
 concrete way to wire a requirement into code, not the only way, and not one a DPO/legal sign-off can

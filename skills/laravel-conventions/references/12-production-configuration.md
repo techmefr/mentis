@@ -7,6 +7,30 @@
 > one prevents. `skills/laravel-verification` runs these as a checklist. The other sections and the guardrails
 > stay in `SKILL.md`.
 
+## Contents
+
+- 1. Debug mode is off, and the environment name is the real one
+- 2. The application key is set, secret, and rotatable
+- 3. The environment file is not served and not committed
+- 4. TLS is enforced by the application as well as the edge
+- 5. Trusted hosts are declared
+- 6. The session cookie is `Secure`, `HttpOnly` and `SameSite` by configuration
+- 7. Security headers have one owner
+- 8. CORS allows named origins, methods and headers
+- 9. Drivers are production drivers
+- 10. Logging is bounded and carries no secrets
+- 11. Debugging tools are development-only, by installation and by gate
+- 12. The runtime database user is not the migration user
+- 13. Strict model behaviour is on outside production
+- 14. The deploy builds the caches and checks they build
+- 15. Queue workers and the scheduler are processes someone supervises
+- 16. Failed jobs are visible
+- 17. Storage and links are part of the deploy
+- 18. There is a health route, and it checks what the application depends on
+- 19. Maintenance mode has a bypass and an owner
+- 20. Rate limits are configured on the entry points, by name
+
+
 1. **Debug mode is off, and the environment name is the real one.** With debug on, an error page shows the
    stack, the environment variables and the SQL; with the wrong environment name, every `app()->isProduction()`
    branch does the development thing. Both are asserted on the target environment after deploy, because they

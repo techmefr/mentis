@@ -2,6 +2,32 @@
 
 > Section 7 of `skills/python-conventions`. Read it when a model, a relationship, a query or a migration is written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. No DB-side cascade delete
+- 2. Python-side defaults over server-side defaults
+- 3. No implicit lazy loading in an async ORM
+- 5. A relationship accessed after the session closes raises
+- 6. A query returning entities when it needs three columns loads everything
+- 7. Anything unbounded needs a limit
+- 9. Inside a transaction, a raise is the rollback
+- 10. A transaction held open across an external call is a lock held for the network's duration
+- 11. Nested transaction blocks are not nested transactions
+- 12. A migration runs against real data, so it is tested that way
+- 13. A migration adding a non-null column to a populated table needs a default or a backfill
+- 14. A schema change on a large table locks it
+- 15. The model and the migration are one change
+- 16. A migration is reversible or says why it is not
+- 17. A project with a database and no ORM still owes points 8 to 11
+- 18. Hand-written DDL is a schema with no migration history, and that has to be said out loud
+- 19. Read the database's own defaults rather than assuming them
+- 20. A pool without a liveness check hands out dead connections
+- 21. Autogenerate proposes a migration, it does not write one
+- 23. A migration that reorders on top of another developer's unmerged one produces two branch heads
+- 24. A bulk write and an ORM write are a deliberate choice, not an implementation detail
+- 25. A mutable value inside a JSON/JSONB column does not notify the session by being mutated in place
+
+
 1. **No DB-side cascade delete** (`ondelete="CASCADE"`): the database bypasses the ORM, so delete events and
    registered listeners never fire on child rows. Cascade in the ORM layer, where the hooks live. The
    consequence is not only a missed event: search indexes, audit trails, file cleanup and outbound

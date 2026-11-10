@@ -2,6 +2,15 @@
 
 > Reference for `business/ai-prose-tells`. Read it at the audit step, once a draft exists.
 
+## Contents
+
+- [1. Catalogue of tells, by family](#1-catalogue-of-tells-by-family)
+- [2. Clusters, not instances](#2-clusters-not-instances)
+- [3. Do NOT flag (false positives)](#3-do-not-flag-false-positives)
+- [4. Signs of human writing to preserve](#4-signs-of-human-writing-to-preserve)
+- [5. The positive requirement](#5-the-positive-requirement)
+
+
 ## 1. Catalogue of tells, by family
 
 Judge families, not words. Each entry names the mechanism, so a new variant is recognisable.
@@ -56,7 +65,7 @@ because..." becomes "Agreed, moving the check into `parse`." A comment longer th
 is the signal.
 
 Families 15 onward, and the checks a count can settle, are in
-[`02-more-tells.md`](./02-more-tells.md). For French text read [`03-french.md`](./03-french.md).
+`02-more-tells.md`. For French text read `03-french.md`.
 
 ## 2. Clusters, not instances
 

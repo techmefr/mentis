@@ -2,6 +2,34 @@
 
 > Section 10 of `skills/laravel-conventions`. Read it when the change spans layers, or a new one is proposed. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 3. A version branch past its security-fix end of life is not a maintenance choice
+- 5. Where a layer-package convention (OSDD-style) is installed
+- 6. Where `laravel/boost` is present, install its agent skills, not the MCP server alone
+- 7. The dependency direction *is* the architecture, so a tool enforces it, not a paragraph
+- 8. Say which kind of boundary you actually have
+- 9. A domain is entered through a stated surface, not by reaching into its internals
+- 10. The database is a boundary too
+- 11. Events decouple, and they cost traceability
+- 12. A new layer or abstraction is earned by the second real case
+- 13. Don't add infrastructure the database still handles
+- 14. Keep the dependency set current continuously, or point 3 becomes impossible
+- 15. An architecture decision that is not written down gets re-litigated
+- 16. Contextual binding is point 4's "prefer the framework's own mechanism" applied to the container
+- 17. A binding that is never resolved should never be booted
+- 18. A middleware group is a named ordering, and the order is the part that breaks silently
+- 20. Package auto-discovery is a convenience, not a boundary
+- 21. A facade and its underlying binding are two separate things to keep in sync
+- 23. A published config file is a fork, not a copy the package keeps updating for you
+- 24. A binding made in one test does not carry into the next, so look for leaks in your own static state
+- 27. A config value read through `env()` outside `config/*.php` stops working once the config is cached
+- 41. A functional or technical layer is named for what it owns, never for its position
+- 42. In a database-per-tenant project, tenancy is one named technical layer
+- 44. Request-scoped context is for data that must follow a request through logs and into the jobs it queu
+- 45. Independent work can run through the concurrency facade, with a cost
+
+
 1. Separate the **functional/business** layers from the **technical/shared** ones, with a predictable place
    per domain, and no technical layer importing a functional one.
 2. A new dependency is a decision: check what the project already standardises on for the need (factories,

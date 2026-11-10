@@ -2,6 +2,29 @@
 
 > Section 5 of `skills/vue-nuxt-vuetify-conventions`. Read it when a file is placed, or an import crosses a layer. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Separate code by technical concern vs functional/business concern
+- 2. Tests and stories sit where the project decided
+- 3. One package manager per project, and a curated list of approved dependencies
+- 4. Declarative config in a `config/` folder
+- 5. Look for an existing nearby component/composable before writing a new one
+- 6. `runtimeConfig` vs `app.config` is a security boundary, not a style choice
+- 7. Nuxt 4's default directory layout, on a plain repo with no layer/OSDD convention installed
+- 8. A layer boundary that only exists in prose does not exist
+- 9. Aliases rather than deep relative paths
+- 10. A `shared/` or `utils/` directory is a boundary, not a bucket
+- 11. A circular import resolves in an order nobody controls
+- 12. Keep the server boundary physical
+- 13. Environment variables are read in one place
+- 14. Check the platform before adding a dependency for one helper
+- 15. The lockfile is part of the change
+- 16. A layer's precedence is fixed and worth knowing before debugging "my override didn't apply"
+- 19. A monorepo settles on one lockfile at the workspace root, not one per package
+- 21. A layer is deleted by deleting its directory, not by disabling it in config
+- 22. A Nuxt project's `package.json` declares `"type": "module"`
+
+
 1. **Separate code by technical concern vs functional/business concern** (the layered/OSDD split), and
    `technical/` never imports `functional/`: if a value is missing, the caller passes it as a parameter.
    The direction is the whole point — a technical helper that reaches into a business module cannot be

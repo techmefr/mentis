@@ -2,6 +2,24 @@
 
 > Section 4 of `skills/laravel-conventions`. Read it when an Eloquent query, a relation load, or anything inside a loop. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. No query inside a loop
+- 2. Read the relation accessor
+- 3. Prefer the `OrFail` fetch
+- 5. Count and aggregate in the database
+- 6. Filter on the key you already have, not through a relation you don't need
+- 7. A search-index query is a different engine, and it fails quietly
+- 8. Bulk work is chunked, and chunking has an ordering trap
+- 9. Every application table is reached through its model
+- 10. When raw SQL is the exception, bind the values
+- 11. Two writes that must both land are a transaction, not a sequence
+- 21. `chunkById` is point 8's ordering trap solved by construction, not merely a faster `chunk`
+- 23. `withExists()` answers "does at least one match" as a boolean attribute on each parent
+- 38. `Model::preventAccessingMissingAttributes()` is `shouldBeStrict()` (point 14) split into its own tog
+- 39. Select only the columns the operation needs, but only when it buys something
+
+
 1. **No query inside a loop.** A lazy-loaded relation accessed per iteration, an aggregate per row, a
    `find()` in a `foreach` — all N+1. Eager-load or aggregate before iterating. This includes a loop inside
    a view, the variant that survives review: the controller looks clean, and the template pulls a

@@ -2,6 +2,26 @@
 
 > Section 5 of `skills/flutter-conventions`. Read it when a route, back handling, a deep link. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Centralised declarative routing
+- 2. A route's arguments are reconstructible from a URL
+- 3. Route paths and names live in one place as constants
+- 5. A guard remembers where the user was going
+- 7. A deep link into a detail screen builds a back stack
+- 9. A confirm-before-leaving covers every exit, not the button
+- 10. A dialog and a bottom sheet are routes
+- 11. Two taps push two screens
+- 12. Navigation belongs to the widget layer
+- 14. The route table survives the process being killed
+- 15. Screen tracking hangs off the router
+- 16. Push, replace and reset are three different intentions
+- 17. `PopScope` replaces `WillPopScope`, and it changes what "intercepting back" means
+- 18. On the web, the platform back button is not optional to support
+- 19. A redirect guard can loop against another guard's redirect
+- 23. State restoration is a stronger promise than the route table rebuilding from a path
+
+
 1. **Centralised declarative routing**, one place that maps routes to screens, rather than imperative pushes
    scattered across widgets. Arguments are typed, not passed as an untyped map. The map is the version that
    fails at run time in a language that would have caught it at compile time, and it fails on the device of

@@ -5,6 +5,24 @@
 > taste. Each still passes §1's second-real-case threshold first. `business/fintech-compliance`
 > cites §4.5 here; `laravel-conventions` §4 and §8 cite §4.7 here.
 
+## Contents
+
+- 1. Strategy
+- 2. State
+- 3. Null Object
+- 4. Object construction
+- 5. Value Object
+- 6. Pipeline
+- 7. Transaction boundaries
+- 8. An illegal transition is an exception, not a boolean
+- 9. The status stays; the pattern is what happens next
+- 10. A resolver needs a verdict for a key it does not know, decided by where the key comes from
+- 11. Halting a pipeline has two meanings and they need two signals
+- 12. Several ways to build one thing are named constructors, not a factory class
+- 13. A boolean parameter that changes what a method does is two methods
+- 14. A value object stays out of the wire format
+
+
 1. **Strategy** — a `switch`/`match` on a `type`/`channel`/`provider`/`mode`/`kind` field with **3+ branches
    that keeps growing**, or sibling classes differing only in one method. The axis of variation must be
    **one**: two axes means you're about to build a matrix, and a map of functions keyed by the pair is

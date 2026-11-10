@@ -2,6 +2,28 @@
 
 > Section 1 of `skills/laravel-conventions`. Read it when a model, a controller, a listener or a service is written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Keep models thin
+- 2. Events + listeners, never model observers
+- 4. A concern trait owns its concept end to end
+- 5. Recognise the two shapes that are a pattern, not a field
+- 6. Do not factor out what protects nothing
+- 7. Do not build the extension point before the second real case
+- 8. An accessor is a projection of the row, not a query
+- 9. No markup in PHP
+- 10. The application owns its domain
+- 11. Contextual binding resolves an interface differently per consumer, declared once in a service provid
+- 12. Bind an interface for a genuine second implementation, not for testability alone
+- 13. `Macroable` extends a class from outside it, and it stays on framework classes built that way
+- 14. A service provider groups registration by domain, not by framework primitive
+- 15. A deferred provider trades eager registration for load-on-demand, and that trade has a condition
+- 19. A pipeline built from Laravel's `Pipeline` facade names each stage as its own invokable class
+- 20. A global scope applied via `addGlobalScope` is invisible at every call site that benefits from it
+- 24. `once()` memoises a callback for the life of the current request
+- 31. Controller middleware is declared on the controller through `HasMiddleware`, not in its constructor
+
+
 1. **Keep models thin.** A model holds `$fillable`, `$casts`, relationships, trivial computed accessors
    over its own attributes, and lifecycle traits — with the scopes and the per-concept accessors grouped
    into the concern traits of point 4 rather than accumulating in the class body. Business logic,

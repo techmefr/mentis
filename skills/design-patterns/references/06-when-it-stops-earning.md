@@ -4,6 +4,23 @@
 > during `review`, an `architect` audit, or any change that has to work around one. The catalogue says
 > when to add; nothing says when to take one out, which is why they accumulate.
 
+## Contents
+
+- 2. A pattern's cost is paid at reading time, by someone who did not write it
+- 3. A one-implementation interface is the most common dead pattern
+- 4. The branches collapsing back to one is the signal to re-check, and nothing announces it
+- 5. A pattern whose justification was performance has to be re-measured, not remembered
+- 6. A pattern is not the migration plan
+- 7. Growing a pattern to fit a case that does not share its axis is how it becomes unreadable
+- 8. A pattern with a test per implementation and none for the dispatch is untested where it fails
+- 9. When the pattern goes, its justification goes with it
+- 10. A framework upgrade is the natural moment for this pass
+- 11. Removing a pattern is a change like any other, and it is reviewed like any other
+- 12. The count that matters is how many patterns a newcomer has to learn to change one thing
+- 14. Feature envy through a pattern's own interface is a sign the abstraction sits at the wrong layer
+- 18. Renaming a dead pattern to sound domain-specific is camouflage, not a fix
+
+
 1. **The deletion test is the only one that settles it: inline the pattern in your head and see whether
    the code reads better.** If collapsing the interface, the registry and the two implementations back
    into one function makes the code shorter and the path obvious, the pattern is ceremony and removing

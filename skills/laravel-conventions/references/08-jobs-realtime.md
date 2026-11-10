@@ -2,6 +2,30 @@
 
 > Section 8 of `skills/laravel-conventions`. Read it when a queued job, a notification, a broadcast. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Order queued work explicitly
+- 2. A job is idempotent where it can be, because a queue retries
+- 3. A job's payload is a serialised reference, not a snapshot
+- 4. Dispatch after commit
+- 5. Failure is part of the design, not the operator's problem
+- 6. Queue what is slow or fragile, not what is convenient
+- 7. User-facing messages go through notifications, not hand-built mail
+- 8. Realtime broadcasting goes through the project's broadcaster
+- 9. A broadcast payload is a contract with the frontend
+- 10. A broadcast is a hint, not a source of truth
+- 11. Scheduled work is a queued job with a clock, and it inherits every rule above
+- 13. `Bus::batch()` coordinates jobs that must be reported on together, not jobs that must run together
+- 14. `ShouldBeUnique` and `WithoutOverlapping` answer different questions, and a job can need both
+- 15. A presence channel is a private channel plus a roster, not a separate authorisation model
+- 19. A released job still counts as an attempt
+- 20. `retryUntil()` bounds a job by wall-clock time instead of by attempt count
+- 23. Job batching's `allowFailures()` changes whether one job's failure cancels the batch
+- 24. `toOthers()` excludes the socket that triggered the broadcast from receiving it back
+- 25. `ShouldBroadcastNow` sends the event synchronously, skipping the queue `ShouldBroadcast` uses
+- 37. `SkipIfBatchCancelled` is job middleware, not an automatic effect of cancelling a batch
+
+
 1. **Order queued work explicitly** — chain the jobs, or make the later step verify its precondition. Never
    a fixed delay, `sleep`, or debounce window chosen so earlier work "should have settled": that's a race
    with a comment. The reason it passes review is that it passes locally, where one worker drains the queue

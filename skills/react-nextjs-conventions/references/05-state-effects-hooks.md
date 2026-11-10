@@ -2,6 +2,28 @@
 
 > Section 5 of `skills/react-nextjs-conventions`. Read it when a hook is written, or an effect added. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Rules of hooks
+- 2. Never derive state in an effect
+- 3. Immutable updates
+- 4. Never memoise on suspicion
+- 5. Let the library own its state
+- 6. Render every state a query has
+- 7. Stable list keys
+- 8. Effect cleanup removes exactly what was added
+- 12. Several `setState` calls in the same effect or handler for one logical update
+- 14. The dependency array is a claim about what the effect reads
+- 15. Cleanup runs on every dependency change, not only on unmount
+- 16. An effect that fetches has to survive going out of date
+- 17. An effect synchronises React with something outside React
+- 18. A context provider's value has to be stable
+- 19. State seeded from a browser-only source breaks hydration
+- 20. `useLayoutEffect` only for measure-then-paint
+- 23. `use()` reads a promise or a context conditionally, which the other hooks cannot
+- 24. A compiler that auto-memoises does not repeal point 4, it changes the default answer
+
+
 1. **Rules of hooks**: never after a conditional return, never inside an `if`/loop/`try`. A hook called
    conditionally desynchronises React's internal order from the code's, so one hook receives another's
    state — the symptom is a value from an unrelated piece of the component, which is why it is rarely

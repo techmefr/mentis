@@ -2,6 +2,28 @@
 
 > Section 1 of `skills/python-conventions`. Read it when a signature, an attribute or a generic is typed. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 3. A baseline that grows is a broken ratchet
+- 4. `Any` does not fail locally — it spreads
+- 5. Never a bare ignore comment
+- 6. A checker error is information; never widen a signature to make it go away
+- 8. Accept the widest, return the narrowest
+- 9. A mutable class attribute needs `ClassVar` or it is an instance field
+- 11. Types are erased where it matters most
+- 12. Deferred annotations change what the runtime sees
+- 14. A type parameter used once is not a generic
+- 15. Where a return type depends on an argument, overload it
+- 18. A `TypedDict` key is required by default; mark the exceptions, not the rule
+- 21. `@overload` signatures are read top to bottom, and the first match wins
+- 23. `Literal` types a value to its exact allowed members, not merely to `str`
+- 25. `TypeIs` narrows both branches; `TypeGuard` narrows only the positive one
+- 26. A closed `TypedDict` (`closed=True`, or a per-field `extra_items` type) says no other key can appear
+- 28. A generic bound (`class Repo[T: HasId]`) is a promise the checker enforces, not documentation
+- 29. `NewType` distinguishes two values with the same runtime type but different meaning
+- 30. A `Callable` protocol is more than one method wearing a function's shape
+
+
 1. Type hints on **all new code**: parameters, return types, class attributes, module-level constants. A type
    checker in strict mode (`mypy --strict`, `pyright`) runs on the diff, not only at project setup. A checker
    that only runs locally is a suggestion: the rule is the CI job, because that is the one nobody can skip

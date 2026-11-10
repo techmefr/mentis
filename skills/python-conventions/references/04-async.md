@@ -2,6 +2,30 @@
 
 > Section 4 of `skills/python-conventions`. Read it when an `async def`, a gather, or a blocking call in an async path. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. `gather` needs a decision about failure
+- 3. Concurrency without a bound is a way to take down a dependency
+- 5. The blocking call is usually not obvious
+- 6. An async application is async all the way down
+- 8. Fire-and-forget loses the task
+- 9. Cancellation is delivered as an exception, and swallowing it breaks shutdown
+- 10. Every await on something external gets a timeout
+- 11. `async` does not make shared state safe
+- 12. Module-level mutable state is shared across concurrent requests
+- 13. A context variable, not a global, for per-request context
+- 14. A synchronous entry point cannot await
+- 15. An async generator has to be closed
+- 17. A context manager is not automatically safe under cancellation
+- 18. `asyncio.timeout()` scopes a deadline over a block, not over a single call
+- 19. A producer that outruns its consumer needs backpressure, not a growing list
+- 20. CPU-bound work still blocks the loop from inside a thread
+- 21. `asyncio.shield` protects the waiter, not the shielded work's own lifetime
+- 22. A signal handler cannot `await`
+- 23. A subprocess launched from async code is one more thing to time out and reap
+- 24. A retry loop around an awaited call needs its own bound, or it is an unbounded wait with extra steps
+
+
 1. `asyncio.gather` for independent operations, never a serial `await` in a loop out of reflex. The cost is
    additive and invisible when reading top to bottom: three sequential 200 ms calls are a 600 ms response
    that profiles as "the dependencies are slow", and no amount of tuning on their side will move it.

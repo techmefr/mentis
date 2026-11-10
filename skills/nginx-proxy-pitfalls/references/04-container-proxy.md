@@ -1,5 +1,15 @@
 # nginx-proxy-pitfalls §4 — A label-driven container proxy (caddy-docker-proxy)
 
+## Contents
+
+- [4.1 Only containers on an ingress network are served](#41-only-containers-on-an-ingress-network-are-served)
+- [4.2 Labels become a Caddyfile](#42-labels-become-a-caddyfile)
+- [4.3 Read what was generated](#43-read-what-was-generated)
+- [4.4 State and images](#44-state-and-images)
+- [4.5 The Docker socket](#45-the-docker-socket)
+- [4.6 Verify](#46-verify)
+
+
 caddy-docker-proxy is a Caddy plugin that reads Docker labels, generates a Caddyfile in memory and reloads
 Caddy when a container changes, without downtime. It removes the proxy file and adds a layer in which a
 mistake is invisible until you read what it generated.

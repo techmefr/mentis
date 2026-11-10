@@ -1,5 +1,15 @@
 # kubernetes-access-and-exposure-pitfalls §3 — Pod Security Standards
 
+## Contents
+
+- [3.1 The three profiles](#31-the-three-profiles)
+- [3.2 Restricted: the controls added on top of Baseline](#32-restricted-the-controls-added-on-top-of-baseline)
+- [3.3 Baseline: the controls Restricted inherits](#33-baseline-the-controls-restricted-inherits)
+- [3.4 Operating system and version notes](#34-operating-system-and-version-notes)
+- [3.5 Enforcement and what the standards do not do](#35-enforcement-and-what-the-standards-do-not-do)
+- [3.6 Verify](#36-verify)
+
+
 The Pod Security Standards define three cumulative policies, from permissive to restrictive. This section
 restates the field-level rules of the Baseline and Restricted policies from the Kubernetes page "Pod Security
 Standards" (read in full on 2026-10-16; attribution at the end of this file). The page is revised with

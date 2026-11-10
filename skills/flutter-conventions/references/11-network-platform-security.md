@@ -5,6 +5,28 @@
 > built. Storage of tokens and permissions are §8; the background (what each class of attack is) is in
 > `skills/security-hardening`. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Traffic is encrypted, and the platform is told so
+- 2. Certificate validation is never disabled, in any build
+- 3. Every client has a connect timeout and a response timeout, set deliberately
+- 4. Pin a certificate only where the data justifies the operational cost
+- 5. Nothing compiled into the app is a secret
+- 6. Obfuscation raises the cost of reading the app, it does not protect a secret
+- 7. Deep links, intents and notification payloads are untrusted input
+- 8. A web view is a browser inside the app, and is configured as one
+- 9. Android components are private unless they have a reason
+- 10. A screen showing sensitive data hides itself from capture and from the app switcher
+- 11. Password and secret fields turn off the keyboard's learning
+- 12. A biometric prompt unlocks a key, it does not return a boolean
+- 13. Keychain entries outlive the app on iOS
+- 14. Local queries are parameterised, and a dynamic column name comes from an allow-list
+- 15. Logs in a release build carry no token, no personal data and no request body
+- 16. Debug switches are compile-time constants
+- 17. A package is a dependency with the app's privileges, and platform plugins run native code
+- 18. The release build is the artefact that is checked
+
+
 1. **Traffic is encrypted, and the platform is told so.** Every endpoint is reached over TLS. On Android
    the network security configuration refuses cleartext traffic (the default when targeting API 28 and
    above, and permitted by default below it, per the Android configuration page read 2026-10-20; stated

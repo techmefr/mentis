@@ -5,6 +5,15 @@
 > audience reads. The facts here are cited from the accessibility and internationalisation standards;
 > where a figure or a list would be needed, the point says to read it at the source.
 
+## Contents
+
+- [Links](#links)
+- [Instructions that point at the screen](#instructions-that-point-at-the-screen)
+- [Plain language](#plain-language)
+- [Inclusive wording](#inclusive-wording)
+- [Images, symbols and culture](#images-symbols-and-culture)
+
+
 ## Links
 
 1. **A link says where it goes.** Its purpose can be worked out from the link text together with its

@@ -5,6 +5,12 @@
 > third-party origin to a page. It is a list of levers ordered by how much rendering they hold up, not a
 > checklist to apply unmeasured: each lever below is pulled only after §1 names the cost it removes.
 
+## Contents
+
+- [The order of the levers](#the-order-of-the-levers)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## The order of the levers
 
 1. **A script in the head blocks parsing unless it says otherwise.** A classic script with no attribute

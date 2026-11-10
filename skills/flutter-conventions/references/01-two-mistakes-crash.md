@@ -2,6 +2,33 @@
 
 > Section 1 of `skills/flutter-conventions`. Read it when always, before anything else on this stack. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Three correct shapes, by where you are
+- 3. One guard per await, not one per method
+- 4. A callback is a resumption point too
+- 5. The guard stops the crash; it does not stop the work
+- 6. Never store a `BuildContext` in a field
+- 7. Never silence the analyzer's async-context lint with an ignore comment
+- 9. A leaked closure holds the whole screen
+- 10. Store the subscription handle
+- 11. `super.dispose()` goes last
+- 12. Release in the reverse order of the dependency
+- 13. Never dispose what you didn't create
+- 14. Never create a controller, future or stream in `build`
+- 15. `dispose` runs even when `initState` didn't finish
+- 16. A resource created outside `initState` still needs the same treatment
+- 18. `WidgetsBindingObserver` is a subscription like any other
+- 20. A `ChangeNotifier`'s `dispose` clears its listener list and leaves the object unusable
+- 21. A broadcast `StreamController` is its own resource on top of its subscriptions
+- 22. A network call has a lifetime independent of the widget that started it
+- 26. Pausing a subscription is not the same decision as cancelling it
+- 27. A passing test suite is not proof nothing leaks
+- 29. A spawned isolate outlives the widget that started it unless told otherwise
+- 30. No analyser rule flags a `State` field that is never disposed
+- 31. `dispose` is not a place for work that must happen
+
+
 **After any `await`, the `BuildContext` is suspect.** Navigation, snack bars, dialogs, theme or media-query
 reads, provider lookups — anything `context.` — needs a guard before it's touched again.
 1. It fails in two ways, and the second is worse: it **throws** ("this widget has been unmounted", "looking up

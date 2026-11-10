@@ -1,5 +1,21 @@
 # nestjs-reliability §1 — Idempotency keys
 
+## Contents
+
+- [1.1 Why a state check alone does not protect a write](#11-why-a-state-check-alone-does-not-protect-a-write)
+- [1.2 What the client has to do](#12-what-the-client-has-to-do)
+- [1.3 What the server does with a request that carries a key](#13-what-the-server-does-with-a-request-that-carries-a-key)
+- [1.4 Scope the key to the caller, and authenticate first](#14-scope-the-key-to-the-caller-and-authenticate-first)
+- [1.5 The store: shared, durable, atomic](#15-the-store-shared-durable-atomic)
+- [1.6 An owner token on every attempt](#16-an-owner-token-on-every-attempt)
+- [1.7 Which outcomes are stored](#17-which-outcomes-are-stored)
+- [1.8 Lifetimes](#18-lifetimes)
+- [1.9 What a replay skips, and what it must not leak](#19-what-a-replay-skips-and-what-it-must-not-leak)
+- [1.10 Message handlers](#110-message-handlers)
+- [1.11 Verification](#111-verification)
+- [1.12 Nest mapping](#112-nest-mapping)
+
+
 A client that loses the response cannot tell a lost request from a lost answer, so it sends the same
 request again. An **idempotency key** lets the server run the operation once per key, store the outcome,
 and answer every repeat with that outcome. The rules below hold for any HTTP or message handler in Node;

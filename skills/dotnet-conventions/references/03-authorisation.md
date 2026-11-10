@@ -3,6 +3,23 @@
 > Section 3 of `skills/dotnet-conventions`. Read it when an endpoint is added or modified — a controller
 > action, a hub method, a minimal-API route — or when a message consumer does work on someone's behalf.
 
+## Contents
+
+- 1. Every endpoint
+- 5. A policy on the endpoint says who may call it, never which rows they may touch
+- 6. A default-deny fallback policy is what makes point 2 enforceable
+- 7. The allow-anonymous marker overrides everything above it, including the fallback policy
+- 8. Authorise the write, not just the read that produced the form
+- 9. Claims are input, and trustworthy only as far as whoever issued them
+- 10. Not every entry point is an HTTP endpoint
+- 11. Middleware order decides whether any of this runs
+- 12. The test that proves a policy is wired is the negative one
+- 13. A cross-origin policy is not authorisation, and a wide one is not harmless
+- 15. A real-time connection's authorisation is checked once, at the handshake, not on every message
+- 17. A custom `IAuthorizationRequirement` is where a rule that doesn't reduce to a role or claim lives
+- 18. Output caching a response makes the cached bytes outlive the request that authorised them
+
+
 1. **Every endpoint** — controller action, hub method, minimal-API route — carries an explicit authorisation
    declaration naming the policy it requires, alongside its HTTP verb and response declarations. Per-action
    rather than per-controller: an inherited attribute is invisible where a reader is looking, usually a diff

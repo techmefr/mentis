@@ -552,12 +552,12 @@ No duplicate found **inside** mentis otherwise: the pairs most at risk were chec
 | extract-conventions | setup/maintenance | graphify + recognised market skill authors | 🟡 (dogfooded once 2026-09-10 against the real `/tmp/dogfood-nestjs` codebase; extracted conventions matched `nestjs-node-conventions` §1-2/§1.6 with nothing evident missed; steps 1-2 corrected — direct reading is the main path on a small unindexed project, not a fallback to apologise for, and a single-occurrence pattern needs an explicit "unconfirmed" marker since most patterns in a small codebase appear only once) |
 | choose-model | cross-cutting | internal synthesis (no external source taken as-is) | ✅ (2026-09-10: applied retroactively — 6 non-default agents (architect, elrond, galadriel, gandalf, seraph, smith) already carried a justification note; `laravel-architect` (opus/xhigh) was the one gap, fixed) |
 | dispatch-parallel | cross-cutting | a market skill/agent framework (dispatching-parallel-agents + subagent-driven-development, merged); §1 four-status worker reports added 2026-10-19 (superpowers subagent-driven-development, MIT) | ✅ (2026-09-10: dogfooded heavily — roughly a dozen 3-agent parallel rounds this session; two real failure modes found and closed as guardrails, a nested-Agent subagent fabricating a completion report and a subagent leaking an internal path into a report, everything else held as written) |
-| writing-skills | cross-cutting (meta) | a market skill/agent framework; step 7 (order by frequency, re-sort past ~10 points) added 2026-08-10 from the context-engineering lost-in-middle framing, distinct from the packaged `context-engineering` skill already ruled out below; points 31-38 added 2026-10-19 (mattpocock writing-for-agents, MIT; point 32: positive form plus the Never line kept beside it (owner decision 2026-10-19)) | 🟡 (written, applies the single template + rule B checklist) |
+| writing-skills | cross-cutting (meta) | a market skill/agent framework; step 7 (order by frequency, re-sort past ~10 points) added 2026-08-10 from the context-engineering lost-in-middle framing, distinct from the packaged `context-engineering` skill already ruled out below; points 31-38 added 2026-10-19 (mattpocock writing-for-agents, MIT; point 32: positive form plus the Never line kept beside it (owner decision 2026-10-19); points 39-44 added 2026-11-10: contents list, one-level pointers, freedom per step, verification loop, no assumed installs, per-model testing, from two secondary write-ups (vendor best-practices summary, Agent Skills foundation article), unverified against the vendor text) | 🟡 (written, applies the single template + rule B checklist) |
 | writing-agents | cross-cutting (meta) | internal synthesis (formalises the 7-pillar template already in use) | 🟢 |
 | testing-blocks | cross-cutting (meta) | a market skills repository (`testing-skills-with-subagents`: RED/GREEN/REFACTOR on behaviour, pressure taxonomy, record the rationalisation verbatim) | 🟡 (written; the obvious next move is to run it on itself) |
 | distributing-blocks | cross-cutting | a market skills repository (`pulling-updates-from-skills-repository` + `sharing-skills`) | 🟡 (written; answers README stages 3-4, no consumer yet) |
 | maintaining-blocks | cross-cutting (meta) | a market skills repository (`meta/gardening-skills-wiki`); the checks themselves are this repo's own past bugs | 🟡 (written; the first real run is the reference audit before a tagged release) |
-| design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
+| design-patterns | 7 / 12,179 | 1 / 11,717 | −462 | x1.04 |
 | shell-scripting-conventions | 6 | public defensive-shell baseline (`set -euo pipefail`, quoting, `shellcheck`); §2 and §4 are this repo's own `verify-gate.sh` bugs — fail-open on a missing parser, dropped exec bit, CRLF from Windows | 🟡 (the four bugs it prevents were real, so the content is validated even though the block hasn't been run as a block) |
 | bug-triage | 7 (entry) | local video-reading Claude skills (`claude-real-video`, `watch-video-skill`: scene-change frames + dedup + subtitle-or-Whisper transcript on `ffmpeg`, MIT) for the evidence step, named as optional so nothing depends on it; the queue framing is native Claude Code (`/loop`/`/schedule`, proactive loops); the rest is ours — observation vs the reporter's theory, "cannot reproduce" owing its own evidence list, severity by impact | 🟡 (fills a real pipeline hole: `debug` assumed a runnable failing case) |
 | product-ownership | product | an org catalogue's 9 story-management skills, mined and de-identified (anatomy, review axes, criticality, estimation); public sources for given/when/then criteria and definition-of-ready/done; §8.2/§8.3 and §9 added 2026-09-07 — the catalogue's tenth skill (decomposition behind a hard confirmation gate, the tracker write being a consequence of an approved plan) plus two rules from a real organisational change: a story is sized to one MR, and §9 covers the configuration where the story's author builds it, naming what replaces §7's independent reader (the epic above, the fresh-context gate below) instead of pretending the separation survives; **sectioned and deepened 2026-09-08** — the nine sections that lived inline in `SKILL.md` moved to one file each under `references/` and the router became a table of triggers (2,952 → 7,616 words of rules, taking the `project-management` row from x4.7 to x1.29 together with `spec`). §6 to §8 kept their numbers, since `references/README.md` and this file both cite that range. No section was added: the nine already covered the subject, and what they lacked was the mechanism and what the reader actually sees — a request phrased as a solution smuggling in a decision nobody took, an ordering that optimises for whoever asked loudest, a refusal naming no alternative coming back unchanged next week, a criterion nobody can build a fixture for, a "done" resting on somebody's memory of the conversation, and an estimate given without the code being an estimate of the story's wording; **widened 2026-09-10** via a background pass on §3 saying-no, §4 acceptance-criteria and §5 ready-and-done (plus `skills/spec` §1 the-interview and §4 out-of-scope, same pass) — sourced from public product-ownership/agile literature (prioritisation frameworks, three amigos, MoSCoW's won't-have vs deferred, anchoring/confirmation bias in interviews), taking `project-management` from x1.26 to x1.07); **widened again 2026-09-10**, a background pass over §9 author-is-the-builder — three points added: rereading the story as a stranger before merge as the substitute for §7's missing second reader, scope creep during implementation held to the same one-line justification a real scope change gets, a slipping estimate written down the moment it is known rather than absorbed silently — sourced from this repo's own single-role pipeline experience, no external catalogue involved, taking `project-management` from x1.07 to **x1.01**, closing the last tracked gap | 🟡 (ours is the priority/refusal/criteria layer and tying "done" to the two guarantees; the tracker mechanics stay out) |
@@ -814,16 +814,16 @@ closing this costs nothing that made this repo cheaper to load.
 
 | stack | their skills / words | our blocks / words | deficit | ratio |
 |---|---|---|---|---|
-| laravel | 65 / 79,825 | 3 / 53,518 | −26,307 | x1.49 |
-| csharp | 37 / 56,718 | 1 / 34,631 | −22,087 | x1.64 |
-| design-patterns | 7 / 12,179 | 1 / 10,994 | −1,185 | x1.11 |
-| flutter | 40 / 20,772 | 1 / 24,087 | +3,315 | x0.86 |
-| nuxt | 21 / 19,869 | 1 / 26,010 | +6,141 | x0.76 |
-| python | 20 / 22,097 | 2 / 25,939 | +3,842 | x0.85 |
+| laravel | 65 / 79,825 | 3 / 56,621 | −23,204 | x1.41 |
+| csharp | 37 / 56,718 | 1 / 36,691 | −20,027 | x1.55 |
+| design-patterns | 7 / 12,179 | 1 / 11,717 | −462 | x1.04 |
+| flutter | 40 / 20,772 | 1 / 26,396 | +5,624 | x0.79 |
+| nuxt | 21 / 19,869 | 1 / 27,810 | +7,941 | x0.71 |
+| python | 20 / 22,097 | 2 / 28,280 | +6,183 | x0.78 |
 | project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
-| bi, design, xefi | 16 / 17,306 | 4 / 32,687 | +15,381 | x0.53 |
-| global | 18 / 20,280 | 6 / 36,690 | +16,410 | x0.55 |
-| react | 36 / 9,302 | 1 / 19,843 | +10,541 | x0.47 |
+| bi, design, xefi | 16 / 17,306 | 4 / 33,059 | +15,753 | x0.52 |
+| global | 18 / 20,280 | 6 / 37,114 | +16,834 | x0.55 |
+| react | 36 / 9,302 | 1 / 20,390 | +11,088 | x0.46 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -847,16 +847,16 @@ the internal landscape, and rule C keeps it out.
 remembered — the defect that produced two unreproducible rows before this script existed:
 
 ```
-laravel: laravel-conventions 38,551, php-patterns 7,418, inertia-conventions 7,549
-csharp: dotnet-conventions 34,631
-python: python-conventions 19,442, data-pipeline-conventions 6,497
-flutter: flutter-conventions 24,087
-nuxt: vue-nuxt-vuetify-conventions 26,010
-global: code-baseline 10,384, security-hardening 11,672, api-design 6,723, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
+laravel: laravel-conventions 41,654, php-patterns 7,418, inertia-conventions 7,549
+csharp: dotnet-conventions 36,691
+python: python-conventions 21,374, data-pipeline-conventions 6,906
+flutter: flutter-conventions 26,396
+nuxt: vue-nuxt-vuetify-conventions 27,810
+global: code-baseline 10,384, security-hardening 11,908, api-design 6,911, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 10,118, spec 6,884
-design-patterns: design-patterns 10,994
-react: react-nextjs-conventions 19,843
-bi, design, xefi: data-analytics 4,724, interface-design 11,554, ux-writing 5,934, accessibility 10,475
+design-patterns: design-patterns 11,717
+react: react-nextjs-conventions 20,390
+bi, design, xefi: data-analytics 4,724, interface-design 11,808, ux-writing 5,956, accessibility 10,571
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every

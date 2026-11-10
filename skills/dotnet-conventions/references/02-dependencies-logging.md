@@ -3,6 +3,29 @@
 > Section 2 of `skills/dotnet-conventions`. Read it when a dependency is injected or registered, a service
 > lifetime is chosen, configuration is read, or something is logged.
 
+## Contents
+
+- 2. Never the Service Locator
+- 8. Configuration reaches code as a typed object
+- 9. A log call on a per-item, per-request or per-tick path is declared, not interpolated
+- 10. The container verifies a registration when something resolves it, not when it is built
+- 11. A disposable resolved from the root provider is held until the process ends
+- 12. Registration order matters, and the two ways to register mean different things
+- 13. A log template's placeholders are structured fields; interpolating the values destroys them
+- 14. Never log a secret, a token or personal data — log the identifier instead
+- 15. A collaborator with no state is not a service, and the analyser says so first
+- 16. Validating configuration at startup is opt-in twice, and one half alone is silent
+- 17. Two implementations of one interface are a keyed registration, not a factory of your own
+- 18. The three ways to read options are three lifetimes, and mixing them is a captive dependency
+- 19. A named or typed `HttpClient` is registered, never constructed with `new`
+- 20. Decorating a registered service is composition-root work, not a wrapper the consuming class builds
+- 21. A logging scope carries a value across every log call inside it, without threading a parameter
+- 22. A `BackgroundService` whose `ExecuteAsync` throws takes the whole host down by default
+- 27. A caught exception logged and then rethrown produces two records of one failure
+- 30. Two services registered under the same key are still last-registration-wins for that key
+- 43. `ValidateOnStart` fires when the host starts, not when it is built
+
+
 1. Dependencies injected **through the constructor**, as `private readonly` interface fields, written as an
    **explicit constructor** — not a primary constructor on the class header. A primary-constructor parameter
    carries no `readonly` modifier and stays assignable from any member, and there's no constructor body for a

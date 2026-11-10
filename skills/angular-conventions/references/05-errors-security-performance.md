@@ -3,6 +3,15 @@
 > Section 5 of `skills/angular-conventions`. Read it when an error path, a binding to a URL or to HTML, a lazy
 > boundary or an interactive control is written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- [Errors](#errors)
+- [Security](#security)
+- [Performance](#performance)
+- [Accessibility](#accessibility)
+- [Mechanical checks](#mechanical-checks)
+
+
 ## Errors
 
 1. **Handle an error where the operation was started.** The code that called the API has the context to pick a

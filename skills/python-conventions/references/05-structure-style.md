@@ -2,6 +2,27 @@
 
 > Section 5 of `skills/python-conventions`. Read it when a module is placed, config is read, or a default is written. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. Nothing mutable at module level either
+- 3. A module body should not do work
+- 4. Prefer passing a value to reaching for one
+- 7. A generator where the whole list is not needed
+- 8. Mutating a collection while iterating it skips elements or raises
+- 10. The import graph is checkable, and a convention nobody checks drifts
+- 11. A late import to break a cycle is a note that the layering is wrong
+- 13. Configuration: one file per namespace
+- 14. Config is validated at boot, and a missing value fails loudly
+- 15. A config value is typed on the way in
+- 17. A dependency is code running with your privileges
+- 19. A `src/` layout catches an import that only works by accident
+- 22. `@dataclass(slots=True)` trades a per-instance `__dict__` for a fixed set of attribute slots
+- 23. A `print()` in application code is a log line with no level, no destination and no structure
+- 26. A dependency group is not an optional extra, and conflating them ships test tooling to production
+- 27. A dependency group can depend on another dependency group, and that composition is the point
+- 33. A call in a default value runs once, when the `def` or the class body executes, not per instance
+
+
 1. Immutability by default: a mutable default argument (`def f(x=[])`) is banned — it's shared across every
    call, the classic trap. The default is evaluated once, at definition time, so the list accumulates across
    calls and the second caller sees the first caller's data. Use `None` and build inside, and note that a

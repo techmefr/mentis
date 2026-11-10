@@ -1,5 +1,16 @@
 # nestjs-reliability §2 — Locks, leases, fencing tokens and scheduled jobs on several replicas
 
+## Contents
+
+- [2.1 What a scheduled job does on N replicas, and why the quick fixes fail](#21-what-a-scheduled-job-does-on-n-replicas-and-why-the-quick-fixes-fail)
+- [2.2 A lock is a lease, held in a store every replica shares](#22-a-lock-is-a-lease-held-in-a-store-every-replica-shares)
+- [2.3 Whose clock](#23-whose-clock)
+- [2.4 Lease expiry is not mutual exclusion: fence the writes](#24-lease-expiry-is-not-mutual-exclusion-fence-the-writes)
+- [2.5 Running a scheduled job on one replica](#25-running-a-scheduled-job-on-one-replica)
+- [2.6 Shutdown, observability, tests](#26-shutdown-observability-tests)
+- [2.7 Nest mapping](#27-nest-mapping)
+
+
 A scheduler inside the application process runs in **every** replica. Three replicas and a nightly
 export means three exports; a five-minute reconciliation that takes longer than five minutes overlaps with
 itself, then with a third copy. The fix is not a flag, it is a lock that can be trusted, which is harder

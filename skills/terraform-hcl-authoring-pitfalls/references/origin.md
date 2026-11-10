@@ -3,6 +3,18 @@
 > Provenance of `skills/terraform-hcl-authoring-pitfalls`. Read it when a rule has to be traced to its source or
 > checked for freshness (`skills/source-freshness`), never to apply a rule.
 
+## Contents
+
+- [Sources (all re-read 2026-10-16, rewritten in our own words)](#sources-all-re-read-2026-10-16-rewritten-in-our-own-words)
+- [Rewrite notes](#rewrite-notes)
+- [Removed](#removed)
+- [Decisions where sources disagree](#decisions-where-sources-disagree)
+- [Second pass 2026-10-21 (OpenTofu documentation, read from the OpenTofu repository docs tree, facts only)](#second-pass-2026-10-21-opentofu-documentation-read-from-the-opentofu-repository-docs-tree-facts-only)
+- [Not verified](#not-verified)
+- [Independent verification 2026-10-21 (Terraform documentation, 1.16 tree of the hashicorp web-unified-docs repository, licensed BUSL 1.1, facts only, nothing copied; AWS provider docs, MPL-2.0)](#independent-verification-2026-10-21-terraform-documentation-116-tree-of-the-hashicorp-web-unified-docs-repository-licensed-busl-11-facts-only-nothing-copied-aws-provider-docs-mpl-20)
+- [Related blocks](#related-blocks)
+
+
 **Status: 🟡.** Written from repository documentation and reading, never run by us. No `terraform` or `tofu`
 binary was run, no configuration was planned and no provider was contacted while writing it. The official
 Terraform, OpenTofu and provider documentation was not read, and no HashiCorp-licensed (BUSL) material was cloned

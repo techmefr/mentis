@@ -3,6 +3,27 @@
 > Section 13 of `skills/vue-nuxt-vuetify-conventions`. Read it when the front end talks to the backend and the
 > project ships a typed client for it. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Where a model exists for the resource, every call to it goes through the model
+- 2. Never hand-build the query payload the client generates
+- 3. Don't carry another ORM's surface over by muscle memory
+- 4. A list is not the same type on both sides of hydration
+- 5. Two handles on the same record are one record
+- 6. A response is untrusted input, whatever produced it
+- 7. The page size lives with the model, not at the call site
+- 8. A model method is a request, not a cache
+- 9. Extend the client with a wrapper, never by patching its prototype
+- 10. Catch the client's own error type, not a generic `Error`
+- 11. An absent field is not a null field
+- 12. The server authorises an include, not the client
+- 13. A call the user can re-trigger needs a cancellation path
+- 14. A non-idempotent call (create, most updates) is not safe to retry blindly
+- 15. A mutation invalidates what it changed, not the whole cache
+- 17. A file upload through the typed client is still a `multipart/form-data` request underneath
+- 18. A `PATCH` and a `PUT` through the model are not interchangeable even when the client accepts either
+
+
 Conditional like §8: it applies where the project has a **typed client over its REST API** — an
 active-record-style model layer, a generated SDK, a query-builder wrapper. Where there is none, only point 6
 holds and the rest is not a gap to fill by hand.

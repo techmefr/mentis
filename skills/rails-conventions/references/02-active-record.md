@@ -4,6 +4,13 @@
 > query is written. The schema side (columns, indexes, constraints) is §3, so that a uniqueness validation and
 > its index are read together. Pinned to Rails 7.1 to 8.x as read on 2026-10-02.
 
+## Contents
+
+- [Models](#models)
+- [Queries](#queries)
+- [N+1](#n1)
+
+
 ## Models
 
 1. **Keep Active Record's defaults.** Table name, primary key and timestamps columns are what every Rails tool

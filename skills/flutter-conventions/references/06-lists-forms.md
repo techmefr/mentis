@@ -2,6 +2,31 @@
 
 > Section 6 of `skills/flutter-conventions`. Read it when a list, a pagination, a form, the keyboard. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 2. A lazy list still needs a bounded height
+- 3. `itemCount` and the data are one thing
+- 4. A row's state needs the row's identity
+- 5. A row is built while the user is scrolling
+- 7. The next-page trigger fires more than once
+- 8. Changing the filter resets the cursor
+- 9. A refresh keeps the list visible
+- 11. Server-side rejections map back to their fields too
+- 13. Normalise before validating
+- 15. A text controller belongs to the widget that created it
+- 17. Set the autofill and input hints
+- 18. A long form is worth a draft
+- 20. A reorderable list's key has to survive the reorder, not just the initial build
+- 21. A multi-step form keeps every step's data in one place for the whole flow
+- 22. On a failed submit, move focus to the first invalid field
+- 23. A search field the user types into is a debounced trigger, not a request source
+- 25. Autofill and paste apply to more than the password and one-time-code fields of point 17
+- 26. Tab order on a form is a separate decision from visual order
+- 27. The last field's action still has to reach the submit button, not just dismiss the keyboard
+- 28. `Dismissible` needs a confirmation step for anything the user cannot easily redo
+- 29. A field-level async check needs the same discard rule as point 16's search results
+
+
 1. A long list uses the lazy builder, never a fully materialised children list. The materialised form builds
    every item before the first frame, so a list of two thousand rows costs two thousand widget trees to show
    ten — the symptom is a screen that takes a second to open and a scroll that stutters on a mid-range

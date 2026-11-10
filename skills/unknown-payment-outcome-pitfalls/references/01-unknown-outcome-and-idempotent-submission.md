@@ -7,6 +7,32 @@
 > commit `0450c32`, all read 2026-10-16. payments-platform is a reference implementation that its README says has
 > not processed real money: read its rules as one author's design. Sentences marked "own guidance" are ours.
 
+## Contents
+
+- 1. A timeout is the absence of information, not a failure
+- 2. Record the attempt as unknown and keep the payment in processing
+- 3. No timer, scheduler or request-path code may fail a payment because time elapsed
+- 4. Never fail over to another processor on a timeout
+- 5. One attempt row per execution, and failover creates a new one
+- 6. Write the attempt, with its key, before the call
+- 7. Resolve only on positive evidence, fastest first
+- 8. Expiry is not failure
+- 9. Make a second success impossible in the database
+- 10. Idempotency scope is more than the key
+- 11. Fingerprint the request to catch one key used for two payments
+- 12. A concurrent duplicate gets "in progress", not a blocked thread
+- 13. The database is authoritative; the cache is an accelerator
+- 14. Never report failed for a payment that may have succeeded
+- 15. Processing is not allowed to last forever
+- 16. The client generates the id, saves it, then submits, and reuses it on every retry
+- 17. Time-ordered ids, no central counter
+- 18. A stored key does not live forever
+- 19. What is replayed is the stored answer, including a failure
+- 20. Same key with a different request is an error on purpose
+- 21. Key hygiene
+- 22. Do not assume the processor honours a key you were not told about
+
+
 1. **A timeout is the absence of information, not a failure.** When nothing comes back, three worlds fit the
    observation: the request never arrived, it arrived and was declined, or it arrived, was approved and the
    reply was lost. Your side cannot tell them apart, and the customer may already be charged. Design the state
