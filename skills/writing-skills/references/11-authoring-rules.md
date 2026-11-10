@@ -141,7 +141,7 @@ Read this file when a skill is being drafted or revised and its body or its desc
 39. **A reference file past about 100 lines opens with a table of contents** that repeats its real headings. An
     agent deciding whether to load a file often reads only its first lines; without a contents list, rules lower
     down are skipped without anyone noticing. Keep the body of a `SKILL.md` under about 500 lines and move the
-    rest behind pointers; keep every pointer one level deep, from the skill to its file, never a chain through a
+    rest behind pointers; keep every pointer one level deep (the 500-line body and the contents list are enforced by `bin/test_skill_shape.py`), from the skill to its file, never a chain through a
     second file, because a file reached through another file is read partially or not at all. The exception is a provenance log (`origin.md`): it is read to trace a source, never to apply a rule, so it carries no contents list.
 40. **Set the degree of freedom per step, not per skill.** High (the goal, the method left open) for ambiguous,
     low-risk work; medium (a template with options) for recurring, semi-standard work; low (the exact script,

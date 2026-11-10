@@ -16,6 +16,7 @@ suites=(
   bin/test_hooks.py
   bin/test_guard_test_changes.py
   bin/test_frontmatter.py
+  bin/test_skill_shape.py
   bin/test_rule_c.py
   bin/test_git_hooks.py
   bin/test_measure_depth.py
