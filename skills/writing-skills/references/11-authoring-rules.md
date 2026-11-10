@@ -122,3 +122,29 @@ Read this file when a skill is being drafted or revised and its body or its desc
     sentence to gesture at one idea, is a candidate. The source's claim, not measured here: check that the
     shorter word still triggers the behaviour by running the block.
 
+
+## Levers from a third source (points 39 to 43)
+
+> From a 2026-11 secondary write-up of the vendor's updated skill best practices (see `origin.md`). 🟡: stated from that
+> write-up, not measured by us.
+
+39. **A reference file past about 100 lines opens with a table of contents** that repeats its real headings. An
+    agent deciding whether to load a file often reads only its first lines; without a contents list, rules lower
+    down are skipped without anyone noticing. Keep the body of a `SKILL.md` under about 500 lines and move the
+    rest behind pointers; keep every pointer one level deep, from the skill to its file, never a chain through a
+    second file, because a file reached through another file is read partially or not at all.
+40. **Set the degree of freedom per step, not per skill.** High (the goal, the method left open) for ambiguous,
+    low-risk work; medium (a template with options) for recurring, semi-standard work; low (the exact script,
+    run as is) for fragile or hard-to-undo operations. Test: if a slightly different approach changes nothing,
+    loosen the step; if it can do real damage, lock it. One block can mix levels, for instance a free-form
+    customer note next to an invoice produced by a locked script.
+41. **A checklist ends on a verification that can send the agent back.** The steps stay loose; the last one
+    checks the result against a reference (a style guide, the requirements, the cited sources) and, on failure,
+    names the earlier step to return to, instead of ticking the list as done.
+42. **Never assume a tool or library is installed.** A step that needs one names it, says how to install it, and
+    skips the install when it is already present. Put the install line next to the script it serves. A script is
+    run, not read into context, so it costs no budget for its body.
+43. **Test a block on every model it targets, and record what you saw.** A smaller model asks whether the block
+    guides enough (a missed step is clarified or turned into a script); a mid-tier one asks whether it is clear
+    and efficient; a top one asks whether it over-explains (if it does worse with the block than without, remove
+    instructions until it improves). A block meant for distribution declares its target model in the frontmatter.
