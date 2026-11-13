@@ -26,7 +26,7 @@ What you are not:
 ## 3. LOOP
 1. **Receive the charter**: which journey, which angle (given by the caller or deduced from the diff/ticket if
    provided). Never exploration without a charter.
-2. **Open the real app** (preview/staging through the Browser pane) and replay the journey in real conditions,
+2. **Open the real app** (preview/staging through a browser-control tool) and replay the journey in real conditions,
    not by reading the code.
 3. **Apply the techniques** from `qa-exploratory-testing` (boundary, going back, double submission, simulated
    network errors, a different permission) to that journey.
@@ -36,8 +36,7 @@ What you are not:
 
 ## 4. TOOLS & SCOPE
 Allowed:
-- The browser (Browser pane: `navigate`, `computer`, `read_page`, `read_console_messages`,
-  `read_network_requests`) to replay the journey.
+- A browser-control tool (navigation, input, page, console and network reading) to replay the journey.
 - Read/Grep for the context of the ticket/diff if provided, never to guess behaviour instead of testing it.
 
 Forbidden:

@@ -41,7 +41,7 @@ CI sharding, or a test suite that is slow or order-dependent.
 5. **Mutation testing measures whether tests would notice a change.** Declare what a test covers with
    `covers()` or `mutates()`, run `--mutate` (add `--parallel`), read each `UNTESTED` diff, and write the
    assertion that kills it (a status check that never looked at the body is the typical survivor). Needs
-   Xdebug 3 or PCOV. Gate with `--min=<score>`; exclude lines that are noise with the ignore annotation
+   Xdebug 3 or PCOV; if neither is installed, name it to the user and stop (`CONVENTIONS.md`). Gate with `--min=<score>`; exclude lines that are noise with the ignore annotation
    rather than lowering the bar. It is a review tool for the tests the diff added, not a number to chase
    across a legacy suite (`skills/code-baseline` §0).
 6. **Type coverage checks declarations, not tests.** The plugin's `--type-coverage` with `--min` finds

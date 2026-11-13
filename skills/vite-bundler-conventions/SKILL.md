@@ -112,6 +112,8 @@ a default) is the pinned major's; read `package.json` before applying it to anot
 
 ## Mechanical checks
 
+Run these from the project root (grep is installed on any POSIX shell; where absent, search the same patterns with the editor). A hit is a candidate to read in context, not a verdict.
+
 ```
 grep -rnE "^VITE_.*(SECRET|PASSWORD|TOKEN|PRIVATE|KEY)" .env*
 grep -rnE "envPrefix" vite.config.*

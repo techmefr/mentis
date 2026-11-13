@@ -39,7 +39,7 @@ real user journey: not on an internal refactor with no user-facing surface.
 
 ### 4. Driving the browser: reconnaissance before action
 1. **Never act on a selector you haven't seen.** Read the rendered page first
-   (`read_page`, which hands back element refs), then click/type against those refs: a
+   (an accessibility snapshot that hands back element refs), then click/type against those refs: a
    click on a guessed selector or on raw coordinates is what makes a session
    non-reproducible.
 2. **Wait for the page to settle before reading it.** On any app that fetches after
@@ -50,8 +50,8 @@ real user journey: not on an internal refactor with no user-facing surface.
    Interleaving them is how you end up reporting the consequence of your own
    mis-click.
 4. A finding whose reproduction sequence can't be replayed from the refs observed
-   goes back to step 5 of the LOOP as "to be reproduced", never straight into the
-   report as a bug.
+   goes back to the reconnaissance pass (item 3) and is marked "to be reproduced", never
+   straight into the report as a bug.
 
 ### 5. Inventory of controls: no PASS without a list
 1. List every control on the journey (links, buttons, fields, toggles, menus) before judging any of
@@ -60,6 +60,7 @@ real user journey: not on an internal refactor with no user-facing surface.
    with no recorded action is untested, not passing.
 3. A PASS exists only as that list. If nothing can run (no environment, no browser), say so and verify by
    inspecting the code; report it as inspected, not as passed. `skills/gate` step 7 points here.
+
 ### 6. Click-path audit: where each part works and the whole does not
 For a control whose parts each work yet the result is wrong ("the button does nothing").
 1. **Map the state actions first.** For every action of every store in scope, write what it sets and what

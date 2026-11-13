@@ -50,8 +50,7 @@ cache it" change.
    resolved values in memory for that execution and forgets one on any write through it. `once()` memoizes a
    callback in process and never touches a store; use it for repeated computation, `memo()` for repeated reads.
 7. **Tags only on a store that supports them.** The manual lists the file, database and DynamoDB drivers as
-   unsupported (an extra `storage` driver named in an earlier version of this block is not in that list: 🟡,
-   check the installed version). A tagged item is readable only with the same ordered tags it was stored
+   unsupported (🟡, check the installed version). A tagged item is readable only with the same ordered tags it was stored
    with. Flushing several tags removes every item carrying any one of them. Confirm the store before designing invalidation around tags; on a store without tags,
    name the keys and `forget` them.
 8. **Never `Cache::flush()` for an application-level reason.** It ignores the configured prefix and empties

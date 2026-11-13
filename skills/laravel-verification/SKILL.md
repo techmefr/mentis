@@ -63,7 +63,8 @@ verdict is pass only when every phase ran and passed; a phase that could not run
 runtime) is reported as **not run**, which is not a pass. Feeds the `verified` checkpoint of `skills/gate`.
 
 ## Guardrails
-- Read-only. This block verifies; it does not format, fix, migrate or install anything. A missing tool is
+- Read-only on the source. This block verifies; it does not format, fix, migrate or install anything (the
+  cache build and the no-op job of phases 8 and 9 touch only caches and a disposable queue). A missing tool is
   named and the user installs it (`CONVENTIONS.md`: no block installs).
 - Never claim a phase passed on the strength of an earlier run, a summary or a green badge: the output of
   this run, read now.

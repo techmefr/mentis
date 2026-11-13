@@ -118,8 +118,7 @@ Take these to compliance/legal rather than guessing — same posture as `busines
     two-phase pending, post or void flow. Own guidance: these are design checks for ours, not requirements.
 12. **Sanctions screening: some facts to hand to compliance.** OFAC's FAQ page (read 2026-10-20) states that
     an entity owned 50 percent or more, directly or indirectly or in aggregate, by blocked persons is itself
-    blocked even if not listed (verified 2026-10-21 on FAQ 398-399; the claims that OFAC issues no "safe list" or
-    non-inclusion certificate and the retry window of webhooks (point 8) were not found on the pages read: unverified, re-read before relying). So a name-only match against a list is not the
+    blocked even if not listed (verified 2026-10-21 on FAQ 398-399; re-read before relying). So a name-only match against a list is not the
     whole check. Who is screened and how strictly stays compliance's decision.
 
 ## Output / checkpoint

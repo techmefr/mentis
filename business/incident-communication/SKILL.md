@@ -10,7 +10,7 @@ people. They compete for the same attention, and the second one gets dropped —
 twenty-minute outage becomes a trust problem.
 
 This block covers only the telling. The diagnosing is `skills/debug`; the internal engineering analysis
-afterwards — timeline, contributing factors, action items — isn't a mentis block yet.
+afterwards — timeline, contributing factors, action items — is `skills/blameless-incident-review-pitfalls`.
 
 ## When
 As soon as something user-visible is broken, degraded, or wrong in production — not once the cause is

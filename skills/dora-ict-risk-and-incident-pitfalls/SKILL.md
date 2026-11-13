@@ -10,8 +10,7 @@ inventory, which records to prepare, what to escalate. The failures are mechanic
 assumed instead of asked, the asset inventory is a spreadsheet nobody updates, incidents are logged without the
 fields a classification needs, the register of information lists vendors but not functions, and a contract
 is signed without the clauses the text lists. The only legal text read for this block is Regulation (EU)
-2022/2554 as published in the Official Journal, Articles 2 to 6, 8 to 14, 17 to 20, 28 to 30.
-application date. Whether an entity is in scope, which duty applies to it, which incident is "major", and any
+2022/2554 as published in the Official Journal, Articles 2 to 6, 8 to 14, 17 to 20, 28 to 30; the application date is not stated here. Whether an entity is in scope, which duty applies to it, which incident is "major", and any
 deadline or threshold set by technical standards, are decisions of counsel or the entity's compliance
 function. Related blocks: `business/fintech-compliance` for the wider sector, `business/vendor-management` for
 the generic vendor lifecycle, `business/regulatory-watch` for dating and sourcing a legal statement. This
