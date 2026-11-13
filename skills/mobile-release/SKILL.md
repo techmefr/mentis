@@ -49,7 +49,7 @@ third-party SDK, a permission or a collected data type is added; the store's tar
    level for new apps and updates, and limits availability of older-targeting apps on newer devices. As read
    on 2026-10-02 from the store's and the platform's own pages: new apps and updates from 31 August 2026 must
    target Android 16 (API level 36), with narrower rules for watch, car, TV and XR form factors, an extension
-   request available until 1 November 2026, and existing apps needing API level 35 to stay available to new
+   request whose window closed on 1 November 2026, and existing apps needing API level 35 to stay available to new
    users on newer devices. This changes every year: read the current requirement before relying on the
    figure (`skills/source-freshness`), and record the project's floor and target in one place.
 
