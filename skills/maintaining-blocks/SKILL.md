@@ -25,8 +25,8 @@ pull (`distributing-blocks` §4); otherwise periodically, when nothing else is p
 2. **Check each target exists.** A block cited by thirty others and never written reads as authoritative
    precisely because so many things point at it.
 3. **Check section numbers still exist**, not just files — sections get renumbered when a block grows.
-   This one is mechanical, so it should be a script rather than a reading: `bin/check_citations.py` here,
-   stdlib only, in the pre-push suite since 2026-09-09.
+   This one is mechanical, so it should be a script rather than a reading: run `python3 bin/check_citations.py` here (stdlib
+   only, in the pre-push suite since 2026-09-09) and read its report; do not review the sections by eye.
 4. A reference to something intentionally absent (kept private, not written yet) must **say so at the
    reference**, not just in a catalogue.
 5. **Write a citation so that it can be attributed on its own.** A `§N.M` carries no block name, so a

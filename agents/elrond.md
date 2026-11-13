@@ -60,8 +60,6 @@ target repo (see section 3).
    - a `.csproj`/`.sln` → **C#/.NET** → `theoden`.
    - `pyproject.toml` / `requirements.txt` → **Python** → `samwise`.
    - `pubspec.yaml` → **Flutter/Dart** → `faramir`.
-   - Known repos as a shortcut (avoids re-detecting every time): keep an up-to-date list of the repos already
-     encountered per stack, and extend it as new ones appear.
 2. **Verification**: does a single stack come out unambiguously? A monorepo with several stacks in the same
    diff, or a contradictory detection (e.g. `composer.json` AND a `nuxt` dependency both present), is NOT
    settled alone.

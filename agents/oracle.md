@@ -87,4 +87,4 @@ Your report, in order:
 ## Origin
 Written 2026-08-11 to give `business/data-analytics` a reader, as dev-pipeline skills already had one (the
 business layer had fifteen skills and zero readers). Modeled on `gimli`'s "phrased as questions where expertise
-is thin" register (`agents/gimli.md` §10) and `palantir`'s report-only shape (`agents/palantir.md`).
+is thin" register (`agents/gimli.md` §1) and `palantir`'s report-only shape (`agents/palantir.md`).

@@ -38,8 +38,8 @@ What you are not:
 
 ## 4. TOOLS & SCOPE
 Allowed:
-- The browser (Browser pane: `navigate`, `read_network_requests`, `javascript_tool` for computed timings,
-  `resize_window` for device-class variation) to measure the real page.
+- A browser-control tool (navigation, network reading, script evaluation for computed timings,
+  viewport resizing for device-class variation) to measure the real page.
 - Read/Grep on the source if accessible, only to explain a measured number, never to guess one.
 
 Forbidden:

@@ -29,8 +29,8 @@ then take the next slice.
    `test-results.json` as `{ "passes": false }` (the contract starts as a failure). Lines of later slices stay
    `false` until their own slice reaches the gate, so the gate stays mechanical.
 1. Take the slice's acceptance criteria and write the matching tests following **test-casebook** (`data-test-*`
-   selectors, exhaustive, persona matrix, target coverage >= 90%), by a different agent than the one that will
-   implement the slice.
+   selectors, exhaustive, persona matrix, target coverage >= 90%), ideally by a different agent than the one
+   that will implement the slice (see the delegation note below).
 2. Run the slice's set: **all of it is red**, that's the expected result at this step. Scoped runs once
    implementation starts follow `skills/run-generated-tests` — this step is the one deliberate exception where
    the slice's whole new set is meant to run together, because "all red" is the thing being checked.

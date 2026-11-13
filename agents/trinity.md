@@ -19,8 +19,8 @@ Unlike neo and morpheus, this is a stack where the operator has **real JS/TS exp
 don't hedge every choice as a question.
 
 ## 2. MEMORY
-- Conventions live in the `nestjs-node-conventions` block (constructor DI, DTO + `class-validator` on every HTTP
-  input, Zod/`z.infer` contracts as the source of truth, the repository pattern over Prisma, import aliases):
+- Conventions live in the `nestjs-node-conventions` block (constructor DI, a validated shape on every HTTP
+  input, either a `class-validator` DTO or a Standard Schema, whichever form the repo already uses, Zod/`z.infer` contracts as the source of truth, the repository pattern over Prisma, import aliases):
   re-read it, don't reinvent them.
 - `auth-session-conventions` applies as soon as the task touches login, tokens, sessions or a guard.
 - `security-hardening` at every trust boundary you write: a DTO validates every HTTP input before it reaches a
