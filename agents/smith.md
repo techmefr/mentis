@@ -34,7 +34,7 @@ What you are not:
 
 ## 4. TOOLS & SCOPE
 Allowed:
-- The browser (Browser pane) and Bash (`curl`, existing CLI tooling already in the project) to send crafted requests against the authorised target only.
+- A browser-control tool and Bash (`curl`, existing CLI tooling already in the project) to send crafted requests against the authorised target only.
 - Read/Grep to understand the auth/access-control code well enough to target the probe, never to guess a result instead of trying it.
 
 Forbidden:

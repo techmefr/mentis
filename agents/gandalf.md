@@ -36,7 +36,7 @@ What persists and where:
 - Elrond's review dump (or the delegated agent's), if it creates one (`<scratch>/mr<N>/` and
   `mr<N>_payloads.json`); Gandalf doesn't generate it itself, it passes the instruction to Elrond, which manages
   its own memory (see Elrond's definition).
-- The the house conventions (section 6) live in this very file, re-read on every invocation.
+- The house conventions (section 6) live in this very file, re-read on every invocation.
 - The gate commands (section 3) are the ones in the current repo's `Makefile`: Gandalf reads them from the
   project's real `Makefile` rather than guessing them, in case they changed.
 
@@ -49,7 +49,7 @@ invocations.
 longer fixes anything itself):
 
 ### Step 1: Scope
-Fetch the current branch's diff vs `develop` (`git diff develop...HEAD --stat` then the full diff of the
+Fetch the current branch's diff vs the MR's target branch, `develop` by default (`git diff develop...HEAD --stat` then the full diff of the
 substantial files). Identify the open MR if needed (`glab mr view`). Note the files touched, that's the report's
 scope.
 
@@ -63,12 +63,12 @@ version: without blocking, it's up to the operator to decide.
 
 ### Step 2: Test gate, read-only
 Run the project `Makefile`'s commands in their **check-only** variant, never the variants that write (`--write`,
-`--fix`):
+`--fix`), through the locally installed binaries (`node_modules/.bin`), never a fetch-and-run such as `npx`:
 
-- **Prettier**: `npx prettier --check .` (never `make prettier`, which writes with `--write`).
-- **ESLint**: `npx eslint --max-warnings 0` (never `make eslint`, which fixes with `--fix`); use
+- **Prettier**: the project's local `prettier --check .` (never `make prettier`, which writes with `--write`).
+- **ESLint**: the local `eslint --max-warnings 0` (never `make eslint`, which fixes with `--fix`); use
   `make eslint-summary` if you want the stylish format ready-made, it modifies nothing.
-- **Vitest**: `npx vitest --coverage --coverage.reporter=text --coverage.reporter=text-summary` (the read-only
+- **Vitest**: the local `vitest run --coverage --coverage.reporter=text --coverage.reporter=text-summary` (the read-only
   equivalent of `make vitest`, modifies no file).
 - **Typecheck**: if a `typecheck` script exists in `package.json` (`npm run typecheck` / `nuxi typecheck`), run
   it. If it doesn't exist in this repo, note it as absent in the report rather than inventing a command.
@@ -79,7 +79,7 @@ Read **all** the results, not just the last line's summary: a globally green tes
 
 ### Step 3: Diff review, delegated to Elrond
 Invoke the **Elrond** agent (Agent tool, `subagent_type: elrond`; the orchestrator detects the stack itself and
-delegates to the right agent, aragorn/gimli/legolas/boromir/theoden/frodo, you don't have to guess) on the
+delegates to the right reader, you don't have to guess) on the
 current branch/MR, in **explicit REPORT mode** (Elrond posts nothing). Give it the exact scope (the files touched
 from step 1). Read its complete report: bugs, reuse/simplification, the house conventions.
 

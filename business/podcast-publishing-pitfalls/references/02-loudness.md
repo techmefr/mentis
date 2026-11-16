@@ -10,7 +10,10 @@
 1. **Say which measure a number is.** The EBU recommendation uses three: average programme loudness, loudness
    range, and maximum true peak level. Own guidance: a bare "-X" with no measure and no unit is not a target.
 2. **Measure the final export.** Own guidance: after the last encode, measure the file that will be served, not
-   the session. A lossy encode can change the peak, so re-measure after it and after any re-export.
+   the session. A lossy encode can change the peak, so re-measure after it and after any re-export. Use a
+   meter that follows BS.1770 (the editor's own, or run `ffmpeg -nostats -i <file> -filter_complex
+   ebur128=peak=true -f null -`, which prints the summary last); with no meter available, write "not
+   measured" instead of a figure.
 3. **One setting does not fit two kinds of episode without a check.** Own guidance: a spoken-word episode and a
    music-heavy one are measured separately before sharing one processing chain.
 

@@ -32,8 +32,8 @@ below.
 The procedure:
 
 1. **Check the frozen limits first.** The description is within the specification's 1024 characters and the
-   skill is registered where the agent client discovers skills. `python3 bin/test_frontmatter.py` covers the
-   first; the second is client-specific, so check it before blaming the wording.
+   skill is registered where the agent client discovers skills. Run `python3 bin/test_frontmatter.py` for
+   the first; the second is client-specific, so check it before blaming the wording.
 2. **Write about twenty labelled prompts**: 8 to 10 that should trigger and 8 to 10 that should not. Store them
    as a list of `{query, should_trigger}`. Starting size from the Agent Skills guide, not a law.
    - Should-trigger: vary phrasing (formal, casual, typos), explicitness (names the domain or only describes the
@@ -84,7 +84,7 @@ The procedure:
 ## Output / checkpoint
 The query file with its split, the per-query trigger rates for train and validation, the description chosen and
 the iteration it came from with its validation pass rate, and the fresh-query result. A business-layer or
-cross-cutting block has no pipeline checkpoint; this block writes none. A set that has near-miss negatives and
+cross-cutting block has no pipeline checkpoint; this block writes none. Done when the set has near-miss negatives and
 positives that do not name the domain, a rate per query rather than a single verdict (§1), a description changed
 from train failures only, and a few fresh queries that never took part (§2). A description tuned until every
 query passed and never checked on unseen queries is not verified.

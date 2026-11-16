@@ -30,8 +30,10 @@
 1. **Three attributes, all real.** The specification requires `url`, `length` (bytes) and `type` (a MIME
    type) on the enclosure, and says the address must be an http address. Apple asks for a unique enclosure per
    episode and ignores a repeated enclosure address.
-2. **Fetch it.** Own guidance: request the enclosure address, compare the size in bytes and the type the
-   server returns with the feed, and keep the result in the list (§5). The feed text proves nothing about the
+2. **Fetch it.** Own guidance: run `curl -sIL <enclosure address>` (HEAD request, redirects followed; the
+   response headers are the output), compare the size in bytes (`content-length`) and the type
+   (`content-type`) with the feed, and keep the result in the list (§5). With no `curl`, use any HTTP client
+   that shows response headers; with no network access, mark the line unknown. The feed text proves nothing about the
    file served.
 3. **The server.** Apple asks the host to answer HEAD and byte-range requests, so that artwork shows and
    episodes stream. Own guidance: test both on the real address after every host change.

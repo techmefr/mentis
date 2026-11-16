@@ -23,7 +23,7 @@ copies stay reachable.
 2. **Keep the pristine copy reachable.** Either commit the generated output alone first, then the local
    edits in later commits, or keep the upstream version recorded in step 1 so it can be regenerated. Local
    edits sit on top of a known base, never mixed into the generation commit.
-3. **Detect drift mechanically.** Regenerate the recorded version into a scratch directory and diff it
+3. **Detect drift mechanically.** Have the operator regenerate the recorded version (guardrails: the agent does not run the generator) into a scratch directory and diff it
    against the repo: what differs is the local edits. Regenerate the new version and diff it against the
    recorded one: that is the upstream change. A unit whose local diff is empty is replaced outright.
 4. **Apply upstream changes as a three-way merge or a codemod, never by retyping.**

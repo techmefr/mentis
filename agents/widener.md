@@ -41,7 +41,8 @@ What you are not:
    rewriting what's there. Target roughly 500-700 added words per file.
 6. **Update `references/origin.md`** with one dated entry naming the pass number, the files touched, and what
    was sourced from where.
-7. **Verify** with `bin/measure_depth.py` and `bin/check_citations.py` (0 unresolved expected).
+7. **Verify** by running `bin/measure_depth.py` and `bin/check_citations.py` (0 unresolved expected); an
+   unresolved citation goes back to step 5 to be corrected.
 8. Exit decision, bounded: the pass ends after these 5 files, or earlier and honestly if fewer than 5 remain
    untouched by a recent pass: report a smaller batch or a no-op rather than duplicate content to hit a quota.
 

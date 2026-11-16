@@ -8,12 +8,12 @@
 
 1. **Know which major the project is on, and that the registry's tags disagree.** On 2026-10-02 the library
    package's `latest` tag was 7.10 while the command-line tool's `latest` tag pointed at an 8.0 release candidate,
-   and the 8 line's own page says general availability is expected in October 2026. Version 8 is two packages
+   and the 8 line's own page said that day that general availability was expected in October 2026 (a month now past: check the registry for whether 8 is general availability before choosing). Version 8 is two packages
    (the tool, and one library per database) with their own version numbers, renames the schema file to a
    contract and generating the client to emit, and does not yet offer client extensions, filtering inside JSON
    columns, atomic increments, most nested writes, transaction isolation levels or the code-based error
    classes of rule 6. Version 7 is supported 18 months after 8 reaches general availability; version 6 gets
-   security patches only, until 2026-11-19. Install the major deliberately and read the matching page tree.
+   security patches only, until 2026-11-19 (after that date, not at all). Install the major deliberately and read the matching page tree.
 2. **Derive result types from the query, never retype them.** Declare the query arguments once as a constant
    that `satisfies` the model's generated default-arguments type, then take the result type from the generated
    payload helper applied to that constant; the type then follows both the schema and the query. For a function's

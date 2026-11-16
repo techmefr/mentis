@@ -58,7 +58,7 @@ logic in it, a deploy or migration script, anything run by a scheduler.
    actually use, and error handling you have to remember. Parsing structured data is the usual signal.
 
 ### 4. Prove it, because shell has no compiler
-1. **`shellcheck` before it lands.** It catches the quoting and expansion classes above mechanically.
+1. **Run `shellcheck` on the script before it lands.** It catches the quoting and expansion classes above mechanically. If it is not installed, install it from the system package manager; if that is not possible, say so in the report and re-read the script against §1 instead of skipping the step silently.
 2. **Run the failure cases, not just the happy one.** Missing tool, unparseable input, absent file, empty
    variable. Confirm each one produces the exit code you intended — a fail-open bug is invisible in the
    happy path by definition.
