@@ -63,3 +63,7 @@ Second secondary source, same day: a claude-world.com article on the Agent Skill
 
 Read directly: the vendor's skill best-practices page and `agentskills.io/specification`. **Confirmed:** 500-line body, one-level references, contents list past 100 lines (the page gives the partial-read reason), freedom per step (the same three levels), checklist with a loop back, no assumed installs, tests on the three model tiers, the six portable keys and their limits, `skills-ref validate`. **Added:** points 45 to 48 (script intent and error handling, staleness, full tool names, evaluations first); in point 44, no consecutive hyphens, reserved words and markup in a name or description. **Disagreement recorded, not resolved:** the page asks for a third-person description; our `Use when ...` form stays (point 48). **Audit result:** no skill or business block breaks the name, description, reserved-word, markup or path rules; no `SKILL.md` names an install command.
 
+## Point 49 (2026-11-16)
+
+Source: a security vendor's blog article on Claude skills for UI/UX engineers (snyk.io), read 2026-11-16. Taken: the supply-chain advice (read the skill and its scripts, check the requested tools, prefer known maintainers, scan scripts) and the vendor's own study figures as cited by the article (prompt injection in 36% of tested skills, critical flaws in 13%, malicious payloads across the ecosystem). Those figures are second-hand and unverified here. Not taken: the product listing and install instructions. The eight skills it lists are sourcing leads in `CATALOG.md`.
+
