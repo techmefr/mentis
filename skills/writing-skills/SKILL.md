@@ -63,11 +63,11 @@ rewritten our way (Rule B).
 10. **Every scanner added locks its tiers with a regression test**, so a threshold cannot be loosened by
     editing the scanner alone.
 
-11. **Points 11 to 48 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
+11. **Points 11 to 49 live in a reference file**: gotchas sections, what to put in a skill and what to cut,
     calibrating control, validation patterns and description-writing rules from the open Agent Skills guides,
     then completion criteria, positive steering, no-ops, pointer wording and pruning from a second source,
     then contents lists, the 500-line ceiling, freedom per step, verification loops, undeclared dependencies
-    per-model testing, the pre-share validator, script intent, staleness, full tool names and evaluations first from a third.
+    per-model testing, the pre-share validator, script intent, staleness, full tool names, evaluations first and vetting a block from outside from a third.
     Read it when drafting or revising a body or a description:
     [`references/11-authoring-rules.md`](./references/11-authoring-rules.md). Whether a description actually
     triggers is measured with `skill-trigger-evals`, not judged by eye.

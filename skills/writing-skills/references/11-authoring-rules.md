@@ -133,7 +133,7 @@ Read this file when a skill is being drafted or revised and its body or its desc
     shorter word still triggers the behaviour by running the block.
 
 
-## Levers from a third source (points 39 to 48)
+## Levers from a third source (points 39 to 49)
 
 > First taken from secondary write-ups, then **checked on 2026-11-10 against the vendor's skill best-practices page and
 > the open specification** (see `origin.md`): points 39 to 48 match them. 🟡 only for what we have not run ourselves.
@@ -174,3 +174,11 @@ Read this file when a skill is being drafted or revised and its body or its desc
     Our `Use when ...` description form is an instruction to the agent (point 26); the vendor page asks for third
     person because the description is injected into the system prompt. The two disagree on form, not on purpose: the
     conflict is recorded here and the existing form is kept until `skill-trigger-evals` shows a difference.
+49. **A block from outside is untrusted code until read, and it is read before it is rewritten.** A skill is markdown
+    plus scripts the agent runs, so a hostile line or script is an instruction with the agent's access. Before
+    rewriting one (Rule B), read its `SKILL.md` and every bundled script in full, note which tools it asks for
+    (a block that needs a shell deserves more scrutiny than one that only reads and searches), prefer a known
+    maintainer over an anonymous one, and run any script through the repo's own code scanner rather than trusting
+    the description. Rewriting from a read is also the defence: nothing third-party is ever executed from here.
+    The figures for how common this is come from one vendor's study, cited in `origin.md`, and are not measured here.
+

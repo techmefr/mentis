@@ -5,6 +5,27 @@
 > ref is used, or an external store is subscribed to. Hooks and effects are §5, server state is §6, the
 > server/client split is §7. The other sections and the guardrails stay in `SKILL.md`.
 
+## Contents
+
+- 1. Decide where state lives by asking who needs it
+- 2. A failure is contained by an error boundary placed where the user can recover
+- 3. Suspense and the error boundary come as a pair
+- 4. An external store is subscribed to with the dedicated hook
+- 5. Children and slots over configuration props
+- 6. A compound component shares its internal state through a context that only its parts read
+- 7. A context carries one concern and changes rarely
+- 8. Prefer composition to inheritance and to cloning children
+- 9. A form field is controlled or uncontrolled, and the choice is made per form
+- 10. Validation runs on the client for the user and on the server for the system
+- 11. A ref is for what React does not own
+- 12. A portal renders elsewhere in the DOM and stays in the React tree
+- 13. An identity-changing key resets state on purpose
+- 14. A custom hook has one job and a name that says it
+- 15. Lazy-load by route and by weight, with a boundary
+- 16. Parts of a compound component depend on a context contract, never on one provider
+- 17. State that siblings outside the visual frame need goes up into a provider, not through effects or re
+
+
 1. **Decide where state lives by asking who needs it.** Used by one component: local state. Needed by a
    parent and its children: lift it to the nearest common parent. Needed deep in a subtree and rarely
    changing: context. Server data: the query library (§6). Shared by unrelated screens and changing often:
@@ -84,5 +105,17 @@
     a chart library, a map) is loaded on demand through the framework's dynamic loading and sits inside a
     Suspense boundary with a real fallback (§10). Lazy-loading a small component adds a request and a flash
     for no saving.
+
+16. **Parts of a compound component depend on a context contract, never on one provider.** The contract is three
+    things: the state, the actions that change it, and the metadata (a ref, a pending flag). Only the provider
+    knows where the state lives (local, a store, the server), so the same input part works under a local and a
+    synced provider, and a test supplies a stub. A part that calls a feature-specific hook is welded to one
+    implementation and is not reusable.
+17. **State that siblings outside the visual frame need goes up into a provider, not through effects or refs.**
+    A send button or a preview that sits next to the editor but outside it cannot read state the editor
+    encloses; copying it out with an effect or reading a ref at submit time is the fragile workaround.
+    Lifting the state to a provider that wraps both gives every part the same source, and the visual layout
+    no longer limits who can read it. Name each variant as its own component with its own provider rather than
+    one component with a mode flag (point 5, `08-component-library.md` point 8).
 
 > Checked 2026-10-20 against the React reference pages (CC BY 4.0): point 2 (an error boundary does not catch errors from event handlers, asynchronous code or server rendering), point 4 (the external-store hook takes a server snapshot for server rendering and hydration), point 11 (React 19 passes `ref` as a prop and marks the forwarding wrapper deprecated), point 12 (a portal changes the DOM position only; events bubble along the React tree). The other points stay unsourced; see `origin.md`.
