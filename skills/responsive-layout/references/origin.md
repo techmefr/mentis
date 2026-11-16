@@ -19,3 +19,12 @@ present, so no sentence was reused), rewritten from the same specifications and 
 list of modern CSS features (it goes stale on arrival), a CSS reset or a stylesheet linter as a tool
 requirement (project choices, rule B), minification and unused-CSS removal (owned by the bundler), and any
 engine's field-zoom trigger value (read from the vendor's documentation).
+
+Steps 30 to 33 added 2026-11-16 after reading the `responsive-design` skill of the public `wshobson/agents`
+repository (its responsive-design skill folder: SKILL.md and its four references files;
+MIT licence found, copyright holder named in the licence file). Idea only, wording ours: feature queries with a base
+layout, the relative term in fluid sizes, the contrast, forced-colour and reduced-data preference queries,
+and container naming and containment cost. Already held and not taken: content-driven breakpoints, `dvh`,
+`min(100%, x)` grid guard, tables, print, safe-area insets, logical properties, responsive images
+(owned by `skills/webperf`). Not taken: the named breakpoint scales (recalled figures) and the 44px
+target (the standard and tokens decide).

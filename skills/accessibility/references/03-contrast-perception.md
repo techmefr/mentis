@@ -49,3 +49,14 @@
     misses text over an image, text rendered inside a canvas, a state that only exists on interaction,
     and anything a theme changes at runtime. A dark variant in particular is a second set of colours
     that has to be measured, not a filter applied to the first.
+12. **Native controls and scrollbars follow the declared colour scheme.** Symptom: a dark theme restyles the page
+    but the scrollbar, the date picker, the checkbox and a native select stay light, or a select shows dark text
+    on a dark list because only one of its two colours was set. Check: open every native control in each theme.
+    Fix: declare the supported colour schemes on the root element so the browser draws its own controls
+    accordingly, and give a native select an explicit background and text colour pair in both themes.
+13. **Text must survive the reader's own spacing.** Symptom: a user stylesheet or extension enlarges line height,
+    paragraph, letter and word spacing, and text is clipped inside a fixed-height box, overlaps its neighbour or
+    disappears behind an ellipsis. Check: apply the spacing values named in the criterion (text spacing, WCAG
+    1.4.12; read the exact figures there, never from memory) and look for clipped or overlapping text. Fix: let
+    containers grow with their text, avoid fixed heights and fixed line heights on text boxes, and keep any
+    truncation reachable in full.

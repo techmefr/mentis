@@ -77,3 +77,10 @@ exists, the rule is "pick a scale and never leave it", which is the part that ho
     least favourable area behind the text, across the sizes the layout takes, not on an average or on the
     area the designer looked at. If the worst point fails, put a solid or scrim layer behind the text, or
     move the text; a promise that the image "usually" is dark enough is not a design.
+
+17. **Reading direction is a design input, not a late flag.** If the product may ship in a language written
+    right to left, say so in the brief and draw one screen mirrored. Layout, navigation order, progress and
+    directional glyphs flip; numerals, media controls and brand marks usually do not. Some patterns encode
+    a direction in their meaning (a timeline, a left-to-right progress track, a swipe that means "next"), and
+    those need a stated mirrored equivalent or an explicit decision to keep them. Spacing written as start
+    and end rather than left and right costs nothing now and avoids a rewrite later.

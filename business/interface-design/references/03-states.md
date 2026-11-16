@@ -75,3 +75,12 @@ guesswork at step 6.
 13. **Do not draw fake chrome.** A hand-drawn browser bar, a phone frame or a window shell around a screen
     is decoration pretending to be evidence. Use a real screenshot of the real thing inside a `<figure>`
     with a caption, or show the screen bare.
+14. **Draw the extreme content, not only the typical one.** A realistic sample hides the cases that break a
+    layout: the longest plausible name, a value with no spaces to wrap at (an address, an identifier, a
+    compound word), a collection with far more members than the mockup shows, and a string after
+    translation. Show at least the longest and the shortest on the screen, and state what each container does
+    when content outgrows it: it wraps, it truncates, or it hands the overflow to a visible control. A
+    truncation is acceptable only where the full text stays reachable by keyboard and touch, never by hover
+    alone; a collection that does not fit shows an operable count of the hidden members rather than a clipped
+    edge. Only bound the fields whose length is genuinely unpredictable, since a cap on everything truncates
+    what mattered.

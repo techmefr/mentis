@@ -50,3 +50,10 @@ rule in §3.3.
 ## Related blocks
 `compose-correctness` (the same premise on Android: a UI function that can run at any time), `accessibility`
 (web only, the shared RGAA reasoning), `testing-anti-patterns`.
+
+## Addendum 2026-11-16: ios-hig lead
+Source read: github.com/johnrogers/claude-swift-engineering, plugins/swift-engineering/skills/ios-hig (SKILL.md and its seven
+references; directory slug majiayu000-ios-hig is an aggregator copy). Licence found: MIT (copyright John Rogers).
+Idea only, wording ours. Gave §4.6 points 1 to 4 (semantic colours in both appearances, async states, permission
+timing and denial, action-named buttons). Already held and not re-added: icon-only labels, Dynamic Type, Reduce Motion,
+tap gesture as button, toolbar placements, work in body.

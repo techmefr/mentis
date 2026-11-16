@@ -83,3 +83,11 @@
     (clipboard writes, save handlers, async results) and for each whether the change lands in a live region that
     already exists in the page, or moves focus to the result (§2.3, §8). Fix: a polite status region that exists
     before the message arrives, and one message per action.
+17. **Grade each finding by what you can prove, apart from how bad it is.** Symptom: an audit mixes a measured
+    fact ("the status dots expose no state in the accessibility tree") with a judgment ("colour is the only
+    carrier of the meaning") and reports both with the same certainty, so a reader cannot tell what to fix at
+    once from what a person must decide. Fix: tag each finding as verified (reproducible, with the selector and
+    the observed fact), needs a person (evidence attached, decision left), or needs assistive technology
+    (handed off, not guessed); when a finding stacks a fact on a judgment, it takes the lower grade, with the
+    fact kept as its evidence. Only verified criteria are reported as passing or failing; the rest, and every
+    criterion not exercised, is undetermined, never a pass. Keep severity (point 11) as a separate axis.

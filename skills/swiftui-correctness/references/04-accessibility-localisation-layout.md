@@ -5,6 +5,14 @@ Apple documentation pages for `Button`, `LabelStyle`, `accessibilityLabel`, `onT
 SwiftUI review skills for the rules the pages do not state. Rules about `.font(_:scaled)`, the launch screen and
 full-screen apps are tied to the iOS 26 and iOS 27 SDKs and marked.
 
+## Contents
+- 4.1 Controls a screen reader can use
+- 4.2 Text size and motion
+- 4.3 Text that can be localised
+- 4.4 Layout that follows the window
+- 4.5 SDK facts that fail a release rather than a screen
+- 4.6 Appearance, async states and permissions
+
 ## 4.1 Controls a screen reader can use
 1. **A tappable element is a `Button`.** Use `onTapGesture()` only when the tap location or tap count is needed.
    The Apple page says that a control functionally equivalent to a button should be one. When a tap gesture is
@@ -90,3 +98,20 @@ full-screen apps are tied to the iOS 26 and iOS 27 SDKs and marked.
    configuration, and leave project-setting changes to the developer.
 2. **Flag `UIRequiresFullScreen`.** With the iOS 27 SDK it no longer prevents resizing, so code that relies on it
    must adapt. Do not remove it unasked.
+
+## 4.6 Appearance, async states and permissions
+1. **Style with semantic colours and materials, not fixed ones.** A hard-coded white or black text colour, a fixed
+   yellow background or a grey picked for light mode can lose contrast in dark appearance or with increased contrast.
+   Primary and secondary foreground styles, the tint and the system background adapt on their own; check a screen
+   in both appearances and with the contrast setting raised.
+2. **Show every state an asynchronous load can end in.** A screen that fetches data renders a loading state, a
+   result, an empty state and a failure; an empty collection drawn as a blank list, or a failure logged and left
+   invisible, looks like a hang. `ContentUnavailableView` states what the screen is for and offers a next action,
+   and a failure message says what happened in plain words and offers a retry.
+3. **Ask for a permission at the moment the feature needs it,** after the user's own action, never at launch and
+   never several at once. Say what the user gains in the feature's words, and design the denied path: a working
+   fallback (manual entry instead of location, the photo picker instead of the camera) and, where useful, a way to
+   open the app's page in Settings.
+4. **Name buttons by their action and keep one term per concept.** A bare confirmation word on a button hides what
+   it will do; "Save" or "Add link" does not. Use one noun for one thing across the app, and keep a modal's
+   cancel and confirm actions in the semantic toolbar placements of section 1 so the exit path is always present.
