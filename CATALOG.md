@@ -773,6 +773,12 @@ linters, orchestration frameworks, etc. on the market).
 | market UI design-intelligence skill (searchable styles, palettes, type pairings, UX rules, per-stack advice, persistent master + per-page overrides) | `ui-ux-pro-max` | business/interface-design | 🔎 (2026-11-16, from a vendor article only, source not read; check the persistent master/override idea against our token discipline; it ships a Python search tool: read before any adoption, point 49 of `writing-skills`) |
 | market web-interface audit skill (100+ rules, file:line report) | `web-design-guidelines` | skills/accessibility, business/interface-design | 🔎 (2026-11-16, from a vendor article only; read the rule list and rewrite only what our blocks lack) |
 | market React composition skill (compound components, explicit variants, no boolean-prop sprawl, state behind a provider) | `composition-patterns` | react-nextjs-conventions | ✅ (2026-11-16, read in its generated AGENTS.md: most already held; two points added, §12.16 context contract and §12.17 lifting state into a provider; idea only, licence not read) |
+| market web-accessibility reference condensed from an MIT agent collection (WCAG 2.2 AA, ARIA, modals, forms, contrast, live regions, tables, severity triage) | `accessibility-web` | skills/accessibility | ✅ (2026-11-16, read as pasted text, not at source: already held except the modal landing-target rule, added as §1 point 16; the upstream MIT repository would be the credit if more is mined) |
+| market UX architect skill (IA, user flows, wireframes, research synthesis) | `agent-ux-architect-v3` | business/interface-design | ✕ (2026-11-16, a list of topic nouns with one-line pitfalls and no mechanism to rewrite; its pitfalls on org-chart IA and on error states are already in `interface-design` §10 and the required screen states; fidelity-too-early is the only unheld one, too thin to carry a block) |
+| market UI/UX designer persona prompt (LobeHub) | `ui-ux-designer` | / | ✕ (2026-11-16, a role-play prompt with a template placeholder and an instruction forcing the reply language; nothing checkable, and a forced output language is exactly what point 49 of `writing-skills` says to refuse in third-party text) |
+| market responsive layout skill (container queries, fluid type, mobile-first) | `responsive-design` | skills/responsive-layout | 🔎 (2026-11-16, name and description only; diff against our internal synthesis before any change) |
+| market iOS Human Interface Guidelines skill | `ios-hig` | skills/swiftui-correctness | 🔎 (2026-11-16, name and description only; check the platform guideline source and our SwiftUI block first) |
+| market front-end UI engineering skill (production-quality rather than AI-looking output) | `frontend-ui-engineering` | business/interface-design | 🔎 (2026-11-16, name and description only; likely the same ground as the `frontend-design` entry already ruled out) |
 | market accessibility plugin (contrast checker, use-of-colour, link purpose, refactor, reviewer agent) | `accesslint` | skills/accessibility | 🔎 (2026-11-16, from a vendor article only; our block cites RGAA rather than WCAG numbers, so only the checks, not the thresholds, would transfer) |
 | market UX designer skill (two variants, controlled and innovative; accessibility, responsive and motion references) | `bencium-*-ux-designer` | business/interface-design | ✕ (2026-11-16, no licence stated in the article and 72 stars: nothing to credit, and its topics are already in `interface-design`) |
 | market React/Node skill catalogue | `redux-toolkit/SKILL.md` (typed createSlice, typed hooks, createAsyncThunk, memoised selectors) | react-nextjs-conventions | ✅ |
@@ -826,7 +832,7 @@ closing this costs nothing that made this repo cheaper to load.
 | nuxt | 21 / 19,869 | 1 / 27,810 | +7,941 | x0.71 |
 | python | 20 / 22,097 | 2 / 28,280 | +6,183 | x0.78 |
 | project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
-| bi, design, xefi | 16 / 17,306 | 4 / 33,059 | +15,753 | x0.52 |
+| bi, design, xefi | 16 / 17,306 | 4 / 33,167 | +15,861 | x0.52 |
 | global | 18 / 20,280 | 6 / 37,114 | +16,834 | x0.55 |
 | react | 36 / 9,302 | 1 / 20,806 | +11,504 | x0.45 |
 
@@ -861,7 +867,7 @@ global: code-baseline 10,384, security-hardening 11,908, api-design 6,911, docum
 project-management: product-ownership 10,118, spec 6,884
 design-patterns: design-patterns 11,717
 react: react-nextjs-conventions 20,806
-bi, design, xefi: data-analytics 4,724, interface-design 11,808, ux-writing 5,956, accessibility 10,571
+bi, design, xefi: data-analytics 4,724, interface-design 11,808, ux-writing 5,956, accessibility 10,679
 ```
 
 A block's size is its **rules**: the router body of `SKILL.md` with the frontmatter excluded, plus every

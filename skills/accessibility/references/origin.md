@@ -142,3 +142,6 @@ the existing statement that a tooled audit is not enough (§2.12, §3.11) into a
 no numeric claim. Not verified: screen reader and browser pairings were not run; re-test before relying.
 
 Dogfood 2026-10-20: one static read on a real project, nothing run; fixes: dead section pointers in §9 explained, the contrast script given with its command and a fallback, a zoom pointer instead of an unstated figure, a "not tested" rule, steps 14 to 16 added (single-character shortcuts, removed focus ring on typed fields, unannounced state change), a skip-when line.
+
+**Modal landing target, 2026-11-16 (§1 point 16).** Idea taken from a web-accessibility reference listed on a skills directory, itself condensed from the `accessibility-agents` repository (MIT, Community-Access), read only as pasted text on 2026-11-16, not at its source; wording ours. Everything else in that reference (native elements before ARIA, focus order and visibility, tab and accordion patterns, labels and errors, contrast ratios, live regions, data tables, link text, severity triage) was already held by this block, so nothing else was taken. Not verified here: the directory's own security grade is not a substitute for reading a third-party skill (`writing-skills` point 49).
+

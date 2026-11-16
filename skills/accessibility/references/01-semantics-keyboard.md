@@ -65,3 +65,10 @@
 15. **A single-page navigation has to move focus when the view changes.** Replacing the content without
     moving focus leaves a screen-reader user on the old element with no announcement that anything
     happened, so the reader concludes the link did nothing and activates it again.
+16. **A modal puts focus on a deliberate target when it opens, chosen by what the modal holds.** Opening with
+    focus on whatever happens to come first lets a reader confirm a destructive action with one stray key. A
+    destructive confirmation lands on its least destructive action (Cancel); a long body (terms, a long
+    explanation) lands on its title made programmatically focusable, so the reader is not dropped past the
+    text; anything else lands on the first focusable control. The native modal dialog already traps focus,
+    inerts the page and restores focus to the trigger on close (point 4), so only the landing target is yours to set.
+
