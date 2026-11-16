@@ -772,7 +772,7 @@ linters, orchestration frameworks, etc. on the market).
 | market React skill catalogue | `react-best-practices` (AGENTS.md) (perf/rendering/waterfall patterns with before/after code) | react-nextjs-conventions | ✅ (re-read 2026-10-08, against the public Vercel agent-skills repo: gap pass added §11 and four §7 points) |
 | market UI design-intelligence skill (searchable styles, palettes, type pairings, UX rules, per-stack advice, persistent master + per-page overrides) | `ui-ux-pro-max` | business/interface-design | 🔎 (2026-11-16, from a vendor article only, source not read; check the persistent master/override idea against our token discipline; it ships a Python search tool: read before any adoption, point 49 of `writing-skills`) |
 | market web-interface audit skill (100+ rules, file:line report) | `web-design-guidelines` | skills/accessibility, business/interface-design | 🔎 (2026-11-16, from a vendor article only; read the rule list and rewrite only what our blocks lack) |
-| market React composition skill (compound components, explicit variants, no boolean-prop sprawl, state behind a provider) | `composition-patterns` | react-nextjs-conventions | 🔎 (2026-11-16, from a vendor article only; likely overlaps the composition points already in the React and Vue blocks, diff before adding) |
+| market React composition skill (compound components, explicit variants, no boolean-prop sprawl, state behind a provider) | `composition-patterns` | react-nextjs-conventions | ✅ (2026-11-16, read in its generated AGENTS.md: most already held; two points added, §12.16 context contract and §12.17 lifting state into a provider; idea only, licence not read) |
 | market accessibility plugin (contrast checker, use-of-colour, link purpose, refactor, reviewer agent) | `accesslint` | skills/accessibility | 🔎 (2026-11-16, from a vendor article only; our block cites RGAA rather than WCAG numbers, so only the checks, not the thresholds, would transfer) |
 | market UX designer skill (two variants, controlled and innovative; accessibility, responsive and motion references) | `bencium-*-ux-designer` | business/interface-design | ✕ (2026-11-16, no licence stated in the article and 72 stars: nothing to credit, and its topics are already in `interface-design`) |
 | market React/Node skill catalogue | `redux-toolkit/SKILL.md` (typed createSlice, typed hooks, createAsyncThunk, memoised selectors) | react-nextjs-conventions | ✅ |
@@ -828,7 +828,7 @@ closing this costs nothing that made this repo cheaper to load.
 | project-management | 10 / 14,536 | 2 / 17,002 | +2,466 | x0.85 |
 | bi, design, xefi | 16 / 17,306 | 4 / 33,059 | +15,753 | x0.52 |
 | global | 18 / 20,280 | 6 / 37,114 | +16,834 | x0.55 |
-| react | 36 / 9,302 | 1 / 20,390 | +11,088 | x0.46 |
+| react | 36 / 9,302 | 1 / 20,806 | +11,504 | x0.45 |
 
 Recomputed by `bin/measure_depth.py`, which is where the composition below lives; `bin/test_measure_depth.py`
 fails if this table stops matching what it measures. **Ratio** is theirs over ours on the same subject, so
@@ -860,7 +860,7 @@ nuxt: vue-nuxt-vuetify-conventions 27,810
 global: code-baseline 10,384, security-hardening 11,908, api-design 6,911, documentation-adr 2,977, observability-instrumentation 3,975, run-generated-tests 959
 project-management: product-ownership 10,118, spec 6,884
 design-patterns: design-patterns 11,717
-react: react-nextjs-conventions 20,390
+react: react-nextjs-conventions 20,806
 bi, design, xefi: data-analytics 4,724, interface-design 11,808, ux-writing 5,956, accessibility 10,571
 ```
 

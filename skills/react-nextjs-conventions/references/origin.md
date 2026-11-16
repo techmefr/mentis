@@ -243,3 +243,5 @@ knowledge), and the idempotency rule of §15 (derived, as stated above). The Rea
 guidance was not found beyond the Vercel repository already credited (searched: react.dev, TanStack docs,
 Testing Library docs).
 
+**Composition pass, 2026-11-16.** §12.16 and §12.17 added. Idea taken from the composition rules of the Vercel agent-skills repository (`composition-patterns`: a context interface of state, actions and meta that any provider implements; lifting state into a provider so siblings outside the frame can read it), read in its generated AGENTS.md on 2026-11-16; the file states no licence and the repository's licence file was not read, so the credit is to the idea only and the wording is ours. Already held before this pass and not repeated: boolean-prop sprawl and explicit variants (§8.8), compound components (§12.6), children over render props (§12.5), ref as a prop (§12.11). Not taken: the `use()` replacement for `useContext`, which §12 does not need to rule on.
+
