@@ -85,6 +85,8 @@ A rule with a number or an API name is the pinned major's; read `package.json` b
 
 ## Mechanical checks
 
+Run these from the project root (grep is installed on any POSIX shell; where absent, search the same patterns with the editor). A hit is a candidate to read in context, not a verdict.
+
 ```
 grep -rnE "const \{[^}]+\} *= *props" src
 grep -rnE "const [a-zA-Z]+ *= *props\.[a-zA-Z]+" src

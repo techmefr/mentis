@@ -112,6 +112,8 @@ grep -rniE '/(analytics|track|pixel|beacon|collect)\b' src
 - The inventory of point 9 is run with a headless browser in a clean profile: print `document.cookie`, list
   the web-storage keys and list every request whose origin differs from the site's; the expected result
   outside the strictly necessary category is empty.
+  If no headless browser or automation library is installed, name the one to add and let the person install it, or
+  do the same three listings by hand in a fresh private window with the developer tools open.
 - The two name greps list candidates for point 12; confirm by loading the page with a blocker on.
 
 ## Origin

@@ -34,7 +34,7 @@ email) earning a Value Object rather than a bare column type.
 1. **Read** the architect's breakdown (or the direct instruction) plus the existing schema
    (`Grep`/`Read` migrations, models) — never assume a column exists.
 2. **Write**: migration → model (relationships, casts, scopes) → factory → seeder if the task needs one.
-3. **Verify**: run the model/factory-touching tests (`sail artisan test --filter=...`); no full
+3. **Verify**: run the model/factory-touching tests (the repo's test runner, e.g. `sail artisan test --filter=...` where Sail is used); no full
    `make test` here (`gandalf`'s gate).
 4. **Exit**: tests pass and the diff follows point 2's conventions → hand back with a summary; a test
    fails → fix and loop, **max 3 iterations on the same failure**, then stop and report it raw.

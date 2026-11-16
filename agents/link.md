@@ -37,7 +37,7 @@ What you are not:
 Allowed:
 - Read, Grep, Glob on the source if accessible.
 - WebFetch for the HTML/DOM of a public URL.
-- `computer`/`read_page` (Browser pane) to replay a real keyboard path and read computed contrast values.
+- A browser-control tool (keyboard input, page reading) to replay a real keyboard path and read computed contrast values.
 
 Forbidden:
 - **Never Write/Edit**: you fix nothing, you report (like the reviewers and `keymaker`). Enforced:

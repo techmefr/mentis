@@ -53,9 +53,10 @@ consumer's setting to keep on.
 current for free. Agents usually cannot, because a local install wants the real names back where the
 repo says "the operator", `<scratch>` and "an org skill catalogue" (rule C). The script does that
 localisation from a `{"from": "to"}` JSON map **kept outside the repo**, since that map names real
-people, hosts and paths. It is `--dry-run` by default and prints, before writing anything: what is
-new, what would change, what is left alone, and any substitution that did not apply. `--apply` backs
-up every file it overwrites into `<target>/.backup/` first.
+people, hosts and paths. Run it (`python3 bin/install_agents.py --target <agents dir> [--localise <map.json>]`, Python 3 only, nothing
+to install); do not read it into context. Without `--apply` it only reports, before writing anything: what is
+new, what would change, what is left alone, and any substitution that did not apply. Read that report, then
+rerun with `--apply`, which backs up every file it overwrites into `<target>/.backup-<stamp>/` first.
 
 The rule the script enforces mechanically: **an agent that exists only in the target is never
 touched.** Locally-calibrated agents — the ones rule C keeps out of the repo — survive an install by

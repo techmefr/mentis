@@ -31,11 +31,10 @@ decomposes into sub-tasks that don't step on each other.
    (`start-feature`) and `merge-worktree`, because the operator has to be able to open that tree.
    Either way: never two agents writing in the same working directory at the same time.
 4. **Launch in a single message** all the independent agents (several tool calls in the same
-   turn) rather than in series: the gain only exists if the waiting is genuinely concurrent. Since
-   the week of 2026-08-10, **fork mode is on by default in an interactive session**, so those
+   turn) rather than in series: the gain only exists if the waiting is genuinely concurrent. **Fork mode is on by default in an interactive session**, so those
    subagents run in the background and the turn does not block — which is what makes a single-turn
    fan-out worth doing, and also means a background subagent gets a **reduced tool set**
-   (`references/claude-code-platform.md` §4 lists it). An agent whose loop needs a tool outside
+   (the repo-root `references/claude-code-platform.md` §4 lists it, not this block's own `references/`). An agent whose loop needs a tool outside
    that list has to be dispatched deliberately, not assumed.
 5. **Aggregate** the results once they've all come back: don't start synthesising before you have
    everything, unless the pipeline is built as a continuous pipeline (a result moves to the next

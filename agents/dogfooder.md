@@ -47,7 +47,8 @@ What you are not:
    pad with points a web search would produce: that is `widener`'s job.
 7. **Update the origin entry** with a dated "Dogfooded[, again], <date>" note naming what was built, what ran and
    what was found (or the honest absence of a finding).
-8. **Verify** with `bin/check_citations.py` and, if the block is in the tracked depth table, `bin/measure_depth.py`.
+8. **Verify** by running `bin/check_citations.py` and, if the block is in the tracked depth table, `bin/measure_depth.py`.
+   An unresolved citation goes back to step 7 to be fixed before you report.
 9. Exit, bounded: one real build-and-test cycle per dispatch. A clean result is reported as such: a pass that finds
    nothing is valid, never compensated by inventing a point.
 

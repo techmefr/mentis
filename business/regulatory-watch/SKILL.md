@@ -8,7 +8,7 @@ description: "Use when a regulation, deadline or compliance obligation is about 
 Business layer (`business/README.md`), legal. This block exists because of one property of this domain:
 **the facts move, and the wrong version of them is remembered confidently.**
 
-The reference case, and it's recent: the EU AI Act's obligations for high-risk systems were 2 August 2026
+The reference case (verified 2026-10-21): the EU AI Act's obligations for high-risk systems were 2 August 2026
 in every summary written before mid-2026. An amendment — the "digital omnibus" on AI — deferred standalone
 Annex III high-risk obligations to 2 December 2027, and was published in the Official Journal and in force
 by mid-2026. Anyone repeating the first date from memory sounds precise and is wrong. The same shape

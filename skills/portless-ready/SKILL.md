@@ -13,7 +13,7 @@ container. This is "the agent that fixes things so portless gets used every time
 On demand, before testing a stack in the browser, or while migrating a project to portless.
 
 ## Steps
-1. **Check portless is installed** (CA trusted in WSL *and* Windows). Otherwise: ask the dev to run
+1. **Check portless is installed** (run `command -v portless`; CA trusted in WSL *and* Windows). Otherwise: ask the dev to run
    the installation: it's a **system change** (CA in the Windows Root store), the agent doesn't do
    it.
 2. **Identify the HTTP entry points** to expose (app, frontend, vite, mailpit) and their real port.
@@ -25,7 +25,8 @@ On demand, before testing a stack in the browser, or while migrating a project t
    (DBeaver), a **conscious** offset instead of the default value.
 5. **Align the variables** frontend↔backend onto the `.localhost` names (`NUXT_BACKEND_URL`,
    `FRONT_END_URL`, etc.), no more manual resync on every port change.
-6. **Verify**: Windows browser → `https://<project>-<role>.localhost` → WSL container.
+6. **Verify**: Windows browser → `https://<project>-<role>.localhost` → WSL container. If it does not
+   load, go back to step 3 (route) then step 5 (variables) before touching the compose file again.
 
 ## Output / checkpoint
 Portless-ready stack: named HTTPS route(s), zero HTTP collision, variables aligned. No pipeline
