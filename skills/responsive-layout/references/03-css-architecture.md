@@ -1,6 +1,6 @@
-# Steps 20 to 29 — CSS architecture: specificity, layers, naming, themes, print
+# Steps 20 to 33 — CSS architecture: specificity, layers, naming, themes, print
 
-> Steps 20 to 29 of `skills/responsive-layout`. Read them when a stylesheet is added to, a third-party
+> Steps 20 to 33 of `skills/responsive-layout`. Read them when a stylesheet is added to, a third-party
 > style is brought in, a naming scheme or a theme is introduced, or a page has to be printed. They
 > continue the numbering of steps 1 to 19 and are about how the CSS is organised, not how a layout is
 > shaped. Pixel, ratio and breakpoint figures are not stated: tokens or the cited standard
@@ -50,6 +50,25 @@
 29. **Units follow what should scale.** Type and the spacing that belongs to it in `rem` or `em`, borders
     and hairlines in `px`, layout in fractions, percentages and container-relative units. A fixed pixel
     font size is a decision to ignore the reader's setting (`skills/accessibility` §3.3).
+
+30. **A newer layout feature ships behind a feature query, with a working base outside it.** Write the
+    plain layout first, then wrap the enhancement (container queries, subgrid, an aspect ratio) in
+    `@supports`, so an engine without it keeps a usable page instead of a broken one. Detect the
+    feature, never the browser. When a media-query fallback and a container-query branch both exist, reset
+    the media-query layout inside the supported branch so the two do not fight.
+31. **A fluid size keeps a relative term.** A `clamp()` whose preferred value is built from viewport
+    units alone does not grow when the reader zooms or raises the default font, so text can fail to
+    enlarge. Add a `rem` part to the preferred value and bound both ends with tokens
+    (`skills/accessibility` §3.3).
+32. **Honour the other preference queries, not only colour scheme.** `prefers-contrast` (stronger borders
+    and separators), `forced-colors` (system colours replace yours, so a meaning carried by a background
+    alone or a decorative border disappears) and `prefers-reduced-data` (swap heavy media for a still)
+    are cheap to support and easy to forget. Check the page once with each emulated.
+33. **Name the container and pick the cheapest containment.** Give a query container a name when
+    containers nest, so a rule targets the intended ancestor. Use `inline-size` containment by default;
+    full size containment makes the element ignore its content's height and is reserved for a component
+    that really queries block size. Many nested containers have a layout cost, so place them on wrappers
+    that need them (step 23).
 
 ## Mechanical checks
 

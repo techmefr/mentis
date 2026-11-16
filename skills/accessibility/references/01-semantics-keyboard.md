@@ -72,3 +72,9 @@
     text; anything else lands on the first focusable control. The native modal dialog already traps focus,
     inerts the page and restores focus to the trigger on close (point 4), so only the landing target is yours to set.
 
+17. **An in-page link must not land its target under a sticky bar.** Symptom: a table-of-contents link, a skip link
+    or a footnote jump scrolls the heading to the very top edge, where a fixed header covers it, so the reader
+    activates the link and sees nothing change. Point 6 covers the focused element; this is the scroll position
+    of the target. Check: follow each in-page link with the sticky header present and see whether the target is
+    fully visible. Fix: a scroll margin on the targets (headings and anchored sections) at least as tall as the
+    fixed bar, set once in the stylesheet rather than per link.

@@ -140,3 +140,15 @@ not read (read in part in the review); no primary text on motion in interfaces (
 read for these rules; §9.24 is general practice with no primary source, hence "check at the real surface".
 The browser side of animation (tool ladder, acceleration, lifecycle, reduced-motion switches) is
 `skills/web-animation-pitfalls`.
+
+**Points added 2026-11-16 (§1.17, §3.14, §9.25, §9.26).** Ideas read from `nextlevelbuilder/ui-ux-pro-max-skill`
+(MIT, "Copyright (c) 2024 Next Level Builder"; SKILL.md, references/quick-reference.md, references/pro-rules.md,
+the 120-row ux-guidelines.csv; the scripts were not read or run), idea only, wording ours. Taken: stress content and
+overflow handling for compact labels and collections, interrupted transitions, the confirm key during text
+composition, right-to-left as a design input. Already held and not repeated: focus not obscured, redundant entry,
+motion preferences, contrast, target size (all in `skills/accessibility`), states, tokens, icon discipline.
+Ruled out: the searchable style, palette and font catalogues (house values, stale on arrival), the dial presets and
+the pre-delivery checklist scoped to native apps. `frontend-ui-engineering` (the neversight directory entry is a
+copy; its apparent origin, `addyosmani/agent-skills`, MIT, "Copyright (c) 2025 Addy Osmani", was read instead,
+the equivalence with the copy not verified): nothing new, its design-system, state and AI-default-tell rules were
+already held here (§1, §3, §7.9) and its code patterns belong to the front-end skills. Read 2026-11-16.

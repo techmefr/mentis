@@ -24,7 +24,7 @@ changed, and when a page is reported as broken "on my phone" or "on a small lapt
 |---|---|---|---|
 | 1-12 | Breakpoints, continuous states, small-end design, dynamic viewport, grids, overflow, fixed widths, navigation, fixed bars, mobile keyboard, sweeping, text growth | any layout change | [`01-layout-steps.md`](./references/01-layout-steps.md) |
 | 13-19 | `100vw`, hover and pointer capability, wide tables, stacked sticky layers, one-line controls, line length, short landscape viewports | full-bleed sections, hover or pointer behaviour, a wide table, several fixed bars, or long prose | [`02-input-tables-bars.md`](./references/02-input-tables-bars.md) |
-| 20-29 | Specificity, cascade layers, naming, container queries, themes, print, reflow test, field font size, logical properties, units | a stylesheet grows, third-party CSS comes in, a theme or a print view is added | [`03-css-architecture.md`](./references/03-css-architecture.md) |
+| 20-33 | Specificity, cascade layers, naming, container queries, themes, print, reflow test, field font size, logical properties, units, feature queries, fluid sizes and zoom, preference queries, container naming | a stylesheet grows, third-party CSS comes in, a theme or a print view is added | [`03-css-architecture.md`](./references/03-css-architecture.md) |
 
 ## Output / checkpoint
 No pipeline checkpoint. What it owes: no horizontal page scroll across a swept width range, no content

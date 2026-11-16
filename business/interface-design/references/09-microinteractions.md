@@ -30,6 +30,8 @@
 - 22. Anticipation and settle are for interactions that have weight
 - 23. Review a motion that feels wrong by its symptom, then by its cause
 - 24. Dark surfaces and large areas amplify motion
+- 25. A transition can be interrupted, so design the interrupt
+- 26. A key that confirms must ignore the keystroke that composes
 
 
 A microinteraction is one trigger, one response, and the rules between them. Most of the polish people
@@ -152,3 +154,16 @@ that delays the next click, a confirmation for something that could simply have 
     tire the eye sooner. Check the motion on the real surface it ships on, at its real size, and in both themes
     where there are two (§1.13). This block gives no reduction: the source of the idea gave a percentage with no
     basis, so none is carried.
+
+25. **A transition can be interrupted, so design the interrupt.** A toggle flipped twice in quick succession,
+    a chip added and removed, a panel opened and closed before it settled: the second input must cancel or
+    replace the first motion, and the control's real state must already be the final one while the motion
+    catches up. An animation that has to finish before the state is true leaves the interface lying for a
+    moment, and a stack of unfinished animations ends in a state that matches neither input. Review the
+    forced states (§9.13) by triggering each interaction twice fast, and check that cleanup of a cancelled
+    motion leaves nothing half-drawn.
+26. **A key that confirms must ignore the keystroke that composes.** In text entry for languages that use an
+    input method, the confirm key also selects a candidate; treating it as submit sends a half-written word
+    or fires an action by accident. Design the Enter-to-submit, Enter-to-add and Enter-to-select cases with
+    that in mind, and write down that they act only once composition is finished. A modifier combination for
+    a newline keeps working.
