@@ -3,10 +3,10 @@
 > What Claude Code itself provides, as of the stamp below, so that no block in this repo
 > reimplements it and no block declares a guarantee the platform would have enforced.
 >
-> **Verified 2026-09-07** against the official documentation at `code.claude.com/docs`
+> **Verified 2026-11-16** against the official documentation at `code.claude.com/docs`
 > (the `docs.claude.com/en/docs/claude-code/*` paths now redirect there). Expiry: this is a
 > version-pinned corpus and the platform ships weekly — treat anything here as unverified past
-> 2026-12-07 and refresh per `skills/source-freshness` §3 before relying on a field name.
+> 2027-02-16 and refresh per `skills/source-freshness` §3 before relying on a field name.
 
 Two rules in `CONVENTIONS.md` depend on this file being current, and both fail silently when it
 isn't. "Never reimplement what's native" needs an accurate list of what *is* native — a block that
@@ -22,21 +22,21 @@ owns the decision; this section owns the facts it decides against.
 
 | Alias | Resolves to (Anthropic API) | Where it fits here |
 |---|---|---|
-| `haiku` | Haiku 4.5 | mechanical work: stack detection, extraction, formatting |
-| `sonnet` | Sonnet 5 | the default: building, reading a diff, applying documented conventions |
-| `opus` | Opus 5 | a verdict that is hard to walk back: a gate, a judge, a security audit |
-| `fable` | Fable 5.1 | the longest sessions; not used by any agent here |
-| `best` | Fable where available, else Opus | never pinned in a block: it moves under you |
+| `haiku` | Haiku 5.5 | mechanical work: stack detection, extraction, formatting |
+| `sonnet` | Sonnet 5.5 | the default: building, reading a diff, applying documented conventions |
+| `opus` | Opus 5.5 | a verdict that is hard to walk back: a gate, a judge, a security audit |
+| `fable` | Fable 5.2 | the longest sessions; not used by any agent here |
+| `best` | Opus 5.5 on the Anthropic API (moves with releases) | never pinned in a block: it moves under you |
 | `opusplan` | Opus in plan mode, Sonnet in execution | not used here; our plan step is a skill, not a mode |
 
 On third-party providers the same alias resolves to an older version (`sonnet` is Sonnet 4.5 on
-Amazon Bedrock, Sonnet 4.6 on Claude Platform on AWS), so an agent pinned to an alias behaves
+Amazon Bedrock, `opus` is Opus 4.6 on Foundry), so an agent pinned to an alias behaves
 differently on a gateway than it does locally. That is a reason to state the alias and not a full
 model ID: the alias degrades to whatever that provider has, a hardcoded ID fails outright.
 
-**Effort levels** are `low`, `medium`, `high`, `xhigh`, `max`, available on Fable 5.x, Opus 5,
-Sonnet 5, Opus 4.8 and Opus 4.7; Opus 4.6 and Sonnet 4.6 have no `xhigh`. **A session** defaults to
-`high` (Opus 4.7 to `xhigh`). **A subagent with no `effort:` inherits the session's level** — it
+**Effort levels** are `low`, `medium`, `high`, `xhigh`, `max`, available on Fable 5.x, Opus 5.5,
+Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 and Opus 4.7; Opus 4.6 and Sonnet 4.6 have no `xhigh`. **A session** defaults to
+`medium` on the 5.5 models, `high` on Opus 5, Sonnet 5 and Opus 4.8, `xhigh` on Opus 4.7. **A subagent with no `effort:` inherits the session's level** — it
 does not default to `high` independently, which is the distinction that decides how this repo should
 use the field, and which the first version of this section got wrong. [Re-verified 2026-09-07
 against code.claude.com/docs/en/sub-agents: "Effort level when this subagent is active. Overrides
@@ -254,3 +254,12 @@ The reason it exists as a reference rather than as additions inside each block: 
 touches delegation, model choice or looping was about to repeat the same facts, and the eight
 readers already taught this repo once that a mechanism explained in eight places drifts in seven of
 them.
+
+
+## Other harnesses (Codex and any Agent Skills client)
+
+Verified 2026-11-16 against the Codex documentation at `learn.chatgpt.com`.
+
+- **Skills travel unchanged.** Codex reads the same `SKILL.md` (`name`, `description`, body, `scripts/`, `references/`) from `.agents/skills`, `$HOME/.agents/skills` and `/etc/codex/skills`. Unknown frontmatter keys (`effort`, `model`, `allowed-tools`) are not documented as accepted, so a skill body must never rely on them; they only tune Claude Code. Codex-only metadata lives in an optional `agents/openai.yaml` next to the skill, never required here.
+- **Agents do not travel.** Codex custom agents are TOML files (`name`, `description`, `developer_instructions`, optional `model`, `model_reasoning_effort`) in `.codex/agents/` or `~/.codex/agents/`, and cannot override sandbox or approval settings. Our agents are Markdown with Claude frontmatter, so `disallowedTools` guarantees are not carried over: on Codex, restate the read-only rule as a sandbox choice, not as text.
+- **Description budget.** Codex lists skills within about 2 % of the context window and shortens descriptions first, so the trigger words must stay at the front of each description.
